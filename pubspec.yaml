@@ -1,0 +1,18 @@
+name: dictionary
+description: The ODW DICOM Data Dictionary Library
+version: 0.4.1
+authors:
+  - Jim Philbin <jfphilbin@gmail.com>
+
+homepage: https://github.com/OpenDICOMweb/dictionary
+
+environment:
+  sdk: ^1.0.0
+
+dependencies:
+
+dev_dependencies:
+  benchmark_harness: any
+  grinder: any
+  test: ^0.12.0
+
