@@ -4,8 +4,8 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu>
 // See the AUTHORS file for other contributors.
 
+import 'package:dictionary/src/common/string/predicates.dart';
 import 'package:dictionary/src/common/uuid_v4.dart';
-import 'package:dictionary/src/dicom/string/dcm_predicates.dart';
 import 'package:dictionary/src/dicom/uid/uid_type.dart';
 import 'package:dictionary/src/dicom/uid/wk_uids_map.dart';
 

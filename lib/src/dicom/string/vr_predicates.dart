@@ -146,16 +146,5 @@ const CharPredicate isPNChar = isReplaceableNBDcrChar;
 ///Returns [true] if [c] is legal in a DICOM Time VR (TM) ; otherwise, [false].
 bool isTMChar(int c) => isDigitChar(c) || (c == kDot);
 
-/// Returns [true] if [c] is legal in a DICOM [Uid]; otherwise, [false].
-bool isUidChar(int c) => isDigitChar(c) || (c == kDot);
 
-/// Checks that the [String] [s] is valid given the other arguments.
-/// Returns [s] if valid, otherwise [null].
-String validateString(String s, int min, int max, CharPredicate pred) {
-  if ((s.length < min) || (s.length > max)) return null;
-  for (int i = 0; i < s.length; i++) {
-    int char = s.codeUnitAt(i);
-    if (!pred(char)) return null;
-  }
-  return s;
-}
+

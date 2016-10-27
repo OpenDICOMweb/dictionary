@@ -14,7 +14,7 @@ String symbolToString(Symbol symbol) {
   return s.substring(8, s.length - 2);
 }
 
-int checkStringLength(String s, int min, int max) {
+int validateStringLength(String s, int min, int max) {
   var length = s.length;
   if ((length < min) || (length > max))
     throw 'Invalid length: min= $min, max=$max, "$s" has length ${s.length}';
@@ -22,10 +22,10 @@ int checkStringLength(String s, int min, int max) {
 }
 
 
-List<String> checkStringList(List<String> sList, int min, int max, bool pred(int)) {
+List<String> validateStringList(List<String> sList, int min, int max, bool pred(int)) {
   for (int i = 0; i < sList.length; i++) {
     var s = sList[i];
-    if (max != null) checkStringLength(s, min, max);
+    if (max != null) validateStringLength(s, min, max);
     sList[i] = s.trim();
   }
   return sList;
@@ -34,7 +34,7 @@ List<String> checkStringList(List<String> sList, int min, int max, bool pred(int
 bool isValidList(List<String> vList, int min, int max, bool pred(int)) {
   for (String s in vList) {
     if (s.length == 0) continue;
-    checkStringLength(s, min, max);
+    validateStringLength(s, min, max);
     for (int i = 0; i < s.length; i++) {
       int c = s.codeUnitAt(i);
       if (!pred(c)) throw 'String $s contains invalid character $c';
