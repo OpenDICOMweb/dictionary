@@ -180,3 +180,41 @@ class VR {
     }
   }
 }
+
+//TODO: Add this field to VR Definition
+Map<VR, String> dataTypes = {
+  // String VRs
+  VR.kAE: "AE Title",
+  VR.kAS: "String",
+  //  VR.kBR:
+  VR.kCS: "Code String",
+  VR.kDA: "Date",
+  VR.kDS: "Decimal String",
+  VR.kDT: "DateTime",
+  VR.kIS: "Integer String",
+  VR.kLO: "String",
+  VR.kLT: "Text",
+  VR.kPN: "String",
+  VR.kSH: "String",
+  VR.kST: "Text",
+  VR.kTM: "Time",
+  VR.kUC: "String",
+  VR.kUI: "UID",
+  VR.kUR: "URI",
+  VR.kUT: "Text",
+
+  // Integers
+  VR.kAT: "uint32",
+  VR.kOB: "uint8",
+  VR.kOW: "uint16",
+  VR.kSL: "int32",
+  VR.kSS: "int16",
+  VR.kUL: "uint32",
+  VR.kUS: "uint16",
+
+  //Floats
+  VR.kFD: "float64",
+  VR.kFL: "float32",
+  VR.kOD: "float64",
+  VR.kOF: "float32"
+};

@@ -3,7 +3,7 @@
 *.iml         # IntelliJ
 *.ipr         # IntelliJ
 *.iws         # IntelliJ
-.idea/        # IntelliJ
+.idea/*       # IntelliJ
 
 # Dart stuff not to commit
 # See https://www.dartlang.org/tools/private-files.html
