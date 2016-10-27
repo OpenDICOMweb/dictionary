@@ -4,9 +4,6 @@
 // Original author: Jim Philbin <jfphilbin@gmail.edu> - 
 // See the AUTHORS file for other contributors.
 
-// DICOM Dictionary libraries
-// These are all constant classes, etc. defined by the DICOM Standard
-
-
-export 'common.dart';
-export 'dicom.dart';
+export 'package:dictionary/src/common/ascii/ascii.dart';
+export 'package:dictionary/src/common/ascii/constants.dart';
+export 'package:dictionary/src/common/ascii/name_to_code.dart';
