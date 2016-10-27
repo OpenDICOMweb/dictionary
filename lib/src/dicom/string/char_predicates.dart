@@ -6,12 +6,13 @@
 
 
 import 'package:dictionary/ascii.dart';
+import 'package:dictionary/src/common/string/predicates.dart';
 
 //TODO: have to files general predicates and dicom_predicates
 //TODO: once it is cleaned up move ascii to odw.sdk.ascii again.
 
 /// The type of a character predicate
-typedef bool CharPredicate(int c);
+//typedef bool CharPredicate(int c);
 
 /// DICOM Character Set Predicates
 

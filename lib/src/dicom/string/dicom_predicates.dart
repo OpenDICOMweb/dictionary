@@ -7,7 +7,7 @@
 import 'package:dictionary/ascii.dart';
 import 'package:dictionary/src/common/string/predicates.dart';
 import 'package:dictionary/src/dicom/constants.dart';
-import 'package:dictionary/src/dicom/string/vr_predicates.dart';
+import 'package:dictionary/src/dicom/string/char_predicates.dart';
 
 
 //Fix0 finish the following procedures

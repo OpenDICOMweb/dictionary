@@ -13,7 +13,7 @@ export 'package:dictionary/src/dicom/ded/ded.dart';
 export 'package:dictionary/src/dicom/ded/file_meta_info.dart';
 export 'package:dictionary/src/dicom/ded/utils.dart';
 export 'package:dictionary/src/dicom/modality.dart';
-export 'package:dictionary/src/dicom/string/vr_predicates.dart';
+export 'package:dictionary/src/dicom/string/char_predicates.dart';
 export 'package:dictionary/src/dicom/tag/constants.dart';
 export 'package:dictionary/src/dicom/tag/tags.dart';
 export 'package:dictionary/src/dicom/tag/utils.dart';
