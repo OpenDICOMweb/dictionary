@@ -6,11 +6,9 @@
 
 // Common
 export 'package:dictionary/ascii.dart';
-export 'package:dictionary/src/common/float.dart';
-export 'package:dictionary/src/common/integer/hash.dart';
-export 'package:dictionary/src/common/integer/integer.dart';
-export 'package:dictionary/src/common/string/predicates.dart';
-export 'package:dictionary/src/common/string/regex.dart';
-export 'package:dictionary/src/common/string/utils.dart';
-export 'package:dictionary/src/common/uuid_v4.dart';
+export 'package:dictionary/constants.dart';
+export 'package:dictionary/float.dart';
+export 'package:dictionary/integer.dart';
+export 'package:dictionary/string.dart';
 export 'package:dictionary/uid.dart';
+export 'package:dictionary/uuid.dart';

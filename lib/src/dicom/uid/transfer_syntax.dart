@@ -6,13 +6,13 @@
 
 
 
-import 'package:dictionary/src/common/uid.dart';
+import 'package:dictionary/src/common/uid/uid.dart';
 
-import 'uid_type.dart';
 import 'wk_uid.dart';
+import 'wk_uid_type.dart';
 
 class TransferSyntax extends WKUid {
-  static const UidType _type = UidType.kSopClass;
+  static const WKUidType _type = WKUidType.kSopClass;
   static const String classLink = 'TODO link';
   final String mediaType;
   final bool isEncapsulated;
@@ -21,7 +21,7 @@ class TransferSyntax extends WKUid {
       [this.isEncapsulated = true, String link = "PS3.5", bool isRetired = false])
       : super(uid, _type, isRetired, name, link);
 
-  UidType get type => _type;
+  WKUidType get type => _type;
 
   /// Returns [true] if the [TransferSyntax] exists and has not been retired.
   bool get isTransferSyntax => true;

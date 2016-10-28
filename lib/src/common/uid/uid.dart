@@ -5,9 +5,9 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:dictionary/src/common/string/predicates.dart';
-import 'package:dictionary/src/common/uuid_v4.dart';
-import 'package:dictionary/src/dicom/uid/uid_type.dart';
+import 'package:dictionary/src/common/uid/uid_type.dart';
 import 'package:dictionary/src/dicom/uid/wk_uids_map.dart';
+import 'package:dictionary/uuid.dart';
 
 /// A class that implements *DICOM Unique Identifiers* (UID) <*add link*>,
 /// also known as OSI *Object Identifiers* (OID), in accordance with
