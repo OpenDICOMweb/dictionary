@@ -6,3 +6,4 @@
 
 export 'package:dictionary/src/dicom/constants.dart';
 export 'package:dictionary/src/dicom/tag/constants.dart';
+export 'package:dictionary/src/dicom/tag/utils.dart';

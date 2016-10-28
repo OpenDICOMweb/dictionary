@@ -5,10 +5,12 @@
       <excludeFolder url="file://$MODULE_DIR$/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/.tmp" />
       <excludeFolder url="file://$MODULE_DIR$/doc" />
+      <excludeFolder url="file://$MODULE_DIR$/example/packages" />
       <excludeFolder url="file://$MODULE_DIR$/lib/src/other" />
       <excludeFolder url="file://$MODULE_DIR$/lib/src/tag/other" />
       <excludeFolder url="file://$MODULE_DIR$/packages" />
       <excludeFolder url="file://$MODULE_DIR$/temp" />
+      <excludeFolder url="file://$MODULE_DIR$/test/packages" />
       <excludeFolder url="file://$MODULE_DIR$/tmp" />
       <excludeFolder url="file://$MODULE_DIR$/tool/cid/gen/input/csv/packages" />
       <excludeFolder url="file://$MODULE_DIR$/tool/cid/gen/input/json/packages" />
@@ -20,6 +22,7 @@
       <excludeFolder url="file://$MODULE_DIR$/tool/ded/gen/packages" />
       <excludeFolder url="file://$MODULE_DIR$/tool/ded/packages" />
       <excludeFolder url="file://$MODULE_DIR$/tool/packages" />
+      <excludeFolder url="file://$MODULE_DIR$/tool/src/packages" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
