@@ -55,7 +55,7 @@ class Uid extends UidBase {
   ///
   /// Note: Random [Uid]s have a root of "2.25" as defined by the OID
   /// Standard (see http://www.oid-info.com/get/2.25).
-  Uid([String s]) : _value = (s == null) ? Uuid.randomUid : _validator(s);
+  Uid([String s]) : _value = (s == null) ? Uuid.randomUid : validate(s);
 
   /// Creates a constant [Uid].  Used to create 'Well Known' DICOM [Uid]s.
   const Uid.constant(this._value);
@@ -90,9 +90,19 @@ class Uid extends UidBase {
     return root;
   }
 
-  static bool isValid(Uid uid) => (validate(uid) == null) ? false : true;
+  static bool isValid(uid) => (validate(uid) == null) ? false : true;
 
-  static Uid validate(Uid uid) => (_validator(uid._value) == null) ? null : uid;
+  //TODO: need better validation - either use RegExp below or do it by hand.
+  /// Returns [v] if it is either a valid [Uid] or a valid [Uid][String].
+  static String validate(v) {
+    if (v is Uid) v = v._value;
+    if (v is! String) return null;
+    if (_validateString(v) == null) return null;
+    return v;
+  }
+
+  static _validateString(String s) =>
+      (validateString(s, kMin, kMax, kPred) == null) ? null :s;
 
   static final RegExp uidPattern = new RegExp(r"[012]((\.0)|(\.[1-9]\d*))+");
 
@@ -109,15 +119,13 @@ class Uid extends UidBase {
   }
 
   static Uid parse(String s) {
-    if (_validator(s) == null) return null;
+    if (validate(s) == null) return null;
     if (checkWellKnown) {
       Uid wellKnownUid = wellKnownUids[s];
       if (wellKnownUid != null) return wellKnownUid;
     }
     return new Uid.constant(s);
   }
-
-  static String _validator(String s) => validateString(s, kMin, kMax, kPred);
 
   static String get random => Uuid.randomUid;
 
