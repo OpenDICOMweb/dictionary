@@ -126,6 +126,40 @@ class VR {
     0x5554: VR.kUT
   };
 
+  static const Map<String, VR> strings = const {
+    "AE": VR.kAE,
+    "AS": VR.kAS,
+    "AT": VR.kAT,
+    "BR": VR.kBR,
+    "CS": VR.kCS,
+    "DA": VR.kDA,
+    "DS": VR.kDS,
+    "DT": VR.kDT,
+    "FD": VR.kFD,
+    "FL": VR.kFL,
+    "IS": VR.kIS,
+    "LO": VR.kLO,
+    "LT": VR.kLT,
+    "OB": VR.kOB,
+    "OD": VR.kOD,
+    "OF": VR.kOF,
+    "OW": VR.kOW,
+    "PN": VR.kPN,
+    "SH": VR.kSH,
+    "SL": VR.kSL,
+    "SQ": VR.kSQ,
+    "SS": VR.kSS,
+    "ST": VR.kST,
+    "TM": VR.kTM,
+    "UC": VR.kUC,
+    "UI": VR.kUI,
+    "UL": VR.kUL,
+    "UN": VR.kUN,
+    "UR": VR.kUR,
+    "US": VR.kUS,
+    "UT": VR.kUT
+  };
+
   //TODO: create invertedMap
   static const Map<int, VR> mapInverted = const {
     0x4541: VR.kAE,
@@ -218,3 +252,4 @@ Map<VR, String> dataTypes = {
   VR.kOD: "float64",
   VR.kOF: "float32"
 };
+
