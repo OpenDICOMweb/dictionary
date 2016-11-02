@@ -4,6 +4,7 @@
 // Original author: Jim Philbin <jfphilbin@gmail.edu> - 
 // See the AUTHORS file for other contributors.
 
+export 'package:dictionary/src/common/entity_name.dart';
 export 'package:dictionary/src/common/uid/uid.dart';
 export 'package:dictionary/src/dicom/uid/constants.dart';
 export 'package:dictionary/src/dicom/uid/sop_class.dart';

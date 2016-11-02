@@ -104,7 +104,7 @@ const int kDelete = 127;
 
 /// Whitespace Characters
 /// BS:  Backspace
-const int kBs = 8;
+const int kBS = 8;
 const int kBackspace = k8;
 
 /// HT:  Horizontal Tab
