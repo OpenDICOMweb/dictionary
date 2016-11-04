@@ -13,15 +13,14 @@ class VM {
   static final int nRows = 16;
   static final int nCols = 7;
   // Member fields
-  final Symbol id;
-  final String name;
+  final String id;
   final int min; // min number of values
   final int max; // max number of values, where -1 means any number of values
   final int width; // width of Value Field
   final bool fixed; // are there a fixed number of values
 
   // Constructor
-  const VM(this.id, this.name, this.min, this.max, this.width, this.fixed);
+  const VM(this.id, this.min, this.max, this.width, this.fixed);
 
   /// Validate that the number of values is legal
   //TODO write unit tests to ensure this is correct
@@ -49,29 +48,29 @@ class VM {
     return false;
   }
 
-  String toString() => 'VM.$name';
+  String toString() => 'VM.$id';
 
   // Members
-  static const VM k1 = const VM(#k1, "k1", 1, 1, 1, true);
-  static const VM k1_2 = const VM(#k1_2, "k1_2", 1, 2, 1, false);
-  static const VM k1_3 = const VM(#k1_3, "k1_3", 1, 3, 1, false);
-  static const VM k1_8 = const VM(#k1_3, "k1_8", 1, 8, 1, false);
-  static const VM k1_32 = const VM(#k1_32, "k1_32", 1, 32, 1, false);
-  static const VM k1_99 = const VM(#k1_99, "k1_99", 1, 99, 1, false);
-  static const VM k16 = const VM(#k16, "k16", 16, 16, 1, true);
-  static const VM k1_n = const VM(#k1_n, "k1_n", 1, -1, 1, false);
-  static const VM k2 = const VM(#k2, "k2", 2, 2, 1, true);
-  static const VM k2_2n = const VM(#k2_2n, "k2_2n", 2, -1, 2, false);
-  static const VM k2_n = const VM(#k2_n, "k2_n", 2, -1, 2, false);
-  static const VM k3 = const VM(#k3, "k3", 3, 3, 1, true);
-  static const VM k3_3n = const VM(#k3_3n, "k3_3n", 3, -1, 3, false);
-  static const VM k3_n = const VM(#k3_n, "k3_n", 3, -1, 3, false);
-  static const VM k4 = const VM(#k4, "k4", 4, 4, 1, true);
-  static const VM k6 = const VM(#k6, "k6", 6, 6, 1, true);
-  static const VM k6_n = const VM(#k6_n, "k6_n", 6, -1, 1, false);
-  static const VM k9 = const VM(#k9, "k9", 9, 9, 1, true);
-  static const VM kNoVM = const VM(#kNoVM, "kNoVM", 0, 0, 0, true);
-
+  static const VM k1 = const VM("k1", 1, 1, 1, true);
+  static const VM k1_2 = const VM("k1_2", 1, 2, 1, false);
+  static const VM k1_3 = const VM("k1_3", 1, 3, 1, false);
+  static const VM k1_8 = const VM("k1_8", 1, 8, 1, false);
+  static const VM k1_32 = const VM("k1_32", 1, 32, 1, false);
+  static const VM k1_99 = const VM("k1_99", 1, 99, 1, false);
+  static const VM k16 = const VM("k16", 16, 16, 1, true);
+  static const VM k1_n = const VM("k1_n", 1, -1, 1, false);
+  static const VM k2 = const VM("k2", 2, 2, 1, true);
+  static const VM k2_2n = const VM("k2_2n", 2, -1, 2, false);
+  static const VM k2_n = const VM("k2_n", 2, -1, 2, false);
+  static const VM k3 = const VM("k3", 3, 3, 1, true);
+  static const VM k3_3n = const VM("k3_3n", 3, -1, 3, false);
+  static const VM k3_n = const VM("k3_n", 3, -1, 3, false);
+  static const VM k4 = const VM("k4", 4, 4, 1, true);
+  static const VM k6 = const VM("k6", 6, 6, 1, true);
+  static const VM k6_n = const VM("k6_n", 6, -1, 1, false);
+  static const VM k9 = const VM("k9", 9, 9, 1, true);
+  static const VM kNoVM = const VM("kNoVM", 0, 0, 0, true);
+  static const VM kUnknown = const VM("kUnknown", 1, -1, 1, true);
 
   // Lookup Map
   static const List<VM> vector = const [
@@ -112,7 +111,7 @@ class VM {
   String tableEntry() => 'className=VM, nRows=$nRows, nCols=$nCols';
   String fieldNames() => 'id, name, min, max, width, fixed';
   String fieldTypes() => 'Symbol, String, int, int, int, bool';
-  String toLogEntry() => 'VM: $id, name=$name, min=$min, max=$max, width=$width, fixed=$fixed';
+  String toLogEntry() => 'VM: $id, min=$min, max=$max, width=$width, fixed=$fixed';
 
 
 }

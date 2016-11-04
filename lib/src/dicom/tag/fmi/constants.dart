@@ -8,14 +8,6 @@ import 'package:dictionary/src/dicom/tag/constants.dart';
 
 /// A library for handling DICOM File Meta Information Tags.
 
-//const MIN_FMI_TAG = kFileMetaInformationGroupLength;
-//const MAX_FMI_TAG = kPrivateInformation;
-
-//Flush:
-/// [True] for any File Meta Information [Tag], false otherwise.
-//bool fmiTagInRange(int tag) => (MIN_FMI_TAG <= tag) && (tag <= MAX_FMI_TAG);
-
-
 const List<int> fmiTags = const [
   kFileMetaInformationGroupLength,
   kFileMetaInformationVersion,

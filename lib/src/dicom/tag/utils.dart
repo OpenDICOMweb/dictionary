@@ -5,6 +5,7 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:dictionary/src/dicom/tag/constants.dart';
+import 'package:dictionary/src/dicom/tag/fmi/constants.dart';
 
 // Standard Library definitions
 String docLink = 'doc/dicom/dart/tag.html';
@@ -12,8 +13,12 @@ String docLink = 'doc/dicom/dart/tag.html';
 const int kGroupMask = 0xFFFF0000;
 const int kElementMask = 0x0000FFFF;
 
+// Min & Max for all [Dataset] [Tag]s
 const int kMinTag = kAffectedSOPInstanceUID;
 const int kMaxTag = kSequenceDelimitationItem;
+
+const int kMinDatasetTag = kLengthToEnd;
+const int kMaxDatasetTag = kDataSetTrailingPadding;
 
 /// A library for handling DICOM Tags.
 
@@ -81,8 +86,6 @@ void checkDcmDirRange(int tag) {
   if (! inDcmDirRange(tag)) tagRangeError(tag, kMinDcmDirTag, kMaxDcmDirTag);
 }
 
-const int kMinDatasetTag = kLengthToEnd;
-const int kMaxDatasetTag = kSequenceDelimitationItem;
 /// Returns [true] if [tag] is in the range of DICOM [Dataset] Tags.
 /// Note: Does not test tag validity.
 bool inDatasetRange(int tag) => (kMinDatasetTag <= tag) && (tag <= kMaxDatasetTag);
@@ -178,6 +181,32 @@ bool isPrivateDataTag(int pdTag) {
     return true;
   return false;
 }
+
+//**** File Meta Info
+
+const int kMinFmiTag = kFileMetaInformationGroupLength;
+const int kMaxFmiTag = kPrivateInformation;
+
+/// [True] for any File Meta Information [Tag], false otherwise.
+bool inFmiRange(int tag) => (kMinFmiTag >= tag) && (tag <= kMaxFmiTag);
+
+void checkFmiRange(int tag) {
+  if (! inFmiRange(tag)) tagRangeError(tag, kMinFmiTag, kMaxFmiTag);
+}
+
+/// [True] for any Public (i.e. defined in PS3.6) File Meta Information [Tag].
+bool isValidFmiTag(int tag) => fmiTags.contains(tag);
+
+int fmiTagIndex(int tag) => fmiTags.indexOf(tag);
+
+String fmiKeyword(int tag) => fmiKeywords[fmiTagIndex(tag)];
+
+bool isValidFmiKeyword(String keyword) => fmiKeywords.contains(keyword);
+
+
+//**** DICOM Directory
+const int kMindDicomDirTag = kFileSetID;
+const int kMaxDicomDirTag = kNumberOfReferences;
 
 
 
