@@ -97,19 +97,6 @@ int dcmToInt(String tag) {
   return int.parse(tmp, radix: 16);
 }
 
-//**** Private Tag Functions ****
-
-/// Groups that shall not be used in Private [Attributes].
-const List<int> invalidPrivateGroups = const [0x0001, 0x0003, 0x0005, 0x0007, 0xFFFF];
-
-bool hasPrivateGroup(int tag) {
-  int group = tagGroup(tag);
-  return group.isOdd && (! invalidPrivateGroups.contains(group));
-}
-
-
-bool hasCreatorElement(int tag) =>
-    (tagElement(tag) >= 0x0010) && (tagElement(tag) <= 0x00FF);
 
 //TODO: improve this by checking the dictionary table
 /// Returns true if the tag is defined by DICOM, false otherwise
@@ -117,30 +104,57 @@ bool hasCreatorElement(int tag) =>
 /// Note: This only checks that the group number is even.
 bool isPublicTag(int tag) => tagGroup(tag).isEven;
 
-//**** Private Tag Methods ****
-/// PrivateTag == 0xggggeeee, where 0xgggg is odd and 0xeeee is any number
-/// groupBase == 0xgggg0000, where gggg is odd
-privateSetBase(int pgBase) => pgBase & 0xFFFF0000;
+//**** Private Tag Functions ****
 
-// Private Creator Group == 0x00XX, where 0x0010 <= 0x00XX <= 0x00FF
-privateCreatorGroup(int creator) => creator & 0x000000FF;
-
-/// Private Group Base == 0xgggg00XX, where 0xgggg0010 <= 0xgggg00XX <= 0xgggg00FF
-privateGroupBase(int creator) => (creator & 0xFFFF0000) + (privateCreatorGroup(creator) << 8);
-
-/// Private Group Limit
-privateGroupLimit(int pgBase) => pgBase + 0x00FF;
-
-// pdBase == 0xggggXX00, where 0x1000 <= 0xXX00 <= 0xFF00
-privateDataBase(int pCreator) =>
-    privateSetBase(pCreator) + (privateCreatorGroup(pCreator) << 8);
+/// Groups that shall not be used in Private [Attributes].
+const List<int> invalidPrivateGroups = const [0x0001, 0x0003, 0x0005, 0x0007, 0xFFFF];
 
 /// Returns [true] if [tag] is a valid DICOM Private Tag.
-bool isPrivateTag(int tag) => hasPrivateGroup(tag);
+bool isPrivateTag(int tag) {
+  int group = tagGroup(tag);
+  return group.isOdd && ((0x0007 < group) && (group != 0xFFFF));
+}
+
+bool hasCreatorElement(int tag) {
+  var elt = tagElement(tag);
+  print('elt: ${tagElementHex(elt)}');
+  var x = (0x0010 <= elt) && (elt <= 0x00FF);
+  print('x: $x');
+  return x;
+}
 
 /// Returns true if [tag] is a valid [PrivateCreator] tag.
-bool isPrivateCreatorTag(int tag) =>
-    (hasPrivateGroup(tag) && hasCreatorElement(tag));
+bool isPrivateCreatorTag(int tag) {
+  print('tag: ${tagToHex(tag)}');
+  var p = isPrivateTag(tag);
+  print('p: $p');
+  var c = hasCreatorElement(tag);
+  print('c: $c');
+  var v = p && c;
+  print('v: $v');
+  return v;
+}
+
+
+
+
+
+
+/// groupBase == 0xgggg0000, where gggg is odd
+int privateSetBase(int pgBase) => pgBase & 0xFFFF0000;
+
+// Private Creator Group == 0x00XX, where 0x0010 <= 0x00XX <= 0x00FF
+int privateCreatorGroup(int creator) => creator & 0x000000FF;
+
+/// Private Group Base == 0xgggg00XX, where 0xgggg0010 <= 0xgggg00XX <= 0xgggg00FF
+int privateGroupBase(int creator) => (creator & 0xFFFF0000) + (privateCreatorGroup(creator) << 8);
+
+/// Private Group Limit
+int privateGroupLimit(int pgBase) => pgBase + 0x00FF;
+
+// pdBase == 0xggggXX00, where 0x1000 <= 0xXX00 <= 0xFF00
+int privateDataBase(int pCreator) =>
+    privateSetBase(pCreator) + (privateCreatorGroup(pCreator) << 8);
 
 /// Returns the dictionary number of the first dictionary in
 /// the private data for [creator].
@@ -152,6 +166,7 @@ bool isPrivateData(int tag, int creator) {
   if (! isPrivateCreatorTag(creator))
     throw "Invalid Private Creator: ${tagToHex(creator)}";
   int base = privateGroupBase(creator);
+  print('base: ${intToHex(base, 4)}');
   return ((tagElement(tag) >= base) && (tagElement(tag) <= (base + 0xFF)));
 }
 

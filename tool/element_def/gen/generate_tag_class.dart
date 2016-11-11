@@ -28,10 +28,10 @@ void main(args) {
   outFile.writeAsStringSync(s);
 }
 
-String generateMembers(Map<int, DED> map) {
+String generateMembers(Map<int, ElementDef> map) {
   var s = "";
 
-  map.forEach((int tag, DED deDef) {
+  map.forEach((int tag, ElementDef deDef) {
     s += '  static const Tag k${deDef.keyword} = const Tag(${tagToHex(tag)});\n';
   });
   return s += '}\n';

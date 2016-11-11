@@ -18,8 +18,10 @@ class VR {
   //TODO: add min, max for value length
   const VR(this.code, this.index, this.vfLength, this.name, this.sizeInBytes);
 
+  String get id => "k$name";
+
   @override
-  String toString() => 'VR.$name';
+  String toString() => 'VR.$id';
 
   static const VR kAE = const VR(0x4145, 1, 2, "AE", 1);
   static const VR kAS = const VR(0x4153, 2, 2, "AS", 1);
@@ -159,6 +161,8 @@ class VR {
     "US": VR.kUS,
     "UT": VR.kUT
   };
+
+  static VR lookup(String s) => strings[s];
 
   //TODO: create invertedMap
   static const Map<int, VR> mapInverted = const {
