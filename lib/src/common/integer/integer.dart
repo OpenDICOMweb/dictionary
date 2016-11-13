@@ -29,6 +29,7 @@ class Int {
 
   static int maxValue(int lengthInBits) => (1 << (lengthInBits - 1)) - 1;
 
+  /// Returns [value] as a hexadecimal string of [length] with prefix [prefix].
   static toHex(int i, [int padding = 0]) => i.toRadixString(16).padLeft(padding, "0");
 
   /// Returns a [List<int>] if all values are [int], otherwise null.
