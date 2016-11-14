@@ -57,12 +57,13 @@ class VR {
   static const VR kUT = const VR(0x5554, 32, 4, "UT", 1);
 
   // Special constants only used in Tag class
-  static const VR kNoVR = const VR(0x0000, 33, 4, "NoVR", 1);
+  static const VR kUnknown = const VR(0x0000, 33, 4, "Unknown", 1);
   static const VR kOBOW = const VR(0x0001, 34, 4, "OBOW", 1);
   static const VR kUSSS = const VR(0x0003, 35, 4, "USSS", 2);
   static const VR kUSSSOW = const VR(0x0003, 36, 4, "USSSOW", 2);
   static const VR kUSOW = const VR(0x0003, 37, 4, "USOW", 2);
   static const VR kUSOW1 = const VR(0x0003, 38, 4, "USOW1", 2);
+  static const VR kNoVR = const VR(0x0000, 39, 4, "NoVR", 1);
 
   /// The order of the VRs in this [List] MUST correspond to the [index]
   /// in the definitions above.  Note: the [index]es start at 1, so

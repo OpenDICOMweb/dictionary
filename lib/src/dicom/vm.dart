@@ -88,6 +88,8 @@ class VM {
   static const VM k8 = const VM("8", 8, 8, 1, true);
   static const VM k9 = const VM("9", 9, 9, 1, true);
   static const VM k16 = const VM("16", 16, 16, 1, true);
+  // Note: added for Private Tags
+  static const VM k24 = const VM("24", 24, 24, 1, true);
   static const VM kNoVM = const VM("NoVM", 0, 0, 0, true);
   static const VM kUnknown = const VM("Unknown", 1, -1, 1, false);
 

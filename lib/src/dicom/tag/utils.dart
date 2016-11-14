@@ -99,6 +99,8 @@ int dcmToInt(String tag) {
 }
 
 
+int hexToInt(String s) => int.parse(s);
+
 //TODO: improve this by checking the dictionary table
 /// Returns true if the tag is defined by DICOM, false otherwise
 /// All DICOM Public tags have group numbers that are even.

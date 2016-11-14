@@ -38,6 +38,19 @@ class Modality {
 
   const Modality(this.keyword, this.name, this.mClass, this.isRetired, this.mapsTo);
 
+  bool get isAcquisition => (mClass == MClass.ACQUISITION);
+  bool get isDerived => (mClass == MClass.DERIVED);
+  bool get isDocument => (mClass == MClass.DOCUMENT);
+  bool get isMeasurement => (mClass == MClass.MEASUREMENT);
+  bool get isOther => (mClass == MClass.OTHER);
+  bool get isPlanning => (mClass == MClass.PLANNING);
+  bool get isPostProcessing => (mClass == MClass.POST_PROCESSING);
+
+  /// [replacedBy] returns the new modality that replaced this modality
+  Modality get replacedBy => (this.replacedBy == null) ? this.keyword : this.mapsTo;
+
+  toString() => 'Modality.$keyword';
+
   static const Modality AR =
       const Modality("AR", "Autorefraction", MClass.ACQUISITION, false, null);
   static const Modality AU = const Modality("AU", "Audio", MClass.ACQUISITION, false, null);
@@ -49,12 +62,11 @@ class Modality {
       const Modality("BMD", "Bone Densitometry (X-Ray)", MClass.ACQUISITION, false, null);
   static const Modality CR =
       const Modality("CR", "Computed Radiography", MClass.ACQUISITION, false, null);
+  // Note: this is a special (Non-DICOM) Modality added for Clinical Trial Processors
+  static const Modality CTP =
+  const Modality("CTP", "Clinical Trial Processor", MClass.DERIVED, false, null);
   static const Modality CT =
       const Modality("CT", "Computed Tomography", MClass.ACQUISITION, false, null);
-  //TODO: determine the correct code for PET/CT
-  static const Modality CTPT =
-  const Modality("CTPT", "Computed Tomography & Positron emission tomography (PET)", MClass
-      .ACQUISITION, false, null);
   static const Modality DG =
       const Modality("DG", "Diaphanography", MClass.ACQUISITION, false, null);
   static const Modality DOC = const Modality("DOC", "Document", MClass.DOCUMENT, false, null);
@@ -110,6 +122,10 @@ class Modality {
       const Modality("PR", "Presentation State", MClass.POST_PROCESSING, false, null);
   static const Modality PT =
       const Modality("PT", "Positron emission tomography (PET)", MClass.ACQUISITION, false, null);
+  //TODO: determine the correct code for PET/CT
+  static const Modality PTCT =
+  const Modality("PTCT", "Computed Tomography & Positron emission tomography (PET)", MClass
+      .ACQUISITION, false, null);
   static const Modality PX =
       const Modality("PX", "Panoramic X-Ray", MClass.ACQUISITION, false, null);
   static const Modality REG =
@@ -149,6 +165,8 @@ class Modality {
   static const Modality XC =
       const Modality("XC", "External-camera Photography", MClass.ACQUISITION, false, null);
   static const Modality AS = const Modality("AS", "Angioscopy", MClass.ACQUISITION, true, null);
+
+  // Retired Modalities below here
   static const Modality CD =
       const Modality("CD", "Color flow Doppler", MClass.ACQUISITION, true, US);
   static const Modality CF = const Modality("CF", "Cinefluorography", MClass.ACQUISITION, true, RF);
@@ -175,25 +193,14 @@ class Modality {
   static const Modality ST = const Modality(
       "ST", "Single-photon emission computed tomography (SPECT)", MClass.ACQUISITION, true, NM);
   static const Modality VF =
-      const Modality("VF", "Videofluorography", MClass.ACQUISITION, true, RF);
+  const Modality("VF", "Videofluorography", MClass.ACQUISITION, true, RF);
 
-  bool get isAcquisition => (mClass == MClass.ACQUISITION);
-  bool get isDerived => (mClass == MClass.DERIVED);
-  bool get isDocument => (mClass == MClass.DOCUMENT);
-  bool get isMeasurement => (mClass == MClass.MEASUREMENT);
-  bool get isOther => (mClass == MClass.OTHER);
-  bool get isPlanning => (mClass == MClass.PLANNING);
-  bool get isPostProcessing => (mClass == MClass.POST_PROCESSING);
-
-  /// [replacedBy] returns the new modality that replaced this modality
-  Modality get replacedBy => (this.replacedBy == null) ? this.keyword : this.mapsTo;
-
-
-  toString() => 'Modality.$keyword';
+  static const Modality Unknown =
+  const Modality("Unknown", "Unknown Modality", MClass.OTHER, false, null);
 
   // A lookup table for modality codes.
   //TODO find out why keys can't be Symbols
-  static const Map<String, Modality> modalityMap = const {
+  static const Map<String, Modality> stringToModality = const {
     "AR": AR,
     "AU": AU,
     "BDUS": BDUS,
@@ -201,7 +208,7 @@ class Modality {
     "BMD": BMD,
     "CR": CR,
     "CT": CT,
-    "CTPT": CTPT,
+    "CTP": CTP,
     "DG": DG,
     "DOC": DOC,
     "DX": DX,
@@ -234,6 +241,7 @@ class Modality {
     "PLAN": PLAN,
     "PR": PR,
     "PT": PT,
+    "PTCT": PTCT,
     "PX": PX,
     "REG": REG,
     "RESP": RESP,
@@ -272,16 +280,18 @@ class Modality {
     "MS": MS,
     "OPR": OPR,
     "ST": ST,
-    "VF": VF
+    "VF": VF,
+    "Unknown": Unknown
   };
 
   /// [lookupOldName] returns the [Modality] associated with [name] even if it has been
   /// replaced by a new one.
-  static Modality lookupOldName(String name) => modalityMap[name];
+  static Modality lookupOldName(String name) => stringToModality[name];
 
   /// Returns the current name for this modality.
   static Modality lookup(String name) {
-    Modality m = modalityMap[name];
+    Modality m = stringToModality[name];
+    if (m == null) return null;
     return (m.mapsTo == null) ? m : m.mapsTo;
   }
 
