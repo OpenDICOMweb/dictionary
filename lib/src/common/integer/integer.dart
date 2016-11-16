@@ -34,10 +34,12 @@ class Int {
 
   /// Returns a [List<int>] if all values are [int], otherwise null.
   static List<int> validate(List<int> vList, InRange inRange) {
+    print('vList: $vList');
     for (int i = 0; i < vList.length; i++)
       if ((vList[i] is int) && inRange(vList[i])) {
         return null;
       }
+    print('vList: $vList');
     return vList;
   }
   /// Converts an [int] into a [String] of hexadecimal digits.
@@ -56,7 +58,6 @@ class Int {
 
   /// Returns a [List] of hex [Strings] mapped from [list]
   static Iterable<String> listToHex(List<int> list) => list.map(toHex);
-
 }
 
 class Int8 extends Int {
@@ -67,7 +68,7 @@ class Int8 extends Int {
   static const maxShortLength = kMaxShortLengthInBytes ~/ sizeInBytes;
   static const maxLongLength = kMaxLongLengthInBytes ~/ sizeInBytes;
 
-  static bool inRange(int i) => (i >= min) && (i <= max);
+  static bool inRange(int i) => (min <= i) && (i <= max);
 
   static int guard(int i) => inRange(i) ? i : _error("Int8", i);
 
