@@ -4,8 +4,7 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu>
 // See the AUTHORS file for other contributors.
 
-import 'package:dictionary/src/dicom/element_def/element_def.dart';
-import 'package:dictionary/src/dicom/element_def/iod_element.dart';
+
 
 abstract class IodSequenceBase {
   ElementDef element;
