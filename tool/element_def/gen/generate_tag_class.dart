@@ -13,7 +13,6 @@
 import 'dart:io';
 
 import 'package:dictionary/dicom.dart';
-import 'package:dictionary/src/dicom/tag/tag2.dart';
 
 import 'tag_class_code.dart';
 

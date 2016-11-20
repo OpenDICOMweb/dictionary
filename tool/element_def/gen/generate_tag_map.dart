@@ -7,8 +7,6 @@
 import 'dart:io';
 
 import 'package:dictionary/dicom.dart';
-import 'package:dictionary/src/dicom/tag/tag2.dart';
-
 
 const String outputDir = "C:/odw/sdk/core/lib/src/base/tag/gen/output";
 const String outputPath = outputDir + '/de_defs.dart';

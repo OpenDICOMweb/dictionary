@@ -48,7 +48,7 @@ class WKUid extends Uid {
   @override
   String toString() => 'WKUid: $value, $name';
 
-  static Uid lookup(var uid) {
+  static WKUid lookup(var uid) {
     if (uid is Uid) uid = uid.value;
     if (uid is String) return wellKnownUids[uid];
     return null;

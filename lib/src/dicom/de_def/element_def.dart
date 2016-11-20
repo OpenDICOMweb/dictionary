@@ -5,7 +5,7 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:dictionary/src/dicom/de_def/de_defs.dart';
-import 'package:dictionary/src/dicom/tag/tag0.dart' as tag;
+import 'package:dictionary/src/dicom/tag/tag.dart';
 import 'package:dictionary/src/dicom/vm.dart';
 import 'package:dictionary/src/dicom/vr.dart';
 
@@ -21,11 +21,11 @@ class ElementDef {
 
   const ElementDef(this.keyword, this.code, this.name, this.vr, this.vm, this.isRetired);
 
-  String get hex => tag.hex(code);
+  String get hex => Tag.hex(code);
 
   String toString() {
     var retired = (isRetired == false) ? "" : ", (Retired)";
-    return 'Element: ${tag.dcm(code)}, $vr, $vm, $keyword$retired';
+    return 'Element: ${Tag.dcm(code)}, $vr, $vm, $keyword$retired';
   }
 
   static ElementDef lookup(int tag) {
