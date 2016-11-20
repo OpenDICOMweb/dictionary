@@ -5,16 +5,16 @@
 // See the AUTHORS file for other contributors.
 
 /// A DICOM Data Element Type.  See PS3.5, Section 7.4.
-class ElementType {
+class DEType {
   final int value;
   final bool isConditional;
   final String name;
 
-  const ElementType(this.value, this.isConditional, this.name);
+  const DEType(this.value, this.isConditional, this.name);
 
-  static const k1 = const ElementType(1, false, "1");
-  static const k1c = const ElementType(1, true, "1C");
-  static const k2 = const ElementType(2, false, "2");
-  static const k2c = const ElementType(2, true, "2C");
-  static const k3 = const ElementType(3, false, "3");
+  static const k1 = const DEType(1, false, "1");
+  static const k1c = const DEType(1, true, "1C");
+  static const k2 = const DEType(2, false, "2");
+  static const k2c = const DEType(2, true, "2C");
+  static const k3 = const DEType(3, false, "3");
 }

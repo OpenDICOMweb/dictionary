@@ -7,6 +7,7 @@
 import 'dart:io';
 
 import 'package:dictionary/dictionary.dart';
+import 'package:dictionary/src/dicom/tag/tag2.dart';
 
 const String outputDir = "C:/odw/sdk/core/lib/src/base/tag/gen/output";
 const String outputPath = outputDir + '/constants.dart';
@@ -14,7 +15,7 @@ const String outputPath = outputDir + '/constants.dart';
 void main(args) {
 
   File outFile = new File(outputPath);
-  var s = generateConstants(tags);
+  var s = generateConstants(deDefs);
   print(s);
   outFile.writeAsStringSync(s);
 }
@@ -35,7 +36,7 @@ String generateConstants(Map<int, ElementDef> map) {
 
 ''';
   map.forEach((int tag, ElementDef deDef) {
-    s += 'const int k${deDef.keyword} = ${tagToHex(tag)}; \n';
+    s += 'const int k${deDef.keyword} = ${Tag.hex(tag)}; \n';
   });
   return s;
 }

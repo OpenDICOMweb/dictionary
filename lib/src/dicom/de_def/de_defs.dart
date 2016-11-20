@@ -4,10 +4,10 @@
 // Original author: Jim Philbin <jfphilbin@gmail.edu> - 
 // See the AUTHORS file for other contributors.
 
-import 'package:dictionary/src/dicom/element_def/element_def.dart';
+import 'package:dictionary/src/dicom/de_def/element_def.dart';
 
 /// An ordered List of all DICOM Data Elements.  See PS3.6.
-const Map<int, ElementDef> tags = const {
+const Map<int, ElementDef> deDefs = const {
   //**** Beginning of the Command Tags
   0x00001000: ElementDef.kAffectedSOPInstanceUID,
   0x00001001: ElementDef.kRequestedSOPInstanceUID,

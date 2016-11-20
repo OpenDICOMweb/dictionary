@@ -9,7 +9,7 @@ import 'package:dictionary/dicom.dart';
 /// A [class] for defining the elements of an [IOD].
 class IodElement implements ElementDef {
   final ElementDef element;
-  final ElementType type;
+  final DEType type;
   
   const IodElement(this.element, this.type);
 

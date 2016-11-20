@@ -4,8 +4,8 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
-import 'package:dictionary/src/dicom/tag/tags.dart';
-import 'package:dictionary/src/dicom/tag/utils.dart';
+import 'package:dictionary/src/dicom/de_def/de_defs.dart';
+import 'package:dictionary/src/dicom/tag/tag0.dart' as tag;
 import 'package:dictionary/src/dicom/vm.dart';
 import 'package:dictionary/src/dicom/vr.dart';
 
@@ -21,15 +21,15 @@ class ElementDef {
 
   const ElementDef(this.keyword, this.code, this.name, this.vr, this.vm, this.isRetired);
 
-  String get hex => tagToHex(code);
+  String get hex => tag.hex(code);
 
   String toString() {
     var retired = (isRetired == false) ? "" : ", (Retired)";
-    return 'Element: ${tagToDcm(code)}, $vr, $vm, $keyword$retired';
+    return 'Element: ${tag.dcm(code)}, $vr, $vm, $keyword$retired';
   }
 
   static ElementDef lookup(int tag) {
-    ElementDef e = tags[tag];
+    ElementDef e = deDefs[tag];
     if (e != null) return e;
 
     // Retired _special case_ tags that still must be handled
