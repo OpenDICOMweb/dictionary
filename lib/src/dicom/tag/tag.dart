@@ -18,6 +18,8 @@ class Tag {
   /// Returns a hex [String] 8 characters long with a "0x" prefix.
   static String hex(int tag) => '0x' + Int.toHex(tag, 8);
 
+  static String keyword(int tag) => ElementDef.lookup(tag).keyword;
+
   /// Returns true if the tag is defined by DICOM, false otherwise.
   /// All DICOM Public tags have group numbers that are even integers.
   /// Note: This only checks that the group number is an even.

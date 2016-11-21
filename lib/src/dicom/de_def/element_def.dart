@@ -23,9 +23,17 @@ class ElementDef {
 
   String get hex => Tag.hex(code);
 
+  int get group => Tag.group(code);
+
+  String get groupHex => Tag.groupHex(code);
+
+  int get elt => Tag.elt(code);
+
+  String get eltHex => Tag.eltHex(code);
+
   String toString() {
     var retired = (isRetired == false) ? "" : ", (Retired)";
-    return 'Element: ${Tag.dcm(code)}, $vr, $vm, $keyword$retired';
+    return 'Element: ${Tag.dcm(code)} $keyword, $vr, $vm, $retired';
   }
 
   static ElementDef lookup(int tag) {

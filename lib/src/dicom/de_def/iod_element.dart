@@ -10,7 +10,7 @@ import 'package:dictionary/dicom.dart';
 class IodElement implements ElementDef {
   final ElementDef element;
   final DEType type;
-  
+
   const IodElement(this.element, this.type);
 
   int get code => element.code;
@@ -21,5 +21,19 @@ class IodElement implements ElementDef {
   bool get isRetired => element.isRetired;
 
   String get hex => element.hex;
+
+  int get group => Tag.group(code);
+
+  String get groupHex => Tag.groupHex(code);
+
+  int get elt => Tag.elt(code);
+
+  String get eltHex => Tag.eltHex(code);
+
+  String toString() {
+    var retired = (isRetired == false) ? "" : ", (Retired)";
+    return 'IOD Element: ${Tag.dcm(code)} $keyword, $vr, $vm, $retired';
+  }
+
 
 }

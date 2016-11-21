@@ -4,6 +4,8 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
+import 'dart:typed_data';
+
 import 'package:dictionary/src/dicom/constants.dart';
 
 /// Private error handler.
@@ -12,7 +14,7 @@ int _error(String type, int val)  {
 }
 
 /// The [Type] of Range checkers.
-typedef bool InRange(val);
+typedef bool _InRange(int val);
 
 class Int {
   //**** General Constants ****
@@ -33,7 +35,7 @@ class Int {
   static toHex(int i, [int padding = 0]) => i.toRadixString(16).padLeft(padding, "0");
 
   /// Returns a [List<int>] if all values are [int], otherwise null.
-  static List<int> validate(List<int> vList, InRange inRange) {
+  static List<int> validate(List<int> vList, _InRange inRange) {
     print('vList: $vList');
     for (int i = 0; i < vList.length; i++)
       if ((vList[i] is int) && inRange(vList[i])) {
@@ -42,6 +44,7 @@ class Int {
     print('vList: $vList');
     return vList;
   }
+
   /// Converts an [int] into a [String] of hexadecimal digits.
   ///
   /// Returns a hexadecimal [String] of length [nDigits] with [padLeft] padding,
@@ -108,9 +111,9 @@ class Int32 extends Int {
 
   static int guard(int i) => inRange(i) ? i : _error("Int32", i);
 
-  static toHex(int i, [int padding = 0]) => Int.toHex(i, padding);
+  static String toHex(int i, [int padding = 0]) => Int.toHex(i, padding);
 
-  static List<int> validate(List<int> vList) => Int.validate(vList, inRange);
+  static Int32List validate(List<int> vList) => Int.validate(vList, inRange);
 }
 
 class Int64 extends Int {
@@ -187,7 +190,7 @@ class Uint32 extends Uint {
 
   static toHex(int i, [int padding = 0]) => Int.toHex(i, padding);
 
-  static List<int> validate(List<int> vList) => Int.validate(vList, inRange);
+  static Uint32List validate(Uint32List vList) => Int.validate(vList, inRange);
 }
 
 class Uint64 extends Uint {
