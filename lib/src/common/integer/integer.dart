@@ -9,7 +9,7 @@ import 'dart:typed_data';
 import 'package:dictionary/src/dicom/constants.dart';
 
 /// Private error handler.
-int _error(String type, int val)  {
+int _error(String type, int val) {
   throw new RangeError('$type: $val out of range');
 }
 
@@ -31,11 +31,15 @@ class Int {
 
   static int maxValue(int lengthInBits) => (1 << (lengthInBits - 1)) - 1;
 
-  /// Returns [value] as a hexadecimal string of [length] with prefix [prefix].
-  static toHex(int i, [int padding = 0]) => i.toRadixString(16).padLeft(padding, "0");
+  /// Returns [true] if [value] is between [min] and [max] inclusive.
+  static bool inRange(int min, int value, int max) => (min <= value && value <= max);
 
-  /// Returns a [List<int>] if all values are [int], otherwise null.
-  static List<int> validate(List<int> vList, _InRange inRange) {
+  /// Returns a [List<int>] if all values are [int], otherwise [null].
+  @deprecated
+  static List<int> validate(List<int> vList, _InRange inRange) => listGuard(vList, inRange);
+
+  /// Returns a [List<int>] if all values are [int], otherwise [null].
+  static List<int> listGuard(List<int> vList, _InRange inRange) {
     print('vList: $vList');
     for (int i = 0; i < vList.length; i++)
       if ((vList[i] is int) && inRange(vList[i])) {
@@ -45,22 +49,37 @@ class Int {
     return vList;
   }
 
+  /// Returns a [List<int>] if all values are [int], otherwise [null].
+  static bool isValidList(List<int> vList, _InRange inRange) {
+    if (listGuard(vList, inRange) == null) return false;
+    return true;
+  }
+
+  static bool isNotValidList(List<int> vList, _InRange inRange) => !isValidList(vList, inRange);
+
+  /// Returns [value] as a hexadecimal string of [length] with prefix [prefix].
+  @deprecated
+  static toHex(int i, [int padding = 0]) => i.toRadixString(16).padLeft(padding, "0");
+
+  /// Returns [value] as a hexadecimal string of [length] with prefix [prefix].
+  static hex(int i, [int padding = 0]) => i.toRadixString(16).padLeft(padding, "0");
+
+  /// Returns a [String] in the form of a [List] ("[
+  String listToHexString(List<String> list) => "[" + list.join(", ") + "]";
+
+  /// Returns a [List] of hex [Strings] mapped from [list]
+  static Iterable<String> listToHex(List<int> list) => list.map(hex);
+
   /// Converts an [int] into a [String] of hexadecimal digits.
   ///
   /// Returns a hexadecimal [String] of length [nDigits] with [padLeft] padding,
   /// and a leading [prefix], which defaults to "0x".
   static String format(int i,
-                       {int radix: 16,
-                       int nDigits: -1,
-                       String padding: '0',
-                       String prefix: '0x'}) {
+      {int radix: 16, int nDigits: -1, String padding: '0', String prefix: '0x'}) {
     String s = i.toRadixString(16);
     s = (nDigits == -1) ? s : s.padLeft(nDigits, padding);
     return prefix + s;
   }
-
-  /// Returns a [List] of hex [Strings] mapped from [list]
-  static Iterable<String> listToHex(List<int> list) => list.map(toHex);
 }
 
 class Int8 extends Int {
@@ -70,17 +89,31 @@ class Int8 extends Int {
   static const max = (1 << (sizeInBits - 1)) - 1;
   static const maxShortLength = kMaxShortLengthInBytes ~/ sizeInBytes;
   static const maxLongLength = kMaxLongLengthInBytes ~/ sizeInBytes;
+  static final Int8List emptyList = new Int8List(0);
 
   static bool inRange(int i) => (min <= i) && (i <= max);
 
   static int guard(int i) => inRange(i) ? i : _error("Int8", i);
 
-  static toHex(int i, [int padding = 0]) => Int.toHex(i, padding);
+  @deprecated
+  static toHex(int i, [int padding = 0]) => Int.hex(i, padding);
 
-  /// Returns a [vList] if all values are valid Uint32, otherwise null.
-  static List<int> validate(List<int> vList) => Int.validate(vList, inRange);
+  static hex(int i, [int padding = 0]) => Int.hex(i, padding);
+
+  @deprecated
+  static List<int> validate(List<int> vList) => Int.listGuard(vList, inRange);
+
+  /// Returns it argument [vList] if valid; otherwise, returns [null].
+  static List<int> listGuard(List<int> vList) {
+    if (vList == null || vList.length == 0) return emptyList;
+    return Int.listGuard(vList, inRange);
+  }
+
+  /// Returns a [true] if all values are valid Uint32, otherwise [false].
+  static bool isValidList(List<int> vList) => (listGuard(vList) == null) ? false : true;
+
+  static bool isNotValidList(List<int> vList) => !isValidList(vList);
 }
-
 
 class Int16 extends Int {
   static const sizeInBits = 16;
@@ -89,14 +122,30 @@ class Int16 extends Int {
   static const max = (2 << (sizeInBits - 1)) - 1;
   static const maxShortLength = kMaxShortLengthInBytes ~/ sizeInBytes;
   static const maxLongLength = kMaxLongLengthInBytes ~/ sizeInBytes;
+  static final Int16List emptyList = new Int16List(0);
 
   static bool inRange(int i) => (i >= min) && (i <= max);
 
   static int guard(int i) => inRange(i) ? i : _error("Int16", i);
 
-  static toHex(int i, [int padding = 0]) => Int.toHex(i, padding);
+  @deprecated
+  static toHex(int i, [int padding = 0]) => Int.hex(i, padding);
 
-  static List<int> validate(List<int> vList) => Int.validate(vList, inRange);
+  static hex(int i, [int padding = 0]) => Int.hex(i, padding);
+
+  @deprecated
+  static List<int> validate(List<int> vList) => Int.listGuard(vList, inRange);
+
+  /// Returns it argument [vList] if valid; otherwise, returns [null].
+  static List<int> listGuard(List<int> vList) {
+    if (vList == null || vList.length == 0) return emptyList;
+    return Int.listGuard(vList, inRange);
+  }
+
+  /// Returns a [true] if all values are valid Uint32, otherwise [false].
+  static bool isValidList(List<int> vList) => (listGuard(vList) == null) ? false : true;
+
+  static bool isNotValidList(List<int> vList) => !isValidList(vList);
 }
 
 class Int32 extends Int {
@@ -106,40 +155,74 @@ class Int32 extends Int {
   static const max = (1 << (sizeInBits - 1)) - 1;
   static const maxShortLength = kMaxShortLengthInBytes ~/ sizeInBytes;
   static const maxLongLength = kMaxLongLengthInBytes ~/ sizeInBytes;
+  static final Int32List emptyList = new Int32List(0);
 
   static bool inRange(int i) => (i >= min) && (i <= max);
 
   static int guard(int i) => inRange(i) ? i : _error("Int32", i);
 
-  static String toHex(int i, [int padding = 0]) => Int.toHex(i, padding);
+  @deprecated
+  static toHex(int i, [int padding = 0]) => Int.hex(i, padding);
 
-  static Int32List validate(List<int> vList) => Int.validate(vList, inRange);
+  static hex(int i, [int padding = 0]) => Int.hex(i, padding);
+
+  @deprecated
+  static List<int> validate(List<int> vList) => Int.listGuard(vList, inRange);
+
+  /// Returns it argument [vList] if valid; otherwise, returns [null].
+  static List<int> listGuard(List<int> vList) {
+    if (vList == null || vList.length == 0) return emptyList;
+    return Int.listGuard(vList, inRange);
+  }
+
+  /// Returns a [true] if all values are valid Uint32, otherwise [false].
+  static bool isValidList(List<int> vList) => (listGuard(vList) == null) ? false : true;
+
+  static bool isNotValidList(List<int> vList) => !isValidList(vList);
 }
 
 class Int64 extends Int {
   static const sizeInBits = 64;
   static const sizeInBytes = 8;
-  static const min = - (1 << (sizeInBits - 1));
+  static const min = -(1 << (sizeInBits - 1));
   static const max = (1 << (sizeInBits - 1)) - 1;
   static const maxShortLength = kMaxShortLengthInBytes ~/ sizeInBytes;
   static const maxLongLength = kMaxLongLengthInBytes ~/ sizeInBytes;
+  static final Int64List emptyList = new Int64List(0);
 
   static bool inRange(int i) => (i >= min) && (i <= max);
 
   static int guard(int i) => inRange(i) ? i : _error("Int64", i);
 
-  static toHex(int i, [int padding = 0]) => Int.toHex(i, padding);
+  @deprecated
+  static toHex(int i, [int padding = 0]) => Int.hex(i, padding);
 
-  static List<int> validate(List<int> vList) => Int.validate(vList, inRange);
+  static hex(int i, [int padding = 0]) => Int.hex(i, padding);
+
+  @deprecated
+  static List<int> validate(List<int> vList) => Int.listGuard(vList, inRange);
+
+  /// Returns it argument [vList] if valid; otherwise, returns [null].
+  static List<int> listGuard(List<int> vList) {
+    if (vList == null || vList.length == 0) return emptyList;
+    return Int.listGuard(vList, inRange);
+  }
+
+  /// Returns a [true] if all values are valid Uint32, otherwise [false].
+  static bool isValidList(List<int> vList) => (listGuard(vList) == null) ? false : true;
+
+  static bool isNotValidList(List<int> vList) => !isValidList(vList);
 }
-
 
 class Uint extends Int {
   static const min = 0;
 
   static int max(int sizeInBits) => (1 << sizeInBits) - 1;
 
-  static String toHex(int i) => Int.toHex(i);
+  @deprecated
+  static toHex(int i, [int padding = 0]) => Int.hex(i, padding);
+
+  static hex(int i, [int padding = 0]) => Int.hex(i, padding);
 }
 
 class Uint8 extends Uint {
@@ -149,14 +232,30 @@ class Uint8 extends Uint {
   static const max = (2 << sizeInBits) - 1;
   static const maxShortLength = kMaxShortLengthInBytes ~/ sizeInBytes;
   static const maxLongLength = kMaxLongLengthInBytes ~/ sizeInBytes;
+  static final Uint8List emptyList = new Uint8List(0);
 
   static bool inRange(int i) => (i >= min) && (i <= max);
 
   static int guard(int i) => inRange(i) ? i : _error("Uint8", i);
 
-  static toHex(int i, [int padding = 0]) => Int.toHex(i, padding);
+  @deprecated
+  static toHex(int i, [int padding = 0]) => Int.hex(i, padding);
 
-  static List<int> validate(List<int> vList) => Int.validate(vList, inRange);
+  static hex(int i, [int padding = 0]) => Int.hex(i, padding);
+
+  @deprecated
+  static List<int> validate(List<int> vList) => Int.listGuard(vList, inRange);
+
+  /// Returns it argument [vList] if valid; otherwise, returns [null].
+  static List<int> listGuard(List<int> vList) {
+    if (vList == null || vList.length == 0) return emptyList;
+    return Int.listGuard(vList, inRange);
+  }
+
+  /// Returns a [true] if all values are valid Uint32, otherwise [false].
+  static bool isValidList(List<int> vList) => (listGuard(vList) == null) ? false : true;
+
+  static bool isNotValidList(List<int> vList) => !isValidList(vList);
 }
 
 class Uint16 extends Uint {
@@ -166,14 +265,30 @@ class Uint16 extends Uint {
   static const max = (2 << sizeInBits) - 1;
   static const maxShortLength = kMaxShortLengthInBytes ~/ sizeInBytes;
   static const maxLongLength = kMaxLongLengthInBytes ~/ sizeInBytes;
+  static final Uint16List emptyList = new Uint16List(0);
 
   static bool inRange(int i) => (i >= min) && (i <= max);
 
   static int guard(int i) => inRange(i) ? i : _error("Uint16", i);
 
-  static toHex(int i, [int padding = 0]) => Int.toHex(i, padding);
+  @deprecated
+  static toHex(int i, [int padding = 0]) => Int.hex(i, padding);
 
-  static List<int> validate(List<int> vList) => Int.validate(vList, inRange);
+  static hex(int i, [int padding = 0]) => Int.hex(i, padding);
+
+  @deprecated
+  static List<int> validate(List<int> vList) => Int.listGuard(vList, inRange);
+
+  /// Returns it argument [vList] if valid; otherwise, returns [null].
+  static List<int> listGuard(List<int> vList) {
+    if (vList == null || vList.length == 0) return emptyList;
+    return Int.listGuard(vList, inRange);
+  }
+
+  /// Returns a [true] if all values are valid Uint32, otherwise [false].
+  static bool isValidList(List<int> vList) => (listGuard(vList) == null) ? false : true;
+
+  static bool isNotValidList(List<int> vList) => !isValidList(vList);
 }
 
 class Uint32 extends Uint {
@@ -183,14 +298,30 @@ class Uint32 extends Uint {
   static const max = (2 << sizeInBits) - 1;
   static const maxShortLength = kMaxShortLengthInBytes ~/ sizeInBytes;
   static const maxLongLength = kMaxLongLengthInBytes ~/ sizeInBytes;
+  static final Uint32List emptyList = new Uint32List(0);
 
   static bool inRange(int i) => (i >= min) && (i <= max);
 
   static int guard(int i) => inRange(i) ? i : _error("Uint32", i);
 
-  static toHex(int i, [int padding = 0]) => Int.toHex(i, padding);
+  @deprecated
+  static toHex(int i, [int padding = 0]) => Int.hex(i, padding);
 
-  static Uint32List validate(Uint32List vList) => Int.validate(vList, inRange);
+  static hex(int i, [int padding = 0]) => Int.hex(i, padding);
+
+  @deprecated
+  static List<int> validate(List<int> vList) => Int.listGuard(vList, inRange);
+
+  /// Returns it argument [vList] if valid; otherwise, returns [null].
+  static List<int> listGuard(List<int> vList) {
+    if (vList == null || vList.length == 0) return emptyList;
+    return Int.listGuard(vList, inRange);
+  }
+
+  /// Returns a [true] if all values are valid Uint32, otherwise [false].
+  static bool isValidList(List<int> vList) => (listGuard(vList) == null) ? false : true;
+
+  static bool isNotValidList(List<int> vList) => !isValidList(vList);
 }
 
 class Uint64 extends Uint {
@@ -200,14 +331,30 @@ class Uint64 extends Uint {
   static const max = (1 << sizeInBits) - 1;
   static const maxShortLength = kMaxShortLengthInBytes ~/ sizeInBytes;
   static const maxLongLength = kMaxLongLengthInBytes ~/ sizeInBytes;
+  static final Uint64List emptyList = new Uint64List(0);
 
   static bool inRange(int i) => (i >= min) && (i <= max);
 
   static int guard(int i) => inRange(i) ? i : _error("Uint64", i);
 
-  static toHex(int i, [int padding = 0]) => Int.toHex(i, padding);
+  @deprecated
+  static toHex(int i, [int padding = 0]) => Int.hex(i, padding);
 
-  static List<int> validate(List<int> vList) => Int.validate(vList, inRange);
+  static hex(int i, [int padding = 0]) => Int.hex(i, padding);
+
+  @deprecated
+  static List<int> validate(List<int> vList) => Int.listGuard(vList, inRange);
+
+  /// Returns it argument [vList] if valid; otherwise, returns [null].
+  static List<int> listGuard(List<int> vList) {
+    if (vList == null || vList.length == 0) return emptyList;
+    return Int.listGuard(vList, inRange);
+  }
+
+  /// Returns a [true] if all values are valid Uint32, otherwise [false].
+  static bool isValidList(List<int> vList) => (listGuard(vList) == null) ? false : true;
+
+  static bool isNotValidList(List<int> vList) => !isValidList(vList);
 }
 
 /// General [int] utility functions.
@@ -216,6 +363,7 @@ class Uint64 extends Uint {
 ///
 /// Returns a hexadecimal [String] of length [nDigits] with [padLeft] padding,
 /// and a leading [prefix], which defaults to "0x".
+@deprecated
 String intToHex(int i, [int nDigits = -1, String padding = '0', String prefix = '0x']) {
   String s = i.toRadixString(16);
   s = (nDigits == -1) ? s : s.padLeft(nDigits, padding);
@@ -223,12 +371,16 @@ String intToHex(int i, [int nDigits = -1, String padding = '0', String prefix = 
 }
 
 /// Returns a [List] of hex [Strings] mapped from [list]
+@deprecated
 Iterable<String> intListToHex(List<int> list) => list.map(intToHex);
+
+@deprecated
 
 /// Returns a [String] in the form of a [List] ("[
 String hexListToString(List<String> list) => "[" + list.join(", ") + "]";
 
 /// Returns [true] if [value] is between [min] and [max] inclusive.
+@deprecated
 bool inRange(int min, int value, int max) => ((min <= value) && (value <= max));
 
 class Range {
@@ -271,5 +423,3 @@ class Range {
   static const int64Max = (1 << 63) - 1;
   static const isInt64 = const Range(int64Min, int64Max);
 }
-
-

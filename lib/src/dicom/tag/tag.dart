@@ -16,7 +16,7 @@ const int kElementMask = 0x0000FFFF;
 
 class Tag {
   /// Returns a hex [String] 8 characters long with a "0x" prefix.
-  static String hex(int tag) => '0x' + Int.toHex(tag, 8);
+  static String hex(int tag) => '0x' + Int.hex(tag, 8);
 
   static String keyword(int tag) => ElementDef.lookup(tag).keyword;
 
@@ -34,7 +34,7 @@ class Tag {
   static int group(int tag) => tag >> 16;
 
   /// Returns the [tagGroup] number as a hex [String].
-  static String groupHex(int tag) => Int.toHex(group(tag), 4);
+  static String groupHex(int tag) => Int.hex(group(tag), 4);
 
   /// Returns [true] if [v] fits in 16-bits.
   static bool validGroup(int code) {
@@ -50,7 +50,7 @@ class Tag {
   static int elt(int tag) => tag & kElementMask;
 
   /// Returns the dictionary number as a hex [String].
-  static String eltHex(int tag) => Int.toHex(elt(tag), 4);
+  static String eltHex(int tag) => Int.hex(elt(tag), 4);
 
   /// Returns [true] if [v] fits in 16-bits.
   static bool validElt(int v) => (0 <= v && v <= 0xFFFF) ? true : false;
@@ -60,7 +60,7 @@ class Tag {
 //**** Utilities for reading and printing DCM format (gggg,eeee).
 
   /// Returns [tag] in DICOM format '(gggg,eeee)'.
-  static String dcm(int tag) => '(${Int.toHex(group(tag))},${Int.toHex(elt(tag))})';
+  static String dcm(int tag) => '(${Int.hex(group(tag))},${Int.hex(elt(tag))})';
 
   /// Returns a [List] of DICOM tag codes in '(gggg,eeee)' format
   static Iterable<String> listToDcm(List<int> list) => list.map(dcm);

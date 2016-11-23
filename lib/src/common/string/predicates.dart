@@ -13,15 +13,26 @@ typedef bool StringPredicate(String s, [int start, int end]);
 
 typedef bool ConstStringPredicate(String);
 
+typedef bool _Predicate(String value);
+
+typedef String _Guard(String value);
+
+//TODO: should the empty string "" be considered valid?
 /// Checks that the [String] [s] is valid given the other arguments.
 /// Returns [s] if valid, otherwise [null].
 String validateString(String s, int min, int max, CharPredicate pred) {
-  if ((s.length < min) || (s.length > max)) return null;
+  if ((s == null) || (s.length < min) || (s.length > max)) return null;
   for (int i = 0; i < s.length; i++) {
     int char = s.codeUnitAt(i);
     if (!pred(char)) return null;
   }
   return s;
+}
+
+/// Returns [true] if [String] [s] is valid given the other arguments.
+bool testString(String s, int min, int max, CharPredicate pred) {
+  if (validateString(s, min, max, pred) == null) return false;
+  return true;
 }
 
 /// Returns [true] if all characters from [start] to [end] are digits; otherwise, [false].

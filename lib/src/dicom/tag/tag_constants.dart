@@ -9,7 +9,6 @@
 /// This library is designed to be imported using 'as tag'.
 
 // Standard Library definitions
-String docLink = 'doc/dicom/dart/tag.html';
 
 // **** Tag Name Constants
 

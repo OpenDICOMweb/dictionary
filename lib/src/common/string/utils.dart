@@ -21,18 +21,17 @@ int validateStringLength(String s, int min, int max) {
   return length;
 }
 
-
 List<String> validateStringList(List<String> sList, int min, int max, bool pred(int)) {
   for (int i = 0; i < sList.length; i++) {
-    var s = sList[i];
+    String s = sList[i];
     if (max != null) validateStringLength(s, min, max);
     sList[i] = s.trim();
   }
   return sList;
 }
 
-bool isValidList(List<String> vList, int min, int max, bool pred(int)) {
-  for (String s in vList) {
+bool isValidList(List<String> values, int min, int max, bool pred(String)) {
+  for (String s in values) {
     if (s.length == 0) continue;
     validateStringLength(s, min, max);
     for (int i = 0; i < s.length; i++) {

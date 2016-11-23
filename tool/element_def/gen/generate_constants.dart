@@ -16,7 +16,7 @@ void main(args) {
 
   File outFile = new File(outputPath);
   var s = generateConstants(deDefs);
-  print(s);
+  //print(s);
   outFile.writeAsStringSync(s);
 }
 
