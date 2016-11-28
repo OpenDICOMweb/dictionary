@@ -13,24 +13,40 @@ class TransferSyntax extends WKUid {
   static const WKUidType _type = WKUidType.kSopClass;
   static const String classLink = 'TODO link';
   final String mediaType;
+
+  ///  Specifies the size of the Pixel Cell. kBitsAllocated (0028,0100)
+  // final int bitAllocated;
+  /// [bitsStored] shall never be larger than [bitsAllocated]. kBitsStored (0028,0101)
+//  final int bitsStored;
+  /// Specifies where the high order bit of the [bitsStored] (kBitStored (0028,0101))
+  /// is to be placed with respect to the [bitsAllocated] (kBitsAllocated (0028,0100))
+  /// specification.  High kHighBit (0028,0102)
+//  final int highBit;
   final bool isEncapsulated;
+//  final bool hasEmptyBasicOffsetTable;
+  final bool mayHaveFragments;
 
   const TransferSyntax(String uid, String name, this.mediaType,
-      [this.isEncapsulated = true, String link = "PS3.5", bool isRetired = false])
+      [bool isRetired = false,
+      String link = "PS3.5",
+      this.isEncapsulated = true,
+      this.mayHaveFragments = true])
       : super(uid, _type, isRetired, name, link);
 
   WKUidType get type => _type;
 
+  // bool hasEmptyOffsetTable => false;
+
   /// Returns [true] if the [TransferSyntax] exists and has not been retired.
   bool get isTransferSyntax => true;
+
+  bool get isNativeFormat => !isEncapsulated;
 
   /// Returns [true] if the [TransferSyntax] exists, but has been retired.
   bool get isRetiredTransferSyntax => isRetired;
 
   bool get isValidForRS =>
-      (isNotRetired) ||
-      (name != kImplicitVRLittleEndianDefaultTransferSyntaxforDICOM &&
-          name != kExplicitVRBigEndian_Retired);
+      (isNotRetired) || (name != kImplicitVRLittleEndian && name != kExplicitVRBigEndian);
 
   /// Returns the TransferSyntax corresponding to the [String] or [Uid].
   static lookup(ts) {
@@ -46,34 +62,42 @@ class TransferSyntax extends WKUid {
   //TODO we need add the keyword to the to the class.
   //*****   Constant Values   *****
 
-  static const kImplicitVRLittleEndianDefaultTransferSyntaxforDICOM = const TransferSyntax(
-      "1.2.840.10008.1.2",
-      "Implicit VR Little Endian: Default Transfer Syntax for DICOM",
-      "image/???",
-      false);
+  static const kImplicitVRLittleEndian = const TransferSyntax(
+    "1.2.840.10008.1.2",
+    "Implicit VR Little Endian: Default Transfer Syntax for DICOM",
+    "image/???",
+    false,
+  );
+
+  static const defaultForDIMSE = kImplicitVRLittleEndian;
 
   static const kExplicitVRLittleEndian = const TransferSyntax(
       "1.2.840.10008.1.2.1", "Explicit VR Little Endian", "image/uncompressed??", false);
 
+  static const defaultForDicomWeb = kExplicitVRLittleEndian;
+
   static const kDeflatedExplicitVRLittleEndian = const TransferSyntax(
       "1.2.840.10008.1.2.1.99", "Deflated Explicit VR Little Endian", "image/deflate??", false);
 
-  static const kExplicitVRBigEndian_Retired = const TransferSyntax(
-      "1.2.840.10008.1.2.2", "Explicit VR Big Endian (Retired)", "image/???", false, "PS3.5", true);
+  static const kExplicitVRBigEndian = const TransferSyntax("1.2.840.10008.1.2.2",
+      "Explicit VR Big Endian (Retired)", "image/bigEndian", false, "PS3.5", true);
 
-  static const kJPEGBaseline_1DefaultTransferSyntaxforLossyJPEG8BitImageCompression =
-      const TransferSyntax(
-          "1.2.840.10008.1.2.4.50",
-          "JPEG Baseline (Process 1) : Default Transfer Syntax for Lossy JPEG 8 Bit Image Compression",
-          "image/jpeg");
+  static const kJPEGBaseline_1 = const TransferSyntax(
+      "1.2.840.10008.1.2.4.50",
+      "JPEG Baseline (Process 1) : Default Transfer Syntax for Lossy JPEG 8 Bit Image Compression",
+      "image/jpeg");
 
-  static const kJPEGExtended_2_4DefaultTransferSyntaxforLossyJPEG12BitImageCompression_4 =
-      const TransferSyntax(
-          "1.2.840.10008.1.2.4.51",
-          "JPEG Extended (Process 2 & 4) : Default Transfer Syntax for Lossy JPEG 12 Bit Image Compression (Process 4 only)",
-          "image/jpeg",
-          false,
-          "PS3.5");
+  static const kJPEGLossy8BitDefault = kJPEGBaseline_1;
+
+  static const kJPEGExtended_2_4 = const TransferSyntax(
+      "1.2.840.10008.1.2.4.51",
+      "JPEG Extended (Process 2 & 4) : Default Transfer Syntax for "
+      "Lossy JPEG 12 Bit Image Compression (Process 4 only)",
+      "image/jpeg",
+      false,
+      "PS3.5");
+
+  static const kJPEGLossy12BitDefault = kJPEGExtended_2_4;
 
   static const kJPEGExtended_3_5_Retired = const TransferSyntax(
       "1.2.840.10008.1.2.4.52", "JPEG Extended (Process 3 & 5) (Retired)", "image/jpeg", true);
@@ -153,11 +177,14 @@ class TransferSyntax extends WKUid {
   static const kJPEGLosslessHierarchical_29_Retired = const TransferSyntax("1.2.840.10008.1.2.4.66",
       "JPEG Lossless, Hierarchical (Process 29) (Retired)", "image/jpeg", true);
 
-  static const kJPEGLosslessNon_HierarchicalFirst_OrderPrediction_14_1DefaultTransferSyntaxforLosslessJPEGImageCompression =
-      const TransferSyntax(
-          "1.2.840.10008.1.2.4.70",
-          "JPEG Lossless, Non-Hierarchical, First-Order Prediction (Process 14 [Selection Value 1]) : Default Transfer Syntax for Lossless JPEG Image Compression",
-          "image/jpeg");
+  static const kJPEGLosslessNon_HierarchicalFirst_OrderPrediction_14_1 = const TransferSyntax(
+      "1.2.840.10008.1.2.4.70",
+      "JPEG Lossless, Non-Hierarchical, First-Order Prediction "
+      "(Process 14 [Selection Value 1]) : Default Transfer Syntax "
+      "for Lossless JPEG Image Compression",
+      "image/jpeg");
+
+  static const kJPEGLosslessDefault = kJPEGLosslessNon_HierarchicalFirst_OrderPrediction_14_1;
 
   static const kJPEG_LSLosslessImageCompression = const TransferSyntax(
       "1.2.840.10008.1.2.4.80", "JPEG-LS Lossless Image Compression", "image/jpeg-ls");
@@ -202,20 +229,19 @@ class TransferSyntax extends WKUid {
   static const kRLELossless =
       const TransferSyntax("1.2.840.10008.1.2.5", "RLE Lossless", "image/rle???", false);
 
-  static const kRFC2557MIMEencapsulation = const TransferSyntax(
+  static const kRFC2557MIMEncapsulation = const TransferSyntax(
       "1.2.840.10008.1.2.6.1", "RFC 2557 MIME encapsulation", "image/????", false, "PS3.10");
 
   static const kXMLEncoding =
       const TransferSyntax("1.2.840.10008.1.2.6.2", "XML Encoding", "text/xml???", false, "PS3.10");
 
   static const Map<String, Uid> map = const {
-    "1.2.840.10008.1.2": kImplicitVRLittleEndianDefaultTransferSyntaxforDICOM,
+    "1.2.840.10008.1.2": kImplicitVRLittleEndian,
     "1.2.840.10008.1.2.1": kExplicitVRLittleEndian,
     "1.2.840.10008.1.2.1.99": kDeflatedExplicitVRLittleEndian,
-    "1.2.840.10008.1.2.2": kExplicitVRBigEndian_Retired,
-    "1.2.840.10008.1.2.4.50": kJPEGBaseline_1DefaultTransferSyntaxforLossyJPEG8BitImageCompression,
-    "1.2.840.10008.1.2.4.51":
-        kJPEGExtended_2_4DefaultTransferSyntaxforLossyJPEG12BitImageCompression_4,
+    "1.2.840.10008.1.2.2": kExplicitVRBigEndian,
+    "1.2.840.10008.1.2.4.50": kJPEGBaseline_1,
+    "1.2.840.10008.1.2.4.51": kJPEGExtended_2_4,
     "1.2.840.10008.1.2.4.52": kJPEGExtended_3_5_Retired,
     "1.2.840.10008.1.2.4.53": kJPEGSpectralSelectionNon_Hierarchical_6_8_Retired,
     "1.2.840.10008.1.2.4.54": kJPEGSpectralSelectionNon_Hierarchical_7_9_Retired,
@@ -231,8 +257,7 @@ class TransferSyntax extends WKUid {
     "1.2.840.10008.1.2.4.64": kJPEGFullProgressionHierarchical_25_27_Retired,
     "1.2.840.10008.1.2.4.65": kJPEGLosslessHierarchical_28_Retired,
     "1.2.840.10008.1.2.4.66": kJPEGLosslessHierarchical_29_Retired,
-    "1.2.840.10008.1.2.4.70":
-        kJPEGLosslessNon_HierarchicalFirst_OrderPrediction_14_1DefaultTransferSyntaxforLosslessJPEGImageCompression,
+    "1.2.840.10008.1.2.4.70": kJPEGLosslessNon_HierarchicalFirst_OrderPrediction_14_1,
     "1.2.840.10008.1.2.4.80": kJPEG_LSLosslessImageCompression,
     "1.2.840.10008.1.2.4.81": kJPEG_LSLossyImageCompression,
     "1.2.840.10008.1.2.4.90": kJPEG2000ImageCompressionLosslessOnly,
@@ -246,7 +271,7 @@ class TransferSyntax extends WKUid {
     "1.2.840.10008.1.2.4.102": kMPEG_4AVC_H264HighProfile_Level41,
     "1.2.840.10008.1.2.4.103": kMPEG_4AVC_H264BD_compatibleHighProfile_Level41,
     "1.2.840.10008.1.2.5": kRLELossless,
-    "1.2.840.10008.1.2.6.1": kRFC2557MIMEencapsulation,
+    "1.2.840.10008.1.2.6.1": kRFC2557MIMEncapsulation,
     "1.2.840.10008.1.2.6.2": kXMLEncoding
   };
 }

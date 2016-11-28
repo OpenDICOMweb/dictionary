@@ -47,7 +47,8 @@ class Baz {
 
   const Baz(this.bytes);
 
-  static final x =  const Baz(const <int>[0x00, 0x08, 0x00, 0x05, 1, 2, 3]);
+  //TODO: fix
+  //static final x =  const Baz(const <int>[0x00, 0x08, 0x00, 0x05, 1, 2, 3]);
 
   int get a => bytes.getUint16(0);
   int get b => bytes.getUint16(2);

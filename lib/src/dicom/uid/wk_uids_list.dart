@@ -14,7 +14,7 @@ const List<WKUid> wkUids = const [
     WKUid.kExplicitVRLittleEndian,
     WKUid.kDeflatedExplicitVRLittleEndian,
     WKUid.kExplicitVRBigEndian_Retired,
-    WKUid.kJPEGBaseline_1DefaultTransferSyntaxforLossyJPEG8BitImageCompression,
+    WKUid.kJPEGBaseline_1,
     WKUid.kJPEGExtended_2_4DefaultTransferSyntaxforLossyJPEG12BitImageCompression_4,
     WKUid.kJPEGExtended_3_5_Retired,
     WKUid.kJPEGSpectralSelectionNon_Hierarchical_6_8_Retired,

@@ -69,7 +69,7 @@ class WKUid extends Uid {
       WKUidType.kTransferSyntax, false, "Deflated Explicit VR Little Endian", "PS3.5");
   static const kExplicitVRBigEndian_Retired = const WKUid("1.2.840.10008.1.2.2",
       WKUidType.kTransferSyntax, true, "Explicit VR Big Endian (Retired)", "PS3.5");
-  static const kJPEGBaseline_1DefaultTransferSyntaxforLossyJPEG8BitImageCompression = const WKUid(
+  static const kJPEGBaseline_1 = const WKUid(
       "1.2.840.10008.1.2.4.50",
       WKUidType.kTransferSyntax,
       false,

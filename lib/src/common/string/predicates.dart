@@ -13,9 +13,9 @@ typedef bool StringPredicate(String s, [int start, int end]);
 
 typedef bool ConstStringPredicate(String);
 
-typedef bool _Predicate(String value);
+//typedef bool _Predicate(String value);
 
-typedef String _Guard(String value);
+//typedef String _Guard(String value);
 
 //TODO: should the empty string "" be considered valid?
 /// Checks that the [String] [s] is valid given the other arguments.

@@ -14,7 +14,7 @@ const Map<String, Uid> wellKnownUids= const {
    "1.2.840.10008.1.2.1": WKUid.kExplicitVRLittleEndian,
    "1.2.840.10008.1.2.1.99": WKUid.kDeflatedExplicitVRLittleEndian,
    "1.2.840.10008.1.2.2": WKUid.kExplicitVRBigEndian_Retired,
-   "1.2.840.10008.1.2.4.50": WKUid.kJPEGBaseline_1DefaultTransferSyntaxforLossyJPEG8BitImageCompression,
+   "1.2.840.10008.1.2.4.50": WKUid.kJPEGBaseline_1,
    "1.2.840.10008.1.2.4.51": WKUid.kJPEGExtended_2_4DefaultTransferSyntaxforLossyJPEG12BitImageCompression_4,
    "1.2.840.10008.1.2.4.52": WKUid.kJPEGExtended_3_5_Retired,
    "1.2.840.10008.1.2.4.53": WKUid.kJPEGSpectralSelectionNon_Hierarchical_6_8_Retired,
