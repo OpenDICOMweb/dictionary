@@ -22,6 +22,8 @@ class RenderedMediaType {
 
   String get name => '$type/$subtype';
 
+  String toString() => name;
+
   bool get isDefault => support == _Support.kDefault;
   bool get isRequired => support == _Support.kRequired;
   bool get isOptional => support == _Support.kOptional;
