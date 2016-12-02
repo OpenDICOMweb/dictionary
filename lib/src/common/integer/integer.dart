@@ -27,6 +27,11 @@ class Int {
   static const smi32Mask = 0x3FFFFFFF;
   static const smi64Mask = 0x3FFFFFFFFFFFFFFF;
 
+  static bool get isInteger => true;
+
+  static get isSigned => true;
+  static get isUnsigned => false;
+
   static int minValue(int lengthInBits) => (1 << (lengthInBits - 1));
 
   static int maxValue(int lengthInBits) => (1 << (lengthInBits - 1)) - 1;
@@ -216,6 +221,9 @@ class Int64 extends Int {
 
 class Uint extends Int {
   static const min = 0;
+
+  static get isSigned => false;
+  static get isUnsigned => true;
 
   static int max(int sizeInBits) => (1 << sizeInBits) - 1;
 

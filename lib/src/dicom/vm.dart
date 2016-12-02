@@ -14,84 +14,74 @@ class VM {
   static final int nCols = 7;
   // Member fields
   final String name;
-  final int min; // min number of values
-  final int max; // max number of values, where -1 means any number of values
-  final int width; // width of Value Field
-  final bool fixed; // are there a fixed number of values
+  final int min;    // min number of values
+  final int max;    // max number of values, where -1 means any number of values
+  final int width;  // width of Value Field
 
   // Constructor
-  const VM(this.name, this.min, this.max, this.width, this.fixed);
+  const VM(this.name, this.min, this.max, this.width);
 
   String get id {
     var s = name.replaceAll("-", "_");
     return 'k$s';
   }
 
-  /// Validate that the number of values is legal
-  //TODO write unit tests to ensure this is correct
-  bool validate(List values) {
-    int len = values.length;
-    int max = (this.max == -1) ? 0x3FFFFFFF : this.max;
-    if ((len >= this.min) && (len <= (max * this.width)) && (len % this.width == 0)) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
+  bool get isFixed => min == max;
   bool get isSingleton => ((min == 1) && (max == 1) && (width == 1));
 
-  bool _inRange(int length) => (min <= length) && (length <= max);
+  /// Validate that the number of values is legal
+  //TODO write unit tests to ensure this is correct
+  bool validate(List values) => isValidShape(values.length);
 
-  bool isValidVM(List list) {
-    var length = list.length;
-    if ((width == 1) && _inRange(length)) {
-        return true;
-    } else if (((length % width) == 0) && _inRange(length * width)) {
-      return true;
-    }
-    return false;
+  bool isValidShape(int length) {
+    if ((width != 1) && (length % width) == 0) length = length * width;
+    return (_inRange(length)) ? true : false;
+  }
+
+  bool _inRange(int length) {
+    int m = (max == -1) ? 0x3FFFFFFF : max;
+    return (min <= length) && (length <= m);
   }
 
   String toString() => 'VM.$id';
 
   // Members
-  static const VM k1 = const VM("1", 1, 1, 1, true);
-  static const VM k1_2 = const VM("1_2", 1, 2, 1, false);
-  static const VM k1_3 = const VM("1-3", 1, 3, 1, false);
-  static const VM k1_8 = const VM("1-8", 1, 8, 1, false);
+  static const VM k1 = const VM("1", 1, 1, 1);
+  static const VM k1_2 = const VM("1_2", 1, 2, 1);
+  static const VM k1_3 = const VM("1-3", 1, 3, 1);
+  static const VM k1_8 = const VM("1-8", 1, 8, 1);
   // Note: added for Private Tags
-  static const VM k1_16 = const VM("1-16", 1, 16, 1, false);
-  static const VM k1_32 = const VM("1-32", 1, 32, 1, false);
-  static const VM k1_99 = const VM("1-99", 1, 99, 1, false);
+  static const VM k1_16 = const VM("1-16", 1, 16, 1);
+  static const VM k1_32 = const VM("1-32", 1, 32, 1);
+  static const VM k1_99 = const VM("1-99", 1, 99, 1);
   // Note: added for Private Tags
-  static const VM k1_143 = const VM("1-143", 1, 143, 1, false);
+  static const VM k1_143 = const VM("1-143", 1, 143, 1);
   // Note: added for Private Tags
-  static const VM k1_256 = const VM("1-256", 1, 256, 1, false);
-  static const VM k1_n = const VM("1-n", 1, -1, 1, false);
-  static const VM k2 = const VM("2", 2, 2, 1, true);
+  static const VM k1_256 = const VM("1-256", 1, 256, 1);
+  static const VM k1_n = const VM("1-n", 1, -1, 1);
+  static const VM k2 = const VM("2", 2, 2, 1);
   // Note: added for Private Tags
-  static const VM k2_3 = const VM("2-3", 2, 3, 1, false);
-  static const VM k2_2n = const VM("2-2n", 2, -1, 2, false);
-  static const VM k2_n = const VM("2-n", 2, -1, 2, false);
-  static const VM k3 = const VM("3", 3, 3, 1, true);
-  static const VM k3_3n = const VM("3-3n", 3, -1, 3, false);
-  static const VM k3_n = const VM("3-n", 3, -1, 3, false);
-  static const VM k4 = const VM("4", 4, 4, 1, true);
+  static const VM k2_3 = const VM("2-3", 2, 3, 1);
+  static const VM k2_2n = const VM("2-2n", 2, -1, 2);
+  static const VM k2_n = const VM("2-n", 2, -1, 2);
+  static const VM k3 = const VM("3", 3, 3, 1);
+  static const VM k3_3n = const VM("3-3n", 3, -1, 3);
+  static const VM k3_n = const VM("3-n", 3, -1, 3);
+  static const VM k4 = const VM("4", 4, 4, 1);
   // Note: added for Private Tags
-  static const VM k5 = const VM("5", 5, 5, 1, true);
-  static const VM k6 = const VM("6", 6, 6, 1, true);
-  static const VM k6_n = const VM("6_n", 6, -1, 1, false);
+  static const VM k5 = const VM("5", 5, 5, 1);
+  static const VM k6 = const VM("6", 6, 6, 1);
+  static const VM k6_n = const VM("6_n", 6, -1, 1);
   // Note: added for Private Tags
-  static const VM k7_n = const VM("7_n", 7, -1, 1, false);
+  static const VM k7_n = const VM("7_n", 7, -1, 1);
   // Note: added for Private Tags
-  static const VM k8 = const VM("8", 8, 8, 1, true);
-  static const VM k9 = const VM("9", 9, 9, 1, true);
-  static const VM k16 = const VM("16", 16, 16, 1, true);
+  static const VM k8 = const VM("8", 8, 8, 1);
+  static const VM k9 = const VM("9", 9, 9, 1);
+  static const VM k16 = const VM("16", 16, 16, 1);
   // Note: added for Private Tags
-  static const VM k24 = const VM("24", 24, 24, 1, true);
-  static const VM kNoVM = const VM("NoVM", 0, 0, 0, true);
-  static const VM kUnknown = const VM("Unknown", 1, -1, 1, false);
+  static const VM k24 = const VM("24", 24, 24, 1);
+  static const VM kNoVM = const VM("NoVM", 0, 0, 0);
+  static const VM kUnknown = const VM("Unknown", 1, -1, 1);
 
 
   // Lookup Map
@@ -142,6 +132,7 @@ class VM {
   /// lookup VM using name
   static VM lookup(String name) => map[name];
 
+  //TODO: move to vm_generate
 
   //TODO add the other VM definitions
   // Write the class out in gen_table_format
@@ -153,7 +144,6 @@ class VM {
   String tableEntry() => 'className=VM, nRows=$nRows, nCols=$nCols';
   String fieldNames() => 'id, name, min, max, width, fixed';
   String fieldTypes() => 'Symbol, String, int, int, int, bool';
-  String toLogEntry() => 'VM: $id, name=$name, min=$min, max=$max, width=$width, fixed=$fixed';
-
+  String toLogEntry() => 'VM: $id, name=$name, min=$min, max=$max, width=$width, fixed=$isFixed';
 
 }

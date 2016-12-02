@@ -1,81 +1,124 @@
 // Copyright (c) 2016, Open DICOMweb Project. All rights reserved.
 // Use of this source code is governed by the open source license
 // that can be found in the LICENSE file.
-// Author: Jim Philbin <jfphilbin@gmail.edu>
+// Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
+
+import 'package:dictionary/common.dart';
 
 //TODO:
 typedef dynamic Decode(int length);
 
+enum VRType { integers, floats, strings, text, dateTime, other, sequence, none }
+
 /// DICOM Value Representation [VR] definitions.
 class VR {
-  final int code;
   final int index;
-  final int vfLength;
+  final int code;
+  final bool isShort;
   final String name;
   final int sizeInBytes;
+  final Type type;
 
   //TODO: add min, max for value length
-  const VR(this.code, this.index, this.vfLength, this.name, this.sizeInBytes);
+  const VR(this.index, this.code, this.isShort, this.name, this.sizeInBytes, [this.type = null]);
 
   String get id => "k$name";
+
+  bool get isNoVR => index == 0;
+  bool get isSequence => index == 1;
+  bool get isInteger => 2 <= index && index <= 11;
+  bool get isFloat => 12 <= index && index <= 17;
+  bool get isBinary => 2 <= index && index <= 14;
+
+  bool get isString => 16 <= index && index <= 32;
+  bool get isText => 23 <= index && index <= 25;
+  bool get isDateTime => 26 <= index && index <= 28;
+  bool get isOther => 29 <= index && index <= 32;
+
+  bool get isStringNumber => this == kIS || this == kDS;
+  bool get isNumber => isInteger || isFloat || isStringNumber;
+
+  int get vfLength => (isShort) ? 2 : 4;
 
   @override
   String toString() => 'VR.$id';
 
-  static const VR kAE = const VR(0x4145, 1, 2, "AE", 1);
-  static const VR kAS = const VR(0x4153, 2, 2, "AS", 1);
-  static const VR kAT = const VR(0x4154, 3, 2, "AT", 4);
-  static const VR kBR = const VR(0x4252, 4, 2, "BR", 1); //Bulkdata Reference
-  static const VR kCS = const VR(0x4353, 5, 2, "CS", 1);
-  static const VR kDA = const VR(0x4441, 6, 2, "DA", 1);
-  static const VR kDS = const VR(0x4453, 7, 2, "DS", 1);
-  static const VR kDT = const VR(0x4454, 8, 2, "DT", 1);
-  static const VR kFD = const VR(0x4644, 9, 2, "FD", 8);
-  static const VR kFL = const VR(0x464c, 10, 2, "FL", 4);
-  static const VR kIS = const VR(0x4953, 11, 2, "IS", 1);
-  static const VR kLO = const VR(0x4c4f, 12, 2, "LO", 1);
-  static const VR kLT = const VR(0x4c54, 13, 2, "LT", 1);
-  static const VR kOB = const VR(0x4f42, 14, 4, "OB", 1);
-  static const VR kOD = const VR(0x4f44, 15, 4, "OD", 8);
-  static const VR kOF = const VR(0x4f46, 16, 4, "OF", 4);
-  static const VR kOL = const VR(0x4f4c, 17, 4, "OL", 4);
-  static const VR kOW = const VR(0x4f57, 18, 4, "OW", 2);
-  static const VR kPN = const VR(0x504e, 19, 2, "PN", 1);
-  static const VR kSH = const VR(0x5348, 20, 2, "SH", 1);
-  static const VR kSL = const VR(0x534c, 21, 2, "SL", 4);
-  static const VR kSQ = const VR(0x5351, 22, 4, "SQ", 1);
-  static const VR kSS = const VR(0x5353, 23, 2, "SS", 2);
-  static const VR kST = const VR(0x5354, 24, 2, "ST", 1);
-  static const VR kTM = const VR(0x544d, 25, 2, "TM", 1);
-  static const VR kUC = const VR(0x5443, 26, 4, "UC", 1);
-  static const VR kUI = const VR(0x5549, 27, 2, "UI", 1);
-  static const VR kUL = const VR(0x554c, 28, 2, "UL", 4);
-  static const VR kUN = const VR(0x554e, 29, 4, "UN", 1);
-  static const VR kUR = const VR(0x5552, 30, 4, "UR", 1);
-  static const VR kUS = const VR(0x5553, 31, 2, "US", 2);
-  static const VR kUT = const VR(0x5554, 32, 4, "UT", 1);
+  // Item ...
+  static const VR kNoVR = const VR(00, 0x0000, false, "NoVR", 1);
+  // Sequence
+  static const VR kSQ = const VR(01, 0x5351, false, "SQ", 1);
+
+  // Integers
+  static const VR kSS = const VR(02, 0x5353, true,  "SS", 2);
+  static const VR kSL = const VR(03, 0x534c, true,  "SL", 4);
+  static const VR kOB = const VR(04, 0x4f42, false, "OB", 1);
+  static const VR kUN = const VR(05, 0x554e, false, "UN", 1);
+  static const VR kOW = const VR(06, 0x4f57, false, "OW", 2);
+  static const VR kUS = const VR(07, 0x5553, true,  "US", 2);
+  static const VR kUL = const VR(08, 0x554c, true,  "UL", 4);
+  static const VR kAT = const VR(09, 0x4154, true,  "AT", 4);
+  static const VR kOL = const VR(10, 0x4f4c, false, "OL", 4);
+
+
+  // Floats
+  static const VR kFD = const VR(11, 0x4644, true, "FD", 8);
+  static const VR kFL = const VR(12, 0x464c, true, "FL", 4);
+  static const VR kOD = const VR(13, 0x4f44, false, "OD", 8);
+  static const VR kOF = const VR(14, 0x4f46, false, "OF", 4);
+
+  // Integer & String.integer
+  static const VR kIS = const VR(16, 0x4953, true, "IS", 1);
+  // Float & String.float
+  static const VR kDS = const VR(17, 0x4453, true, "DS", 1);
+  // String.array
+  static const VR kAE = const VR(18, 0x4145, true, "AE", 1);
+  static const VR kCS = const VR(19, 0x4353, true, "CS", 1);
+  static const VR kLO = const VR(20, 0x4c4f, true, "LO", 1);
+  static const VR kSH = const VR(21, 0x5348, true, "SH", 1);
+  static const VR kUC = const VR(22, 0x5443, false, "UC", 1);
+
+  // String.Text
+  static const VR kST = const VR(23, 0x5354, true, "ST", 1);
+  static const VR kLT = const VR(24, 0x4c54, true, "LT", 1);
+  static const VR kUT = const VR(25, 0x5554, false, "UT", 1);
+
+  // String.DateTime
+  static const VR kDA = const VR(26, 0x4441, true, "DA", 1);
+  static const VR kDT = const VR(27, 0x4454, true, "DT", 1);
+  static const VR kTM = const VR(28, 0x544d, true, "TM", 1);
+
+  // String.Other
+  static const VR kPN = const VR(29, 0x504e, true, "PN", 1);
+  static const VR kUI = const VR(30, 0x5549, true, "UI", 1);
+  static const VR kUR = const VR(31, 0x5552, false, "UR", 1);
+  static const VR kAS = const VR(32, 0x4153, true, "AS", 1);
+
+  //Bulkdata Reference
+  static const VR kBR = const VR(33, 0x4252, true, "BR", 1);
 
   // Special constants only used in Tag class
-  static const VR kUnknown = const VR(0x0000, 33, 4, "Unknown", 1);
-  static const VR kOBOW = const VR(0x0001, 34, 4, "OBOW", 1);
-  static const VR kUSSS = const VR(0x0003, 35, 4, "USSS", 2);
-  static const VR kUSSSOW = const VR(0x0003, 36, 4, "USSSOW", 2);
-  static const VR kUSOW = const VR(0x0003, 37, 4, "USOW", 2);
-  static const VR kUSOW1 = const VR(0x0003, 38, 4, "USOW1", 2);
-  static const VR kNoVR = const VR(0x0000, 39, 4, "NoVR", 1);
+  //TODO: flush
+ // static const VR kUnknown = const VR(, 0x0000, false, "Unknown", 1);
 
   /// The order of the VRs in this [List] MUST correspond to the [index]
   /// in the definitions above.  Note: the [index]es start at 1, so
-  /// in this [List] the 0th dictionary is [null].
-  static const List<VR> vector = const [
-    null,
-    VR.kAE, VR.kAS, VR.kAT, VR.kBR, VR.kCS, VR.kDA, VR.kDS, VR.kDT,
+  /// in this [List] the 0th dictionary ,is [null].
+  static const List<VR> vrs = const [
+    kNoVR,
+    // Sequence
+    kSQ,
+    // Integer
+    // Float
+    // String.Array
+    // String.Text
+    // String.DateTime
+    // String.Other
+    VR.kAE, VR.kAS, VR.kAT, VR.kCS, VR.kDA, VR.kDS, VR.kDT,
     VR.kFD, VR.kFL, VR.kIS, VR.kLO, VR.kLT, VR.kPN, VR.kOB, VR.kOD,
     VR.kOF, VR.kOL, VR.kOW, VR.kSH, VR.kSL, VR.kSQ, VR.kSS, VR.kST,
     VR.kTM, VR.kUC, VR.kUI, VR.kUL, VR.kUN, VR.kUR, VR.kUS, VR.kUT,
     // Special VRs for internal use only
-    VR.kNoVR, VR.kOBOW, VR.kUSSS, VR.kUSSSOW, VR.kUSOW, VR.kUSOW1
   ];
 
   static const List<VR> stringVRs = const [
@@ -131,7 +174,7 @@ class VR {
     0x4145: VR.kAE,
     0x4153: VR.kAS,
     0x4154: VR.kAT,
-    0x4252: VR.kBR,
+    //   0x4252: VR.kBR,
     0x4353: VR.kCS,
     0x4441: VR.kDA,
     0x4453: VR.kDS,
@@ -253,7 +296,7 @@ class VR {
 }
 
 //TODO: Add this field to VR Definition
-Map<VR, String> dataTypes = {
+Map<VR, Type> dataTypes = {
   // String VRs
   VR.kAE: "AE Title",
   VR.kAS: "String",
@@ -275,7 +318,7 @@ Map<VR, String> dataTypes = {
   VR.kUT: "Text",
 
   // Integers
-  VR.kAT: "uint32",
+  VR.kAT: Uint32,
   VR.kOB: "uint8",
   VR.kOW: "uint16",
   VR.kSL: "int32",
@@ -289,3 +332,21 @@ Map<VR, String> dataTypes = {
   VR.kOD: "float64",
   VR.kOF: "float32"
 };
+
+class VRSpecial extends VR {
+  final List<VR> list;
+  //TODO: add min, max for value length
+  const VRSpecial(this.list, int index, int code, bool isShort, String name, int sizeInBytes)
+      : super(index, code, isShort, name, sizeInBytes);
+
+  static const VRSpecial kOBOW =
+      const VRSpecial(const [VR.kOB, VR.kOW], 01, 0x0001, false, "OBOW", 1);
+  static const VRSpecial kUSSS =
+      const VRSpecial(const [VR.kUS, VR.kSS], 01, 0x0003, false, "USSS", 2);
+  static const VRSpecial kUSSSOW =
+      const VRSpecial(const [VR.kUS, VR.kSS, VR.kOW], 01, 0x0003, false, "USSSOW", 2);
+  static const VRSpecial kUSOW =
+      const VRSpecial(const [VR.kUS, VR.kOW], 01, 0x0003, false, "USOW", 2);
+  static const VRSpecial kUSOW1 =
+      const VRSpecial(const [VR.kUS, VR.kOW], 01, 0x0003, false, "USOW1", 2);
+}

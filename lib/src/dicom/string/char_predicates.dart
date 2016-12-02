@@ -117,10 +117,10 @@ bool _isUppercase(int c) => (c >= kA) && (c <= kZ);
 /// Returns [true] if [c] is a DICOM whitespace character; otherwise [false].
 bool isWhiteSpaceChar(int c) => (c == kSpace) || (c == kHTab);
 */
-///Returns [true] if [c] is legal in a DICOM string VR (SH or LO) ; otherwise, [false].
+///Returns [true] if [c] is legal in a DICOM string VR (SH, LO, UC) ; otherwise, [false].
 CharPredicate isStringChar = isReplaceableNBDcrChar;
 
-///Returns [true] if [c] is legal in a DICOM text VR (ST, LT, UC, or UT) ; otherwise, [false].
+///Returns [true] if [c] is legal in a DICOM text VR (ST, LT, or UT) ; otherwise, [false].
 bool isTextChar(int c) => isReplaceableDcrChar(c) || isControlChar(c);
 
 /// Returns [true] if [c] is legal in an AE Title; otherwise, [false],
