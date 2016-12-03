@@ -287,8 +287,8 @@ class VR {
   //tODO: create index(int x, int y)
   int getIndex(int first, int second) {
     var val = lookupTable[first];
-    if (val is int) return val;
-    if (val is Map<int, int>) return val[second];
+    if (val is VR) return val.index;
+    if (val is Map<int, int>) return val[second].index;
     throw 'Invalid VR "${new String.fromCharCode(first)}${new String.fromCharCode(first)}"';
   }
 
