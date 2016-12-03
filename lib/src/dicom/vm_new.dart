@@ -122,11 +122,39 @@ class VR {
   ];
 
   static const List<VR> stringVRs = const [
-    kAE, kAS, kBR, kCS, kDA, kDS, kDT, kIS, kLO, kLT, kPN, kSH, kST, kTM, kUC, kUI, kUR, kUT
+    kAE,
+    kAS,
+    kBR,
+    kCS,
+    kDA,
+    kDS,
+    kDT,
+    kIS,
+    kLO,
+    kLT,
+    kPN,
+    kSH,
+    kST,
+    kTM,
+    kUC,
+    kUI,
+    kUR,
+    kUT
   ];
 
-  static const List<VR> byteVRs =
-  const [kAT, kFD, kFL, kOB, kOD, kOF, kOW, kSL, kSS, kUL, kUN, kUS
+  static const List<VR> byteVRs = const [
+    kAT,
+    kFD,
+    kFL,
+    kOB,
+    kOD,
+    kOF,
+    kOW,
+    kSL,
+    kSS,
+    kUL,
+    kUN,
+    kUS
   ];
 
   static const List<VR> intVRs = const [kAT, kOB, kOW, kSL, kSS, kUL, kUS, kDS, kIS];
@@ -265,36 +293,25 @@ class VR {
   }
 
   //TODO: review and make sure it is correct
-  static const Map<int, Map<int, int>> lookupTable = const {
-    0x41: const {0x45: kAE.index, 0x53: kAS.index, 0x54: kAT.index},
-    0x42: kBR.index,
-    0x43: kCS.index,
-    0x44: const { 0x41: kDA.index, 0x53: kDS.index, 0x54: kDT.index},
-    0x46: const { 0x44: kFD.index, 0x4c: kFL.index},
-    0x49: kIS.index,
-    0x4c: const { 0x4f: kLO.index, 0x54: kLT.index},
-    0x4f: const { 0x42: kOB.index, 0x44: kOD.index, 0x46: kOF.index, 0x4c: kOL.index, 0x57: kOW.index},
-    0x50: kPN.index,
-    0x53: const {
-      0x48: kSH.index, 0x4c: kSL.index, 0x51: kSQ.index, 0x53: kSS.index, 0x54: kST.index
-    },
-    0x54: kTM.index,
-    0x55: const {
-      0x43: kUC.index,
-      0x49: kUI.index,
-      0x4c: kUL.index,
-      0x4e: kUN.index,
-      0x52: kUR.index,
-      0x53: kUS.index,
-      0x54: kUT.index
-    }
+  //TODO: Compare performance of this with [map] above.
+  static const Map<int, dynamic> lookupTable = const {
+    0x41: const {0x45: kAE, 0x53: kAS, 0x54: kAT},
+    0x42: kBR,
+    0x43: kCS,
+    0x44: const {0x41: kDA, 0x53: kDS, 0x54: kDT},
+    0x46: const {0x44: kFD, 0x4c: kFL},
+    0x49: kIS,
+    0x4c: const {0x4f: kLO, 0x54: kLT},
+    0x4f: const {0x42: kOB, 0x44: kOD, 0x46: kOF, 0x4c: kOL, 0x57: kOW},
+    0x50: kPN,
+    0x53: const {0x48: kSH, 0x4c: kSL, 0x51: kSQ, 0x53: kSS, 0x54: kST},
+    0x54: kTM,
+    0x55: const {0x43: kUC, 0x49: kUI, 0x4c: kUL, 0x4e: kUN, 0x52: kUR, 0x53: kUS, 0x54: kUT}
   };
-
 }
 
-
 //TODO: Add this field to VR Definition
-Map<VR, Type> dataTypes = {
+Map<VR, Type> dataTypes = const {
   // String VRs
   VR.kAE: "AE Title",
   VR.kAS: "String",
@@ -333,6 +350,7 @@ Map<VR, Type> dataTypes = {
 
 class VRSpecial extends VR {
   final List<VR> list;
+
   //TODO: add min, max for value length
   const VRSpecial(this.list, int index, int code, bool isShort, String name, int sizeInBytes)
       : super(index, code, isShort, name, sizeInBytes);
