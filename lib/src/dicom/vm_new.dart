@@ -46,20 +46,20 @@ class VR {
 
   // Item ...
   static const VR kNoVR = const VR(00, 0x0000, false, "NoVR", 1);
+
   // Sequence
   static const VR kSQ = const VR(01, 0x5351, false, "SQ", 1);
 
   // Integers
-  static const VR kSS = const VR(02, 0x5353, true,  "SS", 2);
-  static const VR kSL = const VR(03, 0x534c, true,  "SL", 4);
+  static const VR kSS = const VR(02, 0x5353, true, "SS", 2);
+  static const VR kSL = const VR(03, 0x534c, true, "SL", 4);
   static const VR kOB = const VR(04, 0x4f42, false, "OB", 1);
   static const VR kUN = const VR(05, 0x554e, false, "UN", 1);
   static const VR kOW = const VR(06, 0x4f57, false, "OW", 2);
-  static const VR kUS = const VR(07, 0x5553, true,  "US", 2);
-  static const VR kUL = const VR(08, 0x554c, true,  "UL", 4);
-  static const VR kAT = const VR(09, 0x4154, true,  "AT", 4);
+  static const VR kUS = const VR(07, 0x5553, true, "US", 2);
+  static const VR kUL = const VR(08, 0x554c, true, "UL", 4);
+  static const VR kAT = const VR(09, 0x4154, true, "AT", 4);
   static const VR kOL = const VR(10, 0x4f4c, false, "OL", 4);
-
 
   // Floats
   static const VR kFD = const VR(11, 0x4644, true, "FD", 8);
@@ -69,8 +69,10 @@ class VR {
 
   // Integer & String.integer
   static const VR kIS = const VR(16, 0x4953, true, "IS", 1);
+
   // Float & String.float
   static const VR kDS = const VR(17, 0x4453, true, "DS", 1);
+
   // String.array
   static const VR kAE = const VR(18, 0x4145, true, "AE", 1);
   static const VR kCS = const VR(19, 0x4353, true, "CS", 1);
@@ -99,180 +101,140 @@ class VR {
 
   // Special constants only used in Tag class
   //TODO: flush
- // static const VR kUnknown = const VR(, 0x0000, false, "Unknown", 1);
+  // static const VR kUnknown = const VR(, 0x0000, false, "Unknown", 1);
 
   /// The order of the VRs in this [List] MUST correspond to the [index]
   /// in the definitions above.  Note: the [index]es start at 1, so
   /// in this [List] the 0th dictionary ,is [null].
   static const List<VR> vrs = const [
-    kNoVR,
-    // Sequence
-    kSQ,
-    // Integer
-    // Float
-    // String.Array
-    // String.Text
-    // String.DateTime
-    // String.Other
-    VR.kAE, VR.kAS, VR.kAT, VR.kCS, VR.kDA, VR.kDS, VR.kDT,
-    VR.kFD, VR.kFL, VR.kIS, VR.kLO, VR.kLT, VR.kPN, VR.kOB, VR.kOD,
-    VR.kOF, VR.kOL, VR.kOW, VR.kSH, VR.kSL, VR.kSQ, VR.kSS, VR.kST,
-    VR.kTM, VR.kUC, VR.kUI, VR.kUL, VR.kUN, VR.kUR, VR.kUS, VR.kUT,
-    // Special VRs for internal use only
+    // Item ...
+    kNoVR, // Sequence
+    kSQ, // Integers
+    kSS, kSL, kOB, kUN, kOW, kUS, kUL, kAT, kOL, // Floats
+    kFD, kFL, kOD, kOF, // Integer & String.integer
+    kIS, // Float & String.float
+    kDS, // String.array
+    kAE, kCS, kLO, kSH, kUC, // String.Text
+    kST, kLT, kUT, // String.DateTime
+    kDA, kDT, kTM, // String.Other
+    kPN, kUI, kUR, kAS, //Bulkdata Reference
+    kBR
   ];
 
   static const List<VR> stringVRs = const [
-    VR.kAE,
-    VR.kAS,
-    VR.kBR,
-    VR.kCS,
-    VR.kDA,
-    VR.kDS,
-    VR.kDT,
-    VR.kIS,
-    VR.kLO,
-    VR.kLT,
-    VR.kPN,
-    VR.kSH,
-    VR.kST,
-    VR.kTM,
-    VR.kUC,
-    VR.kUI,
-    VR.kUR,
-    VR.kUT
+    kAE, kAS, kBR, kCS, kDA, kDS, kDT, kIS, kLO, kLT, kPN, kSH, kST, kTM, kUC, kUI, kUR, kUT
   ];
 
-  static const List<VR> byteVRs = const [
-    VR.kAT,
-    VR.kFD,
-    VR.kFL,
-    VR.kOB,
-    VR.kOD,
-    VR.kOF,
-    VR.kOW,
-    VR.kSL,
-    VR.kSS,
-    VR.kUL,
-    VR.kUN,
-    VR.kUS
+  static const List<VR> byteVRs =
+  const [kAT, kFD, kFL, kOB, kOD, kOF, kOW, kSL, kSS, kUL, kUN, kUS
   ];
 
-  static const List<VR> intVRs = const [
-    VR.kAT,
-    VR.kOB,
-    VR.kOW,
-    VR.kSL,
-    VR.kSS,
-    VR.kUL,
-    VR.kUS,
-    VR.kDS,
-    VR.kIS
-  ];
-  static const List<VR> floatVRs = const [VR.kFD, VR.kFL, VR.kOD, VR.kOF];
+  static const List<VR> intVRs = const [kAT, kOB, kOW, kSL, kSS, kUL, kUS, kDS, kIS];
+  static const List<VR> floatVRs = const [kFD, kFL, kOD, kOF];
 
   static const Map<int, VR> map = const {
-    0x4145: VR.kAE,
-    0x4153: VR.kAS,
-    0x4154: VR.kAT,
-    //   0x4252: VR.kBR,
-    0x4353: VR.kCS,
-    0x4441: VR.kDA,
-    0x4453: VR.kDS,
-    0x4454: VR.kDT,
-    0x4644: VR.kFD,
-    0x464c: VR.kFL,
-    0x4953: VR.kIS,
-    0x4c4f: VR.kLO,
-    0x4c54: VR.kLT,
-    0x4f42: VR.kOB,
-    0x4f44: VR.kOD,
-    0x4f46: VR.kOF,
-    0x4f57: VR.kOW,
-    0x504e: VR.kPN,
-    0x5348: VR.kSH,
-    0x534c: VR.kSL,
-    0x5351: VR.kSQ,
-    0x5353: VR.kSS,
-    0x5354: VR.kST,
-    0x544d: VR.kTM,
-    0x5543: VR.kUC,
-    0x5549: VR.kUI,
-    0x554c: VR.kUL,
-    0x554e: VR.kUN,
-    0x5552: VR.kUR,
-    0x5553: VR.kUS,
-    0x5554: VR.kUT
+    0x4145: kAE,
+    0x4153: kAS,
+    0x4154: kAT,
+    //   0x4252: kBR,
+    0x4353: kCS,
+    0x4441: kDA,
+    0x4453: kDS,
+    0x4454: kDT,
+    0x4644: kFD,
+    0x464c: kFL,
+    0x4953: kIS,
+    0x4c4f: kLO,
+    0x4c54: kLT,
+    0x4f42: kOB,
+    0x4f44: kOD,
+    0x4f46: kOF,
+    0x4f57: kOW,
+    0x504e: kPN,
+    0x5348: kSH,
+    0x534c: kSL,
+    0x5351: kSQ,
+    0x5353: kSS,
+    0x5354: kST,
+    0x544d: kTM,
+    0x5543: kUC,
+    0x5549: kUI,
+    0x554c: kUL,
+    0x554e: kUN,
+    0x5552: kUR,
+    0x5553: kUS,
+    0x5554: kUT
   };
 
   static const Map<String, VR> strings = const {
-    "AE": VR.kAE,
-    "AS": VR.kAS,
-    "AT": VR.kAT,
-    "BR": VR.kBR,
-    "CS": VR.kCS,
-    "DA": VR.kDA,
-    "DS": VR.kDS,
-    "DT": VR.kDT,
-    "FD": VR.kFD,
-    "FL": VR.kFL,
-    "IS": VR.kIS,
-    "LO": VR.kLO,
-    "LT": VR.kLT,
-    "OB": VR.kOB,
-    "OD": VR.kOD,
-    "OF": VR.kOF,
-    "OW": VR.kOW,
-    "PN": VR.kPN,
-    "SH": VR.kSH,
-    "SL": VR.kSL,
-    "SQ": VR.kSQ,
-    "SS": VR.kSS,
-    "ST": VR.kST,
-    "TM": VR.kTM,
-    "UC": VR.kUC,
-    "UI": VR.kUI,
-    "UL": VR.kUL,
-    "UN": VR.kUN,
-    "UR": VR.kUR,
-    "US": VR.kUS,
-    "UT": VR.kUT
+    "AE": kAE,
+    "AS": kAS,
+    "AT": kAT,
+    "BR": kBR,
+    "CS": kCS,
+    "DA": kDA,
+    "DS": kDS,
+    "DT": kDT,
+    "FD": kFD,
+    "FL": kFL,
+    "IS": kIS,
+    "LO": kLO,
+    "LT": kLT,
+    "OB": kOB,
+    "OD": kOD,
+    "OF": kOF,
+    "OW": kOW,
+    "PN": kPN,
+    "SH": kSH,
+    "SL": kSL,
+    "SQ": kSQ,
+    "SS": kSS,
+    "ST": kST,
+    "TM": kTM,
+    "UC": kUC,
+    "UI": kUI,
+    "UL": kUL,
+    "UN": kUN,
+    "UR": kUR,
+    "US": kUS,
+    "UT": kUT
   };
 
   static VR lookup(String s) => strings[s];
 
   //TODO: create invertedMap
   static const Map<int, VR> mapInverted = const {
-    0x4541: VR.kAE,
-    0x5341: VR.kAS,
-    0x5441: VR.kAT,
-    0x5242: VR.kBR,
-    0x5343: VR.kCS,
-    0x4144: VR.kDA,
-    0x5344: VR.kDS,
-    0x5444: VR.kDT,
-    0x4446: VR.kFD,
-    0x4c46: VR.kFL,
-    0x5349: VR.kIS,
-    0x4f4c: VR.kLO,
-    0x544c: VR.kLT,
-    0x424f: VR.kOB,
-    0x444f: VR.kOD,
-    0x464f: VR.kOF,
-    0x574f: VR.kOW,
-    0x4e50: VR.kPN,
-    0x4853: VR.kSH,
-    0x4c53: VR.kSL,
-    0x5153: VR.kSQ,
-    0x5353: VR.kSS,
-    0x5453: VR.kST,
-    0x4d54: VR.kTM,
-    0x4355: VR.kUC,
-    0x4955: VR.kUI,
-    0x4c55: VR.kUL,
-    0x4e55: VR.kUN,
-    0x5255: VR.kUR,
-    0x5355: VR.kUS,
-    0x5455: VR.kUT
+    0x4541: kAE,
+    0x5341: kAS,
+    0x5441: kAT,
+    0x5242: kBR,
+    0x5343: kCS,
+    0x4144: kDA,
+    0x5344: kDS,
+    0x5444: kDT,
+    0x4446: kFD,
+    0x4c46: kFL,
+    0x5349: kIS,
+    0x4f4c: kLO,
+    0x544c: kLT,
+    0x424f: kOB,
+    0x444f: kOD,
+    0x464f: kOF,
+    0x574f: kOW,
+    0x4e50: kPN,
+    0x4853: kSH,
+    0x4c53: kSL,
+    0x5153: kSQ,
+    0x5353: kSS,
+    0x5453: kST,
+    0x4d54: kTM,
+    0x4355: kUC,
+    0x4955: kUI,
+    0x4c55: kUL,
+    0x4e55: kUN,
+    0x5255: kUR,
+    0x5355: kUS,
+    0x5455: kUT
   };
 
   // Flush:?
@@ -293,7 +255,43 @@ class VR {
         return 2;
     }
   }
+
+  //tODO: create index(int x, int y)
+  int getIndex(int first, int second) {
+    var val = lookupTable[first];
+    if (val is int) return val;
+    if (val is Map<int, int>) return val[second];
+    throw 'Invalid VR "${new String.fromCharCode(first)}${new String.fromCharCode(first)}"';
+  }
+
+  //TODO: review and make sure it is correct
+  static const Map<int, Map<int, int>> lookupTable = const {
+    0x41: const {0x45: kAE.index, 0x53: kAS.index, 0x54: kAT.index},
+    0x42: kBR.index,
+    0x43: kCS.index,
+    0x44: const { 0x41: kDA.index, 0x53: kDS.index, 0x54: kDT.index},
+    0x46: const { 0x44: kFD.index, 0x4c: kFL.index},
+    0x49: kIS.index,
+    0x4c: const { 0x4f: kLO.index, 0x54: kLT.index},
+    0x4f: const { 0x42: kOB.index, 0x44: kOD.index, 0x46: kOF.index, 0x4c: kOL.index, 0x57: kOW.index},
+    0x50: kPN.index,
+    0x53: const {
+      0x48: kSH.index, 0x4c: kSL.index, 0x51: kSQ.index, 0x53: kSS.index, 0x54: kST.index
+    },
+    0x54: kTM.index,
+    0x55: const {
+      0x43: kUC.index,
+      0x49: kUI.index,
+      0x4c: kUL.index,
+      0x4e: kUN.index,
+      0x52: kUR.index,
+      0x53: kUS.index,
+      0x54: kUT.index
+    }
+  };
+
 }
+
 
 //TODO: Add this field to VR Definition
 Map<VR, Type> dataTypes = {

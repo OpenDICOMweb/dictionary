@@ -16,7 +16,10 @@ class TagBase {
   final String keyword;
   final String name;
   final VR vr;
+  // vrIndex
+  // vr.vfLength
   final VM vm;
+  // index, min, max, width
   final bool isPublic;
   final bool isRetired;
 

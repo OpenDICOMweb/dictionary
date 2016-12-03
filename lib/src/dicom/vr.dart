@@ -48,7 +48,7 @@ class VR {
   static const VR kSS = const VR(0x5353, 23, 2, "SS", 2);
   static const VR kST = const VR(0x5354, 24, 2, "ST", 1);
   static const VR kTM = const VR(0x544d, 25, 2, "TM", 1);
-  static const VR kUC = const VR(0x5443, 26, 4, "UC", 1);
+  static const VR kUC = const VR(0x5543, 26, 4, "UC", 1);
   static const VR kUI = const VR(0x5549, 27, 2, "UI", 1);
   static const VR kUL = const VR(0x554c, 28, 2, "UL", 4);
   static const VR kUN = const VR(0x554e, 29, 4, "UN", 1);
