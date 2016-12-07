@@ -7,7 +7,6 @@
 import 'package:dictionary/src/dicom/uid/wk_uid.dart';
 import 'package:dictionary/src/dicom/uid/wk_uid_type.dart';
 
-
 //TODO: fix this class
 
 class SopClassUid extends WKUid {
@@ -20,15 +19,16 @@ class SopClassUid extends WKUid {
   bool get isSopClass => true;
 
   //TODO: Make this print SOP Class
-  String toString() => '$runtimeType($value)';
+ // String toString() => '$runtimeType($value)';
 
-  static SopClassUid lookup(v) {
+  //TODO: make the return type SopClassUid a subtype of WKUid
+  static WKUid lookup(v) {
     WKUid wk = WKUid.lookup(v);
+    print('WKUid($v): $wk');
     return ((wk != null) && (wk.type == WKUidType.kSopClass)) ? wk : null;
   }
 
   static const kVerificationSOPClass = const SopClassUid(
       "1.2.840.10008.1.1", WKUidType.kSopClass, false, "Verification SOP Class", "PS3.4");
 
-//TODO: finish adding classes
 }

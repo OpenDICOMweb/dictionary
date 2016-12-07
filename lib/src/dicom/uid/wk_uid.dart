@@ -46,7 +46,7 @@ class WKUid extends Uid {
   bool get isContextGroupID => type == "ContextGroup";
 
   @override
-  String toString() => 'WKUid: $value, $name';
+  String toString() => '$type($value): $name';
 
   static WKUid lookup(var uid) {
     if (uid is Uid) uid = uid.value;

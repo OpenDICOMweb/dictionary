@@ -42,6 +42,11 @@ class TransferSyntax extends WKUid {
 
   bool get isNativeFormat => !isEncapsulated;
 
+  bool get isImplicitLittleEndian => this == kImplicitVRLittleEndian;
+
+  bool get isBigEndian => this == kExplicitVRBigEndian;
+
+  bool get isValidForDICOMweb => !(isImplicitLittleEndian || isBigEndian);
   /// Returns [true] if the [TransferSyntax] exists, but has been retired.
   bool get isRetiredTransferSyntax => isRetired;
 

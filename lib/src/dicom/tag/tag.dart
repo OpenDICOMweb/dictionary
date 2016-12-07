@@ -60,7 +60,7 @@ class Tag {
 //**** Utilities for reading and printing DCM format (gggg,eeee).
 
   /// Returns [tag] in DICOM format '(gggg,eeee)'.
-  static String dcm(int tag) => '(${Int.hex(group(tag))},${Int.hex(elt(tag))})';
+  static String dcm(int tag) => '(${Int.hex(group(tag), 4)},${Int.hex(elt(tag), 4)})';
 
   /// Returns a [List] of DICOM tag codes in '(gggg,eeee)' format
   static Iterable<String> listToDcm(List<int> list) => list.map(dcm);

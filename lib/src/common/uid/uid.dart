@@ -78,6 +78,7 @@ class Uid extends UidBase {
   /// Returns [true] if [this] is a [Uid] defined by the DICOM Standard.
   bool get isWellKnown => false;
 
+  String get info => 'Uid: $_value';
 
   /// Returns the [Uid] [String].
   @override

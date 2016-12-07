@@ -6,5 +6,5 @@
 
 export 'package:dictionary/src/common/string/dcm_string.dart';
 export 'package:dictionary/src/common/string/predicates.dart';
-export 'package:dictionary/src/common/string/regex.dart';
 export 'package:dictionary/src/common/string/utils.dart';
+//export 'package:dictionary/src/common/string/regex.dart';

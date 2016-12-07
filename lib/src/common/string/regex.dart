@@ -4,7 +4,7 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu>
 // See the AUTHORS file for other contributors.
 
-
+//TODO: make this a class.
 // General Components
 const String emptyStringCmpt = r"";
 const String start = r"^";
@@ -155,7 +155,7 @@ const String timeZoneDcm = r"($sign$hour:$minute)|([Zz])";
 const String uidRootCmpt = r"([012](\.0|\.[1-9]\d*))";
 const String uidRoot = '^($uidRootCmpt)\$';
 const String uidRest = r"(\.0|\.[1-9a-fA-F][0-9a-fA-F]*)*";
-const String uid = '^($uidRoot$uidRest\$)';
+const String uidPattern = '^($uidRoot$uidRest\$)';
 
 // UUID/GUID
 // It tests UUIDs or GUIDs, which are alphanumeric characters grouped 8-4-4-4-12
