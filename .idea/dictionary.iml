@@ -6,14 +6,12 @@
       <excludeFolder url="file://$MODULE_DIR$/.tmp" />
       <excludeFolder url="file://$MODULE_DIR$/build" />
       <excludeFolder url="file://$MODULE_DIR$/doc" />
-      <excludeFolder url="file://$MODULE_DIR$/example/packages" />
       <excludeFolder url="file://$MODULE_DIR$/lib/src/dicom/tag/old" />
       <excludeFolder url="file://$MODULE_DIR$/lib/src/dicom/tag/other" />
       <excludeFolder url="file://$MODULE_DIR$/lib/src/other" />
       <excludeFolder url="file://$MODULE_DIR$/lib/src/tag/other" />
       <excludeFolder url="file://$MODULE_DIR$/packages" />
       <excludeFolder url="file://$MODULE_DIR$/temp" />
-      <excludeFolder url="file://$MODULE_DIR$/test/packages" />
       <excludeFolder url="file://$MODULE_DIR$/tmp" />
       <excludeFolder url="file://$MODULE_DIR$/tool/cid/gen/input/csv/packages" />
       <excludeFolder url="file://$MODULE_DIR$/tool/cid/gen/input/json/packages" />
@@ -25,11 +23,9 @@
       <excludeFolder url="file://$MODULE_DIR$/tool/element_def/gen/packages" />
       <excludeFolder url="file://$MODULE_DIR$/tool/element_def/packages" />
       <excludeFolder url="file://$MODULE_DIR$/tool/packages" />
-      <excludeFolder url="file://$MODULE_DIR$/tool/src/packages" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Dart SDK" level="application" />
-    <orderEntry type="library" name="Dart Packages" level="project" />
   </component>
 </module>

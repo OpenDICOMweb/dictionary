@@ -72,7 +72,7 @@ StringPredicate isVisible = makeStringPredicate(isVisibleChar);
 
 
 /// Returns [true] if [c] is legal in a DICOM [Uid]; otherwise, [false].
-bool isUidChar(int c) => isDigitChar(c) || (c == kDot);
+bool isUidChar(int c) => isDigitChar(c) || (c == kDot) || (c == kSpace) || (c == kNull);
 
 /// Returns [true] if [s] is [null] or empty [""].
 bool isEmpty(String s) => (s == null) || (s == "");

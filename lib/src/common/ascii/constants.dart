@@ -169,7 +169,7 @@ const int k7 = 55;
 
 /// DIGIT_8:  Digit Eight
 const int kDigit8 = 56;
-const int k8 = 56;
+const int k8 = 8;
 
 /// DIGIT_9:  Digit Nine
 const int kDigit9 = 57;

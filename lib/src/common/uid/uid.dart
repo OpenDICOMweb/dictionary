@@ -120,9 +120,9 @@ class Uid extends UidBase {
 
   static Uid parse(String s) {
     if (validate(s) == null) return null;
-    if (checkWellKnown) {
+    if (checkWellKnown || wellKnownUids[s] != null) {
       Uid wellKnownUid = wellKnownUids[s];
-      if (wellKnownUid != null) return wellKnownUid;
+      return wellKnownUid;
     }
     return new Uid.constant(s);
   }
