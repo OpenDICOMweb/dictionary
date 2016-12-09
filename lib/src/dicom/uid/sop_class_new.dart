@@ -25,7 +25,7 @@ class SopClassUid extends WKUid {
     bool get isSopClass => true;
 
     //TODO: Make this print SOP Class
-    String toString() => '$runtimeType($value)';
+    String toString() => '$runtimeType($string)';
 
     static SopClassUid lookup(v) {
         WKUid wk = WKUid.lookup(v);

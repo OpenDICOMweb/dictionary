@@ -56,13 +56,13 @@ class TransferSyntax extends WKUid {
   /// Returns the TransferSyntax corresponding to the [String] or [Uid].
   static lookup(ts) {
     if (ts is TransferSyntax) return ts;
-    if (ts is Uid) ts = map[ts.value];
+    if (ts is Uid) ts = map[ts.string];
     if (ts is String) return map[ts];
     return null;
   }
 
   @override
-  String toString() => 'TransferSyntax($value): $name';
+  String toString() => 'TransferSyntax($string): $name';
 
   //TODO we need add the keyword to the to the class.
   //*****   Constant Values   *****

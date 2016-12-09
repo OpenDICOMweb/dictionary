@@ -23,7 +23,10 @@ abstract class UidBase {
 
   const UidBase();
 
+  @deprecated
   String get value;
+
+  String get string;
 
   bool get isEncapsulated => false;
 
@@ -47,30 +50,37 @@ class Uid extends UidBase {
   static const int kMax = 64;
   static const int maxRootLength = 24;
   static CharPredicate kPred = isUidChar;
+  //TODO: this should be true by default.
   static bool checkWellKnown = false;
-  final String _value;
+  final String _string;
 
   /// Returns a [Uid] how value is [String], if present and valid;
   /// otherwise, returns a random [Uid] created from a random [Uuid].
   ///
   /// Note: Random [Uid]s have a root of "2.25" as defined by the OID
   /// Standard (see http://www.oid-info.com/get/2.25).
-  Uid([String s]) : _value = (s == null) ? Uuid.randomUid : validate(s);
+  // Remove leading & trailing spaces - defensive programming
+  Uid([String s]) : _string = (s == null) ? Uuid.randomUid : validate(s.trim());
+
 
   /// Creates a constant [Uid].  Used to create 'Well Known' DICOM [Uid]s.
-  const Uid.constant(this._value);
+  const Uid.constant(this._string);
 
   @override
-  bool operator ==(Object other) => (other is Uid) && (_value == other.value);
+  bool operator ==(Object other) => (other is Uid) && (_string == other.string);
 
   /// Returns the [Uid] [String].
+  @deprecated
   @override
-  String get value => _value;
+  String get value => _string;
+
+  /// Returns the [Uid] [String].
+  String get string => _string;
 
   UidType get type => UidType.kGenerated;
 
   @override
-  int get hashCode => _value.hashCode;
+  int get hashCode => _string.hashCode;
 
   /// Return true is this [Uid] identifies an encapsulated [Transfer Syntax].
   bool get isEncapsulated => false;
@@ -78,11 +88,11 @@ class Uid extends UidBase {
   /// Returns [true] if [this] is a [Uid] defined by the DICOM Standard.
   bool get isWellKnown => false;
 
-  String get info => 'Uid: $_value';
+  String get info => 'Uid: $_string';
 
   /// Returns the [Uid] [String].
   @override
-  String toString() => '$_value';
+  String toString() => '$_string';
 
   static String checkRoot(String root) {
     if (root.length > maxRootLength) throw new ArgumentError("root length > $maxRootLength");
@@ -96,7 +106,7 @@ class Uid extends UidBase {
   //TODO: need better validation - either use RegExp below or do it by hand.
   /// Returns [v] if it is either a valid [Uid] or a valid [Uid][String].
   static String validate(v) {
-    if (v is Uid) v = v._value;
+    if (v is Uid) v = v._string;
     if (v is! String) return null;
     if (_validateString(v) == null) return null;
     return v;
@@ -120,10 +130,12 @@ class Uid extends UidBase {
   }
 
   static Uid parse(String s) {
+    // Remove leading & trailing spaces - defensive programming
+    s = s.trim();
     if (validate(s) == null) return null;
     if (checkWellKnown) {
-      Uid wellKnownUid = wellKnownUids[s];
-      if (wellKnownUid != null) return wellKnownUid;
+      Uid uid = wellKnownUids[s];
+      if (uid != null) return uid;
     }
     return new Uid.constant(s);
   }

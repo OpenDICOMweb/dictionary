@@ -27,7 +27,7 @@ class WKUid extends Uid {
 
   //static fromString(String s) => stringToUidMap[validate(s)];
 
-  String debug() => "UID: $value (type=$type, name=$name)";
+  String debug() => "UID: $string (type=$type, name=$name)";
 
   bool get isNotRetired => ! isRetired;
 
@@ -46,10 +46,10 @@ class WKUid extends Uid {
   bool get isContextGroupID => type == "ContextGroup";
 
   @override
-  String toString() => '$type($value): $name';
+  String toString() => '$type($string): $name';
 
   static WKUid lookup(var uid) {
-    if (uid is Uid) uid = uid.value;
+    if (uid is Uid) uid = uid.string;
     if (uid is String) return wellKnownUids[uid];
     return null;
   }
