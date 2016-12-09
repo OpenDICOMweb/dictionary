@@ -62,6 +62,40 @@ class Int {
 
   static bool isNotValidList(List<int> vList, _InRange inRange) => !isValidList(vList, inRange);
 
+  //**** hashing support ****
+  /// The default hash seed.
+  static const int kHashSeed = 17;
+
+  /// The default hash multiplier
+  static const int kHashMultiplier = 37;
+
+  // TODO: customize this so it is different on 32 and 64 bit systems
+  /// Returns a 64-bit [hashCode] for [Object] [o].
+  static int hash(Object o, [int result = kHashSeed]) => hash64(o, kHashSeed);
+
+  /// The 32-bit hash mask.
+  static const int k32BitHashMask = 0x3FFFFFFF;
+
+  /// Returns a 32-bit [hashCode] for [Object] [o].
+  ///
+  /// The sum is truncated to 30 bits to make sure it fits into Dart's small integer type([smi]).
+  /// See https://www.dartlang.org/articles/dart-vm/numeric-computation.
+  static int hash32(Object o, [int result = kHashSeed]) =>
+      (kHashMultiplier * result + o.hashCode) & k32BitHashMask;
+
+  /// The 64-bit hash mask.
+  static const int k64BitHashMask = 0x3FFFFFFFFFFFFFFF;
+
+  /// Returns a 64-bit [hashCode] for [Object] [o].
+  ///
+  /// The sum is truncated to 62 bits to make sure it fits into Dart's small integer type([smi]).
+  /// See https://www.dartlang.org/articles/dart-vm/numeric-computation.
+  static int hash64(Object o, [int result = kHashSeed]) =>
+      (kHashMultiplier * result + o.hashCode) & k64BitHashMask;
+
+
+  //**** String Utilities ****
+
   /// Returns [value] as a hexadecimal string of [length] with prefix [prefix].
   @deprecated
   static toHex(int i, [int padding = 0]) => i.toRadixString(16).padLeft(padding, "0");

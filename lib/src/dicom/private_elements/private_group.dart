@@ -4,12 +4,12 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> - 
 // See the AUTHORS file for other contributors.
 
+import 'private_creator.dart';
 
-import 'package:dictionary/src/dicom/private_elements/private_creator.dart';
+//TODO: generate a file like this one for each Private Creator String.
+class PrivateGroup {
+    final String id;
+    final List<PrivateCreator> creators;
 
-class PrivateTagGenerator {
-
-  Map<String, List<PrivateCreator>> privateGroups;
-
-    PrivateTagGenerator();
+    const PrivateGroup(this.id, this.creators);
 }

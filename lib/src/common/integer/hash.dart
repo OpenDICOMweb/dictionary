@@ -4,37 +4,8 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
+import 'integer.dart';
 /// Hash functions for creating [hashCode]s.
-
-/// The default hash seed.
-const int kHashSeed = 17;
-
-/// The default hash multiplier
-const int kHashMultiplier = 37;
-
-// TODO: customize this so it is different on 32 and 64 bit systems
-/// Returns a 64-bit [hashCode] for [Object] [o].
-int hash(Object o, [int result = kHashSeed]) => hash64(o, kHashSeed);
-
-/// The 32-bit hash mask.
-const int k32BitHashMask = 0x3FFFFFFF;
-
-/// Returns a 32-bit [hashCode] for [Object] [o].
-///
-/// The sum is truncated to 30 bits to make sure it fits into Dart's small integer type([smi]).
-/// See https://www.dartlang.org/articles/dart-vm/numeric-computation.
-int hash32(Object o, [int result = kHashSeed]) =>
-    (kHashMultiplier * result + o.hashCode) & k32BitHashMask;
-
-/// The 64-bit hash mask.
-const int k64BitHashMask = 0x3FFFFFFFFFFFFFFF;
-
-/// Returns a 64-bit [hashCode] for [Object] [o].
-///
-/// The sum is truncated to 62 bits to make sure it fits into Dart's small integer type([smi]).
-/// See https://www.dartlang.org/articles/dart-vm/numeric-computation.
-int hash64(Object o, [int result = kHashSeed]) =>
-    (kHashMultiplier * result + o.hashCode) & k64BitHashMask;
 
 //TODO: improve usage documentation
 /// A Standard [hash] functions.
@@ -53,8 +24,8 @@ class Hash {
 
     const Hash._(this.seed, this.multiplier, this.mask);
 
-    static const hash32 = const Hash._(kHashSeed, kHashMultiplier, k32BitHashMask);
-    static const hash64 = const Hash._(kHashSeed, kHashMultiplier, k64BitHashMask);
+    static const hash32 = const Hash._(Int.kHashSeed, Int.kHashMultiplier, Int.k32BitHashMask);
+    static const hash64 = const Hash._(Int.kHashSeed, Int.kHashMultiplier, Int.k64BitHashMask);
     static const hash = hash64;
 
     int _hash(Object o, int result) => (multiplier * result + o.hashCode) & mask;
@@ -80,7 +51,7 @@ class Hash {
 
     /// Returns a [hashCode] for a [List] of objects.
     int list(List<Object> list) {
-        int value = kHashSeed;
+        int value = Int.kHashSeed;
         for (int i = 0; i < list.length; i++) value = _hash(list[i], value);
         return value;
     }
@@ -105,7 +76,7 @@ class Hash {
     ///
     /// Note: This should only be used when hashing more than 5 objects.
     static int nList(List<Object> list) {
-        int value = kHashSeed;
+        int value = Int.kHashSeed;
         for (int i = 0; i < list.length; i++) value = hash64(list[i], value);
         return value;
     }

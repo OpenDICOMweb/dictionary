@@ -9,7 +9,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:collection/collection.dart';
-import 'package:dictionary/src/common/integer/hash.dart';
+import 'package:dictionary/src/common/integer/integer.dart';
 
 /// A generator of Version 4 (random) UUIDs.
 ///
@@ -100,7 +100,7 @@ class Uuid {
   }
 
   @override
-  int get hashCode => hash(_bytes);
+  int get hashCode => Int.hash(_bytes);
 
   // Returns an [UnmodifiableListView] of [_bytes].
   UnmodifiableListView<int> get value => new UnmodifiableListView(_bytes);
