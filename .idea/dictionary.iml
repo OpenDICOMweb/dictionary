@@ -26,6 +26,8 @@
       <excludeFolder url="file://$MODULE_DIR$/tool/element_def/packages" />
       <excludeFolder url="file://$MODULE_DIR$/tool/packages" />
       <excludeFolder url="file://$MODULE_DIR$/tool/src/packages" />
+      <excludeFolder url="file://$MODULE_DIR$/tool/src/private_tags/data/packages" />
+      <excludeFolder url="file://$MODULE_DIR$/tool/src/private_tags/packages" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

@@ -6,7 +6,7 @@
 
 /// Defines a set of ASCII character classes.
 ///
-/// The Ascii [code]s are separated in to the following classes:
+/// The Ascii [tag]s are separated in to the following classes:
 /// * control
 /// * uppercase
 /// * lowercase

@@ -4,7 +4,7 @@
 // Original author: Jim Philbin <jfphilbin@gmail.edu> - 
 // See the AUTHORS file for other contributors.
 
-/// A map from [String] [name] to [int] [code].
+/// A map from [String] [name] to [int] [tag].
 const Map<String, int> nameToCode = const <String, int>{
   // NUL:  Null
   "NUL": 0,
