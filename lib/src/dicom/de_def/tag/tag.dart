@@ -271,3 +271,5 @@ class Tag {
   /// A map of all known Private [Tag] [tag]s to [Tag].
   static final Map<int, Tag> knownPrivateCodes = const {};
 }
+
+Map<int, Tag> tagsMap = const {};
