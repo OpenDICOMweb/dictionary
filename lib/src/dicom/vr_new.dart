@@ -160,6 +160,7 @@ class VR {
   static const List<VR> intVRs = const [kAT, kOB, kOW, kSL, kSS, kUL, kUS, kDS, kIS];
   static const List<VR> floatVRs = const [kFD, kFL, kOD, kOF];
 
+  //TODO: flush when mapInverted works?
   static const Map<int, VR> map = const {
     0x4145: kAE,
     0x4153: kAS,
