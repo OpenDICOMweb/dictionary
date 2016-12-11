@@ -4,7 +4,7 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> - 
 // See the AUTHORS file for other contributors.
 
-import 'array.dart';
+import 'private_tags.dart';
 
 void main(List<String> args) {
   Map<String, List> map = {};

@@ -8,7 +8,8 @@
 import 'dart:io';
 
 String inPath = 'C:/odw/sdk/dictionary/tool/src/private_tags/data/ListOfPrivateElementsFromDD.bsv';
-String outPath = 'C:/odw/sdk/dictionary/tool/src/private_tags/array.dart';
+String outPath = 'C:/odw/sdk/dictionary/tool/src/private_tags/private_tags.dart';
+
 void main(List<String> args) {
   File inFile = new File(inPath);
   List<String> lines = inFile.readAsLinesSync();
