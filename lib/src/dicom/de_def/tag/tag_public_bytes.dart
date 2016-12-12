@@ -37,8 +37,8 @@ const kMaxOffset = 10;       // Mx
 const kWidthOffset = 11;     // W
 const kTypeOffset = 12;      // T
 const kIsRetiredOffset = 13; // R
-const kUnused0 = 14;
-const kUnused1 = 15;
+const kUnused0 = 14;         // Reserved 0
+const kUnused1 = 15;         // Reserved 1
 
 //NOTE: Type can include DataElement Type, and Public
 

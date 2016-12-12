@@ -12,6 +12,7 @@ class DEType {
 
   const DEType(this.value, this.isConditional, this.name);
 
+  static const kUnknown = const DEType(0, false, "UnKnown");
   static const k1 = const DEType(1, false, "1");
   static const k1c = const DEType(1, true, "1C");
   static const k2 = const DEType(2, false, "2");
