@@ -29,7 +29,7 @@ class WKTag extends Tag {
   final String keyword;
   final String name;
   final VM vm;
-  final TagType type;
+  final EType type;
   final bool isRetired;
 
   const WKTag._(int tag, this.keyword, this.name, VR vr, this.vm, this.type, this.isRetired)
@@ -43,7 +43,7 @@ class WKTag extends Tag {
 
   static WKTag lookup(int tag) {
     //TODO: fix
-    WKTag wkTag = WellKnownPublicTags[tag];
+    WKTag wkTag = wellKnownPublicTags[tag];
     if (wkTag != null) return wkTag;
 
     // Retired _special case_ tags that still must be handled
@@ -105,7 +105,7 @@ class WKTag extends Tag {
 
   //(0020,3100)
   static const WKTag kSourceImageIDs = const WKTag._(
-      0x00203100, "SourceImageIDs", "Source Image IDs", VR.kCS, VM.k1_n, TagType.kUnknown, true);
+      0x00203100, "SourceImageIDs", "Source Image IDs", VR.kCS, VM.k1_n, EType.kUnknown, true);
 
   //(0028,04X0)
   static const WKTag kRowsForNthOrderCoefficients = const WKTag._(
@@ -114,7 +114,7 @@ class WKTag extends Tag {
       "Rows For Nth Order Coefficients",
       VR.kUS,
       VM.k1,
-      TagType.kUnknown,
+      EType.kUnknown,
       true);
 
   //(0028,04X1)
@@ -124,12 +124,12 @@ class WKTag extends Tag {
       "Columns For Nth Order Coefficients",
       VR.kUS,
       VM.k1,
-      TagType.kUnknown,
+      EType.kUnknown,
       true);
 
   //(0028,0402)
   static const WKTag kCoefficientCoding = const WKTag._(0x00280402, "CoefficientCoding",
-      "Coefficient Coding", VR.kLO, VM.k1_n, TagType.kUnknown, true);
+      "Coefficient Coding", VR.kLO, VM.k1_n, EType.kUnknown, true);
 
   //(0028,0403)
   static const WKTag kCoefficientCodingPointers = const WKTag._(
@@ -138,53 +138,53 @@ class WKTag extends Tag {
       "Coefficient Coding Pointers",
       VR.kAT,
       VM.k1_n,
-      TagType.kUnknown,
+      EType.kUnknown,
       true);
 
   //(0028,0800)
   static const WKTag kCodeLabel =
-      const WKTag._(0x00280800, "CodeLabel", "Code Label", VR.kCS, VM.k1_n, TagType.kUnknown, true);
+      const WKTag._(0x00280800, "CodeLabel", "Code Label", VR.kCS, VM.k1_n, EType.kUnknown, true);
   //(0028,0802)
   static const WKTag kNumberOfTables = const WKTag._(
-      0x00280802, "NumberOfTables", "Number of Tables", VR.kUS, VM.k1, TagType.kUnknown, true);
+      0x00280802, "NumberOfTables", "Number of Tables", VR.kUS, VM.k1, EType.kUnknown, true);
   //(0028,0803)
   static const WKTag kCodeTableLocation = const WKTag._(0x00280803, "CodeTableLocation",
-      "Code Table Location", VR.kAT, VM.k1_n, TagType.kUnknown, true);
+      "Code Table Location", VR.kAT, VM.k1_n, EType.kUnknown, true);
 
   //(0028,0804)
   static const WKTag kBitsForCodeWord = const WKTag._(
-      0x00280804, "BitsForCodeWord", "Bits For Code Word", VR.kUS, VM.k1, TagType.kUnknown, true);
+      0x00280804, "BitsForCodeWord", "Bits For Code Word", VR.kUS, VM.k1, EType.kUnknown, true);
   //(0028,0808)
   static const WKTag kImageDataLocation = const WKTag._(0x00280808, "ImageDataLocation",
-      "Image Data Location", VR.kAT, VM.k1_n, TagType.kUnknown, true);
+      "Image Data Location", VR.kAT, VM.k1_n, EType.kUnknown, true);
 
   //(1000,0000)
   static const WKTag kEscapeTriplet = const WKTag._(
-      0x10000000, "EscapeTriplet", "Escape Triplet", VR.kUS, VM.k3, TagType.kUnknown, true);
+      0x10000000, "EscapeTriplet", "Escape Triplet", VR.kUS, VM.k3, EType.kUnknown, true);
 
   //(1000,0001)
   static const WKTag kRunLengthTriplet = const WKTag._(
-      0x10000001, "RunLengthTriplet", "Run Length Triplet", VR.kUS, VM.k3, TagType.kUnknown, true);
+      0x10000001, "RunLengthTriplet", "Run Length Triplet", VR.kUS, VM.k3, EType.kUnknown, true);
 
   //(1000,0002)
   static const WKTag kHuffmanTableSize = const WKTag._(
-      0x10000002, "HuffmanTableSize", "Huffman Table Size", VR.kUS, VM.k1, TagType.kUnknown, true);
+      0x10000002, "HuffmanTableSize", "Huffman Table Size", VR.kUS, VM.k1, EType.kUnknown, true);
 
   //(1000,0003)
   static const WKTag kHuffmanTableTriplet = const WKTag._(0x10000003, "HuffmanTableTriplet",
-      "Huffman Table Triplet", VR.kUS, VM.k3, TagType.kUnknown, true);
+      "Huffman Table Triplet", VR.kUS, VM.k3, EType.kUnknown, true);
 
   //(1000,0004)
   static const WKTag kShiftTableSize = const WKTag._(
-      0x10000004, "ShiftTableSize", "Shift Table Size", VR.kUS, VM.k1, TagType.kUnknown, true);
+      0x10000004, "ShiftTableSize", "Shift Table Size", VR.kUS, VM.k1, EType.kUnknown, true);
 
   //(1000,0005)
   static const WKTag kShiftTableTriplet = const WKTag._(0x10000005, "ShiftTableTriplet",
-      "Shift Table Triplet", VR.kUS, VM.k3, TagType.kUnknown, true);
+      "Shift Table Triplet", VR.kUS, VM.k3, EType.kUnknown, true);
 
   //(1010,0000)
   static const WKTag kZonalMap =
-      const WKTag._(0x10100000, "ZonalMap", "Zonal Map", VR.kUS, VM.k1_n, TagType.kUnknown, true);
+      const WKTag._(0x10100000, "ZonalMap", "Zonal Map", VR.kUS, VM.k1_n, EType.kUnknown, true);
 
   //*** Sequence & Item Utilities ***
 

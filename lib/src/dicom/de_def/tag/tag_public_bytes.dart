@@ -17,34 +17,34 @@ import 'tag_type.dart';
 //                      0     1     2     3   4   5   6   7   8    9  10  11   12  13  14  15
 // const bd = const [0x00, 0x08, 0x00, 0x05, 00, 00, 00, 00, 00,  00, 00, 00,  00, 00, 00, 00];
 
-
 //TODO: vrs[0] = VR.kUnknown;
 //TODO vms[0] = VM.kUnknown;
 //TODO: tagIndex[0] = Tag.kUnknown;
 //TODO: tagTypes[0] = TagTypes.kUnknown;
 //TODO:
 
-const kTagOffset = 0;        // Tag
-const kGroupOffset = 0;      // Group
-const kEltOffset = 2;        // Elt
-const kIndexOffset = 4;      // Index
-const kVRIndexOffset = 6;    // VR
-const kVRElementSize = 7;    // Sz
-const kVRSizeInBytes = 7;    // Sz
-const kVMIndexOffset = 8;    // VM
-const kMinOffset = 9;        // Mn
-const kMaxOffset = 10;       // Mx
-const kWidthOffset = 11;     // W
-const kTypeOffset = 12;      // T
+const kTagOffset = 0; // Tag
+const kGroupOffset = 0; // Group
+const kEltOffset = 2; // Elt
+const kIndexOffset = 4; // Index
+const kVRIndexOffset = 6; // VR
+const kVRElementSize = 7; // Sz
+const kVRSizeInBytes = 7; // Sz
+const kVMIndexOffset = 8; // VM
+const kMinOffset = 9; // Mn
+const kMaxOffset = 10; // Mx
+const kWidthOffset = 11; // W
+const kTypeOffset = 12; // T
 const kIsRetiredOffset = 13; // R
-const kUnused0 = 14;         // Reserved 0
-const kUnused1 = 15;         // Reserved 1
+const kUnused0 = 14; // Reserved 0
+const kUnused1 = 15; // Reserved 1
 
 //NOTE: Type can include DataElement Type, and Public
 
 /// The
 abstract class TagBase {
   static const bool public = true;
+
   /// The [ByteData] containing values for the [Tag].
   final ByteData bd;
 
@@ -77,7 +77,6 @@ abstract class TagBase {
   String get keyword;
   String get name;
   VR get vr;
-
 
   bool get isImplicitVR => vr == VR.kUnknown;
   bool get isExplicitVR => !isImplicitVR;
@@ -117,10 +116,11 @@ abstract class TagBase {
   /// The maximum length of the [values], i.e. Value Field.
   int get maxLength => max * width;
 
+  EType get type => EType.list[bd.getUint8(kTypeOffset)];
+
   //TODO: add warning to [Dataset] for any retired Data [Element]s.
   /// Returns [true] if this Data Element is retired from the DICOM Standard.
   bool get isRetired => (bd.getUint8(kIsRetiredOffset) == 0) ? false : true;
-
 
   /// Returns [true] if [values.length] is [inRange] for this element.
   bool inRange(List values) {
@@ -135,35 +135,36 @@ abstract class TagBase {
     }
   }
 
-
-  String toString() => '$runtimeType$dcm $vr';
+  String toString() {
+    var retired = (isRetired) ? "Retired" : "";
+    return '$runtimeType$dcm VR($vr) VM($vm) Type($type) $retired';
+  }
 }
 
 //TODO add Group Length Tags for Each Group
 
+//TODO: generate this table
 const PublicTagData = const [
-  const [0x00000000, 00, 00, 00, 00, 00,  00, 00,   00,   00, 00,   00, 00],
+  const [0x00000000, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00],
   //     tag,        index,  VR  VM  min  max width type isRetired
-  const [0x00080000, 00, 00, 08, 09, 00,  00, 00,   01,   00, 0xFF, 0xFFFF], // Group Length
-  const [0x00080005, 00, 00, 08, 09, 00,  00, 00,   01,   00, 0xFF, 0xFFFF],
-  const [0x00080008, 00, 01, 07, 08, 01, -01, 01,   02,  -01, 0xFF, 0xFFFF]
+  const [0x00080000, 00, 00, 08, 09, 00, 00, 00, 01, 00, 0xFF, 0xFFFF], // Group Length
+  const [0x00080005, 00, 00, 08, 09, 00, 00, 00, 01, 00, 0xFF, 0xFFFF],
+  const [0x00080008, 00, 01, 07, 08, 01, -01, 01, 02, -01, 0xFF, 0xFFFF]
 ];
 
 class Tag extends TagBase {
-
   const Tag.bd(ByteData bd) : super(bd);
 
   String get keyword => tagKeywords[bd.getUint8(kIndexOffset)];
   String get name => tagKeywords[bd.getUint8(kIndexOffset)];
   VR get vr => vrs[bd.getUint8(kVRIndexOffset)];
   VM get vm => vms[bd.getUint8(kVMIndexOffset)];
-  TagType get type => tagTypes[bd.getUint16(kTypeOffset)];
 
   static final k0008GroupLength = new Tag.bd(new ByteData.view(PublicTagData[1]));
   static final kSpecificCharacterSet = new Tag.bd(new ByteData.view(PublicTagData[2]));
 
-  //**** can't be constant
-  static Map<int, Tag> tags = {
+  //**** Can't be constant because there is no way to make ByteData constant
+  static final  Map<int, Tag> tags =  {
     0x00080000: k0008GroupLength,
     0x00080008: kSpecificCharacterSet
   };
@@ -172,11 +173,10 @@ class Tag extends TagBase {
   static const List<String> tagNames = const ["Unknown", "foo", "bar"];
   static const List<VR> vrs = const [VR.kUnknown, VR.kCS, VR.kOB];
   static const List<VM> vms = const [VM.kUnknown, VM.k1, VM.k2];
-  static const List<TagType> tagTypes = const [VM.kUnknown, TagType.k1, VM.k2];
+  static const List<EType> tagTypes = const [VM.kUnknown, EType.k1, VM.k2];
 }
 
 class InvalidTag extends Tag {
-
   factory InvalidTag(int tag, int vrIndex) {
     ByteData bd = new ByteData(16);
     bd.setUint32(0, kTagOffset);
@@ -186,8 +186,4 @@ class InvalidTag extends Tag {
   }
 
   InvalidTag.bd(ByteData bd) : super.bd(bd);
-
 }
-
-
-

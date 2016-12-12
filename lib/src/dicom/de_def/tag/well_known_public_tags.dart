@@ -7,4 +7,6 @@
 
 import 'tag_public.dart';
 
-Map<int, WKTag> WellKnownPublicTags = const {};
+const Map<int, WKTag> wellKnownPublicTags = const {
+
+};

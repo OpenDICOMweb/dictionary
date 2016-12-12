@@ -22,7 +22,7 @@ class PrivateTag extends TagBase {
   final String keyword = "Unknown";
   final VR vr = VR.kUN;
   final VM vm = VM.kUnknown;
-  final TagType type = TagType.kUnknown;
+  final EType type = EType.kUnknown;
   final bool isPublic = false;
   final bool isPrivateCreator = false;
 

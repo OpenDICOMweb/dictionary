@@ -4,21 +4,40 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> - 
 // See the AUTHORS file for other contributors.
 
+
 //TODO: document
-/// A DICOM Data Element Type.  See PS3.5, Section 7.4.
-class TagType {
-  final int value;
+/// A DICOM Data [Element] Type.  See PS3.5, Section 7.4.
+class EType {
+  final int index;
   final bool isConditional;
   final String name;
 
-  const TagType(this.value, this.isConditional, this.name);
+  const EType(this.index, this.isConditional, this.name);
 
-  static const kUnknown = const TagType(0, false, "0");
+  static const kUnknown = const EType(0, false, "0");
 
-  static const k1 = const TagType(1, false, "1");
-  static const k1c = const TagType(1, true, "1C");
-  static const k2 = const TagType(2, false, "2");
-  static const k2c = const TagType(2, true, "2C");
-  static const k3 = const TagType(3, false, "3");
+  static const k1 = const EType(1, false, "1");
+  static const k1c = const EType(2, true, "1C");
+  static const k2 = const EType(3, false, "2");
+  static const k2c = const EType(4, true, "2C");
+  static const k3 = const EType(5, false, "3");
+
+  static const List<EType> list = const [kUnknown, k1, k1c, k2, k2c, k3];
+
+  static const Map<String, EType> map = const {
+    "0": EType.k1,
+    "1": EType.k1,
+    "1c": EType.k1,
+    "2": EType.k1,
+    "2c": EType.k1,
+    "3": EType.k1,
+  };
+
+  EType lookup(int index) {
+    if (index < 0 || 5 < index)  return null;
+    return list[index];
+  }
+
+  String toString() => 'ElementType($name)';
 
 }

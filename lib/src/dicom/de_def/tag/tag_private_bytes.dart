@@ -34,7 +34,7 @@ class PrivateTag extends Tag {
   String get name => privateTagKeywords[bd.getUint8(kIndexOffset)];
   VR get vr => privateVRs[bd.getUint8(kVRIndexOffset)];
   VM get vm => privateVMs[bd.getUint8(kVMIndexOffset)];
-  TagType get type => privateTagTypes[bd.getUint16(kTypeOffset)];
+  EType get type => privateTagTypes[bd.getUint16(kTypeOffset)];
 
   @override
   bool get isPublic => public;
@@ -55,7 +55,7 @@ class PrivateTag extends Tag {
   static const List<String> privateTagNames = const ["Unknown", "foo", "bar"];
   static const List<VR> privateVRs = const [VR.kUnknown, VR.kCS, VR.kOB];
   static const List<VM> privateVMs = const [VM.kUnknown, VM.k1, VM.k2];
-  static const List<TagType> privateTagTypes = const [VM.kUnknown, TagType.k1, VM.k2];
+  static const List<EType> privateTagTypes = const [VM.kUnknown, EType.k1, VM.k2];
 }
 
 class PrivateCreatorTag extends PrivateTag {

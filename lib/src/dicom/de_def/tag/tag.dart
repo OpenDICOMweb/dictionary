@@ -68,7 +68,7 @@ class Tag extends TagBase {
   final String keyword = "Unknown";
   final String name = "Unknown";
   final VM vm = VM.kUnknown;
-  final TagType type = TagType.kUnknown;
+  final EType type = EType.kUnknown;
   final bool isPublic = true;
 
   final VR vr;
