@@ -93,7 +93,6 @@ class Int {
   static int hash64(Object o, [int result = kHashSeed]) =>
       (kHashMultiplier * result + o.hashCode) & k64BitHashMask;
 
-
   //**** String Utilities ****
 
   /// Returns [value] as a hexadecimal string of [length] with prefix [prefix].
@@ -108,6 +107,15 @@ class Int {
 
   /// Returns a [List] of hex [Strings] mapped from [list]
   static Iterable<String> listToHex(List<int> list) => list.map(hex);
+
+  /// Returns [value] in kilobytes (KB).
+  static toKB(int i) => '${i / kKB}KB';
+
+  /// Returns [value] in megabytes (MB).
+  static toMB(int i) => '${i / kMB}MB';
+
+  /// Returns [value] in megabytes (MB).
+  static toGB(int i) => '${i / kGB}GB';
 
   /// Converts an [int] into a [String] of hexadecimal digits.
   ///

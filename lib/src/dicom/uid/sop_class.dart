@@ -18,13 +18,11 @@ class SopClassUid extends WKUid {
   //TODO: create UidType class
   bool get isSopClass => true;
 
-  //TODO: Make this print SOP Class
- // String toString() => '$runtimeType($value)';
+  String toString() => '$runtimeType($value)';
 
   //TODO: make the return type SopClassUid a subtype of WKUid
   static WKUid lookup(v) {
     WKUid wk = WKUid.lookup(v);
-    print('WKUid($v): $wk');
     return ((wk != null) && (wk.type == WKUidType.kSopClass)) ? wk : null;
   }
 
