@@ -64,6 +64,26 @@ class Ascii {
 
   const Ascii(this.code, this.name, this.description, this.type);
 
+  bool get isControl => type == AsciiType.control;
+  bool get isUppercase => type == AsciiType.uppercase;
+  bool get isLowercase => type == AsciiType.lowercase;
+  bool get isDigit => type == AsciiType.digit;
+  bool get isWhitespace => type == AsciiType.whitespace;
+  bool get isPunctuation => type == AsciiType.punctuation;
+
+  bool get isVisable => type != AsciiType.control || type != AsciiType.whitespace;
+  bool get isPrintable => type != AsciiType.control;
+  bool get isAlphabetic => type == AsciiType.lowercase || type == AsciiType.uppercase;
+  bool get isNumeric => isDigit;
+  bool get isAlphaNumeric => isAlphabetic || isDigit;
+
+  String toBinaryString() => code.toRadixString(2);
+  String toDecimalString() => code.toRadixString(10);
+  String toHexString() => '0x${code.toRadixString(16)}';
+
+  @override
+  String toString() => 'Ascii.$name=$code';
+
   static const kNUL = const Ascii(0, 'NUL', 'Null Character', AsciiType.control);
   static const kSOH = const Ascii(1, 'SOH', 'Start of Heading', AsciiType.control);
   static const kSTX = const Ascii(2, 'STX', 'Start of Text', AsciiType.control);
@@ -253,10 +273,4 @@ class Ascii {
     kLeftCurlyBracket, kVerticalBar, kRigntCurlyBracket, kTilde, kDEL
   ];
 
-  String toBinaryString() => code.toRadixString(2);
-  String toDecimalString() => code.toRadixString(10);
-  String toHexString() => '0x${code.toRadixString(16)}';
-
-  @override
-  String toString() => 'Ascii.$name=$code';
 }
