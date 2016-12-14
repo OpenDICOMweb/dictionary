@@ -31,7 +31,11 @@ class Tag {
 // **** Tag Group ****
 
   /// Returns the group number of [tag].
-  static int group(int tag) => tag >> 16;
+  static int group(int tag) {
+    int group =  tag >> 16;
+    if (group.isOdd && !_isPrivateGroup(group)) return null;
+    return group;
+  }
 
   /// Returns the [tagGroup] number as a hex [String].
   static String groupHex(int tag) => Int.hex(group(tag), 4);

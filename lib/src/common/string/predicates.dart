@@ -20,12 +20,23 @@ typedef bool ConstStringPredicate(String);
 //TODO: should the empty string "" be considered valid?
 /// Checks that the [String] [s] is valid given the other arguments.
 /// Returns [s] if valid, otherwise [null].
-String validateString(String s, int min, int max, CharPredicate pred) {
+String validateString(String s,  int min, int max, CharPredicate pred) {
+  //FLush print('validateString: "$s"');
   if ((s == null) || (s.length < min) || (s.length > max)) return null;
   for (int i = 0; i < s.length; i++) {
     int char = s.codeUnitAt(i);
+    bool foo = pred(char);
+    //TODO: flush at v0.9.0
+    /*
+    if (!foo) {
+      print('foo("$char")');
+      throw "stop";
+      return null;
+    }
+    */
     if (!pred(char)) return null;
   }
+  //Flush print('validateString: "$s"');
   return s;
 }
 

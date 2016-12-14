@@ -71,7 +71,7 @@ class Ascii {
   bool get isWhitespace => type == AsciiType.whitespace;
   bool get isPunctuation => type == AsciiType.punctuation;
 
-  bool get isVisable => type != AsciiType.control || type != AsciiType.whitespace;
+  bool get isVisable => type != AsciiType.control && type != AsciiType.whitespace;
   bool get isPrintable => type != AsciiType.control;
   bool get isAlphabetic => type == AsciiType.lowercase || type == AsciiType.uppercase;
   bool get isNumeric => isDigit;
