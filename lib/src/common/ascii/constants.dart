@@ -411,7 +411,7 @@ bool isWhitespaceChar(int c) => (c == kSpace) || (c == kTab); //Horizontal Tab
 bool isVisibleChar(int c) => (c > kSpace) && (c < kDelete);
 
 /// Synonym for [isVisibleChar].
-bool isVchar(int c) => isVisibleChar(c);
+bool isVChar(int c) => isVisibleChar(c);
 
 /// Returns [true] if [c] is an Ascii Escape character; otherwise [false].
 bool isEscapeChar(int c) => c == kEscape;
@@ -424,6 +424,14 @@ bool isDotChar(int c) => c == kDot;
 
 /// Returns [true] if [c] is exponent marker "E" or "e".
 bool isExponentChar(int c) => c == kE || c == ke;
+
+/// If [c] is a lowercase character, returns the corresponding
+/// Uppercase character; otherwise, returns [c] unmodified.
+int toUppercaseChar(int c) => (isLowercaseChar(c)) ? c + 32 : c;
+
+/// If [c] is an Uppercase character, returns the corresponding
+/// Lowercase character; otherwise, returns [c] unmodified.
+int toLowercaseChar(int c) => (isUppercaseChar(c)) ? c - 32 : c;
 
 /// Returns the integer value of a DIGIT or [null] otherwise.
 int digitToInt(int c) => (isDigitChar(c)) ? c - k0 : null;
