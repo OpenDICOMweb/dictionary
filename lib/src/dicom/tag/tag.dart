@@ -14,10 +14,60 @@ import 'tag_constants.dart';
 const int kGroupMask = 0xFFFF0000;
 const int kElementMask = 0x0000FFFF;
 
+/// Methods to use with a DICOM Group, a 16-bit integer.
+///
+/// The [Group] methods expect their argument to be a 16-bit group number.
+class Group {
+  /// Returns [true] if [g] is Public Group (even) or a valid Private Group. fits in 16-bits.
+  static bool isValid(int g) => g.isEven || isPrivate(g);
+
+  /// Returns the Group Number is it is a valid Group Number.
+  static int valid(int g) => (isValid(g)) ? g : null;
+
+  /// Returns[true] is [g] is a valid Public Group Number.
+  static bool isPublic(int g) => g.isEven && 0x0008 <= g  && g <= 0xFFFC;
+
+  static bool isNotPublic(int g) => !isPublic(g);
+
+  /// Returns [true] if [g] is a valid Private Group Number.
+  static bool isPrivate(int g)=> g.isOdd && (0x0007 < g && g < 0xFFFF);
+
+  static int validPrivate(int g) => (isPrivate(g)) ? g : null;
+
+  static bool isNotPrivate(int g) => !isPrivate(g);
+
+  /// Returns the [tagGroup] number as a hex [String].
+  static String hex(int g) => Int.hex(g, 4);
+
+  //static int validateGroup(int tag) => validGroup(tag) ? tag : null;
+}
+
+class Elt {
+  /// Returns the [Elt] [int] as a hex [String].
+  static String hex(int elt) => Group.hex(elt);
+
+  /// Returns [true] if [v] fits in 16-bits.
+  static bool isValid(int v) => (0 <= v && v <= 0xFFFF) ? true : false;
+
+  static int valid(int v) => isValid(v) ? v : null;
+
+  static bool isPrivateCreator(int elt) => 0x10 <= elt && elt <= 0xFF;
+
+  static int pcBase(int elt) => elt << 8;
+
+  static int pcLimit(int elt) => pcBase(elt) + 0xFF;
+
+  static bool isPrivateData(int elt) => 0x1000 <= elt && elt <= 0xFFFF;
+
+  static bool isValidPrivateData(int pdElt, int pcElt) =>
+      pcBase(pcElt) <= pdElt && pdElt <= pcLimit(pcElt);
+}
+
 class Tag {
   /// Returns a hex [String] 8 characters long with a "0x" prefix.
   static String hex(int tag) => '0x' + Int.hex(tag, 8);
 
+  /// Returns the [keyword] associated with this [tag].
   static String keyword(int tag) => ElementDef.lookup(tag).keyword;
 
   /// Returns true if the tag is defined by DICOM, false otherwise.
@@ -31,22 +81,15 @@ class Tag {
 // **** Tag Group ****
 
   /// Returns the group number of [tag].
-  static int group(int tag) {
-    int group =  tag >> 16;
-    if (group.isOdd && !_isPrivateGroup(group)) return null;
-    return group;
-  }
+  static int group(int tag) => Group.valid(tag >> 16) ;
 
   /// Returns the [tagGroup] number as a hex [String].
-  static String groupHex(int tag) => Int.hex(group(tag), 4);
+  static String groupHex(int tag) => Group.hex(group(tag));
 
-  /// Returns [true] if [v] fits in 16-bits.
-  static bool validGroup(int code) {
-    int g = group(code);
-    return g.isEven || _isPrivateGroup(g) ? true : false;
-  }
+  /// Returns [true] if [tag] is Public or valid Private fits in 16-bits.
+  static bool isValidGroup(int tag) => Group.isValid(group(tag));
 
-  static int validateGroup(int code) => validGroup(code) ? code : null;
+ // static int validateGroup(int tag) => validGroup(tag) ? tag : null;
 
 // **** Tag Elt (Element) ****
 
@@ -54,20 +97,20 @@ class Tag {
   static int elt(int tag) => tag & kElementMask;
 
   /// Returns the dictionary number as a hex [String].
-  static String eltHex(int tag) => Int.hex(elt(tag), 4);
+  static String eltHex(int tag) => Group.hex(elt(tag));
 
-  /// Returns [true] if [v] fits in 16-bits.
-  static bool validElt(int v) => (0 <= v && v <= 0xFFFF) ? true : false;
+  /// Returns [true] if [tag] fits in 16-bits.
+  static bool isValidElt(int tag) => Elt.isValid(elt(tag));
 
-  static int validateElt(int v) => validElt(v) ? v : null;
+  static int validElt(int tag) => Elt.valid(tag);
 
 //**** Utilities for reading and printing DCM format (gggg,eeee).
 
   /// Returns [tag] in DICOM format '(gggg,eeee)'.
-  static String dcm(int tag) => '(${Int.hex(group(tag), 4)},${Int.hex(elt(tag), 4)})';
+  static String dcm(int tag) => '(${Group.hex(group(tag))},${Group.hex(elt(tag))})';
 
   /// Returns a [List] of DICOM tag codes in '(gggg,eeee)' format
-  static Iterable<String> listToDcm(List<int> list) => list.map(dcm);
+  static Iterable<String> listToDcm(List<int> tags) => tags.map(dcm);
 
   /// Takes a [String] in format "(gggg,eeee)" and returns [int].
   static int dcmToInt(String tag) {
@@ -230,42 +273,39 @@ class Tag {
   static const List<int> invalidPrivateGroups = const [0x0001, 0x0003, 0x0005, 0x0007, 0xFFFF];
 
   /// Returns [true] if [tag] is a valid DICOM Private Tag.
-  static bool isPrivate(int code) => _isPrivateGroup(group(code));
+  static bool isPrivate(int tag) => Group.isPrivate(group(tag));
 
   /// Returns true if [tag] is a valid [PrivateCreator] tag.
-  static bool isPrivateCreator(int code) => isPrivate(code) && _isPCIndex(elt(code));
+  static bool isPrivateCreator(int tag) =>
+      Group.isPrivate(group(tag)) && Elt.isPrivateCreator(elt(tag));
+
+  static int privateCreatorBase(int tag) => Elt.pcBase(elt(tag));
+
+  static int privateCreatorLimit(int tag) => Elt.pcLimit(elt(tag));
+
+  static bool isPrivateData(int tag) => Group.isPrivate(group(tag)) && Elt.isPrivateData(elt(tag));
 
   /// Returns true if this is a valid [PrivateData] tag.
   ///
   /// If the Private Creator Tag is present, verifies that [pd] and [pc] have the
   /// same [group], and that [pc] has a valid [pcIndex].
-  static bool isPrivateData(int pd, [int pc]) {
-    int g = group(pd);
-    if (_isPrivateGroup(g)) {
-      int pde = elt(pd);
-      if (pc == null) {
-        return _isSimplePDIndex(pde);
-      } else {
-        int pcg = group(pc);
-        if (g != pcg) return null;
-        int pce = elt(pc);
-        if (_isPCIndex(pce)) {
-          if (_isPDIndex(pce, pde)) return true;
-        }
-      }
-    }
-    return false;
+  static bool isValidPrivateData(int pd, int pc) {
+    int pdg = Group.validPrivate(group(pd));
+    int pcg = Group.validPrivate(group(pc));
+    if (pdg == null || pcg == null || pdg != pcg) return null;
+    return Elt.isValidPrivateData(elt(pd), elt(pc));
   }
 
   /// Returns [true] if the Private Data Element [pde] is valid for one of the [pcs] Private
   /// Creator Tags.
+  /*
   static bool inPrivateGroup(List<int> pcs, int pde) {
     for (int i = 0; i < pcs.length; i++) {
       if (!isPrivateData(pde, pcs[i])) return false;
     }
     return true;
   }
-
+  */
 //**** Private Tag Constructors ****
 
   /// Returns a valid Private Creator Tag ([pce]), or [null].
@@ -288,16 +328,13 @@ class Tag {
   static int _toPrivateData(int group, pcIndex, pdIndex) =>
       (group << 16) + (pcIndex << 8) + pdIndex;
 
-// Internal Utility functions
-
-  /// Returns [true] if [g] is a valid Private Group Number.
-  static bool _isPrivateGroup(int g) => g.isOdd && (0x0007 < g && g != 0xFFFF);
+  // **** Internal Utility functions ****
 
   /// Return [true] if [pde] is a valid Private Creator Index.
   static bool _isPCIndex(int pde) => 0x10 <= pde && pde <= 0xFF;
 
   /// Returns [true] if [pde] in a valid Private Data Index
-  static bool _isSimplePDIndex(int pde) => 0x1000 >= pde && pde <= 0xFFFF;
+  //static bool _isSimplePDIndex(int pde) => 0x1000 >= pde && pde <= 0xFFFF;
 
   /// Return [true] if [e] is a valid Private Data Index.
   static bool _isPDIndex(int pce, int pde) => _pdBase(pce) <= pde && pde <= _pdLimit(pce);

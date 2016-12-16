@@ -25,9 +25,9 @@ String validateString(String s,  int min, int max, CharPredicate pred) {
   if ((s == null) || (s.length < min) || (s.length > max)) return null;
   for (int i = 0; i < s.length; i++) {
     int char = s.codeUnitAt(i);
-    bool foo = pred(char);
     //TODO: flush at v0.9.0
     /*
+    bool foo = pred(char);
     if (!foo) {
       print('foo("$char")');
       throw "stop";

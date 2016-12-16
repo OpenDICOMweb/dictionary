@@ -12,6 +12,8 @@
       <excludeFolder url="file://$MODULE_DIR$/lib/src/tag/other" />
       <excludeFolder url="file://$MODULE_DIR$/packages" />
       <excludeFolder url="file://$MODULE_DIR$/temp" />
+      <excludeFolder url="file://$MODULE_DIR$/test/ascii/packages" />
+      <excludeFolder url="file://$MODULE_DIR$/test/packages" />
       <excludeFolder url="file://$MODULE_DIR$/tmp" />
       <excludeFolder url="file://$MODULE_DIR$/tool/cid/gen/input/csv/packages" />
       <excludeFolder url="file://$MODULE_DIR$/tool/cid/gen/input/json/packages" />

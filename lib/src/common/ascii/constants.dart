@@ -392,7 +392,7 @@ bool isDigitChar(int c) => ((c >= k0) && (c <= k9));
 bool isUppercaseChar(int c) => (c >= kA) && (c <= kZ);
 
 /// Returns [true] if [c] is an lowercase character.
-bool isLowercaseChar(int c) => (c >= ka) && (c <= kz);
+bool isLowercaseChar(int c) => (c >= ka && c <= kz);
 
 /// Returns [true] if [c] is an alphabetic character.
 bool isAlphabeticChar(int c) => isUppercaseChar(c) || isLowercaseChar(c);
@@ -427,11 +427,11 @@ bool isExponentChar(int c) => c == kE || c == ke;
 
 /// If [c] is a lowercase character, returns the corresponding
 /// Uppercase character; otherwise, returns [c] unmodified.
-int toUppercaseChar(int c) => (isLowercaseChar(c)) ? c + 32 : c;
+int toUppercaseChar(int c) => (isLowercaseChar(c)) ? c - 32 : c;
 
 /// If [c] is an Uppercase character, returns the corresponding
 /// Lowercase character; otherwise, returns [c] unmodified.
-int toLowercaseChar(int c) => (isUppercaseChar(c)) ? c - 32 : c;
+int toLowercaseChar(int c) => (isUppercaseChar(c)) ? c + 32 : c;
 
 /// Returns the integer value of a DIGIT or [null] otherwise.
 int digitToInt(int c) => (isDigitChar(c)) ? c - k0 : null;

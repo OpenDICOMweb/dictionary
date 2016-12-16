@@ -135,12 +135,12 @@ class Tag extends TagBase {
 
   static int validateElt(int v) => validElt(v) ? v : null;
 
-  static int toGroup(int code) => code >> 16;
+  static int toGroup(int tag) => tag >> 16;
 
-  static int toElt(int code) => code & kElementMask;
+  static int toElt(int tag) => tag & kElementMask;
 
   /// Returns [tag] in DICOM format '(gggg,eeee)'.
-  static String toDcm(int code) => '(${Int.hex(toGroup(code))},${Int.hex(toElt(code))})';
+  static String toDcm(int tag) => '(${Int.hex(toGroup(tag))},${Int.hex(toElt(tag))})';
 
   /// Returns a [List] of DICOM tag codes in '(gggg,eeee)' format
   static Iterable<String> listToDcm(List<int> list) => list.map(toDcm);
