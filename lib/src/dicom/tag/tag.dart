@@ -136,6 +136,7 @@ class Tag {
 
 //**** File Meta Information Utilities ****
 
+  /// Returns [true] if [tag] is a File Meta Information [tag]; otherwise false.
   static bool isFmi(int tag) => group(tag) == 0x0002;
 
   /// Returns [true] if [tag] is in the range of DICOM Directory Tags.

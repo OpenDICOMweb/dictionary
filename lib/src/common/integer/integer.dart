@@ -39,7 +39,7 @@ class Int {
   /// Returns [true] if [value] is between [min] and [max] inclusive.
   static bool inRange(int min, int value, int max) => (min <= value && value <= max);
 
-  /// Returns a [List<int>] if all values are [int], otherwise [null].
+  /// _Deprecated: Use [listGuard] instead._
   @deprecated
   static List<int> validate(List<int> vList, _InRange inRange) => listGuard(vList, inRange);
 
@@ -95,18 +95,19 @@ class Int {
 
   //**** String Utilities ****
 
-  /// Returns [value] as a hexadecimal string of [length] with prefix [prefix].
+  /// _Deprecated: Use [hex] instead._
   @deprecated
   static toHex(int i, [int padding = 0]) => i.toRadixString(16).padLeft(padding, "0");
 
   /// Returns [value] as a hexadecimal string of [length] with prefix [prefix].
-  static hex(int i, [int padding = 0]) => i.toRadixString(16).padLeft(padding, "0");
-
-  /// Returns a [String] in the form of a [List] ("[
-  String listToHexString(List<String> list) => "[" + list.join(", ") + "]";
+  static hex(int i, [int padding = 0, prefix = '0x']) =>
+      prefix + i.toRadixString(16).padLeft(padding, "0");
 
   /// Returns a [List] of hex [Strings] mapped from [list]
   static Iterable<String> listToHex(List<int> list) => list.map(hex);
+
+  /// Returns a [String] in the form of a [List] of [hex] [String]s
+  String listToHexString(List<String> list) => "[" + list.join(", ") + "]";
 
   /// Returns [value] in kilobytes (KB).
   static toKB(int i) => '${i / kKB}KB';
@@ -142,11 +143,13 @@ class Int8 extends Int {
 
   static int guard(int i) => inRange(i) ? i : _error("Int8", i);
 
+  /// _Deprecated: Use [hex] instead._
   @deprecated
   static toHex(int i, [int padding = 0]) => Int.hex(i, padding);
 
-  static hex(int i, [int padding = 0]) => Int.hex(i, padding);
+  static hex(int i) => Int.hex(i, 2);
 
+  /// _Deprecated: Use [listGuard] instead._
   @deprecated
   static List<int> validate(List<int> vList) => Int.listGuard(vList, inRange);
 
@@ -175,11 +178,13 @@ class Int16 extends Int {
 
   static int guard(int i) => inRange(i) ? i : _error("Int16", i);
 
+  /// _Deprecated: Use [hex] instead._
   @deprecated
   static toHex(int i, [int padding = 0]) => Int.hex(i, padding);
 
-  static hex(int i, [int padding = 0]) => Int.hex(i, padding);
+  static hex(int i) => Int.hex(i, 4);
 
+  /// _Deprecated: Use [listGuard] instead._
   @deprecated
   static List<int> validate(List<int> vList) => Int.listGuard(vList, inRange);
 
@@ -208,11 +213,13 @@ class Int32 extends Int {
 
   static int guard(int i) => inRange(i) ? i : _error("Int32", i);
 
+  /// _Deprecated: Use [hex] instead._
   @deprecated
   static toHex(int i, [int padding = 0]) => Int.hex(i, padding);
 
-  static hex(int i, [int padding = 0]) => Int.hex(i, padding);
+  static hex(int i) => Int.hex(i, 8);
 
+  /// _Deprecated: Use [listGuard] instead._
   @deprecated
   static List<int> validate(List<int> vList) => Int.listGuard(vList, inRange);
 
@@ -241,11 +248,13 @@ class Int64 extends Int {
 
   static int guard(int i) => inRange(i) ? i : _error("Int64", i);
 
+  /// _Deprecated: Use [hex] instead._
   @deprecated
   static toHex(int i, [int padding = 0]) => Int.hex(i, padding);
 
-  static hex(int i, [int padding = 0]) => Int.hex(i, padding);
+  static hex(int i) => Int.hex(i, 16);
 
+  /// _Deprecated: Use [listGuard] instead._
   @deprecated
   static List<int> validate(List<int> vList) => Int.listGuard(vList, inRange);
 
@@ -269,9 +278,12 @@ class Uint extends Int {
 
   static int max(int sizeInBits) => (1 << sizeInBits) - 1;
 
+  /// _Deprecated: Use [Int.hex] instead._
   @deprecated
   static toHex(int i, [int padding = 0]) => Int.hex(i, padding);
 
+  /// _Deprecated: Use [Int.hex] instead._
+  @deprecated
   static hex(int i, [int padding = 0]) => Int.hex(i, padding);
 }
 
@@ -288,11 +300,13 @@ class Uint8 extends Uint {
 
   static int guard(int i) => inRange(i) ? i : _error("Uint8", i);
 
+  /// _Deprecated: Use [hex] instead._
   @deprecated
   static toHex(int i, [int padding = 0]) => Int.hex(i, padding);
 
-  static hex(int i, [int padding = 0]) => Int.hex(i, padding);
+  static hex(int i) => Int.hex(i, 2);
 
+  /// _Deprecated: Use [listGuard] instead._
   @deprecated
   static List<int> validate(List<int> vList) => Int.listGuard(vList, inRange);
 
@@ -321,11 +335,13 @@ class Uint16 extends Uint {
 
   static int guard(int i) => inRange(i) ? i : _error("Uint16", i);
 
+  /// _Deprecated: Use [hex] instead._
   @deprecated
   static toHex(int i, [int padding = 0]) => Int.hex(i, padding);
 
-  static hex(int i, [int padding = 0]) => Int.hex(i, padding);
+  static hex(int i) => Int.hex(i, 4);
 
+  /// _Deprecated: Use [listGuard] instead._
   @deprecated
   static List<int> validate(List<int> vList) => Int.listGuard(vList, inRange);
 
@@ -354,11 +370,13 @@ class Uint32 extends Uint {
 
   static int guard(int i) => inRange(i) ? i : _error("Uint32", i);
 
+  /// _Deprecated: Use [hex] instead._
   @deprecated
   static toHex(int i, [int padding = 0]) => Int.hex(i, padding);
 
-  static hex(int i, [int padding = 0]) => Int.hex(i, padding);
+  static hex(int i) => Int.hex(i, 8);
 
+  /// _Deprecated: Use [listGuard] instead._
   @deprecated
   static List<int> validate(List<int> vList) => Int.listGuard(vList, inRange);
 
@@ -387,11 +405,13 @@ class Uint64 extends Uint {
 
   static int guard(int i) => inRange(i) ? i : _error("Uint64", i);
 
+  /// _Deprecated: Use [hex] instead._
   @deprecated
   static toHex(int i, [int padding = 0]) => Int.hex(i, padding);
 
-  static hex(int i, [int padding = 0]) => Int.hex(i, padding);
+  static hex(int i) => Int.hex(i, 16);
 
+  /// _Deprecated: Use [listGuard] instead._
   @deprecated
   static List<int> validate(List<int> vList) => Int.listGuard(vList, inRange);
 
@@ -407,12 +427,7 @@ class Uint64 extends Uint {
   static bool isNotValidList(List<int> vList) => !isValidList(vList);
 }
 
-/// General [int] utility functions.
-
-/// Converts an [int] into a [String] of hexadecimal digits.
-///
-/// Returns a hexadecimal [String] of length [nDigits] with [padLeft] padding,
-/// and a leading [prefix], which defaults to "0x".
+/// _Deprecated: Use [Int.hex] instead.
 @deprecated
 String intToHex(int i, [int nDigits = -1, String padding = '0', String prefix = '0x']) {
   String s = i.toRadixString(16);
@@ -420,16 +435,15 @@ String intToHex(int i, [int nDigits = -1, String padding = '0', String prefix = 
   return prefix + s;
 }
 
-/// Returns a [List] of hex [Strings] mapped from [list]
+/// _Deprecated: Use [Int.listToHex] instead.
 @deprecated
 Iterable<String> intListToHex(List<int> list) => list.map(intToHex);
 
+/// _Deprecated: Use [Int.listToHexString] instead.
 @deprecated
-
-/// Returns a [String] in the form of a [List] ("[
 String hexListToString(List<String> list) => "[" + list.join(", ") + "]";
 
-/// Returns [true] if [value] is between [min] and [max] inclusive.
+/// _Deprecated: Use [Int.inRange] instead.
 @deprecated
 bool inRange(int min, int value, int max) => ((min <= value) && (value <= max));
 
