@@ -136,6 +136,8 @@ class Tag {
 
 //**** File Meta Information Utilities ****
 
+  static bool isFmi(int tag) => group(tag) == 0x0002;
+
   /// Returns [true] if [tag] is in the range of DICOM Directory Tags.
   /// Note: Does not test tag validity.
   static bool inFmiRange(int tag) => (kMinFmiTag <= tag) && (tag <= kMaxFmiTag);

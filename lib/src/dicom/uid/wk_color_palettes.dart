@@ -17,24 +17,20 @@ class ColorPalette extends WKUid {
   static const List<VR> vrs = const [VR.kSS, VR.kUS];
   final String description;
 
-  const ColorPalette(String uid, String label, this.description, String link)
-      : super(uid, WKUidType.kColorPalette, false, "HOT_IRON", link);
+  const ColorPalette(String uid, String label, this.description)
+      : super(uid, WKUidType.kColorPalette, false, "HOT_IRON");
 
   WKUidType get type => _type;
 
   static const hotIron =
-  const ColorPalette("1.2.840.10008.1.​5.​1", "HOT_IRON", "Hot Iron",
-                         "ftp://medical.nema.org/Medical/Dicom/Palettes/hotiron.dcm");
+  const ColorPalette("1.2.840.10008.1.​5.​1", "HOT_IRON", "Hot Iron");
 
   static const pet =
-  const ColorPalette("1.2.840.10008.1.​5.​1", "PET", "PET",
-                         "ftp://medical.nema.org/Medical/Dicom/Palettes/pet.dcm");
+  const ColorPalette("1.2.840.10008.1.​5.​1", "PET", "PET");
 
   static const hotMetalBlue =
-  const ColorPalette("1.2.840.10008.1.​5.​1", "HOT_METAL_BLUE", "Hot Metal Blue",
-                         "ftp://medical.nema.org/Medical/Dicom/Palettes/hotmetalblue.dcm");
+  const ColorPalette("1.2.840.10008.1.​5.​1", "HOT_METAL_BLUE", "Hot Metal Blue");
 
   static const pet20Step =
-  const ColorPalette("1.2.840.10008.1.​5.​1", "PET_@)_STEP", "PET 20 Step",
-                         "ftp://medical.nema.org/Medical/Dicom/Palettes/pet20step.dcm");
+  const ColorPalette("1.2.840.10008.1.​5.​1", "PET_@)_STEP", "PET 20 Step");
 }

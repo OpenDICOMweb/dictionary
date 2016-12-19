@@ -13,7 +13,7 @@ class SopClassUid extends WKUid {
   static const String classLink = 'TODO link';
 
   const SopClassUid(String uid, WKUidType type, bool isRetired, String name, String link)
-      : super(uid, type, isRetired, name, link);
+      : super(uid, type, isRetired, name);
 
   //TODO: create UidType class
   bool get isSopClass => true;

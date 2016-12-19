@@ -11,9 +11,7 @@ import 'wk_uid_type.dart';
 
 class TransferSyntax extends WKUid {
   static const WKUidType _type = WKUidType.kSopClass;
-  static const String classLink = 'TODO link';
   final String mediaType;
-
   ///  Specifies the size of the Pixel Cell. kBitsAllocated (0028,0100)
   // final int bitAllocated;
   /// [bitsStored] shall never be larger than [bitsAllocated]. kBitsStored (0028,0101)
@@ -28,10 +26,9 @@ class TransferSyntax extends WKUid {
 
   const TransferSyntax(String uid, String name, this.mediaType,
       [bool isRetired = false,
-      String link = "PS3.5",
       this.isEncapsulated = true,
       this.mayHaveFragments = true])
-      : super(uid, _type, isRetired, name, link);
+      : super(uid, _type, isRetired, name);
 
   WKUidType get type => _type;
 
@@ -41,7 +38,7 @@ class TransferSyntax extends WKUid {
   bool get isTransferSyntax => true;
 
   bool get isNativeFormat => !isEncapsulated;
-
+  
   bool get isImplicitLittleEndian => this == kImplicitVRLittleEndian;
 
   bool get isBigEndian => this == kExplicitVRBigEndian;
@@ -85,7 +82,7 @@ class TransferSyntax extends WKUid {
       "1.2.840.10008.1.2.1.99", "Deflated Explicit VR Little Endian", "image/deflate??", false);
 
   static const kExplicitVRBigEndian = const TransferSyntax("1.2.840.10008.1.2.2",
-      "Explicit VR Big Endian (Retired)", "image/bigEndian", false, "PS3.5", true);
+      "Explicit VR Big Endian (Retired)", "image/bigEndian", false, true);
 
   static const kJPEGBaseline_1 = const TransferSyntax(
       "1.2.840.10008.1.2.4.50",
@@ -99,8 +96,7 @@ class TransferSyntax extends WKUid {
       "JPEG Extended (Process 2 & 4) : Default Transfer Syntax for "
       "Lossy JPEG 12 Bit Image Compression (Process 4 only)",
       "image/jpeg",
-      false,
-      "PS3.5");
+      false);
 
   static const kJPEGLossy12BitDefault = kJPEGExtended_2_4;
 
@@ -235,10 +231,10 @@ class TransferSyntax extends WKUid {
       const TransferSyntax("1.2.840.10008.1.2.5", "RLE Lossless", "image/rle???", false);
 
   static const kRFC2557MIMEncapsulation = const TransferSyntax(
-      "1.2.840.10008.1.2.6.1", "RFC 2557 MIME encapsulation", "image/????", false, "PS3.10");
+      "1.2.840.10008.1.2.6.1", "RFC 2557 MIME encapsulation", "image/????", false);
 
   static const kXMLEncoding =
-      const TransferSyntax("1.2.840.10008.1.2.6.2", "XML Encoding", "text/xml???", false, "PS3.10");
+      const TransferSyntax("1.2.840.10008.1.2.6.2", "XML Encoding", "text/xml???", false);
 
   static const Map<String, Uid> map = const {
     "1.2.840.10008.1.2": kImplicitVRLittleEndian,
