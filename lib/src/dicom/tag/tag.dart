@@ -65,7 +65,7 @@ class Elt {
 
 class Tag {
   /// Returns a hex [String] 8 characters long with a "0x" prefix.
-  static String hex(int tag) => '0x' + Int.hex(tag, 8);
+  static String hex(int tag) => Int.hex(tag, 8);
 
   /// Returns the [keyword] associated with this [tag].
   static String keyword(int tag) => ElementDef.lookup(tag).keyword;
@@ -107,7 +107,10 @@ class Tag {
 //**** Utilities for reading and printing DCM format (gggg,eeee).
 
   /// Returns [tag] in DICOM format '(gggg,eeee)'.
-  static String dcm(int tag) => '(${Group.hex(group(tag))},${Group.hex(elt(tag))})';
+  static String dcm(int tag) {
+    String hex(int n) => Int.hex(n, 4, "");
+    return '(${hex(Tag.group(tag))},${hex(Tag.elt(tag))})';
+  }
 
   /// Returns a [List] of DICOM tag codes in '(gggg,eeee)' format
   static Iterable<String> listToDcm(List<int> tags) => tags.map(dcm);
