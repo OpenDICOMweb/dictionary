@@ -22,7 +22,7 @@ double _floatError(String type, double min, double val, double max) {
 class Float {
   static String get type => "Float";
 
-  static bool inRange(double min, double val, double max) => (val >= min) && (val <= max);
+  static bool inRange(double min, double val, double max) => (min <= val && val <= max);
 
   static double guard(double min, double val, double max) =>
       inRange(min, val, max) ? val : _floatError(type, min, val, max);
@@ -75,7 +75,7 @@ class Float32 extends Float {
   static const sNaN = 0x7FC00000;
   static const int maxShortLength = kMaxShortLengthInBytes ~/ sizeInBytes;
   static const int maxLongLength = kMaxLongLengthInBytes ~/ sizeInBytes;
-  static final Float32List emptyList = new Float32List(0);
+  //Flush static final Float32List emptyList = new Float32List(0);
 
   static bool inRange(double val) => (val >= min) && (val <= max);
 
@@ -84,14 +84,11 @@ class Float32 extends Float {
 
   /// Returns a [values] if all values are valid Uint32, otherwise null.
   @deprecated
-  static Float32List validate(Float32List values) {
-    if ((values == null) || (values.length == 0)) return emptyList;
-    return Float.listGuard(values, inRange);
-  }
+  static Float32List validate(Float32List values) => listGuard(values);b
 
   /// Returns it argument [vList] if valid; otherwise, returns [null].
   static List<double> listGuard(List<double> vList) {
-    if (vList == null || vList.length == 0) return emptyList;
+    if (vList == null || vList.length == 0) throw "invalid Float32: $vList";
     return Float.listGuard(vList, inRange);
   }
 
@@ -129,7 +126,7 @@ class Float64 extends Float {
   static const sNaNmax = 0x7FFFBFFFFFFFFFFF;
   static const maxShortLength = kMaxShortLengthInBytes - sizeInBytes;
   static const maxLongLength = kMaxLongLengthInBytes - sizeInBytes;
-  static final Float64List emptyList = new Float64List(0);
+ //Flush static final Float64List emptyList = new Float64List(0);
 
   static bool inRange(double val) => (val >= min) && (val <= max);
 
@@ -139,15 +136,13 @@ class Float64 extends Float {
 
   /// Returns a [values] if all values are valid Uint32, otherwise null.
   @deprecated
-  static Float64List validate(Float64List values) {
-    if ((values == null) || (values.length == 0)) return emptyList;
-    return Float.listGuard(values, inRange);
-  }
+  static Float64List validate(Float64List values) => listGuard(values);
 
-  /// Returns it argument [vList] if valid; otherwise, returns [null].
-  static List<double> listGuard(List<double> vList) {
-    if (vList == null || vList.length == 0) return emptyList;
-    return Float.listGuard(vList, inRange);
+  /// Returns it argument [values] if valid; otherwise, returns [null].
+  static List<double> listGuard(List<double> values) {
+    if (values == null || values.length == 0) throw "invalid Float64: $values";
+    //return Float.listGuard(vList, inRange);
+    return values;
   }
   /// Returns a [true] if all values are valid Uint32, otherwise [false].
   static bool isValidList(List<double> vList) =>
