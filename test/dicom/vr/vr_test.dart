@@ -5,7 +5,8 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:dictionary/common.dart';
-import 'package:dictionary/src/dicom/vr_new.dart';
+import 'package:dictionary/src/dicom/vr/vr_index.dart';
+import 'package:dictionary/src/dicom/vr/vr_new.dart';
 import 'package:test/test.dart';
 
 main() {
@@ -45,7 +46,6 @@ main() {
     for (int i = 0; i < VR.vrVector.length; i++) {
       VR vr = VR.vrVector[i];
       print(vr.info);
-      int index = vr.index;
       int vrCode8 = vr.code;
       int vrCode16 = vr.code16Bit;
       print('8: ${Int16.hex(vrCode8)}, 16: ${Int16.hex(vrCode16)}');
