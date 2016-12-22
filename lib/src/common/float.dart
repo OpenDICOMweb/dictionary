@@ -75,7 +75,7 @@ class Float32 extends Float {
   static const sNaN = 0x7FC00000;
   static const int maxShortLength = kMaxShortLengthInBytes ~/ sizeInBytes;
   static const int maxLongLength = kMaxLongLengthInBytes ~/ sizeInBytes;
-  //Flush static final Float32List emptyList = new Float32List(0);
+  static final Float32List emptyList = new Float32List(0);
 
   static bool inRange(double val) => (val >= min) && (val <= max);
 
@@ -84,12 +84,13 @@ class Float32 extends Float {
 
   /// Returns a [values] if all values are valid Uint32, otherwise null.
   @deprecated
-  static Float32List validate(Float32List values) => listGuard(values);b
+  static Float32List validate(Float32List values) => listGuard(values);
 
   /// Returns it argument [vList] if valid; otherwise, returns [null].
   static List<double> listGuard(List<double> vList) {
     if (vList == null || vList.length == 0) throw "invalid Float32: $vList";
-    return Float.listGuard(vList, inRange);
+    //return Float.listGuard(vList, inRange);
+    return vList;
   }
 
   /// Returns a [true] if all values are valid Uint32, otherwise [false].
@@ -126,7 +127,7 @@ class Float64 extends Float {
   static const sNaNmax = 0x7FFFBFFFFFFFFFFF;
   static const maxShortLength = kMaxShortLengthInBytes - sizeInBytes;
   static const maxLongLength = kMaxLongLengthInBytes - sizeInBytes;
- //Flush static final Float64List emptyList = new Float64List(0);
+  static final Float64List emptyList = new Float64List(0);
 
   static bool inRange(double val) => (val >= min) && (val <= max);
 
