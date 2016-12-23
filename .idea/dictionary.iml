@@ -13,6 +13,8 @@
       <excludeFolder url="file://$MODULE_DIR$/packages" />
       <excludeFolder url="file://$MODULE_DIR$/temp" />
       <excludeFolder url="file://$MODULE_DIR$/test/ascii/packages" />
+      <excludeFolder url="file://$MODULE_DIR$/test/dicom/packages" />
+      <excludeFolder url="file://$MODULE_DIR$/test/dicom/vr/packages" />
       <excludeFolder url="file://$MODULE_DIR$/test/packages" />
       <excludeFolder url="file://$MODULE_DIR$/tmp" />
       <excludeFolder url="file://$MODULE_DIR$/tool/cid/gen/input/csv/packages" />

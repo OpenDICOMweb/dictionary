@@ -6,7 +6,7 @@
 
 import 'package:test/test.dart';
 import 'package:dictionary/src/dicom/vr/vr_index.dart';
-import 'package:dictionary/src/dicom/vr/vr_new.dart';
+import 'package:dictionary/src/dicom/vr/vr.dart';
 
 main() {
   test8BitVR();
