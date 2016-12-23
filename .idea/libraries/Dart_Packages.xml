@@ -5,7 +5,7 @@
         <entry key="analyzer">
           <value>
             <list>
-              <option value="C:/tools/dart/pub/cache/hosted/pub.dartlang.org/analyzer-0.29.1/lib" />
+              <option value="C:/tools/dart/pub/cache/hosted/pub.dartlang.org/analyzer-0.29.2/lib" />
             </list>
           </value>
         </entry>
@@ -68,7 +68,7 @@
         <entry key="collection">
           <value>
             <list>
-              <option value="C:/tools/dart/pub/cache/hosted/pub.dartlang.org/collection-1.12.0/lib" />
+              <option value="C:/tools/dart/pub/cache/hosted/pub.dartlang.org/collection-1.13.0/lib" />
             </list>
           </value>
         </entry>
@@ -131,7 +131,7 @@
         <entry key="http_parser">
           <value>
             <list>
-              <option value="C:/tools/dart/pub/cache/hosted/pub.dartlang.org/http_parser-3.1.0/lib" />
+              <option value="C:/tools/dart/pub/cache/hosted/pub.dartlang.org/http_parser-3.1.1/lib" />
             </list>
           </value>
         </entry>
@@ -250,14 +250,14 @@
         <entry key="source_map_stack_trace">
           <value>
             <list>
-              <option value="C:/tools/dart/pub/cache/hosted/pub.dartlang.org/source_map_stack_trace-1.1.3/lib" />
+              <option value="C:/tools/dart/pub/cache/hosted/pub.dartlang.org/source_map_stack_trace-1.1.4/lib" />
             </list>
           </value>
         </entry>
         <entry key="source_maps">
           <value>
             <list>
-              <option value="C:/tools/dart/pub/cache/hosted/pub.dartlang.org/source_maps-0.10.1+4/lib" />
+              <option value="C:/tools/dart/pub/cache/hosted/pub.dartlang.org/source_maps-0.10.2/lib" />
             </list>
           </value>
         </entry>
@@ -299,7 +299,7 @@
         <entry key="test">
           <value>
             <list>
-              <option value="C:/tools/dart/pub/cache/hosted/pub.dartlang.org/test-0.12.17+2/lib" />
+              <option value="C:/tools/dart/pub/cache/hosted/pub.dartlang.org/test-0.12.18/lib" />
             </list>
           </value>
         </entry>
@@ -348,7 +348,7 @@
       </option>
     </properties>
     <CLASSES>
-      <root url="file://C:/tools/dart/pub/cache/hosted/pub.dartlang.org/analyzer-0.29.1/lib" />
+      <root url="file://C:/tools/dart/pub/cache/hosted/pub.dartlang.org/analyzer-0.29.2/lib" />
       <root url="file://C:/tools/dart/pub/cache/hosted/pub.dartlang.org/ansicolor-0.0.9/lib" />
       <root url="file://C:/tools/dart/pub/cache/hosted/pub.dartlang.org/args-0.13.7/lib" />
       <root url="file://C:/tools/dart/pub/cache/hosted/pub.dartlang.org/async-1.11.3/lib" />
@@ -357,7 +357,7 @@
       <root url="file://C:/tools/dart/pub/cache/hosted/pub.dartlang.org/boolean_selector-1.0.2/lib" />
       <root url="file://C:/tools/dart/pub/cache/hosted/pub.dartlang.org/browser-0.10.0+2/lib" />
       <root url="file://C:/tools/dart/pub/cache/hosted/pub.dartlang.org/charcode-1.1.1/lib" />
-      <root url="file://C:/tools/dart/pub/cache/hosted/pub.dartlang.org/collection-1.12.0/lib" />
+      <root url="file://C:/tools/dart/pub/cache/hosted/pub.dartlang.org/collection-1.13.0/lib" />
       <root url="file://C:/tools/dart/pub/cache/hosted/pub.dartlang.org/convert-2.0.1/lib" />
       <root url="file://C:/tools/dart/pub/cache/hosted/pub.dartlang.org/crypto-2.0.1/lib" />
       <root url="file://C:/tools/dart/pub/cache/hosted/pub.dartlang.org/csslib-0.13.2+2/lib" />
@@ -366,7 +366,7 @@
       <root url="file://C:/tools/dart/pub/cache/hosted/pub.dartlang.org/html-0.13.1/lib" />
       <root url="file://C:/tools/dart/pub/cache/hosted/pub.dartlang.org/http-0.11.3+9/lib" />
       <root url="file://C:/tools/dart/pub/cache/hosted/pub.dartlang.org/http_multi_server-2.0.3/lib" />
-      <root url="file://C:/tools/dart/pub/cache/hosted/pub.dartlang.org/http_parser-3.1.0/lib" />
+      <root url="file://C:/tools/dart/pub/cache/hosted/pub.dartlang.org/http_parser-3.1.1/lib" />
       <root url="file://C:/tools/dart/pub/cache/hosted/pub.dartlang.org/isolate-0.2.3/lib" />
       <root url="file://C:/tools/dart/pub/cache/hosted/pub.dartlang.org/logging-0.11.3+1/lib" />
       <root url="file://C:/tools/dart/pub/cache/hosted/pub.dartlang.org/matcher-0.12.0+2/lib" />
@@ -383,14 +383,14 @@
       <root url="file://C:/tools/dart/pub/cache/hosted/pub.dartlang.org/shelf_packages_handler-1.0.0/lib" />
       <root url="file://C:/tools/dart/pub/cache/hosted/pub.dartlang.org/shelf_static-0.2.4/lib" />
       <root url="file://C:/tools/dart/pub/cache/hosted/pub.dartlang.org/shelf_web_socket-0.2.1/lib" />
-      <root url="file://C:/tools/dart/pub/cache/hosted/pub.dartlang.org/source_map_stack_trace-1.1.3/lib" />
-      <root url="file://C:/tools/dart/pub/cache/hosted/pub.dartlang.org/source_maps-0.10.1+4/lib" />
+      <root url="file://C:/tools/dart/pub/cache/hosted/pub.dartlang.org/source_map_stack_trace-1.1.4/lib" />
+      <root url="file://C:/tools/dart/pub/cache/hosted/pub.dartlang.org/source_maps-0.10.2/lib" />
       <root url="file://C:/tools/dart/pub/cache/hosted/pub.dartlang.org/source_span-1.3.0/lib" />
       <root url="file://C:/tools/dart/pub/cache/hosted/pub.dartlang.org/stack_trace-1.7.0/lib" />
       <root url="file://C:/tools/dart/pub/cache/hosted/pub.dartlang.org/stream_channel-1.5.0/lib" />
       <root url="file://C:/tools/dart/pub/cache/hosted/pub.dartlang.org/string_scanner-1.0.1/lib" />
       <root url="file://C:/tools/dart/pub/cache/hosted/pub.dartlang.org/supports_color-0.1.1/lib" />
-      <root url="file://C:/tools/dart/pub/cache/hosted/pub.dartlang.org/test-0.12.17+2/lib" />
+      <root url="file://C:/tools/dart/pub/cache/hosted/pub.dartlang.org/test-0.12.18/lib" />
       <root url="file://C:/tools/dart/pub/cache/hosted/pub.dartlang.org/typed_data-1.1.3/lib" />
       <root url="file://C:/tools/dart/pub/cache/hosted/pub.dartlang.org/unscripted-0.6.2/lib" />
       <root url="file://C:/tools/dart/pub/cache/hosted/pub.dartlang.org/utf-0.9.0+3/lib" />

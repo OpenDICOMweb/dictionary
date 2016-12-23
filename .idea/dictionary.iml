@@ -8,6 +8,7 @@
       <excludeFolder url="file://$MODULE_DIR$/doc" />
       <excludeFolder url="file://$MODULE_DIR$/lib/src/dicom/tag/old" />
       <excludeFolder url="file://$MODULE_DIR$/lib/src/dicom/tag/other" />
+      <excludeFolder url="file://$MODULE_DIR$/lib/src/dicom/vr/other" />
       <excludeFolder url="file://$MODULE_DIR$/lib/src/other" />
       <excludeFolder url="file://$MODULE_DIR$/lib/src/tag/other" />
       <excludeFolder url="file://$MODULE_DIR$/packages" />
