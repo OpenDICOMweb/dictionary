@@ -8,7 +8,7 @@ import 'dart:typed_data';
 
 import 'package:dictionary/src/common/integer/integer.dart';
 import 'package:dictionary/src/dicom/vm.dart';
-import 'package:dictionary/src/dicom/vr.dart';
+import 'package:dictionary/src/dicom/vr/vr.dart';
 
 import 'tag_type.dart';
 

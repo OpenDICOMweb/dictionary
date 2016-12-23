@@ -7,7 +7,7 @@
 import 'package:dictionary/src/dicom/de_def/de_defs.dart';
 import 'package:dictionary/src/dicom/tag/tag.dart';
 import 'package:dictionary/src/dicom/vm.dart';
-import 'package:dictionary/src/dicom/vr.dart';
+import 'package:dictionary/src/dicom/vr/vr.dart';
 
 //TODO: sort out the naming between Attribute, Data Element, tag, etc.
 // DICOM Attribute Definitions

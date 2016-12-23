@@ -13,11 +13,11 @@ main() {
   //printCode();
 
   test("Check List Lengths", () {
-    int vectorLength = VR.vrVector.length;
+    int vectorLength = VR.vrs.length;
     print('vrVector Length: $vectorLength');
     int vr8BitCodeListLength = kVR8BitCodeList.length;
     print('vr8BitCodeList Length: $vr8BitCodeListLength');
-    int vr16BitCodeListLength = VR.vrVector.length;
+    int vr16BitCodeListLength = VR.vrs.length;
     print('vr8BitCodeList  Length: $vr16BitCodeListLength');
     expect(vectorLength == vr8BitCodeListLength, true);
     expect(vectorLength == vr16BitCodeListLength, true);
@@ -25,10 +25,10 @@ main() {
 
   test("Check vr8BitCodeList", () {
     print('Check vr8itCodeList');
-    for (int i = 0; i < VR.vrVector.length; i++) {
-      int c0 = VR.vrVector[i].code;
+    for (int i = 0; i < VR.vrs.length; i++) {
+      int c0 = VR.vrs[i].code;
       int c1 = kVR8BitCodeList[i];
-      print('$i: ${VR.vrVector[i].info}), ${Uint16.hex(kVR8BitCodeList[i])})');
+      print('$i: ${VR.vrs[i].info}), ${Uint16.hex(kVR8BitCodeList[i])})');
       print('$i: c0(${Int16.hex(c0)}), c1  (${Int16.hex(c1)})');
       expect(c0 == c1, true);
     }
@@ -36,15 +36,15 @@ main() {
 
   test("Check vr16BitCodeList", () {
     print('Check vr16itCodeList');
-    for (int i = 0; i < VR.vrVector.length; i++) {
-      expect(VR.vrVector[i].code16Bit == kVR16BitCodeList[i], true);
+    for (int i = 0; i < VR.vrs.length; i++) {
+      expect(VR.vrs[i].code16Bit == kVR16BitCodeList[i], true);
     }
   });
 
   test("Test vrCodes 8 & 16 and Index", () {
     print('Check indices');
-    for (int i = 0; i < VR.vrVector.length; i++) {
-      VR vr = VR.vrVector[i];
+    for (int i = 0; i < VR.vrs.length; i++) {
+      VR vr = VR.vrs[i];
       print(vr.info);
       int vrCode8 = vr.code;
       int vrCode16 = vr.code16Bit;
@@ -62,8 +62,8 @@ main() {
 
   test("Test vrCodes lookup Index", () {
     print('Check indices');
-    for (int i = 0; i < VR.vrVector.length; i++) {
-      VR vr = VR.vrVector[i];
+    for (int i = 0; i < VR.vrs.length; i++) {
+      VR vr = VR.vrs[i];
       print(vr.info);
       int index = vr.index;
       int vrCode8 = vr.code;
@@ -82,9 +82,9 @@ main() {
 }
 
 void printCode() {
-  for (int i = 0; i < VR.vrVector.length; i++) {
-    int code = VR.vrVector[i].code;
-    int reverse = VR.vrVector[i].code16Bit;
+  for (int i = 0; i < VR.vrs.length; i++) {
+    int code = VR.vrs[i].code;
+    int reverse = VR.vrs[i].code16Bit;
     print('code: ${Int16.hex(code)}');
     int c0 = code >> 8;
     print('c0: ${Int8.hex(c0)}');

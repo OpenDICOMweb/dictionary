@@ -5,7 +5,7 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:dictionary/src/dicom/vm.dart';
-import 'package:dictionary/src/dicom/vr.dart';
+import 'package:dictionary/src/dicom/vr/vr.dart';
 
 import 'tag.dart';
 import 'tag_type.dart';

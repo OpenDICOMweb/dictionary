@@ -6,7 +6,7 @@
 
 import 'package:dictionary/integer.dart';
 import 'package:dictionary/src/dicom/vm.dart';
-import 'package:dictionary/src/dicom/vr.dart';
+import 'package:dictionary/src/dicom/vr/vr.dart';
 
 import 'tag_private.dart';
 import 'tag_public.dart';

@@ -5,7 +5,7 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:dictionary/src/dicom/vm.dart';
-import 'package:dictionary/src/dicom/vr.dart';
+import 'package:dictionary/src/dicom/vr/vr.dart';
 
 /// A DICOM Information Object Definition
 class IOD {
@@ -23,7 +23,7 @@ class IOD {
   const IOD(this.tag, this.keywordIndex, this.nameIndex, this.vrIndex, this.vmIndex,
             this._vmMin, this._vmMax, this._vmWidth, this.aTypeIndex, this.isRetired);
 
-  VR get vr => VR.vector[vrIndex];
+  VR get vr => VR.vrs[vrIndex];
 
   VM get vm => VM.vector[vmIndex];
 

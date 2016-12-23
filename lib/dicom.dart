@@ -19,5 +19,5 @@ export 'package:dictionary/src/dicom/string/char_predicates.dart';
 export 'package:dictionary/src/dicom/tag/tag.dart';
 export 'package:dictionary/src/dicom/tag/tag_constants.dart';
 export 'package:dictionary/src/dicom/vm.dart';
-export 'package:dictionary/src/dicom/vr.dart';
+export 'package:dictionary/src/dicom/vr/vr.dart';
 export 'package:dictionary/uid.dart';

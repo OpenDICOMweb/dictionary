@@ -4,7 +4,7 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
-import 'package:dictionary/common.dart';
+import 'package:dictionary/src/common/integer/integer.dart';
 import 'package:dictionary/src/dicom/vr/vr_index.dart';
 
 //TODO:
@@ -106,6 +106,16 @@ class VR {
   static const VR kBR = const VR(32, 0x4252, true, "BR", 1);
 
   // Special constants only used in Tag class
+  static const VR kUnknown = const VR(33, 0x0000, null, "Unknown", null);
+  static const VR kOBOW = const VR(34, 0x0001, null, "OBOW", null);
+  static const VR kUSSS = const VR(35, 0x0003, null, "USSS", 1);
+  static const VR kUSSSOW = const VR(36, 0x0003, null, "USSSOW", null);
+  static const VR kUSOW = const VR(37, 0x0003, null, "USOW", null);
+  static const VR kUSOW1 = const VR(38, 0x0003, null, "USOW1", null);
+
+
+
+  // Special constants only used in Tag class
   //TODO: flush
   // static const VR kUnknown = const VR(, 0x0000, false, "Unknown", 1);
 
@@ -114,7 +124,7 @@ class VR {
   /// in this [List] the 0th dictionary ,is [null].
   ///
   //TODO: For performance It would be better to order this table from most common VR to Least.
-  static const List<VR> vrVector = const [
+  static const List<VR> vrs = const [
     kNoVR,
     // Sequence
     kSQ,
@@ -172,10 +182,10 @@ class VR {
   static VR lookup(String s) => strings[s];
 
   /// Returns a [VR] if [vrCode](two [Uint8] integers) is a valid [VR] [name].
-  static VR lookup8(int vrCode) => vrVector[vrCodeToIndex(vrCode)];
+  static VR lookup8(int vrCode) => vrs[vrCodeToIndex(vrCode)];
 
   /// Returns a [VR] if [vrCode](one [Uint16] integer) is a valid [VR] [name].
-  static VR lookup16(int vrCode) => vrVector[vrCodeToIndex(vrCode)];
+  static VR lookup16(int vrCode) => vrs[vrCodeToIndex(vrCode)];
 
   //TODO: create invertedMap
   static const Map<int, VR> mapInverted = const {
