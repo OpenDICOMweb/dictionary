@@ -7,10 +7,10 @@
 export 'common.dart';
 
 export 'package:dictionary/src/dicom/constants.dart';
+export 'package:dictionary/src/dicom/defined_terms/defined_terms.dart';
 export 'package:dictionary/src/dicom/de_def/dcm_dir/constants.dart';
 export 'package:dictionary/src/dicom/de_def/dcm_dir/dcm_dir.dart';
 export 'package:dictionary/src/dicom/de_def/de_defs.dart';
-export 'package:dictionary/src/dicom/defined_terms/defined_terms.dart';
 export 'package:dictionary/src/dicom/de_def/element_def.dart';
 export 'package:dictionary/src/dicom/de_def/element_type.dart';
 export 'package:dictionary/src/dicom/enum_values/enum_values.dart';
