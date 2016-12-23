@@ -6,7 +6,7 @@
 
 import 'package:dictionary/src/dicom/tag/tag_constants.dart';
 import 'package:dictionary/src/dicom/vm.dart';
-import 'package:dictionary/src/dicom/vr.dart';
+import 'package:dictionary/src/dicom/vr/vr.dart';
 
 //TODO: add these to DED and then create a Map from this file.
 class DcmDir {
