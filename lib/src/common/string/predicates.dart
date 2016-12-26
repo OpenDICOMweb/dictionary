@@ -21,41 +21,35 @@ typedef bool ConstStringPredicate(String);
 //TODO: should the empty string "" be considered valid?
 /// Checks that the [String] [s] is valid given the other arguments.
 /// Returns [s] if valid, otherwise [null].
-String validateString(String s,  int min, int max, CharPredicate pred) {
-  //FLush print('validateString: "$s"');
+bool testString(String s, int min, int max, CharPredicate pred) {
   if ((s == null) || (s.length < min) || (s.length > max)) return null;
   for (int i = 0; i < s.length; i++) {
     int char = s.codeUnitAt(i);
-    //TODO: flush at v0.9.0
-    /*
-    bool foo = pred(char);
-    if (!foo) {
-      print('foo("$char")');
-      throw "stop";
-      return null;
-    }
-    */
-    if (!pred(char)) return null;
+    if (!pred(char)) return false;
   }
-  //Flush print('validateString: "$s"');
-  return s;
-}
-
-/// Returns [true] if [String] [s] is valid given the other arguments.
-bool testString(String s, int min, int max, CharPredicate pred) {
-  if (validateString(s, min, max, pred) == null) return false;
   return true;
 }
 
+bool testStringList(List<String> sList, int min, int max, CharPredicate pred) {
+  for (String s in sList) if (checkString(s, min, max, pred) == null) return false;
+  return true;
+}
+
+/// Returns [true] if [String] [s] is valid given the other arguments.
+String checkString(String s, int min, int max, CharPredicate pred) =>
+    testString(s, min, max, pred) ? s : null;
+
+List<String> checkStringList(List<String> sList, int min, int max, CharPredicate pred) =>
+    (testStringList(sList, min, max, pred)) ? sList : null;
+
 /// Returns [true] if all characters from [start] to [end] are digits; otherwise, [false].
-StringPredicate makeStringPredicate(CharPredicate pred) =>
-        (String s, [int start = 0, int end]) {
-          int stop = (end == null) ? s.length : end;
-          for (int i = start; i < stop; i++) {
-            if (!pred(s.codeUnitAt(i))) return false;
-          }
-          return true;
-        };
+StringPredicate makeStringPredicate(CharPredicate pred) => (String s, [int start = 0, int end]) {
+      int stop = (end == null) ? s.length : end;
+      for (int i = start; i < stop; i++) {
+        if (!pred(s.codeUnitAt(i))) return false;
+      }
+      return true;
+    };
 
 //Fix0 finish the following procedures
 ConstStringPredicate makeConstStringPredicate(int minLength, int maxLength, bool pred(int c)) {
@@ -71,7 +65,6 @@ ConstStringPredicate makeConstStringPredicate(int minLength, int maxLength, bool
   };
 }
 
-
 /// Returns [true] if all characters from [start] to [end] are digits; otherwise, [false].
 StringPredicate isDigit = makeStringPredicate(isDigitChar);
 StringPredicate isUppercase = makeStringPredicate(isUppercaseChar);
@@ -82,11 +75,8 @@ StringPredicate isSpace = makeStringPredicate(isSpaceChar);
 StringPredicate isWhitespace = makeStringPredicate(isWhitespaceChar);
 StringPredicate isVisible = makeStringPredicate(isVisibleChar);
 
-
 /// Returns [true] if [c] is legal in a DICOM [Uid]; otherwise, [false].
 bool isUidChar(int c) => isDigitChar(c) || (c == kDot);
 
 /// Returns [true] if [s] is [null] or empty [""].
 bool isEmpty(String s) => (s == null) || (s == "");
-
-

@@ -96,7 +96,7 @@ class Uid extends UidBase {
 
   static String checkRoot(String root) {
     if (root.length > maxRootLength) throw new ArgumentError("root length > $maxRootLength");
-    if ((validateString(root, kMin, kMax, kPred) == null))
+    if ((checkString(root, kMin, kMax, kPred) == null))
       throw new ArgumentError('invalid UID root: $root');
     return root;
   }
@@ -114,11 +114,12 @@ class Uid extends UidBase {
 
   /// Returns [s] if it is a valid [Uid] [String]; otherwise, [null].
   static String validString(String s) =>
-      (validateString(s, kMin, kMax, kPred) == null) ? null :s;
+      (checkString(s, kMin, kMax, kPred) == null) ? null :s;
 
   static final RegExp uidPattern = new RegExp(r"[012]((\.0)|(\.[1-9]\d*))+");
 
   //TODO: test for performance
+  /*
   static String validateStringWithRegExp(String s) {
     print('Uid String: $s');
     if ((s.length < kMin) || (s.length > kMax)) return null;
@@ -130,6 +131,7 @@ class Uid extends UidBase {
     }
     return null;
   }
+  */
 
   static Uid parse(String s) {
     // Remove leading & trailing spaces - defensive programming
