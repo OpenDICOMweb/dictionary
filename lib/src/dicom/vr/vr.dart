@@ -185,7 +185,7 @@ class VR {
   static VR lookup8(int vrCode) => vrs[vrCodeToIndex(vrCode)];
 
   /// Returns a [VR] if [vrCode](one [Uint16] integer) is a valid [VR] [name].
-  static int indexOf(int vrCode) => vrCodeToIndex(vrCode);
+  static int indexOf(int vrCode) => vr16CodeToIndex(vrCode);
 
   /// Returns a [VR] if [vrCode](one [Uint16] integer) is a valid [VR] [name].
   static VR lookup16(int vrCode) => vrs[vrCodeToIndex(vrCode)];

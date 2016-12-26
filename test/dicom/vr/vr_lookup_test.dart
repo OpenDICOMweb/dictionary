@@ -5,10 +5,12 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:test/test.dart';
+
 import 'package:dictionary/src/dicom/vr/vr_index.dart';
 import 'package:dictionary/src/dicom/vr/vr.dart';
 
 main() {
+
   test8BitVR();
   test16BitVRMapLookup();
 }

@@ -6,7 +6,8 @@
 
 import 'dart:convert';
 
-import 'package:dictionary/src/common/ascii/constants.dart';
+
+import 'package:dictionary/ascii.dart';
 
 /// Converts a DICOM [keyword] to the equivalent DICOM name.
 ///

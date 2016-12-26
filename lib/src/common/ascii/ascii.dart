@@ -244,6 +244,7 @@ class Ascii {
   static const kDelete = kDEL;
 
   static Ascii lookup(int code) => kLookup[code];
+
   static const kLookup = const [
     kNUL, kSOH, kSTX, kETX, kEOT, kENQ, kACK, kBEL, kBS, kHT, kLF, kVT,
     kFF, kCR, kSO, kSI, kDLE, kDC1, kDC2, kDC3, kDC4, kNAK, kSYN, kETB, kCAN,

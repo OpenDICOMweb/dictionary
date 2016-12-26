@@ -108,15 +108,17 @@ class Uid extends UidBase {
   static String validate(v) {
     if (v is Uid) v = v._string;
     if (v is! String) return null;
-    if (_validateString(v) == null) return null;
+    if (validString(v) == null) return null;
     return v;
   }
 
-  static _validateString(String s) =>
+  /// Returns [s] if it is a valid [Uid] [String]; otherwise, [null].
+  static String validString(String s) =>
       (validateString(s, kMin, kMax, kPred) == null) ? null :s;
 
   static final RegExp uidPattern = new RegExp(r"[012]((\.0)|(\.[1-9]\d*))+");
 
+  //TODO: test for performance
   static String validateStringWithRegExp(String s) {
     print('Uid String: $s');
     if ((s.length < kMin) || (s.length > kMax)) return null;

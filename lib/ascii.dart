@@ -7,3 +7,4 @@
 export 'package:dictionary/src/common/ascii/ascii.dart';
 export 'package:dictionary/src/common/ascii/constants.dart';
 export 'package:dictionary/src/common/ascii/name_to_code.dart';
+export 'package:dictionary/src/common/ascii/predicates.dart';

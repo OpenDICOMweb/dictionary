@@ -5,6 +5,7 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:dictionary/src/common/ascii/constants.dart';
+import 'package:dictionary/src/common/ascii/predicates.dart';
 
 /// The type of a character predicate
 typedef bool CharPredicate(int c);

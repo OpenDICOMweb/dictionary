@@ -4,7 +4,7 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> - 
 // See the AUTHORS file for other contributors.
 
-import 'package:dictionary/src/common/ascii/constants.dart';
+import 'package:dictionary/ascii.dart';
 //import 'package:test/test.dart';
 
 main() {

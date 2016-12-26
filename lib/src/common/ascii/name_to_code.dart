@@ -4,6 +4,11 @@
 // Original author: Jim Philbin <jfphilbin@gmail.edu> - 
 // See the AUTHORS file for other contributors.
 
+/// Given the [name] of an Ascii code, returns the Ascii [int] code. [name] is a
+/// single character [String], for letters or numbers, or the name of a punctuation
+/// or control character. If [name] is not a valid name returns [null].
+int codeFromName(String name) => nameToCode[name.toUpperCase()];
+
 /// A map from [String] [name] to [int] [tag].
 const Map<String, int> nameToCode = const <String, int>{
   // NUL:  Null
