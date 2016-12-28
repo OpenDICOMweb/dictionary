@@ -11,7 +11,7 @@ import 'package:dictionary/src/dicom/vr/vr.dart';
 
 import 'tag.dart';
 import 'tag_type.dart';
-import 'well_known_public_tags.dart';
+import 'wk_public_tags.dart';
 
 //TODO: Move 0x002831xx elements down to here and change name
 //TODO: Move 0x002804xY elements down to here and change name
@@ -35,11 +35,11 @@ class WKTag extends Tag {
   const WKTag._(int tag, this.keyword, this.name, VR vr, this.vm, this.type, this.isRetired)
       : super(tag, vr);
 
-  bool operator ==(WKTag other) => other.tag == tag;
+  bool operator ==(WKTag other) => other.code == code;
 
   bool hasValidLength(List values) => vm.validate(values);
 
-  int get hash => Int.hash(tag);
+  int get hash => Int.hash(code);
 
   static WKTag lookup(int tag) {
     //TODO: fix
@@ -202,14 +202,14 @@ class WKTag extends Tag {
     throw new RangeError(msg);
   }
 
-  /// A map of all Public [Tag] [tag]s to [WKTag].
+  /// A map of all Public [Tag] [code]s to [WKTag].
   //TODO: needed?
   static final Map<int, WKTag> publicCodes = const {};
 
-  /// A map of all Public [Tag] [tag]s to [WKTag].
+  /// A map of all Public [Tag] [code]s to [WKTag].
   static final Map<int, WKTag> keywords = const {};
 
-  /// A map of all known Private [Tag] [tag]s to [WKTag].
+  /// A map of all known Private [Tag] [code]s to [WKTag].
   static final Map<int, WKTag> knownPrivateCodes = const {};
 
   /// Returns the Well Known [PrivateCreatorTag] that corresponds to [tag].

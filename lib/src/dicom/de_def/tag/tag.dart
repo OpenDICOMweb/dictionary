@@ -11,15 +11,16 @@ import 'package:dictionary/src/dicom/vr/vr.dart';
 import 'tag_private.dart';
 import 'tag_public.dart';
 import 'tag_type.dart';
-import 'well_known_private_tags.dart';
+import 'wk_private_tags.dart';
 
 const int kGroupMask = 0xFFFF0000;
 const int kElementMask = 0x0000FFFF;
 
 abstract class TagBase {
-  final int tag;
+  // The default DICOM [int] [code] for [this] as defined in PS3.6;
+  final int code;
 
-  const TagBase(this.tag);
+  const TagBase(this.code);
 
   VR get vr;
   VM get vm;
@@ -30,19 +31,19 @@ abstract class TagBase {
   bool get isImplicitVR => vr == VR.kUnknown;
   bool get isExplicitVR => !isImplicitVR;
 
-  String get hex => '0x' + Int.hex(tag, 8);
+  String get hex => '0x' + Int.hex(code, 8);
 
-  /// Returns [tag] in DICOM format '(gggg,eeee)'.
+  /// Returns [code] in DICOM format '(gggg,eeee)'.
   String get dcm => '(${Int.hex(group)},${Int.hex(elt)})';
 
-  /// Returns the group number of [tag].
-  int get group => tag >> 16;
+  /// Returns the group number of [code].
+  int get group => code >> 16;
 
   /// Returns the [tagGroup] number as a hex [String].
   String get groupHex => Int.hex(group, 4);
 
-  /// Returns the dictionary number of [tag].
-  int get elt => tag & kElementMask;
+  /// Returns the dictionary number of [code].
+  int get elt => code & kElementMask;
 
   /// Returns the dictionary number as a hex [String].
   String get eltHex => Int.hex(elt, 4);
@@ -60,18 +61,30 @@ abstract class TagBase {
   int get vmWidth => vm.width;
   bool get isSingleton => vm.isSingleton;
 
+
+  List<String> checkLength(List values)  {
+    List<String> issues = [];
+    if (values.length < vmMin) issues.add("Too few values.");
+    if (values.length > vmMax) issues.add("Too many values.");
+
+  }
+
   String toString() => '$runtimeType$dcm $vr';
+
+  static Tag lookup(int tagCode) {
+
+  }
 }
 
 /// [const
 class Tag extends TagBase {
   final String keyword = "Unknown";
   final String name = "Unknown";
+  final VR vr;
   final VM vm = VM.kUnknown;
   final EType type = EType.kUnknown;
   final bool isPublic = true;
 
-  final VR vr;
 
   const Tag(int tag, this.vr) : super(tag);
 
@@ -123,11 +136,11 @@ class Tag extends TagBase {
   //static isValid(int code) => isValidPublic(code) || isValidPrivate(code);
 
   //TODO: needed?
-  /// Returns [true] if [tag] is defined by the DICOM Standard.
+  /// Returns [true] if [code] is defined by the DICOM Standard.
   //static bool isValidPublic(int code) => publicCodes[code] != null;
 
   //TODO: needed?
-  /// Returns [true] if [tag] is defined by the Standard.
+  /// Returns [true] if [code] is defined by the Standard.
   //static bool isKnownPrivate(int code) => knownPrivateCodes[code] != null;
 
   /// Returns [true] if [v] fits in 16-bits.

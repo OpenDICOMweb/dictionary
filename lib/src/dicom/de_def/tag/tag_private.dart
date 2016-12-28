@@ -9,7 +9,7 @@ import 'package:dictionary/src/dicom/vr/vr.dart';
 
 import 'tag.dart';
 import 'tag_type.dart';
-import 'well_known_private_tags.dart';
+import 'wk_private_tags.dart';
 
 //TODO: flush when working
 //bool _isPrivateCreator(Tag tag) => 0x0010 <= tag.elt && tag.elt <= 0x00FF;
