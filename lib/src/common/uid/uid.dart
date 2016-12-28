@@ -51,7 +51,7 @@ class Uid extends UidBase {
   static const int maxRootLength = 24;
   static CharPredicate kPred = isUidChar;
   //TODO: this should be true by default.
-  static bool checkWellKnown = false;
+  static bool checkWellKnown = true;
   final String _string;
 
   /// Returns a [Uid] how value is [String], if present and valid;
@@ -94,27 +94,29 @@ class Uid extends UidBase {
   @override
   String toString() => '$_string';
 
-  static String checkRoot(String root) {
+
+  static String validRoot(String root) {
     if (root.length > maxRootLength) throw new ArgumentError("root length > $maxRootLength");
     if ((checkString(root, kMin, kMax, kPred) == null))
       throw new ArgumentError('invalid UID root: $root');
     return root;
   }
 
-  static bool isValid(uid) => (validate(uid) == null) ? false : true;
+  static bool isValid(uid) => (checkString(uid.s, kMin, kMax, kPred) == null) ? false : true;
 
+  /*
   //TODO: need better validation - either use RegExp below or do it by hand.
   /// Returns [v] if it is either a valid [Uid] or a valid [Uid][String].
   static String validate(v) {
     if (v is Uid) v = v._string;
     if (v is! String) return null;
-    if (validString(v) == null) return null;
+    if (checkString(v) == null) return null;
     return v;
   }
+  */
 
   /// Returns [s] if it is a valid [Uid] [String]; otherwise, [null].
-  static String validString(String s) =>
-      (checkString(s, kMin, kMax, kPred) == null) ? null :s;
+  static String validate(String s) => (testString(s, kMin, kMax, kPred)) ? s: null;
 
   static final RegExp uidPattern = new RegExp(r"[012]((\.0)|(\.[1-9]\d*))+");
 

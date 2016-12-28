@@ -163,6 +163,21 @@ class Int8 extends Int {
   static bool isValidList(List<int> vList) => (listGuard(vList) == null) ? false : true;
 
   static bool isNotValidList(List<int> vList) => !isValidList(vList);
+
+  static bool isAligned(int offset) => true;
+
+  static const shiftValue = 0;
+
+  static int toLength(int lengthInBytes) => lengthInBytes;
+
+  static int toLengthInBytes(int length) => length;
+
+  static Int8List bytesView(Uint8List bytes, [int offsetInBytes = 0, int length]) {
+    if (offsetInBytes < 0) throw new ArgumentError('Invalid offsetInBytes($offsetInBytes)');
+    if (length == null) length = bytes.lengthInBytes >> shiftValue;
+    if (length < 0) throw new ArgumentError('Invalid length($length)');
+    return bytes.buffer.asInt8List(offsetInBytes, length);
+  }
 }
 
 class Int16 extends Int {
@@ -198,6 +213,29 @@ class Int16 extends Int {
   static bool isValidList(List<int> vList) => (listGuard(vList) == null) ? false : true;
 
   static bool isNotValidList(List<int> vList) => !isValidList(vList);
+
+  static bool isAligned(int offsetInBytes) => offsetInBytes % sizeInBytes == 0;
+
+  static const shiftValue = 1;
+
+  static int toLength(int lengthInBytes) => lengthInBytes >> shiftValue;
+
+  static int toLengthInBytes(int length) => length << shiftValue;
+
+  static Int16List bytesView(Uint8List bytes, [int offsetInBytes = 0, int length]) {
+    if (offsetInBytes < 0) throw new ArgumentError('Invalid offsetInBytes($offsetInBytes)');
+    if (length == null) length = bytes.lengthInBytes >> shiftValue;
+    if (length < 0) throw new ArgumentError('Invalid length($length)');
+    if (isAligned(offsetInBytes)) {
+      return bytes.buffer.asInt16List(offsetInBytes, length);
+    } else {
+      Int16List vList = new Int16List(length);
+      ByteData bd = bytes.buffer.asByteData(offsetInBytes, length >> shiftValue);
+      for (int i = 0; i < length; i++, offsetInBytes += sizeInBytes)
+        vList[i] = bd.getInt16(offsetInBytes);
+      return vList;
+    }
+  }
 }
 
 class Int32 extends Int {
@@ -233,6 +271,29 @@ class Int32 extends Int {
   static bool isValidList(List<int> vList) => (listGuard(vList) == null) ? false : true;
 
   static bool isNotValidList(List<int> vList) => !isValidList(vList);
+
+  static bool isAligned(int offsetInBytes) => offsetInBytes % sizeInBytes == 0;
+
+  static const shiftValue = 2;
+
+  static int toLength(int lengthInBytes) => lengthInBytes >> shiftValue;
+
+  static int toLengthInBytes(int length) => length << shiftValue;
+
+  static Int32List bytesView(Uint8List bytes, [int offsetInBytes = 0, int length]) {
+    if (offsetInBytes < 0) throw new ArgumentError('Invalid offsetInBytes($offsetInBytes)');
+    if (length == null) length = bytes.lengthInBytes >> shiftValue;
+    if (length < 0) throw new ArgumentError('Invalid length($length)');
+    if (isAligned(offsetInBytes)) {
+      return bytes.buffer.asInt32List(offsetInBytes, length);
+    } else {
+      Int32List vList = new Int32List(length);
+      ByteData bd = bytes.buffer.asByteData(offsetInBytes, length >> shiftValue);
+      for (int i = 0; i < length; i++, offsetInBytes += sizeInBytes)
+        vList[i] = bd.getInt32(offsetInBytes);
+      return vList;
+    }
+  }
 }
 
 class Int64 extends Int {
@@ -268,6 +329,29 @@ class Int64 extends Int {
   static bool isValidList(List<int> vList) => (listGuard(vList) == null) ? false : true;
 
   static bool isNotValidList(List<int> vList) => !isValidList(vList);
+
+  static bool isAligned(int offsetInBytes) => offsetInBytes % sizeInBytes == 0;
+
+  static const shiftValue = 3;
+
+  static int toLength(int lengthInBytes) => lengthInBytes >> shiftValue;
+
+  static int toLengthInBytes(int length) => length << shiftValue;
+
+  static Int64List bytesView(Uint8List bytes, [int offsetInBytes = 0, int length]) {
+    if (offsetInBytes < 0) throw new ArgumentError('Invalid offsetInBytes($offsetInBytes)');
+    if (length == null) length = bytes.lengthInBytes >> shiftValue;
+    if (length < 0) throw new ArgumentError('Invalid length($length)');
+    if (isAligned(offsetInBytes)) {
+      return bytes.buffer.asInt64List(offsetInBytes, length);
+    } else {
+      Int64List vList = new Int64List(length);
+      ByteData bd = bytes.buffer.asByteData(offsetInBytes, length >> shiftValue);
+      for (int i = 0; i < length; i++, offsetInBytes += sizeInBytes)
+        vList[i] = bd.getInt64(offsetInBytes);
+      return vList;
+    }
+  }
 }
 
 class Uint extends Int {
@@ -320,6 +404,21 @@ class Uint8 extends Uint {
   static bool isValidList(List<int> vList) => (listGuard(vList) == null) ? false : true;
 
   static bool isNotValidList(List<int> vList) => !isValidList(vList);
+
+  static bool isAligned(int offsetInBytes) => offsetInBytes % sizeInBytes == 0;
+
+  static const shiftValue = 0;
+
+  static int toLength(int lengthInBytes) => lengthInBytes >> shiftValue;
+
+  static int toLengthInBytes(int length) => length << shiftValue;
+
+  static Uint8List bytesView(Uint8List bytes, [int offsetInBytes = 0, int length]) {
+    if (offsetInBytes < 0) throw new ArgumentError('Invalid offsetInBytes($offsetInBytes)');
+    if (length == null) length = bytes.lengthInBytes >> shiftValue;
+    if (length < 0) throw new ArgumentError('Invalid length($length)');
+    return bytes.buffer.asUint8List(offsetInBytes, length);
+  }
 }
 
 class Uint16 extends Uint {
@@ -355,6 +454,29 @@ class Uint16 extends Uint {
   static bool isValidList(List<int> vList) => (listGuard(vList) == null) ? false : true;
 
   static bool isNotValidList(List<int> vList) => !isValidList(vList);
+
+  static bool isAligned(int offsetInBytes) => offsetInBytes % sizeInBytes == 0;
+
+  static const shiftValue = 1;
+
+  static int toLength(int lengthInBytes) => lengthInBytes >> shiftValue;
+
+  static int toLengthInBytes(int length) => length << shiftValue;
+
+  static Uint16List bytesView(Uint8List bytes, [int offsetInBytes = 0, int length]) {
+    if (offsetInBytes < 0) throw new ArgumentError('Invalid offsetInBytes($offsetInBytes)');
+    if (length == null) length = bytes.lengthInBytes >> shiftValue;
+    if (length < 0) throw new ArgumentError('Invalid length($length)');
+    if (isAligned(offsetInBytes)) {
+      return bytes.buffer.asUint16List(offsetInBytes, length);
+    } else {
+      Uint16List vList = new Uint16List(length);
+      ByteData bd = bytes.buffer.asByteData(offsetInBytes, length >> shiftValue);
+      for (int i = 0; i < length; i++, offsetInBytes += sizeInBytes)
+        vList[i] = bd.getUint16(offsetInBytes);
+      return vList;
+    }
+  }
 }
 
 class Uint32 extends Uint {
@@ -390,6 +512,29 @@ class Uint32 extends Uint {
   static bool isValidList(List<int> vList) => (listGuard(vList) == null) ? false : true;
 
   static bool isNotValidList(List<int> vList) => !isValidList(vList);
+
+  static bool isAligned(int offsetInBytes) => offsetInBytes % sizeInBytes == 0;
+
+  static const shiftValue = 2;
+
+  static int toLength(int lengthInBytes) => lengthInBytes >> shiftValue;
+
+  static int toLengthInBytes(int length) => length << shiftValue;
+
+  static Uint32List bytesView(Uint8List bytes, [int offsetInBytes = 0, int length]) {
+    if (offsetInBytes < 0) throw new ArgumentError('Invalid offsetInBytes($offsetInBytes)');
+    if (length == null) length = bytes.lengthInBytes >> shiftValue;
+    if (length < 0) throw new ArgumentError('Invalid length($length)');
+    if (isAligned(offsetInBytes)) {
+      return bytes.buffer.asUint32List(offsetInBytes, length);
+    } else {
+      Uint32List vList = new Uint32List(length);
+      ByteData bd = bytes.buffer.asByteData(offsetInBytes, length >> shiftValue);
+      for (int i = 0; i < length; i++, offsetInBytes += sizeInBytes)
+        vList[i] = bd.getUint32(offsetInBytes);
+      return vList;
+    }
+  }
 }
 
 class Uint64 extends Uint {
@@ -425,6 +570,29 @@ class Uint64 extends Uint {
   static bool isValidList(List<int> vList) => (listGuard(vList) == null) ? false : true;
 
   static bool isNotValidList(List<int> vList) => !isValidList(vList);
+
+  static bool isAligned(int offsetInBytes) => offsetInBytes % sizeInBytes == 0;
+
+  static const shiftValue = 3;
+
+  static int toLength(int lengthInBytes) => lengthInBytes >> shiftValue;
+
+  static int toLengthInBytes(int length) => length << shiftValue;
+
+  static Uint64List bytesView(Uint8List bytes, [int offsetInBytes = 0, int length]) {
+    if (offsetInBytes < 0) throw new ArgumentError('Invalid offsetInBytes($offsetInBytes)');
+    if (length == null) length = bytes.lengthInBytes >> shiftValue;
+    if (length < 0) throw new ArgumentError('Invalid length($length)');
+    if (isAligned(offsetInBytes)) {
+      return bytes.buffer.asUint64List(offsetInBytes, length);
+    } else {
+      Uint64List vList = new Uint64List(length);
+      ByteData bd = bytes.buffer.asByteData(offsetInBytes, length >> shiftValue);
+      for (int i = 0; i < length; i++, offsetInBytes += sizeInBytes)
+        vList[i] = bd.getUint64(offsetInBytes);
+      return vList;
+    }
+  }
 }
 
 /// _Deprecated: Use [Int.hex] instead.
