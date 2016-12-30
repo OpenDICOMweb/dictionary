@@ -61,7 +61,7 @@ abstract class TagBase {
   int get vmWidth => vm.width;
   bool get isSingleton => vm.isSingleton;
 
-
+/*
   List<String> checkLength(List values)  {
     List<String> issues = [];
     if (values.length < vmMin) issues.add("Too few values.");
@@ -74,6 +74,7 @@ abstract class TagBase {
   static Tag lookup(int tagCode) {
 
   }
+  */
 }
 
 /// [const
@@ -115,7 +116,7 @@ class Tag extends TagBase {
     int g = tag >> 16;
     return (g.isOdd && (0x0007 < g && g != 0xFFFF)) ? g : null;
   }
-
+/*
   static bool isPrivateCreator(int tag) {
     if (isPrivateTag(tag)) {
       int elt = getElt(tag);
@@ -131,7 +132,7 @@ class Tag extends TagBase {
     }
     return false;
   }
-
+*/
   //TODO: needed
   //static isValid(int code) => isValidPublic(code) || isValidPrivate(code);
 

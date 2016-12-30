@@ -4,6 +4,8 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> - 
 // See the AUTHORS file for other contributors.
 
+import 'constants.dart';
+
 /// A class that defined Value Multiplicities and their validators.
 ///
 /// The Value Multiplicity (VM) of an Attribute defines the minimum, maximum and width
@@ -43,10 +45,17 @@ class VM {
     return (min <= length) && (length <= m);
   }
 
+  // Notes: max should be max * width
+  int maxLength(int sizeInBytes, [bool isLongLength = false]) {
+    if (max != -1) return max * width;
+    int limit = (isLongLength) ? kMaxLongLengthInBytes : kMaxShortLengthInBytes;
+    return limit ~/ sizeInBytes;
+  }
   String toString() => 'VM.$id';
 
   // Members
-  static const VM k1 = const VM("1", 1, 1, 1);
+  // For [k1] [width == 0]
+  static const VM k1 = const VM("1", 1, 1, 0);
   static const VM k1_2 = const VM("1_2", 1, 2, 1);
   static const VM k1_3 = const VM("1-3", 1, 3, 1);
   static const VM k1_8 = const VM("1-8", 1, 8, 1);

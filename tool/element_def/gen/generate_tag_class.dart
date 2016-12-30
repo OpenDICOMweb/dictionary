@@ -12,7 +12,7 @@
 
 import 'dart:io';
 
-import 'package:dictionary/dicom.dart';
+import 'package:dictionary/tag.dart';
 
 import 'tag_class_code.dart';
 
@@ -22,17 +22,17 @@ const String outputPath = outputDir + '/tag_constants.dart';
 void main(args) {
 
   File outFile = new File(outputPath);
-  var members = generateMembers(deDefs);
+  var members = generateMembers(tagMap);
   var s = '$header$members';
   print(s);
   outFile.writeAsStringSync(s);
 }
 
-String generateMembers(Map<int, ElementDef> map) {
+String generateMembers(Map<int, Tag> map) {
   var s = "";
 
-  map.forEach((int tag, ElementDef deDef) {
-    s += '  static const Tag k${deDef.keyword} = const Tag(${Tag.hex(tag)});\n';
+  map.values.forEach((Tag tag) {
+    s += '  static const Tag k${tag.keyword} = const Tag(${tag.hex});\n';
   });
   return s += '}\n';
 }

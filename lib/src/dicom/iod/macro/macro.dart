@@ -5,38 +5,38 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:dictionary/dictionary.dart';
-import 'package:dictionary/src/dicom/de_def/iod_element.dart';
-import 'package:dictionary/src/dicom/de_def/iod_sequence.dart';
+import 'package:dictionary/src/dicom/tag/iod_element.dart';
+import 'package:dictionary/src/dicom/tag/iod_sequence.dart';
 
 abstract class MacroBase {
   String name;
-  IodElement element;
+  IodTag element;
   String description;
 
   List<MacroBase> get include;
-  List<IodElement> get elements;
-  Map<String, ElementDef> get keywords;
-  Map<int, ElementDef> get tags;
+  List<IodTag> get elements;
+  Map<String, Tag> get keywords;
+  Map<int, Tag> get tags;
 
 }
 
 abstract class MacroSequenceBase {
-  IodElement element;
+  IodTag element;
   IodSequenceBase sequence;
 
 }
 
 class Macro extends MacroBase {
   String name;
-  IodElement element;
+  IodTag element;
   String description;
 
 
   Macro(this.name, this.element, this.description);
 
   List<MacroBase> get include => [];
-  List<IodElement> get elements => [];
-  Map<String, ElementDef> get keywords => {};
-  Map<int, ElementDef> get tags => {};
+  List<IodTag> get elements => [];
+  Map<String, Tag> get keywords => {};
+  Map<int, Tag> get tags => {};
 
 }

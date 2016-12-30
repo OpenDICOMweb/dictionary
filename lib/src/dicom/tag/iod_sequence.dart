@@ -10,7 +10,7 @@ import 'iod_element.dart';
 
 abstract class IodSequenceBase {
   ElementDef element;
-  List<IodElement> itemElements;
+  List<IodTag> itemElements;
   String description;
   
   IodSequence();

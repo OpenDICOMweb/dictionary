@@ -6,8 +6,10 @@
       <excludeFolder url="file://$MODULE_DIR$/.tmp" />
       <excludeFolder url="file://$MODULE_DIR$/build" />
       <excludeFolder url="file://$MODULE_DIR$/doc" />
+      <excludeFolder url="file://$MODULE_DIR$/lib/src/dicom/old_tag" />
+      <excludeFolder url="file://$MODULE_DIR$/lib/src/dicom/old_tag/other" />
       <excludeFolder url="file://$MODULE_DIR$/lib/src/dicom/tag/old" />
-      <excludeFolder url="file://$MODULE_DIR$/lib/src/dicom/tag/other" />
+      <excludeFolder url="file://$MODULE_DIR$/lib/src/dicom/tag/tag_new" />
       <excludeFolder url="file://$MODULE_DIR$/lib/src/dicom/vr/other" />
       <excludeFolder url="file://$MODULE_DIR$/lib/src/other" />
       <excludeFolder url="file://$MODULE_DIR$/lib/src/tag/other" />
@@ -15,6 +17,7 @@
       <excludeFolder url="file://$MODULE_DIR$/temp" />
       <excludeFolder url="file://$MODULE_DIR$/test/ascii/packages" />
       <excludeFolder url="file://$MODULE_DIR$/test/dicom/packages" />
+      <excludeFolder url="file://$MODULE_DIR$/test/dicom/tag/packages" />
       <excludeFolder url="file://$MODULE_DIR$/test/dicom/vr/packages" />
       <excludeFolder url="file://$MODULE_DIR$/test/packages" />
       <excludeFolder url="file://$MODULE_DIR$/tmp" />

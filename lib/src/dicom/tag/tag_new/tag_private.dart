@@ -18,7 +18,7 @@ import 'wk_private_tags.dart';
 /// The superclass for Private Tags.
 ///
 /// It cannot be created because it has no public constructors.
-class PrivateTag extends TagBase {
+class PrivateTag extends Tag {
   final String keyword = "Unknown";
   final VR vr = VR.kUN;
   final VM vm = VM.kUnknown;
@@ -27,11 +27,11 @@ class PrivateTag extends TagBase {
   final bool isPrivateCreator = false;
 
   /// Internal constructor called by superclass.
-  const PrivateTag._(int tag) : super(tag);
+  const PrivateTag._(int tag) : super(tag, VR.kUN);
 
   /// Internal constructor used to create Private Tags with Implicit VRs.
   /// Only called by superclasses.
-  PrivateTag._implicit(int tag) : super(tag);
+  PrivateTag._implicit(int tag) : super(tag, VR.kUN);
 
   String get name => keyword;
 
