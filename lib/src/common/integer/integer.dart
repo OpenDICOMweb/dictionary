@@ -39,13 +39,29 @@ class Int {
   /// Returns [true] if [value] is between [min] and [max] inclusive.
   static bool inRange(int min, int value, int max) => (min <= value && value <= max);
 
+  static bool check(int i, List<String> issues, int min, int max) {
+    if (i < min) {
+      issues.add('Value $i is less than the minimum($min) allowed value.');
+      return false;
+    }
+    if (i > max) {
+      issues.add('Value $i is greater than the maximum($min) allowed value.');
+      return false;
+    }
+    return true;
+  }
+
   /// _Deprecated: Use [listGuard] instead._
   @deprecated
-  static List<int> validate(List<int> vList, _InRange inRange) => listGuard(vList, inRange);
+  static List<int> validate(List<int> vList, _InRange inRange) => _listGuard(vList, inRange);
 
+  //TODO: change name to checkList
   /// Returns a [List<int>] if all values are [int], otherwise [null].
-  static List<int> listGuard(List<int> vList, _InRange inRange) {
+  static List<int> listGuard(List<int> vList, _InRange inRange, int minLength, int maxLength) {
+    if (vList == null) return null;
+    if (vList.length < minLength || maxLength < vList.length) return null;
    // print('vList: $vList');
+    if (vList is TypedData)
     for (int i = 0; i < vList.length; i++)
       if ((vList[i] is int) && inRange(vList[i])) {
         return null;
@@ -55,12 +71,25 @@ class Int {
   }
 
   /// Returns a [List<int>] if all values are [int], otherwise [null].
-  static bool isValidList(List<int> vList, _InRange inRange) {
-    if (listGuard(vList, inRange) == null) return false;
+  static List<int> _listGuard(List<int> vList, _InRange inRange) {
+    for (int i = 0; i < vList.length; i++)
+      if (! inRange(vList[i])) return null;
+    return vList;
+  }
+
+  /// Returns a [List<int>] if all values are [int], otherwise [null].
+  static bool isValidList(List<int> vList, _InRange inRange, int minLength, int maxLength) {
+    if (listGuard(vList, inRange, minLength, maxLength) == null) return false;
     return true;
   }
 
-  static bool isNotValidList(List<int> vList, _InRange inRange) => !isValidList(vList, inRange);
+  /// Returns a [List<int>] if all values are [int], otherwise [null].
+  static bool _isValidList(List<int> vList, _InRange inRange) {
+    if (_listGuard(vList, inRange) == null) return false;
+    return true;
+  }
+
+  static bool isNotValidList(List<int> vList, _InRange inRange) => !_isValidList(vList, inRange);
 
   //**** hashing support ****
   /// The default hash seed.
@@ -143,6 +172,8 @@ class Int8 extends Int {
 
   static int guard(int i) => inRange(i) ? i : _error("Int8", i);
 
+  static bool check(int v, List<String> issues) => Int.check(v, issues, min, max);
+
   /// _Deprecated: Use [hex] instead._
   @deprecated
   static toHex(int i, [int padding = 0]) => Int.hex(i, padding);
@@ -151,12 +182,12 @@ class Int8 extends Int {
 
   /// _Deprecated: Use [listGuard] instead._
   @deprecated
-  static List<int> validate(List<int> vList) => Int.listGuard(vList, inRange);
+  static List<int> validate(List<int> vList) => Int._listGuard(vList, inRange);
 
   /// Returns it argument [vList] if valid; otherwise, returns [null].
-  static List<int> listGuard(List<int> vList) {
-    if (vList == null || vList.length == 0) return emptyList;
-    return Int.listGuard(vList, inRange);
+  static List<int> listGuard(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) {
+    if (vList == null || vList.length < minLength || maxLength < vList.length) return null;
+    return Int._listGuard(vList, inRange);
   }
 
   /// Returns a [true] if all values are valid Uint32, otherwise [false].
@@ -194,6 +225,8 @@ class Int16 extends Int {
 
   static int guard(int i) => inRange(i) ? i : _error("Int16", i);
 
+  static bool check(int v, List<String> issues) => Int.check(v, issues, min, max);
+
   /// _Deprecated: Use [hex] instead._
   @deprecated
   static toHex(int i, [int padding = 0]) => Int.hex(i, padding);
@@ -202,12 +235,12 @@ class Int16 extends Int {
 
   /// _Deprecated: Use [listGuard] instead._
   @deprecated
-  static List<int> validate(List<int> vList) => Int.listGuard(vList, inRange);
+  static List<int> validate(List<int> vList) => Int._listGuard(vList, inRange);
 
   /// Returns it argument [vList] if valid; otherwise, returns [null].
-  static List<int> listGuard(List<int> vList) {
-    if (vList == null || vList.length == 0) return emptyList;
-    return Int.listGuard(vList, inRange);
+  static List<int> listGuard(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) {
+    if (vList == null || vList.length < minLength || maxLength < vList.length) return null;
+    return Int._listGuard(vList, inRange);
   }
 
   /// Returns a [true] if all values are valid Uint32, otherwise [false].
@@ -258,6 +291,8 @@ class Int32 extends Int {
 
   static int guard(int i) => inRange(i) ? i : _error("Int32", i);
 
+  static bool check(int v, List<String> issues) => Int.check(v, issues, min, max);
+
   /// _Deprecated: Use [hex] instead._
   @deprecated
   static toHex(int i, [int padding = 0]) => Int.hex(i, padding);
@@ -266,12 +301,12 @@ class Int32 extends Int {
 
   /// _Deprecated: Use [listGuard] instead._
   @deprecated
-  static List<int> validate(List<int> vList) => Int.listGuard(vList, inRange);
+  static List<int> validate(List<int> vList) => Int._listGuard(vList, inRange);
 
   /// Returns it argument [vList] if valid; otherwise, returns [null].
-  static List<int> listGuard(List<int> vList) {
-    if (vList == null || vList.length == 0) return emptyList;
-    return Int.listGuard(vList, inRange);
+  static List<int> listGuard(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) {
+    if (vList == null || vList.length < minLength || maxLength < vList.length) return null;
+    return Int._listGuard(vList, inRange);
   }
 
   /// Returns a [true] if all values are valid Uint32, otherwise [false].
@@ -322,6 +357,8 @@ class Int64 extends Int {
 
   static int guard(int i) => inRange(i) ? i : _error("Int64", i);
 
+  static bool check(int v, List<String> issues) => Int.check(v, issues, min, max);
+
   /// _Deprecated: Use [hex] instead._
   @deprecated
   static toHex(int i, [int padding = 0]) => Int.hex(i, padding);
@@ -330,12 +367,12 @@ class Int64 extends Int {
 
   /// _Deprecated: Use [listGuard] instead._
   @deprecated
-  static List<int> validate(List<int> vList) => Int.listGuard(vList, inRange);
+  static List<int> validate(List<int> vList) => Int._listGuard(vList, inRange);
 
   /// Returns it argument [vList] if valid; otherwise, returns [null].
-  static List<int> listGuard(List<int> vList) {
-    if (vList == null || vList.length == 0) return emptyList;
-    return Int.listGuard(vList, inRange);
+  static List<int> listGuard(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) {
+    if (vList == null || vList.length < minLength || maxLength < vList.length) return null;
+    return Int._listGuard(vList, inRange);
   }
 
   /// Returns a [true] if all values are valid Uint32, otherwise [false].
@@ -403,6 +440,8 @@ class Uint8 extends Uint {
 
   static int guard(int i) => inRange(i) ? i : _error("Uint8", i);
 
+  static bool check(int v, List<String> issues) => Int.check(v, issues, min, max);
+
   /// _Deprecated: Use [hex] instead._
   @deprecated
   static toHex(int i, [int padding = 0]) => Int.hex(i, padding);
@@ -411,12 +450,12 @@ class Uint8 extends Uint {
 
   /// _Deprecated: Use [listGuard] instead._
   @deprecated
-  static List<int> validate(List<int> vList) => Int.listGuard(vList, inRange);
+  static List<int> validate(List<int> vList) => Int._listGuard(vList, inRange);
 
   /// Returns it argument [vList] if valid; otherwise, returns [null].
-  static List<int> listGuard(List<int> vList) {
-    if (vList == null || vList.length == 0) return emptyList;
-    return Int.listGuard(vList, inRange);
+  static List<int> listGuard(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) {
+    if (vList == null || vList.length < minLength || maxLength < vList.length) return null;
+    return Int._listGuard(vList, inRange);
   }
 
   /// Returns a [true] if all values are valid Uint32, otherwise [false].
@@ -454,6 +493,8 @@ class Uint16 extends Uint {
 
   static int guard(int i) => inRange(i) ? i : _error("Uint16", i);
 
+  static bool check(int v, List<String> issues) => Int.check(v, issues, min, max);
+
   /// _Deprecated: Use [hex] instead._
   @deprecated
   static toHex(int i, [int padding = 0]) => Int.hex(i, padding);
@@ -462,12 +503,12 @@ class Uint16 extends Uint {
 
   /// _Deprecated: Use [listGuard] instead._
   @deprecated
-  static List<int> validate(List<int> vList) => Int.listGuard(vList, inRange);
+  static List<int> validate(List<int> vList) => Int._listGuard(vList, inRange);
 
   /// Returns it argument [vList] if valid; otherwise, returns [null].
-  static List<int> listGuard(List<int> vList) {
-    if (vList == null || vList.length == 0) return emptyList;
-    return Int.listGuard(vList, inRange);
+  static List<int> listGuard(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) {
+    if (vList == null || vList.length < minLength || maxLength < vList.length) return null;
+    return Int._listGuard(vList, inRange);
   }
 
   /// Returns a [true] if all values are valid Uint32, otherwise [false].
@@ -518,6 +559,8 @@ class Uint32 extends Uint {
 
   static int guard(int i) => inRange(i) ? i : _error("Uint32", i);
 
+  static bool check(int v, List<String> issues) => Int.check(v, issues, min, max);
+
   /// _Deprecated: Use [hex] instead._
   @deprecated
   static toHex(int i, [int padding = 0]) => Int.hex(i, padding);
@@ -526,12 +569,12 @@ class Uint32 extends Uint {
 
   /// _Deprecated: Use [listGuard] instead._
   @deprecated
-  static List<int> validate(List<int> vList) => Int.listGuard(vList, inRange);
+  static List<int> validate(List<int> vList) => Int._listGuard(vList, inRange);
 
   /// Returns it argument [vList] if valid; otherwise, returns [null].
-  static List<int> listGuard(List<int> vList) {
-    if (vList == null || vList.length == 0) return emptyList;
-    return Int.listGuard(vList, inRange);
+  static List<int> listGuard(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) {
+    if (vList == null || vList.length < minLength || maxLength < vList.length) return null;
+    return Int._listGuard(vList, inRange);
   }
 
   /// Returns a [true] if all values are valid Uint32, otherwise [false].
@@ -582,6 +625,8 @@ class Uint64 extends Uint {
 
   static int guard(int i) => inRange(i) ? i : _error("Uint64", i);
 
+  static bool check(int v, List<String> issues) => Int.check(v, issues, min, max);
+
   /// _Deprecated: Use [hex] instead._
   @deprecated
   static toHex(int i, [int padding = 0]) => Int.hex(i, padding);
@@ -590,12 +635,12 @@ class Uint64 extends Uint {
 
   /// _Deprecated: Use [listGuard] instead._
   @deprecated
-  static List<int> validate(List<int> vList) => Int.listGuard(vList, inRange);
+  static List<int> validate(List<int> vList) => Int._listGuard(vList, inRange);
 
   /// Returns it argument [vList] if valid; otherwise, returns [null].
-  static List<int> listGuard(List<int> vList) {
-    if (vList == null || vList.length == 0) return emptyList;
-    return Int.listGuard(vList, inRange);
+  static List<int> listGuard(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) {
+    if (vList == null || vList.length < minLength || maxLength < vList.length) return null;
+    return Int._listGuard(vList, inRange);
   }
 
   /// Returns a [true] if all values are valid Uint32, otherwise [false].

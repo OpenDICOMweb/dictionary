@@ -5,6 +5,7 @@
 // See the AUTHORS file for other contributors.
 
 import 'constants.dart';
+import 'issue.dart';
 
 /// A class that defined Value Multiplicities and their validators.
 ///
@@ -35,9 +36,12 @@ class VM {
   //TODO write unit tests to ensure this is correct
   bool validate(List values) => isValidShape(values.length);
 
+  bool isValidLength(List vList) => isValidShape(vList.length);
+
   bool isValidShape(int length) {
-    if ((width != 1) && (length % width) == 0) length = length * width;
-    return (_inRange(length)) ? true : false;
+    // These are the most common cases.
+    if (length == 0 || (length == 1 && width == 0)) return true;
+    return (length % width == 0 && min <= length && length <= max);
   }
 
   bool _inRange(int length) {
@@ -51,6 +55,27 @@ class VM {
     int limit = (isLongLength) ? kMaxLongLengthInBytes : kMaxShortLengthInBytes;
     return limit ~/ sizeInBytes;
   }
+
+  ValueIssue checkLength(List values) {
+    int length = values.length;
+    // These are the most common cases.
+    if (length == 0 || (length == 1 && width == 0)) return null;
+    List<String> msgs;
+    if (length % width != 0)
+      msgs = ['Invalid Length($length) not a multiple of vmWidth($width)'];
+    if (length < min) {
+      var msg = 'Invalid Length($length) less than minLength($min)';
+      msgs = msgs ??= [];
+      msgs.add(msg);
+    }
+    if (length > max) {
+      var msg = 'Invalid Length($length) greater than maxLength($maxLength)';
+      msgs = msgs ??= [];
+      msgs.add(msg);  //TODO: test Not sure this is working
+    }
+    return (msgs == null) ? null : new ValueIssue(-1, values, msgs);
+  }
+
   String toString() => 'VM.$id';
 
   // Members

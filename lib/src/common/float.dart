@@ -28,6 +28,18 @@ class Float {
       inRange(min, val, max) ? val : _floatError(type, min, val, max);
 
 
+  static bool check(double n, List<String> issues, double min, double max) {
+    if (n < min) {
+      issues.add('Value $n is less than the minimum($min) allowed value.');
+      return false;
+    }
+    if (n > max) {
+      issues.add('Value $n is greater than the maximum($min) allowed value.');
+      return false;
+    }
+    return true;
+  }
+
   /// Returns a [List<int>] if all values are [int], otherwise null.
   @deprecated
   static List<double> validate(List<double> values, _InRange inRange) =>

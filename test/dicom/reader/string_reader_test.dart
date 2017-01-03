@@ -63,24 +63,24 @@ simpleReadTest() {
     buf = new StringReader(s);
     expect(buf.length, equals(length));
     expect(buf.read, equals("0".codeUnitAt(0)));
-    expect(buf.readUint(2), equals(0));
-    expect(buf.readUint(3), equals(0));
-    expect(buf.readUint(4), equals(null));
+    expect(buf.readUintOfLength(2), equals(0));
+    expect(buf.readUintOfLength(3), equals(0));
+    expect(buf.readUintOfLength(4), equals(null));
 
     s = "123";
     length = s.length;
     buf = new StringReader(s);
     expect(buf.length, equals(length));
     expect(buf.read, equals("1".codeUnitAt(0)));
-    expect(buf.readUint(1), equals(1));
-    expect(buf.readUint(2), equals(12));
-    expect(buf.readUint(3), equals(123));
-    expect(buf.readUint(4), equals(null));
+    expect(buf.readUintOfLength(1), equals(1));
+    expect(buf.readUintOfLength(2), equals(12));
+    expect(buf.readUintOfLength(3), equals(123));
+    expect(buf.readUintOfLength(4), equals(null));
 
     s = "12a3";
     buf = new StringReader(s);
-    expect(buf.readUint(2), equals(12));
-    expect(buf.readUint(3), equals(null));
+    expect(buf.readUintOfLength(2), equals(12));
+    expect(buf.readUintOfLength(3), equals(null));
   });
 
   test("VUint Read Test", () {
@@ -93,26 +93,26 @@ simpleReadTest() {
     buf = new StringReader(s);
     expect(buf.length, equals(length));
     expect(buf.read, equals("0".codeUnitAt(0)));
-    expect(buf.readVUint(5), equals(0));
-    expect(buf.readVUint(6), equals(null));
+    expect(buf.readUint(5), equals(0));
+    expect(buf.readUint(6), equals(null));
 
     s = "123456";
     buf = new StringReader(s);
-    expect(buf.readUint(1), equals(1));
-    expect(buf.readUint(2), equals(12));
-    expect(buf.readUint(3), equals(123));
-    expect(buf.readUint(4), equals(1234));
-    expect(buf.readUint(5), equals(12345));
-    expect(buf.readUint(6), equals(123456));
-    expect(buf.readUint(7), equals(null));
+    expect(buf.readUintOfLength(1), equals(1));
+    expect(buf.readUintOfLength(2), equals(12));
+    expect(buf.readUintOfLength(3), equals(123));
+    expect(buf.readUintOfLength(4), equals(1234));
+    expect(buf.readUintOfLength(5), equals(12345));
+    expect(buf.readUintOfLength(6), equals(123456));
+    expect(buf.readUintOfLength(7), equals(null));
 
     s = "12a3";
     buf = new StringReader(s);
-    expect(buf.readVUint(-1), equals(null));
-    expect(buf.readVUint(0), equals(null));
-    expect(buf.readVUint(2), equals(12));
-    expect(buf.readVUint(3), equals(12));
-    expect(buf.readVUint(4), equals(12));
+    expect(buf.readUint(-1), equals(null));
+    expect(buf.readUint(0), equals(null));
+    expect(buf.readUint(2), equals(12));
+    expect(buf.readUint(3), equals(12));
+    expect(buf.readUint(4), equals(12));
   });
 
   test("Int Read Test", () {

@@ -48,8 +48,6 @@ class TagBase {
   int get vrIndex => vr.index;
   int get sizeInBytes => vr.sizeInBytes;
   bool get isShort => vr.isShort;
-
-
 }
 
 bool throwOnError = true;
@@ -57,17 +55,15 @@ bool throwOnError = true;
 //TODO: sort out the naming between Attribute, Data Element, tag, etc.
 // DICOM Attribute Definitions
 class Tag extends TagBase {
-  //final int index
   final String keyword;
-
+  //final int index
   /// The DICOM Tag from PS3.6, Table 6-1.
   final int code;
   final VR vr;
-
   //final int vrIndex;
   //final bool isShort;
-  final VM vm;
 
+  final VM vm;
   //final int vmMin;
   //final int vmMax;
   //final int vmWidth;
@@ -77,10 +73,7 @@ class Tag extends TagBase {
   final bool isRetired;
 
   const Tag(this.keyword, this.code, this.name, this.vr, this.vm,
-      [this.isRetired = false, this.eType = EType.kUnknown])
-      : super(code, vr);
-
-  ValueChecker get valueChecker => VR.valueCheckers[vrIndex];
+      [this.isRetired = false, this.eType = EType.kUnknown]) : super._(code, vr);
 
   int get minLength => vm.min;
 
@@ -151,10 +144,51 @@ class Tag extends TagBase {
     return (length % width == 0 && minLength <= length && length <= maxLength);
   }
 
-  ValueIssue checkLength(List values) {
+  bool checkLength(List values, List<String> issues) {
+    if (issues == null)
+      throw new ArgumentError('issues($issues) must be a valid list');
+    int issuesLength = issues.length;
     int length = values.length;
     // These are the most common cases.
-    if (length == 0 || (length == 1 && vm.width == 0)) return null;
+    if (length == 0 || (length == 1 && vm.width == 0)) return true;
+    if (length % width != 0)
+      issues.add('Invalid Length($length) not a multiple of vmWidth($width)');
+    if (length < minLength)
+      issues.add('Invalid Length($length) less than minLength($minLength)');
+    if (length > maxLength)
+      issues.add('Invalid Length($length) greater than maxLength($maxLength)');
+    return (issues.length == issuesLength) ? true : false;
+  }
+
+  /// Returns true if [value] is valid for this [Tag].
+  //TODO:
+  //bool isValidValues(List values) => checkValues(values, []);
+
+  checkValue(value, List<String> issues) => vr.checkValue(value, issues);
+
+  Issue checkValues(Tag tag, List values, List<ValueIssue> issues) {
+    var vIssues = <ValueIssue>[];
+    var messages = <String>[];
+    if (! checkLength(values, messages)) {
+      vIssues.add(new ValueIssue(0, values, messages));
+    }
+    for (int i = 0; i < values.length; i++) {
+      messages = <String>[];
+      if (! vr.checkValue(values[i], messages))
+        issues.add(new ValueIssue(i, values[i], messages));
+    }
+    return (vIssues.length > 0) ? new Issue(tag, vIssues) : null;
+  }
+
+  String toString() {
+    var retired = (isRetired == false) ? "" : ", (Retired)";
+    return 'Element: $dcm $keyword, $vr, $vm, $retired';
+  }
+
+  static ValueIssue lengthChecker(List values, int minLength, int maxLength, int width) {
+    int length = values.length;
+    // These are the most common cases.
+    if (length == 0 || (length == 1 && width == 0)) return null;
     List<String> msgs;
     if (length % width != 0)
       msgs = ['Invalid Length($length) not a multiple of vmWidth($width)'];
@@ -166,33 +200,9 @@ class Tag extends TagBase {
     if (length > maxLength) {
       var msg = 'Invalid Length($length) greater than maxLength($maxLength)';
       msgs = msgs ??= [];
-      msgs.add(msg);
+      msgs.add(msg);  //TODO: test Not sure this is working
     }
-    return (msgs == null) ? null : new ValueIssue(-1, values, false, msgs);
-  }
-
-  /// Returns true if [value] is valid for this [Tag].
-  bool isValidValue(value) => VR.vrs[vrIndex].isValidValue(value);
-
-  String checkValue(value) => VR.valueChecker[vrIndex](value);
-
-  List<ValueIssue> checkValues(List values) {
-    ValueChecker checker = VR.valueCheckers[vrIndex];
-    List<ValueIssue> issues;
-    for (int i = 0; i < values.length; i++) {
-      var msg = checker(values[i]);
-      if (msg != null) {
-        issues = issues ??= [];
-        issues.add(new ValueIssue(i, value, msg, false));
-      }
-    }
-  }
-
-
-
-  String toString() {
-    var retired = (isRetired == false) ? "" : ", (Retired)";
-    return 'Element: $dcm $keyword, $vr, $vm, $retired';
+    return (msgs == null) ? null : new ValueIssue(-1, values, msgs);
   }
 
   /// Returns [true] if [tag] is in the range of DICOM [Dataset] Tags.

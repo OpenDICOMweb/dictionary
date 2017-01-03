@@ -4,7 +4,7 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu>
 // See the AUTHORS file for other contributors.
 
-export 'package:dictionary/src/common/string/dcm_string.dart';
+export 'package:dictionary/src/common/string/old_dcm_string.dart';
 export 'package:dictionary/src/common/string/predicates.dart';
 export 'package:dictionary/src/common/string/utils.dart';
 

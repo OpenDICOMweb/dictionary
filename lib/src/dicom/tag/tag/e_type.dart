@@ -14,6 +14,7 @@ class EType {
 
   const EType(this.index, this.isConditional, this.name);
 
+  /// Use this when the EType is not known.
   static const kUnknown = const EType(0, false, "0");
 
   static const k1 = const EType(1, false, "1");

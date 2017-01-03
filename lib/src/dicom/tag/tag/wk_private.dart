@@ -15,8 +15,10 @@ import 'elt.dart';
 import 'tag.dart';
 
 class PrivateTag extends TagBase {
+  final int code;
+  final VR vr;
 
-  const PrivateTag._(int code, VR vr) : super._(code, vr);
+  const PrivateTag(this.code, this.vr);
 
   VM get vm => VM.k1_n;
 

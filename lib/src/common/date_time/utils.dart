@@ -9,6 +9,8 @@ import 'dart:math';
 import 'date.dart';
 import 'time.dart';
 
+import 'package:dictionary/src/common/reader/string_reader.dart';
+
 // DICOM DateTime 422222.6+22
 //                422222.6-22
 //                422222.6
@@ -49,13 +51,13 @@ bool isValidYear(int y, [int start = 0, int end = 2050]) =>
 
 /// _Deprecated_: Use checkYear instead.
 @deprecated
-int validateYear(int y) => (isValidYear(y)) ? y : null;
+int validateYear(int y) => checkYear(y);
 
 /// Returns the year, if valid; otherwise, [null]
 int checkYear(int y) => (isValidYear(y)) ? y : null;
 
 int readYear(String s, [int start = 0]) =>
-    validateYear(_parseInt(s.substring(start, start + 4)));
+    checkYear(_parseInt(s.substring(start, start + 4)));
 
 // ** Month **
 /// A [List] (starting a 1) of the number of days per month;
@@ -82,7 +84,7 @@ int checkMonth(int m) => (isValidMonth(m)) ? m : null;
 
 /// Returns a valid month or [null];
 int readMonth(String s, [int start = 0]) =>
-    validateMonth(_parseInt(s.substring(start, start + 2)));
+    checkMonth(_parseInt(s.substring(start, start + 2)));
 
 // ** Day **
 /// Returns [true] if [day] is a valid [day] of [month] and [year]; otherwise, [false].
@@ -100,17 +102,20 @@ int checkDay(int y, int m, int d) => (isValidDay(y, m, d)) ? d : null;
 
 /// Returns a valid [day] or [null].
 int readDay(int y, int m, String s, [int start = 0]) =>
-    validateDay(y, m, _parseInt(s.substring(start, start + 2)));
+    checkDay(y, m, _parseInt(s.substring(start, start + 2)));
 
 bool isValidDate(int y, int m, int d) => isValidYear(y) && isValidMonth(m) && isValidDay(y, m, d);
 
+/// _Deprecated_: Use [checkDate] instead;
+@deprecated
+DateTime validateDate(int y, int m, int d) => checkDate(y, m, d);
 // ** Date **
-DateTime validateDate(int y, int m, int d) {
-  y = validateYear(y);
+DateTime checkDate(int y, int m, int d) {
+  y = checkYear(y);
   if (y == null) return null;
-  m = validateMonth(m);
+  m = checkMonth(m);
   if (m == null) return null;
-  d = validateDay(y, m, d);
+  d = checkDay(y, m, d);
   if (d == null) return null;
   return new DateTime(y, m, d);
 }
@@ -140,7 +145,7 @@ bool isValidHour(int h) => _inRange(0, h, 23);
 int validateHour(int h) => checkHour(h);
 
 /// Returns an [int] between 0 and 23, or [null].
-int checkHour(int h) => _validate(0, h, 23);
+int checkHour(int h) => _checkRange(0, h, 23);
 
 /// Returns a valid [hour] or [null];
 int readHour(String s, [int start = 0]) =>
@@ -260,12 +265,12 @@ DateTime validateTime(int h, int m, int s, int ms, int us) {
   return new DateTime(0, 1, 1, h, m, s, ms, us);
 }
 
-bool isValidTimeString(String time, [int start = 0]) {
-  StringBuffer sb = new StringBuffer()
-  if (readHour(time, start) == null) return false;
-  if (readMinute(time, start + 2) == null) return false;
-  if (readSecond(time, start + 4) == null) return false;
-  if (readFraction(time, start + 6) == null) return false;
+bool isValidTimeString(String time, [int start = 0, int end]) {
+  var sb = new StringReader(time, start, end);
+  if (sb.readHour(time, start) == null) return false;
+  if (sb.readMinute(time, start + 2) == null) return false;
+  if (sb.readSecond(time, start + 4) == null) return false;
+  if (sb.readFraction(time, start + 6) == null) return false;
   return true;
 }
 bool isColon(String s, int start) => s[start] == ":";
@@ -276,12 +281,15 @@ bool isColon(String s, int start) => s[start] == ":";
 /// Returns [true] if sign is +1 or -1.
 bool isValidSign(int sign) => (sign == 1) || (sign == -1);
 
+/// _Deprecated_: Use [checkSign] instead.
+int validateSign(int sign) => checkSign(sign);
+
 /// Returns +1 or -1 if [sign] is valid; otherwise [null].
-int validateSign(int sign) => (isValidSign(sign)) ? sign : null;
+int checkSign(int sign) => (isValidSign(sign)) ? sign : null;
 
 /// Reads a legal Time Zone [sign]
 int readTZSign(String s, [int start = 0]) {
-  if (!("+-Zz".contains(s[start]))) throw 'Invalid Sign char: "${s[start]}"';
+  if (!("+-Zz".contains(s[start]))) return null;
   return (s[0] == "-") ? -1 : 1;
 }
 
@@ -316,11 +324,16 @@ int readTZMinute(String s, [int start = 0]) =>
     validateTZMinute(readMinute(s.substring(start, start + 2)));
 
 /// Returns the [TimeZone] read from a [String] if valid; otherwise [null].
-TimeZone readTimeZone(String tzo, [int start = 0, int inc = 0]) {
-  if (tzo.length < start + 5 + inc) throw 'Invalid Time Zone String: ${tzo.substring(start)}';
-  int sign = readTZSign(tzo, start);
-  int hours = readTZHour(tzo, start + 1);
-  int minutes = readTZMinute(tzo, start + 3 + inc);
+TimeZone readTimeZone(String tzo, [int start = 0, int inc = 0, int end]) {
+  if (tzo.length < start + 5 + inc) return null;
+  var sb = new StringReader(tzo, start, end);
+  try {
+    int sign = sb.readTZSign(tzo, start);
+    int hours = sb.readTZHour(tzo, start + 1);
+    int minutes = sb.readTZMinute(tzo, start + 3 + inc);
+  } on InvalidCharacterException catch(e) {
+    return null;
+  }
   int offsetInMinutes = (sign * (hours * 60)) + minutes;
   return new TimeZone.fromMinutes(offsetInMinutes);
 }
@@ -349,6 +362,6 @@ bool isValidTimeZoneString(String tzo, [int start = 0, int inc = 0]) {
 bool isValidDateTimeString(s, [int start = 0]) {
   if (!isValidDateString(s)) return false;
   if (!isValidTimeString(s+8)) return false;
-  if (!isValidTimeZone())
+  if (!isValidTimeZoneString(s));
 }
 

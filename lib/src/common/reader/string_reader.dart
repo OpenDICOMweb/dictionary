@@ -11,11 +11,11 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:dictionary/src/common/ascii/constants.dart';
-import 'package:dictionary/src/common/ascii/predicates.dart';
+//import 'package:dictionary/src/common/ascii/predicates.dart';
 import 'package:dictionary/src/common/date_time/date.dart';
-import 'package:dictionary/src/common/date_time/dcm_date_time.dart';
 import 'package:dictionary/src/common/date_time/time.dart';
 import 'package:dictionary/src/common/date_time/utils.dart';
+import 'package:dictionary/string.dart';
 
 // names with char or Char(suffix) return [int]s.
 // names with string or String(suffix) return [String]s.
@@ -39,30 +39,42 @@ abstract class ReaderBase {
   int _rIndex = 0;
   int _wIndex;
 
-  //int end;
 
-  /*
-  CharReaderBase(List<int> list, [int start = 0, int end])
-
-      : end = (end == null) ? list.length : checkBufferLength(list, end)
-        buffer = buffer.subList(start, (end == null) ? buffer.length : end).codeUnits;
-  */
   /// **** Getters and Methods related to [_rIndex] and [buffer].[length].
 
-  /// The current read position in the [buffer].
-  int get index => _rIndex;
+  /// The [buffer] always [start]s at _rIndex = 0.
+  int get start => 0;
+
+  /// The current read position in the [buffer]. Starts at [start].
+  int get readIndex => _rIndex;
+
+  /// The current write position in the [buffer]. Ends at [end].
+  int get writeIndex => _wIndex;
+
+  /// The [buffer] always [end]s at [buffer.length].
+  int get end => buffer.length;
 
   /// Returns the [_rIndex] of the [_wIndex] of the [buffer].
   int get length => _wIndex;
 
   /// Returns [true] if all characters have been read, i.e. [index] [==] [_wIndex].
-  bool get isEmpty => _rIndex == _wIndex;
+  bool get isEmpty => _rIndex >= _wIndex;
   bool get isNotEmpty => !isEmpty;
+  bool get isReadable => isNotEmpty;
 
+  bool get isFull => _wIndex == buffer.length;
+  bool get isNotFull => !isFull;
+  bool get isWritable => isNotFull;
   int get remaining => _wIndex - _rIndex;
-  bool get isReadable => _rIndex < _wIndex;
 
-  int get reset => _rIndex = 0;
+  int get readReset {
+    _rIndex = 0;
+    _wIndex = end;
+  }
+  int get writeReset {
+    _rIndex = 0;
+    _wIndex = 0;
+  }
 
   /// Returns [true] if [buffer] has at least [count] code units remaining.
   bool hasNChars(int count) => (count <= _wIndex) ? count : false;
@@ -86,7 +98,7 @@ abstract class ReaderBase {
 
   /// Returns a valid limit, which might be less than [count],
   /// or [null] if no valid limit exists.
-  int getLimit(int count) {
+  int _getLimit(int count) {
     int v = ((_rIndex + count) > _wIndex) ? _wIndex - _rIndex : _rIndex + count;
     return (v > 0) ? v : null;
   }
@@ -96,15 +108,12 @@ abstract class ReaderBase {
   /// Returns the code unit at [_rIndex], but does not increment [_rIndex].
   int get peek => (isEmpty) ? null : buffer[_rIndex];
 
+  /// _Internal_: Must only be called when [isEmpty] is false.
   int get _read {
     int c = buffer[_rIndex];
     _rIndex++;
     return c;
   }
-
-  /// Returns the code unit at [_rIndex] and increments [_rIndex], or [null] if
-  /// the [buffer] [isEmpty].
-  int get read => (isNotEmpty) ? _read : null;
 
   /// Decrements the [_rIndex] by 1 and returns [true]; however, if decrementing
   /// the [_rIndex] would result in a negative [_rIndex] returns [false]
@@ -116,29 +125,57 @@ abstract class ReaderBase {
     return false;
   }
 
-  //TODO:
-  String readString(int min, int max) {
-    int limit = getLimit(max);
-    if (limit == null || limit < min) return null;
-    return _readString(limit);
+  _rGuard(Function f) {
+    int start = _rIndex;
+    var value;
+    try {
+      value = f();
+    } catch (e) {
+      _rIndex = start;
+      //TODO: add this
+      //   log.info(e);
+      print(e);
+      return null;
+    }
+    return value;
   }
 
-  String _readString(int limit) => new String.fromCharCodes(buffer, index, limit);
+  /// Returns the code unit at [_rIndex] and increments [_rIndex], or [null] if
+  /// the [buffer] [isEmpty].
+  int get read => (isNotEmpty) ? _read : null;
+
+
+  /// Returns a [String] with a minimum length of [min] and a maximum length of [max],
+  /// or [null] if a [String] of [min] length is not available.
+  String readString([int min = 0, int max]) {
+    int limit = _getLimit((max == null) ? _wIndex : max);
+    if (limit == null || limit < min) return null;
+    var s = _readString(_rIndex, limit);
+    _rIndex = limit;
+    return s;
+  }
+
+  String _readString(int start, int end) => new String.fromCharCodes(buffer, start, end);
 
   /// Reads a [String] checking each code unit to verify it is valid.
   /// If all code units pass [test] returns a [String] of [min] to [max] length;
   /// otherwise, returns null;
   String readChecked(int min, int max, _CharTest test) {
-    int limit = getLimit(max);
+    int limit = _getLimit(max);
     if (limit == null || limit < min) return null;
     int start = _rIndex;
-    for (; index < limit; _rIndex++) {
-      if (!test(read)) {
-        _rIndex = start;
-        return null;
+    try {
+      for (; _rIndex < limit; _rIndex++) {
+        if (!test(read)) {
+          _rIndex = start;
+          throw 'Failed predicate test($test) at index($_rIndex)';
+        }
       }
+    } catch(e) {
+      _rIndex = start;
+      return null;
     }
-    return _readString(limit);
+    return _readString(start, limit);
   }
 
   // **** Simple Matchers ****
@@ -188,13 +225,13 @@ abstract class ReaderBase {
   /// Reads and returns the integer value of a code point between "0" and "9".
   int get digit => (nextIsDigit) ? _digit : null;
 
-  /// Reads an unsigned [int] from [count] code units, which must be between
+  /// Reads an unsigned [int] from [length] code units, which must be between
   /// "0" and "9" and returns the corresponding integer value. If [buffer] does
-  /// not have [count] code units remaining, or if the code units corresponding
-  /// to [count] do not contain digits, returns [null].
-  int readUint(int count) {
-    print('readUint: count($count)');
-    int limit = getLimit(count);
+  /// not have [length] code units remaining, or if the code units corresponding
+  /// to [length] do not contain digits, returns [null].
+  int readUintOfLength(int length) {
+    print('readUint: count($length)');
+    int limit = _getLimit(length);
     print('limit($limit), index($_rIndex)');
     if (limit == null || (_nextIsNotDigit)) return null;
     return _readUint(limit);
@@ -219,8 +256,8 @@ abstract class ReaderBase {
   }
 
   /// Read an unsigned integer with length at least 1 and no more than [max].
-  int readVUint(int max) {
-    int limit = getLimit(max);
+  int readUint(int max) {
+    int limit = _getLimit(max);
     if (limit == null || !nextIsDigit) return null;
     return _readVUint(limit);
   }
@@ -316,13 +353,13 @@ abstract class ReaderBase {
     int sign = readSign;
     print('sign: $sign');
     if (sign == null) return null;
-    int n = readUint(count);
+    int n = readUintOfLength(count);
     return (n == null) ? null : sign * n;
   }
 
   /// Read an integer, possibly signed, with length at least 1 and no more than [max].
   int readVInt(int max) {
-    int limit = getLimit(max);
+    int limit = _getLimit(max);
     if (limit == null) return null;
     return _readVUint(limit);
   }
@@ -342,7 +379,7 @@ abstract class ReaderBase {
 
   //TODO: validate
   num readDecimal(int max) {
-    int limit = getLimit(max);
+    int limit = _getLimit(max);
     if (limit == null) return null;
     int n = readVInt(max);
     if (_rIndex >= limit) return n;
@@ -377,18 +414,18 @@ abstract class ReaderBase {
 
   bool allowVariableWidthDateTimeValues = false;
 
-  int get year => checkYear(readUint(4));
-  int get month => checkMonth(readUint(2));
-  int get vMonth => checkMonth(readVUint(2));
+  int get year => checkYear(readUintOfLength(4));
+  int get month => checkMonth(readUintOfLength(2));
+  int get vMonth => checkMonth(readUint(2));
 
   /// Reads and returns a [int] between 1 and 31, or [null]. Note: does not
   /// validate months with 28, 29, or 30 days.
-  int get day => checkSimpleDay(readUint(2));
-  int get vDay => checkSimpleDay(readVUint(2));
+  int get day => checkSimpleDay(readUintOfLength(2));
+  int get vDay => checkSimpleDay(readUint(2));
 
   /// Reads and returns a valid day, given the month [m] and year [y]; otherwise, returns [null].
-  int readDay(int y, int m, int d) => checkDay(y, m, readUint(2));
-  int readVDay(int y, int m, int d) => checkDay(y, m, readVUint(2));
+  int readDay(int y, int m, int d) => checkDay(y, m, readUintOfLength(2));
+  int readVDay(int y, int m, int d) => checkDay(y, m, readUint(2));
 
   /// Reads and returns a date in fixed format yyyymmdd.
   Date get date {
@@ -396,7 +433,7 @@ abstract class ReaderBase {
     int y = year;
     int m = month;
     if (y == null || m == null) return null;
-    int d = readDay(y, m, readUint(2));
+    int d = readDay(y, m, readUintOfLength(2));
     if (d == null) return null;
     return new Date(y, m, d);
   }
@@ -407,7 +444,7 @@ abstract class ReaderBase {
     int y = year;
     int m = vMonth;
     if (y == null || m == null) return null;
-    int d = readDay(y, m, readVUint(2));
+    int d = readDay(y, m, readUint(2));
     if (d == null) return null;
     return new Date(y, m, d);
   }
@@ -415,16 +452,16 @@ abstract class ReaderBase {
   int maxFractionDigits = 6;
 
   // Times
-  int get hour => checkHour(readUint(2));
-  int get vHour => checkHour(readVUint(2));
+  int get hour => checkHour(readUintOfLength(2));
+  int get vHour => checkHour(readUint(2));
 
-  int get minute => checkMinute(readUint(2));
-  int get vMinute => checkMinute(readVUint(2));
+  int get minute => checkMinute(readUintOfLength(2));
+  int get vMinute => checkMinute(readUint(2));
 
-  int get second => checkSecond(readUint(2));
-  int get vSecond => checkSecond(readVUint(2));
+  int get second => checkSecond(readUintOfLength(2));
+  int get vSecond => checkSecond(readUint(2));
 
-  int get fraction => checkFraction(readVUint(maxFractionDigits));
+  int get fraction => checkFraction(readUint(maxFractionDigits));
 
   ///
   Time get time {
@@ -469,12 +506,12 @@ abstract class ReaderBase {
   static const List<int> ageUnits = const [kD, kW, kM, kY];
 
   String get age {
-    int start = index;
-    int n = readUint(3);
+    int start = _rIndex;
+    int n = readUintOfLength(3);
     if (n == null) return null;
     int code = peek;
     if (ageUnits.indexOf(code) == null) return null;
-    return new String.fromCharCodes(buffer, start, index);
+    return new String.fromCharCodes(buffer, start, _rIndex);
   }
 }
 
@@ -516,5 +553,5 @@ void main() {
 
   print('peek(0): ${buf.peek}');
 
-  print('int 0123: ${buf.readUint(4)}');
+  print('int 0123: ${buf.readUintOfLength(4)}');
 }

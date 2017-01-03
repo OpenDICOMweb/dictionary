@@ -12,7 +12,7 @@ typedef bool CharPredicate(int c);
 
 typedef bool StringPredicate(String s, [int start, int end]);
 
-typedef bool ConstStringPredicate(String);
+typedef bool _StringPredicate(String);
 
 //typedef bool _Predicate(String value);
 
@@ -43,16 +43,18 @@ List<String> checkStringList(List<String> sList, int min, int max, CharPredicate
     (testStringList(sList, min, max, pred)) ? sList : null;
 
 /// Returns [true] if all characters from [start] to [end] are digits; otherwise, [false].
-StringPredicate makeStringPredicate(CharPredicate pred) => (String s, [int start = 0, int end]) {
-      int stop = (end == null) ? s.length : end;
-      for (int i = start; i < stop; i++) {
-        if (!pred(s.codeUnitAt(i))) return false;
-      }
-      return true;
-    };
+StringPredicate makeStringPredicate(CharPredicate pred) {
+  return (String s, [int start = 0, int end]) {
+    int stop = (end == null) ? s.length : end;
+    for (int i = start; i < stop; i++) {
+      if (!pred(s.codeUnitAt(i))) return false;
+    }
+    return true;
+  };
+}
 
 //Fix0 finish the following procedures
-ConstStringPredicate makeConstStringPredicate(int minLength, int maxLength, bool pred(int c)) {
+_StringPredicate _makePredicate(int minLength, int maxLength, bool pred(int c)) {
   return (String s) {
     int len = s.length;
     if ((len >= minLength) && (len <= maxLength)) {
@@ -75,8 +77,12 @@ StringPredicate isSpace = makeStringPredicate(isSpaceChar);
 StringPredicate isWhitespace = makeStringPredicate(isWhitespaceChar);
 StringPredicate isVisible = makeStringPredicate(isVisibleChar);
 
+
 /// Returns [true] if [c] is legal in a DICOM [Uid]; otherwise, [false].
 bool isUidChar(int c) => isDigitChar(c) || (c == kDot);
+
+/// Returns [true] if [c] is legal in a DICOM [Uid]; otherwise, [false].
+bool isUuidChar(int c) => isDigitChar(c) || (c == kDash);
 
 /// Returns [true] if [s] is [null] or empty [""].
 bool isEmpty(String s) => (s == null) || (s == "");

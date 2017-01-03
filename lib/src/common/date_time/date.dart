@@ -21,7 +21,7 @@ class Date {
   final DateTime date;
 
   /// Creates a new Date.
-  Date(int year, int month, int day) : date = validateDate(year, month, day);
+  Date(int year, int month, int day) : date = checkDate(year, month, day);
 
   const Date.empty() : date = null;
 
@@ -91,7 +91,11 @@ class Date {
   static bool isValid(int y, int m, int d) =>
       isValidYear(y) && isValidMonth(m) && isValidDay(y, m, d);
 
+  /// _Deprecated_: Use [check instead.
+  @deprecated
   static validate(int y, int m, int d) => validateDate(y, m, d);
+
+  static check(int y, int m, int d) => checkDate(y, m, d);
 
   /// Returns a [Date] parsed from a [Uint8List] in DICOM format.
   static Date dcmParseBytes(Uint8List bytes, [int start = 0, int end]) {
@@ -103,7 +107,7 @@ class Date {
   /// Returns a [Date] parsed from a [String] in DICOM format.
   static Date dcmParse(String s, [int start = 0]) {
     if ((s != null) && (s.length >= start + 8)) {
-      return  (s, start);
+      return  readDate(s, start);
     }
     return null;
   }
