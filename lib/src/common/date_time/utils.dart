@@ -36,9 +36,6 @@ String dtString(int value, int length) => (value == 0) ? "" : pad(value, length)
 /// Returns an [true] if [value] is in the range inclusively.
 bool _inRange(int min, int value, int max) => ((min <= value) && (value <= max));
 
-@deprecated
-int _validate(int min, int v, int max) => _checkRange(min, v, max);
-
 int _checkRange(int min, int v, int max) => _inRange(min, v, max) ? v : null;
 
 int _parseInt(String s) => int.parse(s, onError: (s) => null);
@@ -267,10 +264,7 @@ DateTime validateTime(int h, int m, int s, int ms, int us) {
 
 bool isValidTimeString(String time, [int start = 0, int end]) {
   var sb = new StringReader(time, start, end);
-  if (sb.readHour(time, start) == null) return false;
-  if (sb.readMinute(time, start + 2) == null) return false;
-  if (sb.readSecond(time, start + 4) == null) return false;
-  if (sb.readFraction(time, start + 6) == null) return false;
+  if (sb.readTime(time, start) == null) return false;
   return true;
 }
 bool isColon(String s, int start) => s[start] == ":";
@@ -331,11 +325,12 @@ TimeZone readTimeZone(String tzo, [int start = 0, int inc = 0, int end]) {
     int sign = sb.readTZSign(tzo, start);
     int hours = sb.readTZHour(tzo, start + 1);
     int minutes = sb.readTZMinute(tzo, start + 3 + inc);
-  } on InvalidCharacterException catch(e) {
+    int offsetInMinutes = (sign * (hours * 60)) + minutes;
+    return new TimeZone.fromMinutes(offsetInMinutes);
+  } on FormatException catch (e) {
+    print('Exception: ${e.message} at ${e.offset}');
     return null;
   }
-  int offsetInMinutes = (sign * (hours * 60)) + minutes;
-  return new TimeZone.fromMinutes(offsetInMinutes);
 }
 
 // ** DateTime **
@@ -359,9 +354,4 @@ bool isValidTimeZoneString(String tzo, [int start = 0, int inc = 0]) {
   return sign != null && hour != null && minute != null;
 }
 
-bool isValidDateTimeString(s, [int start = 0]) {
-  if (!isValidDateString(s)) return false;
-  if (!isValidTimeString(s+8)) return false;
-  if (!isValidTimeZoneString(s));
-}
 

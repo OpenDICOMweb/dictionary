@@ -11,11 +11,14 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:dictionary/src/common/ascii/constants.dart';
-//import 'package:dictionary/src/common/ascii/predicates.dart';
+import 'package:dictionary/src/common/ascii/predicates.dart';
 import 'package:dictionary/src/common/date_time/date.dart';
 import 'package:dictionary/src/common/date_time/time.dart';
 import 'package:dictionary/src/common/date_time/utils.dart';
 import 'package:dictionary/string.dart';
+
+//TODO: Add a way to retrieve error messages
+//TODO: Add the ability to read object (Uid, Uuid, Uri, etc.)
 
 // names with char or Char(suffix) return [int]s.
 // names with string or String(suffix) return [String]s.
@@ -32,8 +35,8 @@ int checkBufferLength(int bufferLength, int start, int end) {
   return end;
 }
 
-abstract class ReaderBase {
-  List<int> buffer;
+abstract class ReaderBase<L> {
+  L buffer;
 
   /// The current position in the [buffer]. Must be between 0 and
   int _rIndex = 0;
@@ -68,12 +71,13 @@ abstract class ReaderBase {
   int get remaining => _wIndex - _rIndex;
 
   int get readReset {
-    _rIndex = 0;
     _wIndex = end;
+    return _rIndex = 0;
   }
+
   int get writeReset {
     _rIndex = 0;
-    _wIndex = 0;
+    return _wIndex = 0;
   }
 
   /// Returns [true] if [buffer] has at least [count] code units remaining.
@@ -501,7 +505,11 @@ abstract class ReaderBase {
   //TODO: this should have the option to do a complete check.
   String get uid => readChecked(0, 64, isUidChar);
 
-  String get Uri {}
+  String readUri([int start = 0, int end] ) {
+    //TODO: do something more efficient
+    //UR - Universal Resource Identifier (URI)
+    return null;
+  }
 
   static const List<int> ageUnits = const [kD, kW, kM, kY];
 
@@ -515,15 +523,32 @@ abstract class ReaderBase {
   }
 }
 
-class StringReader extends ReaderBase {
+class StringReader extends ReaderBase<String> {
+  final String buffer;
+  final int _wIndex;
+
+  StringReader(this.buffer, [int start = 0, int end])
+      : _wIndex = checkBufferLength(s.length, start, end);
+
+  StringReader.fromCodeUnits(this.buffer, [int start = 0, int end])
+      : _wIndex = checkBufferLength(buffer.length, start, end);
+
+  StringReader view([int start = 0, int end]) =>
+      new StringReader(buffer.substring(start, end));
+
+  String _readString(int start, int end) => buffer.substring(start, end);
+
+}
+
+class CodeUnitReader extends ReaderBase {
   final Uint16List buffer;
   final int _wIndex;
 
-  StringReader(String s, [int start = 0, int end])
+  CodeUnitReader(String s, [int start = 0, int end])
       : _wIndex = checkBufferLength(s.length, start, end),
         buffer = new Uint16List.fromList(s.codeUnits);
 
-  StringReader.fromCodeUnits(this.buffer, [int start = 0, int end])
+  CodeUnitReader.fromCodeUnits(this.buffer, [int start = 0, int end])
       : _wIndex = checkBufferLength(buffer.length, start, end);
 
   StringReader view([int start = 0, int end]) {

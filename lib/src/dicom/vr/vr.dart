@@ -12,9 +12,6 @@ import 'package:dictionary/src/dicom/vr/vr_index.dart';
 //TODO:
 typedef dynamic Decode(int length);
 
-/// A procedure that checks it's value and returns a [String] or a [List<String>].
-typedef bool ValueChecker(value, List<String> issues);
-
 enum VRType { integer, float, string, text, dateTime, sequence, other, unknown }
 
 /// DICOM Value Representation [VR] definitions.

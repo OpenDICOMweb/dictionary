@@ -24,7 +24,8 @@ import 'wk_private.dart';
 const int kGroupMask = 0xFFFF0000;
 const int kElementMask = 0x0000FFFF;
 
-typedef String ValueChecker(value);
+/// A procedure that checks it's value and returns a [String] or a [List<String>].
+typedef bool ValueChecker(value, List<String> issues);
 
 //TODO: is hashCode needed?
 class TagBase {
