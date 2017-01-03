@@ -49,7 +49,7 @@ const List<int> kVR8BitCodeList = const [
   kUR8,  kAS8, kBR8 // preserve formatting
 ];
 
-/// Returns the [index] of [vrCode] in kVR8List.
+/// Returns the [_index] of [vrCode] in kVR8List.
 int vrCodeToIndex(int vrCode) => kVR8BitCodeList.indexOf(vrCode);
 
 // Constant definitions for 16-bit VR Codes. Since the
@@ -97,5 +97,5 @@ const List<int> kVR16BitCodeList = const [
   kUR16, kAS16, kBR16 // preserve formatting
 ];
 
-/// Returns the [index] of [vrCode] in kVR16List.
+/// Returns the [_index] of [vrCode] in kVR16List.
 int vr16CodeToIndex(int vrCode) => kVR16BitCodeList.indexOf(vrCode);

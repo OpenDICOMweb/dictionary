@@ -4,6 +4,7 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
+import 'package:dictionary/tag.dart';
 import 'package:dictionary/src/common/integer/integer.dart';
 import 'package:dictionary/src/dicom/vr/vr_index.dart';
 
@@ -223,7 +224,7 @@ class VR {
   int getIndex(int first, int second) {
     var val = lookupTable[first];
     if (val is VR) return val.index;
-    if (val is Map<int, dynamic>) return val[second].index;
+    if (val is Map<int, dynamic>) return val[second]._index;
     throw 'Invalid VR "${new String.fromCharCode(first)}${new String.fromCharCode(first)}"';
   }
 
@@ -301,3 +302,182 @@ class VRSpecial extends VR {
   static const VRSpecial kUSOW1 =
       const VRSpecial(const [VR.kUS, VR.kOW], 01, 0x0003, false, "USOW1", 2);
 }
+
+typedef Issue VRValueChecker(int vrIndex);
+
+
+Issue noVRValueChecker(value) => throw 'Invalid vrIndex';
+
+Issue sequenceValueChecker(value) => throw 'Shouldn\'t check sequence values';
+
+
+
+
+
+
+
+const List<ValueChecker> vrValueCheckers = const [
+  //kNoVR,
+  noVRValueChecker,
+  // Sequence
+  sequenceValueChecker, //kSQ,
+  // Integers
+  //kSS,
+  int16ValueChecker,
+  // kSL,
+  int32ValueChecker,
+  // kOB,
+  uint8ValueChecker,
+  // kUN,
+  uint8ValueChecker,
+  // kOW,
+  uint16ValueChecker,
+  // kUS,
+  uint16ValueChecker,
+  // kUL,
+  uint32ValueChecker,
+  // kAT,
+  uint32ValueChecker,
+  // kOL,
+  uint32ValueChecker,
+
+  // Floats
+  // kFD,
+  checkValuesLength,
+  // kFL,
+  checkValuesLength,
+  // kOD,
+  checkValuesLength,
+  // kOF,
+  checkValuesLength,
+
+  // kIS - Integer & String.integer
+  //kIS,
+  checkISValue,
+
+  // kDS - Float & String.float
+  checkISValue,
+  // String.array
+  // kAE,
+  checkAEValue,
+  // kCS,
+  checkCodeStringValue,
+  // kLO,
+  checkLongStringValue,
+  // kSH,
+  checkShortStringValue,
+  // kUC,
+  checkUnlimitedStringValue,
+
+  // String.Text
+  // kST,
+  checkShortText,
+  // kLT,
+  checkLongText,
+  // kUT,
+  checkUnlimitedText,
+
+  // String.DateTime
+  // kDA,
+  checkDateValue,
+  // kDT,
+  checkDataTimeValue,
+  // kTM,
+  checkTimeValue,
+
+  // String.Other
+  // kPN,
+  checkPNValue,
+  // kUI,
+  checkUIValue,
+  // kUR,
+  checkURValue,
+  // kAS,
+  checkASValue,
+  //Bulkdata Reference
+ // kBR
+];
+
+
+
+const List<VR> byteCheckers = const [
+  //kNoVR,
+  noVRBytesChecker,
+  // Sequence
+  checkSequenceBytes, //kSQ,
+  // Integers
+  //kSS,
+  int16BytesChecker,
+  // kSL,
+  int32BytesChecker,
+  // kOB,
+  uint8BytesChecker,
+  // kUN,
+  uint8BytesChecker,
+  // kOW,
+  uint16BytesChecker,
+  // kUS,
+  uint16BytesChecker,
+  // kUL,
+  uint32BytesChecker,
+  // kAT,
+  uint32BytesChecker,
+  // kOL,
+  uint32BytesChecker,
+
+  // Floats
+  // kFD,
+  checkBytessLength,
+  // kFL,
+  checkBytessLength,
+  // kOD,
+  checkBytessLength,
+  // kOF,
+  checkBytessLength,
+
+  // kIS - Integer & String.integer
+  //kIS,
+  checkISBytes,
+
+  // kDS - Float & String.float
+  checkISBytes,
+  // String.array
+  // kAE,
+  checkAEBytes,
+  // kCS,
+  checkCodeStringBytes,
+  // kLO,
+  checkLongStringBytes,
+  // kSH,
+  checkShortStringBytes,
+  // kUC,
+  checkUnlimitedStringBytes,
+
+  // String.Text
+  // kST,
+  checkShortText,
+  // kLT,
+  checkLongText,
+  // kUT,
+  checkUnlimitedText,
+
+  // String.DateTime
+  // kDA,
+  checkDateBytes,
+  // kDT,
+  checkDataTimeBytes,
+  // kTM,
+  checkTimeBytes,
+
+  // String.Other
+  // kPN,
+  checkPNBytes,
+  // kUI,
+  checkUIBytes,
+  // kUR,
+  checkURBytes,
+  // kAS,
+  checkASBytes,
+  //Bulkdata Reference
+  kBR
+];

@@ -4,12 +4,12 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu>
 // See the AUTHORS file for other contributors.
 
-import 'element_def.dart';
-import 'iod_element.dart';
+import 'package:dictionary/tag.dart';
+import 'iod_tag.dart';
 
 
 abstract class IodSequenceBase {
-  ElementDef element;
+  Tag tag;
   List<IodTag> itemElements;
   String description;
   

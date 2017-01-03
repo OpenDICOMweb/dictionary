@@ -110,7 +110,10 @@ class Float32 extends Float {
 
   static int toLengthInBytes(int length) => length << shiftValue;
 
-  static Float32List bytesView(Uint8List bytes, [int offsetInBytes = 0, int length]) {
+  /// Returns a [Float32List] created from [bytes]. if  [offsetInBytes] is aligned
+  /// on an 8-byte boundary, then a [Float32List.view] is returned; otherwise,
+  /// the [bytes] are copied to a [new] [Float64List].
+  static Float32List viewOfBytes(Uint8List bytes, [int offsetInBytes = 0, int length]) {
     if (offsetInBytes < 0) throw new ArgumentError('Invalid offsetInBytes($offsetInBytes)');
     if (length == null) length = bytes.lengthInBytes >> shiftValue;
     if (length < 0) throw new ArgumentError('Invalid length($length)');
@@ -125,7 +128,7 @@ class Float32 extends Float {
     }
   }
 
-  static toList(List<double> list) =>
+  static toFloat32List(List<double> list) =>
       (list is Float32List) ? list : new Float32List.fromList(list);
 }
 
@@ -200,7 +203,10 @@ class Float64 extends Float {
 
   static int toLengthInBytes(int length) => length << shiftValue;
 
-  static Float64List bytesView(Uint8List bytes, [int offsetInBytes = 0, int length]) {
+  /// Returns a [Float64List] created from [bytes]. if  [offsetInBytes] is aligned
+  /// on an 8-byte boundary, then a [Float64List.view] is returned; otherwise,
+  /// the [bytes] are copied to a [new] [Float64List].
+  static Float64List viewOfBytes(Uint8List bytes, [int offsetInBytes = 0, int length]) {
     if (offsetInBytes < 0) throw new ArgumentError('Invalid offsetInBytes($offsetInBytes)');
     if (length == null) length = bytes.lengthInBytes >> shiftValue;
     if (length < 0) throw new ArgumentError('Invalid length($length)');
@@ -215,6 +221,6 @@ class Float64 extends Float {
     }
   }
 
-  static toList(List<double> list) =>
+  static toFloat64List(List<double> list) =>
       (list is Float32List) ? list : new Float64List.fromList(list);
 }

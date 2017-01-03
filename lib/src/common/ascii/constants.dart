@@ -318,7 +318,7 @@ const int kLeftAngle = 60;
 const int kEQual = 61;
 const int kEqualSign = 61;
 
-/// GREATER:  Greater-Than Sign, Rigth Angle Bracket
+/// GREATER:  Greater-Than Sign, Right Angle Bracket
 const int kGreater = 62;
 const int kGreaterThanSign = 62;
 const int kGreaterThan = 62;

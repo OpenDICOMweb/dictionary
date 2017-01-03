@@ -14,6 +14,10 @@ bool isControlChar(int c) => ((c >= 0) && (c <= kUs)) || (c == kDelete);
 /// Returns True if the [c] is in the class [AsciiCharClass.DIGIT]
 bool isDigitChar(int c) => ((c >= k0) && (c <= k9));
 
+/// Returns True if the [c] is in the class [AsciiCharClass.DIGIT]
+bool isHexChar(int c) =>
+    (k0 <= c && c <= k9) || (kA <= c && c <= kF) || (ka <= c && c <= kf);
+
 /// Returns [true] if [c] is an uppercase character.
 bool isUppercaseChar(int c) => (c >= kA) && (c <= kZ);
 

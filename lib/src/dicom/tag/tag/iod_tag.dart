@@ -4,31 +4,39 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu>
 // See the AUTHORS file for other contributors.
 
-import 'package:dictionary/new_dicom.dart';
+import 'package:dictionary/tag.dart';
+import 'package:dictionary/src/dicom/vr/vr.dart';
+import 'package:dictionary/src/dicom/vm.dart';
 
 /// A [class] for defining the elements of an [IOD].
 class IodTag implements Tag {
   final Tag tag;
-  final EType type;
-
-  const IodTag(this.tag, this.type);
+  final EType eType;
+  const IodTag(this.tag, this.eType);
 
   int get code => tag.code;
+  String get hex => tag.hex;
+  int get group => tag.group;
+  String get groupHex => tag.groupHex;
+  int get elt => tag.elt;
+  String get eltHex => tag.eltHex;
+
   String get keyword => tag.keyword;
   String get name => tag.name;
+
   VR get vr => tag.vr;
+  int get minLength => tag.minLength;
+  int get maxLength => tag.maxLength;
+  int get width => tag.width;
+
   VM get vm => tag.vm;
   bool get isRetired => tag.isRetired;
 
-  String get hex => tag.hex;
 
-  int get group => tag.group;
 
-  String get groupHex => tag.groupHex;
-
-  int get elt => tag.elt;
-
-  String get eltHex => tag.eltHex;
+  bool isValidLength(int length) => tag.isValidLength(length);
+  bool isValidValue(value) => tag.isValidValue(value);
+  String checkValue(value) => tag.checkValue(value);
 
   String toString() {
     var retired = (isRetired == false) ? "" : ", (Retired)";

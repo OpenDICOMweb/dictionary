@@ -17,19 +17,21 @@ import 'constants.dart';
 import 'e_type.dart';
 import 'elt.dart';
 import 'group.dart';
+import 'package:dictionary/src/dicom/issue.dart';
 import 'tag_map.dart';
 import 'wk_private.dart';
-import 'vr_tables.dart';
 
 const int kGroupMask = 0xFFFF0000;
 const int kElementMask = 0x0000FFFF;
+
+typedef String ValueChecker(value);
 
 //TODO: is hashCode needed?
 class TagBase {
   final int code;
   final VR vr;
 
-  const TagBase(this.code, [this.vr = VR.kUN]);
+  const TagBase._(this.code, this.vr);
 
   // **** Code Getters
   String get dcm => '(${Int.hex(group, 4, "" )},${Int.hex(elt, 4, "")})';
@@ -50,17 +52,7 @@ class TagBase {
 
 }
 
-class PrivateTag extends TagBase {
-  final int code;
-  final VR vr;
-  final bool isPrivate;
-  final bool isCreator;
-
-  PrivateTag(this.code, [this.vr = VR.kUN, this.isPrivate = true, this.isCreator = false])
-      : super(code, vr);
-
-  bool get isPublic => !isPrivate;
-}
+bool throwOnError = true;
 
 //TODO: sort out the naming between Attribute, Data Element, tag, etc.
 // DICOM Attribute Definitions
@@ -88,7 +80,7 @@ class Tag extends TagBase {
       [this.isRetired = false, this.eType = EType.kUnknown])
       : super(code, vr);
 
-
+  ValueChecker get valueChecker => VR.valueCheckers[vrIndex];
 
   int get minLength => vm.min;
 
@@ -99,6 +91,7 @@ class Tag extends TagBase {
   }
 
   int get width => vm.width;
+
 
   /// Returns true if the tag is defined by DICOM, false otherwise.
   /// All DICOM Public tags have group numbers that are even integers.
@@ -154,14 +147,48 @@ class Tag extends TagBase {
   //TODO: should be modified when DEType info is available.
   bool isValidLength(int length) {
     // These are the most common cases.
-    if (length == 0 || (length == 1 && vm.width == 0)) return true;
-    return (length % vm.width == 0 && vm.min <= length && length <= maxLength);
+    if (length == 0 || (length == 1 && width == 0)) return true;
+    return (length % width == 0 && minLength <= length && length <= maxLength);
+  }
+
+  ValueIssue checkLength(List values) {
+    int length = values.length;
+    // These are the most common cases.
+    if (length == 0 || (length == 1 && vm.width == 0)) return null;
+    List<String> msgs;
+    if (length % width != 0)
+      msgs = ['Invalid Length($length) not a multiple of vmWidth($width)'];
+    if (length < minLength) {
+      var msg = 'Invalid Length($length) less than minLength($minLength)';
+      msgs = msgs ??= [];
+      msgs.add(msg);
+    }
+    if (length > maxLength) {
+      var msg = 'Invalid Length($length) greater than maxLength($maxLength)';
+      msgs = msgs ??= [];
+      msgs.add(msg);
+    }
+    return (msgs == null) ? null : new ValueIssue(-1, values, false, msgs);
   }
 
   /// Returns true if [value] is valid for this [Tag].
-  bool isValidValue(value) => isValidValueList[vrIndex](value);
+  bool isValidValue(value) => VR.vrs[vrIndex].isValidValue(value);
 
-  String checkValue(value) => checkValueList[vrIndex](value);
+  String checkValue(value) => VR.valueChecker[vrIndex](value);
+
+  List<ValueIssue> checkValues(List values) {
+    ValueChecker checker = VR.valueCheckers[vrIndex];
+    List<ValueIssue> issues;
+    for (int i = 0; i < values.length; i++) {
+      var msg = checker(values[i]);
+      if (msg != null) {
+        issues = issues ??= [];
+        issues.add(new ValueIssue(i, value, msg, false));
+      }
+    }
+  }
+
+
 
   String toString() {
     var retired = (isRetired == false) ? "" : ", (Retired)";
@@ -193,57 +220,75 @@ class Tag extends TagBase {
     throw new RangeError(msg);
   }
 
-  static Tag lookup(int tag) {
-    Tag e = tagMap[tag];
-    if (e != null) return e;
+  static _tagError(obj) => throw new InvalidTagError(obj);
 
-    // Retired _special case_ tags that still must be handled
+  //TODO: document
+  //TODO: make v an [int] when working
+
+
+  static Tag lookup(intOrTag, [bool shouldThrow = true]) {
+    if (intOrTag is Tag) return intOrTag;
+    if (intOrTag is int) return _lookup(intOrTag);
+    if (intOrTag is! int && shouldThrow) _tagError(intOrTag);
+    return null;
+  }
+
+  //TODO: this should become public when fully converted to Tags.
+  static Tag _lookup(int code, [bool shouldThrow = true]) {
+    Tag tag = tagMap[code];
+
+    // Tag tag = (isPrivateTag(v)) ? PrivateTag.lookup(v) : PublicTag.lookup(v);
+    // TODO handle private tags here
+
+    if (tag != null) return tag;
+
+    // Retired _special case_ codes that still must be handled
 
     // (0020,31xx)
-    if ((tag >= 0x00283100) && (tag <= 0x002031FF)) return Tag.kSourceImageIDs;
+    if ((code >= 0x00283100) && (code <= 0x002031FF)) return Tag.kSourceImageIDs;
 
     // (0028,04X0)
-    if ((tag >= 0x00280410) && (tag <= 0x002804F0)) return Tag.kRowsForNthOrderCoefficients;
+    if ((code >= 0x00280410) && (code <= 0x002804F0)) return Tag.kRowsForNthOrderCoefficients;
     // (0028,04X1)
-    if ((tag >= 0x00280411) && (tag <= 0x002804F1)) return Tag.kColumnsForNthOrderCoefficients;
+    if ((code >= 0x00280411) && (code <= 0x002804F1)) return Tag.kColumnsForNthOrderCoefficients;
     // (0028,04X2)
-    if ((tag >= 0x00280412) && (tag <= 0x002804F2)) return Tag.kCoefficientCoding;
+    if ((code >= 0x00280412) && (code <= 0x002804F2)) return Tag.kCoefficientCoding;
     // (0028,04X3)
-    if ((tag >= 0x00280413) && (tag <= 0x002804F3)) return Tag.kCoefficientCodingPointers;
+    if ((code >= 0x00280413) && (code <= 0x002804F3)) return Tag.kCoefficientCodingPointers;
 
     // (0028,08x0)
-    if ((tag >= 0x00280810) && (tag <= 0x002808F0)) return Tag.kCodeLabel;
+    if ((code >= 0x00280810) && (code <= 0x002808F0)) return Tag.kCodeLabel;
     // (0028,08x2)
-    if ((tag >= 0x00280812) && (tag <= 0x002808F2)) return Tag.kNumberOfTables;
+    if ((code >= 0x00280812) && (code <= 0x002808F2)) return Tag.kNumberOfTables;
     // (0028,08x3)
-    if ((tag >= 0x00280813) && (tag <= 0x002808F3)) return Tag.kCodeTableLocation;
+    if ((code >= 0x00280813) && (code <= 0x002808F3)) return Tag.kCodeTableLocation;
     // (0028,08x4)
-    if ((tag >= 0x00280814) && (tag <= 0x002808F4)) return Tag.kBitsForCodeWord;
+    if ((code >= 0x00280814) && (code <= 0x002808F4)) return Tag.kBitsForCodeWord;
     // (0028,08x8)
-    if ((tag >= 0x00280818) && (tag <= 0x002808F8)) return Tag.kImageDataLocation;
+    if ((code >= 0x00280818) && (code <= 0x002808F8)) return Tag.kImageDataLocation;
 
     //**** (1000,xxxy ****
     // (1000,04X2)
-    if ((tag >= 0x10000000) && (tag <= 0x1000FFF0)) return Tag.kEscapeTriplet;
+    if ((code >= 0x10000000) && (code <= 0x1000FFF0)) return Tag.kEscapeTriplet;
     // (1000,04X3)
-    if ((tag >= 0x10000001) && (tag <= 0x1000FFF1)) return Tag.kRunLengthTriplet;
+    if ((code >= 0x10000001) && (code <= 0x1000FFF1)) return Tag.kRunLengthTriplet;
     // (1000,08x0)
-    if ((tag >= 0x10000002) && (tag <= 0x1000FFF2)) return Tag.kHuffmanTableSize;
+    if ((code >= 0x10000002) && (code <= 0x1000FFF2)) return Tag.kHuffmanTableSize;
     // (1000,08x2)
-    if ((tag >= 0x10000003) && (tag <= 0x1000FFF3)) return Tag.kHuffmanTableTriplet;
+    if ((code >= 0x10000003) && (code <= 0x1000FFF3)) return Tag.kHuffmanTableTriplet;
     // (1000,08x3)
-    if ((tag >= 0x10000004) && (tag <= 0x1000FFF4)) return Tag.kShiftTableSize;
+    if ((code >= 0x10000004) && (code <= 0x1000FFF4)) return Tag.kShiftTableSize;
     // (1000,08x4)
-    if ((tag >= 0x10000005) && (tag <= 0x1000FFF5)) return Tag.kShiftTableTriplet;
+    if ((code >= 0x10000005) && (code <= 0x1000FFF5)) return Tag.kShiftTableTriplet;
     // (1000,08x8)
-    if ((tag >= 0x10100000) && (tag <= 0x1010FFFF)) return Tag.kZonalMap;
+    if ((code >= 0x10100000) && (code <= 0x1010FFFF)) return Tag.kZonalMap;
 
     //TODO: 0x50xx,yyyy Elements
     //TODO: 0x60xx,yyyy Elements
     //TODO: 0x7Fxx,yyyy Elements
 
     // No match return [null]
-    return null;
+    return _tagError(tag);
   }
 
   //**** Message Data Elements begin here ****
@@ -13942,3 +13987,14 @@ String keywordToName(String keyword) {
 //TODO: Move 0x50xx,yyyy elements down to here and change name
 //TODO: Move 0x60xx,yyyy elements down to here and change name
 //TODO: Move 0x7Fxx,yyyy elements down to here and change name
+
+class InvalidTagError extends Error {
+  Object tag;
+
+  InvalidTagError(tag);
+
+  String toString() {
+    var msg = (tag is int) ? Int.hex(tag, 8) : '${tag.runtimeType}: $tag';
+    return 'Error: Invalid Tag($msg)';
+  }
+}

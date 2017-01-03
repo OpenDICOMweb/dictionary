@@ -8,6 +8,7 @@ export 'package:dictionary/src/dicom/tag/tag/constants.dart';
 export 'package:dictionary/src/dicom/tag/tag/e_type.dart';
 export 'package:dictionary/src/dicom/tag/tag/elt.dart';
 export 'package:dictionary/src/dicom/tag/tag/group.dart';
+export 'package:dictionary/src/dicom/issue.dart';
 export 'package:dictionary/src/dicom/tag/tag/tag.dart';
 export 'package:dictionary/src/dicom/tag/tag/tag_map.dart';
 export 'package:dictionary/src/dicom/tag/tag/vr_tables.dart';

@@ -4,7 +4,6 @@
 // Original author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
-
 import 'package:dictionary/ascii.dart';
 import 'package:dictionary/src/common/string/predicates.dart';
 

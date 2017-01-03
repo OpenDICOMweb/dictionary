@@ -4,14 +4,57 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
+import 'dart:typed_data';
+
 import 'package:dictionary/src/dicom/vm.dart';
 import 'package:dictionary/src/dicom/vr/vr.dart';
+
 
 import 'group.dart';
 import 'elt.dart';
 import 'tag.dart';
-// import 'e_type.dart';
 
+class PrivateTag extends TagBase {
+
+  const PrivateTag._(int code, VR vr) : super._(code, vr);
+
+  VM get vm => VM.k1_n;
+
+  bool get isPrivate => true;
+
+  bool get isCreator => null;
+
+  bool get isData => !isCreator;
+
+  bool get isPublic => !isPrivate;
+
+  bool get isRetired => false;
+}
+
+class PrivateCreator extends PrivateTag {
+
+  const PrivateCreator(int code, [VR vr = VR.kUN]) : super._(code, vr);
+
+  bool get isCreator => true;
+
+  bool get isPublic => !isPrivate;
+
+  bool isValidDataCode(int code) {
+
+  }
+
+  static const kUnknownCreator = const PrivateCreator(0, VR.kUN);
+}
+
+class PrivateData extends PrivateTag {
+  final PrivateCreator creator;
+
+  const PrivateData(this.creator, int code, [VR vr = VR.kUN]) : super._(code, vr);
+
+  bool get isCreator => true;
+
+  bool get isPublic => !isPrivate;
+}
 
 //TODO: flush when working
 //bool _isPrivateCreator(Tag tag) => 0x0010 <= tag.elt && tag.elt <= 0x00FF;
@@ -77,7 +120,7 @@ class WKPrivateTag extends Tag {
   /// Returns [true] if [tag] is a valid DICOM Private Tag.
  // static bool isPrivate(int tag) => Group.isPrivate(group(tag));
 
-  /// Returns true if [tag] is a valid [PrivateCreator] tag.
+  /// Returns true if [tag] is a valid [PrivateData] tag.
   static bool isPrivateCreator(int tag) =>
       Group.isPrivate(Group.fromTag(tag)) && Elt.isPrivateCreator(Elt.fromTag(tag));
 

@@ -45,12 +45,12 @@ class Int {
 
   /// Returns a [List<int>] if all values are [int], otherwise [null].
   static List<int> listGuard(List<int> vList, _InRange inRange) {
-    print('vList: $vList');
+   // print('vList: $vList');
     for (int i = 0; i < vList.length; i++)
       if ((vList[i] is int) && inRange(vList[i])) {
         return null;
       }
-    print('vList: $vList');
+   // print('vList: $vList');
     return vList;
   }
 
@@ -172,7 +172,8 @@ class Int8 extends Int {
 
   static int toLengthInBytes(int length) => length;
 
-  static Int8List bytesView(Uint8List bytes, [int offsetInBytes = 0, int length]) {
+  /// Returns a [Int8List.view] of [bytes].
+  static Int8List view(Uint8List bytes, [int offsetInBytes = 0, int length]) {
     if (offsetInBytes < 0) throw new ArgumentError('Invalid offsetInBytes($offsetInBytes)');
     if (length == null) length = bytes.lengthInBytes >> shiftValue;
     if (length < 0) throw new ArgumentError('Invalid length($length)');
@@ -222,7 +223,10 @@ class Int16 extends Int {
 
   static int toLengthInBytes(int length) => length << shiftValue;
 
-  static Int16List bytesView(Uint8List bytes, [int offsetInBytes = 0, int length]) {
+  /// Returns a [Int16List] created from [bytes]. If [offsetInBytes] is aligned
+  /// on an 2-byte boundary, then a [Int16List.view] is returned; otherwise,
+  /// the [bytes] are copied to a [new] [Int16List].
+  static Int16List viewOfBytes(Uint8List bytes, [int offsetInBytes = 0, int length]) {
     if (offsetInBytes < 0) throw new ArgumentError('Invalid offsetInBytes($offsetInBytes)');
     if (length == null) length = bytes.lengthInBytes >> shiftValue;
     if (length < 0) throw new ArgumentError('Invalid length($length)');
@@ -236,6 +240,9 @@ class Int16 extends Int {
       return vList;
     }
   }
+
+  static toInt16List(List<int> list) =>
+      (list is Int16List) ? list : new Int16List.fromList(list);
 }
 
 class Int32 extends Int {
@@ -280,7 +287,10 @@ class Int32 extends Int {
 
   static int toLengthInBytes(int length) => length << shiftValue;
 
-  static Int32List bytesView(Uint8List bytes, [int offsetInBytes = 0, int length]) {
+  /// Returns a [Int32List] created from [bytes]. if  [offsetInBytes] is aligned
+  /// on an 4-byte boundary, then an [Int32List.view] is returned; otherwise,
+  /// the [bytes] are copied to a [new] [Int32List].
+  static Int32List viewOfBytes(Uint8List bytes, [int offsetInBytes = 0, int length]) {
     if (offsetInBytes < 0) throw new ArgumentError('Invalid offsetInBytes($offsetInBytes)');
     if (length == null) length = bytes.lengthInBytes >> shiftValue;
     if (length < 0) throw new ArgumentError('Invalid length($length)');
@@ -294,6 +304,9 @@ class Int32 extends Int {
       return vList;
     }
   }
+
+  static toInt32List(List<int> list) =>
+      (list is Int32List) ? list : new Int32List.fromList(list);
 }
 
 class Int64 extends Int {
@@ -338,7 +351,10 @@ class Int64 extends Int {
 
   static int toLengthInBytes(int length) => length << shiftValue;
 
-  static Int64List bytesView(Uint8List bytes, [int offsetInBytes = 0, int length]) {
+  /// Returns a [Int64List] created from [bytes]. if  [offsetInBytes] is aligned
+  /// on an 8-byte boundary, then a [Int64List.view] is returned; otherwise,
+  /// the [bytes] are copied to a [new] [Int64List].
+  static Int64List viewOfBytes(Uint8List bytes, [int offsetInBytes = 0, int length]) {
     if (offsetInBytes < 0) throw new ArgumentError('Invalid offsetInBytes($offsetInBytes)');
     if (length == null) length = bytes.lengthInBytes >> shiftValue;
     if (length < 0) throw new ArgumentError('Invalid length($length)');
@@ -352,6 +368,9 @@ class Int64 extends Int {
       return vList;
     }
   }
+
+  static toInt64List(List<int> list) =>
+      (list is Int64List) ? list : new Int64List.fromList(list);
 }
 
 class Uint extends Int {
@@ -413,7 +432,8 @@ class Uint8 extends Uint {
 
   static int toLengthInBytes(int length) => length << shiftValue;
 
-  static Uint8List bytesView(Uint8List bytes, [int offsetInBytes = 0, int length]) {
+  /// Returns a [Uint8List.view] of [bytes].
+  static Uint8List viewF(Uint8List bytes, [int offsetInBytes = 0, int length]) {
     if (offsetInBytes < 0) throw new ArgumentError('Invalid offsetInBytes($offsetInBytes)');
     if (length == null) length = bytes.lengthInBytes >> shiftValue;
     if (length < 0) throw new ArgumentError('Invalid length($length)');
@@ -463,7 +483,10 @@ class Uint16 extends Uint {
 
   static int toLengthInBytes(int length) => length << shiftValue;
 
-  static Uint16List bytesView(Uint8List bytes, [int offsetInBytes = 0, int length]) {
+  /// Returns a [Uint16List] created from [bytes]. If [offsetInBytes] is aligned
+  /// on an 2-byte boundary, then a [Uint16List.view] is returned; otherwise,
+  /// the [bytes] are copied to a [new] [Uint16List].
+  static Uint16List viewOfBytes(Uint8List bytes, [int offsetInBytes = 0, int length]) {
     if (offsetInBytes < 0) throw new ArgumentError('Invalid offsetInBytes($offsetInBytes)');
     if (length == null) length = bytes.lengthInBytes >> shiftValue;
     if (length < 0) throw new ArgumentError('Invalid length($length)');
@@ -477,6 +500,9 @@ class Uint16 extends Uint {
       return vList;
     }
   }
+
+  static toUint16List(List<int> list) =>
+      (list is Uint16List) ? list : new Uint16List.fromList(list);
 }
 
 class Uint32 extends Uint {
@@ -521,7 +547,10 @@ class Uint32 extends Uint {
 
   static int toLengthInBytes(int length) => length << shiftValue;
 
-  static Uint32List bytesView(Uint8List bytes, [int offsetInBytes = 0, int length]) {
+  /// Returns a [Uint32List] created from [bytes]. If [offsetInBytes] is aligned
+  /// on an 4-byte boundary, then a [Uint32List.view] is returned; otherwise,
+  /// the [bytes] are copied to a [new] [Uint32List].
+  static Uint32List viewOfBytes(Uint8List bytes, [int offsetInBytes = 0, int length]) {
     if (offsetInBytes < 0) throw new ArgumentError('Invalid offsetInBytes($offsetInBytes)');
     if (length == null) length = bytes.lengthInBytes >> shiftValue;
     if (length < 0) throw new ArgumentError('Invalid length($length)');
@@ -535,6 +564,9 @@ class Uint32 extends Uint {
       return vList;
     }
   }
+
+  static toUint32List(List<int> list) =>
+      (list is Uint32List) ? list : new Uint32List.fromList(list);
 }
 
 class Uint64 extends Uint {
@@ -579,7 +611,10 @@ class Uint64 extends Uint {
 
   static int toLengthInBytes(int length) => length << shiftValue;
 
-  static Uint64List bytesView(Uint8List bytes, [int offsetInBytes = 0, int length]) {
+  /// Returns a [Uint64List] created from [bytes]. If [offsetInBytes] is aligned
+  /// on an 8-byte boundary, then a [Uint64List.view] is returned; otherwise,
+  /// the [bytes] are copied to a [new] [Uint64List].
+  static Uint64List viewOfBytes(Uint8List bytes, [int offsetInBytes = 0, int length]) {
     if (offsetInBytes < 0) throw new ArgumentError('Invalid offsetInBytes($offsetInBytes)');
     if (length == null) length = bytes.lengthInBytes >> shiftValue;
     if (length < 0) throw new ArgumentError('Invalid length($length)');
@@ -593,6 +628,9 @@ class Uint64 extends Uint {
       return vList;
     }
   }
+
+  static toUint64List(List<int> list) =>
+      (list is Uint64List) ? list : new Uint64List.fromList(list);
 }
 
 /// _Deprecated: Use [Int.hex] instead.
