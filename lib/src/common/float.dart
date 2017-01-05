@@ -130,7 +130,10 @@ class Float32 extends Float {
     if (length == null) length = bytes.lengthInBytes >> shiftValue;
     if (length < 0) throw new ArgumentError('Invalid length($length)');
     if (isAligned(offsetInBytes)) {
-      return bytes.buffer.asFloat32List(offsetInBytes, length);
+      var f32List = [];
+      f32List.add(double.parse(new String.fromCharCodes(bytes)));
+      return new Float32List.fromList(f32List);
+      //return bytes.buffer.asFloat32List(offsetInBytes, length); unexpected result
     } else {
       Float32List vList = new Float32List(length);
       ByteData bd = bytes.buffer.asByteData(offsetInBytes, length >> shiftValue);
