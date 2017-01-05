@@ -152,7 +152,7 @@ class Tag extends TagBase {
     int length = values.length;
     // These are the most common cases.
     if (length == 0 || (length == 1 && vm.width == 0)) return true;
-    if (length % width != 0)
+    if ( width != 0 && length % width != 0)
       issues.add('Invalid Length($length) not a multiple of vmWidth($width)');
     if (length < minLength)
       issues.add('Invalid Length($length) less than minLength($minLength)');
