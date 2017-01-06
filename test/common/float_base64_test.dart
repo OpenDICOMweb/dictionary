@@ -93,5 +93,44 @@ void main () {
     print('vList: $vList');
   }
 
+  double fd = 78665.478;
+  print('fd: $fd');
+  String fString = fd.toStringAsPrecision(8);
+  print('fString: $fString');
+  b64 = BASE64.encode(UTF8.encode(fString));
+  print('b64: $b64');
+  String s = UTF8.decode(BASE64.decode(b64));
+  print('s: $s');
+  double fOut = double.parse(s);
+  print('fOut: $fOut');
+  print('fd($fd) == fOut($fOut): ${fd == fOut}');
+
+
+  //  print('data0: $data_0');
+  float32_0 = new Float32List.fromList(data1);
+  for(int offset = 0; offset < 5; offset++) {
+    print('offset: $offset');
+    Uint8List unaligned = createUnalignedFloat32List(float32_0, offset);
+    print('unaligned: $unaligned');
+    b64 = BASE64.encode(unaligned);
+    print('b64: $b64');
+    out = BASE64.decode(b64);
+    print('out: out');
+    Float32List vList = Float32.viewOfBytes(out, offset);
+    print('vList: $vList');
+  }
+
+  float64_0 = new Float64List.fromList(data1);
+  for(int offset = 0; offset < 5; offset++) {
+    print('offset: $offset');
+    Uint8List unaligned = createUnalignedFloat64List(float64_0, offset);
+    print('unaligned: $unaligned');
+    b64 = BASE64.encode(unaligned);
+    print('b64: $b64');
+    out = BASE64.decode(b64);
+    print('out: out');
+    Float64List vList = Float64.viewOfBytes(out, offset);
+    print('vList: $vList');
+  }
 
 }
