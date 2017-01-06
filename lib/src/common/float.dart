@@ -9,7 +9,6 @@ import 'dart:typed_data';
 import 'package:dictionary/src/common/utils.dart';
 import 'package:dictionary/src/dicom/constants.dart';
 
-
 /// Floating Point Data Types
 
 //TODO: need work.
@@ -24,20 +23,19 @@ double _floatError(String type, double min, double val, double max) {
 class Float {
   static String get type => "Float";
 
+  static bool get isFloat => true;
+
   static equal(List<double> a, List<double> b) {
     if (identical(a, b)) return true;
     if (a.length != b.length) return false;
-    for(int i = 0; i < a.length; i++)
-      if (a[i] != b[i]) return false;
+    for (int i = 0; i < a.length; i++) if (a[i] != b[i]) return false;
     return true;
   }
-
 
   static bool inRange(double min, double val, double max) => (min <= val && val <= max);
 
   static double guard(double min, double val, double max) =>
       inRange(min, val, max) ? val : _floatError(type, min, val, max);
-
 
   static bool check(double n, List<String> issues, double min, double max) {
     if (n < min) {
@@ -53,15 +51,14 @@ class Float {
 
   /// Returns a [List<int>] if all values are [int], otherwise null.
   @deprecated
-  static List<double> validate(List<double> values, _InRange inRange) =>
-      listGuard(values, inRange);
+  static List<double> validate(List<double> values, _InRange inRange) => listGuard(values, inRange);
 
   /// Returns a [List<int>] if all values are [int], otherwise null.
   static List<double> listGuard(List<double> values, _InRange inRange) {
-  //  print('values: $values');
+    //  print('values: $values');
     for (int i = 0; i < values.length; i++)
       if ((values[i] is double) && inRange(values[i])) {
-  //      print('values: $values');
+        //      print('values: $values');
         return values;
       }
     return null;
@@ -73,8 +70,7 @@ class Float {
     return true;
   }
 
-  static bool isNotValidList(List<double> vList, _InRange inRange) =>
-      !isValidList(vList, inRange);
+  static bool isNotValidList(List<double> vList, _InRange inRange) => !isValidList(vList, inRange);
 }
 
 class Float32 extends Float {
@@ -121,13 +117,13 @@ class Float32 extends Float {
   }
 
   /// Returns a [true] if all values are valid Uint32, otherwise [false].
-  static bool isValidList(List<double> vList) =>
-      (listGuard(vList) == null) ? false : true;
+  static bool isValidList(List<double> vList) => (listGuard(vList) == null) ? false : true;
 
-  static bool isNotValidList(List<double> vList) =>
-      !isValidList(vList);
+  static bool isNotValidList(List<double> vList) => !isValidList(vList);
 
-  static bool isAligned(int offsetInBytes) => offsetInBytes % sizeInBytes == 0;
+  static bool isAligned(Float32List vList) => isAlignedOffset(vList.offsetInBytes);
+
+  static bool isAlignedOffset(int offsetInBytes) => offsetInBytes % sizeInBytes == 0;
 
   static const shiftValue = 2;
 
@@ -145,22 +141,22 @@ class Float32 extends Float {
     if (length == null) length = (bytes.lengthInBytes - offsetInBytes) >> shiftValue;
     if (length < 0) throw new ArgumentError('Invalid length($length)');
     */
-    if (isAligned(offsetInBytes)) {
+    if (isAlignedOffset(offsetInBytes)) {
       // Aligned - Create a view of bytes
-      print(' view align(${isAligned(offsetInBytes)}), length($length), lengthIB(${length <<
-          shiftValue})');
+      print(' view align(${isAlignedOffset(offsetInBytes)}), length($length), '
+          'lengthIB(${length << shiftValue})');
       print('buffer:${bytes.offsetInBytes} ${bytes.lengthInBytes}');
-      return bytes.buffer.asFloat32List(offsetInBytes, length); //unexpected result
+      return bytes.buffer.asFloat32List(offsetInBytes, length);
     } else {
       // Unaligned - Copy bytes
       Float32List vList = new Float32List(length);
-      print('copy align(${isAligned(offsetInBytes)}), length($length), '
+      print('copy align(${isAlignedOffset(offsetInBytes)}), length($length), '
           'lengthIB(${length << shiftValue})');
       ByteData bd = bytes.buffer.asByteData(offsetInBytes, length << shiftValue);
       print('vList length(${vList.length}), bd lengthIB(${bd.lengthInBytes})');
       for (int i = 0; i < vList.length; i++) {
         print('i($i) oib(${i << shiftValue})');
-        vList[i] = bd.getFloat32(i << shiftValue, Endianness.HOST_ENDIAN);
+        vList[i] = bd.getFloat32(i << shiftValue, Endianness.LITTLE_ENDIAN);
       }
       print('vList: $vList');
       return vList;
@@ -238,7 +234,8 @@ class Float64 extends Float {
 
   static bool isNotValidList(List<double> vList) => !isValidList(vList);
 
-  static bool isAligned(int offsetInBytes) => offsetInBytes % sizeInBytes == 0;
+  static bool isAligned(Float64List vList) => isAlignedOffset(vList.offsetInBytes);
+  static bool isAlignedOffset(int offsetInBytes) => offsetInBytes % sizeInBytes == 0;
 
   static int toLength(int lengthInBytes) => lengthInBytes >> shiftValue;
 
@@ -250,9 +247,9 @@ class Float64 extends Float {
   static Float64List viewOfBytes(Uint8List bytes, [int offsetInBytes = 0, int length]) {
     length = getLength(bytes, offsetInBytes, length, shiftValue);
     print('F64 length: $length');
-    if (isAligned(offsetInBytes)) {
+    if (isAlignedOffset(offsetInBytes)) {
       // Aligned - Create a view of bytes.
-      return bytes.buffer.asFloat64List(offsetInBytes, length); //unexpected result
+      return bytes.buffer.asFloat64List(offsetInBytes, length);
     } else {
       // Unaligned - Copy bytes.
       Float64List vList = new Float64List(length);
@@ -262,6 +259,7 @@ class Float64 extends Float {
       return vList;
     }
   }
+
   static toFloat64List(List<double> list) =>
       (list is Float64List) ? list : new Float64List.fromList(list);
 }

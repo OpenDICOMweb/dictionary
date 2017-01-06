@@ -6,6 +6,7 @@
 
 import 'dart:typed_data';
 
+import 'package:dictionary/src/common/utils.dart';
 import 'package:dictionary/src/dicom/constants.dart';
 
 /// Private error handler.
@@ -36,6 +37,13 @@ class Int {
 
   static int maxValue(int lengthInBits) => (1 << (lengthInBits - 1)) - 1;
 
+  static bool equal(List<int> a, List<int> b) {
+    if (identical(a, b)) return true;
+    if (a.length != b.length) return false;
+    for (int i = 0; i < a.length; i++) if (a[i] != b[i]) return false;
+    return true;
+  }
+
   /// Returns [true] if [value] is between [min] and [max] inclusive.
   static bool inRange(int min, int value, int max) => (min <= value && value <= max);
 
@@ -60,20 +68,19 @@ class Int {
   static List<int> listGuard(List<int> vList, _InRange inRange, int minLength, int maxLength) {
     if (vList == null) return null;
     if (vList.length < minLength || maxLength < vList.length) return null;
-   // print('vList: $vList');
+    // print('vList: $vList');
     if (vList is TypedData)
-    for (int i = 0; i < vList.length; i++)
-      if ((vList[i] is int) && inRange(vList[i])) {
-        return null;
-      }
-   // print('vList: $vList');
+      for (int i = 0; i < vList.length; i++)
+        if ((vList[i] is int) && inRange(vList[i])) {
+          return null;
+        }
+    // print('vList: $vList');
     return vList;
   }
 
   /// Returns a [List<int>] if all values are [int], otherwise [null].
   static List<int> _listGuard(List<int> vList, _InRange inRange) {
-    for (int i = 0; i < vList.length; i++)
-      if (! inRange(vList[i])) return null;
+    for (int i = 0; i < vList.length; i++) if (!inRange(vList[i])) return null;
     return vList;
   }
 
@@ -168,6 +175,8 @@ class Int8 extends Int {
   static const maxLongLength = kMaxLongLengthInBytes ~/ sizeInBytes;
   static final Int8List emptyList = new Int8List(0);
 
+  static equal(Int8List a, Int8List b) => Int.equal(a, b);
+
   static bool inRange(int i) => (min <= i) && (i <= max);
 
   static int guard(int i) => inRange(i) ? i : _error("Int8", i);
@@ -204,11 +213,11 @@ class Int8 extends Int {
   static int toLengthInBytes(int length) => length;
 
   /// Returns a [Int8List.view] of [bytes].
-  static Int8List view(Uint8List bytes, [int offsetInBytes = 0, int length]) {
-    if (offsetInBytes < 0) throw new ArgumentError('Invalid offsetInBytes($offsetInBytes)');
-    if (length == null) length = bytes.lengthInBytes >> shiftValue;
-    if (length < 0) throw new ArgumentError('Invalid length($length)');
-    return bytes.buffer.asInt8List(offsetInBytes, length);
+  ///
+  /// Note: [Int8List]s are always aligned.
+  static Uint8List view(Uint8List bytes, [int offsetInBytes = 0, int length]) {
+    length = getLength(bytes, offsetInBytes, length, shiftValue);
+    return bytes.buffer.asUint8List(offsetInBytes, length);
   }
 }
 
@@ -256,26 +265,29 @@ class Int16 extends Int {
 
   static int toLengthInBytes(int length) => length << shiftValue;
 
-  /// Returns a [Int16List] created from [bytes]. If [offsetInBytes] is aligned
-  /// on an 2-byte boundary, then a [Int16List.view] is returned; otherwise,
+  /// Returns an [Int16List.view] of [list].
+  static Int16List view(Int16List list, [int offsetInBytes = 0, int length]) =>
+      viewOfBytes(list.buffer.asUint8List());
+
+  /// Returns a [Int16List] created from the [Uint8List] [bytes]. If [offsetInBytes]
+  /// is aligned on an 2-byte boundary, then a [Int16List.view] is returned; otherwise,
   /// the [bytes] are copied to a [new] [Int16List].
   static Int16List viewOfBytes(Uint8List bytes, [int offsetInBytes = 0, int length]) {
-    if (offsetInBytes < 0) throw new ArgumentError('Invalid offsetInBytes($offsetInBytes)');
-    if (length == null) length = bytes.lengthInBytes >> shiftValue;
-    if (length < 0) throw new ArgumentError('Invalid length($length)');
+    length = getLength(bytes, offsetInBytes, length, shiftValue);
     if (isAligned(offsetInBytes)) {
+      // Aligned - return a view.
       return bytes.buffer.asInt16List(offsetInBytes, length);
     } else {
+      // Unaligned - return a copy bytes.
       Int16List vList = new Int16List(length);
-      ByteData bd = bytes.buffer.asByteData(offsetInBytes, length >> shiftValue);
-      for (int i = 0; i < length; i++, offsetInBytes += sizeInBytes)
-        vList[i] = bd.getInt16(offsetInBytes);
+      ByteData bd = bytes.buffer.asByteData(offsetInBytes, length << shiftValue);
+      for (int i = 0; i < length; i++)
+        vList[i] = bd.getInt16(i << shiftValue, Endianness.LITTLE_ENDIAN);
       return vList;
     }
   }
 
-  static toInt16List(List<int> list) =>
-      (list is Int16List) ? list : new Int16List.fromList(list);
+  static toInt16List(List<int> list) => (list is Int16List) ? list : new Int16List.fromList(list);
 }
 
 class Int32 extends Int {
@@ -322,26 +334,29 @@ class Int32 extends Int {
 
   static int toLengthInBytes(int length) => length << shiftValue;
 
-  /// Returns a [Int32List] created from [bytes]. if  [offsetInBytes] is aligned
-  /// on an 4-byte boundary, then an [Int32List.view] is returned; otherwise,
+  /// Returns an [Int32List.view] of [list].
+  static Int32List view(Int32List list, [int offsetInBytes = 0, int length]) =>
+      viewOfBytes(list.buffer.asUint8List());
+
+  /// Returns a [Int32List] created from [bytes]. If [offsetInBytes] is aligned
+  /// on an 2-byte boundary, then a [Int32List.view] is returned; otherwise,
   /// the [bytes] are copied to a [new] [Int32List].
   static Int32List viewOfBytes(Uint8List bytes, [int offsetInBytes = 0, int length]) {
-    if (offsetInBytes < 0) throw new ArgumentError('Invalid offsetInBytes($offsetInBytes)');
-    if (length == null) length = bytes.lengthInBytes >> shiftValue;
-    if (length < 0) throw new ArgumentError('Invalid length($length)');
+    length = getLength(bytes, offsetInBytes, length, shiftValue);
     if (isAligned(offsetInBytes)) {
+      // Aligned - return a view.
       return bytes.buffer.asInt32List(offsetInBytes, length);
     } else {
+      // Unaligned - return a copy bytes.
       Int32List vList = new Int32List(length);
-      ByteData bd = bytes.buffer.asByteData(offsetInBytes, length >> shiftValue);
-      for (int i = 0; i < length; i++, offsetInBytes += sizeInBytes)
-        vList[i] = bd.getInt32(offsetInBytes);
+      ByteData bd = bytes.buffer.asByteData(offsetInBytes, length << shiftValue);
+      for (int i = 0; i < length; i++)
+        vList[i] = bd.getInt32(i << shiftValue, Endianness.LITTLE_ENDIAN);
       return vList;
     }
   }
 
-  static toInt32List(List<int> list) =>
-      (list is Int32List) ? list : new Int32List.fromList(list);
+  static toInt32List(List<int> list) => (list is Int32List) ? list : new Int32List.fromList(list);
 }
 
 class Int64 extends Int {
@@ -388,26 +403,29 @@ class Int64 extends Int {
 
   static int toLengthInBytes(int length) => length << shiftValue;
 
-  /// Returns a [Int64List] created from [bytes]. if  [offsetInBytes] is aligned
-  /// on an 8-byte boundary, then a [Int64List.view] is returned; otherwise,
+  /// Returns an [Int64List.view] of [list].
+  static Int64List view(Int64List list, [int offsetInBytes = 0, int length]) =>
+      viewOfBytes(list.buffer.asUint8List());
+
+  /// Returns a [Int64List] created from the [Uint8List] [bytes]. If [offsetInBytes]
+  /// is aligned on an 2-byte boundary, then a [Int64List.view] is returned; otherwise,
   /// the [bytes] are copied to a [new] [Int64List].
   static Int64List viewOfBytes(Uint8List bytes, [int offsetInBytes = 0, int length]) {
-    if (offsetInBytes < 0) throw new ArgumentError('Invalid offsetInBytes($offsetInBytes)');
-    if (length == null) length = bytes.lengthInBytes >> shiftValue;
-    if (length < 0) throw new ArgumentError('Invalid length($length)');
+    length = getLength(bytes, offsetInBytes, length, shiftValue);
     if (isAligned(offsetInBytes)) {
+      // Aligned - return a view.
       return bytes.buffer.asInt64List(offsetInBytes, length);
     } else {
+      // Unaligned - return a copy bytes.
       Int64List vList = new Int64List(length);
-      ByteData bd = bytes.buffer.asByteData(offsetInBytes, length >> shiftValue);
-      for (int i = 0; i < length; i++, offsetInBytes += sizeInBytes)
-        vList[i] = bd.getInt64(offsetInBytes);
+      ByteData bd = bytes.buffer.asByteData(offsetInBytes, length << shiftValue);
+      for (int i = 0; i < length; i++)
+        vList[i] = bd.getUint16(i << shiftValue, Endianness.LITTLE_ENDIAN);
       return vList;
     }
   }
 
-  static toInt64List(List<int> list) =>
-      (list is Int64List) ? list : new Int64List.fromList(list);
+  static toInt64List(List<int> list) => (list is Int64List) ? list : new Int64List.fromList(list);
 }
 
 class Uint extends Int {
@@ -458,7 +476,7 @@ class Uint8 extends Uint {
     return Int._listGuard(vList, inRange);
   }
 
-  /// Returns a [true] if all values are valid Uint32, otherwise [false].
+  /// Returns a [true] if all values are valid Uint8, otherwise [false].
   static bool isValidList(List<int> vList) => (listGuard(vList) == null) ? false : true;
 
   static bool isNotValidList(List<int> vList) => !isValidList(vList);
@@ -471,11 +489,11 @@ class Uint8 extends Uint {
 
   static int toLengthInBytes(int length) => length << shiftValue;
 
-  /// Returns a [Uint8List.view] of [bytes].
-  static Uint8List viewF(Uint8List bytes, [int offsetInBytes = 0, int length]) {
-    if (offsetInBytes < 0) throw new ArgumentError('Invalid offsetInBytes($offsetInBytes)');
-    if (length == null) length = bytes.lengthInBytes >> shiftValue;
-    if (length < 0) throw new ArgumentError('Invalid length($length)');
+  /// Returns a [Uint8List] view of [bytes].
+  ///
+  /// Note: [Uint8List] are always aligned.
+  static Uint8List view(Uint8List bytes, [int offsetInBytes = 0, int length]) {
+    length = getLength(bytes, offsetInBytes, length, shiftValue);
     return bytes.buffer.asUint8List(offsetInBytes, length);
   }
 }
@@ -524,20 +542,24 @@ class Uint16 extends Uint {
 
   static int toLengthInBytes(int length) => length << shiftValue;
 
-  /// Returns a [Uint16List] created from [bytes]. If [offsetInBytes] is aligned
-  /// on an 2-byte boundary, then a [Uint16List.view] is returned; otherwise,
+  /// Returns an [Uint16List.view] of [list].
+  static Uint16List view(Uint16List list, [int offsetInBytes = 0, int length]) =>
+      viewOfBytes(list.buffer.asUint8List());
+
+  /// Returns a [Uint16List] created from the [Uint8List] [bytes]. If [offsetInBytes]
+  /// is aligned on an 2-byte boundary, then a [Uint16List.view] is returned; otherwise,
   /// the [bytes] are copied to a [new] [Uint16List].
   static Uint16List viewOfBytes(Uint8List bytes, [int offsetInBytes = 0, int length]) {
-    if (offsetInBytes < 0) throw new ArgumentError('Invalid offsetInBytes($offsetInBytes)');
-    if (length == null) length = bytes.lengthInBytes >> shiftValue;
-    if (length < 0) throw new ArgumentError('Invalid length($length)');
+    length = getLength(bytes, offsetInBytes, length, shiftValue);
     if (isAligned(offsetInBytes)) {
+      // Aligned - return a view.
       return bytes.buffer.asUint16List(offsetInBytes, length);
     } else {
+      // Unaligned - return a copy bytes.
       Uint16List vList = new Uint16List(length);
-      ByteData bd = bytes.buffer.asByteData(offsetInBytes, length >> shiftValue);
-      for (int i = 0; i < length; i++, offsetInBytes += sizeInBytes)
-        vList[i] = bd.getUint16(offsetInBytes);
+      ByteData bd = bytes.buffer.asByteData(offsetInBytes, length << shiftValue);
+      for (int i = 0; i < length; i++)
+        vList[i] = bd.getUint16(i << shiftValue, Endianness.LITTLE_ENDIAN);
       return vList;
     }
   }
@@ -590,20 +612,24 @@ class Uint32 extends Uint {
 
   static int toLengthInBytes(int length) => length << shiftValue;
 
-  /// Returns a [Uint32List] created from [bytes]. If [offsetInBytes] is aligned
-  /// on an 4-byte boundary, then a [Uint32List.view] is returned; otherwise,
+  /// Returns an [Uint32List.view] of [list].
+  static Uint32List view(Uint32List list, [int offsetInBytes = 0, int length]) =>
+      viewOfBytes(list.buffer.asUint8List());
+
+  /// Returns a [Uint32List] created from the [Uint8List] [bytes]. If [offsetInBytes]
+  /// is aligned on an 2-byte boundary, then a [Uint32List.view] is returned; otherwise,
   /// the [bytes] are copied to a [new] [Uint32List].
   static Uint32List viewOfBytes(Uint8List bytes, [int offsetInBytes = 0, int length]) {
-    if (offsetInBytes < 0) throw new ArgumentError('Invalid offsetInBytes($offsetInBytes)');
-    if (length == null) length = bytes.lengthInBytes >> shiftValue;
-    if (length < 0) throw new ArgumentError('Invalid length($length)');
+    length = getLength(bytes, offsetInBytes, length, shiftValue);
     if (isAligned(offsetInBytes)) {
+      // Aligned - return a view.
       return bytes.buffer.asUint32List(offsetInBytes, length);
     } else {
+      // Unaligned - return a copy bytes.
       Uint32List vList = new Uint32List(length);
-      ByteData bd = bytes.buffer.asByteData(offsetInBytes, length >> shiftValue);
-      for (int i = 0; i < length; i++, offsetInBytes += sizeInBytes)
-        vList[i] = bd.getUint32(offsetInBytes);
+      ByteData bd = bytes.buffer.asByteData(offsetInBytes, length << shiftValue);
+      for (int i = 0; i < length; i++)
+        vList[i] = bd.getUint32(i << shiftValue, Endianness.LITTLE_ENDIAN);
       return vList;
     }
   }
@@ -656,20 +682,24 @@ class Uint64 extends Uint {
 
   static int toLengthInBytes(int length) => length << shiftValue;
 
-  /// Returns a [Uint64List] created from [bytes]. If [offsetInBytes] is aligned
-  /// on an 8-byte boundary, then a [Uint64List.view] is returned; otherwise,
+  /// Returns a [Uint64List.view] created from the [Uint64List] [list].
+  static Uint64List view(Uint64List list, [int offsetInBytes = 0, int length]) =>
+      viewOfBytes(list.buffer.asUint8List());
+
+  /// Returns a [Uint64List] created from the [Uint8List] [bytes]. If [offsetInBytes]
+  /// is aligned on an 2-byte boundary, then a [Uint64List.view] is returned; otherwise,
   /// the [bytes] are copied to a [new] [Uint64List].
   static Uint64List viewOfBytes(Uint8List bytes, [int offsetInBytes = 0, int length]) {
-    if (offsetInBytes < 0) throw new ArgumentError('Invalid offsetInBytes($offsetInBytes)');
-    if (length == null) length = bytes.lengthInBytes >> shiftValue;
-    if (length < 0) throw new ArgumentError('Invalid length($length)');
+    length = getLength(bytes, offsetInBytes, length, shiftValue);
     if (isAligned(offsetInBytes)) {
+      // Aligned - return a view.
       return bytes.buffer.asUint64List(offsetInBytes, length);
     } else {
+      // Unaligned - return a copy bytes.
       Uint64List vList = new Uint64List(length);
-      ByteData bd = bytes.buffer.asByteData(offsetInBytes, length >> shiftValue);
-      for (int i = 0; i < length; i++, offsetInBytes += sizeInBytes)
-        vList[i] = bd.getUint64(offsetInBytes);
+      ByteData bd = bytes.buffer.asByteData(offsetInBytes, length << shiftValue);
+      for (int i = 0; i < length; i++)
+        vList[i] = bd.getUint64(i << shiftValue, Endianness.LITTLE_ENDIAN);
       return vList;
     }
   }
