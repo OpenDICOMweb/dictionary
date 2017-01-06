@@ -62,10 +62,10 @@ void float32Test() {
   Float32List float32_0 = new Float32List.fromList(data_0);
   for(int offset = 0; offset < 5; offset++) {
 
-    ByteData unaligned = createUnalignedFloat32List(float32_0, offset);
+    Uint8List unaligned = createUnalignedFloat32List(float32_0, offset);
 //  print('data_0Fl32 length(${data0Float32.length}), lengthIB(${data0Float32.lengthInBytes})');
 //  print('data_0AsFl32: $data0Float32');
-    Float32List vList = Float32.viewOfBytes(offset);
+    Float32List vList = Float32.viewOfBytes(unaligned, offset);
   }
 
 
