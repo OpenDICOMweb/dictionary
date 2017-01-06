@@ -2292,7 +2292,7 @@ const List<List<String>> privateTagArray = const [
   const [2282, "SPI-P Release 1", "FieldOfShutterRectangle", 0x0029, 0xc5, VR.kLT, VM.k1],
   const [2283, "SPI-P Release 1", "ShutterEnableStatus", 0x0029, 0xce, VR.kCS, VM.k1],
   const [2284, "SPI-P Release 1", "ShutterSelectStatus", 0x0029, 0xcf, VR.kCS, VM.k1],
-  const [2285, "SPI-P Release 1", "PixelData", 0x7FE1, 0x10, VR.kUnknown, VM.k1],
+  const [2285, "SPI-P Release 1", "PixelData", 0x7FE1, 0x10, VR.kNoVR, VM.k1],
   const [2286, "SPI-P Release 1;1", "Unknown", 0x0009, 0xc0, VR.kLT, VM.k1],
   const [2287, "SPI-P Release 1;1", "Unknown", 0x0009, 0xc1, VR.kLT, VM.k1],
   const [2288, "SPI-P Release 1;1", "PhysiologicalDataType", 0x0019, 0x00, VR.kUN, VM.k1],

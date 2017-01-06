@@ -22,6 +22,15 @@ double _floatError(String type, double min, double val, double max) {
 class Float {
   static String get type => "Float";
 
+  static equal(List<double> a, List<double> b) {
+    if (identical(a, b)) return true;
+    if (a.length != b.length) return false;
+    for(int i = 0; i < a.length; i++)
+      if (a[i] != b[i]) return false;
+    return true;
+  }
+
+
   static bool inRange(double min, double val, double max) => (min <= val && val <= max);
 
   static double guard(double min, double val, double max) =>
@@ -47,10 +56,10 @@ class Float {
 
   /// Returns a [List<int>] if all values are [int], otherwise null.
   static List<double> listGuard(List<double> values, _InRange inRange) {
-    print('values: $values');
+  //  print('values: $values');
     for (int i = 0; i < values.length; i++)
       if ((values[i] is double) && inRange(values[i])) {
-        print('values: $values');
+  //      print('values: $values');
         return values;
       }
     return null;
@@ -91,6 +100,8 @@ class Float32 extends Float {
   static const int maxLongLength = kMaxLongLengthInBytes ~/ sizeInBytes;
   static final Float32List emptyList = new Float32List(0);
 
+  static equal(Float32List a, Float32List b) => Float.equal(a, b);
+
   static bool inRange(double val) => (val >= min) && (val <= max);
 
   static double guard(double min, double val, double max) =>
@@ -130,15 +141,22 @@ class Float32 extends Float {
     if (length == null) length = bytes.lengthInBytes >> shiftValue;
     if (length < 0) throw new ArgumentError('Invalid length($length)');
     if (isAligned(offsetInBytes)) {
-      var f32List = [];
-      f32List.add(double.parse(new String.fromCharCodes(bytes)));
-      return new Float32List.fromList(f32List);
-      //return bytes.buffer.asFloat32List(offsetInBytes, length); unexpected result
+      // Create a view of bytes
+   //   print(' view align(${isAligned(offsetInBytes)}), length($length), lengthIB(${length <<
+   //       shiftValue})');
+   //   print('buffer:${bytes.offsetInBytes} ${bytes.lengthInBytes}');
+      return bytes.buffer.asFloat32List(offsetInBytes, length); //unexpected result
     } else {
       Float32List vList = new Float32List(length);
-      ByteData bd = bytes.buffer.asByteData(offsetInBytes, length >> shiftValue);
-      for (int i = 0; i < length; i++, offsetInBytes += sizeInBytes)
-        vList[i] = bd.getFloat32(offsetInBytes);
+ //     print('copy align(${isAligned(offsetInBytes)}), length($length), '
+  //        'lengthIB(${length << shiftValue})');
+      ByteData bd = bytes.buffer.asByteData(offsetInBytes, length << shiftValue);
+  //    print('vList length(${vList.length}), bd lengthIB(${bd.lengthInBytes})');
+      for (int i = 0, oib = 0; i < vList.length; i++, oib += sizeInBytes) {
+  //      print('i($i) oib($oib)');
+        vList[i] = bd.getFloat32(oib, Endianness.HOST_ENDIAN);
+      }
+      print('vList: $vList');
       return vList;
     }
   }
@@ -186,6 +204,8 @@ class Float64 extends Float {
   static const maxLongLength = kMaxLongLengthInBytes - sizeInBytes;
   static final Float64List emptyList = new Float64List(0);
 
+  static equal(Float64List a, Float64List b) => Float.equal(a, b);
+
   //TODO: is this needed - when used
   //TODO: correct?
   static bool inRange(double val) => (val >= min) && (val <= max);
@@ -196,7 +216,7 @@ class Float64 extends Float {
       inRange(val) ? val : _floatError("Float64", min, val, max);
 
   //TODO: is this needed - when can a Float64List be invalid? it can't
-  /// Returns a [values] if all values are valid Uint32, otherwise null.
+  /// Returns a [values] if all values are valid [Float64List], otherwise null.
   @deprecated
   static Float64List validate(Float64List values) => listGuard(values);
 
@@ -207,7 +227,7 @@ class Float64 extends Float {
     return values;
   }
 
-  /// Returns a [true] if all values are valid Uint32, otherwise [false].
+  /// Returns a [true] if all values are valid [Float63List], otherwise [false].
   static bool isValidList(List<double> vList) => (listGuard(vList) == null) ? false : true;
 
   static bool isNotValidList(List<double> vList) => !isValidList(vList);
@@ -217,7 +237,7 @@ class Float64 extends Float {
   static int toLength(int lengthInBytes) => lengthInBytes >> shiftValue;
 
   static int toLengthInBytes(int length) => length << shiftValue;
-
+/*
   /// Returns a [Float64List] created from [bytes]. if  [offsetInBytes] is aligned
   /// on an 8-byte boundary, then a [Float64List.view] is returned; otherwise,
   /// the [bytes] are copied to a [new] [Float64List].
@@ -229,13 +249,41 @@ class Float64 extends Float {
       return bytes.buffer.asFloat64List(offsetInBytes, length);
     } else {
       Float64List vList = new Float64List(length);
-      ByteData bd = bytes.buffer.asByteData(offsetInBytes, length >> shiftValue);
-      for (int i = 0; i < length; i++, offsetInBytes += sizeInBytes)
-        vList[i] = bd.getFloat64(offsetInBytes);
+      ByteData bd = bytes.buffer.asByteData(offsetInBytes, length << shiftValue);
+      for (int i = 0; i < length; i++)
+        vList[i] = bd.getFloat64(i << shiftValue, Endianness.LITTLE_ENDIAN);
       return vList;
     }
   }
+*/
 
+  /// Returns a [Float64List] created from [bytes]. if  [offsetInBytes] is aligned
+  /// on an 8-byte boundary, then a [Float64List.view] is returned; otherwise,
+  /// the [bytes] are copied to a [new] [Float64List].
+  static Float64List viewOfBytes(Uint8List bytes, [int offsetInBytes = 0, int length]) {
+    if (offsetInBytes < 0) throw new ArgumentError('Invalid offsetInBytes($offsetInBytes)');
+    if (length == null) length = bytes.lengthInBytes >> shiftValue;
+    if (length < 0) throw new ArgumentError('Invalid length($length)');
+    if (isAligned(offsetInBytes)) {
+      // Create a view of bytes
+      print(' view align(${isAligned(offsetInBytes)}), length($length), lengthIB(${length <<
+          shiftValue})');
+      print('buffer:${bytes.offsetInBytes} ${bytes.lengthInBytes}');
+      return bytes.buffer.asFloat64List(offsetInBytes, length); //unexpected result
+    } else {
+      Float64List vList = new Float64List(length);
+      print('copy align(${isAligned(offsetInBytes)}), length($length), '
+          'lengthIB(${length << shiftValue})');
+      ByteData bd = bytes.buffer.asByteData(offsetInBytes, length << shiftValue);
+      //    print('vList length(${vList.length}), bd lengthIB(${bd.lengthInBytes})');
+      for (int i = 0, oib = 0; i < length; i++, oib += sizeInBytes) {
+        //      print('i($i) oib($oib)');
+        vList[i] = bd.getFloat64(oib, Endianness.LITTLE_ENDIAN);
+      }
+      print('vList: $vList');
+      return vList;
+    }
+  }
   static toFloat64List(List<double> list) =>
-      (list is Float32List) ? list : new Float64List.fromList(list);
+      (list is Float64List) ? list : new Float64List.fromList(list);
 }

@@ -5,75 +5,179 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:dictionary/ascii.dart';
-import 'package:dictionary/src/common/string/predicates.dart';
 import 'package:dictionary/src/dicom/constants.dart';
-import 'package:dictionary/src/dicom/string/char_predicates.dart';
 
-typedef bool _StringPredicate(String s);
-//Fix0 finish the following procedures
-_StringPredicate _makeStringPredicate(int minLength, int maxLength, bool pred(int c)) {
-  return (String s) {
-    int len = s.length;
-    if ((len >= minLength) && (len <= maxLength)) {
-      for (int i = 0; i < len; i++) {
-        if (!pred(s.codeUnitAt(i))) return false;
-      }
-    } else {
-      return false;
-    }
-  };
+bool _checkLength(String s, List<String> issues, int minLength, int maxLength) {
+  if (s == null || s.length == 0) return null;
+  if (s.length < minLength) {
+    issues.add('Value has length(${s.length} less than the minimum($minLength)');
+    return false;
+  }
+  if (s.length > maxLength) {
+    issues.add('Value has length(${s.length} greater than the maximum($maxLength)');
+    return false;
+  }
+  return true;
 }
 
-//Fix: Add URIs to all public procedures below
-/// (AE - Application Entity Title)<http://dicom.nema.org/medical/dicom/current/output/html/part05.html#sect_6.2>
-const _StringPredicate isAEString = _makeStringPredicate(0, 16, isAEChar);
+String _invalidChar(int c, int pos) => 'Value has invalid character($c) at position($pos)';
+
+//TODO: this does not handle escape sequences
+bool _checkDcmString(String s, List<String> issues, int maxLength) {
+  if (! _checkLength(s, issues, 0, maxLength)) return false;
+  for (int index = 0; index < maxLength; index++) {
+    int c = s.codeUnitAt(index);
+    if (c < kSpace || c == kBackslash || c == kDelete) issues.add(_invalidChar(c, index));
+  }
+  return true;
+}
+
+// DICOM Text Strings
+//TODO: this does not handle escape sequences
+bool _checkTextString(String s, List<String> issues, int maxLength) {
+  if (! _checkLength(s, issues, 0, maxLength)) return false;
+  for (int index = 0; index < s.length; index++) {
+    int c = s.codeUnitAt(index);
+    if (c < kSpace || c == kDelete) {
+      issues.add( _invalidChar(c, index));
+      return false;
+    }
+  }
+  return true;
+}
+
+// DICOM VRs with Digits
+bool _checkDigitString(String s, List<String> issues, int minLength, int maxLength,
+                      [int sep]) {
+  if (! _checkLength(s, issues, 0, maxLength)) return false;
+  int index = 0;
+  for(; index < maxLength; index++) {
+    int c = s.codeUnitAt(index);
+    if (c < k0 || c > k9 || (sep != null && c != sep)) {
+      issues.add(_invalidChar(c, index));
+      return false;
+    }
+  }
+  if (index < minLength) {
+    issues.add('The Value has fewer than the minimum($minLength) number of characters');
+    return false;
+  }
+  return true;
+}
+
+// DICOM Strings
+bool checkAEString(String s, List<String> issues) =>
+    _checkDcmString(s, issues, 16);
+bool checkCSString(String s, List<String> issues) =>
+    _checkDcmString(s, issues, 16);
+bool checkPNString(String s, List<String> issues) =>
+    _checkDcmString(s, issues, 5 * 64);
+bool checkSHString(String s, List<String> issues) =>
+    _checkDcmString(s, issues, 16);
+bool checkLOString(String s, List<String> issues) =>
+    _checkDcmString(s, issues, 64);
+bool checkUCString(String s, List<String> issues) =>
+    _checkDcmString(s, issues, kMaxLongLengthInBytes);
+
+// DICOM Texts
+bool checkSTString(String s, List<String> issues) =>
+    _checkTextString(s, issues, 1024);
+bool checkLTString(String s, List<String> issues) =>
+    _checkTextString(s, issues, 10240);
+bool checkUTString(String s, List<String> issues) =>
+    _checkTextString(s, issues, kMaxLongLengthInBytes);
+
+// UID String
+bool checkUIString(String s, List<String> issues) =>
+    _checkDigitString(s, issues, 8, 64, kDot);
+
+// UUID String
+bool checkUuidString(String s, List<String> issues) =>
+    _checkDigitString(s,issues, 36, 36, kDash);
 
 /// AS - Age String
-bool isASString(String s) => (s.length == 4) && isDigit(s, 0, 2) && "DWMY".contains(s[3]);
-
-/// CS - Code String
-_StringPredicate isCSString = _makeStringPredicate(0, 16, isCSChar);
-
-/// DA - Date String
-_StringPredicate isDAString = _makeStringPredicate(8, 8, isDigitChar);
-
-/// DS -Decimal String
-_StringPredicate isDSString = _makeStringPredicate(0, 16, isDSChar);
-
-/// DT - Date Time String
-_StringPredicate isDTString = _makeStringPredicate(4, 26, isDTChar);
+bool checkASString(String s, List<String> issues) {
+  if (! _checkLength(s, issues, 4, 4)) return false;
+  if (! _checkDigitString(s, issues, 3, 3)) return false;
+  if (!"DWMY".contains(s[3])) {
+    issues.add('Invalid Age Unit($s[3]');
+    return false;
+  }
+  return true;
+}
 
 /// [IS - Integer String](http://dicom.nema.org/medical/dicom/current/output/html/part05.html#sect_6.2)
-_StringPredicate isISString = _makeStringPredicate(0, 12, isISChar);
+bool checkISString(String s, List<String> issues) {
+  if (! _checkLength(s, issues, 4, 4)) return false;
+  int c = s.codeUnitAt(0);
+  int hasSign = (c == kMinusSign || c == kPlusSign) ? 1 : 0;
+  if (! _checkDigitString(s, issues, 0, 12 - hasSign, hasSign)) return false;
+  return true;
+}
 
-/// LO - Long String (0008,0005)
-_StringPredicate isLOString = _makeStringPredicate(0, 64, isStringChar);
+/// DS -Decimal String
+bool checkDSString(String s, List<String> issues) {
+  if (! _checkLength(s, issues, 0, 16)) return false;
+  int c = s.codeUnitAt(0);
+  int hasSign = (c == kMinusSign || c == kPlusSign) ? 1 : 0;
+  if (! _checkDigitString(s, issues, 0, 16 - hasSign, hasSign)) return false;
+  return true;
+}
 
-/// LT - Long Text (0008,0005)
-_StringPredicate isLTString = _makeStringPredicate(0, 10240, isTextChar);
+/// DA - Date String
+//_StringPredicate isDAString = _makeStringPredicate(8, 8, isDigitChar);
+bool checkDAString(String s, List<String> issues) {
+  if (! _checkLength(s, issues, 8, 8)) return false;
+  DateTime dt;
+  try {
+    dt = DateTime.parse(s);
+  } on FormatException catch (e) {
+    issues.add('Invalid Date($dt) - error at offset(${e.offset}');
+    return false;
+  }
+  return true;
+}
 
-/// PN - Person Name (0008,0005)
-_StringPredicate isPNString = _makeStringPredicate(0, 5 * 64, isStringChar);
-
-/// SH - Short Text
-_StringPredicate isSHString = _makeStringPredicate(0, 16, isStringChar);
-
-// ST -Short Text (0008,0005)
-_StringPredicate isSTString = _makeStringPredicate(0, 1024, isTextChar);
 
 //TM - Time
-_StringPredicate isTMString = _makeStringPredicate(2, 14, isTMChar);
+//_StringPredicate isTMString = _makeStringPredicate(2, 14, isTMChar);
+bool checkDTString(String s, List<String> issues) {
+  if (! _checkLength(s, issues, 4, 26)) return false;
+  DateTime dt;
+  try {
+    dt = DateTime.parse(s);
+  } on FormatException catch (e) {
+    issues.add('Invalid DateTime($dt) - error at offset(${e.offset}');
+    return false;
+  }
+  return true;
+}
 
-//UI - Unique Identifier (UID)
-_StringPredicate isUIString = _makeStringPredicate(8, 64, isUidChar);
+//TM - Time
+//_StringPredicate isTMString = _makeStringPredicate(2, 14, isTMChar);
+bool checkTMString(String s, List<String> issues) {
+  if (! _checkLength(s, issues, 2, 14)) return false;
+  DateTime dt;
+  try {
+    dt = DateTime.parse(s);
+  } on FormatException catch (e) {
+    issues.add('Invalid Time($dt) - error at offset(${e.offset}');
+    return false;
+  }
+  return true;
+}
 
-//Fix: this needs to be implemented
+//TODO: do something more efficient
 //UR - Universal Resource Identifier (URI)
-bool isURString(String s) => true;
-
-//UC - Unlimited Characters 0008,0005)
-_StringPredicate isUCString = _makeStringPredicate(0, kMaxLongLengthInBytes, isStringChar);
-
-//UT - Unlimited Text (0008,0005)
-_StringPredicate isUTString = _makeStringPredicate(0, kMaxLongLengthInBytes, isTextChar);
+bool checkURString(String s, List<String> issues, [int index = 0, int end]) {
+  Uri uri;
+  end = (end == null) ? s.length - index : end;
+  try {
+    uri = Uri.parse(s, index, end);
+  } on FormatException catch(e) {
+    issues.add('Invalid URI($uri) - error at offset(${e.offset}');
+    return false;
+  }
+  return true;
+}
 

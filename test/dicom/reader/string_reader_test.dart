@@ -4,7 +4,7 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
-import 'package:dictionary/src/common/reader/string_reader.dart';
+import 'package:dictionary/src/common/reader/reader.dart';
 import 'package:test/test.dart';
 
 main() {

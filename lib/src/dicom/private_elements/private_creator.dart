@@ -9,13 +9,14 @@ import 'package:dictionary/dicom.dart';
 import 'private_data.dart';
 
 class PrivateCreator {
-
+  final Tag tag;
+  final int code;
     final String name;
     final int group;
     final int elt;
     final VR vr = VR.kLO;
     final VM vm = VM.k1;
-    final List<PrivateData> pData;
+   //final List<PrivateData> pData;
 
     //TODO: validate VR and VM when generating
 

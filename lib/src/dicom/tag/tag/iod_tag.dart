@@ -4,9 +4,9 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu>
 // See the AUTHORS file for other contributors.
 
-import 'package:dictionary/tag.dart';
-import 'package:dictionary/src/dicom/vr/vr.dart';
 import 'package:dictionary/src/dicom/vm.dart';
+import 'package:dictionary/src/dicom/vr/vr.dart';
+import 'package:dictionary/tag.dart';
 
 /// A [class] for defining the elements of an [IOD].
 class IodTag implements Tag {
@@ -35,8 +35,8 @@ class IodTag implements Tag {
 
 
   bool isValidLength(int length) => tag.isValidLength(length);
-  bool isValidValue(value) => tag.isValidValue(value);
-  String checkValue(value) => tag.checkValue(value);
+  //bool isValidValue(value) => tag.isValidValue(value);
+  dynamic checkValue(value, List<String> issues) => tag.checkValue(value, issues);
 
   String toString() {
     var retired = (isRetired == false) ? "" : ", (Retired)";

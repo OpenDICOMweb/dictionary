@@ -6,10 +6,10 @@
 
 import 'dart:math';
 
+import 'package:dictionary/src/common/reader/reader.dart';
+
 import 'date.dart';
 import 'time.dart';
-
-import 'package:dictionary/src/common/reader/string_reader.dart';
 
 // DICOM DateTime 422222.6+22
 //                422222.6-22

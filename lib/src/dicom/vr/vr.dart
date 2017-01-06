@@ -6,7 +6,7 @@
 
 import 'package:dictionary/tag.dart';
 import 'package:dictionary/src/common/integer/integer.dart';
-import 'package:dictionary/src/dicom/string/new2_dicom_predicates.dart';
+import 'package:dictionary/src/dicom/string/dicom_predicates.dart';
 import 'package:dictionary/src/dicom/vr/vr_index.dart';
 
 //TODO:

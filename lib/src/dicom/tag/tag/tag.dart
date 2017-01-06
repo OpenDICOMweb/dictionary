@@ -10,6 +10,7 @@ import 'package:dictionary/src/common/ascii/constants.dart';
 import 'package:dictionary/src/common/ascii/predicates.dart';
 import 'package:dictionary/src/common/integer/integer.dart';
 import 'package:dictionary/src/dicom/constants.dart';
+import 'package:dictionary/src/dicom/issue.dart';
 import 'package:dictionary/src/dicom/vm.dart';
 import 'package:dictionary/src/dicom/vr/vr.dart';
 
@@ -17,7 +18,6 @@ import 'constants.dart';
 import 'e_type.dart';
 import 'elt.dart';
 import 'group.dart';
-import 'package:dictionary/src/dicom/issue.dart';
 import 'tag_map.dart';
 import 'wk_private.dart';
 
@@ -31,8 +31,10 @@ typedef bool ValueChecker(value, List<String> issues);
 class TagBase {
   final int code;
   final VR vr;
+  final VM vm;
+  final bool isRetired;
 
-  const TagBase._(this.code, this.vr);
+  const TagBase(this.code, this.vr, [this.vm = VM.k1_n, this.isRetired = false]);
 
   // **** Code Getters
   String get dcm => '(${Int.hex(group, 4, "" )},${Int.hex(elt, 4, "")})';
@@ -49,32 +51,8 @@ class TagBase {
   int get vrIndex => vr.index;
   int get sizeInBytes => vr.sizeInBytes;
   bool get isShort => vr.isShort;
-}
 
-bool throwOnError = true;
-
-//TODO: sort out the naming between Attribute, Data Element, tag, etc.
-// DICOM Attribute Definitions
-class Tag extends TagBase {
-  final String keyword;
-  //final int index
-  /// The DICOM Tag from PS3.6, Table 6-1.
-  final int code;
-  final VR vr;
-  //final int vrIndex;
-  //final bool isShort;
-
-  final VM vm;
-  //final int vmMin;
-  //final int vmMax;
-  //final int vmWidth;
-  final EType eType; // Predicate Type
-  //final Predicate condition
-  final String name;
-  final bool isRetired;
-
-  const Tag(this.keyword, this.code, this.name, this.vr, this.vm,
-      [this.isRetired = false, this.eType = EType.kUnknown]) : super._(code, vr);
+  // **** VR Getters
 
   int get minLength => vm.min;
 
@@ -85,6 +63,40 @@ class Tag extends TagBase {
   }
 
   int get width => vm.width;
+
+  int codeGroup(int code) => code >> 16;
+  int codeElt(int code) => code & 0xFFFF;
+  bool codeGroupIsPrivate(int code) {
+    int g = codeGroup(code);
+    return g.isOdd && (g > 0x0008 && g < 0xFFFE);
+  }
+}
+
+bool throwOnError = true;
+
+//TODO: sort out the naming between Attribute, Data Element, tag, etc.
+// DICOM Attribute Definitions
+class Tag extends TagBase {
+  final String keyword;
+  //final int index
+  /// The DICOM Tag from PS3.6, Table 6-1.
+  //final int code;
+ // final VR vr;
+  //final int vrIndex;
+  //final bool isShort;
+
+ // final VM vm;
+  //final int vmMin;
+  //final int vmMax;
+  //final int vmWidth;
+  final EType eType; // Predicate Type
+  //final Predicate condition
+  final String name;
+  final bool isRetired;
+
+  const Tag(this.keyword, int code, this.name, VR vr, VM vm,
+      [this.isRetired = false, this.eType = EType.kUnknown]) : super(code, vr, vm);
+
 
 
   /// Returns true if the tag is defined by DICOM, false otherwise.
@@ -97,7 +109,7 @@ class Tag extends TagBase {
 
   bool get isPrivate => Group.isPrivate(group);
 
-  bool get isWKPrivate => WKPrivateTag.tags[code] != null;
+  bool get isWKPrivate => wkPrivateTags[code] != null;
 
   int get fmiMin => kMinFmiTag;
   int get fmiMax => kMaxFmiTag;
