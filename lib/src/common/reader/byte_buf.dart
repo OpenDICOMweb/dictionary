@@ -6,16 +6,19 @@
 
 //TODO: add UTF8 and ASCII converters
 library odw.sdk.dictionary.common.reader.byte_buf;
+
 //import 'dart:convert';
 
 import 'dart:math';
+import 'dart:typed_data';
 
-//import 'package:dictionary/src/common/ascii/constants.dart';
-//import 'package:dictionary/src/common/ascii/predicates.dart';
-//import 'package:dictionary/src/common/date_time/date.dart';
-//import 'package:dictionary/src/common/date_time/time.dart';
-//import 'package:dictionary/src/common/date_time/utils.dart';
-//import 'package:dictionary/string.dart';
+import 'package:dictionary/src/common/ascii/constants.dart';
+import 'package:dictionary/src/common/date_time/date.dart';
+import 'package:dictionary/src/common/date_time/time.dart';
+import 'package:dictionary/src/common/date_time/utils.dart';
+import 'package:dictionary/string.dart';
+
+part 'reader.dart';
 
 //TODO: Add a way to retrieve error messages
 //TODO: Add the ability to read object (Uid, Uuid, Uri, etc.)

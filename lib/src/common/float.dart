@@ -131,16 +131,54 @@ class Float32 extends Float {
 
   static int toLengthInBytes(int length) => length << shiftValue;
 
+  static Float32List view(Float32List list, [int offset = 0, int length]) {
+    int offsetInBytes = offset << shiftValue;
+    int lengthInBytes = (length == null) ? list.length << shiftValue : length << shiftValue;
+    Uint8List bytes = list.buffer.asUint8List();
+
+    lengthInBytes = getLengthInBytes(bytes, offsetInBytes, lengthInBytes);
+    return viewOfBytes(bytes, offsetInBytes, lengthInBytes);
+  }
+
+
+  /// Returns a [Float32List] created from [bytes]. if  [offsetInBytes] is aligned
+  /// on an 8-byte boundary, then a [Float32List.view] is returned; otherwise,
+  /// the [bytes] are copied to a [new] [Float64List].
+  static Float32List viewOfBytes(Uint8List bytes, [int offsetInBytes = 0, int lengthInBytes]) {
+    lengthInBytes = getLengthInBytes(bytes, offsetInBytes >> shiftValue, lengthInBytes);
+    print('getLength: $lengthInBytes');
+    Float32List vList;
+    try {
+      return  bytes.buffer.asFloat32List(offsetInBytes, lengthInBytes >> shiftValue);
+    } catch (e) {
+      // Copy bytes
+      print(e);
+      return copyBytes(bytes, offsetInBytes, lengthInBytes);
+    }
+  }
+
+  // Unaligned - Copy bytes
+  static Float32List copyBytes(Uint8List bytes, [int offsetInBytes = 0, int lengthInBytes]) {
+    lengthInBytes = getLengthInBytes(bytes, offsetInBytes, lengthInBytes);
+    int length = lengthInBytes >> shiftValue;
+    print('lib: $lengthInBytes length: $length');
+    Float32List copy = new Float32List(length);
+    print('copy align(${isAlignedOffset(offsetInBytes)}), length($lengthInBytes), '
+        'lengthIB(${length << shiftValue})');
+    ByteData bd = bytes.buffer.asByteData(offsetInBytes, lengthInBytes);
+    print('vList length(${copy.length}), bd lengthIB(${bd.lengthInBytes})');
+    for (int i = 0; i < copy.length; i++)
+      copy[i] = bd.getFloat32(i << shiftValue, Endianness.LITTLE_ENDIAN);
+    print('copy: $copy');
+    return copy;
+  }
+
+  /*
   /// Returns a [Float32List] created from [bytes]. if  [offsetInBytes] is aligned
   /// on an 8-byte boundary, then a [Float32List.view] is returned; otherwise,
   /// the [bytes] are copied to a [new] [Float64List].
   static Float32List viewOfBytes(Uint8List bytes, [int offsetInBytes = 0, int length]) {
-    length = getLength(bytes, offsetInBytes, length, shiftValue);
-    /*
-    if (offsetInBytes < 0) throw new ArgumentError('Invalid offsetInBytes($offsetInBytes)');
-    if (length == null) length = (bytes.lengthInBytes - offsetInBytes) >> shiftValue;
-    if (length < 0) throw new ArgumentError('Invalid length($length)');
-    */
+    length = getLength(bytes, offsetInBytes, length);
     if (isAlignedOffset(offsetInBytes)) {
       // Aligned - Create a view of bytes
       print(' view align(${isAlignedOffset(offsetInBytes)}), length($length), '
@@ -155,13 +193,14 @@ class Float32 extends Float {
       ByteData bd = bytes.buffer.asByteData(offsetInBytes, length << shiftValue);
       print('vList length(${vList.length}), bd lengthIB(${bd.lengthInBytes})');
       for (int i = 0; i < vList.length; i++) {
-        print('i($i) oib(${i << shiftValue})');
+ //       print('i($i) oib(${i << shiftValue})');
         vList[i] = bd.getFloat32(i << shiftValue, Endianness.LITTLE_ENDIAN);
       }
       print('vList: $vList');
       return vList;
     }
   }
+  */
 
   static toFloat32List(List<double> list) =>
       (list is Float32List) ? list : new Float32List.fromList(list);
@@ -245,7 +284,7 @@ class Float64 extends Float {
   /// on an 8-byte boundary, then a [Float64List.view] is returned; otherwise,
   /// the [bytes] are copied to a [new] [Float64List].
   static Float64List viewOfBytes(Uint8List bytes, [int offsetInBytes = 0, int length]) {
-    length = getLength(bytes, offsetInBytes, length, shiftValue);
+    length = getLength(bytes, offsetInBytes, length);
     print('F64 length: $length');
     if (isAlignedOffset(offsetInBytes)) {
       // Aligned - Create a view of bytes.

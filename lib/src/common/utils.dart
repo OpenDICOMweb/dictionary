@@ -6,9 +6,26 @@
 
 import 'dart:typed_data';
 
-getLength (Uint8List bytes, int offsetInBytes, int length, int shiftValue) {
-  if (offsetInBytes < 0) throw new ArgumentError('Invalid offsetInBytes($offsetInBytes)');
-  if (length == null) length = (bytes.lengthInBytes - offsetInBytes) >> shiftValue;
-  if (length < 0) throw new ArgumentError('Invalid length($length)');
+/// Returns the number of elements between [offset] and [length].
+int getLength (TypedData list, int offset, int length) {
+  int listLength = list.lengthInBytes ~/ list.elementSizeInBytes;
+  print('offset:$offset, length:$length, listLength: $listLength');
+  if (offset < 0 || offset > listLength)
+    throw new ArgumentError('Invalid offset($offset)');
+  int remaining = listLength - offset;
+  if (length == null) length = remaining;
+  if (length < 0 || remaining < length )
+    throw new ArgumentError('Invalid length($length)');
+  print('offset:$offset, length:$length, listLength: $listLength');
   return length;
+}
+
+int getLengthInBytes (Uint8List bytes, int offsetInBytes, int lengthInBytes) {
+  if (offsetInBytes < 0 || offsetInBytes > bytes.lengthInBytes)
+    throw new ArgumentError('Invalid offsetInBytes($offsetInBytes)');
+  int remaining = (bytes.lengthInBytes - offsetInBytes);
+  if (lengthInBytes == null) lengthInBytes = remaining;
+  if (lengthInBytes < 0 || lengthInBytes > remaining)
+    throw new ArgumentError('Invalid lengthInBytes($lengthInBytes)');
+  return lengthInBytes;
 }

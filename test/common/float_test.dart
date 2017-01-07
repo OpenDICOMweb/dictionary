@@ -31,20 +31,25 @@ final Float64List f64_2 = new Float64List.fromList(dList_0);
 
 
 Uint8List createUnalignedFloat32List(List<double> vList, int offsetAt) {
-  Float32List fl32Data = (vList is Float32List) ? vList : new Float32List.fromList(dList_0);
-  ByteData fl32AsBD = fl32Data.buffer.asByteData();
-  ByteData unalignedUint8 = new ByteData(fl32Data.lengthInBytes + offsetAt);
+  Float32List f32 = (vList is Float32List) ? vList : new Float32List.fromList(dList_0);
+  ByteData f32AsBD = f32.buffer.asByteData();
+  ByteData unalignedBD = new ByteData(f32.lengthInBytes + offsetAt);
 
-  print('unalignedUint8.offset: ${unalignedUint8.offsetInBytes}');
-
-  for (int i = 0; i < fl32AsBD.lengthInBytes; i += Float32.sizeInBytes) {
-    double d0 = fl32AsBD.getFloat32(i, Endianness.LITTLE_ENDIAN);
+ for (int i = 0; i < f32AsBD.lengthInBytes; i += Float32.sizeInBytes) {
+    double d0 = f32AsBD.getFloat32(i, Endianness.LITTLE_ENDIAN);
     print('d0: $d0');
-    unalignedUint8.setFloat32(i + offsetAt, d0, Endianness.LITTLE_ENDIAN);
-    double d1 = unalignedUint8.getFloat32(i, Endianness.LITTLE_ENDIAN);
+    unalignedBD.setFloat32(i + offsetAt, d0, Endianness.LITTLE_ENDIAN);
+    double d1 = unalignedBD.getFloat32(i, Endianness.LITTLE_ENDIAN);
     print('d0: $d0 d1: $d0');
   }
-  return unalignedUint8.buffer.asUint8List();
+  ByteData bd0 = unalignedBD.buffer.asByteData(offsetAt);
+  Float32List v = bd0.buffer.asFloat32List();
+  print('V: $v');
+  Uint8List bytes = unalignedBD.buffer.asUint8List(offsetAt);
+  v = bytes.buffer.asFloat32List();
+ print('V: $v');
+ print('bytes offsetInBytes(${bytes.offsetInBytes}), lengthInBytes(${bytes.lengthInBytes})');
+  return bytes;
 }
 
 Uint8List createUnalignedFloat64List(List<double> vList, int offsetAt) {
@@ -65,28 +70,69 @@ Uint8List createUnalignedFloat64List(List<double> vList, int offsetAt) {
 
 void float32Test() {
 
-  test('Create Unaligned Test', () {
+  test('Create Aligned Test', () {
     print('dList0: $dList_0');
     Float32List f32 = new Float32List.fromList(dList_0);
     Float32List vList;
-    for(int offset = 0; offset < 8; offset++) {
-      Uint8List unaligned = createUnalignedFloat32List(f32, offset);
-      Float32List f = unaligned.buffer.asFloat32List();
+
+    for(int offset = 0; offset < 4; offset += 4) {
+      Uint8List aligned = createUnalignedFloat32List(f32, offset);
+      Float32List f = aligned.buffer.asFloat32List();
 
       bool v = Float32.isAlignedOffset(f.offsetInBytes);
       print('aligned: $v');
       expect(v, true);
-      vList = Float32.viewOfBytes(unaligned, offset);
+
+      vList = Float32.viewOfBytes(aligned, offset);
       print('vList: $vList');
+
       v =  identical(f32, vList);
       print('identical: $v');
       expect(v, false);
+
       v =  Float32.equal(f32, vList);
       print('equal: $v');
       expect(v, true);
+
       v =  Float32.isAligned(vList);
       print('aligned: $v');
-     // expect(v, true);
+      expect(v, true);
+    }
+  });
+
+  test('Create Unaligned Test', () {
+    print('\ndList0: $dList_0');
+    Float32List f32 = new Float32List.fromList(dList_0);
+    Float32List vList1;
+
+    for(int offset = 1; offset < 8; offset++) {
+      Uint8List unaligned = createUnalignedFloat32List(f32, offset);
+      Float32List f = unaligned.buffer.asFloat32List();
+      print('f: $f');
+      print('buffers eq: ${unaligned.buffer == f.buffer}');
+
+
+      print('**** Offset $offset');
+      print('unaligned offset(${unaligned.offsetInBytes}), f offset(${f.offsetInBytes})');
+      bool v = Float32.isAligned(f);
+      print('aligned: $v');
+      expect(v, (f.offsetInBytes % Float32.sizeInBytes == 0) ? true : false);
+
+      Float32List vList0 = Float32.view(f);
+      print('vList0: $vList0');
+      vList1 = Float32.viewOfBytes(unaligned);
+      print('vList: $vList1');
+      v =  identical(f32, vList1);
+      print('identical: $v');
+      expect(v, false);
+
+      v =  Float32.equal(f32, vList1);
+      print('equal: $v');
+      expect(v, true);
+
+      v =  Float32.isAlignedOffset(unaligned.offsetInBytes);
+      print('aligned: $v');
+      expect(v, (offset % Float32.sizeInBytes == 0) ? true : false);
     }
   });
 
@@ -97,8 +143,8 @@ void float32Test() {
     v = Float32.equal(f32_0, f32_0);
     print('v: $v');
     expect(v, true);
-    print('isAligned: ${Float32.isAligned(f32_0.offsetInBytes)}');
-    expect(Float32.isAligned(f32_0.offsetInBytes), true);
+    print('isAligned: ${Float32.isAligned(f32_0)}');
+    expect(Float32.isAligned(f32_0), true);
     Float32List f0 = new Float32List.fromList(f32_0);
     v = Float32.equal(f32_0, f0);
     print('v: $v');
@@ -125,8 +171,8 @@ void float32Test() {
     v = Float32.equal(f32_0, f32Test);
     print('Equal: $v');
     expect(v, true);
-    print('isAligned: ${Float32.isAligned(f32Test.offsetInBytes)}');
-    expect(Float32.isAligned(f32Test.offsetInBytes), false);
+    print('isAligned: ${Float32.isAligned(f32Test)}');
+    expect(Float32.isAligned(f32Test), false);
     Float32List f0 = new Float32List.fromList(f32Test);
     v = Float32.equal(f32Test, f0);
     print('v: $v');

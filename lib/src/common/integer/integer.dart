@@ -216,7 +216,7 @@ class Int8 extends Int {
   ///
   /// Note: [Int8List]s are always aligned.
   static Uint8List view(Uint8List bytes, [int offsetInBytes = 0, int length]) {
-    length = getLength(bytes, offsetInBytes, length, shiftValue);
+    length = getLength(bytes, offsetInBytes, length);
     return bytes.buffer.asUint8List(offsetInBytes, length);
   }
 }
@@ -273,7 +273,7 @@ class Int16 extends Int {
   /// is aligned on an 2-byte boundary, then a [Int16List.view] is returned; otherwise,
   /// the [bytes] are copied to a [new] [Int16List].
   static Int16List viewOfBytes(Uint8List bytes, [int offsetInBytes = 0, int length]) {
-    length = getLength(bytes, offsetInBytes, length, shiftValue);
+    length = getLength(bytes, offsetInBytes, length);
     if (isAligned(offsetInBytes)) {
       // Aligned - return a view.
       return bytes.buffer.asInt16List(offsetInBytes, length);
@@ -342,7 +342,7 @@ class Int32 extends Int {
   /// on an 2-byte boundary, then a [Int32List.view] is returned; otherwise,
   /// the [bytes] are copied to a [new] [Int32List].
   static Int32List viewOfBytes(Uint8List bytes, [int offsetInBytes = 0, int length]) {
-    length = getLength(bytes, offsetInBytes, length, shiftValue);
+    length = getLength(bytes, offsetInBytes, length);
     if (isAligned(offsetInBytes)) {
       // Aligned - return a view.
       return bytes.buffer.asInt32List(offsetInBytes, length);
@@ -411,7 +411,7 @@ class Int64 extends Int {
   /// is aligned on an 2-byte boundary, then a [Int64List.view] is returned; otherwise,
   /// the [bytes] are copied to a [new] [Int64List].
   static Int64List viewOfBytes(Uint8List bytes, [int offsetInBytes = 0, int length]) {
-    length = getLength(bytes, offsetInBytes, length, shiftValue);
+    length = getLength(bytes, offsetInBytes, length);
     if (isAligned(offsetInBytes)) {
       // Aligned - return a view.
       return bytes.buffer.asInt64List(offsetInBytes, length);
@@ -493,7 +493,7 @@ class Uint8 extends Uint {
   ///
   /// Note: [Uint8List] are always aligned.
   static Uint8List view(Uint8List bytes, [int offsetInBytes = 0, int length]) {
-    length = getLength(bytes, offsetInBytes, length, shiftValue);
+    length = getLength(bytes, offsetInBytes, length);
     return bytes.buffer.asUint8List(offsetInBytes, length);
   }
 }
@@ -550,7 +550,7 @@ class Uint16 extends Uint {
   /// is aligned on an 2-byte boundary, then a [Uint16List.view] is returned; otherwise,
   /// the [bytes] are copied to a [new] [Uint16List].
   static Uint16List viewOfBytes(Uint8List bytes, [int offsetInBytes = 0, int length]) {
-    length = getLength(bytes, offsetInBytes, length, shiftValue);
+    length = getLength(bytes, offsetInBytes, length);
     if (isAligned(offsetInBytes)) {
       // Aligned - return a view.
       return bytes.buffer.asUint16List(offsetInBytes, length);
@@ -620,7 +620,7 @@ class Uint32 extends Uint {
   /// is aligned on an 2-byte boundary, then a [Uint32List.view] is returned; otherwise,
   /// the [bytes] are copied to a [new] [Uint32List].
   static Uint32List viewOfBytes(Uint8List bytes, [int offsetInBytes = 0, int length]) {
-    length = getLength(bytes, offsetInBytes, length, shiftValue);
+    length = getLength(bytes, offsetInBytes, length);
     if (isAligned(offsetInBytes)) {
       // Aligned - return a view.
       return bytes.buffer.asUint32List(offsetInBytes, length);
@@ -684,14 +684,14 @@ class Uint64 extends Uint {
 
   /// Returns a [Uint64List.view] created from the [Uint64List] [list].
   static Uint64List view(Uint64List list, [int offsetInBytes = 0, int length]) =>
-      viewOfBytes(list.buffer.asUint8List());
+      viewOfBytes(list.buffer.asUint8List(offsetInBytes, length << shiftValue));
 
   /// Returns a [Uint64List] created from the [Uint8List] [bytes]. If [offsetInBytes]
   /// is aligned on an 2-byte boundary, then a [Uint64List.view] is returned; otherwise,
   /// the [bytes] are copied to a [new] [Uint64List].
   static Uint64List viewOfBytes(Uint8List bytes, [int offsetInBytes = 0, int length]) {
-    length = getLength(bytes, offsetInBytes, length, shiftValue);
-    if (isAligned(offsetInBytes)) {
+    length = getLength(bytes, offsetInBytes, length);
+    if (isAligned(bytes.offsetInBytes)) {
       // Aligned - return a view.
       return bytes.buffer.asUint64List(offsetInBytes, length);
     } else {

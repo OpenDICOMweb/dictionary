@@ -6,7 +6,7 @@
 
 import 'dart:math';
 
-import 'package:dictionary/src/common/reader/reader.dart';
+import 'package:dictionary/src/common/reader/byte_buf.dart';
 
 import 'date.dart';
 import 'time.dart';
@@ -64,7 +64,7 @@ int readYear(String s, [int start = 0]) =>
 const List<int> kDaysPerMonth = const <int>[0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
 int maxMonthDay(int y, int m) {
-  int mm = validateMonth(m);
+  int mm = checkMonth(m);
   int ds = kDaysPerMonth[mm];
   return ds;
 }
@@ -160,7 +160,7 @@ int checkMinute(int m) => _checkRange(0, m, 59);
 
 /// Returns a valid [minute] or [null];
 int readMinute(String s, [int start = 0]) =>
-    validateMinute(_parseInt(s.substring(start, start + 2)));
+    checkMinute(_parseInt(s.substring(start, start + 2)));
 
 /// Returns [true] if [second] is between 0 and 60.
 ///
@@ -177,7 +177,7 @@ int checkSecond(int s) => _checkRange(0, s, 60);
 /// Returns a valid [second] or [null];
 //TODO: Needs year, month, day to handle leap seconds.
 int readSecond(String s, [int start = 0]) =>
-    validateSecond(_parseInt(s.substring(start, start + 2)));
+    checkSecond(_parseInt(s.substring(start, start + 2)));
 
 /// Returns [true] if [fraction] is between 0 and 999999.
 bool isValidFraction(int f) => _inRange(0, f, 999999);
@@ -211,7 +211,7 @@ int readFraction(String s, [int start = 0]) {
   int v = _parseInt(s);
   // log.debug('v: $v. s.length: ${s.length}');
   if (s.length < 6) v = v * pow(10, 6 - s.length);
-  return validateFraction(v);
+  return checkFraction(v);
 }
 
 int fractionToMilliseconds(String fraction) => int.parse(fraction.substring(0, 3));
@@ -222,19 +222,23 @@ int fractionToMicroseconds(String fraction) => int.parse(fraction.substring(3, 6
 /// Returns [true] if [millisecond] is between 0 and 999.
 bool isValidMillisecond(int ms) => _inRange(0, ms, 999);
 
-/// Returns an [int] between 0 and 999, or [null].
+/// _Deprecated_: Used [checkMillisecond] instead.
+@deprecated
 int validateMillisecond(int ms) => (isValidMillisecond(ms)) ? ms : null;
+
+/// Returns an [int] between 0 and 999, or [null].
+int checkMillisecond(int ms) => (isValidMillisecond(ms)) ? ms : null;
 
 /// Returns a valid [minute] or [null];
 int readMillisecond(String s, [int start = 0]) =>
-    validateMillisecond(_parseInt(s.substring(start, start + 3)));
+    checkMillisecond(_parseInt(s.substring(start, start + 3)));
 
 // ** Microsecond **
 /// Returns [true] if [microsecond] is between 0 and 999.
 bool isValidMicrosecond(int us) => isValidMillisecond(us);
 
 /// Returns an [int] between 0 and 999, or [null].
-int validateMicrosecond(int us) => validateMillisecond(us);
+int validateMicrosecond(int us) => checkMillisecond(us);
 
 /// Returns a valid [second] or [null];
 int readMicrosecond(String s, [int start = 0]) => readMillisecond(s, start);
@@ -251,11 +255,11 @@ bool isValidTime(int h, [int m = 0, int s = 0, int ms = 0, int u = 0]) =>
 DateTime validateTime(int h, int m, int s, int ms, int us) {
   h = validateHour(h);
   if (h == null) return null;
-  m = validateMinute(m);
+  m = checkMinute(m);
   if (m == null) return null;
-  s = validateSecond(s);
+  s = checkSecond(s);
   if (s == null) return null;
-  ms = validateMillisecond(ms);
+  ms = checkMillisecond(ms);
   if (s == null) return null;
   us = validateMicrosecond(us);
   if (s == null) return null;
@@ -264,7 +268,7 @@ DateTime validateTime(int h, int m, int s, int ms, int us) {
 
 bool isValidTimeString(String time, [int start = 0, int end]) {
   var sb = new StringReader(time, start, end);
-  if (sb.readTime(time, start) == null) return false;
+  if (sb.time == null) return false;
   return true;
 }
 bool isColon(String s, int start) => s[start] == ":";
@@ -322,9 +326,9 @@ TimeZone readTimeZone(String tzo, [int start = 0, int inc = 0, int end]) {
   if (tzo.length < start + 5 + inc) return null;
   var sb = new StringReader(tzo, start, end);
   try {
-    int sign = sb.readTZSign(tzo, start);
-    int hours = sb.readTZHour(tzo, start + 1);
-    int minutes = sb.readTZMinute(tzo, start + 3 + inc);
+    int sign = sb.tzSign;
+    int hours = sb.tzHour;
+    int minutes = sb.tzMinute;
     int offsetInMinutes = (sign * (hours * 60)) + minutes;
     return new TimeZone.fromMinutes(offsetInMinutes);
   } on FormatException catch (e) {

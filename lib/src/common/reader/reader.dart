@@ -16,6 +16,7 @@ part of odw.sdk.dictionary.common.reader.byte_buf;
 
 typedef bool _CharTest(code);
 
+/* flush
 int checkBufferLength(int bufferLength, int start, int end) {
   if (end == null) end = bufferLength;
   if (end < 0 || bufferLength < end)
@@ -24,7 +25,7 @@ int checkBufferLength(int bufferLength, int start, int end) {
     throw new ArgumentError("Invalid start($start) for buffer with end($end)");
   return end;
 }
-
+*/
 /// Reader Interface
 ///
 /// _start = 0
@@ -56,7 +57,7 @@ abstract class Reader extends ByteBuf {
   // **** Peek, read, or unread at [index].
 
   /// Returns the code unit at [_rIndex], but does not increment [_rIndex].
-  int get peek => (isReadable) ? null : _get(_rIndex);
+  int get peek => (isReadable) ? null : buf[_rIndex];
 
   /// Returns the code unit at [_rIndex] and increments [_rIndex], or [null] if
   /// the [buf] [isReadable].
@@ -64,7 +65,7 @@ abstract class Reader extends ByteBuf {
 
   /// _Internal_: Must only be called when [isEmpty] is false.
   int get _read {
-    int c = _get(_rIndex);
+    int c = buf[_rIndex];
     _rIndex++;
     return c;
   }
@@ -142,7 +143,7 @@ abstract class Reader extends ByteBuf {
   }
 
   bool nextMatches(int code) => peek == code;
-  bool nthMatches(int offset, int code) => (hasReadable(offset)) ? _get(offset) == code : null;
+  bool nthMatches(int offset, int code) => (hasReadable(offset)) ? buf[offset] == code : null;
 
   /// Reads the next code unit and returns [true] if it matches [code].
   bool readMatchingCode(int code) {
@@ -255,7 +256,7 @@ abstract class Reader extends ByteBuf {
     int n = 0;
     print('@${_rIndex} start n: $n');
     for (; _rIndex < limit; _rIndex++) {
-      int v = _toHex(_get(_rIndex));
+      int v = _toHex(buf[_rIndex]);
       print('@${_rIndex} v: $v');
       if (v == null) return v;
       n = (n * 16) + v;
@@ -342,7 +343,7 @@ abstract class Reader extends ByteBuf {
     int p = peek;
     //TODO: what should this do if it reads only a decimal mark, but no digit?
     // currently returns null.
-    if (p != kDecimalMark || _isDigit(_get(_rIndex + 2))) return null;
+    if (p != kDecimalMark || _isDigit(buf[_rIndex + 2])) return null;
     _rIndex++;
     return 1 / _readVUint(limit);
   }
@@ -430,7 +431,7 @@ abstract class Reader extends ByteBuf {
   /// Reads the next [char] and returns -1 if it is "-",
   /// 0 if it is "Z" or "z", or 1 if it is "+"; otherwise,
   /// [unread]s and returns [null].
-  int get tzOffset {
+  int get tzSign {
     int c = read;
     if (c == kMinus) return -1;
     if (c == kPlus) return 1;
