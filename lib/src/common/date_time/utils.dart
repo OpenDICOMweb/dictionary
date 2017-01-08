@@ -6,7 +6,7 @@
 
 import 'dart:math';
 
-import 'package:dictionary/src/common/reader/byte_buf.dart';
+import 'package:dictionary/src/common/buffer/byte_buf.dart';
 
 import 'date.dart';
 import 'time.dart';

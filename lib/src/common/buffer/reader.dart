@@ -37,13 +37,13 @@ int checkBufferLength(int bufferLength, int start, int end) {
 ///
 
 abstract class Reader extends ByteBuf {
-  List<int> buf;
+  List<int> _buf;
   int _rIndex;
   int _wIndex;
 
-  int operator[](int i) => buf[i];
+  int operator[](int i) => _buf[i];
 
-  int get length => buf.length;
+  int get length => _buf.length;
 
   String toSubString(int start, int end);
 
@@ -57,7 +57,7 @@ abstract class Reader extends ByteBuf {
   // **** Peek, read, or unread at [index].
 
   /// Returns the code unit at [_rIndex], but does not increment [_rIndex].
-  int get peek => (isReadable) ? null : buf[_rIndex];
+  int get peek => (isReadable) ? null : _buf[_rIndex];
 
   /// Moves [_rIndex] forward or backward.
   ///
@@ -79,7 +79,7 @@ abstract class Reader extends ByteBuf {
 
   /// _Internal_: Must only be called when [isEmpty] is false.
   int get _read {
-    int c = buf[_rIndex];
+    int c = _buf[_rIndex];
     _rIndex++;
     return c;
   }
@@ -157,7 +157,7 @@ abstract class Reader extends ByteBuf {
   }
 
   bool nextMatches(int code) => peek == code;
-  bool nthMatches(int offset, int code) => (hasReadable(offset)) ? buf[offset] == code : null;
+  bool nthMatches(int offset, int code) => (hasReadable(offset)) ? _buf[offset] == code : null;
 
   /// Reads the next code unit and returns [true] if it matches [code].
   bool readMatchingCode(int code) {
@@ -191,7 +191,7 @@ abstract class Reader extends ByteBuf {
   int get digit => (_nextIsDigit) ? _digit : null;
 
   /// Reads an unsigned [int] from [max] code units, which must be between
-  /// "0" and "9" and returns the corresponding integer value. If [buf] does
+  /// "0" and "9" and returns the corresponding integer value. If [_buf] does
   /// not have [max] code units remaining, or if the code units corresponding
   /// to [max] do not contain digits, returns [null].
   int readUint([int min = 1, int max]) {
@@ -224,27 +224,6 @@ abstract class Reader extends ByteBuf {
     return n;
   }
 
-  /*
-  /// Read an unsigned integer with length at least 1 and no more than [max].
-  int readUint(int max) {
-    int limit = _getRLimit(max);
-    if (limit == null || !_nextIsDigit) return null;
-    return _readVUint(limit);
-  }
-  */
-
-  /// Reads one or more unsigned digits and returns there value.
-  /// Note: The next code point must be a digit.
-  int _readVUint(int limit) {
-    int n = 0;
-    for (; _rIndex < limit; _rIndex++) {
-      int v = _digit;
-      if (v == null) return v;
-      n = (n * 10) + v;
-    }
-    return n;
-  }
-
   /* Flush if not needed
   bool get _isHex {
     int c = peek;
@@ -266,7 +245,7 @@ abstract class Reader extends ByteBuf {
   }
 
   /// Reads [count] code units, which must be hexadecimal code points (0-9, A-F, a-f),
-  /// and returns the corresponding integer value. If [buf] does not have [count]
+  /// and returns the corresponding integer value. If [_buf] does not have [count]
   /// code units remaining, or if the code units corresponding to [count] do not contain digits,
   /// returns [null].
   int readHex(int count) {
@@ -281,7 +260,7 @@ abstract class Reader extends ByteBuf {
     int n = 0;
     print('@${_rIndex} start n: $n');
     for (; _rIndex < limit; _rIndex++) {
-      int v = _toHex(buf[_rIndex]);
+      int v = _toHex(_buf[_rIndex]);
       print('@${_rIndex} v: $v');
       if (v == null) return v;
       n = (n * 16) + v;
@@ -317,7 +296,7 @@ abstract class Reader extends ByteBuf {
   }
 
   /// Reads an signed [int] from [max] code units, which must be between
-  /// "0" and "9" and returns the corresponding integer value. If [buf] does
+  /// "0" and "9" and returns the corresponding integer value. If [_buf] does
   /// not have [max] code units remaining, or if the code units corresponding
   /// to [max] do not contain digits, returns [null].
   int readInt([int min = 1, int max]) {
@@ -375,16 +354,16 @@ abstract class Reader extends ByteBuf {
     int p = peek;
     //TODO: what should this do if it reads only a decimal mark, but no digit?
     // currently returns null.
-    if (p != kDecimalMark || _isDigit(buf[_rIndex + 2])) return null;
+    if (p != kDecimalMark || _isDigit(_buf[_rIndex + 2])) return null;
     _rIndex++;
-    return 1 / _readVUint(limit);
+    return 1 / _readUint(0, limit);
   }
 
   int _readExponent(int limit) {
     int c = peek;
     if (c != kE || c != ke) return null;
     _rIndex++;
-    return _readVUint(limit);
+    return _readUint(0, limit);
   }
 
   // **** Read dates, times, dateTimes, and durations. ****
@@ -500,61 +479,61 @@ abstract class Reader extends ByteBuf {
 
 
 class StringReader extends Reader {
-  final Uint16List buf;
+  final Uint16List _buf;
   int _rIndex;
   int _wIndex;
 
   StringReader(String s, [int start = 0, int end])
       : _wIndex = checkBufferLength(s.length, start, end),
-        buf = new Uint16List.fromList(s.codeUnits);
+        _buf = new Uint16List.fromList(s.codeUnits);
 
   StringReader.fromCodeUnits(Uint16List buf, [int start = 0, int end])
-      : buf = buf,
+      : _buf = buf,
         _wIndex = checkBufferLength(buf.length, start, end);
 
-  ByteBuffer get buffer => buf.buffer;
+  ByteBuffer get buffer => _buf.buffer;
 
   int get elementSizeInBytes => 2;
 
-  int get lengthInBytes => buf.lengthInBytes;
+  int get lengthInBytes => _buf.lengthInBytes;
 
-  int get offsetInBytes => buf.offsetInBytes;
+  int get offsetInBytes => _buf.offsetInBytes;
 
   StringReader view([int start = 0, int end]) {
     _wIndex = checkBufferLength(this._wIndex, start, end);
-    buf = buf.buffer.asUint16List(start, end);
-    return new StringReader.fromCodeUnits(buf);
+    _buf = _buf.buffer.asUint16List(start, end);
+    return new StringReader.fromCodeUnits(_buf);
   }
 
   //String toSubString(int start, int end) => buf.buffer.asUint8List(start, end).toString();
 
-  String toSubString(int start, int end) => new String.fromCharCodes(buf, start, end);
+  String toSubString(int start, int end) => new String.fromCharCodes(_buf, start, end);
 
 }
 
 class BytesReader extends Reader {
-  final Uint8List buf;
+  final Uint8List _buf;
   int _rIndex;
   int _wIndex;
 
   BytesReader(Uint8List buf, [int start = 0, int end])
-      : buf = buf,
+      : _buf = buf,
         _rIndex = checkBufferLength(buf.length, start, end);
 
   BytesReader view([int start = 0, int end]) {
     end = checkBufferLength(this._wIndex, start, end);
-    return new BytesReader(buf.buffer.asUint8List(start, end));
+    return new BytesReader(_buf.buffer.asUint8List(start, end));
   }
 
-  ByteBuffer get buffer => buf.buffer;
+  ByteBuffer get buffer => _buf.buffer;
 
   int get elementSizeInBytes => 1;
 
-  int get lengthInBytes => buf.lengthInBytes;
+  int get lengthInBytes => _buf.lengthInBytes;
 
-  int get offsetInBytes => buf.offsetInBytes;
+  int get offsetInBytes => _buf.offsetInBytes;
 
-  String toSubString(int start, int end) => buf.buffer.asUint8List(start, end).toString();
+  String toSubString(int start, int end) => _buf.buffer.asUint8List(start, end).toString();
 
 }
 

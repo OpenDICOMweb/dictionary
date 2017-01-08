@@ -9,9 +9,10 @@ import 'package:dictionary/src/dicom/vr/vr.dart';
 import 'package:dictionary/tag.dart';
 
 /// A [class] for defining the elements of an [IOD].
-class IodTag implements Tag {
+class IodTag extends Object with TagMixin {
   final Tag tag;
   final EType eType;
+
   const IodTag(this.tag, this.eType);
 
   int get code => tag.code;
@@ -32,7 +33,12 @@ class IodTag implements Tag {
   VM get vm => tag.vm;
   bool get isRetired => tag.isRetired;
 
-
+  int codeGroup(int code) => code >> 16;
+  int codeElt(int code) => code & 0xFFFF;
+  bool codeGroupIsPrivate(int code) {
+    int g = codeGroup(code);
+    return g.isOdd && (g > 0x0008 && g < 0xFFFE);
+  }
 
   bool isValidLength(int length) => tag.isValidLength(length);
   //bool isValidValue(value) => tag.isValidValue(value);

@@ -27,6 +27,48 @@ const int kElementMask = 0x0000FFFF;
 /// A procedure that checks it's value and returns a [String] or a [List<String>].
 typedef bool ValueChecker(value, List<String> issues);
 
+abstract class TagMixin {
+  int code;
+  VR vr;
+  VM vm;
+  bool isRetired;
+
+
+  // **** Code Getters
+  String get dcm => '(${Int.hex(group, 4, "" )},${Int.hex(elt, 4, "")})';
+  String get hex => Int.hex(code, 8);
+
+  int get group => Group.valid(code >> 16);
+  String get groupHex => Group.hex(group);
+
+  int get elt => code & kElementMask;
+  String get eltHex => Elt.hex(elt);
+
+  // **** VR Getters
+
+  int get vrIndex => vr.index;
+  int get sizeInBytes => vr.sizeInBytes;
+  bool get isShort => vr.isShort;
+
+  // **** VR Getters
+
+  int get minLength => vm.min;
+
+  /// Returns the maximum number of values allowed for this [Tag].
+  int get maxLength {
+    int max = (vr.isShort) ? kMaxShortLengthInBytes : kMaxLongLengthInBytes;
+    return max ~/ vr.sizeInBytes;
+  }
+
+  int get width => vm.width;
+
+  int codeGroup(int code) => code >> 16;
+  int codeElt(int code) => code & 0xFFFF;
+  bool codeGroupIsPrivate(int code) {
+    int g = codeGroup(code);
+    return g.isOdd && (g > 0x0008 && g < 0xFFFE);
+  }
+}
 //TODO: is hashCode needed?
 class TagBase {
   final int code;

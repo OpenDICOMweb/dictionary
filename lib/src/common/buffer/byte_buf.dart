@@ -16,9 +16,11 @@ import 'package:dictionary/src/common/ascii/constants.dart';
 import 'package:dictionary/src/common/date_time/date.dart';
 import 'package:dictionary/src/common/date_time/time.dart';
 import 'package:dictionary/src/common/date_time/utils.dart';
+import 'package:dictionary/src/common/uid/uid.dart';
 import 'package:dictionary/string.dart';
 
 part 'reader.dart';
+part 'writer.dart';
 
 //TODO: Add a way to retrieve error messages
 //TODO: Add the ability to read object (Uid, Uuid, Uri, etc.)
@@ -26,8 +28,6 @@ part 'reader.dart';
 // names with char or Char(suffix) return [int]s.
 // names with string or String(suffix) return [String]s.
 // If a Readers returns [null], the [index] is not changed.
-
-//typedef bool _CharTest(code);
 
 int checkBufferLength(int bufferLength, int start, int end) {
   if (end == null) end = bufferLength;
@@ -48,33 +48,33 @@ int checkBufferLength(int bufferLength, int start, int end) {
 /// isWritable = _wRemaining > 0;
 ///
 abstract class ByteBuf {
-  /// The [buf] always [start]s at _rIndex = 0.
-  List<int> buf;
+  /// The [_buf] always [start]s at _rIndex = 0.
+  List<int> _buf;
 
-  /// The current read position in the [buf]. Must be between [start] and [end].
+  /// The current read position in the [_buf]. Must be between [start] and [end].
   int _rIndex;
 
-  /// The current write position in the [buf]. Must be between [_rIndex] and [emd].
+  /// The current write position in the [_buf]. Must be between [_rIndex] and [emd].
   int _wIndex;
 
   /// Returns the element at index [i] if [i] [_isValidRIndex]; otherwise, returns [null].
-  int operator [](int i) => buf[i];
+  int operator [](int i) => _buf[i];
 
-  /// **** Getters and Methods related to [_rIndex] and [buf].[length].
+  /// **** Getters and Methods related to [_rIndex] and [_buf].[length].
 
-  /// The 0Th position in the [buf].
+  /// The 0Th position in the [_buf].
   int get start => 0;
 
-  /// Returns the number of elements [E] contained in [buf].
-  int get length => buf.length;
+  /// Returns the number of elements [E] contained in [_buf].
+  int get length => _buf.length;
 
   /// Synonym for [length]
   int get end => length;
 
-  /// The current read position in the [buf]. Starts at [start].
+  /// The current read position in the [_buf]. Starts at [start].
   int get readIndex => _rIndex;
 
-  /// Returns an [true] if [n] is a valid [_rIndex] in [buf].
+  /// Returns an [true] if [n] is a valid [_rIndex] in [_buf].
   bool _isValidRIndex(int n) => (0 <= n && n <= _wIndex);
 
   /// Returns [true] if all characters have been read, i.e. [index] [==] [_wIndex].
@@ -82,7 +82,7 @@ abstract class ByteBuf {
   int get rRemaining => _rRemaining;
   bool get isReadable => _rRemaining > 0;
 
-  /// Returns [true] if [buf] has at least [count] code units remaining.
+  /// Returns [true] if [_buf] has at least [count] code units remaining.
   bool hasReadable(int n) => _rRemaining >= n;
 
   int get readReset {
@@ -97,10 +97,10 @@ abstract class ByteBuf {
     return (v > 0) ? v : null;
   }
 
-  /// The current write position in the [buf]. Ends at [end].
+  /// The current write position in the [_buf]. Ends at [end].
   int get writeIndex => _wIndex;
 
-  /// Returns an [true] if [n] is a valid [_rIndex] in [buf].
+  /// Returns an [true] if [n] is a valid [_rIndex] in [_buf].
   bool _isValidWIndex(int n) => (_wIndex <= n && n <= end);
 
   int get _wRemaining => end - _wIndex;
