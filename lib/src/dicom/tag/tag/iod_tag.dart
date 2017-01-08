@@ -13,7 +13,8 @@ class IodTag extends Object with TagMixin {
   final Tag tag;
   final EType eType;
 
-  const IodTag(this.tag, this.eType);
+  //TODO: make const
+  IodTag(this.tag, this.eType);
 
   int get code => tag.code;
   String get hex => tag.hex;

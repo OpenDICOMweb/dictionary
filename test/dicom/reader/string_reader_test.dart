@@ -4,7 +4,7 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
-import 'package:dictionary/src/common/reader/byte_buf.dart';
+import 'package:dictionary/src/common/buffer/byte_buf.dart';
 import 'package:test/test.dart';
 
 main() {

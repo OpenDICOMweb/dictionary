@@ -58,7 +58,7 @@ class PrivateTag extends TagBase {
   //TODO: move all static code related methods to TagBase.
   //static bool isPrivateGroup(int code) => codeGroup(code).isOdd && code
 
-  /// Returns true if [code] is a valid [PrivateData] tag.
+  /// Returns true if [code] is a valid [PrivateDataTag] tag.
   //static bool isPrivateCreatorCode(int code) =>
   //    group.isPrivate(codeGroup(code)) && Elt.isPrivateCreator(Elt.fromTag(code));
 
@@ -69,7 +69,7 @@ class PrivateTag extends TagBase {
   static bool isPrivateData(int tag) =>
       Group.isPrivate(Group.fromTag(tag)) && Elt.isPrivateData(Elt.fromTag(tag));
 
-  /// Returns true if this is a valid [PrivateData] tag.
+  /// Returns true if this is a valid [PrivateDataTag] tag.
   ///
   /// If the Private Creator Tag is present, verifies that [pd] and [pc] have the
   /// same [group], and that [pc] has a valid [pcIndex].
@@ -130,8 +130,21 @@ class PrivateTag extends TagBase {
   static int _pdLimit(int pdBase) => pdBase + 0x00FF;
 }
 
-class PrivateCreator extends PrivateTag {
-  const PrivateCreator(int code, [VR vr = VR.kUN, VM vm = VM.k1, bool isRetired = false])
+
+//TODO: flush when working
+//bool _isPrivateCreator(Tag tag) => 0x0010 <= tag.elt && tag.elt <= 0x00FF;
+//bool _isPrivateData(Tag tag) => 0x1000 <= tag.elt && tag.elt <= 0xFFFF;
+
+/// The superclass for Private Tags.
+///
+/// It cannot be created because it has no public constructors.
+class PrivateCreatorTag extends PrivateTag {
+  final String company;
+  final String name;
+
+  /// Creates a Well Known Private Tag.
+  const PrivateCreatorTag._(this.company, this.name,
+      int code, [VR vr, VM vm = VM.k1, bool isRetired = false])
       : super(code, vr, vm, isRetired);
 
   bool get isCreator => true;
@@ -143,73 +156,73 @@ class PrivateCreator extends PrivateTag {
   bool isValidDataCode(int code) =>
       group == codeGroup(code) && (base <= codeElt(code) && codeElt(code) <= limit);
 
+  static lookup(int code) => pcTags[code];
 
+  static const kFoo =
+      const PrivateCreatorTag._("Acme", "Creator Id", 0x00090010);
 
-  //TODO: what is the best Tag for Unkknown Creator
-  static const kUnknownCreator = const PrivateCreator(0x00010000);
-
-  static bool isValidPDataCode(PrivateCreator c, int code) => c.isValidDataCode(code);
-
-
+  static const Map<int, PrivateCreatorTag> pcTags = const {};
 }
 
-//TODO: flush when working
-//bool _isPrivateCreator(Tag tag) => 0x0010 <= tag.elt && tag.elt <= 0x00FF;
-//bool _isPrivateData(Tag tag) => 0x1000 <= tag.elt && tag.elt <= 0xFFFF;
+class UnknownPrivateCreatorTag extends PrivateCreatorTag {
+  UnknownPrivateCreatorTag(int code, String name, [VR vr = VR.kUN, VM vm = VM.k1, bool isRetired =
+  false])
+      : super._("Unknown Company", name, code, vr, vm, isRetired);
 
-/// The superclass for Private Tags.
-///
-/// It cannot be created because it has no public constructors.
-class WKPrivateCreator extends PrivateCreator {
-  final String company;
+  static UnknownPrivateCreatorTag lookup(int code) {
+    PrivateTag tag = PrivateCreatorTag.lookup(code);
+    if (tag != null) return tag;
+    return UnknownPrivateCreatorTag.lookup(code);
+  }
+
+  static bool isValidPDataCode(UnknownPrivateCreatorTag c, int code) => c.isValidDataCode(code);
+
+  static final unknown = new UnknownPrivateCreatorTag(0, "UnknownName");
+  //TODO: figure this out
+  static final Map<int, UnknownPrivateCreatorTag> unknownPCTags = {};
+}
+
+class PrivateDataTag extends PrivateTag {
+  final PrivateCreatorTag creator;
   final String name;
 
   /// Creates a Well Known Private Tag.
-  const WKPrivateCreator._(this.company, this.name,
+  const PrivateDataTag._(this.creator, this.name,
       int code, [VR vr, VM vm = VM.k1, bool isRetired = false])
       : super(code, vr, vm, isRetired);
 
-  static const kFoo =
-      const WKPrivateCreator._("Acme", "Creator Id", 0x00090010);
 
-  static const Map<int, WKPrivateCreator> tags = const {};
+  static lookup(int code) => pdTags[code];
+
+  static const kFooData =
+  const PrivateDataTag._(PrivateCreatorTag.kFoo, "Data name", 0x00091000);
+
+  static const Map<int, PrivateDataTag> pdTags = const {};
 }
 
-class PrivateData extends PrivateTag {
-  final PrivateCreator creator;
+class UnknownPrivateDataTag extends PrivateTag {
+  final PrivateCreatorTag creator;
 
-  const PrivateData._(this.creator, int code,
-      [VR vr = VR.kUN, VM vm = VM.k1, bool isRetired = false])
+  UnknownPrivateDataTag._(this.creator, int code,
+                          [VR vr = VR.kUN, VM vm = VM.k1, bool isRetired = false])
       : super(code, vr, vm, isRetired);
 
-  PrivateData(PrivateCreator creator, int code,
-      [VR vr = VR.kUN, VM vm = VM.k1, bool isRetired = false])
-      : creator = (PrivateCreator.isValidPDataCode(creator, code))
-      ? creator
-      : throw "Invalid Creator",
+  UnknownPrivateDataTag(PrivateCreatorTag creator, int code,
+                        [VR vr = VR.kUN, VM vm = VM.k1, bool isRetired = false])
+      : creator = (creator.isValidDataCode(code)) ? creator : throw "Invalid Creator",
         super(code, vr, vm, isRetired);
 
   bool get isCreator => false;
 
   bool get isPublic => !isPrivate;
 
+  static PrivateTag lookup(int code) => unknownPrivateTags[code];
+
 }
 
-class WKPrivateData extends PrivateCreator {
-  final WKPrivateCreator creator;
-  final String name;
+final Map<int, PrivateTag> unknownPrivateTags = {};
 
-  /// Creates a Well Known Private Tag.
-  const WKPrivateData._(this.creator, this.name,
-      int code, [VR vr, VM vm = VM.k1, bool isRetired = false])
-      : super(code, vr, vm, isRetired);
 
-  static const kFooData =
-  const WKPrivateData._(WKPrivateCreator.kFoo, "Data name", 0x00091000);
 
-  static const Map<int, WKPrivateData> tags = const {};
-}
-
-const Map<int, PrivateTag> wkPrivateTags = const {};
 
 

@@ -19,7 +19,6 @@ import 'e_type.dart';
 import 'elt.dart';
 import 'group.dart';
 import 'tag_map.dart';
-import 'wk_private.dart';
 
 const int kGroupMask = 0xFFFF0000;
 const int kElementMask = 0x0000FFFF;
@@ -32,7 +31,6 @@ abstract class TagMixin {
   VR vr;
   VM vm;
   bool isRetired;
-
 
   // **** Code Getters
   String get dcm => '(${Int.hex(group, 4, "" )},${Int.hex(elt, 4, "")})';
@@ -69,6 +67,7 @@ abstract class TagMixin {
     return g.isOdd && (g > 0x0008 && g < 0xFFFE);
   }
 }
+
 //TODO: is hashCode needed?
 class TagBase {
   final int code;
@@ -123,11 +122,11 @@ class Tag extends TagBase {
   //final int index
   /// The DICOM Tag from PS3.6, Table 6-1.
   //final int code;
- // final VR vr;
+  // final VR vr;
   //final int vrIndex;
   //final bool isShort;
 
- // final VM vm;
+  // final VM vm;
   //final int vmMin;
   //final int vmMax;
   //final int vmWidth;
@@ -137,9 +136,8 @@ class Tag extends TagBase {
   final bool isRetired;
 
   const Tag(this.keyword, int code, this.name, VR vr, VM vm,
-      [this.isRetired = false, this.eType = EType.kUnknown]) : super(code, vr, vm);
-
-
+      [this.isRetired = false, this.eType = EType.kUnknown])
+      : super(code, vr, vm);
 
   /// Returns true if the tag is defined by DICOM, false otherwise.
   /// All DICOM Public tags have group numbers that are even integers.
@@ -150,8 +148,6 @@ class Tag extends TagBase {
   bool get isWKPublic => lookup(code) != null;
 
   bool get isPrivate => Group.isPrivate(group);
-
-  bool get isWKPrivate => wkPrivateTags[code] != null;
 
   int get fmiMin => kMinFmiTag;
   int get fmiMax => kMaxFmiTag;
@@ -200,16 +196,14 @@ class Tag extends TagBase {
   }
 
   bool checkLength(List values, List<String> issues) {
-    if (issues == null)
-      throw new ArgumentError('issues($issues) must be a valid list');
+    if (issues == null) throw new ArgumentError('issues($issues) must be a valid list');
     int issuesLength = issues.length;
     int length = values.length;
     // These are the most common cases.
     if (length == 0 || (length == 1 && vm.width == 0)) return true;
-    if ( width != 0 && length % width != 0)
+    if (width != 0 && length % width != 0)
       issues.add('Invalid Length($length) not a multiple of vmWidth($width)');
-    if (length < minLength)
-      issues.add('Invalid Length($length) less than minLength($minLength)');
+    if (length < minLength) issues.add('Invalid Length($length) less than minLength($minLength)');
     if (length > maxLength)
       issues.add('Invalid Length($length) greater than maxLength($maxLength)');
     return (issues.length == issuesLength) ? true : false;
@@ -224,13 +218,12 @@ class Tag extends TagBase {
   Issue checkValues(Tag tag, List values, List<ValueIssue> issues) {
     var vIssues = <ValueIssue>[];
     var messages = <String>[];
-    if (! checkLength(values, messages)) {
+    if (!checkLength(values, messages)) {
       vIssues.add(new ValueIssue(0, values, messages));
     }
     for (int i = 0; i < values.length; i++) {
       messages = <String>[];
-      if (! vr.checkValue(values[i], messages))
-        issues.add(new ValueIssue(i, values[i], messages));
+      if (!vr.checkValue(values[i], messages)) issues.add(new ValueIssue(i, values[i], messages));
     }
     return (vIssues.length > 0) ? new Issue(tag, vIssues) : null;
   }
@@ -245,8 +238,7 @@ class Tag extends TagBase {
     // These are the most common cases.
     if (length == 0 || (length == 1 && width == 0)) return null;
     List<String> msgs;
-    if (length % width != 0)
-      msgs = ['Invalid Length($length) not a multiple of vmWidth($width)'];
+    if (length % width != 0) msgs = ['Invalid Length($length) not a multiple of vmWidth($width)'];
     if (length < minLength) {
       var msg = 'Invalid Length($length) less than minLength($minLength)';
       msgs = msgs ??= [];
@@ -255,7 +247,7 @@ class Tag extends TagBase {
     if (length > maxLength) {
       var msg = 'Invalid Length($length) greater than maxLength($maxLength)';
       msgs = msgs ??= [];
-      msgs.add(msg);  //TODO: test Not sure this is working
+      msgs.add(msg); //TODO: test Not sure this is working
     }
     return (msgs == null) ? null : new ValueIssue(-1, values, msgs);
   }
@@ -289,7 +281,6 @@ class Tag extends TagBase {
 
   //TODO: document
   //TODO: make v an [int] when working
-
 
   static Tag lookup(intOrTag, [bool shouldThrow = true]) {
     if (intOrTag is Tag) return intOrTag;
@@ -14038,7 +14029,7 @@ String keywordToName(String keyword) {
   List<int> kw = keyword.codeUnits;
   List<int> name = new List<int>();
   name[0] = kw[0];
-  for(int i = 0; i < kw.length; i++) {
+  for (int i = 0; i < kw.length; i++) {
     int char = kw[i];
     if (isUppercaseChar(char)) name.add(kSpace);
     name.add(char);
