@@ -205,7 +205,7 @@ class Int8 extends Int {
   /// Returns a [Int8List.view] of [bytes].
   ///
   /// Note: [Int8List]s are always aligned.
-  static Int8List view(Uint8List bytes, [int offsetInBytes = 0, int length]) {
+  static Int8List viewOfBytes(Uint8List bytes, [int offsetInBytes = 0, int length]) {
     int oib =
         RangeError.checkValidRange(0, bytes.offsetInBytes + offsetInBytes, bytes.lengthInBytes);
     length = RangeError.checkValidRange(0, length, bytes.lengthInBytes);
@@ -511,7 +511,7 @@ class Uint8 extends Uint {
   /// Returns a [Uint8List] view of [bytes].
   ///
   /// Note: [Uint8List] are always aligned.
-  static Uint8List view(Uint8List bytes, [int offsetInBytes = 0, int length]) {
+  static Uint8List viewOfBytes(Uint8List bytes, [int offsetInBytes = 0, int length]) {
     int lIB = bytes.lengthInBytes;
     int oIB = RangeError.checkValidRange(0, lIB + offsetInBytes, lIB);
     length = RangeError.checkValidRange(0, length, lIB);
