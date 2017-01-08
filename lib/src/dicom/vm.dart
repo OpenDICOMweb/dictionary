@@ -44,11 +44,6 @@ class VM {
     return (length % width == 0 && min <= length && length <= max);
   }
 
-  bool _inRange(int length) {
-    int m = (max == -1) ? 0x3FFFFFFF : max;
-    return (min <= length) && (length <= m);
-  }
-
   // Notes: max should be max * width
   int maxLength(int sizeInBytes, [bool isLongLength = false]) {
     if (max != -1) return max * width;

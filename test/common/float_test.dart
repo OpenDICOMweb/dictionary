@@ -7,222 +7,191 @@
 import 'dart:typed_data';
 
 import 'package:dictionary/src/common/float.dart';
+import 'package:dictionary/src/common/utils.dart';
 import 'package:test/test.dart';
 
-void main() {
 
-  float32Test();
-  //float64Test();
-}
-
+//TODO: add more data - negative numbers, integers, large fractions
 final List<double> dList_0 = const <double>[.0, .1, .2, .3, .4];
-final List<double> dList_1 = const <double>[1.0, 1.1, 1.2, 1.3, 1.4];
-final List<double> dList_2 = const <double>[-1.0, -1.1, -1.2, -1.3, -1.4];
 
-final Float32List f32_0 = new Float32List.fromList(dList_0);
-final Float32List f32_1 = new Float32List.fromList(dList_0);
-final Float32List f32_2 = new Float32List.fromList(dList_0);
-
-final Float64List f64_0 = new Float64List.fromList(dList_0);
-final Float64List f64_1 = new Float64List.fromList(dList_0);
-final Float64List f64_2 = new Float64List.fromList(dList_0);
-
-
-
-
-Uint8List createUnalignedFloat32List(List<double> vList, int offsetAt) {
+Uint8List getOffsetFloat32List(List<double> vList, int offsetAt) {
   Float32List f32 = (vList is Float32List) ? vList : new Float32List.fromList(dList_0);
-  ByteData f32AsBD = f32.buffer.asByteData();
   ByteData unalignedBD = new ByteData(f32.lengthInBytes + offsetAt);
-
- for (int i = 0; i < f32AsBD.lengthInBytes; i += Float32.sizeInBytes) {
-    double d0 = f32AsBD.getFloat32(i, Endianness.LITTLE_ENDIAN);
-    print('d0: $d0');
-    unalignedBD.setFloat32(i + offsetAt, d0, Endianness.LITTLE_ENDIAN);
-    double d1 = unalignedBD.getFloat32(i, Endianness.LITTLE_ENDIAN);
-    print('d0: $d0 d1: $d0');
+  for (int i = 0, oib = 0; i < f32.length; i++, oib += Float32.sizeInBytes) {
+    unalignedBD.setFloat32(oib + offsetAt, f32[i], Endianness.HOST_ENDIAN);
   }
-  ByteData bd0 = unalignedBD.buffer.asByteData(offsetAt);
-  Float32List v = bd0.buffer.asFloat32List();
-  print('V: $v');
-  Uint8List bytes = unalignedBD.buffer.asUint8List(offsetAt);
-  v = bytes.buffer.asFloat32List();
- print('V: $v');
- print('bytes offsetInBytes(${bytes.offsetInBytes}), lengthInBytes(${bytes.lengthInBytes})');
-  return bytes;
+  return unalignedBD.buffer.asUint8List();
 }
 
-Uint8List createUnalignedFloat64List(List<double> vList, int offsetAt) {
-  Float64List fl64Data = (vList is Float64List) ? vList : new Float64List.fromList(dList_0);
-  ByteData fl64AsBD = fl64Data.buffer.asByteData();
-  ByteData unalignedUint8 = new ByteData(fl64Data.lengthInBytes + offsetAt);
-
-  for (int i = 0; i < fl64AsBD.lengthInBytes; i += 4) {
-    double d0 = fl64AsBD.getFloat64(i, Endianness.LITTLE_ENDIAN);
-    // print('d0: $d0');
-    unalignedUint8.setFloat64(i + offsetAt, d0, Endianness.LITTLE_ENDIAN);
-    double d1 = unalignedUint8.getFloat64(i, Endianness.LITTLE_ENDIAN);
-    //  print('d0: $d0 d1: $d0');
+Uint8List getOffsetFloat64List(List<double> vList, int offsetAt) {
+  Float64List f64 = (vList is Float64List) ? vList : new Float64List.fromList(dList_0);
+  ByteData unalignedBD = new ByteData(f64.lengthInBytes + offsetAt);
+  for (int i = 0, oib = 0; i < f64.length; i++, oib += Float64.sizeInBytes) {
+    unalignedBD.setFloat64(oib + offsetAt, f64[i], Endianness.HOST_ENDIAN);
   }
-  return unalignedUint8.buffer.asUint8List();
+  return unalignedBD.buffer.asUint8List();
 }
 
+bool haveSharedBuffer(TypedData a, TypedData b) => a.buffer == b.buffer;
 
 void float32Test() {
 
-  test('Create Aligned Test', () {
+  test('ViewOfBytes Aligned Test', () {
     print('dList0: $dList_0');
     Float32List f32 = new Float32List.fromList(dList_0);
     Float32List vList;
+    print('f32: $f32');
 
-    for(int offset = 0; offset < 4; offset += 4) {
-      Uint8List aligned = createUnalignedFloat32List(f32, offset);
-      Float32List f = aligned.buffer.asFloat32List();
+    int loopCount = 3;
+    for(int i = 0, offset = 0; i < loopCount; i++, offset += 4) {
+      print('$i: offset: $offset');
+      Uint8List aligned = getOffsetFloat32List(f32, offset);
+      print('aligned: $aligned');
+      print('aligned oIB: ${aligned.offsetInBytes}');
+      Uint8List bytes = aligned.buffer.asUint8List(offset);
+      print('bytes: $bytes');
 
-      bool v = Float32.isAlignedOffset(f.offsetInBytes);
-      print('aligned: $v');
+      bool v = isAligned(bytes);
+      print('bytes isAligned: $v');
       expect(v, true);
 
-      vList = Float32.viewOfBytes(aligned, offset);
+      vList = Float32.viewOfBytes(bytes);
       print('vList: $vList');
+
+      v =  haveSharedBuffer(bytes, vList);
+      print('hasSharedBuffer: $v');
+      expect(v, true);
 
       v =  identical(f32, vList);
       print('identical: $v');
       expect(v, false);
 
       v =  Float32.equal(f32, vList);
+      print('length: a: ${f32.length}, b: ${vList.length}');
       print('equal: $v');
-      expect(v, true);
-
-      v =  Float32.isAligned(vList);
-      print('aligned: $v');
       expect(v, true);
     }
   });
 
-  test('Create Unaligned Test', () {
-    print('\ndList0: $dList_0');
-    Float32List f32 = new Float32List.fromList(dList_0);
-    Float32List vList1;
+  test('ViewOfBytes Unaligned Test', () {
+    Float32List f32, list0, list1;
+    print('\ndList_0: $dList_0');
+    f32 = new Float32List.fromList(dList_0);
+    print('f32: $f32');
 
-    for(int offset = 1; offset < 8; offset++) {
-      Uint8List unaligned = createUnalignedFloat32List(f32, offset);
-      Float32List f = unaligned.buffer.asFloat32List();
-      print('f: $f');
-      print('buffers eq: ${unaligned.buffer == f.buffer}');
+    for(int offset = 1; offset < 9; offset += 2) {
+      print('$offset: offset: $offset');
+      // create a Uint32List containing f32, but offset by [offset] bytes.
+      Uint8List unaligned = getOffsetFloat32List(f32, offset);
+      print('unaligned: $unaligned');
+      // create Uint8List corresponding to f32
+      Uint8List bytes = unaligned.buffer.asUint8List(offset);
+      print('unaligned.offset(${unaligned.offsetInBytes}), bytes.offset(${bytes.offsetInBytes})');
+      print('bytes: $bytes');
 
+      // check Float32 alignment
+      bool v = Float32.isAligned(bytes);
+      print('isAligned: $v');
+      expect(v, (offset % 4 == 0) ? true : false);
 
-      print('**** Offset $offset');
-      print('unaligned offset(${unaligned.offsetInBytes}), f offset(${f.offsetInBytes})');
-      bool v = Float32.isAligned(f);
-      print('aligned: $v');
-      expect(v, (f.offsetInBytes % Float32.sizeInBytes == 0) ? true : false);
-
-      Float32List vList0 = Float32.view(f);
-      print('vList0: $vList0');
-      vList1 = Float32.viewOfBytes(unaligned);
-      print('vList: $vList1');
-      v =  identical(f32, vList1);
+      list0= Float32.viewOfBytes(bytes);
+      print('vList0: $list0');
+      v =  identical(f32, list0);
       print('identical: $v');
       expect(v, false);
 
-      v =  Float32.equal(f32, vList1);
+      v =  Float32.equal(f32, list0);
       print('equal: $v');
       expect(v, true);
 
-      v =  Float32.isAlignedOffset(unaligned.offsetInBytes);
-      print('aligned: $v');
-      expect(v, (offset % Float32.sizeInBytes == 0) ? true : false);
+      list1 = Float32.viewOfBytes(unaligned);
+      print('vList1: $list1');
+      v = Float32.equal(list0, list1);
+      expect(v, false);
     }
   });
+}
 
-  test('Float32.viewOfBytes Aligned', () {
-    bool v = identical(f32_0, f32_0);
-    print('v: $v');
-    expect(v, true);
-    v = Float32.equal(f32_0, f32_0);
-    print('v: $v');
-    expect(v, true);
-    print('isAligned: ${Float32.isAligned(f32_0)}');
-    expect(Float32.isAligned(f32_0), true);
-    Float32List f0 = new Float32List.fromList(f32_0);
-    v = Float32.equal(f32_0, f0);
-    print('v: $v');
-    expect(v, true);
-    Uint8List b0 = f0.buffer.asUint8List();
-    Float32List view0 = Float32.viewOfBytes(b0);
-    v = Float32.equal(f32_0, view0);
-    print('v: $v');
-    expect(v, true);
-    v = identical(f32_0.buffer, view0.buffer);
-    print('v: $v - ${f32_0.buffer}, ${view0.buffer}');
-    expect(v, true);
+void float64Test() {
 
-  });
-
-  test('Float32.viewOfBytes Unaligned', () {
-    Uint8List buf = createUnalignedFloat32List(f32_0, 3);
-    Float32List f32Test= buf.buffer.asFloat32List();
-    print('F32_0: $f32Test');
-    print('f32Text: $f32Test');
-    bool v = identical(f32_0, f32Test);
-    print('Identical: $v');
-    expect(v, false);
-    v = Float32.equal(f32_0, f32Test);
-    print('Equal: $v');
-    expect(v, true);
-    print('isAligned: ${Float32.isAligned(f32Test)}');
-    expect(Float32.isAligned(f32Test), false);
-    Float32List f0 = new Float32List.fromList(f32Test);
-    v = Float32.equal(f32Test, f0);
-    print('v: $v');
-    expect(v, true);
-    Uint8List b0 = f0.buffer.asUint8List();
-    Float32List view0 = Float32.viewOfBytes(b0);
-    v = Float32.equal(f0, view0);
-    print('v: $v');
-    expect(v, true);
-    v = identical(f0.buffer, view0.buffer);
-    print('v: $v - ${f0.buffer}, ${view0.buffer}');
-    //TODO: why isn't buffer shared?
-   // expect(v, true);
-
-  });
-
-  test('Float32 Positive Fraction', (){
+  test('ViewOfBytes Aligned Test', () {
     print('dList0: $dList_0');
-    Float32List data0Float32 = new Float32List.fromList(dList_0);
-    print('data0Float32 length(${data0Float32.length}), lengthIB(${data0Float32.lengthInBytes})');
-    print('data0AsFloat32: $data0Float32');
+    Float32List f32 = new Float32List.fromList(dList_0);
+    Float32List vList;
+    print('f32: $f32');
 
-    ByteData newBD = new ByteData(data0Float32.lengthInBytes + 2);
-    print('newBD lengthIB(${newBD.lengthInBytes})');
+    int loopCount = 3;
+    for(int i = 0, offset = 0; i < loopCount; i++, offset += 4) {
+      print('$i: offset: $offset');
+      Uint8List aligned = getOffsetFloat32List(f32, offset);
+      print('aligned: $aligned');
+      print('aligned oIB: ${aligned.offsetInBytes}');
+      Uint8List bytes = aligned.buffer.asUint8List(offset);
+      print('bytes: $bytes');
 
-    ByteData data0AsBD = data0Float32.buffer.asByteData();
-    print('data0AsBD lengthIB(${data0AsBD.lengthInBytes})');
+      bool v = isAligned(bytes);
+      print('bytes isAligned: $v');
+      expect(v, true);
 
-    for (int i = 0; i < data0AsBD.lengthInBytes; i += 4) {
-      double d0 = data0AsBD.getFloat32(i, Endianness.LITTLE_ENDIAN);
-      // print('d0: $d0');
-      newBD.setFloat32(i + 2, d0, Endianness.HOST_ENDIAN);
-      double d1 = newBD.getFloat32(i, Endianness.LITTLE_ENDIAN);
-      print('d0: $d0 d1: $d0');
+      vList = Float32.viewOfBytes(bytes);
+      print('vList: $vList');
+
+      v =  haveSharedBuffer(bytes, vList);
+      print('hasSharedBuffer: $v');
+      expect(v, true);
+
+      v =  identical(f32, vList);
+      print('identical: $v');
+      expect(v, false);
+
+      v =  Float32.equal(f32, vList);
+      print('length: a: ${f32.length}, b: ${vList.length}');
+      print('equal: $v');
+      expect(v, true);
     }
+  });
 
-    Uint8List uint8 = newBD.buffer.asUint8List(2);
-    Float32List fl = uint8.buffer.asFloat32List();
-    print('fl as Float32: $fl');
+  test('ViewOfBytes Unaligned Test', () {
+    Float64List f64, list0, list1;
+    print('\ndList_0: $dList_0');
+    f64 = new Float64List.fromList(dList_0);
+    print('f64: $f64');
 
+    for(int offset = 1; offset < 9; offset += 2) {
+      print('$offset: offset: $offset');
+      // create a Uint64List containing f64, but offset by [offset] bytes.
+      Uint8List unaligned = getOffsetFloat64List(f64, offset);
+      print('unaligned: $unaligned');
+      // create Uint8List corresponding to f64
+      Uint8List bytes = unaligned.buffer.asUint8List(offset);
+      print('unaligned.offset(${unaligned.offsetInBytes}), bytes.offset(${bytes.offsetInBytes})');
+      print('bytes: $bytes');
 
-    Uint8List bytes = newBD.buffer.asUint8List();
-    Float32List view = Float32.viewOfBytes(bytes, 2, dList_0.length);
-    for (int i = 0; i < view.length; i++) {
-      print('$i, dList0(${dList_0[i]}), view(${view[i]}}');
+      // check Float64 alignment
+      bool v = Float64.isAligned(bytes);
+      print('isAligned: $v');
+      expect(v, (offset % 4 == 0) ? true : false);
+
+      list0= Float64.viewOfBytes(bytes);
+      print('vList0: $list0');
+      v =  identical(f64, list0);
+      print('identical: $v');
+      expect(v, false);
+
+      v =  Float64.equal(f64, list0);
+      print('equal: $v');
+      expect(v, true);
+
+      list1 = Float64.viewOfBytes(unaligned);
+      print('vList1: $list1');
+      v = Float64.equal(list0, list1);
+      expect(v, false);
     }
-    print('dList0: $dList_0');
-    print('view: $view');
+  });
+}
 
-    expect(Float32.equal(dList_0, view), true);
-});
+void main() {
 
+  float32Test();
+  float64Test();
 }

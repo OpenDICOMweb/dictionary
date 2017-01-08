@@ -4,7 +4,7 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
-import 'package:dictionary/src/common/reader/reader.dart';
+import 'package:dictionary/src/common/reader/byte_buf.dart';
 import 'package:test/test.dart';
 
 main() {
@@ -19,14 +19,14 @@ simpleReadTest() {
 
     // check length, index, and simple read error
     expect(buf.length, equals(length));
-    expect(buf.index, equals(0));
+    expect(buf.readIndex, equals(0));
     expect(buf.read, equals(null));
-    expect(buf.index, equals(0));
+    expect(buf.readIndex, equals(0));
 
     // check skip on 0 length buffer
     expect(buf.skip(1), equals(null));
     expect(buf.skip(-1), equals(null));
-    expect(buf.index, equals(0));
+    expect(buf.readIndex, equals(0));
   });
 
   test("Simple String Read Test", () {
@@ -63,24 +63,24 @@ simpleReadTest() {
     buf = new StringReader(s);
     expect(buf.length, equals(length));
     expect(buf.read, equals("0".codeUnitAt(0)));
-    expect(buf.readUintOfLength(2), equals(0));
-    expect(buf.readUintOfLength(3), equals(0));
-    expect(buf.readUintOfLength(4), equals(null));
+    expect(buf.readUint(2, 2), equals(0));
+    expect(buf.readUint(3, 3), equals(0));
+    expect(buf.readUint(4, 4), equals(null));
 
     s = "123";
     length = s.length;
     buf = new StringReader(s);
     expect(buf.length, equals(length));
     expect(buf.read, equals("1".codeUnitAt(0)));
-    expect(buf.readUintOfLength(1), equals(1));
-    expect(buf.readUintOfLength(2), equals(12));
-    expect(buf.readUintOfLength(3), equals(123));
-    expect(buf.readUintOfLength(4), equals(null));
+    expect(buf.readUint(1, 1), equals(1));
+    expect(buf.readUint(2, 2), equals(12));
+    expect(buf.readUint(3, 3), equals(123));
+    expect(buf.readUint(4, 4), equals(null));
 
     s = "12a3";
     buf = new StringReader(s);
-    expect(buf.readUintOfLength(2), equals(12));
-    expect(buf.readUintOfLength(3), equals(null));
+    expect(buf.readUint(2, 2), equals(12));
+    expect(buf.readUint(3, 3), equals(null));
   });
 
   test("VUint Read Test", () {
@@ -93,26 +93,26 @@ simpleReadTest() {
     buf = new StringReader(s);
     expect(buf.length, equals(length));
     expect(buf.read, equals("0".codeUnitAt(0)));
-    expect(buf.readUint(5), equals(0));
-    expect(buf.readUint(6), equals(null));
+    expect(buf.readUint(5, 5), equals(0));
+    expect(buf.readUint(6, 6), equals(null));
 
     s = "123456";
     buf = new StringReader(s);
-    expect(buf.readUintOfLength(1), equals(1));
-    expect(buf.readUintOfLength(2), equals(12));
-    expect(buf.readUintOfLength(3), equals(123));
-    expect(buf.readUintOfLength(4), equals(1234));
-    expect(buf.readUintOfLength(5), equals(12345));
-    expect(buf.readUintOfLength(6), equals(123456));
-    expect(buf.readUintOfLength(7), equals(null));
+    expect(buf.readUint(1, 1), equals(1));
+    expect(buf.readUint(2, 2), equals(12));
+    expect(buf.readUint(3, 3), equals(123));
+    expect(buf.readUint(4, 4), equals(1234));
+    expect(buf.readUint(5, 5), equals(12345));
+    expect(buf.readUint(6, 6), equals(123456));
+    expect(buf.readUint(7, 7), equals(null));
 
     s = "12a3";
     buf = new StringReader(s);
-    expect(buf.readUint(-1), equals(null));
-    expect(buf.readUint(0), equals(null));
-    expect(buf.readUint(2), equals(12));
-    expect(buf.readUint(3), equals(12));
-    expect(buf.readUint(4), equals(12));
+    expect(buf.readUint(-1, -1), equals(null));
+    expect(buf.readUint(0, 0), equals(null));
+    expect(buf.readUint(2, 2), equals(12));
+    expect(buf.readUint(3, 3), equals(12));
+    expect(buf.readUint(4, 4), equals(12));
   });
 
   test("Int Read Test", () {
@@ -126,11 +126,11 @@ simpleReadTest() {
     expect(buf.length, equals(length));
     expect(buf.read, equals("+".codeUnitAt(0)));
     expect(buf.read, equals("1".codeUnitAt(0)));
-    buf.reset;
-    expect(buf.index, equals(0));
-    print('index: ${buf.index}');
+    buf.readReset;
+    expect(buf.readIndex, equals(0));
+    print('readIndex: ${buf.readIndex}');
     print('x: ${buf.readInt(1)}');
-    buf.reset;
+    buf.readReset;
     expect(buf.readInt(1), equals(1));
 
     s = "-1";
@@ -138,7 +138,7 @@ simpleReadTest() {
     buf = new StringReader(s);
     expect(buf.length, equals(length));
     expect(buf.read, equals("-".codeUnitAt(0)));
-    buf.reset;
+    buf.readReset;
     expect(buf.readInt(1), equals(-1));
 
     s = "1";
@@ -146,7 +146,7 @@ simpleReadTest() {
     buf = new StringReader(s);
     expect(buf.length, equals(length));
     expect(buf.read, equals("1".codeUnitAt(0)));
-    buf.reset;
+    buf.readReset;
     expect(buf.readInt(1), equals(1));
   });
 
@@ -162,7 +162,7 @@ simpleReadTest() {
     // expect(buf.read, equals("0".codeUnitAt(0)));
     expect(buf.hex, equals(0));
     expect(buf.hex, equals(10));
-    buf.reset;
+    buf.readReset;
     expect(buf.readHex(2), equals(0xa));
 
     s = "abcdef";
@@ -171,17 +171,17 @@ simpleReadTest() {
     expect(buf.length, equals(length));
     expect(buf.readHex(0), equals(null));
     expect(buf.readHex(1), equals(0xa));
-    buf.reset;
+    buf.readReset;
     expect(buf.readHex(2), equals(0xab));
-    buf.reset;
+    buf.readReset;
     expect(buf.readHex(3), equals(0xabc));
-    buf.reset;
+    buf.readReset;
     expect(buf.readHex(4), equals(0xabcd));
-    buf.reset;
+    buf.readReset;
     expect(buf.readHex(5), equals(0xabcde));
-    buf.reset;
+    buf.readReset;
     expect(buf.readHex(6), equals(0xabcdef));
-    buf.reset;
+    buf.readReset;
     expect(buf.readHex(7), equals(null));
 
     s = "0a1b2c3d4e5f";
@@ -190,17 +190,17 @@ simpleReadTest() {
     expect(buf.length, equals(length));
     expect(buf.readHex(0), equals(null));
     expect(buf.readHex(2), equals(0x0a));
-    buf.reset;
+    buf.readReset;
     expect(buf.readHex(4), equals(0x0a1b));
-    buf.reset;
+    buf.readReset;
     expect(buf.readHex(6), equals(0x0a1b2c));
-    buf.reset;
+    buf.readReset;
     expect(buf.readHex(8), equals(0x0a1b2c3d));
-    buf.reset;
+    buf.readReset;
     expect(buf.readHex(10), equals(0x0a1b2c3d4e));
-    buf.reset;
+    buf.readReset;
     expect(buf.readHex(12), equals(0x0a1b2c3d4e5f));
-    buf.reset;
+    buf.readReset;
     expect(buf.readHex(14), equals(null));
 
     s = "0a1b2c3d4e5f";
@@ -208,19 +208,19 @@ simpleReadTest() {
     buf = new StringReader(s);
     expect(buf.length, equals(length));
     expect(buf.readVHex(0), equals(null));
-    buf.reset;
+    buf.readReset;
     expect(buf.readVHex(2), equals(0x0a));
-    buf.reset;
+    buf.readReset;
     expect(buf.readVHex(3), equals(0x0a1));
-    buf.reset;
+    buf.readReset;
     expect(buf.readVHex(5), equals(0x0a1b2));
-    buf.reset;
+    buf.readReset;
     expect(buf.readVHex(6), equals(0x0a1b2c));
-    buf.reset;
+    buf.readReset;
     expect(buf.readVHex(8), equals(0x0a1b2c3d));
-    buf.reset;
+    buf.readReset;
     expect(buf.readVHex(9), equals(0x0a1b2c3d4));
-    buf.reset;
+    buf.readReset;
     expect(buf.readVHex(14), equals(0x0a1b2c3d4e5f));
 
   });
@@ -232,15 +232,15 @@ readVUintTest() {
     StringReader buf = new StringReader(s0);
     int length = s0.length;
 
-    // check length, index, and simple read error
+    // check length, readIndex, and simple read error
     expect(buf.length, equals(length));
-    expect(buf.index, equals(0));
+    expect(buf.readIndex, equals(0));
     expect(buf.read, equals(null));
-    expect(buf.index, equals(0));
+    expect(buf.readIndex, equals(0));
 
     // check skip on 0 length buffer
     expect(buf.skip(1), equals(null));
     expect(buf.skip(-1), equals(null));
-    expect(buf.index, equals(0));
+    expect(buf.readIndex, equals(0));
   });
 }

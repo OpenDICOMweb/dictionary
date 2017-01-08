@@ -6,23 +6,21 @@
 
 import 'dart:typed_data';
 
-import 'package:dictionary/src/common/utils.dart';
+import 'package:dictionary/src/common/constants.dart';
 import 'package:dictionary/src/dicom/constants.dart';
 
+//TODO: decide if [view] interface should be  view(TypedData td, offsetInBytes, length)
+//TODO: add oib as standard local variable name for offsetInBytes.
+//TODO: add lib as standard local variable name for lengthInBytes.
+
 /// Private error handler.
-int _error(String type, int val) {
-  throw new RangeError('$type: $val out of range');
-}
+int _error(String type, int val) => throw new RangeError('$type: $val out of range');
 
 /// The [Type] of Range checkers.
 typedef bool _InRange(int val);
 
 class Int {
-  //**** General Constants ****
-  static const kKB = 1024;
-  static const kMB = kKB * 1024;
-  static const kGB = kMB * 1024;
-  static const kTB = kGB * 1024;
+  //TODO: move these to common/src/constants.dart
 
   /// The maximum size of Dart's small integers on 32 and 64 bit systems.
   static const smi32Mask = 0x3FFFFFFF;
@@ -47,7 +45,7 @@ class Int {
   /// Returns [true] if [value] is between [min] and [max] inclusive.
   static bool inRange(int min, int value, int max) => (min <= value && value <= max);
 
-  static bool check(int i, List<String> issues, int min, int max) {
+  static bool checkValueInRange(int i, List<String> issues, int min, int max) {
     if (i < min) {
       issues.add('Value $i is less than the minimum($min) allowed value.');
       return false;
@@ -59,44 +57,32 @@ class Int {
     return true;
   }
 
-  /// _Deprecated: Use [listGuard] instead._
+  /// _Deprecated_: Use checkList instead.
   @deprecated
-  static List<int> validate(List<int> vList, _InRange inRange) => _listGuard(vList, inRange);
+  static List<int> listGuard(List<int> vList, _InRange inRange, int minLength, int maxLength) =>
+      checkList(vList, inRange, minLength, maxLength);
 
-  //TODO: change name to checkList
-  /// Returns a [List<int>] if all values are [int], otherwise [null].
-  static List<int> listGuard(List<int> vList, _InRange inRange, int minLength, int maxLength) {
-    if (vList == null) return null;
-    if (vList.length < minLength || maxLength < vList.length) return null;
-    // print('vList: $vList');
-    if (vList is TypedData)
-      for (int i = 0; i < vList.length; i++)
-        if ((vList[i] is int) && inRange(vList[i])) {
-          return null;
-        }
-    // print('vList: $vList');
-    return vList;
+  /// Returns a [List<int>] if all values are [int] and [inRange], otherwise [null].
+  static List<int> checkList(List<int> vList, _InRange inRange, int minLength, int maxLength) {
+    if (vList is! TypedData) return null;
+    return _checkList(vList, inRange, minLength, maxLength);
   }
 
-  /// Returns a [List<int>] if all values are [int], otherwise [null].
-  static List<int> _listGuard(List<int> vList, _InRange inRange) {
+  /// Returns a [List<int>] if all values are [int] and [inRange], otherwise [null].
+  static List<int> _checkList(List<int> vList, _InRange inRange, int min, int max) {
+    if (vList == null || vList.length < min || max < vList.length) return null;
     for (int i = 0; i < vList.length; i++) if (!inRange(vList[i])) return null;
     return vList;
   }
 
   /// Returns a [List<int>] if all values are [int], otherwise [null].
   static bool isValidList(List<int> vList, _InRange inRange, int minLength, int maxLength) {
-    if (listGuard(vList, inRange, minLength, maxLength) == null) return false;
+    if (checkList(vList, inRange, minLength, maxLength) == null) return false;
     return true;
   }
 
-  /// Returns a [List<int>] if all values are [int], otherwise [null].
-  static bool _isValidList(List<int> vList, _InRange inRange) {
-    if (_listGuard(vList, inRange) == null) return false;
-    return true;
-  }
-
-  static bool isNotValidList(List<int> vList, _InRange inRange) => !_isValidList(vList, inRange);
+  static bool isNotValidList(List<int> vList, _InRange inRange, int minLength, int maxLength) =>
+      !isValidList(vList, inRange, minLength, maxLength);
 
   //**** hashing support ****
   /// The default hash seed.
@@ -181,30 +167,34 @@ class Int8 extends Int {
 
   static int guard(int i) => inRange(i) ? i : _error("Int8", i);
 
-  static bool check(int v, List<String> issues) => Int.check(v, issues, min, max);
+  static bool check(int v, List<String> issues) => Int.checkValueInRange(v, issues, min, max);
 
-  /// _Deprecated: Use [hex] instead._
+  /// _Deprecated_: Use [hex] instead.
   @deprecated
   static toHex(int i, [int padding = 0]) => Int.hex(i, padding);
 
   static hex(int i) => Int.hex(i, 2);
 
-  /// _Deprecated: Use [listGuard] instead._
+  /// _Deprecated: Use [checkList] instead._
   @deprecated
-  static List<int> validate(List<int> vList) => Int._listGuard(vList, inRange);
+  static List<int> validate(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
+      Int._checkList(vList, inRange, minLength, maxLength);
+
+  /// _Deprecated_: Use [Int8.checkList] instead.
+  static List<int> listGuard(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
+      checkList(vList, minLength, maxLength);
 
   /// Returns it argument [vList] if valid; otherwise, returns [null].
-  static List<int> listGuard(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) {
-    if (vList == null || vList.length < minLength || maxLength < vList.length) return null;
-    return Int._listGuard(vList, inRange);
-  }
+  static List<int> checkList(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
+      Int._checkList(vList, inRange, minLength, maxLength);
 
   /// Returns a [true] if all values are valid Uint32, otherwise [false].
-  static bool isValidList(List<int> vList) => (listGuard(vList) == null) ? false : true;
+  static bool isValidList(List<int> vList) => (checkList(vList) == null) ? false : true;
 
   static bool isNotValidList(List<int> vList) => !isValidList(vList);
 
-  static bool isAligned(int offset) => true;
+  static bool isAligned(TypedData list) => true;
+  static bool isNotAligned(TypedData list) => !isAligned(list);
 
   static const shiftValue = 0;
 
@@ -215,9 +205,11 @@ class Int8 extends Int {
   /// Returns a [Int8List.view] of [bytes].
   ///
   /// Note: [Int8List]s are always aligned.
-  static Uint8List view(Uint8List bytes, [int offsetInBytes = 0, int length]) {
-    length = getLength(bytes, offsetInBytes, length);
-    return bytes.buffer.asUint8List(offsetInBytes, length);
+  static Int8List view(Uint8List bytes, [int offsetInBytes = 0, int length]) {
+    int oib =
+        RangeError.checkValidRange(0, bytes.offsetInBytes + offsetInBytes, bytes.lengthInBytes);
+    length = RangeError.checkValidRange(0, length, bytes.lengthInBytes);
+    return bytes.buffer.asInt8List(oib, length);
   }
 }
 
@@ -230,11 +222,13 @@ class Int16 extends Int {
   static const maxLongLength = kMaxLongLengthInBytes ~/ sizeInBytes;
   static final Int16List emptyList = new Int16List(0);
 
+  static equal(Int16List a, Int16List b) => Int.equal(a, b);
+
   static bool inRange(int i) => (i >= min) && (i <= max);
 
   static int guard(int i) => inRange(i) ? i : _error("Int16", i);
 
-  static bool check(int v, List<String> issues) => Int.check(v, issues, min, max);
+  static bool check(int v, List<String> issues) => Int.checkValueInRange(v, issues, min, max);
 
   /// _Deprecated: Use [hex] instead._
   @deprecated
@@ -242,22 +236,27 @@ class Int16 extends Int {
 
   static hex(int i) => Int.hex(i, 4);
 
-  /// _Deprecated: Use [listGuard] instead._
+  /// _Deprecated_: Use [Int.checkList] instead.
   @deprecated
-  static List<int> validate(List<int> vList) => Int._listGuard(vList, inRange);
+  static List<int> validate(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
+      Int._checkList(vList, inRange, minLength, maxLength);
+
+  /// _Deprecated_: Use [Int16.checkList] instead.
+  @deprecated
+  static List<int> listGuard(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
+      checkList(vList, minLength, maxLength);
 
   /// Returns it argument [vList] if valid; otherwise, returns [null].
-  static List<int> listGuard(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) {
-    if (vList == null || vList.length < minLength || maxLength < vList.length) return null;
-    return Int._listGuard(vList, inRange);
-  }
+  static List<int> checkList(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
+      Int._checkList(vList, inRange, minLength, maxLength);
 
   /// Returns a [true] if all values are valid Uint32, otherwise [false].
-  static bool isValidList(List<int> vList) => (listGuard(vList) == null) ? false : true;
+  static bool isValidList(List<int> vList) => (checkList(vList) == null) ? false : true;
 
   static bool isNotValidList(List<int> vList) => !isValidList(vList);
 
-  static bool isAligned(int offsetInBytes) => offsetInBytes % sizeInBytes == 0;
+  static bool isAligned(TypedData list) => list.offsetInBytes % sizeInBytes == 0;
+  static bool isNotAligned(TypedData list) => !isAligned(list);
 
   static const shiftValue = 1;
 
@@ -272,19 +271,20 @@ class Int16 extends Int {
   /// Returns a [Int16List] created from the [Uint8List] [bytes]. If [offsetInBytes]
   /// is aligned on an 2-byte boundary, then a [Int16List.view] is returned; otherwise,
   /// the [bytes] are copied to a [new] [Int16List].
-  static Int16List viewOfBytes(Uint8List bytes, [int offsetInBytes = 0, int length]) {
-    length = getLength(bytes, offsetInBytes, length);
-    if (isAligned(offsetInBytes)) {
-      // Aligned - return a view.
-      return bytes.buffer.asInt16List(offsetInBytes, length);
-    } else {
-      // Unaligned - return a copy bytes.
-      Int16List vList = new Int16List(length);
-      ByteData bd = bytes.buffer.asByteData(offsetInBytes, length << shiftValue);
-      for (int i = 0; i < length; i++)
-        vList[i] = bd.getInt16(i << shiftValue, Endianness.LITTLE_ENDIAN);
-      return vList;
+  static Int16List viewOfBytes(Uint8List bytes, [int length]) {
+    int maxLength = toLength(bytes.lengthInBytes);
+    length = RangeError.checkValidRange(0, length, maxLength);
+    if (isNotAligned(bytes)) {
+      print('Copying...');
+      int lengthInBytes = toLengthInBytes(length);
+      Int16List nList = new Int16List(length);
+      ByteData bd = bytes.buffer.asByteData(bytes.offsetInBytes, lengthInBytes);
+      for (int i = 0, oib = 0; i < length; i++, oib += sizeInBytes)
+        nList[i] = bd.getInt16(oib, Endianness.LITTLE_ENDIAN);
+      return nList;
     }
+    print('View ...oib: ${bytes.offsetInBytes}, length: $length');
+    return bytes.buffer.asInt16List(bytes.offsetInBytes, length);
   }
 
   static toInt16List(List<int> list) => (list is Int16List) ? list : new Int16List.fromList(list);
@@ -299,11 +299,13 @@ class Int32 extends Int {
   static const maxLongLength = kMaxLongLengthInBytes ~/ sizeInBytes;
   static final Int32List emptyList = new Int32List(0);
 
+  static equal(Int32List a, Int32List b) => Int.equal(a, b);
+
   static bool inRange(int i) => (i >= min) && (i <= max);
 
   static int guard(int i) => inRange(i) ? i : _error("Int32", i);
 
-  static bool check(int v, List<String> issues) => Int.check(v, issues, min, max);
+  static bool check(int v, List<String> issues) => Int.checkValueInRange(v, issues, min, max);
 
   /// _Deprecated: Use [hex] instead._
   @deprecated
@@ -311,22 +313,27 @@ class Int32 extends Int {
 
   static hex(int i) => Int.hex(i, 8);
 
-  /// _Deprecated: Use [listGuard] instead._
+  /// _Deprecated_: Use [Int32.checkList] instead.
   @deprecated
-  static List<int> validate(List<int> vList) => Int._listGuard(vList, inRange);
+  static List<int> validate(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
+      Int._checkList(vList, inRange, minLength, maxLength);
+
+  /// _Deprecated_: Use [Int32.checkList] instead.
+  @deprecated
+  static List<int> listGuard(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
+      checkList(vList, minLength, maxLength);
 
   /// Returns it argument [vList] if valid; otherwise, returns [null].
-  static List<int> listGuard(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) {
-    if (vList == null || vList.length < minLength || maxLength < vList.length) return null;
-    return Int._listGuard(vList, inRange);
-  }
+  static List<int> checkList(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
+      Int._checkList(vList, inRange, minLength, maxLength);
 
   /// Returns a [true] if all values are valid Uint32, otherwise [false].
-  static bool isValidList(List<int> vList) => (listGuard(vList) == null) ? false : true;
+  static bool isValidList(List<int> vList) => (checkList(vList) == null) ? false : true;
 
   static bool isNotValidList(List<int> vList) => !isValidList(vList);
 
-  static bool isAligned(int offsetInBytes) => offsetInBytes % sizeInBytes == 0;
+  static bool isAligned(TypedData list) => list.offsetInBytes % sizeInBytes == 0;
+  static bool isNotAligned(TypedData list) => !isAligned(list);
 
   static const shiftValue = 2;
 
@@ -341,19 +348,20 @@ class Int32 extends Int {
   /// Returns a [Int32List] created from [bytes]. If [offsetInBytes] is aligned
   /// on an 2-byte boundary, then a [Int32List.view] is returned; otherwise,
   /// the [bytes] are copied to a [new] [Int32List].
-  static Int32List viewOfBytes(Uint8List bytes, [int offsetInBytes = 0, int length]) {
-    length = getLength(bytes, offsetInBytes, length);
-    if (isAligned(offsetInBytes)) {
-      // Aligned - return a view.
-      return bytes.buffer.asInt32List(offsetInBytes, length);
-    } else {
-      // Unaligned - return a copy bytes.
-      Int32List vList = new Int32List(length);
-      ByteData bd = bytes.buffer.asByteData(offsetInBytes, length << shiftValue);
-      for (int i = 0; i < length; i++)
-        vList[i] = bd.getInt32(i << shiftValue, Endianness.LITTLE_ENDIAN);
-      return vList;
+  static Int32List viewOfBytes(Uint8List bytes, [int length]) {
+    int maxLength = bytes.lengthInBytes >> shiftValue;
+    length = RangeError.checkValidRange(0, length, maxLength);
+    if (isNotAligned(bytes)) {
+      print('Copying...');
+      int lengthInBytes = toLengthInBytes(length);
+      Int32List nList = new Int32List(length);
+      ByteData bd = bytes.buffer.asByteData(bytes.offsetInBytes, lengthInBytes);
+      for (int i = 0, oib = 0; i < length; i++, oib += sizeInBytes)
+        nList[i] = bd.getInt32(oib, Endianness.LITTLE_ENDIAN);
+      return nList;
     }
+    print('View ...');
+    return bytes.buffer.asInt32List(bytes.offsetInBytes, length);
   }
 
   static toInt32List(List<int> list) => (list is Int32List) ? list : new Int32List.fromList(list);
@@ -368,11 +376,13 @@ class Int64 extends Int {
   static const maxLongLength = kMaxLongLengthInBytes ~/ sizeInBytes;
   static final Int64List emptyList = new Int64List(0);
 
+  static equal(Int64List a, Int64List b) => Int.equal(a, b);
+
   static bool inRange(int i) => (i >= min) && (i <= max);
 
   static int guard(int i) => inRange(i) ? i : _error("Int64", i);
 
-  static bool check(int v, List<String> issues) => Int.check(v, issues, min, max);
+  static bool check(int v, List<String> issues) => Int.checkValueInRange(v, issues, min, max);
 
   /// _Deprecated: Use [hex] instead._
   @deprecated
@@ -380,22 +390,22 @@ class Int64 extends Int {
 
   static hex(int i) => Int.hex(i, 16);
 
-  /// _Deprecated: Use [listGuard] instead._
+  /// _Deprecated_: Use [Int64.checkList] instead.
   @deprecated
-  static List<int> validate(List<int> vList) => Int._listGuard(vList, inRange);
+  static List<int> validate(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
+      Int._checkList(vList, inRange, minLength, maxLength);
 
   /// Returns it argument [vList] if valid; otherwise, returns [null].
-  static List<int> listGuard(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) {
-    if (vList == null || vList.length < minLength || maxLength < vList.length) return null;
-    return Int._listGuard(vList, inRange);
-  }
+  static List<int> checkList(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
+      Int._checkList(vList, inRange, minLength, maxLength);
 
   /// Returns a [true] if all values are valid Uint32, otherwise [false].
-  static bool isValidList(List<int> vList) => (listGuard(vList) == null) ? false : true;
+  static bool isValidList(List<int> vList) => (checkList(vList) == null) ? false : true;
 
   static bool isNotValidList(List<int> vList) => !isValidList(vList);
 
-  static bool isAligned(int offsetInBytes) => offsetInBytes % sizeInBytes == 0;
+  static bool isAligned(TypedData list) => list.offsetInBytes % sizeInBytes == 0;
+  static bool isNotAligned(TypedData list) => !isAligned(list);
 
   static const shiftValue = 3;
 
@@ -410,19 +420,20 @@ class Int64 extends Int {
   /// Returns a [Int64List] created from the [Uint8List] [bytes]. If [offsetInBytes]
   /// is aligned on an 2-byte boundary, then a [Int64List.view] is returned; otherwise,
   /// the [bytes] are copied to a [new] [Int64List].
-  static Int64List viewOfBytes(Uint8List bytes, [int offsetInBytes = 0, int length]) {
-    length = getLength(bytes, offsetInBytes, length);
-    if (isAligned(offsetInBytes)) {
-      // Aligned - return a view.
-      return bytes.buffer.asInt64List(offsetInBytes, length);
-    } else {
-      // Unaligned - return a copy bytes.
-      Int64List vList = new Int64List(length);
-      ByteData bd = bytes.buffer.asByteData(offsetInBytes, length << shiftValue);
-      for (int i = 0; i < length; i++)
-        vList[i] = bd.getUint16(i << shiftValue, Endianness.LITTLE_ENDIAN);
-      return vList;
+  static Int64List viewOfBytes(Uint8List bytes, [int length]) {
+    int maxLength = bytes.lengthInBytes >> shiftValue;
+    length = RangeError.checkValidRange(0, length, maxLength);
+    if (isNotAligned(bytes)) {
+      print('Copying...');
+      int lengthInBytes = toLengthInBytes(length);
+      Int64List nList = new Int64List(length);
+      ByteData bd = bytes.buffer.asByteData(bytes.offsetInBytes, lengthInBytes);
+      for (int i = 0, oib = 0; i < length; i++, oib += sizeInBytes)
+        nList[i] = bd.getInt64(oib, Endianness.LITTLE_ENDIAN);
+      return nList;
     }
+    print('View ...');
+    return bytes.buffer.asInt64List(bytes.offsetInBytes, length);
   }
 
   static toInt64List(List<int> list) => (list is Int64List) ? list : new Int64List.fromList(list);
@@ -454,11 +465,13 @@ class Uint8 extends Uint {
   static const maxLongLength = kMaxLongLengthInBytes ~/ sizeInBytes;
   static final Uint8List emptyList = new Uint8List(0);
 
+  static equal(Uint8List a, Uint8List b) => Int.equal(a, b);
+
   static bool inRange(int i) => (i >= min) && (i <= max);
 
   static int guard(int i) => inRange(i) ? i : _error("Uint8", i);
 
-  static bool check(int v, List<String> issues) => Int.check(v, issues, min, max);
+  static bool check(int v, List<String> issues) => Int.checkValueInRange(v, issues, min, max);
 
   /// _Deprecated: Use [hex] instead._
   @deprecated
@@ -466,22 +479,28 @@ class Uint8 extends Uint {
 
   static hex(int i) => Int.hex(i, 2);
 
-  /// _Deprecated: Use [listGuard] instead._
+  /// _Deprecated_: Use [Uint8.checkList] instead.
   @deprecated
-  static List<int> validate(List<int> vList) => Int._listGuard(vList, inRange);
+  static List<int> validate(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
+      Int._checkList(vList, inRange, minLength, maxLength);
+
+  /// _Deprecated_: Use [Uint8.checkList] instead.
+  @deprecated
+  static List<int> listGuard(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
+      checkList(vList, minLength, maxLength);
 
   /// Returns it argument [vList] if valid; otherwise, returns [null].
-  static List<int> listGuard(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) {
-    if (vList == null || vList.length < minLength || maxLength < vList.length) return null;
-    return Int._listGuard(vList, inRange);
-  }
+  static List<int> checkList(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
+      Int._checkList(vList, inRange, minLength, maxLength);
 
   /// Returns a [true] if all values are valid Uint8, otherwise [false].
-  static bool isValidList(List<int> vList) => (listGuard(vList) == null) ? false : true;
+  static bool isValidList(List<int> vList) => (checkList(vList) == null) ? false : true;
 
   static bool isNotValidList(List<int> vList) => !isValidList(vList);
 
-  static bool isAligned(int offsetInBytes) => offsetInBytes % sizeInBytes == 0;
+  static bool isAligned(TypedData list) => true;
+
+  static bool isNotAligned(TypedData list) => !isAligned(list);
 
   static const shiftValue = 0;
 
@@ -493,8 +512,10 @@ class Uint8 extends Uint {
   ///
   /// Note: [Uint8List] are always aligned.
   static Uint8List view(Uint8List bytes, [int offsetInBytes = 0, int length]) {
-    length = getLength(bytes, offsetInBytes, length);
-    return bytes.buffer.asUint8List(offsetInBytes, length);
+    int lIB = bytes.lengthInBytes;
+    int oIB = RangeError.checkValidRange(0, lIB + offsetInBytes, lIB);
+    length = RangeError.checkValidRange(0, length, lIB);
+    return bytes.buffer.asUint8List(oIB, length);
   }
 }
 
@@ -507,11 +528,13 @@ class Uint16 extends Uint {
   static const maxLongLength = kMaxLongLengthInBytes ~/ sizeInBytes;
   static final Uint16List emptyList = new Uint16List(0);
 
+  static equal(Uint16List a, Uint16List b) => Int.equal(a, b);
+
   static bool inRange(int i) => (i >= min) && (i <= max);
 
   static int guard(int i) => inRange(i) ? i : _error("Uint16", i);
 
-  static bool check(int v, List<String> issues) => Int.check(v, issues, min, max);
+  static bool check(int v, List<String> issues) => Int.checkValueInRange(v, issues, min, max);
 
   /// _Deprecated: Use [hex] instead._
   @deprecated
@@ -519,22 +542,27 @@ class Uint16 extends Uint {
 
   static hex(int i) => Int.hex(i, 4);
 
-  /// _Deprecated: Use [listGuard] instead._
+  /// _Deprecated_: Use [Uint16.checkList] instead.
   @deprecated
-  static List<int> validate(List<int> vList) => Int._listGuard(vList, inRange);
+  static List<int> validate(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
+      Int._checkList(vList, inRange, minLength, maxLength);
+
+  /// _Deprecated_: Use [Uint16.checkList] instead.
+  @deprecated
+  static List<int> listGuard(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
+      checkList(vList, minLength, maxLength);
 
   /// Returns it argument [vList] if valid; otherwise, returns [null].
-  static List<int> listGuard(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) {
-    if (vList == null || vList.length < minLength || maxLength < vList.length) return null;
-    return Int._listGuard(vList, inRange);
-  }
+  static List<int> checkList(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
+      Int._checkList(vList, inRange, minLength, maxLength);
 
   /// Returns a [true] if all values are valid Uint32, otherwise [false].
-  static bool isValidList(List<int> vList) => (listGuard(vList) == null) ? false : true;
+  static bool isValidList(List<int> vList) => (checkList(vList) == null) ? false : true;
 
   static bool isNotValidList(List<int> vList) => !isValidList(vList);
 
-  static bool isAligned(int offsetInBytes) => offsetInBytes % sizeInBytes == 0;
+  static bool isAligned(TypedData list) => list.offsetInBytes % sizeInBytes == 0;
+  static bool isNotAligned(TypedData list) => !isAligned(list);
 
   static const shiftValue = 1;
 
@@ -549,19 +577,20 @@ class Uint16 extends Uint {
   /// Returns a [Uint16List] created from the [Uint8List] [bytes]. If [offsetInBytes]
   /// is aligned on an 2-byte boundary, then a [Uint16List.view] is returned; otherwise,
   /// the [bytes] are copied to a [new] [Uint16List].
-  static Uint16List viewOfBytes(Uint8List bytes, [int offsetInBytes = 0, int length]) {
-    length = getLength(bytes, offsetInBytes, length);
-    if (isAligned(offsetInBytes)) {
-      // Aligned - return a view.
-      return bytes.buffer.asUint16List(offsetInBytes, length);
-    } else {
-      // Unaligned - return a copy bytes.
-      Uint16List vList = new Uint16List(length);
-      ByteData bd = bytes.buffer.asByteData(offsetInBytes, length << shiftValue);
-      for (int i = 0; i < length; i++)
-        vList[i] = bd.getUint16(i << shiftValue, Endianness.LITTLE_ENDIAN);
-      return vList;
+  static Uint16List viewOfBytes(Uint8List bytes, [int length]) {
+    int maxLength = bytes.lengthInBytes >> shiftValue;
+    length = RangeError.checkValidRange(0, length, maxLength);
+    if (isNotAligned(bytes)) {
+      print('Copying...');
+      int lengthInBytes = toLengthInBytes(length);
+      Uint16List nList = new Uint16List(length);
+      ByteData bd = bytes.buffer.asByteData(bytes.offsetInBytes, lengthInBytes);
+      for (int i = 0, oib = 0; i < length; i++, oib += sizeInBytes)
+        nList[i] = bd.getUint16(oib, Endianness.LITTLE_ENDIAN);
+      return nList;
     }
+    print('View ...');
+    return bytes.buffer.asUint16List(bytes.offsetInBytes, length);
   }
 
   static toUint16List(List<int> list) =>
@@ -577,11 +606,13 @@ class Uint32 extends Uint {
   static const maxLongLength = kMaxLongLengthInBytes ~/ sizeInBytes;
   static final Uint32List emptyList = new Uint32List(0);
 
+  static equal(Uint32List a, Uint32List b) => Int.equal(a, b);
+
   static bool inRange(int i) => (i >= min) && (i <= max);
 
   static int guard(int i) => inRange(i) ? i : _error("Uint32", i);
 
-  static bool check(int v, List<String> issues) => Int.check(v, issues, min, max);
+  static bool check(int v, List<String> issues) => Int.checkValueInRange(v, issues, min, max);
 
   /// _Deprecated: Use [hex] instead._
   @deprecated
@@ -589,22 +620,27 @@ class Uint32 extends Uint {
 
   static hex(int i) => Int.hex(i, 8);
 
-  /// _Deprecated: Use [listGuard] instead._
+  /// _Deprecated_: Use [Uint32.checkList] instead.
   @deprecated
-  static List<int> validate(List<int> vList) => Int._listGuard(vList, inRange);
+  static List<int> validate(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
+      Int._checkList(vList, inRange, minLength, maxLength);
+
+  /// _Deprecated_: Use [Uint32.checkList] instead.
+  @deprecated
+  static List<int> listGuard(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
+      checkList(vList, minLength, maxLength);
 
   /// Returns it argument [vList] if valid; otherwise, returns [null].
-  static List<int> listGuard(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) {
-    if (vList == null || vList.length < minLength || maxLength < vList.length) return null;
-    return Int._listGuard(vList, inRange);
-  }
+  static List<int> checkList(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
+      Int._checkList(vList, inRange, minLength, maxLength);
 
   /// Returns a [true] if all values are valid Uint32, otherwise [false].
-  static bool isValidList(List<int> vList) => (listGuard(vList) == null) ? false : true;
+  static bool isValidList(List<int> vList) => (checkList(vList) == null) ? false : true;
 
   static bool isNotValidList(List<int> vList) => !isValidList(vList);
 
-  static bool isAligned(int offsetInBytes) => offsetInBytes % sizeInBytes == 0;
+  static bool isAligned(TypedData list) => list.offsetInBytes % sizeInBytes == 0;
+  static bool isNotAligned(TypedData list) => !isAligned(list);
 
   static const shiftValue = 2;
 
@@ -619,19 +655,20 @@ class Uint32 extends Uint {
   /// Returns a [Uint32List] created from the [Uint8List] [bytes]. If [offsetInBytes]
   /// is aligned on an 2-byte boundary, then a [Uint32List.view] is returned; otherwise,
   /// the [bytes] are copied to a [new] [Uint32List].
-  static Uint32List viewOfBytes(Uint8List bytes, [int offsetInBytes = 0, int length]) {
-    length = getLength(bytes, offsetInBytes, length);
-    if (isAligned(offsetInBytes)) {
-      // Aligned - return a view.
-      return bytes.buffer.asUint32List(offsetInBytes, length);
-    } else {
-      // Unaligned - return a copy bytes.
-      Uint32List vList = new Uint32List(length);
-      ByteData bd = bytes.buffer.asByteData(offsetInBytes, length << shiftValue);
-      for (int i = 0; i < length; i++)
-        vList[i] = bd.getUint32(i << shiftValue, Endianness.LITTLE_ENDIAN);
-      return vList;
+  static Uint32List viewOfBytes(Uint8List bytes, [int length]) {
+    int maxLength = bytes.lengthInBytes >> shiftValue;
+    length = RangeError.checkValidRange(0, length, maxLength);
+    if (isNotAligned(bytes)) {
+      print('Copying...');
+      int lengthInBytes = toLengthInBytes(length);
+      Uint32List nList = new Uint32List(length);
+      ByteData bd = bytes.buffer.asByteData(bytes.offsetInBytes, lengthInBytes);
+      for (int i = 0, oib = 0; i < length; i++, oib += sizeInBytes)
+        nList[i] = bd.getUint32(oib, Endianness.LITTLE_ENDIAN);
+      return nList;
     }
+    print('View ...');
+    return bytes.buffer.asUint32List(bytes.offsetInBytes, length);
   }
 
   static toUint32List(List<int> list) =>
@@ -647,11 +684,13 @@ class Uint64 extends Uint {
   static const maxLongLength = kMaxLongLengthInBytes ~/ sizeInBytes;
   static final Uint64List emptyList = new Uint64List(0);
 
+  static equal(Uint64List a, Uint64List b) => Int.equal(a, b);
+
   static bool inRange(int i) => (i >= min) && (i <= max);
 
   static int guard(int i) => inRange(i) ? i : _error("Uint64", i);
 
-  static bool check(int v, List<String> issues) => Int.check(v, issues, min, max);
+  static bool check(int v, List<String> issues) => Int.checkValueInRange(v, issues, min, max);
 
   /// _Deprecated: Use [hex] instead._
   @deprecated
@@ -659,49 +698,58 @@ class Uint64 extends Uint {
 
   static hex(int i) => Int.hex(i, 16);
 
-  /// _Deprecated: Use [listGuard] instead._
+  /// _Deprecated_: Use [Uint64.checkList] instead.
   @deprecated
-  static List<int> validate(List<int> vList) => Int._listGuard(vList, inRange);
+  static List<int> validate(List<int> vList,
+          [int minLength = min, int maxLength = maxLongLength]) =>
+      Int._checkList(vList, inRange, minLength, maxLength);
+
+  /// _Deprecated_: Use [Uint64.checkList] instead.
+  @deprecated
+  static List<int> listGuard(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
+      checkList(vList, minLength, maxLength);
 
   /// Returns it argument [vList] if valid; otherwise, returns [null].
-  static List<int> listGuard(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) {
-    if (vList == null || vList.length < minLength || maxLength < vList.length) return null;
-    return Int._listGuard(vList, inRange);
-  }
+  static List<int> checkList(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
+      Int._checkList(vList, inRange, minLength, maxLength);
 
   /// Returns a [true] if all values are valid Uint32, otherwise [false].
-  static bool isValidList(List<int> vList) => (listGuard(vList) == null) ? false : true;
+  static bool isValidList(List<int> vList) => (checkList(vList) == null) ? false : true;
 
   static bool isNotValidList(List<int> vList) => !isValidList(vList);
 
-  static bool isAligned(int offsetInBytes) => offsetInBytes % sizeInBytes == 0;
+  static bool isAligned(TypedData list) => list.offsetInBytes % sizeInBytes == 0;
+  static bool isNotAligned(TypedData list) => !isAligned(list);
 
   static const shiftValue = 3;
 
+  static int toOffsetInBytes(Uint64List bytes, offset) =>
+      bytes.offsetInBytes + toLengthInBytes(offset);
   static int toLength(int lengthInBytes) => lengthInBytes >> shiftValue;
 
   static int toLengthInBytes(int length) => length << shiftValue;
 
   /// Returns a [Uint64List.view] created from the [Uint64List] [list].
-  static Uint64List view(Uint64List list, [int offsetInBytes = 0, int length]) =>
-      viewOfBytes(list.buffer.asUint8List(offsetInBytes, length << shiftValue));
+  static Uint64List view(Uint64List list) =>
+      viewOfBytes(list.buffer.asUint8List(list.offsetInBytes));
 
   /// Returns a [Uint64List] created from the [Uint8List] [bytes]. If [offsetInBytes]
   /// is aligned on an 2-byte boundary, then a [Uint64List.view] is returned; otherwise,
   /// the [bytes] are copied to a [new] [Uint64List].
-  static Uint64List viewOfBytes(Uint8List bytes, [int offsetInBytes = 0, int length]) {
-    length = getLength(bytes, offsetInBytes, length);
-    if (isAligned(bytes.offsetInBytes)) {
-      // Aligned - return a view.
-      return bytes.buffer.asUint64List(offsetInBytes, length);
-    } else {
-      // Unaligned - return a copy bytes.
-      Uint64List vList = new Uint64List(length);
-      ByteData bd = bytes.buffer.asByteData(offsetInBytes, length << shiftValue);
-      for (int i = 0; i < length; i++)
-        vList[i] = bd.getUint64(i << shiftValue, Endianness.LITTLE_ENDIAN);
-      return vList;
+  static Uint64List viewOfBytes(Uint8List bytes, [int length]) {
+    int maxLength = bytes.lengthInBytes >> shiftValue;
+    length = RangeError.checkValidRange(0, length, maxLength);
+    if (isNotAligned(bytes)) {
+      print('Copying...');
+      int lengthInBytes = toLengthInBytes(length);
+      Uint64List nList = new Uint64List(length);
+      ByteData bd = bytes.buffer.asByteData(bytes.offsetInBytes, lengthInBytes);
+      for (int i = 0, oib = 0; i < length; i++, oib += sizeInBytes)
+        nList[i] = bd.getUint64(oib, Endianness.LITTLE_ENDIAN);
+      return nList;
     }
+    print('View ...');
+    return bytes.buffer.asUint64List(bytes.offsetInBytes, length);
   }
 
   static toUint64List(List<int> list) =>

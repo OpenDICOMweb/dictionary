@@ -4,16 +4,8 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu>
 // See the AUTHORS file for other contributors.
 
-//**** General Constants ****
-const kKB = 1024;
-const kMB = kKB * 1024;
-const kGB = kMB * 1024;
-const kTB = kGB * 1024;
-
+import 'package:dictionary/src/common/constants.dart';
 //**** DICOM Constants ****
-
-/// Ascii code for " ".
-const kAsciiSpace = 0x32;
 
 /// Used to pad string value fields to an even length.
 const int kStringPaddingChar = kAsciiSpace;

@@ -6,6 +6,11 @@
 
 import 'dart:typed_data';
 
+/// Returns [true] if the offset is on an [elementSizeInBytes] boundary.
+bool isAligned(TypedData typedDataList) =>
+    typedDataList.offsetInBytes % typedDataList.elementSizeInBytes == 0;
+
+/*
 /// Returns the number of elements between [offset] and [length].
 int getLength (TypedData list, int offset, int length) {
   int listLength = list.lengthInBytes ~/ list.elementSizeInBytes;
@@ -29,3 +34,5 @@ int getLengthInBytes (Uint8List bytes, int offsetInBytes, int lengthInBytes) {
     throw new ArgumentError('Invalid lengthInBytes($lengthInBytes)');
   return lengthInBytes;
 }
+
+*/

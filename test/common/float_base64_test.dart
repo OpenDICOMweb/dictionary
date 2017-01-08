@@ -20,10 +20,10 @@ Uint8List createUnalignedFloat32List(List<double> vList, int offsetAt) {
 
   for (int i = 0; i < fl32AsBD.lengthInBytes; i += Float32.sizeInBytes) {
     double d0 = fl32AsBD.getFloat32(i, Endianness.LITTLE_ENDIAN);
-    // print('d0: $d0');
+    print('d0: $d0');
     unalignedBD.setFloat32(i + offsetAt, d0, Endianness.LITTLE_ENDIAN);
     double d1 = unalignedBD.getFloat32(i, Endianness.LITTLE_ENDIAN);
-    //  print('d0: $d0 d1: $d0');
+    print('d0: $d0 d1: $d1');
   }
   return unalignedBD.buffer.asUint8List();
 }
@@ -38,7 +38,7 @@ Uint8List createUnalignedFloat64List(List<double> vList, int offsetAt) {
     // print('d0: $d0');
     unalignedBD.setFloat64(i + offsetAt, d0, Endianness.LITTLE_ENDIAN);
     double d1 = unalignedBD.getFloat64(i, Endianness.LITTLE_ENDIAN);
-    //  print('d0: $d0 d1: $d0');
+    print('d0: $d0 d1: $d1');
   }
   return unalignedBD.buffer.asUint8List();
 }
@@ -46,7 +46,7 @@ Uint8List createUnalignedFloat64List(List<double> vList, int offsetAt) {
 List<double> data0 = [78665.478];
 List<double> data1 = [0.9, 0.8, 0.7, 0.6];
 
-void main () {
+void main() {
   List<double> data0 = [78665.478];
   print('data0: $data0');
   Float32List f32 = new Float32List.fromList(data0);
@@ -68,7 +68,7 @@ void main () {
 
   //  print('data0: $data_0');
   Float32List float32_0 = new Float32List.fromList(data1);
-  for(int offset = 0; offset < 5; offset++) {
+  for (int offset = 0; offset < 5; offset++) {
     print('offset: $offset');
     Uint8List unaligned = createUnalignedFloat32List(float32_0, offset);
     print('unaligned: $unaligned');
@@ -81,7 +81,7 @@ void main () {
   }
 
   Float64List float64_0 = new Float64List.fromList(data1);
-  for(int offset = 0; offset < 5; offset++) {
+  for (int offset = 0; offset < 5; offset++) {
     print('offset: $offset');
     Uint8List unaligned = createUnalignedFloat64List(float64_0, offset);
     print('unaligned: $unaligned');
@@ -105,10 +105,9 @@ void main () {
   print('fOut: $fOut');
   print('fd($fd) == fOut($fOut): ${fd == fOut}');
 
-
   //  print('data0: $data_0');
   float32_0 = new Float32List.fromList(data1);
-  for(int offset = 0; offset < 5; offset++) {
+  for (int offset = 0; offset < 5; offset++) {
     print('offset: $offset');
     Uint8List unaligned = createUnalignedFloat32List(float32_0, offset);
     print('unaligned: $unaligned');
@@ -121,7 +120,7 @@ void main () {
   }
 
   float64_0 = new Float64List.fromList(data1);
-  for(int offset = 0; offset < 5; offset++) {
+  for (int offset = 0; offset < 5; offset++) {
     print('offset: $offset');
     Uint8List unaligned = createUnalignedFloat64List(float64_0, offset);
     print('unaligned: $unaligned');
@@ -132,5 +131,4 @@ void main () {
     Float64List vList = Float64.viewOfBytes(out, offset);
     print('vList: $vList');
   }
-
 }

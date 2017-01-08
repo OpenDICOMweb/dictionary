@@ -12,12 +12,6 @@ typedef bool CharPredicate(int c);
 
 typedef bool StringPredicate(String s, [int start, int end]);
 
-typedef bool _StringPredicate(String);
-
-//typedef bool _Predicate(String value);
-
-//typedef String _Guard(String value);
-
 //TODO: should the empty string "" be considered valid?
 /// Checks that the [String] [s] is valid given the other arguments.
 /// Returns [s] if valid, otherwise [null].
@@ -50,20 +44,6 @@ StringPredicate makeStringPredicate(CharPredicate pred) {
       if (!pred(s.codeUnitAt(i))) return false;
     }
     return true;
-  };
-}
-
-//Fix0 finish the following procedures
-_StringPredicate _makePredicate(int minLength, int maxLength, bool pred(int c)) {
-  return (String s) {
-    int len = s.length;
-    if ((len >= minLength) && (len <= maxLength)) {
-      for (int i = 0; i < len; i++) {
-        if (!pred(s.codeUnitAt(i))) return false;
-      }
-    } else {
-      return false;
-    }
   };
 }
 

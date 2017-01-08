@@ -48,7 +48,6 @@ int checkBufferLength(int bufferLength, int start, int end) {
 /// isWritable = _wRemaining > 0;
 ///
 abstract class ByteBuf {
-
   /// The [buf] always [start]s at _rIndex = 0.
   List<int> buf;
 
@@ -58,18 +57,16 @@ abstract class ByteBuf {
   /// The current write position in the [buf]. Must be between [_rIndex] and [emd].
   int _wIndex;
 
-  /// Returns the element at index [i] if [i] [isValidRIndex]; otherwise, returns [null].
+  /// Returns the element at index [i] if [i] [_isValidRIndex]; otherwise, returns [null].
   int operator [](int i) => buf[i];
-
-  /// Returns the number of elements [E] contained in [buf].
-  int get length => buf.length;
-
-  String _readString(int start, int end) => new String.fromCharCodes(buf, start, end);
 
   /// **** Getters and Methods related to [_rIndex] and [buf].[length].
 
   /// The 0Th position in the [buf].
   int get start => 0;
+
+  /// Returns the number of elements [E] contained in [buf].
+  int get length => buf.length;
 
   /// Synonym for [length]
   int get end => length;
@@ -78,43 +75,41 @@ abstract class ByteBuf {
   int get readIndex => _rIndex;
 
   /// Returns an [true] if [n] is a valid [_rIndex] in [buf].
-  bool isValidRIndex(int n) => (0 <= n && n <= _wIndex);
-
-  /// The current write position in the [buf]. Ends at [end].
-  int get writeIndex => _wIndex;
-
-  /// Returns an [true] if [n] is a valid [_rIndex] in [buf].
-  bool isValidWIndex(int n) => (_wIndex <= n && n <= end);
+  bool _isValidRIndex(int n) => (0 <= n && n <= _wIndex);
 
   /// Returns [true] if all characters have been read, i.e. [index] [==] [_wIndex].
-  int get rRemaining => _wIndex - _rIndex;
-  bool get isReadable => rRemaining > 0;
+  int get _rRemaining => _wIndex - _rIndex;
+  int get rRemaining => _rRemaining;
+  bool get isReadable => _rRemaining > 0;
+
   /// Returns [true] if [buf] has at least [count] code units remaining.
-  bool hasReadable(int n) => rRemaining >= n;
-
-
-  // bool get isEmpty =>
-  // bool get isNotEmpty => !isEmpty;
-
-  int get wRemaining => end - _wIndex;
-  bool get isWritable => wRemaining > 0;
-  bool hasWritable(int n) => wRemaining >= n;
-
-  //bool get isFull => _wIndex == end;
-  //bool get isNotFull => !isFull;
-
-  // For readers == rRemaining, for writers = wRemaining
-  // int get remaining => _wIndex - _rIndex;
+  bool hasReadable(int n) => _rRemaining >= n;
 
   int get readReset {
     _wIndex = end;
     return _rIndex = 0;
   }
 
+  /// Returns a valid limit, which might be less than [n],
+  /// or [null] if no valid limit exists.
+  int _getRLimit(int n) {
+    int v = ((_rIndex + n) > _wIndex) ? _wIndex - _rIndex : _rIndex + n;
+    return (v > 0) ? v : null;
+  }
+
+  /// The current write position in the [buf]. Ends at [end].
+  int get writeIndex => _wIndex;
+
+  /// Returns an [true] if [n] is a valid [_rIndex] in [buf].
+  bool _isValidWIndex(int n) => (_wIndex <= n && n <= end);
+
+  int get _wRemaining => end - _wIndex;
+  int get wRemaining => _wRemaining;
+  bool get isWritable => _wRemaining > 0;
+  bool hasWritable(int n) => _wRemaining >= n;
+
   int get writeReset {
     _rIndex = 0;
     return _wIndex = 0;
   }
 }
-
-

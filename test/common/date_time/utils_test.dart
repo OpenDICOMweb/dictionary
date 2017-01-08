@@ -41,12 +41,12 @@ void main() {
       var gdd = goodDicomDates;
       for (int i = 0; i < gdd.length; i++) {
         test("Validate Year", () {
-          expect(validateYear(gdd[i][1]), equals(gdd[i][1]));
+          expect(checkYear(gdd[i][1]), equals(gdd[i][1]));
         });
       }
       for (int i = 0; i < gdd.length; i++) {
         test("Validate Month", () {
-          expect(validateMonth(gdd[i][2]), equals(gdd[i][2]));
+          expect(checkMonth(gdd[i][2]), equals(gdd[i][2]));
         });
       }
       for (int i = 0; i < gdd.length; i++) {
