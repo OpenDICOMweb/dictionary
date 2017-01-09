@@ -513,7 +513,7 @@ class Uint8 extends Uint {
   /// Note: [Uint8List] are always aligned.
   static Uint8List viewOfBytes(Uint8List bytes, [int offsetInBytes = 0, int length]) {
     int lIB = bytes.lengthInBytes;
-    int oIB = RangeError.checkValidRange(0, lIB + offsetInBytes, lIB);
+    int oIB = RangeError.checkValidRange(0,  bytes.offsetInBytes + offsetInBytes, lIB);
     length = RangeError.checkValidRange(0, length, lIB);
     return bytes.buffer.asUint8List(oIB, length);
   }
