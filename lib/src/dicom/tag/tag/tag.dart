@@ -149,6 +149,9 @@ class Tag extends TagBase {
 
   bool get isPrivate => Group.isPrivate(group);
 
+  bool get isPrivateCreator => false;
+  bool get isPrivateData => isPrivate && !isPrivateCreator;
+
   int get fmiMin => kMinFmiTag;
   int get fmiMax => kMaxFmiTag;
 
@@ -209,13 +212,10 @@ class Tag extends TagBase {
     return (issues.length == issuesLength) ? true : false;
   }
 
-  /// Returns true if [value] is valid for this [Tag].
-  //TODO:
-  //bool isValidValues(List values) => checkValues(values, []);
-
+  // Placeholder until VR is integrated into Tag
   checkValue(value, List<String> issues) => vr.checkValue(value, issues);
 
-  Issue checkValues(Tag tag, List values, List<ValueIssue> issues) {
+  Issue checkValues(List values) {
     var vIssues = <ValueIssue>[];
     var messages = <String>[];
     if (!checkLength(values, messages)) {
@@ -223,7 +223,8 @@ class Tag extends TagBase {
     }
     for (int i = 0; i < values.length; i++) {
       messages = <String>[];
-      if (!vr.checkValue(values[i], messages)) issues.add(new ValueIssue(i, values[i], messages));
+      if (!vr.checkValue(values[i], messages))
+        vIssues.add(new ValueIssue(i, values[i], messages));
     }
     return (vIssues.length > 0) ? new Issue(tag, vIssues) : null;
   }

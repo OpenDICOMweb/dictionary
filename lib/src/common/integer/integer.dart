@@ -206,10 +206,13 @@ class Int8 extends Int {
   ///
   /// Note: [Int8List]s are always aligned.
   static Int8List viewOfBytes(Uint8List bytes, [int offsetInBytes = 0, int length]) {
+    print('oib: $offsetInBytes, bytes.oib ${bytes.offsetInBytes}');
     int oib =
-        RangeError.checkValidRange(0, bytes.offsetInBytes + offsetInBytes, bytes.lengthInBytes);
+        RangeError.checkValidRange(0, offsetInBytes, bytes.lengthInBytes);
+    print('oib: $oib');
     length = RangeError.checkValidRange(0, length, bytes.lengthInBytes);
-    return bytes.buffer.asInt8List(oib, length);
+    print('length: $length');
+    return bytes.buffer.asInt8List(bytes.offsetInBytes + oib, length);
   }
 }
 
@@ -513,9 +516,9 @@ class Uint8 extends Uint {
   /// Note: [Uint8List] are always aligned.
   static Uint8List viewOfBytes(Uint8List bytes, [int offsetInBytes = 0, int length]) {
     int lIB = bytes.lengthInBytes;
-    int oIB = RangeError.checkValidRange(0,  bytes.offsetInBytes + offsetInBytes, lIB);
+    int oIB = RangeError.checkValidRange(0,  offsetInBytes, lIB);
     length = RangeError.checkValidRange(0, length, lIB);
-    return bytes.buffer.asUint8List(oIB, length);
+    return bytes.buffer.asUint8List(bytes.offsetInBytes + oIB, length);
   }
 }
 

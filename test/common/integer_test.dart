@@ -41,7 +41,7 @@ void int8Test() {
 
     int loopCount = dList_0.length+ reflength.nextInt(10);
     for (int i = 0, offset = 0; i < loopCount; i++, offset += Int8.sizeInBytes) {
-      print('$i: offset: $offset');
+      print('\n$i: offset: $offset');
       Uint8List aligned = getOffsetInt8List(i8, offset);
       print('aligned: $aligned');
       print('aligned oIB: ${aligned.offsetInBytes}');

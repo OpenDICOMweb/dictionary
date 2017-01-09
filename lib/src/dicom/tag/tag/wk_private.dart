@@ -4,6 +4,7 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
+import 'package:dictionary/src/dicom/issue.dart';
 import 'package:dictionary/src/dicom/vm.dart';
 import 'package:dictionary/src/dicom/vr/vr.dart';
 
@@ -156,8 +157,25 @@ class PrivateCreatorTag extends PrivateTag {
   bool isValidDataCode(int code) =>
       group == codeGroup(code) && (base <= codeElt(code) && codeElt(code) <= limit);
 
-  static lookup(int code) => pcTags[code];
+  static PrivateCreatorTag lookup(int code) {
+    PrivateCreatorTag tag = pcTags[code];
+  }
 
+  /*
+  static Issue checkValues(tag, List values) {
+      var vIssues = <ValueIssue>[];
+      var messages = <String>[];
+      if (!checkLength(values, messages)) {
+        vIssues.add(new ValueIssue(0, values, messages));
+      }
+      for (int i = 0; i < values.length; i++) {
+        messages = <String>[];
+        if (!vr.checkValue(values[i], messages))
+          vIssues.add(new ValueIssue(i, values[i], messages));
+      }
+      return (vIssues.length > 0) ? new Issue(tag, vIssues) : null;
+    }
+  */
   static const kFoo =
       const PrivateCreatorTag._("Acme", "Creator Id", 0x00090010);
 
