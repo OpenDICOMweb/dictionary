@@ -274,20 +274,23 @@ class Int16 extends Int {
   /// Returns a [Int16List] created from the [Uint8List] [bytes]. If [offsetInBytes]
   /// is aligned on an 2-byte boundary, then a [Int16List.view] is returned; otherwise,
   /// the [bytes] are copied to a [new] [Int16List].
-  static Int16List viewOfBytes(Uint8List bytes, [int length]) {
+  static Int16List viewOfBytes(Uint8List bytes, [int offset = 0, length]) {
+    print('offset: $offset, bytes.oib ${bytes.offsetInBytes}');
+    int oib = toLengthInBytes(offset);
+    RangeError.checkValidRange(0, oib, bytes.lengthInBytes);
+    print('oib: $oib');
     int maxLength = toLength(bytes.lengthInBytes);
     length = RangeError.checkValidRange(0, length, maxLength);
     if (isNotAligned(bytes)) {
       print('Copying...');
-      int lengthInBytes = toLengthInBytes(length);
       Int16List nList = new Int16List(length);
-      ByteData bd = bytes.buffer.asByteData(bytes.offsetInBytes, lengthInBytes);
+      ByteData bd = bytes.buffer.asByteData(bytes.offsetInBytes, toLengthInBytes(length));
       for (int i = 0, oib = 0; i < length; i++, oib += sizeInBytes)
         nList[i] = bd.getInt16(oib, Endianness.LITTLE_ENDIAN);
       return nList;
     }
     print('View ...oib: ${bytes.offsetInBytes}, length: $length');
-    return bytes.buffer.asInt16List(bytes.offsetInBytes, length);
+    return bytes.buffer.asInt16List(bytes.offsetInBytes + oib, length);
   }
 
   static toInt16List(List<int> list) => (list is Int16List) ? list : new Int16List.fromList(list);
@@ -351,7 +354,7 @@ class Int32 extends Int {
   /// Returns a [Int32List] created from [bytes]. If [offsetInBytes] is aligned
   /// on an 2-byte boundary, then a [Int32List.view] is returned; otherwise,
   /// the [bytes] are copied to a [new] [Int32List].
-  static Int32List viewOfBytes(Uint8List bytes, [int length]) {
+  static Int32List viewOfBytes(Uint8List bytes, [int offset = 0, length]) {
     int maxLength = bytes.lengthInBytes >> shiftValue;
     length = RangeError.checkValidRange(0, length, maxLength);
     if (isNotAligned(bytes)) {
@@ -423,7 +426,7 @@ class Int64 extends Int {
   /// Returns a [Int64List] created from the [Uint8List] [bytes]. If [offsetInBytes]
   /// is aligned on an 2-byte boundary, then a [Int64List.view] is returned; otherwise,
   /// the [bytes] are copied to a [new] [Int64List].
-  static Int64List viewOfBytes(Uint8List bytes, [int length]) {
+  static Int64List viewOfBytes(Uint8List bytes, [int offset = 0, length]) {
     int maxLength = bytes.lengthInBytes >> shiftValue;
     length = RangeError.checkValidRange(0, length, maxLength);
     if (isNotAligned(bytes)) {
@@ -580,7 +583,7 @@ class Uint16 extends Uint {
   /// Returns a [Uint16List] created from the [Uint8List] [bytes]. If [offsetInBytes]
   /// is aligned on an 2-byte boundary, then a [Uint16List.view] is returned; otherwise,
   /// the [bytes] are copied to a [new] [Uint16List].
-  static Uint16List viewOfBytes(Uint8List bytes, [int length]) {
+  static Uint16List viewOfBytes(Uint8List bytes, [int offset = 0, length]) {
     int maxLength = bytes.lengthInBytes >> shiftValue;
     length = RangeError.checkValidRange(0, length, maxLength);
     if (isNotAligned(bytes)) {
@@ -658,7 +661,7 @@ class Uint32 extends Uint {
   /// Returns a [Uint32List] created from the [Uint8List] [bytes]. If [offsetInBytes]
   /// is aligned on an 2-byte boundary, then a [Uint32List.view] is returned; otherwise,
   /// the [bytes] are copied to a [new] [Uint32List].
-  static Uint32List viewOfBytes(Uint8List bytes, [int length]) {
+  static Uint32List viewOfBytes(Uint8List bytes, [int offset = 0, length]) {
     int maxLength = bytes.lengthInBytes >> shiftValue;
     length = RangeError.checkValidRange(0, length, maxLength);
     if (isNotAligned(bytes)) {
@@ -739,7 +742,7 @@ class Uint64 extends Uint {
   /// Returns a [Uint64List] created from the [Uint8List] [bytes]. If [offsetInBytes]
   /// is aligned on an 2-byte boundary, then a [Uint64List.view] is returned; otherwise,
   /// the [bytes] are copied to a [new] [Uint64List].
-  static Uint64List viewOfBytes(Uint8List bytes, [int length]) {
+  static Uint64List viewOfBytes(Uint8List bytes, [int offset = 0, length]) {
     int maxLength = bytes.lengthInBytes >> shiftValue;
     length = RangeError.checkValidRange(0, length, maxLength);
     if (isNotAligned(bytes)) {

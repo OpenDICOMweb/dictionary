@@ -215,7 +215,7 @@ class Tag extends TagBase {
   // Placeholder until VR is integrated into Tag
   checkValue(value, List<String> issues) => vr.checkValue(value, issues);
 
-  Issue checkValues(List values) {
+  Issue checkValues(Tag tag, List values) {
     var vIssues = <ValueIssue>[];
     var messages = <String>[];
     if (!checkLength(values, messages)) {

@@ -12,10 +12,12 @@ import 'elt.dart';
 import 'group.dart';
 import 'tag.dart';
 
-class PrivateTag extends TagBase {
-  const PrivateTag(int code, VR vr, [VM vm = VM.k1_n, bool isRetired = false])
-      : super(code, vr, vm, isRetired);
-
+class PrivateTag extends Tag {
+  const PrivateTag(String keyword, int code, String name, VR vr,
+                   [VM vm = VM.k1_n, bool isRetired = false])
+      : keyword = (keyword == null || keyword == "") ? "Unknown" : keyword,
+        name = (name == null || name == "") ? "Unknown Private Tag Name" : name,
+        super(keyword, code, vr, vm, isRetired);
 
   bool get isPublic => false;
   bool get isPrivate => !isPublic;
@@ -161,21 +163,6 @@ class PrivateCreatorTag extends PrivateTag {
     PrivateCreatorTag tag = pcTags[code];
   }
 
-  /*
-  static Issue checkValues(tag, List values) {
-      var vIssues = <ValueIssue>[];
-      var messages = <String>[];
-      if (!checkLength(values, messages)) {
-        vIssues.add(new ValueIssue(0, values, messages));
-      }
-      for (int i = 0; i < values.length; i++) {
-        messages = <String>[];
-        if (!vr.checkValue(values[i], messages))
-          vIssues.add(new ValueIssue(i, values[i], messages));
-      }
-      return (vIssues.length > 0) ? new Issue(tag, vIssues) : null;
-    }
-  */
   static const kFoo =
       const PrivateCreatorTag._("Acme", "Creator Id", 0x00090010);
 
