@@ -28,7 +28,7 @@ Uint8List getOffsetInt8List(List<int> vList, int offsetAt) {
 }
 
 void int8Test() {
-  test('ViewOfBytes Aligned Test', () {
+  test('Int8List-ViewOfBytes Aligned Test', () {
 
     for(int i=0; i< reflength.nextInt(10); i++){
       dList_0.add(reflength.nextInt(246));
@@ -71,7 +71,7 @@ void int8Test() {
     dList_0.removeRange((dList_0.length/9).round(),(dList_0.length/7).round());
   });
 
-  test('ViewOfBytes Unaligned Test', () {
+  test('Int8List-ViewOfBytes Unaligned Test', () {
     Int8List i8, list0, list1;
     print('\ndList_0: $dList_0');
     i8 = new Int8List.fromList(dList_0);
@@ -120,7 +120,7 @@ Uint8List getOffsetInt16List(List<int> vList, int offsetAt) {
 }
 
 void int16Test() {
-  test('ViewOfBytes Aligned Test', () {
+  test('Int16List-ViewOfBytes Aligned Test', () {
 
     for(int i=0; i< reflength.nextInt(10); i++){
       dList_0.add(reflength.nextInt(246));
@@ -162,7 +162,7 @@ void int16Test() {
     dList_0.removeRange((dList_0.length/9).round(),(dList_0.length/7).round());
   });
 
-  test('ViewOfBytes Unaligned Test', () {
+  test('Int16List-ViewOfBytes Unaligned Test', () {
     Int16List i16, list0, list1;
     print('\ndList_0: $dList_0');
     i16 = new Int16List.fromList(dList_0);
@@ -211,7 +211,7 @@ Uint8List getOffsetInt32List(List<int> vList, int offsetAt) {
 }
 
 void int32Test() {
-  test('ViewOfBytes Aligned Test', () {
+  test('Int32List-ViewOfBytes Aligned Test', () {
 
     for(int i=0; i< reflength.nextInt(10); i++){
       dList_0.add(reflength.nextInt(246));
@@ -254,7 +254,7 @@ void int32Test() {
     dList_0.removeRange((dList_0.length/9).round(),(dList_0.length/7).round());
   });
 
-  test('ViewOfBytes Unaligned Test', () {
+  test('Int32List-ViewOfBytes Unaligned Test', () {
     Int32List i32, list0, list1;
     print('\ndList_0: $dList_0');
     i32 = new Int32List.fromList(dList_0);
@@ -303,7 +303,7 @@ Uint8List getOffsetInt64List(List<int> vList, int offsetAt) {
 }
 
 void int64Test() {
-  test('ViewOfBytes Aligned Test', () {
+  test('Int64List-ViewOfBytes Aligned Test', () {
 
     for(int i=0; i< reflength.nextInt(10); i++){
       dList_0.add(reflength.nextInt(246));
@@ -346,7 +346,7 @@ void int64Test() {
     dList_0.removeRange((dList_0.length/9).round(),(dList_0.length/7).round());
   });
 
-  test('ViewOfBytes Unaligned Test', () {
+  test('Int64List-ViewOfBytes Unaligned Test', () {
     Int64List i64, list0, list1;
     print('\ndList_0: $dList_0');
     i64 = new Int64List.fromList(dList_0);
@@ -394,8 +394,8 @@ Uint8List getOffsetUint8List(List<int> vList, int offsetAt) {
   return unalignedBD.buffer.asUint8List();
 }
 
-void uInt8Test() {
-  test('ViewOfBytes Aligned Test', () {
+void uint8Test() {
+  test('Uint8List-ViewOfBytes Aligned Test', () {
 
     for(int i=0; i< reflength.nextInt(10); i++){
       dList_0.add(reflength.nextInt(246));
@@ -438,7 +438,7 @@ void uInt8Test() {
     dList_0.removeRange((dList_0.length/9).round(),(dList_0.length/7).round());
   });
 
-  test('ViewOfBytes Unaligned Test', () {
+  test('Uint8List-ViewOfBytes Unaligned Test', () {
     Uint8List uI8, list0, list1;
     print('\ndList_0: $dList_0');
     uI8 = new Uint8List.fromList(dList_0);
@@ -486,8 +486,8 @@ Uint8List getOffsetUint16List(List<int> vList, int offsetAt) {
   return unalignedBD.buffer.asUint8List();
 }
 
-void uInt16Test() {
-  test('ViewOfBytes Aligned Test', () {
+void uint16Test() {
+  test('Uint16List-ViewOfBytes Aligned Test', () {
 
     for(int i=0; i< reflength.nextInt(10); i++){
       dList_0.add(reflength.nextInt(246));
@@ -529,7 +529,7 @@ void uInt16Test() {
     }
   });
 
-  test('ViewOfBytes Unaligned Test', () {
+  test('Uint16List-ViewOfBytes Unaligned Test', () {
     Uint16List uI16, list0, list1;
     print('\ndList_0: $dList_0');
     uI16 = new Uint16List.fromList(dList_0);
@@ -577,8 +577,8 @@ Uint8List getOffsetUint32List(List<int> vList, int offsetAt) {
   return unalignedBD.buffer.asUint8List();
 }
 
-void uInt32Test() {
-  test('ViewOfBytes Aligned Test', () {
+void uint32Test() {
+  test('Uint32List-ViewOfBytes Aligned Test', () {
 
     for(int i=0; i< reflength.nextInt(10); i++){
       dList_0.add(reflength.nextInt(246));
@@ -620,7 +620,7 @@ void uInt32Test() {
     dList_0.removeRange((dList_0.length/9).round(),(dList_0.length/7).round());
   });
 
-  test('ViewOfBytes Unaligned Test', () {
+  test('Uint32List-ViewOfBytes Unaligned Test', () {
     Uint32List uI32, list0, list1;
     print('\ndList_0: $dList_0');
     uI32 = new Uint32List.fromList(dList_0);
@@ -668,8 +668,8 @@ Uint8List getOffsetUint64List(List<int> vList, int offsetAt) {
   return unalignedBD.buffer.asUint8List();
 }
 
-void uInt64Test() {
-  test('ViewOfBytes Aligned Test', () {
+void uint64Test() {
+  test('Uint64List-ViewOfBytes Aligned Test', () {
 
     for(int i=0; i< reflength.nextInt(10); i++){
       dList_0.add(reflength.nextInt(246));
@@ -711,7 +711,7 @@ void uInt64Test() {
     dList_0.removeRange((dList_0.length/9).round(),(dList_0.length/7).round());
   });
 
-  test('ViewOfBytes Unaligned Test', () {
+  test('Uint64List-ViewOfBytes Unaligned Test', () {
     Uint64List uI64, list0, list1;
     print('\ndList_0: $dList_0');
     uI64 = new Uint64List.fromList(dList_0);
@@ -755,8 +755,8 @@ void main() {
   int16Test();
   int32Test();
   int64Test();
-  uInt8Test();
-  uInt16Test();
-  uInt32Test();
-  uInt64Test();
+  uint8Test();
+  uint16Test();
+  uint32Test();
+  uint64Test();
 }
