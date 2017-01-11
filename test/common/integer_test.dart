@@ -16,7 +16,7 @@ bool haveSharedBuffer(TypedData a, TypedData b) => a.buffer == b.buffer;
 
 //TODO: create more data for testing
 List<int> dList_0 = <int>[1, 2, 3, 4, 5]; // dynamically changing the data for each test
-var reflength = new Random();
+var refLength = new Random();
 
 Uint8List getOffsetInt8List(List<int> vList, int offsetAt) {
   Int8List i8 = (vList is Int8List) ? vList : new Int8List.fromList(dList_0);
@@ -30,8 +30,8 @@ Uint8List getOffsetInt8List(List<int> vList, int offsetAt) {
 void int8Test() {
   test('Int8List-ViewOfBytes Aligned Test', () {
 
-    for(int i=0; i< reflength.nextInt(10); i++){
-      dList_0.add(reflength.nextInt(246));
+    for(int i=0; i< refLength.nextInt(10); i++){
+      dList_0.add(refLength.nextInt(246));
     }
 
     print('dList0: $dList_0');
@@ -39,7 +39,7 @@ void int8Test() {
     Int8List vList;
     print('i8: $i8');
 
-    int loopCount = dList_0.length+ reflength.nextInt(10);
+    int loopCount = dList_0.length+ refLength.nextInt(10);
     for (int i = 0, offset = 0; i < loopCount; i++, offset += Int8.sizeInBytes) {
       print('\n$i: offset: $offset');
       Uint8List aligned = getOffsetInt8List(i8, offset);
@@ -77,7 +77,7 @@ void int8Test() {
     i8 = new Int8List.fromList(dList_0);
     print('i8: $i8');
 
-    for (int offset = 1; offset < dList_0.length+reflength.nextInt(12); offset += Int8.sizeInBytes) {
+    for (int offset = 1; offset < dList_0.length+refLength.nextInt(12); offset += Int8.sizeInBytes) {
       print('\n$offset: offset: $offset');
       // create a Uint32List containing i8, but offset by [offset] bytes.
       Uint8List unaligned = getOffsetInt8List(i8, offset);
@@ -122,15 +122,15 @@ Uint8List getOffsetInt16List(List<int> vList, int offsetAt) {
 void int16Test() {
   test('Int16List-ViewOfBytes Aligned Test', () {
 
-    for(int i=0; i< reflength.nextInt(10); i++){
-      dList_0.add(reflength.nextInt(246));
+    for(int i=0; i< refLength.nextInt(10); i++){
+      dList_0.add(refLength.nextInt(246));
     }
     print('dList0: $dList_0');
     Int16List i16 = new Int16List.fromList(dList_0);
     Int16List vList;
     print('i16: $i16');
 
-    int loopCount = dList_0.length + reflength.nextInt(10);
+    int loopCount = dList_0.length + refLength.nextInt(10);
     for (int i = 0, offset = 0; i < loopCount; i++, offset += Int16.sizeInBytes) {
       print('$i: offset: $offset');
       Uint8List aligned = getOffsetInt16List(i16, offset);
@@ -168,7 +168,7 @@ void int16Test() {
     i16 = new Int16List.fromList(dList_0);
     print('i16: $i16');
 
-    for (int offset = 1; offset < dList_0.length+ reflength.nextInt(13); offset += Int16.sizeInBytes) {
+    for (int offset = 1; offset < dList_0.length+ refLength.nextInt(13); offset += Int16.sizeInBytes) {
       print('$offset: offset: $offset');
       // create a Uint32List containing i16, but offset by [offset] bytes.
       Uint8List unaligned = getOffsetInt16List(i16, offset);
@@ -213,8 +213,8 @@ Uint8List getOffsetInt32List(List<int> vList, int offsetAt) {
 void int32Test() {
   test('Int32List-ViewOfBytes Aligned Test', () {
 
-    for(int i=0; i< reflength.nextInt(10); i++){
-      dList_0.add(reflength.nextInt(246));
+    for(int i=0; i< refLength.nextInt(10); i++){
+      dList_0.add(refLength.nextInt(246));
     }
 
     print('dList0: $dList_0');
@@ -222,7 +222,7 @@ void int32Test() {
     Int32List vList;
     print('i32: $i32');
 
-    int loopCount = dList_0.length+ reflength.nextInt(10);
+    int loopCount = dList_0.length+ refLength.nextInt(10);
     for (int i = 0, offset = 0; i < loopCount; i++, offset += Int32.sizeInBytes) {
       print('$i: offset: $offset');
       Uint8List aligned = getOffsetInt32List(i32, offset);
@@ -260,7 +260,7 @@ void int32Test() {
     i32 = new Int32List.fromList(dList_0);
     print('i16: $i32');
 
-    for (int offset = 1; offset <  dList_0.length+ reflength.nextInt(10); offset += Int32.sizeInBytes) {
+    for (int offset = 1; offset <  dList_0.length+ refLength.nextInt(10); offset += Int32.sizeInBytes) {
       print('$offset: offset: $offset');
       // create a Uint8List containing i32, but offset by [offset] bytes.
       Uint8List unaligned = getOffsetInt32List(i32, offset);
@@ -305,8 +305,8 @@ Uint8List getOffsetInt64List(List<int> vList, int offsetAt) {
 void int64Test() {
   test('Int64List-ViewOfBytes Aligned Test', () {
 
-    for(int i=0; i< reflength.nextInt(10); i++){
-      dList_0.add(reflength.nextInt(246));
+    for(int i=0; i< refLength.nextInt(10); i++){
+      dList_0.add(refLength.nextInt(246));
     }
 
     print('dList0: $dList_0');
@@ -314,7 +314,7 @@ void int64Test() {
     Int64List vList;
     print('i64: $i64');
 
-    int loopCount = dList_0.length+ reflength.nextInt(10);
+    int loopCount = dList_0.length+ refLength.nextInt(10);
     for (int i = 0, offset = 0; i < loopCount; i++, offset += Int64.sizeInBytes) {
       print('$i: offset: $offset');
       Uint8List aligned = getOffsetInt64List(i64, offset);
@@ -352,7 +352,7 @@ void int64Test() {
     i64 = new Int64List.fromList(dList_0);
     print('i16: $i64');
 
-    for (int offset = 1; offset <  dList_0.length+ reflength.nextInt(10); offset += Int64.sizeInBytes) {
+    for (int offset = 1; offset <  dList_0.length+ refLength.nextInt(10); offset += Int64.sizeInBytes) {
       print('$offset: offset: $offset');
       // create a Uint8List containing i64, but offset by [offset] bytes.
       Uint8List unaligned = getOffsetInt64List(i64, offset);
@@ -397,8 +397,8 @@ Uint8List getOffsetUint8List(List<int> vList, int offsetAt) {
 void uint8Test() {
   test('Uint8List-ViewOfBytes Aligned Test', () {
 
-    for(int i=0; i< reflength.nextInt(10); i++){
-      dList_0.add(reflength.nextInt(246));
+    for(int i=0; i< refLength.nextInt(10); i++){
+      dList_0.add(refLength.nextInt(246));
     }
 
     print('dList0: $dList_0');
@@ -406,7 +406,7 @@ void uint8Test() {
     Uint8List vList;
     print('uI8: $uI8');
 
-    int loopCount = dList_0.length+ reflength.nextInt(15);
+    int loopCount = dList_0.length+ refLength.nextInt(15);
     for (int i = 0, offset = 0; i < loopCount; i++, offset += Uint8.sizeInBytes) {
       print('$i: offset: $offset');
       Uint8List aligned = getOffsetUint8List(uI8, offset);
@@ -444,7 +444,7 @@ void uint8Test() {
     uI8 = new Uint8List.fromList(dList_0);
     print('uI8: $uI8');
 
-    for (int offset = 1; offset <  dList_0.length+reflength.nextInt(17); offset += Uint8.sizeInBytes) {
+    for (int offset = 1; offset <  dList_0.length+refLength.nextInt(17); offset += Uint8.sizeInBytes) {
       print('$offset: offset: $offset');
       // create a Uint32List containing uI8, but offset by [offset] bytes.
       Uint8List unaligned = getOffsetUint8List(uI8, offset);
@@ -489,8 +489,8 @@ Uint8List getOffsetUint16List(List<int> vList, int offsetAt) {
 void uint16Test() {
   test('Uint16List-ViewOfBytes Aligned Test', () {
 
-    for(int i=0; i< reflength.nextInt(10); i++){
-      dList_0.add(reflength.nextInt(246));
+    for(int i=0; i< refLength.nextInt(10); i++){
+      dList_0.add(refLength.nextInt(246));
     }
 
     print('dList0: $dList_0');
@@ -498,7 +498,7 @@ void uint16Test() {
     Uint16List vList;
     print('uI16: $uI16');
 
-    int loopCount = dList_0.length+ reflength.nextInt(18);
+    int loopCount = dList_0.length+ refLength.nextInt(18);
     for (int i = 0, offset = 0; i < loopCount; i++, offset += Uint16.sizeInBytes) {
       print('$i: offset: $offset');
       Uint8List aligned = getOffsetUint16List(uI16, offset);
@@ -535,7 +535,7 @@ void uint16Test() {
     uI16 = new Uint16List.fromList(dList_0);
     print('uI8: $uI16');
 
-    for (int offset = 1; offset <  dList_0.length+ reflength.nextInt(30); offset += Uint8.sizeInBytes) {
+    for (int offset = 1; offset <  dList_0.length+ refLength.nextInt(30); offset += Uint8.sizeInBytes) {
       print('$offset: offset: $offset');
       // create a Uint32List containing uI8, but offset by [offset] bytes.
       Uint8List unaligned = getOffsetUint16List(uI16, offset);
@@ -580,15 +580,15 @@ Uint8List getOffsetUint32List(List<int> vList, int offsetAt) {
 void uint32Test() {
   test('Uint32List-ViewOfBytes Aligned Test', () {
 
-    for(int i=0; i< reflength.nextInt(10); i++){
-      dList_0.add(reflength.nextInt(246));
+    for(int i=0; i< refLength.nextInt(10); i++){
+      dList_0.add(refLength.nextInt(246));
     }
     print('dList0: $dList_0');
     Uint32List uI32 = new Uint32List.fromList(dList_0);
     Uint32List vList;
     print('uI32: $uI32');
 
-    int loopCount = dList_0.length+ reflength.nextInt(10);
+    int loopCount = dList_0.length+ refLength.nextInt(10);
     for (int i = 0, offset = 0; i < loopCount; i++, offset += Uint32.sizeInBytes) {
       print('$i: offset: $offset');
       Uint8List aligned = getOffsetUint32List(uI32, offset);
@@ -626,7 +626,7 @@ void uint32Test() {
     uI32 = new Uint32List.fromList(dList_0);
     print('uI32: $uI32');
 
-    for (int offset = 1; offset <  dList_0.length + reflength.nextInt(14); offset += Uint32.sizeInBytes) {
+    for (int offset = 1; offset <  dList_0.length + refLength.nextInt(14); offset += Uint32.sizeInBytes) {
       print('$offset: offset: $offset');
       // create a Uint32List containing uI8, but offset by [offset] bytes.
       Uint8List unaligned = getOffsetUint32List(uI32, offset);
@@ -671,15 +671,15 @@ Uint8List getOffsetUint64List(List<int> vList, int offsetAt) {
 void uint64Test() {
   test('Uint64List-ViewOfBytes Aligned Test', () {
 
-    for(int i=0; i< reflength.nextInt(10); i++){
-      dList_0.add(reflength.nextInt(246));
+    for(int i=0; i< refLength.nextInt(10); i++){
+      dList_0.add(refLength.nextInt(246));
     }
     print('dList0: $dList_0');
     Uint64List uI64 = new Uint64List.fromList(dList_0);
     Uint64List vList;
     print('uI64: $uI64');
 
-    int loopCount = dList_0.length+ reflength.nextInt(26);
+    int loopCount = dList_0.length+ refLength.nextInt(26);
     for (int i = 0, offset = 0; i < loopCount; i++, offset += Uint64.sizeInBytes) {
       print('$i: offset: $offset');
       Uint8List aligned = getOffsetUint64List(uI64, offset);
@@ -717,7 +717,7 @@ void uint64Test() {
     uI64 = new Uint64List.fromList(dList_0);
     print('uI64: $uI64');
 
-    for (int offset = 1; offset < dList_0.length+ reflength.nextInt(25); offset += Uint64.sizeInBytes) {
+    for (int offset = 1; offset < dList_0.length+ refLength.nextInt(25); offset += Uint64.sizeInBytes) {
       print('$offset: offset: $offset');
       // create a Uint32List containing uI8, but offset by [offset] bytes.
       Uint8List unaligned = getOffsetUint64List(uI64, offset);
