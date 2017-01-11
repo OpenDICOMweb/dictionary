@@ -14,6 +14,7 @@ import 'dart:typed_data';
 
 import 'package:dictionary/common.dart';
 import 'package:dictionary/date.dart';
+import 'package:dictionary/src/dicom/issue.dart';
 import 'package:dictionary/string.dart';
 
 part 'reader.dart';
@@ -25,7 +26,6 @@ part 'writer.dart';
 // names with char or Char(suffix) return [int]s.
 // names with string or String(suffix) return [String]s.
 // If a Readers returns [null], the [index] is not changed.
-
 
 // **** helpers
 
@@ -44,8 +44,7 @@ int _checkRange(int v, int min, int max) {
 String _intRangeError(int v, int min, int max) =>
     (_inRange(v, min, max)) ? 'RangeError: min($min) <= value($v) <= max($max)' : null;
 
-String _invalidChar(String s, int c, int pos) =>
-    'Invalid character($c) at position($pos) in $s';
+String _invalidChar(String s, int c, int pos) => 'Invalid character($c) at position($pos) in $s';
 
 int checkBufferLength(int bufferLength, int start, int end) {
   if (end == null) end = bufferLength;
@@ -76,6 +75,8 @@ abstract class ByteBuf {
 
   /// The current write position in the [_buf]. Must be between [_rIndex] and [emd].
   int _wIndex;
+
+  List<Issue> issues;
 
   /// Returns the element at index [i] if [i] [_isValidRIndex]; otherwise, returns [null].
   int operator [](int i) => _buf[i];

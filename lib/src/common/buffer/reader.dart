@@ -375,7 +375,6 @@ abstract class Reader extends ByteBuf {
     return n;
   }
 
-
   List<String> getErrorsIS(String s) {
     String lengthMsg = _intRangeError(s.length, 0, 12);
     int v = int.parse(s, onError: (s) => null);
