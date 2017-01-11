@@ -45,17 +45,8 @@ class Int {
   /// Returns [true] if [value] is between [min] and [max] inclusive.
   static bool inRange(int min, int value, int max) => (min <= value && value <= max);
 
-  static bool checkValueInRange(int i, List<String> issues, int min, int max) {
-    if (i < min) {
-      issues.add('Value $i is less than the minimum($min) allowed value.');
-      return false;
-    }
-    if (i > max) {
-      issues.add('Value $i is greater than the maximum($min) allowed value.');
-      return false;
-    }
-    return true;
-  }
+  static String checkRange(int value, int min, int max) =>
+      (inRange(value, min, max)) ? null : 'RangeError: min($min) <= Value($value) <= max($max)';
 
   /// _Deprecated_: Use checkList instead.
   @deprecated
@@ -167,7 +158,7 @@ class Int8 extends Int {
 
   static int guard(int i) => inRange(i) ? i : _error("Int8", i);
 
-  static bool check(int v, List<String> issues) => Int.checkValueInRange(v, issues, min, max);
+  static String checkRange(int v) => Int.checkRange(v, min, max);
 
   /// _Deprecated_: Use [hex] instead.
   @deprecated
@@ -231,7 +222,7 @@ class Int16 extends Int {
 
   static int guard(int i) => inRange(i) ? i : _error("Int16", i);
 
-  static bool check(int v, List<String> issues) => Int.checkValueInRange(v, issues, min, max);
+  static String checkRange(int v) => Int.checkRange(v, min, max);
 
   /// _Deprecated: Use [hex] instead._
   @deprecated
@@ -311,7 +302,7 @@ class Int32 extends Int {
 
   static int guard(int i) => inRange(i) ? i : _error("Int32", i);
 
-  static bool check(int v, List<String> issues) => Int.checkValueInRange(v, issues, min, max);
+  static String checkRange(int v) => Int.checkRange(v, min, max);
 
   /// _Deprecated: Use [hex] instead._
   @deprecated
@@ -388,7 +379,7 @@ class Int64 extends Int {
 
   static int guard(int i) => inRange(i) ? i : _error("Int64", i);
 
-  static bool check(int v, List<String> issues) => Int.checkValueInRange(v, issues, min, max);
+  static String checkRange(int v) => Int.checkRange(v, min, max);
 
   /// _Deprecated: Use [hex] instead._
   @deprecated
@@ -477,7 +468,7 @@ class Uint8 extends Uint {
 
   static int guard(int i) => inRange(i) ? i : _error("Uint8", i);
 
-  static bool check(int v, List<String> issues) => Int.checkValueInRange(v, issues, min, max);
+  static String checkRange(int v) => Int.checkRange(v, min, max);
 
   /// _Deprecated: Use [hex] instead._
   @deprecated
@@ -540,7 +531,7 @@ class Uint16 extends Uint {
 
   static int guard(int i) => inRange(i) ? i : _error("Uint16", i);
 
-  static bool check(int v, List<String> issues) => Int.checkValueInRange(v, issues, min, max);
+  static String checkRange(int v) => Int.checkRange(v, min, max);
 
   /// _Deprecated: Use [hex] instead._
   @deprecated
@@ -618,7 +609,7 @@ class Uint32 extends Uint {
 
   static int guard(int i) => inRange(i) ? i : _error("Uint32", i);
 
-  static bool check(int v, List<String> issues) => Int.checkValueInRange(v, issues, min, max);
+  static String checkRange(int v) => Int.checkRange(v, min, max);
 
   /// _Deprecated: Use [hex] instead._
   @deprecated
@@ -696,7 +687,7 @@ class Uint64 extends Uint {
 
   static int guard(int i) => inRange(i) ? i : _error("Uint64", i);
 
-  static bool check(int v, List<String> issues) => Int.checkValueInRange(v, issues, min, max);
+  static String checkRange(int v) => Int.checkRange(v, min, max);
 
   /// _Deprecated: Use [hex] instead._
   @deprecated

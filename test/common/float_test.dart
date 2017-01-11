@@ -14,7 +14,7 @@ import 'package:test/test.dart';
 
 //TODO: add more data - negative numbers, integers, large fractions
 List<double> dList_0 = <double>[.0, .1, .2, .3, .4]; // dynamically changing the data for each test
-var reflength = new Random();
+var refLength = new Random();
 
 Uint8List getOffsetFloat32List(List<double> vList, int offsetAt) {
   Float32List f32 = (vList is Float32List) ? vList : new Float32List.fromList(dList_0);
@@ -40,8 +40,8 @@ void float32Test() {
 
   test('Float32List-ViewOfBytes Aligned Test', () {
 
-    for(int i=0; i< reflength.nextInt(10); i++){
-      dList_0.add(reflength.nextInt(246)*7.6457);
+    for(int i=0; i< refLength.nextInt(10); i++){
+      dList_0.add(refLength.nextInt(246)*7.6457);
     }
 
     print('dList0: $dList_0');
@@ -49,7 +49,7 @@ void float32Test() {
     Float32List vList;
     print('f32: $f32');
 
-    int loopCount = dList_0.length+ reflength.nextInt(10);
+    int loopCount = dList_0.length+ refLength.nextInt(10);
     for(int i = 0, offset = 0; i < loopCount; i++, offset += Float32.sizeInBytes) {
       print('$i: offset: $offset');
       Uint8List aligned = getOffsetFloat32List(f32, offset);
@@ -87,7 +87,7 @@ void float32Test() {
     f32 = new Float32List.fromList(dList_0);
     print('f32: $f32');
 
-    for(int offset = 1; offset < dList_0.length+reflength.nextInt(12); offset += Float32.sizeInBytes) {
+    for(int offset = 1; offset < dList_0.length+refLength.nextInt(12); offset += Float32.sizeInBytes) {
       print('$offset: offset: $offset');
       // create a Uint32List containing f32, but offset by [offset] bytes.
       Uint8List unaligned = getOffsetFloat32List(f32, offset);
@@ -124,8 +124,8 @@ void float64Test() {
 
   test('Float64List-ViewOfBytes Aligned Test', () {
 
-    for(int i=0; i< reflength.nextInt(10); i++){
-      dList_0.add(reflength.nextInt(246)*754.4278);
+    for(int i=0; i< refLength.nextInt(10); i++){
+      dList_0.add(refLength.nextInt(246)*754.4278);
     }
 
     print('dList0: $dList_0');
@@ -133,7 +133,7 @@ void float64Test() {
     Float32List vList;
     print('f32: $f32');
 
-    int loopCount = dList_0.length + reflength.nextInt(10);
+    int loopCount = dList_0.length + refLength.nextInt(10);
     for(int i = 0, offset = 0; i < loopCount; i++, offset += 4) {
       print('$i: offset: $offset');
       Uint8List aligned = getOffsetFloat32List(f32, offset);
@@ -171,7 +171,7 @@ void float64Test() {
     f64 = new Float64List.fromList(dList_0);
     print('f64: $f64');
 
-    for(int offset = 1; offset < dList_0.length+reflength.nextInt(12); offset += 2) {
+    for(int offset = 1; offset < dList_0.length+refLength.nextInt(12); offset += 2) {
       print('$offset: offset: $offset');
       // create a Uint64List containing f64, but offset by [offset] bytes.
       Uint8List unaligned = getOffsetFloat64List(f64, offset);

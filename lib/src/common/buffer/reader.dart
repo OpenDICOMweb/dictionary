@@ -36,6 +36,8 @@ int checkBufferLength(int bufferLength, int start, int end) {
 /// isWritable = _wRemaining > 0;
 ///
 
+typedef int _CharConverter(int c);
+
 abstract class Reader extends ByteBuf {
   List<int> _buf;
   int _rIndex;
@@ -47,17 +49,12 @@ abstract class Reader extends ByteBuf {
 
   String toSubString(int start, int end);
 
-  /// Returns a valid read limit, which might be less than [n],
-  /// or [null] if no valid limit exists. [n] can be positive or negative.
-  int _getRLimit(int n) {
-    int v = ((_rIndex + n) > _wIndex) ? _wIndex - _rIndex : _rIndex + n;
-    return (v > 0) ? v : null;
-  }
-
   // **** Peek, read, or unread at [index].
 
+  int get _peek => _buf[_rIndex];
+
   /// Returns the code unit at [_rIndex], but does not increment [_rIndex].
-  int get peek => (isReadable) ? null : _buf[_rIndex];
+  int get peek => (_isReadable) ? null : _peek;
 
   /// Moves [_rIndex] forward or backward.
   ///
@@ -73,9 +70,16 @@ abstract class Reader extends ByteBuf {
     return false;
   }
 
+  bool _matchChar(int char) {
+    int c = peek;
+    if (c != char) return false;
+    _rIndex++;
+    true;
+  }
+
   /// Returns the code unit at [_rIndex] and increments [_rIndex], or [null] if
-  /// the [buf] [isReadable].
-  int get read => (isReadable) ? _read : null;
+  /// the [buf] [_isReadable].
+  int get read => (_isReadable) ? _read : null;
 
   /// _Internal_: Must only be called when [isEmpty] is false.
   int get _read {
@@ -112,8 +116,9 @@ abstract class Reader extends ByteBuf {
   /// Returns a [String] with a minimum length of [min] and a maximum length of [max],
   /// or [null] if a [String] of [min] length is not available.
   String readString([int min = 0, int max]) {
-    int limit = _getRLimit((max == null) ? _wIndex : max);
-    if (limit == null || limit < min) return null;
+    max = (max == null) ? _wIndex : max;
+    int limit = _getRLimit(min, max);
+    if (limit == null) return null;
     var s = toSubString(_rIndex, limit);
     _rIndex = limit;
     return s;
@@ -123,8 +128,8 @@ abstract class Reader extends ByteBuf {
   /// If all code units pass [test] returns a [String] of [min] to [max] length;
   /// otherwise, returns null;
   String readChecked(int min, int max, _CharTest test) {
-    int limit = _getRLimit(max);
-    if (limit == null || limit < min) return null;
+    int limit = _getRLimit(min, max);
+    if (limit == null) return null;
     int start = _rIndex;
     try {
       for (; _rIndex < limit; _rIndex++) {
@@ -170,25 +175,62 @@ abstract class Reader extends ByteBuf {
 
   // **** Read numbers ****
 
-
   bool _isDigit(c) => k0 <= c && c >= k9;
 
-  bool get _nextIsDigit {
-    print('@$_rIndex nextIsDigit');
-    if (isReadable) {
-      int c = peek;
-      print('@$_rIndex nextIsDigit: "$c"');
-      return _isDigit(c);
-    }
-    return false;
+  bool _hasNDigits(int length) {
+    for(int i = 0; i < length; i++)
+      if (!_isDigit(_peek)) return false;
+    return true;
   }
 
-  bool get _nextIsNotDigit => !_nextIsDigit;
+  /// Reads a character. If it is a decimal character returns it values
+  /// as an integer; otherwise, returns null.
+  int _toDigit(int c) {
+    if (k0 <= c && c <= k9) return c - k0;
+    return null;
+  }
 
-  int get _digit => _read - k0;
+  /// Reads and returns the integer value of a code point between "0" and "9",
+  /// "A" and "F", and "a" and "f".
+  int _toHex(int c) {
+    // print('@$_rIndex hex: c= "$c" "${c - k0}"');
+    if (k0 <= c && c <= k9) return c - k0;
+    if (kA <= c && c <= kF) return c - kA + 10;
+    if (ka <= c && c <= kf) return c - ka + 10;
+    return null;
+  }
+
+  int _peekDigit(_CharConverter convert) {
+    print('@$_rIndex peekDigit');
+    return convert(_peek);
+  }
+
+  /*
+  int _getDigit(_CharConverter convert) {
+    print('@$_rIndex _getDigit');
+    int c = convert(_read);
+    if (c != null) return c;
+    _rIndex--;
+    return null;
+  }
+  */
 
   /// Reads and returns the integer value of a code point between "0" and "9".
-  int get digit => (_nextIsDigit) ? _digit : null;
+  int get digit {
+    print('@$_rIndex _Digit');
+    int c = _peekDigit(_toDigit);
+    if (c == null) return null;
+    _rIndex++;
+    return c;
+  }
+
+  int get hex {
+    print('@$_rIndex _Digit');
+    int c = _peekDigit(_toHex);
+    if (c == null) return null;
+    _rIndex++;
+    return c;
+  }
 
   /// Reads an unsigned [int] from [max] code units, which must be between
   /// "0" and "9" and returns the corresponding integer value. If [_buf] does
@@ -196,9 +238,9 @@ abstract class Reader extends ByteBuf {
   /// to [max] do not contain digits, returns [null].
   int readUint([int min = 1, int max]) {
     print('readUint: count($max)');
-    int limit = _getRLimit(max);
+    int limit = _getRLimit(min, max);
     print('limit($limit), index($_rIndex)');
-    if (limit == null || (_nextIsNotDigit)) return null;
+    if (limit == null) return null;
     return _readUint(min, limit);
   }
 
@@ -208,7 +250,9 @@ abstract class Reader extends ByteBuf {
     int start = _rIndex;
     for (; _rIndex < limit; _rIndex++) {
       print('i:$_rIndex, $peek');
-      int v = _digit;
+      int v = digit;
+      int c = _buf[_rIndex];
+      if (c < k0 || c > k9) return null;
       print('v: $v');
       if (v == null) {
         _rIndex = start;
@@ -230,19 +274,6 @@ abstract class Reader extends ByteBuf {
     return (k0 <= c && c <= k9) || (kA <= c && c <= kF) || (ka <= c && c <= kf);
   }
   */
-
-  int get hex => (isReadable) ? _toHex(read) : null;
-
-  /// Reads and returns the integer value of a code point between "0" and "9",
-  /// "A" and "F", and "a" and "f".
-  int _toHex(int c) {
-   // print('@$_rIndex hex: c= "$c" "${c - k0}"');
-    if (k0 <= c && c <= k9) return c - k0;
-    if (kA <= c && c <= kF) return c - kA + 10;
-    if (ka <= c && c <= kf) return c - ka + 10;
-    unread;
-    return null;
-  }
 
   /// Reads [count] code units, which must be hexadecimal code points (0-9, A-F, a-f),
   /// and returns the corresponding integer value. If [_buf] does not have [count]
@@ -287,12 +318,16 @@ abstract class Reader extends ByteBuf {
   /// If the next code unit is a digit then return 1, but does not
   /// advance the [_rIndex].
   int get readSign {
-    int c = read;
-    if (c == kMinusSign) return -1;
-    if (c == kPlusSign) return 1;
-    unread;
-    print('@$_rIndex');
-    return (_nextIsDigit) ? 1 : null;
+    int c = peek;
+    int sign;
+    if (c == kMinusSign) sign = -1;
+    if (c == kPlusSign) sign = 1;
+    if (c == null) {
+      sign = 1;
+    } else {
+      _rIndex++;
+    }
+    return sign;
   }
 
   /// Reads an signed [int] from [max] code units, which must be between
@@ -300,15 +335,12 @@ abstract class Reader extends ByteBuf {
   /// not have [max] code units remaining, or if the code units corresponding
   /// to [max] do not contain digits, returns [null].
   int readInt([int min = 1, int max]) {
-    if (!isReadable) return null;
-    max = RangeError.checkValidRange(1, max, _rRemaining);
+    if (isNotReadable) return null;
+    int limit = _getRLimit(min, max);
+    //TODO: decide whether to implement onErrorThrow
+    if (limit == null) return null;
     int start = _rIndex;
     int sign = readSign;
-    if (sign == null) return null;
-    if (_nextIsNotDigit) {
-      _rIndex = start;
-      return null;
-    }
     int n = readUint(min, max);
     if (n == null) {
       _rIndex = start;
@@ -324,39 +356,33 @@ abstract class Reader extends ByteBuf {
 
   //TODO: validate
   num readDecimal([int min = 1, int max]) {
-    int limit = _getRLimit(max);
+    int limit = _getRLimit(min, max);
     if (limit == null) return null;
     int start = _rIndex;
     int n = readInt(max);
-    if (n == null) {
-      _rIndex = start;
-      return n;
-    }
-    if (_rIndex >= limit) return n;
-    double f = _readFraction(limit);
-    if (f == null) {
-      _rIndex = start;
-      return (_rIndex - start < min) ? null : n;
-    }
-    if (_rIndex >= limit) return n + f;
+    if (n == null) return null;
+    int f = _readFraction(1, limit);
+    if (f == null) return n;
     int e = _readExponent(limit);
-    if (e == null) {
-      _rIndex = start;
-      return (_rIndex - start < min) ? null : n + f;
-    }
-    return (_rIndex - start < min) ? null : pow(n + f, e);
+    if (e == null) return n + (1 / f);
+    return pow(n + (1/f), e);
   }
 
   int kDecimalMark = kDot;
 
   /// Reads a fraction starting with a [kDecimalMark].
-  double _readFraction(int limit) {
+  int _readFraction(int min, int max) {
+    int limit = _getRLimit(min, max);
+    if (limit = null) return null;
     int p = peek;
     //TODO: what should this do if it reads only a decimal mark, but no digit?
     // currently returns null.
-    if (p != kDecimalMark || _isDigit(_buf[_rIndex + 2])) return null;
+    if (p != kDecimalMark || (!_isDigit(_buf[_rIndex + 2]))) return null;
     _rIndex++;
-    return 1 / _readUint(0, limit);
+    int v = _readUint(1, max);
+    if (v != null) return v;
+    _rIndex--;
+    return null;
   }
 
   int _readExponent(int limit) {
@@ -372,9 +398,9 @@ abstract class Reader extends ByteBuf {
 
   bool allowVariableWidthDateTimeValues = false;
 
-  int get year => checkYear(readUint(2, 4));
+  int get year => checkYear(readUint(4, 4));
   int get month => checkMonth(readUint(2, 2));
-  int get vMonth => checkMonth(readUint(2, 2));
+  int get vMonth => checkMonth(readUint(1, 2));
 
   /// Reads and returns a [int] between 1 and 31, or [null]. Note: does not
   /// validate months with 28, 29, or 30 days.
@@ -386,24 +412,30 @@ abstract class Reader extends ByteBuf {
   int readVDay(int y, int m, int d) => checkDay(y, m, readUint(1, 2));
 
   /// Reads and returns a date in fixed format yyyymmdd.
-  Date get date {
+  Date get dcmDate {
     if (rRemaining < 8) return null;
     int y = year;
+    if (y == null) return null;
     int m = month;
-    if (y == null || m == null) return null;
+    if (m == null) return null;
     int d = readDay(y, m, readUint(2, 2));
     if (d == null) return null;
+    _rIndex += 8;
     return new Date(y, m, d);
   }
 
   /// Reads and returns a date in fixed format yyyymmdd.
-  Date get vDate {
-    if (rRemaining < 8) return null;
+  Date get internetDate {
+    if (rRemaining < 10) return null;
     int y = year;
-    int m = vMonth;
-    if (y == null || m == null) return null;
-    int d = readDay(y, m, readUint(2));
+    if (y == null) return null;
+    if (! _matchChar(kDash)) return null;
+    int m = month;
+    if (m == null) return null;
+    if (! _matchChar(kDash)) return null;
+    int d = readDay(y, m, readUint(2, 2));
     if (d == null) return null;
+    _rIndex += 10;
     return new Date(y, m, d);
   }
 
@@ -419,36 +451,70 @@ abstract class Reader extends ByteBuf {
   int get second => checkSecond(readUint(2, 2));
   int get vSecond => checkSecond(readUint(1, 2));
 
-  int get fraction => checkFraction(readUint(maxFractionDigits));
+  int get fraction => checkFraction(_readFraction(1, maxFractionDigits));
 
   ///
-  Time get time {
+  Time readDcmTime(int length) {
+    int h, m, s, f;
+    if (length >=2 && hasReadable(2)) {
+      h = hour;
+      if (h == null) return null;
+    }
+    if (length >=4 && rRemaining >= 2) {
+      m = minute;
+      if (m == null) return new Time(h, 0, 0);
+    }
+    if (length >=4 && rRemaining >= 2) {
+      s = second;
+      if (s == null) return new Time(h, m, 0);
+    }
+      int f = fraction;
+      if (s == null) return new Time(h, m, s);
+      return new Time(h, m, s, f);
+    }
+  }
+
+  ///
+  Time get dcmTime {
     int h = hour;
+    if (h == null) return null;
+    if (! _matchChar(kColon)) return null;
     int m = minute;
+    if (m == null) return null;
+    if (! _matchChar(kColon)) return null;
     int s = second;
+    if (s == null) return null;
+    int f = fraction;
+    if (s == null) return null;
+    return new Time(h, m, s, f);
+  }
+  Time get internetTime {
+    int h = hour;
+    if (h == null) return null;
+    if (! _matchChar(kColon)) return null;
+    int m = minute;
+    if (m == null) return null;
+    if (! _matchChar(kColon)) return null;
+    int s = second;
+    if (s == null) return null;
     return new Time(h, m, s);
   }
 
-  ///
-  Time get vTime {
-    int h = vHour;
-    int m = vMinute;
-    int s = vSecond;
-    return new Time(h, m, s);
-  }
 
   // Time Zone
 
   /// Reads the next [char] and returns -1 if it is "-",
   /// 0 if it is "Z" or "z", or 1 if it is "+"; otherwise,
-  /// [unread]s and returns [null].
+  /// returns [null].
   int get tzSign {
-    int c = read;
-    if (c == kMinus) return -1;
-    if (c == kPlus) return 1;
-    if (c == kZ || c == kz) return 0;
-    unread;
-    return null;
+    int sign;
+    int c = peek;
+    if (c == null) return null;
+    if (c == kMinus) sign = -1;
+    if (c == kPlus) sign = 1;
+    if (c == kZ || c == kz) sign = 0;
+    _rIndex++;
+    return sign;
   }
 
   int get tzHour => checkHour(readInt(2));

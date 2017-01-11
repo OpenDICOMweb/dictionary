@@ -6,23 +6,36 @@
 
 import 'package:dictionary/tag.dart';
 
-class ValueIssue {
-  /// The [index] of this value in the [List] of [values].
-  /// If [index] == -1, then the problem is with the entire list.
-  int index;
-
-  /// The [value] with a problem
-  Object value;
-  List<String> msgs;
-  bool isFixed;
-
-  ValueIssue(this.index, this.value, info, [this.isFixed = false])
-      : msgs = (info is String) ? [info] : info;
-}
-
 class Issue {
-  Tag tag;
-  List<ValueIssue> issues;
+  final Tag tag;
+  int badLength;
+  Map<int, List<String>> _issues;
 
-  Issue(this.tag, this.issues);
+  Issue(this.tag, int index, String msg) : _issues = {index: [msg]};
+
+  Issue.withLength(this.tag, this.badLength, List<String> msgs) : _issues = {0: msgs};
+
+  add(int index, String msg) {
+    if (_issues == null) {
+      _issues = {index: [msg]};
+    } else if (_issues[index] == null) {
+      _issues[index] = [msg];
+    } else {
+      var msgs = _issues[index];
+      if (msgs == null) throw "Invalid message $index: $msg";
+      msgs.add(msg);
+    }
+  }
+
+  String get lengthError => tag.vm.lengthError(badLength);
+
+  String toString() {
+    var out = "Issues with $tag\n\t";
+    if (badLength != null) out += lengthError;
+    _issues.forEach((int index, List<String> value) {
+      out += '\n\t$index: $value';
+    });
+    return out;
+  }
 }
+

@@ -25,7 +25,7 @@ class IOD {
 
   VR get vr => VR.vrs[vrIndex];
 
-  VM get vm => VM.vector[vmIndex];
+  VM get vm => VM.vms[vmIndex];
 
   bool get isVM1 => (_vmMin == 1) && (_vmMax == 1) && (_vmWidth == 1);
 

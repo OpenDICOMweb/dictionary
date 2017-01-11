@@ -7,147 +7,149 @@
 import 'package:dictionary/ascii.dart';
 import 'package:dictionary/src/dicom/constants.dart';
 
-bool _checkLength(String s, List<String> issues, int minLength, int maxLength) {
+/// Naming
+///   bool isSomething(x)
+///   bool inRange(T v, T min, T max)
+///   T checkSomething(T x, {onError: (T x) => T) - returns x or throws if invalid.
+///   List<String> testSomething(T x) - returns a list of errors or null
+///   X parse(String s, {onError = f}
+///
+///
+bool _checkStringLength(String s, int min, int max) {
   if (s == null || s.length == 0) return null;
-  if (s.length < minLength) {
-    issues.add('Value has length(${s.length} less than the minimum($minLength)');
-    return false;
-  }
-  if (s.length > maxLength) {
-    issues.add('Value has length(${s.length} greater than the maximum($maxLength)');
-    return false;
-  }
-  return true;
+  return _intInRange(s.length, min, max);
+}
+bool _intInRange(int v, int min, int max) => (v < min || v > max) ? false : true;
+
+int _checkRange(int v, int min, int max) {
+  if (v < min || v > max) throw 'RangeError: min($min) <= Value($v) <= max($max)';
+  return v;
 }
 
 String _invalidChar(int c, int pos) => 'Value has invalid character($c) at position($pos)';
 
 //TODO: this does not handle escape sequences
-bool _checkDcmString(String s, List<String> issues, int maxLength) {
-  if (! _checkLength(s, issues, 0, maxLength)) return false;
-  for (int index = 0; index < maxLength; index++) {
+bool _checkString(String s, int min, int max, bool filter(int c)) {
+  if (!_checkStringLength(s, min, max)) return false;
+  for (int index = 0; index < max; index++) {
     int c = s.codeUnitAt(index);
-    if (c < kSpace || c == kBackslash || c == kDelete) issues.add(_invalidChar(c, index));
+    if (filter(c)) throw _invalidChar(c, index);
   }
   return true;
 }
 
+/*
+//TODO: this does not handle escape sequences
+bool _checkDcmString(String s, int maxLength) {
+  if (!_checkStringLength(s, 0, maxLength)) return false;
+  for (int index = 0; index < maxLength; index++) {
+    int c = s.codeUnitAt(index);
+    if (c < kSpace || c == kBackslash || c == kDelete) throw _invalidChar(c, index);
+  }
+  return true;
+}
+*/
+bool _dcmStringFilter(int c) => !(c < kSpace || c == kBackslash || c == kDelete);
+
+bool _isDcmString(String s, int max) => _checkString(s, 0, max, _dcmStringFilter);
+
 // DICOM Text Strings
 //TODO: this does not handle escape sequences
-bool _checkTextString(String s, List<String> issues, int maxLength) {
-  if (! _checkLength(s, issues, 0, maxLength)) return false;
+/*
+bool _checkTextString(String s, int maxLength) {
+  if (!_checkStringLength(s, 0, maxLength)) return false;
   for (int index = 0; index < s.length; index++) {
     int c = s.codeUnitAt(index);
     if (c < kSpace || c == kDelete) {
-      issues.add( _invalidChar(c, index));
-      return false;
+      throw _invalidChar(c, index);
     }
   }
   return true;
 }
+*/
+bool _textFilter(int c) => !(c < kSpace || c == kDelete);
 
+_checkTextString(String s, int max) => _checkString(s, 0, max, _textFilter);
+
+bool _digitFilter(int c) => c >= k0 && c <= k9;
+bool _hexFilter(int c) => (c >= k0 && c <= k9) || (c >= ka && c <= kf) || (c >= kA && c <= kF);
 // DICOM VRs with Digits
-bool _checkDigitString(String s, List<String> issues, int minLength, int maxLength,
-                      [int sep]) {
-  if (! _checkLength(s, issues, 0, maxLength)) return false;
+bool _checkDigitString(String s, int minLength, int maxLength, [int sep]) {
+  if (!_checkStringLength(s, 0, maxLength)) return false;
   int index = 0;
-  for(; index < maxLength; index++) {
+  for (; index < maxLength; index++) {
     int c = s.codeUnitAt(index);
     if (c < k0 || c > k9 || (sep != null && c != sep)) {
-      issues.add(_invalidChar(c, index));
+      throw _invalidChar(c, index);
       return false;
     }
   }
   if (index < minLength) {
-    issues.add('The Value has fewer than the minimum($minLength) number of characters');
+    throw 'The Value has fewer than the minimum($minLength) number of characters';
     return false;
   }
   return true;
 }
 
 // DICOM Strings
-bool checkAEString(String s, List<String> issues) =>
-    _checkDcmString(s, issues, 16);
-bool checkCSString(String s, List<String> issues) =>
-    _checkDcmString(s, issues, 16);
-bool checkPNString(String s, List<String> issues) =>
-    _checkDcmString(s, issues, 5 * 64);
-bool checkSHString(String s, List<String> issues) =>
-    _checkDcmString(s, issues, 16);
-bool checkLOString(String s, List<String> issues) =>
-    _checkDcmString(s, issues, 64);
-bool checkUCString(String s, List<String> issues) =>
-    _checkDcmString(s, issues, kMaxLongLengthInBytes);
+bool checkAEString(String s) => _checkDcmString(s, 16);
+bool checkCSString(String s) => _checkDcmString(s, 16);
+bool checkPNString(String s) => _checkDcmString(s, 5 * 64);
+bool checkSHString(String s) => _checkDcmString(s, 16);
+bool checkLOString(String s) => _checkDcmString(s, 64);
+bool checkUCString(String s) =>
+    _checkDcmString(s, kMaxLongLengthInBytes);
 
 // DICOM Texts
-bool checkSTString(String s, List<String> issues) =>
-    _checkTextString(s, issues, 1024);
-bool checkLTString(String s, List<String> issues) =>
-    _checkTextString(s, issues, 10240);
-bool checkUTString(String s, List<String> issues) =>
-    _checkTextString(s, issues, kMaxLongLengthInBytes);
+bool checkSTString(String s) => _checkTextString(s, 1024);
+bool checkLTString(String s) => _checkTextString(s, 10240);
+bool checkUTString(String s) =>
+    _checkTextString(s, kMaxLongLengthInBytes);
 
 // UID String
-bool checkUIString(String s, List<String> issues) =>
-    _checkDigitString(s, issues, 8, 64, kDot);
+bool checkUIString(String s) => _checkDigitString(s, 8, 64, kDot);
 
 // UUID String
-bool checkUuidString(String s, List<String> issues) =>
-    _checkDigitString(s,issues, 36, 36, kDash);
+bool checkUuidString(String s) => _checkDigitString(s, 36, 36, kDash);
 
 /// AS - Age String
-bool checkASString(String s, List<String> issues) {
-  if (! _checkLength(s, issues, 4, 4)) return false;
-  if (! _checkDigitString(s, issues, 3, 3)) return false;
+bool checkASString(String s) {
+  if (!_checkStringLength(s, 4, 4)) return false;
+  if (!_checkDigitString(s, 3, 3)) return false;
   if (!"DWMY".contains(s[3])) {
-    issues.add('Invalid Age Unit($s[3]');
+    throw 'Invalid Age Unit($s[3]';
     return false;
   }
   return true;
 }
 
 /// [IS - Integer String](http://dicom.nema.org/medical/dicom/current/output/html/part05.html#sect_6.2)
-bool checkISString(String s, List<String> issues) {
-  if (! _checkLength(s, issues, 4, 4)) return false;
+bool checkISString(String s) {
+  if (!_checkStringLength(s, 4, 4)) return false;
   int c = s.codeUnitAt(0);
   int hasSign = (c == kMinusSign || c == kPlusSign) ? 1 : 0;
-  if (! _checkDigitString(s, issues, 0, 12 - hasSign, hasSign)) return false;
+  if (!_checkDigitString(s, 0, 12 - hasSign, hasSign)) return false;
   return true;
 }
 
 /// DS -Decimal String
-bool checkDSString(String s, List<String> issues) {
-  if (! _checkLength(s, issues, 0, 16)) return false;
+bool checkDSString(String s) {
+  if (!_checkStringLength(s, 0, 16)) return false;
   int c = s.codeUnitAt(0);
   int hasSign = (c == kMinusSign || c == kPlusSign) ? 1 : 0;
-  if (! _checkDigitString(s, issues, 0, 16 - hasSign, hasSign)) return false;
+  if (!_checkDigitString(s, 0, 16 - hasSign, hasSign)) return false;
   return true;
 }
 
 /// DA - Date String
 //_StringPredicate isDAString = _makeStringPredicate(8, 8, isDigitChar);
-bool checkDAString(String s, List<String> issues) {
-  if (! _checkLength(s, issues, 8, 8)) return false;
+bool checkDAString(String s) {
+  if (!_checkStringLength(s, 8, 8)) return false;
   DateTime dt;
   try {
     dt = DateTime.parse(s);
   } on FormatException catch (e) {
-    issues.add('Invalid Date($dt) - error at offset(${e.offset}');
-    return false;
-  }
-  return true;
-}
-
-
-//TM - Time
-//_StringPredicate isTMString = _makeStringPredicate(2, 14, isTMChar);
-bool checkDTString(String s, List<String> issues) {
-  if (! _checkLength(s, issues, 4, 26)) return false;
-  DateTime dt;
-  try {
-    dt = DateTime.parse(s);
-  } on FormatException catch (e) {
-    issues.add('Invalid DateTime($dt) - error at offset(${e.offset}');
+    throw 'Invalid Date($dt) - error at offset(${e.offset}';
     return false;
   }
   return true;
@@ -155,13 +157,27 @@ bool checkDTString(String s, List<String> issues) {
 
 //TM - Time
 //_StringPredicate isTMString = _makeStringPredicate(2, 14, isTMChar);
-bool checkTMString(String s, List<String> issues) {
-  if (! _checkLength(s, issues, 2, 14)) return false;
+bool checkDTString(String s) {
+  if (!_checkStringLength(s, 4, 26)) return false;
   DateTime dt;
   try {
     dt = DateTime.parse(s);
   } on FormatException catch (e) {
-    issues.add('Invalid Time($dt) - error at offset(${e.offset}');
+    throw 'Invalid DateTime($dt) - error at offset(${e.offset}';
+    return false;
+  }
+  return true;
+}
+
+//TM - Time
+//_StringPredicate isTMString = _makeStringPredicate(2, 14, isTMChar);
+bool checkTMString(String s) {
+  if (!_checkStringLength(s, 2, 14)) return false;
+  DateTime dt;
+  try {
+    dt = DateTime.parse(s);
+  } on FormatException catch (e) {
+    throw 'Invalid Time($dt) - error at offset(${e.offset}';
     return false;
   }
   return true;
@@ -169,13 +185,13 @@ bool checkTMString(String s, List<String> issues) {
 
 //TODO: do something more efficient
 //UR - Universal Resource Identifier (URI)
-bool checkURString(String s, List<String> issues, [int index = 0, int end]) {
+bool checkURString(String s, [int index = 0, int end]) {
   Uri uri;
   end = (end == null) ? s.length - index : end;
   try {
     uri = Uri.parse(s, index, end);
-  } on FormatException catch(e) {
-    issues.add('Invalid URI($uri) - error at offset(${e.offset}');
+  } on FormatException catch (e) {
+    throw 'Invalid URI($uri) - error at offset(${e.offset}';
     return false;
   }
   return true;

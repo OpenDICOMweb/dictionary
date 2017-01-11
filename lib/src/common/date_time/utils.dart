@@ -6,6 +6,7 @@
 
 import 'dart:math';
 
+import 'package:dictionary/src/common/ascii/constants.dart';
 import 'package:dictionary/src/common/buffer/byte_buf.dart';
 
 import 'date.dart';
@@ -31,30 +32,98 @@ import 'time.dart';
 String pad(int value, int length) => value.toString().padLeft(length, "0");
 
 // Private helper functions
-String dtString(int value, int length) => (value == 0) ? "" : pad(value, length);
+//String dtString(int value, int length) => (value == 0) ? "" : pad(value, length);
 
 /// Returns an [true] if [value] is in the range inclusively.
 bool _inRange(int min, int value, int max) => ((min <= value) && (value <= max));
 
-int _checkRange(int min, int v, int max) => _inRange(min, v, max) ? v : null;
+int _checkRange(int min, int v, int max) => _inRange(v, min, max) ? v : null;
 
-int _parseInt(String s) => int.parse(s, onError: (s) => null);
+/// Return the [limit], which is max or end w
+int _getLimit(int offset, int min, int max, int end) {
+  int limit = offset + max;
+  if (limit > end) {
+    if (offset + min > end) {
+      return null;
+    } else {
+      return end - offset;
+    }
+  } else {
+    return limit;
+  }
+}
+
+int parseUint(String s, [int offset = 0, int min = 0, int max]) {
+  if (s == null || s == "") return null;
+  int limit = _getLimit(offset, min, max, s.length);
+  if (limit == null || limit < min) return null;
+  return _parseUint(s, offset, limit);
+}
+
+/// Parses a base 10 [int] from [offset] to [limit], and returns its corresponding value.
+/// If an error is encountered returns [null].
+int _parseUint(String s, int offset, int limit) {
+  print('_readUint s: $s');
+  int n = 0;
+  for (int i = offset; i < limit; i++) {
+    int c = s.codeUnitAt(i);
+    if (c < k0 || c > k9) return null;
+    int v = c - k0;
+    n = (n * 10) + v;
+  }
+  return n;
+}
+
+/// Parses a sign code unit (+, -) and returns +1 or -1.
+/// If the next code unit is a digit then return 1, but does not
+/// advance the [_rIndex].
+int _parseSign(String s, int offset) {
+  int c = s.codeUnitAt(offset);
+  if (c == kMinusSign) return -1;
+  if (c == kPlusSign) return 1;
+  return null;
+}
+
+//int _parseInt(String s, [int offset]) =>
+//    int.parse((offset == 0) ? s : s.substring(offset), onError: (s) => null);
+
+int parseInt(String s, [int offset = 0, int min = 0, int max]) {
+  if (s == null || s == "") return null;
+  int limit = _getLimit(offset, min, max, s.length);
+  if (limit == null || limit < min) return null;
+  int sign = _parseSign(s, offset);
+  if (sign != null) {
+    offset++;
+  } else {
+    sign = 1;
+  }
+  int n = _parseUint(s, offset, limit);
+  return sign * n;
+}
+
+
+bool _parseChar(String s, int char, int offset) => s.codeUnitAt(offset) == char;
 
 //**** Date Utilities ****
 
 // ** Year **
-bool isValidYear(int y, [int start = 0, int end = 2050]) =>
-    _inRange(start, y, end);
 
-/// _Deprecated_: Use checkYear instead.
-@deprecated
-int validateYear(int y) => checkYear(y);
+int minYear = 0;
+int maxYear = 2050;
+
+bool yearInRange(int y, int min, int max) => _inRange(y, min, max);
+
+bool isYear(int y) => yearInRange(y, minYear, maxYear);
 
 /// Returns the year, if valid; otherwise, [null]
-int checkYear(int y) => (isValidYear(y)) ? y : null;
+int checkYear(int y) => (yearInRange(y, minYear, maxYear)) ? y : null;
 
-int readYear(String s, [int start = 0]) =>
+int parseYear(String s, [int start = 0]) =>
     checkYear(_parseInt(s.substring(start, start + 4)));
+
+String yearHasError(String s, [int start = 0, end]) {
+  var v = _parseInt(s, start);
+}
 
 // ** Month **
 /// A [List] (starting a 1) of the number of days per month;
@@ -70,42 +139,34 @@ int maxMonthDay(int y, int m) {
 }
 
 /// Returns [true] if [month] is between 1 and 12 inclusive or [null].
-bool isValidMonth(int m) => _inRange(1, m, 12);
-
-/// _Deprecated_: Use checkMonth instead.
-@deprecated
-int validateMonth(int m) => checkMonth(m);
+bool isMonth(int m) => _inRange(m, 1, 12);
 
 /// Returns an [int] between 1 and 12, or [null].
-int checkMonth(int m) => (isValidMonth(m)) ? m : null;
+int checkMonth(int m) => (isMonth(m)) ? m : null;
 
 /// Returns a valid month or [null];
-int readMonth(String s, [int start = 0]) =>
-    checkMonth(_parseInt(s.substring(start, start + 2)));
+int parseMonth(String s, [int start = 0, end = 2]) =>
+    checkMonth(_parseUint(s, start, end));
 
 // ** Day **
 /// Returns [true] if [day] is a valid [day] of [month] and [year]; otherwise, [false].
-bool isValidDay(int y, int m, int d) => _inRange(1, d, maxMonthDay(y, m));
-
-/// _Deprecated_: Use checkMonth instead.
-@deprecated
-int validateDay(int y, int m, int d) => checkDay(y, m, d);
+bool isDay(int y, int m, int d) => _inRange(d, 1, maxMonthDay(y, m));
 
 /// Returns an [int] between 1 and 31, or [null].
-int checkSimpleDay(int d) => (_inRange(1, d, 31)) ? d : null;
+bool isSimpleDay(int d) => (_inRange(d, d, 31));
 
 /// Returns an [int] between 1 and 31, or [null].
-int checkDay(int y, int m, int d) => (isValidDay(y, m, d)) ? d : null;
+int checkDay(int y, int m, int d) => (isDay(y, m, d)) ? d : null;
+
+/// Returns an [int] between 1 and 31, or [null].
+int checkSimpleDay(int d) => (isSimpleDay(d)) ? d : null;
 
 /// Returns a valid [day] or [null].
-int readDay(int y, int m, String s, [int start = 0]) =>
-    checkDay(y, m, _parseInt(s.substring(start, start + 2)));
+int parseDay(int y, int m, String s, [int start = 0]) =>
+    checkDay(y, m, _parseUint(s, start, start + 2));
 
-bool isValidDate(int y, int m, int d) => isValidYear(y) && isValidMonth(m) && isValidDay(y, m, d);
+bool isDate(int y, int m, int d) => isYear(y) && isMonth(m) && isDay(y, m, d);
 
-/// _Deprecated_: Use [checkDate] instead;
-@deprecated
-DateTime validateDate(int y, int m, int d) => checkDate(y, m, d);
 // ** Date **
 DateTime checkDate(int y, int m, int d) {
   y = checkYear(y);
@@ -117,85 +178,76 @@ DateTime checkDate(int y, int m, int d) {
   return new DateTime(y, m, d);
 }
 
-Date readDate(String s, [int start = 0]) {
-  int y = readYear(s, start);
-  int m = readMonth(s, start+ 4);
-  int d = readDay(y, m, s, start + 6);
+Date parseDicomDate(String s, [int start = 0, isInternet = true]) {
+  int index = start;
+  int y = parseYear(s, start);
+  int m = parseMonth(s, start+ 4);
+  int d = parseDay(y, m, s, start + 6);
   return new Date(y, m, d);
 }
 
-bool isValidDateString(String s, [int start = 0]) {
-  int y = readYear(s, start);
-  int m = readMonth(s, start+ 4);
-  int d = (readDay(y, m, s, start + 6));
-  return (y != null && m != null && d != null);
+Date parseInternetDate(String s, [int start = 0, isInternet = true]) {
+  int y = parseYear(s, start);
+  if (isInternet) _parseChar(s, kDash, start + 3);
+  int m = parseMonth(s, start+ 5);
+  if (isInternet) _parseChar(s, kDash, start + 6);
+  int d = parseDay(y, m, s, start + 8);
+  return new Date(y, m, d);
 }
 
-bool isDash(String s, [int start = 0]) => s[start] == "-";
+bool checkDateString(String s, [int start = 0]) {
+  int y = parseYear(s, start);
+  int m = parseMonth(s, start+ 4);
+  int d = (parseDay(y, m, s, start + 6));
+  return (y != null && m != null && d != null);
+}
 
 //**** Time Utilities ****
 
 /// Returns [true] if [hour] is between 0 and 23.
-bool isValidHour(int h) => _inRange(0, h, 23);
-
-/// _Deprecated_: Use [checkHour].
-int validateHour(int h) => checkHour(h);
+bool isHour(int h) => _inRange(h, 0, 23);
 
 /// Returns an [int] between 0 and 23, or [null].
 int checkHour(int h) => _checkRange(0, h, 23);
 
 /// Returns a valid [hour] or [null];
-int readHour(String s, [int start = 0]) =>
-    validateHour(_parseInt(s.substring(start, start + 2)));
+int parseHour(String s, [int start = 0]) => checkHour(_parseUint(s, start, start + 2));
 
 /// Returns [true] if [m] is between 0 and 59; otherwise [false].
-bool isValidMinute(int m) => _inRange(0, m, 59);
-
-/// _Deprecated_: Use [checkMinute] instead.
-@deprecated
-int validateMinute(int m) => checkMinute(m);
+bool isMinute(int m) => _inRange(m, 0, 59);
 
 /// Returns an [int] between 0 and 59; otherwise [null].
 int checkMinute(int m) => _checkRange(0, m, 59);
 
 /// Returns a valid [minute] or [null];
-int readMinute(String s, [int start = 0]) =>
-    checkMinute(_parseInt(s.substring(start, start + 2)));
+int parseMinute(String s, [int start = 0]) => checkMinute(_parseUint(s, start, start + 2));
 
 /// Returns [true] if [second] is between 0 and 60.
 ///
 /// The upper limit is 60 to allows leap seconds but doesn't check correctness.
-bool isValidSecond(int s) => _inRange(0, s, 60);
-
-/// _Deprecated_: Use [checkSecond] instead.
-@deprecated
-int validateSecond(int s) => checkSecond(s);
+bool isSecond(int s) => _inRange(s, 0, 60);
 
 /// Returns an [int] between 0 and 60 (allowing for leap seconds), or [null].
 int checkSecond(int s) => _checkRange(0, s, 60);
 
 /// Returns a valid [second] or [null];
 //TODO: Needs year, month, day to handle leap seconds.
-int readSecond(String s, [int start = 0]) =>
-    checkSecond(_parseInt(s.substring(start, start + 2)));
+int parseSecond(String s, [int start = 0]) => checkSecond(_parseUint(s, start, start + 2)));
 
 /// Returns [true] if [fraction] is between 0 and 999999.
-bool isValidFraction(int f) => _inRange(0, f, 999999);
-
-/// _Deprecated_: Use [checkFraction] instead.
-@deprecated
-int validateFraction(int f) => checkFraction(f);
+bool isFraction(int f) => _inRange(f, 0, 999999);
 
 /// Returns an [int] between 0 and 60 (allowing for leap seconds), or [null].
 int checkFraction(int f) => _checkRange(0, f, 999999);
 
-const String fractionMark = '.';
-final digits = new RegExp('[0-9]');
-final tzMarks = new RegExp('[-+Zz]');
+const int fractionMark = kDot;
+String tzMarks = "-+Zz";
+
+bool isTXMark(int c) => c == kPlusSign || c == kMinusSign || c == kZ || c == kz;
 
 //TODO: create unit test/
 /// Returns a integer that is 1,000,000 times the fractional value.
-int readFraction(String s, [int start = 0]) {
+int parseFraction(String s, [int start = 0]) {
   if (s[start] != fractionMark) return 0;
   start++;
   int end = s.indexOf(tzMarks);
@@ -220,36 +272,36 @@ int fractionToMicroseconds(String fraction) => int.parse(fraction.substring(3, 6
 
 // ** Millisecond **
 /// Returns [true] if [millisecond] is between 0 and 999.
-bool isValidMillisecond(int ms) => _inRange(0, ms, 999);
+bool millisecondInRange(int ms) => _inRange(ms, 0, 999);
 
 /// _Deprecated_: Used [checkMillisecond] instead.
 @deprecated
-int validateMillisecond(int ms) => (isValidMillisecond(ms)) ? ms : null;
+int validateMillisecond(int ms) => (millisecondInRange(ms)) ? ms : null;
 
 /// Returns an [int] between 0 and 999, or [null].
-int checkMillisecond(int ms) => (isValidMillisecond(ms)) ? ms : null;
+int checkMillisecond(int ms) => (millisecondInRange(ms)) ? ms : null;
 
 /// Returns a valid [minute] or [null];
-int readMillisecond(String s, [int start = 0]) =>
-    checkMillisecond(_parseInt(s.substring(start, start + 3)));
+int parseMillisecond(String s, [int start = 0]) =>
+    checkMillisecond(_parseUint(s, start, start + 3)));
 
 // ** Microsecond **
 /// Returns [true] if [microsecond] is between 0 and 999.
-bool isValidMicrosecond(int us) => isValidMillisecond(us);
+bool checkMicrosecond(int us) => millisecondInRange(us);
 
 /// Returns an [int] between 0 and 999, or [null].
 int validateMicrosecond(int us) => checkMillisecond(us);
 
 /// Returns a valid [second] or [null];
-int readMicrosecond(String s, [int start = 0]) => readMillisecond(s, start);
+int parseMicrosecond(String s, [int start = 0]) => parseMillisecond(s, start);
 
 /// Returns [true] if all arguments are valid.
-bool isValidTime(int h, [int m = 0, int s = 0, int ms = 0, int u = 0]) =>
-    isValidHour(h) &&
-    isValidMinute(m) &&
-    isValidSecond(s) &&
-    isValidMillisecond(ms) &&
-    isValidMicrosecond(u);
+bool checkTime(int h, [int m = 0, int s = 0, int ms = 0, int u = 0]) =>
+    checkHour(h) &&
+    checkMinute(m) &&
+    secondInRange(s) &&
+    millisecondInRange(ms) &&
+    checkMicrosecond(u);
 
 /// Returns a new DateTime if all arguments are valid.
 DateTime validateTime(int h, int m, int s, int ms, int us) {
@@ -266,7 +318,7 @@ DateTime validateTime(int h, int m, int s, int ms, int us) {
   return new DateTime(0, 1, 1, h, m, s, ms, us);
 }
 
-bool isValidTimeString(String time, [int start = 0, int end]) {
+bool checkTimeString(String time, [int start = 0, int end]) {
   var sb = new StringReader(time, start, end);
   if (sb.time == null) return false;
   return true;
@@ -277,16 +329,16 @@ bool isColon(String s, int start) => s[start] == ":";
 
 // ** Sign **
 /// Returns [true] if sign is +1 or -1.
-bool isValidSign(int sign) => (sign == 1) || (sign == -1);
+bool checkSign(int sign) => (sign == 1) || (sign == -1);
 
 /// _Deprecated_: Use [checkSign] instead.
 int validateSign(int sign) => checkSign(sign);
 
 /// Returns +1 or -1 if [sign] is valid; otherwise [null].
-int checkSign(int sign) => (isValidSign(sign)) ? sign : null;
+int checkSign(int sign) => (checkSign(sign)) ? sign : null;
 
-/// Reads a legal Time Zone [sign]
-int readTZSign(String s, [int start = 0]) {
+/// parses a legal Time Zone [sign]
+int parseTZSign(String s, [int start = 0]) {
   if (!("+-Zz".contains(s[start]))) return null;
   return (s[0] == "-") ? -1 : 1;
 }
@@ -299,30 +351,30 @@ const int tzMinHours = -12;
 const int tzMaxHours = 14;
 
 /// Returns [true] if [h] is a valid Time Zone Offset hour.
-bool isValidTZHour(int h) => _inRange(tzMinHours, h, tzMaxHours);
+bool checkTZHour(int h) => _inRange(tzMinHours, h, tzMaxHours);
 
 /// Returns the Time Zone Offset hour, if valid; otherwise [null].
-int validateTZHour(int h) => isValidTZHour(h) ? h : null;
+int validateTZHour(int h) => checkTZHour(h) ? h : null;
 
 /// Returns the hours value of the Time Zone Offset, if valid; otherwise [null].
-int readTZHour(String s, [int start = 0]) => validateTZHour(readHour(s, start));
+int parseTZHour(String s, [int start = 0]) => validateTZHour(parseHour(s, start));
 
 // ** TZ Minutes
 /// A list containing the valued values for [TimeZoneOffset] minutes.
 const List<int> tzMinutes = const [00, 15, 30, 45];
 
 /// Returns [true] if [m] is a valid Time Zone Minute value.
-bool isValidTZMinute(int m) => tzMinutes.contains(m);
+bool checkTZMinute(int m) => tzMinutes.contains(m);
 
 /// /// Returns a valid Time Zone Minute value or [null]..
-int validateTZMinute(int m) => isValidTZMinute(m) ? m : null;
+int validateTZMinute(int m) => checkTZMinute(m) ? m : null;
 
 /// Returns a valid Time Zone Minute value or [null].
-int readTZMinute(String s, [int start = 0]) =>
-    validateTZMinute(readMinute(s.substring(start, start + 2)));
+int parseTZMinute(String s, [int start = 0]) =>
+    validateTZMinute(parseMinute(s.substring(start, start + 2)));
 
-/// Returns the [TimeZone] read from a [String] if valid; otherwise [null].
-TimeZone readTimeZone(String tzo, [int start = 0, int inc = 0, int end]) {
+/// Returns the [TimeZone] parse from a [String] if valid; otherwise [null].
+TimeZone parseTimeZone(String tzo, [int start = 0, int inc = 0, int end]) {
   if (tzo.length < start + 5 + inc) return null;
   var sb = new StringReader(tzo, start, end);
   try {
@@ -338,23 +390,23 @@ TimeZone readTimeZone(String tzo, [int start = 0, int inc = 0, int end]) {
 }
 
 // ** DateTime **
-bool isValidDateTime(int y,
+bool checkDateTime(int y,
                      [int mm = 1, int d = 1, int h = 0, int m = 0, int s = 0, int ms = 0, int u = 0]) =>
-    isValidDate(y, mm, d) && isValidTime(h, m, s, ms, u);
+    checkDate(y, mm, d) && checkTime(h, m, s, ms, u);
 
 DateTime validateDateTime(int y,
                           [int mm = 1, int d = 1, int h = 0, int m = 0, int s = 0, int ms = 0, int u = 0]) {
-  assert(isValidDate(y, mm, d));
-  assert(isValidTime(h, m, s, ms, u));
+  assert(checkDate(y, mm, d));
+  assert(checkTime(h, m, s, ms, u));
   return new DateTime(y, mm, d, h, m, s, ms, u);
 }
 
-/// Returns the [TimeZone] read from a [String] if valid; otherwise [null].
-bool isValidTimeZoneString(String tzo, [int start = 0, int inc = 0]) {
+/// Returns the [TimeZone] parse from a [String] if valid; otherwise [null].
+bool checkTimeZoneString(String tzo, [int start = 0, int inc = 0]) {
   if (tzo.length < start + 5 + inc) throw 'Invalid Time Zone String: ${tzo.substring(start)}';
-  int sign = readTZSign(tzo, start);
-  int hour = readTZHour(tzo, start + 1);
-  int minute = readTZMinute(tzo, start + 3 + inc);
+  int sign = parseTZSign(tzo, start);
+  int hour = parseTZHour(tzo, start + 1);
+  int minute = parseTZMinute(tzo, start + 3 + inc);
   return sign != null && hour != null && minute != null;
 }
 

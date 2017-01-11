@@ -80,7 +80,9 @@ abstract class ByteBuf {
   /// Returns [true] if all characters have been read, i.e. [index] [==] [_wIndex].
   int get _rRemaining => _wIndex - _rIndex;
   int get rRemaining => _rRemaining;
-  bool get isReadable => _rRemaining > 0;
+  bool get _isReadable => _rRemaining > 0;
+  bool get isReadable => _isReadable;
+  bool get isNotReadable => !_isReadable;
 
   /// Returns [true] if [_buf] has at least [count] code units remaining.
   bool hasReadable(int n) => _rRemaining >= n;
@@ -90,11 +92,19 @@ abstract class ByteBuf {
     return _rIndex = 0;
   }
 
-  /// Returns a valid limit, which might be less than [n],
-  /// or [null] if no valid limit exists.
-  int _getRLimit(int n) {
-    int v = ((_rIndex + n) > _wIndex) ? _wIndex - _rIndex : _rIndex + n;
-    return (v > 0) ? v : null;
+  /// Returns a valid read limit, which might be [min] <= [limit] <= [max],
+  /// or [null] if no valid limit exists. [min] and [max] must be positive integers.
+  int _getRLimit(int min, int max) {
+    int limit = _rIndex + max;
+    if (limit > _wIndex) {
+      if (_rIndex + min > _wIndex) {
+        return null;
+      } else {
+        return _wIndex - _rIndex;
+      }
+    } else {
+      return limit;
+    }
   }
 
   /// The current write position in the [_buf]. Ends at [end].
@@ -112,4 +122,7 @@ abstract class ByteBuf {
     _rIndex = 0;
     return _wIndex = 0;
   }
+
+  int get minYear => 0;
+  int get maxYear => 2050;
 }

@@ -26,6 +26,7 @@
       <excludeFolder url="file://$MODULE_DIR$/test/dicom/packages" />
       <excludeFolder url="file://$MODULE_DIR$/test/dicom/reader/packages" />
       <excludeFolder url="file://$MODULE_DIR$/test/dicom/tag/packages" />
+      <excludeFolder url="file://$MODULE_DIR$/test/dicom/vr/date_time/packages" />
       <excludeFolder url="file://$MODULE_DIR$/test/dicom/vr/packages" />
       <excludeFolder url="file://$MODULE_DIR$/test/packages" />
       <excludeFolder url="file://$MODULE_DIR$/tmp" />

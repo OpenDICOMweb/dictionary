@@ -5,6 +5,7 @@
 // See the AUTHORS file for other contributors.
 
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:dictionary/src/common/ascii/constants.dart';
 import 'package:dictionary/src/common/ascii/predicates.dart';
@@ -23,9 +24,7 @@ import 'tag_map.dart';
 const int kGroupMask = 0xFFFF0000;
 const int kElementMask = 0x0000FFFF;
 
-/// A procedure that checks it's value and returns a [String] or a [List<String>].
-typedef bool ValueChecker(value, List<String> issues);
-
+//TODO: does this make sense
 abstract class TagMixin {
   int code;
   VR vr;
@@ -118,6 +117,7 @@ bool throwOnError = true;
 //TODO: sort out the naming between Attribute, Data Element, tag, etc.
 // DICOM Attribute Definitions
 class Tag extends TagBase {
+  //TODO: add index field
   final String keyword;
   //final int index
   /// The DICOM Tag from PS3.6, Table 6-1.
@@ -132,6 +132,7 @@ class Tag extends TagBase {
   //final int vmWidth;
   final EType eType; // Predicate Type
   //final Predicate condition
+  //TODO: remove name and make an indexed list of names.
   final String name;
   final bool isRetired;
 
@@ -198,43 +199,53 @@ class Tag extends TagBase {
     return (length % width == 0 && minLength <= length && length <= maxLength);
   }
 
-  bool checkLength(List values, List<String> issues) {
-    if (issues == null) throw new ArgumentError('issues($issues) must be a valid list');
-    int issuesLength = issues.length;
-    int length = values.length;
+  Issue checkLength(Tag tag, List values) => _checkLength(tag, values.length);
+
+  Issue _checkLength(Tag tag, int length) {
+    List<String> msgs;
     // These are the most common cases.
-    if (length == 0 || (length == 1 && vm.width == 0)) return true;
+    if (length == 0 || (length == 1 && width == 0)) return null;
     if (width != 0 && length % width != 0)
-      issues.add('Invalid Length($length) not a multiple of vmWidth($width)');
-    if (length < minLength) issues.add('Invalid Length($length) less than minLength($minLength)');
+      msgs.add('Invalid Length($length) not a multiple of vmWidth($width)');
+    if (length < minLength) msgs.add('Invalid Length($length) less than minLength($minLength)');
     if (length > maxLength)
-      issues.add('Invalid Length($length) greater than maxLength($maxLength)');
-    return (issues.length == issuesLength) ? true : false;
+      msgs.add('Invalid Length($length) greater than maxLength($maxLength)');
+    return (msgs.length != 0) ? new Issue.withLength(tag, length, msgs) : null;
   }
 
   // Placeholder until VR is integrated into Tag
-  checkValue(value, List<String> issues) => vr.checkValue(value, issues);
+  checkValue(value, List<String> issues) => vr.checkValue(value);
 
   Issue checkValues(Tag tag, List values) {
-    var vIssues = <ValueIssue>[];
-    var messages = <String>[];
-    if (!checkLength(values, messages)) {
-      vIssues.add(new ValueIssue(0, values, messages));
-    }
+    Issue issue = checkLength(tag, values);
+
     for (int i = 0; i < values.length; i++) {
-      messages = <String>[];
-      if (!vr.checkValue(values[i], messages))
-        vIssues.add(new ValueIssue(i, values[i], messages));
+      String s = vr.checkValue(values[i]);
     }
-    return (vIssues.length > 0) ? new Issue(tag, vIssues) : null;
+
+    return (issue == null) ? null : issue;
   }
+
+  Issue checkByteValues(Tag tag, Uint8List bytes) {
+    int vrIndex = tag.vrIndex;
+    int length;
+    if (vr.isInteger || vr.isFloat) {
+      length = bytes.lengthInBytes % vr.sizeInBytes;
+    }
+
+    if (!checkLength(values, messages)) {
+
+    }
+  }
+
+
 
   String toString() {
     var retired = (isRetired == false) ? "" : ", (Retired)";
     return 'Element: $dcm $keyword, $vr, $vm, $retired';
   }
 
-  static ValueIssue lengthChecker(List values, int minLength, int maxLength, int width) {
+  static lengthChecker(List values, int minLength, int maxLength, int width) {
     int length = values.length;
     // These are the most common cases.
     if (length == 0 || (length == 1 && width == 0)) return null;
@@ -250,7 +261,7 @@ class Tag extends TagBase {
       msgs = msgs ??= [];
       msgs.add(msg); //TODO: test Not sure this is working
     }
-    return (msgs == null) ? null : new ValueIssue(-1, values, msgs);
+    return (msgs == null) ? null : ;
   }
 
   /// Returns [true] if [tag] is in the range of DICOM [Dataset] Tags.

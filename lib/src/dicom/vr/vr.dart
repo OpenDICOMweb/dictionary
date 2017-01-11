@@ -6,11 +6,18 @@
 
 import 'package:dictionary/tag.dart';
 import 'package:dictionary/src/common/integer/integer.dart';
-import 'package:dictionary/src/dicom/string/dicom_predicates.dart';
+import 'package:dictionary/src/dicom/constants.dart';
 import 'package:dictionary/src/dicom/vr/vr_index.dart';
+
+import 'check_values.dart';
 
 //TODO:
 typedef dynamic Decode(int length);
+
+typedef List<String> ValueChecker(value);
+
+// Abbreviation used to shorten constant definitions so they line up.
+const kMaxLong = kMaxLongLengthInBytes;
 
 enum VRType { integer, float, string, text, dateTime, sequence, other, unknown }
 
@@ -21,14 +28,17 @@ class VR {
   final bool isShort;
   final String name;
   final String desc;
-  final int sizeInBytes;
+  final min;
+  final max;
   final ValueChecker checkValue;
 
   //TODO: add min, max for value length
-  const VR._(this.index, this.code, this.isShort, this.name, this.desc,
-           this.sizeInBytes, this.checkValue);
+  const VR._(this.index, this.code, this.isShort, this.name, this.desc, this.min,
+      this.max, this.checkValue);
 
   String get id => "k$name";
+
+  int get sizeInBytes => max;
 
   bool get isNoVR => index == 0;
   bool get isSequence => index == 1;
@@ -51,88 +61,74 @@ class VR {
   String get info => 'VR: $name(${Int16.hex(code)})[$index]: isShort($isShort), '
       'ElementSize($sizeInBytes)';
 
-  List<ValueIssue> checkValues(List values) {
-    var viList = <ValueIssue>[];
-    for (int i = 0; i < values.length; i++) {
-      var issues = <String>[];
-      if (checkValue(values[i], issues)) {
-        viList.add(new ValueIssue(i, values[i], issues));
-      }
-    }
-    return (viList.length == 0) ? null : viList;
-  }
-
-  @override
-  String toString() => 'VR.$id';
-
-  static bool noCheck(value, List<String> issues, [int index = 0]) => null;
-
   // index, code, isShort, name, sizeInBytes, check, [this.type = null]);
   // Item ...
-  static const VR kNoVR = const VR._(00, 0x0000, false, "NoVR", "Unknown VR", 1, noCheck);
+  static const VR kNoVR = const VR._(00, 0x0000, false, "NoVR", "Unknown VR", 0, 1, invalid);
 
   // Sequence
-  static const VR kSQ = const VR._(01, 0x5351, false, "SQ", "Sequence", 1, noCheck);
+  static const VR kSQ = const VR._(01, 0x5351, false, "SQ", "Sequence", 0, kMaxLong, invalid);
 
   // Integers (Int first, then Uint)
-  static const VR kSS = const VR._(02, 0x5353, true, "SS", "Signed Short Integer", 2, Int16.check);
-  static const VR kSL = const VR._(03, 0x534c, true, "SL", "Signed Long Integer", 4, Int32.check);
-  static const VR kOB = const VR._(04, 0x4f42, false, "OB", "Other Bytes Integer", 1, Uint8.check);
-  static const VR kUN = const VR._(05, 0x554e, false, "UN", "Unknown VR", 1, Uint8.check);
-  static const VR kOW = const VR._(06, 0x4f57, false, "OW", "Other Bytes",2, Uint8.check);
-  static const VR kUS = const VR._(07, 0x5553, true, "US", "Unsigned Short", 2, Int16.check);
-  static const VR kUL = const VR._(08, 0x554c, true, "UL", "Unsigned Long", 4, Uint32.check);
+  static const VR kSS = const VR._(02, 0x5353, true, "SS", "Signed Short", 2, 2, getErrorsSS);
+  static const VR kSL = const VR._(03, 0x534c, true, "SL", "Signed Long", 4, 4, getErrorsSL);
+  static const VR kOB = const VR._(04, 0x4f42, false, "OB", "Other Bytes", 1, 1, getErrorsOB);
+  static const VR kUN = const VR._(05, 0x554e, false, "UN", "Unknown VR", 1, 1, getErrorsUN);
+  static const VR kOW = const VR._(06, 0x4f57, false, "OW", "Other Bytes", 2, 2, getErrorsOW);
+  static const VR kUS = const VR._(07, 0x5553, true, "US", "Unsigned Short", 2, 2, getErrorsUS);
+  static const VR kUL = const VR._(08, 0x554c, true, "UL", "Unsigned Long", 4, 4, getErrorsUL);
   //TODO: this should do a lookup to validate the Public or Private Tag
-  static const VR kAT = const VR._(09, 0x4154, true, "AT", "Attribute Tag", 4, Uint32.check);
-  static const VR kOL = const VR._(10, 0x4f4c, false, "OL", "Other Long", 4, Uint32.check);
+  static const VR kAT = const VR._(09, 0x4154, true, "AT", "Attribute Tag", 4, 4, getErrorsAT);
+  static const VR kOL = const VR._(10, 0x4f4c, false, "OL", "Other Long", 4, 4, getErrorsOL);
 
   // Floats
-  static const VR kFD = const VR._(11, 0x4644, true, "FD", "Float Double", 8, noCheck);
-  static const VR kFL = const VR._(12, 0x464c, true, "FL", "Float Single", 4, noCheck);
-  static const VR kOD = const VR._(13, 0x4f44, false, "OD", "Other Double Float", 8, noCheck);
-  static const VR kOF = const VR._(14, 0x4f46, false, "OF", "Other Float Single", 4, noCheck);
+  static const VR kFD = const VR._(11, 0x4644, true, "FD", "Float Double", 8, 8, getErrorsFD);
+  static const VR kFL = const VR._(12, 0x464c, true, "FL", "Float Single", 4, 4, getErrorsFL);
+  static const VR kOD = const VR._(13, 0x4f44, false, "OD", "Other Double", 8, 8, getErrorsOD);
+  static const VR kOF = const VR._(14, 0x4f46, false, "OF", "Other Float", 4, 4, getErrorsOF);
 
   // Integer & String.integer
-  static const VR kIS = const VR._(15, 0x4953, true, "IS", "Integer String", 1, checkISString);
+  static const VR kIS = const VR._(15, 0x4953, true, "IS", "Integer String", 1, 12, getErrorsIS);
 
   // Float & String.float
-  static const VR kDS = const VR._(16, 0x4453, true, "DS", "Decimal String", 1, checkDSString);
+  static const VR kDS = const VR._(16, 0x4453, true, "DS", "Decimal String", 1, 16, getErrorsDS);
 
   // String.array
-  static const VR kAE = const VR._(17, 0x4145, true, "AE", "AE Title", 1, checkAEString);
-  static const VR kCS = const VR._(18, 0x4353, true, "CS", "Code String", 1, checkCSString);
-  static const VR kLO = const VR._(19, 0x4c4f, true, "LO", "Long String", 1, checkLOString);
-  static const VR kSH = const VR._(20, 0x5348, true, "SH", "Short String", 1, checkSHString);
-  static const VR kUC = const VR._(21, 0x5543, false, "UC", "Unlimited Characters", 1, checkUCString);
+  static const VR kAE = const VR._(17, 0x4145, true, "AE", "AE Title", 1, 16, getErrorsAE);
+  static const VR kCS = const VR._(18, 0x4353, true, "CS", "Code String", 1, 16, getErrorsCS);
+  static const VR kLO = const VR._(19, 0x4c4f, true, "LO", "Long String", 1, 64, getErrorsLO);
+  static const VR kSH = const VR._(20, 0x5348, true, "SH", "Short String", 1, 16, getErrorsSH);
+  static const VR kUC =
+      const VR._(21, 0x5543, false, "UC", "Unlimited Characters", 1, kMaxLong, getErrorsUC);
 
   // String.Text
-  static const VR kST = const VR._(22, 0x5354, true, "ST", "Short Text", 1, checkSTString);
-  static const VR kLT = const VR._(23, 0x4c54, true, "LT", "Long Text",  1, checkLTString);
-  static const VR kUT = const VR._(24, 0x5554, false, "UT", "Unlimited Text", 1, checkUTString);
+  static const VR kST = const VR._(22, 0x5354, true, "ST", "Short Text", 1, 1024, getErrorsST);
+  static const VR kLT = const VR._(23, 0x4c54, true, "LT", "Long Text", 1, 10240, getErrorsLT);
+  static const VR kUT =
+      const VR._(24, 0x5554, false, "UT", "Unlimited Text", 1, kMaxLong, getErrorsUT);
 
   // String.DateTime
-  static const VR kDA = const VR._(25, 0x4441, true, "DA", "Date", 1, checkDAString);
-  static const VR kDT = const VR._(26, 0x4454, true, "DT", "DateTime", 1, checkDTString);
-  static const VR kTM = const VR._(27, 0x544d, true, "TM", "Time", 1, checkTMString);
+  static const VR kDA = const VR._(25, 0x4441, true, "DA", "Date", 8, 8, getErrorsDA);
+  static const VR kDT = const VR._(26, 0x4454, true, "DT", "DateTime", 4, 26, getErrorsDT);
+  static const VR kTM = const VR._(27, 0x544d, true, "TM", "Time", 2, 14, getErrorsTM);
 
   // String.Other
-  static const VR kPN = const VR._(28, 0x504e, true, "PN", "Person Name", 1, checkPNString);
-  static const VR kUI = const VR._(29, 0x5549, true, "UI", "Unique Id", 1, checkUIString);
-  static const VR kUR = const VR._(30, 0x5552, false, "UR", "URI", 1, checkURString);
-  static const VR kAS = const VR._(31, 0x4153, true, "AS", "Age String", 1, checkASString);
+  static const VR kPN = const VR._(28, 0x504e, true, "PN", "Person Name", 0, 5 * 64, getErrorsPN);
+  static const VR kUI = const VR._(29, 0x5549, true, "UI", "Unique Id", 8, 64, getErrorsUI);
+  static const VR kUR = const VR._(30, 0x5552, false, "UR", "URI", 1, kMaxLong, getErrorsUR);
+  static const VR kAS = const VR._(31, 0x4153, true, "AS", "Age String", 4, 4, getErrorsAS);
 
   //Bulkdata Reference
-  static const VR kBR = const VR._(32, 0x4252, true, "BR", "BulkData Reference", 1, noCheck);
+  static const VR kBR =
+      const VR._(32, 0x4252, true, "BR", "BulkData Reference", 1, kMaxLong, invalid);
 
+  /* Flush
   // Special constants only used in Tag class
-  static const VR kOBOW = const VR._(34, 0x0001, null, "OBOW", "OB or OW", null, noCheck);
-  static const VR kUSSS = const VR._(35, 0x0003, null, "USSS", "US or SS",  1, noCheck);
-  static const VR kUSSSOW = const VR._(36, 0x0003, null, "USSSOW", "US or SS or OW", null, noCheck);
-  static const VR kUSOW = const VR._(37, 0x0003, null, "USOW", "US or OW", null, noCheck);
-  static const VR kUSOW1 = const VR._(38, 0x0003, null, "USOW1", "US or OW1", null, noCheck);
-
-
-
+  static const VR kOBOW = const VR._(34, 0x0001, null, "OBOW", "OB or OW", null, null, invalid);
+  static const VR kUSSS = const VR._(35, 0x0003, null, "USSS", "US or SS", 2, 2, invalid);
+  static const VR kUSSSOW = const VR._(36, 0x0003, null, "USSSOW", "US or SS or OW", 2, 2, invalid);
+  static const VR kUSOW = const VR._(37, 0x0003, null, "USOW", "US or OW", 2, 2, invalid);
+  static const VR kUSOW1 = const VR._(38, 0x0003, null, "USOW1", "US or OW1", 2, 2, invalid);
+  */
   // Special constants only used in Tag class
   //TODO: flush
   // static const VR kUnknown = const VR._(, 0x0000, false, "Unknown", 1);
@@ -301,204 +297,35 @@ Map<VR, Type> dataTypes = const {
   VR.kOF: "float32"
 };
 
+/* Flush
 class VRSpecial extends VR {
   final List<VR> list;
 
   //TODO: add min, max for value length
-  const VRSpecial(this.list, int index, int code, bool isShort, String name,
-                  String desc, int sizeInBytes, [ValueChecker check = VR.noCheck])
-      : super._(index, code, isShort, name, desc, sizeInBytes, check);
+  const VRSpecial(this.list, int index, int code, bool isShort, String name, String desc,
+      int minBytes, maxBytes,
+      [ValueChecker check = VR.invalid])
+      : super._(index, code, isShort, name, desc, minBytes, maxBytes, check);
 
   static const VRSpecial kOBOW =
-      const VRSpecial(const [VR.kOB, VR.kOW], 01, -1, false, "OBOW","OB or OW", 1);
+      const VRSpecial(const [VR.kOB, VR.kOW], 01, -1, false, "OBOW", "OB or OW", 1, 2);
   static const VRSpecial kUSSS =
-      const VRSpecial(const [VR.kUS, VR.kSS], 02, -2, false, "USSS", "US or SS", 2);
-  static const VRSpecial kUSSSOW =
-      const VRSpecial(const [VR.kUS, VR.kSS, VR.kOW], 03, -3, false, "US or SS or OW", "USSSOW", 2);
+      const VRSpecial(const [VR.kUS, VR.kSS], 02, -2, false, "USSS", "US or SS", 2, 2);
+  static const VRSpecial kUSSSOW = const VRSpecial(
+      const [VR.kUS, VR.kSS, VR.kOW], 03, -3, false, "US or SS or OW", "USSSOW", 2, 2);
   static const VRSpecial kUSOW =
-      const VRSpecial(const [VR.kUS, VR.kOW], 04, -4, false, "USOW", "US or OW",2);
+      const VRSpecial(const [VR.kUS, VR.kOW], 04, -4, false, "USOW", "US or OW", 2, 2);
   static const VRSpecial kUSOW1 =
-      const VRSpecial(const [VR.kUS, VR.kOW], 05, -5, false, "USOW1","US or OW1", 2);
+      const VRSpecial(const [VR.kUS, VR.kOW], 05, -5, false, "USOW1", "US or OW1", 2, 2);
+}
+*/
+Issue addIssue(Tag tag, Issue issue, int i, String msg) {
+  if (issue == null) {
+    issue = new Issue(tag, i, msg);
+  } else {
+    issue.add(i, msg);
+  }
+  return issue;
 }
 
-/* TODO: flush when fully working
-typedef Issue VRValueChecker(int vrIndex);
 
-
-Issue noVRValueChecker(value) => throw 'Invalid vrIndex';
-
-Issue sequenceValueChecker(value) => throw 'Shouldn\'t check sequence values';
-
-
-
-
-
-
-
-const List<ValueChecker> vrValueCheckers = const [
-  //kNoVR,
-  noVRValueChecker,
-  // Sequence
-  sequenceValueChecker, //kSQ,
-  // Integers
-  //kSS,
-
-  Int16.listGuard,
-  // kSL,
-  Int32.listGuard,
-  // kOB,
-  Uint8.listGuard,
-  // kUN,
-  Uint8.listGuard,
-  // kOW,
-  Uint16.listGuard,
-  // kUS,
-  Uint16.listGuard,
-  // kUL,
-  Uint32.listGuard,
-  // kAT,
-  Uint32.listGuard,
-  // kOL,
-  Uint32.listGuard,
-
-  // Floats
-  // kFD,
-  Tag.checkLength,
-  // kFL,
-  checkValuesLength,
-  // kOD,
-  checkValuesLength,
-  // kOF,
-  checkValuesLength,
-
-  // kIS - Integer & String.integer
-  //kIS,
-  checkISValue,
-
-  // kDS - Float & String.float
-  checkISValue,
-  // String.array
-  // kAE,
-  checkAEValue,
-  // kCS,
-  checkCodeStringValue,
-  // kLO,
-  checkLongStringValue,
-  // kSH,
-  checkShortStringValue,
-  // kUC,
-  checkUnlimitedStringValue,
-
-  // String.Text
-  // kST,
-  checkShortText,
-  // kLT,
-  checkLongText,
-  // kUT,
-  checkUnlimitedText,
-
-  // String.DateTime
-  // kDA,
-  checkDateValue,
-  // kDT,
-  checkDataTimeValue,
-  // kTM,
-  checkTimeValue,
-
-  // String.Other
-  // kPN,
-  checkPNValue,
-  // kUI,
-  checkUIValue,
-  // kUR,
-  checkURValue,
-  // kAS,
-  checkASValue,
-  //Bulkdata Reference
- // kBR
-];
-
-
-
-const List<VR> byteCheckers = const [
-  //kNoVR,
-  noVRBytesChecker,
-  // Sequence
-  checkSequenceBytes, //kSQ,
-  // Integers
-  //kSS,
-  int16BytesChecker,
-  // kSL,
-  int32BytesChecker,
-  // kOB,
-  uint8BytesChecker,
-  // kUN,
-  uint8BytesChecker,
-  // kOW,
-  uint16BytesChecker,
-  // kUS,
-  uint16BytesChecker,
-  // kUL,
-  uint32BytesChecker,
-  // kAT,
-  uint32BytesChecker,
-  // kOL,
-  uint32BytesChecker,
-
-  // Floats
-  // kFD,
-  checkBytessLength,
-  // kFL,
-  checkBytessLength,
-  // kOD,
-  checkBytessLength,
-  // kOF,
-  checkBytessLength,
-
-  // kIS - Integer & String.integer
-  //kIS,
-  checkISBytes,
-
-  // kDS - Float & String.float
-  checkISBytes,
-  // String.array
-  // kAE,
-  checkAEBytes,
-  // kCS,
-  checkCodeStringBytes,
-  // kLO,
-  checkLongStringBytes,
-  // kSH,
-  checkShortStringBytes,
-  // kUC,
-  checkUnlimitedStringBytes,
-
-  // String.Text
-  // kST,
-  checkShortText,
-  // kLT,
-  checkLongText,
-  // kUT,
-  checkUnlimitedText,
-
-  // String.DateTime
-  // kDA,
-  checkDateBytes,
-  // kDT,
-  checkDataTimeBytes,
-  // kTM,
-  checkTimeBytes,
-
-  // String.Other
-  // kPN,
-  checkPNBytes,
-  // kUI,
-  checkUIBytes,
-  // kUR,
-  checkURBytes,
-  // kAS,
-  checkASBytes,
-  //Bulkdata Reference
-  kBR
-];
-*/

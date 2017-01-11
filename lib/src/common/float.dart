@@ -7,6 +7,7 @@
 import 'dart:typed_data';
 
 import 'package:dictionary/src/dicom/constants.dart';
+import 'package:dictionary/src/dicom/issue.dart';
 
 /// Floating Point Data Types
 
@@ -36,17 +37,8 @@ class Float {
   static double guard(double min, double val, double max) =>
       inRange(min, val, max) ? val : _floatError(type, min, val, max);
 
-  static bool check(double n, List<String> issues, double min, double max) {
-    if (n < min) {
-      issues.add('Value $n is less than the minimum($min) allowed value.');
-      return false;
-    }
-    if (n > max) {
-      issues.add('Value $n is greater than the maximum($min) allowed value.');
-      return false;
-    }
-    return true;
-  }
+static String checkRange(double n, double min, double max) =>
+    (inRange(n, min, max)) ? null : 'RangeError: min($min) <= Value($n) <= max($max)';
 
   /// Returns a [List<int>] if all values are [int], otherwise null.
   @deprecated
@@ -54,15 +46,9 @@ class Float {
 
   //TODO: convert all [ListGuard] to [checkList] before 0.9.0.
   /// _Deprecated_: Use [checkList] instead.
-  static List<double> listGuard(List<double> values, _InRange inRange) {
-    //  print('values: $values');
-    for (int i = 0; i < values.length; i++)
-      if ((values[i] is double) && inRange(values[i])) {
-        //      print('values: $values');
-        return values;
-      }
-    return null;
-  }
+  @deprecated
+  static List<double> listGuard(List<double> values, _InRange inRange) =>
+      checkList(values, inRange);
 
   /// Returns a [List<int>] if all values are [int], otherwise null.
   static checkList(List<double> values, _InRange inRange) {

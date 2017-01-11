@@ -6,20 +6,31 @@
 
 import 'constants.dart';
 import 'issue.dart';
+import 'vr/vr.dart';
 
 /// A class that defined Value Multiplicities and their validators.
 ///
 /// The Value Multiplicity (VM) of an Attribute defines the minimum, maximum and width
 /// of an array of values in an Attribute's Value Field.
 class VM {
+  static const nColumns = 4;
+  //TODO: why can't this be constant
+  static final nRows = vms.length;
   //Used to write in gen_table_format
-  static final int nRows = 16;
-  static final int nCols = 7;
-  // Member fields
+  //TODO: add index to constant values.
+  final int index = 0;
+  /// The name of this [VM].
   final String name;
-  final int min;    // min number of values
-  final int max;    // max number of values, where -1 means any number of values
-  final int width;  // width of Value Field
+  /// THe minimum number of values that must be present, if any values are present.
+  /// [min] [%] [width] must equal 0.
+  final int min;
+  /// The maximum number of values that are allowed. [max] [%] [width] must equal 0.
+  /// If [max] is -1 than as many values as will fit in the Value Field are allowed.
+  final int max;
+
+  // The [width] of the array of values. Both [min] and [max] must be evenly divisible
+  // by [width]. That is [min] [%] [width] == [man] [%] [width] == 0 must be [true].
+  final int width;
 
   // Constructor
   const VM(this.name, this.min, this.max, this.width);
@@ -30,46 +41,37 @@ class VM {
   }
 
   bool get isFixed => min == max;
-  bool get isSingleton => ((min == 1) && (max == 1) && (width == 1));
+  bool get isSingleton => width == 0;
 
   /// Validate that the number of values is legal
   //TODO write unit tests to ensure this is correct
-  bool validate(List values) => isValidShape(values.length);
 
-  bool isValidLength(List vList) => isValidShape(vList.length);
-
-  bool isValidShape(int length) {
+  int checkLength(int length) {
     // These are the most common cases.
-    if (length == 0 || (length == 1 && width == 0)) return true;
-    return (length % width == 0 && min <= length && length <= max);
+    if (length == 0 || (length == 1 && width == 0)) return length;
+    if (length % width == 0 && min <= length && length <= max) return length;
+    return null;
+  }
+  bool isValidLength(int length) => length == checkLength(length);
+
+  bool isValidLengthInBytes(VR vr, int lengthInBytes) {
+    int minBytes = vr.min;
+    int maxBytes = vr.max;
+    // These are the most common cases.
+    if (lengthInBytes == 0 || (width == 0 && lengthInBytes <= maxBytes)) return true;
+    return (lengthInBytes % width == 0 &&
+            min * minBytes <= lengthInBytes && lengthInBytes <= max * minBytes);
   }
 
   // Notes: max should be max * width
-  int maxLength(int sizeInBytes, [bool isLongLength = false]) {
-    if (max != -1) return max * width;
+  int maxLength(VR vr, [bool isLongLength = false]) {
+    if (max != -1) return max;
     int limit = (isLongLength) ? kMaxLongLengthInBytes : kMaxShortLengthInBytes;
-    return limit ~/ sizeInBytes;
+    return limit ~/ vr.min;
   }
 
-  ValueIssue checkLength(List values) {
-    int length = values.length;
-    // These are the most common cases.
-    if (length == 0 || (length == 1 && width == 0)) return null;
-    List<String> msgs;
-    if (length % width != 0)
-      msgs = ['Invalid Length($length) not a multiple of vmWidth($width)'];
-    if (length < min) {
-      var msg = 'Invalid Length($length) less than minLength($min)';
-      msgs = msgs ??= [];
-      msgs.add(msg);
-    }
-    if (length > max) {
-      var msg = 'Invalid Length($length) greater than maxLength($maxLength)';
-      msgs = msgs ??= [];
-      msgs.add(msg);  //TODO: test Not sure this is working
-    }
-    return (msgs == null) ? null : new ValueIssue(-1, values, msgs);
-  }
+  String lengthError(int length) =>
+      'Invalid Length($length) - $name min($min), max($max), width($width)';
 
   String toString() => 'VM.$id';
 
@@ -90,7 +92,7 @@ class VM {
   static const VM k1_n = const VM("1-n", 1, -1, 1);
   static const VM k2 = const VM("2", 2, 2, 1);
   // Note: added for Private Tags
-  static const VM k2_3 = const VM("2-3", 2, 3, 1);
+  static const VM k2_3 = const VM("2-3", 2, 6, 1);
   static const VM k2_2n = const VM("2-2n", 2, -1, 2);
   static const VM k2_n = const VM("2-n", 2, -1, 2);
   static const VM k3 = const VM("3", 3, 3, 1);
@@ -136,8 +138,9 @@ class VM {
   static const VM k40915 = const VM("40915", 40915, 40915, 1);
   static const VM k40923 = const VM("40923", 40923, 40923, 1);
 
+  //TODO: add all VM const definitions to this List.
   // Lookup Map
-  static const List<VM> vector = const [
+  static const List<VM> vms = const [
     VM.k1, VM.k1_2,VM.k1_32,VM.k1_99, VM.k16, VM.k1_n, VM.k2, VM.k2_2n, VM.k2_n,
     VM.k3, VM.k3_3n, VM.k3_n, VM.k4, VM.k6, VM.k6_n, VM.k9];
 
@@ -193,9 +196,10 @@ class VM {
  //   int nCols = VM.nCols;
  // }
 
-  String tableEntry() => 'className=VM, nRows=$nRows, nCols=$nCols';
-  String fieldNames() => 'id, name, min, max, width, fixed';
-  String fieldTypes() => 'Symbol, String, int, int, int, bool';
-  String toLogEntry() => 'VM: $id, name=$name, min=$min, max=$max, width=$width, fixed=$isFixed';
+  String tableEntry() => 'className=VM, nRows=$nRows, nCols=$nColumns';
+  String fieldNames() => 'index, id, name, min, max, width, fixed';
+  String fieldTypes() => 'int, String, String, int, int, int, bool';
+  String toLogEntry() =>
+      'VM: $index: $id, name=$name, min=$min, max=$max, width=$width, fixed=$isFixed';
 
 }

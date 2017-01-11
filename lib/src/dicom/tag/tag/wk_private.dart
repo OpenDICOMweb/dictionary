@@ -13,11 +13,10 @@ import 'group.dart';
 import 'tag.dart';
 
 class PrivateTag extends Tag {
-  const PrivateTag(String keyword, int code, String name, VR vr,
+
+  const PrivateTag(String keyword, int code, VR vr,
                    [VM vm = VM.k1_n, bool isRetired = false])
-      : keyword = (keyword == null || keyword == "") ? "Unknown" : keyword,
-        name = (name == null || name == "") ? "Unknown Private Tag Name" : name,
-        super(keyword, code, vr, vm, isRetired);
+      : super(keyword, code, "", vr, vm, isRetired);
 
   bool get isPublic => false;
   bool get isPrivate => !isPublic;
@@ -69,7 +68,7 @@ class PrivateTag extends Tag {
 
   static int privateCreatorLimit(int code) => Elt.pcLimit(Elt.fromTag(code));
 
-  static bool isPrivateData(int tag) =>
+  static bool isPrivateDataCode(int tag) =>
       Group.isPrivate(Group.fromTag(tag)) && Elt.isPrivateData(Elt.fromTag(tag));
 
   /// Returns true if this is a valid [PrivateDataTag] tag.
@@ -83,21 +82,12 @@ class PrivateTag extends Tag {
     return Elt.isValidPrivateData(Elt.fromTag(pd), Elt.fromTag(pc));
   }
 
-  /// Returns [true] if the Private Data Element [pde] is valid for one of the [pcs] Private
-  /// Creator Tags.
-  /*
-  static bool inPrivateGroup(List<int> pcs, int pde) {
-    for (int i = 0; i < pcs.length; i++) {
-      if (!isPrivateData(pde, pcs[i])) return false;
-    }
-    return true;
-  }
-  */
   //**** Private Tag Constructors ****
 
   /// Returns a valid Private Creator Tag ([pce]), or [null].
   static int toPrivateCreator(int group, int pcIndex) {
-    if (Group.isPrivate(group) && _isPCIndex(pcIndex)) return _toPrivateCreator(group, pcIndex);
+    if (Group.isPrivate(group) && _isPCIndex(pcIndex))
+      return _toPrivateCreator(group, pcIndex);
     return null;
   }
 
@@ -117,8 +107,8 @@ class PrivateTag extends Tag {
 
   // **** Internal Utility functions ****
 
-  /// Return [true] if [pde] is a valid Private Creator Index.
-  static bool _isPCIndex(int pde) => 0x10 <= pde && pde <= 0xFF;
+  /// Return [true] if [pdCode] is a valid Private Creator Index.
+  static bool _isPCIndex(int pdCode) => 0x10 <= pdCode && pdCode <= 0xFF;
 
   /// Returns [true] if [pde] in a valid Private Data Index
   //static bool _isSimplePDIndex(int pde) => 0x1000 >= pde && pde <= 0xFFFF;
@@ -145,10 +135,11 @@ class PrivateCreatorTag extends PrivateTag {
   final String company;
   final String name;
 
+  //TODO: fix two uses of name below.
   /// Creates a Well Known Private Tag.
   const PrivateCreatorTag._(this.company, this.name,
       int code, [VR vr, VM vm = VM.k1, bool isRetired = false])
-      : super(code, vr, vm, isRetired);
+      : super(name, code, vr, vm, isRetired);
 
   bool get isCreator => true;
 
@@ -194,7 +185,7 @@ class PrivateDataTag extends PrivateTag {
   /// Creates a Well Known Private Tag.
   const PrivateDataTag._(this.creator, this.name,
       int code, [VR vr, VM vm = VM.k1, bool isRetired = false])
-      : super(code, vr, vm, isRetired);
+      : super(name, code, vr, vm, isRetired);
 
 
   static lookup(int code) => pdTags[code];
@@ -208,14 +199,15 @@ class PrivateDataTag extends PrivateTag {
 class UnknownPrivateDataTag extends PrivateTag {
   final PrivateCreatorTag creator;
 
+  //TODO: fix empty string "" in constructors below.
   UnknownPrivateDataTag._(this.creator, int code,
                           [VR vr = VR.kUN, VM vm = VM.k1, bool isRetired = false])
-      : super(code, vr, vm, isRetired);
+      : super("UnKnownPrivateData", code, vr, vm, isRetired);
 
   UnknownPrivateDataTag(PrivateCreatorTag creator, int code,
                         [VR vr = VR.kUN, VM vm = VM.k1, bool isRetired = false])
       : creator = (creator.isValidDataCode(code)) ? creator : throw "Invalid Creator",
-        super(code, vr, vm, isRetired);
+        super("UnKnownPrivateData", code, vr, vm, isRetired);
 
   bool get isCreator => false;
 
