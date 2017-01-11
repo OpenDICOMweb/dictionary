@@ -5,6 +5,7 @@
 // See the AUTHORS file for other contributors.
 
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:dictionary/src/common/ascii/constants.dart';
 import 'package:dictionary/src/common/ascii/predicates.dart';
@@ -224,19 +225,24 @@ class Tag extends TagBase {
     return (issue == null) ? null : issue;
   }
 
-/* TODO or Flush
-  Issue checkByteValues(Tag tag, Uint8List bytes) {
-    int vrIndex = tag.vrIndex;
-    int length;
-    if (vr.isInteger || vr.isFloat) {
-      length = bytes.lengthInBytes % vr.sizeInBytes;
-    }
+  Issue checkBytesLength(Tag tag, Uint8List bytes) => _checkBytesLength(tag, bytes.lengthInBytes);
 
-    if (!checkByteLength(values, messages)) {
-
-    }
+  //TODO: debug - no debugging done.
+  Issue _checkBytesLength(Tag tag, int length) {
+    List<String> msgs;
+    // These are the most common cases.
+    if (length == 0 || (length == 1 && width == 0)) return null;
+    if (width != 0 && length % width != 0)
+      msgs.add('Invalid Length($length) not a multiple of vmWidth($width)');
+    if (length < minLength) msgs.add('Invalid Length($length) less than minLength($minLength)');
+    if (length > maxLength)
+      msgs.add('Invalid Length($length) greater than maxLength($maxLength)');
+    return (msgs.length != 0) ? new Issue.withLength(tag, length, msgs) : null;
   }
-  */
+
+//Fix or Flush
+  Issue checkBytes(Tag tag, Uint8List bytes) => vr.checkBytes(tag, bytes);
+
   String toString() {
     var retired = (isRetired == false) ? "" : ", (Retired)";
     return 'Element: $dcm $keyword, $vr, $vm, $retired';
