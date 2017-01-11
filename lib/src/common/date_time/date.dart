@@ -88,12 +88,8 @@ class Date {
     return '${dt.year}$s${dt.month}$s${dt.day}';
   }
 
-  static bool isValid(int y, int m, int d) =>
-      isValidYear(y) && isValidMonth(m) && isValidDay(y, m, d);
-
-  /// _Deprecated_: Use [check instead.
-  @deprecated
-  static validate(int y, int m, int d) => validateDate(y, m, d);
+  static bool isDate(int y, int m, int d) =>
+      isYear(y) && isMonth(m) && isDay(y, m, d);
 
   static check(int y, int m, int d) => checkDate(y, m, d);
 
@@ -107,7 +103,7 @@ class Date {
   /// Returns a [Date] parsed from a [String] in DICOM format.
   static Date dcmParse(String s, [int start = 0]) {
     if ((s != null) && (s.length >= start + 8)) {
-      return  readDate(s, start);
+      return  parseDate(s, start);
     }
     return null;
   }
@@ -115,11 +111,11 @@ class Date {
   /// Return a [Date] by parsing a [String] in Internet format. See [RFC3339].
   static Date parse(String s, [int start = 0]) {
     if (s.length < start + 10) throw "Invalid Date String(${s.substring(start)}";
-    int y = readYear(s, 0);
+    int y = parseYear(s, 0);
     if (s[start+4] != '-') return null;
-    int m = readMonth(s, 5);
+    int m = parseMonth(s, 5);
     if (s[start+6] == "-") return null;
-    int d = readDay(y, m, s, start+8);
+    int d = parseDay(y, m, s, start+8);
     return new Date(y, m, d);
   }
 

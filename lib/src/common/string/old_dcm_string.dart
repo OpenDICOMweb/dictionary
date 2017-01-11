@@ -81,11 +81,11 @@ class DcmStringInt extends DcmString {
   }
 }
 
-class DcmStringFloat extends DcmString {
+class DcmStringDecimal extends DcmString {
   static const int min = 0;
   // static const int max = 999999999999;
   static const int minLength = 0;
-  static const int maxLength = 12;
+  static const int maxLength = 16;
 
   static bool get isInteger => true;
 

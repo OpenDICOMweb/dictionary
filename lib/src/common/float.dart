@@ -7,7 +7,6 @@
 import 'dart:typed_data';
 
 import 'package:dictionary/src/dicom/constants.dart';
-import 'package:dictionary/src/dicom/issue.dart';
 
 /// Floating Point Data Types
 
@@ -63,7 +62,7 @@ static String checkRange(double n, double min, double max) =>
 
   /// Returns a [List<int>] if all values are [int], otherwise [null].
   static bool isValidList(List<double> vList, _InRange inRange) {
-    if (listGuard(vList, inRange) == null) return false;
+    if (checkList(vList, inRange) == null) return false;
     return true;
   }
 

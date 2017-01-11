@@ -29,7 +29,7 @@ int _checkRange(int v, int min, int max) {
 String _invalidChar(int c, int pos) => 'Value has invalid character($c) at position($pos)';
 
 //TODO: this does not handle escape sequences
-bool _checkString(String s, int min, int max, bool filter(int c)) {
+bool _isFilteredString(String s, int min, int max, bool filter(int c)) {
   if (!_checkStringLength(s, min, max)) return false;
   for (int index = 0; index < max; index++) {
     int c = s.codeUnitAt(index);
@@ -37,6 +37,8 @@ bool _checkString(String s, int min, int max, bool filter(int c)) {
   }
   return true;
 }
+
+//bool _checkFilteredString()
 
 /*
 //TODO: this does not handle escape sequences
@@ -51,7 +53,9 @@ bool _checkDcmString(String s, int maxLength) {
 */
 bool _dcmStringFilter(int c) => !(c < kSpace || c == kBackslash || c == kDelete);
 
-bool _isDcmString(String s, int max) => _checkString(s, 0, max, _dcmStringFilter);
+bool _isDcmString(String s, int max) => _isFilteredString(s, 0, max, _dcmStringFilter);
+
+String checkDcmString(String s, int max)  => (_isDcmString(s, max)) ? s : null;
 
 // DICOM Text Strings
 //TODO: this does not handle escape sequences
@@ -69,8 +73,9 @@ bool _checkTextString(String s, int maxLength) {
 */
 bool _textFilter(int c) => !(c < kSpace || c == kDelete);
 
-_checkTextString(String s, int max) => _checkString(s, 0, max, _textFilter);
+bool _isTextString(String s, int max) => _isFilteredString(s, 0, max, _textFilter);
 
+String _checkTextString(String s, int max) => (_isTextString(s, max)) ? s : null;
 bool _digitFilter(int c) => c >= k0 && c <= k9;
 bool _hexFilter(int c) => (c >= k0 && c <= k9) || (c >= ka && c <= kf) || (c >= kA && c <= kF);
 // DICOM VRs with Digits
@@ -81,30 +86,30 @@ bool _checkDigitString(String s, int minLength, int maxLength, [int sep]) {
     int c = s.codeUnitAt(index);
     if (c < k0 || c > k9 || (sep != null && c != sep)) {
       throw _invalidChar(c, index);
-      return false;
+     // return false;
     }
   }
   if (index < minLength) {
     throw 'The Value has fewer than the minimum($minLength) number of characters';
-    return false;
+   // return false;
   }
   return true;
 }
 
 // DICOM Strings
-bool checkAEString(String s) => _checkDcmString(s, 16);
-bool checkCSString(String s) => _checkDcmString(s, 16);
-bool checkPNString(String s) => _checkDcmString(s, 5 * 64);
-bool checkSHString(String s) => _checkDcmString(s, 16);
-bool checkLOString(String s) => _checkDcmString(s, 64);
+bool checkAEString(String s) => _isDcmString(s, 16);
+bool checkCSString(String s) => _isDcmString(s, 16);
+bool checkPNString(String s) => _isDcmString(s, 5 * 64);
+bool checkSHString(String s) => _isDcmString(s, 16);
+bool checkLOString(String s) => _isDcmString(s, 64);
 bool checkUCString(String s) =>
-    _checkDcmString(s, kMaxLongLengthInBytes);
+    _isDcmString(s, kMaxLongLengthInBytes);
 
 // DICOM Texts
-bool checkSTString(String s) => _checkTextString(s, 1024);
-bool checkLTString(String s) => _checkTextString(s, 10240);
+bool checkSTString(String s) => _isTextString(s, 1024);
+bool checkLTString(String s) => _isTextString(s, 10240);
 bool checkUTString(String s) =>
-    _checkTextString(s, kMaxLongLengthInBytes);
+    _isTextString(s, kMaxLongLengthInBytes);
 
 // UID String
 bool checkUIString(String s) => _checkDigitString(s, 8, 64, kDot);
@@ -118,7 +123,7 @@ bool checkASString(String s) {
   if (!_checkDigitString(s, 3, 3)) return false;
   if (!"DWMY".contains(s[3])) {
     throw 'Invalid Age Unit($s[3]';
-    return false;
+    //return false;
   }
   return true;
 }
@@ -150,7 +155,7 @@ bool checkDAString(String s) {
     dt = DateTime.parse(s);
   } on FormatException catch (e) {
     throw 'Invalid Date($dt) - error at offset(${e.offset}';
-    return false;
+    //return false;
   }
   return true;
 }
@@ -164,7 +169,7 @@ bool checkDTString(String s) {
     dt = DateTime.parse(s);
   } on FormatException catch (e) {
     throw 'Invalid DateTime($dt) - error at offset(${e.offset}';
-    return false;
+    //return false;
   }
   return true;
 }
@@ -178,7 +183,7 @@ bool checkTMString(String s) {
     dt = DateTime.parse(s);
   } on FormatException catch (e) {
     throw 'Invalid Time($dt) - error at offset(${e.offset}';
-    return false;
+    //return false;
   }
   return true;
 }
@@ -192,7 +197,7 @@ bool checkURString(String s, [int index = 0, int end]) {
     uri = Uri.parse(s, index, end);
   } on FormatException catch (e) {
     throw 'Invalid URI($uri) - error at offset(${e.offset}';
-    return false;
+    //return false;
   }
   return true;
 }

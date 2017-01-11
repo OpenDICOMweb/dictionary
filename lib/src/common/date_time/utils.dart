@@ -4,13 +4,11 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu>
 // See the AUTHORS file for other contributors.
 
-import 'dart:math';
-
 import 'package:dictionary/src/common/ascii/constants.dart';
-import 'package:dictionary/src/common/buffer/byte_buf.dart';
 
 import 'date.dart';
 import 'time.dart';
+import 'time_zone.dart';
 
 // DICOM DateTime 422222.6+22
 //                422222.6-22
@@ -18,7 +16,7 @@ import 'time.dart';
 //                422222.
 //                422222
 //                42222
-//                4222
+//                4222D
 //                422
 //                42
 //                4
@@ -32,12 +30,15 @@ import 'time.dart';
 String pad(int value, int length) => value.toString().padLeft(length, "0");
 
 // Private helper functions
-//String dtString(int value, int length) => (value == 0) ? "" : pad(value, length);
+String dtString(int value, int length) => (value == 0) ? "" : pad(value, length);
 
 /// Returns an [true] if [value] is in the range inclusively.
 bool _inRange(int min, int value, int max) => ((min <= value) && (value <= max));
 
 int _checkRange(int min, int v, int max) => _inRange(v, min, max) ? v : null;
+
+String _InvalidCharacterError(String s, int i) =>
+  'Invalid Character("${s[i]}") in String: $s';
 
 /// Return the [limit], which is max or end w
 int _getLimit(int offset, int min, int max, int end) {
@@ -74,14 +75,23 @@ int _parseUint(String s, int offset, int limit) {
   return n;
 }
 
+bool isSignMark(int c) => c == kPlusSign || c == kMinusSign;
+
+int checkSignMark(int c) => (isSignMark(c)) ? c : null;
+
+bool isSign(int sign) =>sign == 1 ||sign == -1;
+
+int checkSign(int sign) => (isSign(sign)) ? sign : null;
+
 /// Parses a sign code unit (+, -) and returns +1 or -1.
 /// If the next code unit is a digit then return 1, but does not
 /// advance the [_rIndex].
-int _parseSign(String s, int offset) {
+int parseSign(String s, int offset) {
+  int sign;
   int c = s.codeUnitAt(offset);
-  if (c == kMinusSign) return -1;
-  if (c == kPlusSign) return 1;
-  return null;
+  if (c == kMinusSign) sign = -1;
+  if (c == kPlusSign) sign = 1;
+  return sign;
 }
 
 //int _parseInt(String s, [int offset]) =>
@@ -91,16 +101,16 @@ int parseInt(String s, [int offset = 0, int min = 0, int max]) {
   if (s == null || s == "") return null;
   int limit = _getLimit(offset, min, max, s.length);
   if (limit == null || limit < min) return null;
-  int sign = _parseSign(s, offset);
-  if (sign != null) {
-    offset++;
-  } else {
-    sign = 1;
-  }
+  int sign = parseSign(s, offset);
+  if (sign == null) return null;
   int n = _parseUint(s, offset, limit);
   return sign * n;
 }
 
+int parseDecimal(String s, [int offset = 0, int min = 0, int max]) {
+  //TODO
+  return offset;
+}
 
 bool _parseChar(String s, int char, int offset) => s.codeUnitAt(offset) == char;
 
@@ -118,11 +128,25 @@ bool isYear(int y) => yearInRange(y, minYear, maxYear);
 /// Returns the year, if valid; otherwise, [null]
 int checkYear(int y) => (yearInRange(y, minYear, maxYear)) ? y : null;
 
-int parseYear(String s, [int start = 0]) =>
-    checkYear(_parseInt(s.substring(start, start + 4)));
+int parseYear(String s, [int start = 0, int length = 4]) {
+  if (length != 4 || length != 2) throw "Invalid Year length($length)";
+  int limit = _getLimit(start, length, length, s.length);
+  return checkYear(parseInt(s.substring(start, limit)));
+}
 
-String yearHasError(String s, [int start = 0, end]) {
-  var v = _parseInt(s, start);
+//TODO: implement
+List<String> yearHasError(String s, [int start = 0, int length]) {
+  List<String> msgs = [];
+  if (length != 4 || length != 2) msgs.add("Invalid Year length($length)");
+  int limit = _getLimit(start, length, length, s.length);
+  for (int i = start; i < length; i++) {
+    int c = s.codeUnitAt(i);
+    if (c < k0 || k9 < c) msgs.add(_InvalidCharacterError(s, i));
+    return msgs;
+  }
+  int y = parseInt(s.substring(start, limit));
+  if (checkYear == null) msgs.add('Invalid year: min($minYear) <= year($y) <= max($maxYear');
+  return msgs;
 }
 
 // ** Month **
@@ -178,22 +202,30 @@ DateTime checkDate(int y, int m, int d) {
   return new DateTime(y, m, d);
 }
 
-Date parseDicomDate(String s, [int start = 0, isInternet = true]) {
-  int index = start;
+
+Date parseDicomDate(String s, [int start = 0]) {
+  int limit = _getLimit(start, 8, 8, s.length);
+  if (limit == null) return null;
   int y = parseYear(s, start);
   int m = parseMonth(s, start+ 4);
   int d = parseDay(y, m, s, start + 6);
   return new Date(y, m, d);
 }
 
-Date parseInternetDate(String s, [int start = 0, isInternet = true]) {
+Date parseInternetDate(String s, [int start = 0]) {
+  int limit = _getLimit(start, 10, 10, s.length);
+  if (limit == null) return null;
   int y = parseYear(s, start);
-  if (isInternet) _parseChar(s, kDash, start + 3);
+  if (! _parseChar(s, kDash, start + 3)) return null;
   int m = parseMonth(s, start+ 5);
-  if (isInternet) _parseChar(s, kDash, start + 6);
+  if (! _parseChar(s, kDash, start + 3)) return null;
   int d = parseDay(y, m, s, start + 8);
   return new Date(y, m, d);
 }
+
+Date parseDate(String s, [int start = 0, isInternet = false]) =>
+  (isInternet) ? parseInternetDate(s, start) : parseDicomDate(s, start);
+
 
 bool checkDateString(String s, [int start = 0]) {
   int y = parseYear(s, start);
@@ -232,7 +264,7 @@ int checkSecond(int s) => _checkRange(0, s, 60);
 
 /// Returns a valid [second] or [null];
 //TODO: Needs year, month, day to handle leap seconds.
-int parseSecond(String s, [int start = 0]) => checkSecond(_parseUint(s, start, start + 2)));
+int parseSecond(String s, [int start = 0]) => checkSecond(_parseUint(s, start, start + 2));
 
 /// Returns [true] if [fraction] is between 0 and 999999.
 bool isFraction(int f) => _inRange(f, 0, 999999);
@@ -241,29 +273,13 @@ bool isFraction(int f) => _inRange(f, 0, 999999);
 int checkFraction(int f) => _checkRange(0, f, 999999);
 
 const int fractionMark = kDot;
-String tzMarks = "-+Zz";
-
-bool isTXMark(int c) => c == kPlusSign || c == kMinusSign || c == kZ || c == kz;
 
 //TODO: create unit test/
 /// Returns a integer that is 1,000,000 times the fractional value.
-int parseFraction(String s, [int start = 0]) {
-  if (s[start] != fractionMark) return 0;
-  start++;
-  int end = s.indexOf(tzMarks);
-  //log.debug('end: $end');
-  end = (end == -1) ? end = s.length : end;
-  // There is a fractionMark but no following digits
-  if (end == start) return 0;
-  // Fraction too long
-  // log.debug('end: $end');
-  if ((end - start) > 6) return null;
-  s = s.substring(start, end);
-  // log.debug('index of last digit: $end');
-  int v = _parseInt(s);
-  // log.debug('v: $v. s.length: ${s.length}');
-  if (s.length < 6) v = v * pow(10, 6 - s.length);
-  return checkFraction(v);
+int parseFraction(String s, [int start = 0, int end]) {
+  if (s[start] != fractionMark) return null;
+  end = (end == null) ? start + 7 : end;
+  return parseUint(s, start + 1, end);
 }
 
 int fractionToMilliseconds(String fraction) => int.parse(fraction.substring(0, 3));
@@ -272,40 +288,33 @@ int fractionToMicroseconds(String fraction) => int.parse(fraction.substring(3, 6
 
 // ** Millisecond **
 /// Returns [true] if [millisecond] is between 0 and 999.
-bool millisecondInRange(int ms) => _inRange(ms, 0, 999);
-
-/// _Deprecated_: Used [checkMillisecond] instead.
-@deprecated
-int validateMillisecond(int ms) => (millisecondInRange(ms)) ? ms : null;
+bool isMillisecond(int ms) => _inRange(ms, 0, 999);
 
 /// Returns an [int] between 0 and 999, or [null].
-int checkMillisecond(int ms) => (millisecondInRange(ms)) ? ms : null;
+int checkMillisecond(int ms) => (isMillisecond(ms)) ? ms : null;
 
 /// Returns a valid [minute] or [null];
 int parseMillisecond(String s, [int start = 0]) =>
-    checkMillisecond(_parseUint(s, start, start + 3)));
+    checkMillisecond(_parseUint(s, start, start + 3));
 
 // ** Microsecond **
 /// Returns [true] if [microsecond] is between 0 and 999.
-bool checkMicrosecond(int us) => millisecondInRange(us);
+bool isMicrosecond(int us) => isMillisecond(us);
 
 /// Returns an [int] between 0 and 999, or [null].
-int validateMicrosecond(int us) => checkMillisecond(us);
+int checkMicrosecond(int us) => checkMillisecond(us);
 
 /// Returns a valid [second] or [null];
-int parseMicrosecond(String s, [int start = 0]) => parseMillisecond(s, start);
+int parseMicrosecond(String s, [int start = 0]) => checkMillisecond(parseMillisecond(s, start));
 
 /// Returns [true] if all arguments are valid.
-bool checkTime(int h, [int m = 0, int s = 0, int ms = 0, int u = 0]) =>
-    checkHour(h) &&
-    checkMinute(m) &&
-    secondInRange(s) &&
-    millisecondInRange(ms) &&
-    checkMicrosecond(u);
+bool isTime(int h, [int m = 0, int s = 0, int ms = 0, int u = 0]) =>
+    isHour(h) && isMinute(m) && isSecond(s) && isMillisecond(ms) &&
+    isMicrosecond(u);
 
 /// Returns a new DateTime if all arguments are valid.
-DateTime validateTime(int h, int m, int s, int ms, int us) {
-  h = validateHour(h);
+DateTime checkTime(int h, int m, int s, int ms, int us) {
+  h = checkHour(h);
   if (h == null) return null;
   m = checkMinute(m);
   if (m == null) return null;
@@ -313,34 +322,63 @@ DateTime validateTime(int h, int m, int s, int ms, int us) {
   if (s == null) return null;
   ms = checkMillisecond(ms);
   if (s == null) return null;
-  us = validateMicrosecond(us);
+  us = checkMicrosecond(us);
   if (s == null) return null;
   return new DateTime(0, 1, 1, h, m, s, ms, us);
 }
 
-bool checkTimeString(String time, [int start = 0, int end]) {
-  var sb = new StringReader(time, start, end);
-  if (sb.time == null) return false;
-  return true;
+Time parseDicomTime(String s, [int start = 0]) {
+  int h, m, ss, f;
+  int limit = _getLimit(start, 2, 14, s.length);
+  int index = start;
+  if (limit >= index + 2) {
+    h = parseHour(s, index);
+    if (h == null) return null;
+  }
+  index += 2;
+  if (limit >= index + 2) {
+    m = parseMinute(s, index);
+    if (m == null) return new Time(h, 0, 0);
+  }
+  index += 2;
+  if (limit >= index + 2) {
+    ss = parseSecond(s, index);
+    if (ss == null) return new Time(h, m, 0);
+  }
+  index += 2;
+  if (limit >= index + 2) {
+    int f = parseFraction(s, index);
+    if (f == null) return new Time(h, m, ss);
+  }
+  return new Time(h, m, ss, f);
 }
+
+//TODO: parseInternetTime, parseTime
+
 bool isColon(String s, int start) => s[start] == ":";
 
 //**** Time Zone ****
 
-// ** Sign **
-/// Returns [true] if sign is +1 or -1.
-bool checkSign(int sign) => (sign == 1) || (sign == -1);
+// ** Sign or InternetSign **
 
-/// _Deprecated_: Use [checkSign] instead.
-int validateSign(int sign) => checkSign(sign);
+/// Returns [true] if sign is +, -, Z, or z.
+bool isTZMark(int c) => c == kPlusSign || c == kMinusSign || c == kZ || c == kz;
 
-/// Returns +1 or -1 if [sign] is valid; otherwise [null].
-int checkSign(int sign) => (checkSign(sign)) ? sign : null;
+int checkTZMark(int c) => (isTZMark(c)) ? c : null;
+
+bool isTZSign(int sign) =>-1 <= sign && sign <= 1;
+
+/// Returns [c] if [c] is +, -, Z, or z; otherwise, [null].
+int checkTZSign(int sign) => (isTZSign(sign)) ? sign : null;
 
 /// parses a legal Time Zone [sign]
 int parseTZSign(String s, [int start = 0]) {
-  if (!("+-Zz".contains(s[start]))) return null;
-  return (s[0] == "-") ? -1 : 1;
+  int c = s.codeUnitAt(start);
+  int sign;
+  if (c == kMinusSign) sign = -1;
+  if (c == kPlusSign) sign = 1;
+  if (c == kZ || c == kz) sign = 0;
+  return sign;
 }
 
 // ** TZ Hours **
@@ -351,53 +389,70 @@ const int tzMinHours = -12;
 const int tzMaxHours = 14;
 
 /// Returns [true] if [h] is a valid Time Zone Offset hour.
-bool checkTZHour(int h) => _inRange(tzMinHours, h, tzMaxHours);
+bool isTZHour(int h) => _inRange(tzMinHours, h, tzMaxHours);
 
 /// Returns the Time Zone Offset hour, if valid; otherwise [null].
-int validateTZHour(int h) => checkTZHour(h) ? h : null;
+int checkTZHour(int h) => isTZHour(h) ? h : null;
 
 /// Returns the hours value of the Time Zone Offset, if valid; otherwise [null].
-int parseTZHour(String s, [int start = 0]) => validateTZHour(parseHour(s, start));
+int parseTZHour(String s, [int start = 0]) => checkHour(parseHour(s, start));
 
 // ** TZ Minutes
 /// A list containing the valued values for [TimeZoneOffset] minutes.
 const List<int> tzMinutes = const [00, 15, 30, 45];
 
 /// Returns [true] if [m] is a valid Time Zone Minute value.
-bool checkTZMinute(int m) => tzMinutes.contains(m);
+bool isTZMinute(int m) => tzMinutes.contains(m);
 
 /// /// Returns a valid Time Zone Minute value or [null]..
-int validateTZMinute(int m) => checkTZMinute(m) ? m : null;
+int checkTZMinute(int m) => isTZMinute(m) ? m : null;
 
 /// Returns a valid Time Zone Minute value or [null].
 int parseTZMinute(String s, [int start = 0]) =>
-    validateTZMinute(parseMinute(s.substring(start, start + 2)));
+    checkMinute(parseMinute(s.substring(start, start + 2)));
 
 /// Returns the [TimeZone] parse from a [String] if valid; otherwise [null].
-TimeZone parseTimeZone(String tzo, [int start = 0, int inc = 0, int end]) {
-  if (tzo.length < start + 5 + inc) return null;
-  var sb = new StringReader(tzo, start, end);
-  try {
-    int sign = sb.tzSign;
-    int hours = sb.tzHour;
-    int minutes = sb.tzMinute;
-    int offsetInMinutes = (sign * (hours * 60)) + minutes;
-    return new TimeZone.fromMinutes(offsetInMinutes);
-  } on FormatException catch (e) {
-    print('Exception: ${e.message} at ${e.offset}');
-    return null;
-  }
+TimeZone parseDicomTZ(String s, [int start = 0]) {
+  int end = _getLimit(start, 5, 5, s.length);
+  if (end == null) return null;
+  int sign = parseSign(s, start);
+  if (sign == null) return null;
+  int h = parseHour(s, start + 1);
+  if (h == null) return null;
+  int m = checkMinute(parseMinute(s, start + 3));
+  if (m == null) return null;
+  if ((m % 15) != 0) throw 'Time Zone minutes must be in 15 minute increments';
+  return new TimeZone.fromOffset(sign, h, m);
 }
 
-// ** DateTime **
-bool checkDateTime(int y,
-                     [int mm = 1, int d = 1, int h = 0, int m = 0, int s = 0, int ms = 0, int u = 0]) =>
-    checkDate(y, mm, d) && checkTime(h, m, s, ms, u);
+//TODO: this only handles full TimeZones (e.g. +05:00 or Z).
+//TODO: It doesn't handle short TZs like +5 or+05.
+TimeZone parseInternetTZ(String s, [int start = 0]) {
+  int end = _getLimit(start, 2, 6, s.length);
+  if (end == null) return null;
+  int sign = parseTZSign(s, start);
+  if (sign == 0) return new TimeZone.fromMinutes(0); // UTC
+  if (sign == null) return null;
+  int h = parseHour(s, start + 1);
+  if (h == null) return null;
+  if (! _parseChar(s, kColon, start + 3)) return null;
+  int m = parseMinute(s, start + 4);
+  if (m == null) return null;
+  if ((m % 15) != 0) throw 'Time Zone minutes must be in 15 minute increments';
+  return new TimeZone.fromOffset(sign, h, m);
+}
 
-DateTime validateDateTime(int y,
+TimeZone parseTimeZone(String s, [int start = 0, internet = false]) =>
+    (internet) ? parseInternetTZ(s, start) : parseDicomTZ(s, start);
+// ** DateTime **
+bool isDateTime(int y,
+                     [int mm = 1, int d = 1, int h = 0, int m = 0, int s = 0, int ms = 0, int u = 0]) =>
+    isDate(y, mm, d) && isTime(h, m, s, ms, u);
+
+DateTime checkDateTime(int y,
                           [int mm = 1, int d = 1, int h = 0, int m = 0, int s = 0, int ms = 0, int u = 0]) {
-  assert(checkDate(y, mm, d));
-  assert(checkTime(h, m, s, ms, u));
+  assert(isDate(y, mm, d));
+  assert(isTime(h, m, s, ms, u));
   return new DateTime(y, mm, d, h, m, s, ms, u);
 }
 

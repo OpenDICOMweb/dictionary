@@ -21,11 +21,10 @@ uintTest() {
   List<String> uintStrings = ["9", "09", "990", "0999", "9099099909"];
   List<int> uintValues = [9, 09, 990, 0999, 9099099909];
   List<int> uintLength_1Values = [0, 0, 99, 099, 909909990];
-  List<int> uintLengths = [1, 2, 3, 4, 9];
+
 
   List<String> badUintStrings = ["", "X", "9X", "99S", "999S", "99999999X"];
   List<int> badUintValues = [null, null, null, null, null, null];
-  List<int> badUintLengths = [0, 1, 2, 3, 4, 9];
 
   group("readUint Good Tests", () {
     test("readUint Good Good Fixed Length: min = 0, max = s.length", () {
@@ -34,7 +33,7 @@ uintTest() {
         int offset = 0;
         int min = 0;
         int max = s.length;
-        int v = readUint(uintStrings[i], offset, 0, max);
+        int v = readUint(uintStrings[i], offset, min, max);
         expect(v, equals(uintValues[i]));
       }
     });
@@ -45,7 +44,7 @@ uintTest() {
         int offset = 0;
         int min = 0;
         int max = s.length - 1;
-        int v = readUint(uintStrings[i], offset, 0, max);
+        int v = readUint(uintStrings[i], offset, min, max);
         expect(v, equals(uintLength_1Values[i]));
       }
     });
@@ -82,7 +81,7 @@ uintTest() {
         int offset = 0;
         int min = 0;
         int max = s.length;
-        int v = readUint(badUintStrings[i], offset, 0, max);
+        int v = readUint(badUintStrings[i], offset, min, max);
         expect(v, equals(badUintValues[i]));
       }
     });

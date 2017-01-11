@@ -20,19 +20,19 @@ void main() {
       var gdd = goodDicomDates;
       for (int i = 0; i < gdd.length; i++) {
         test("Read Year", () {
-          expect(readYear(gdd[i][0]), equals(gdd[i][1]));
+          expect(parseYear(gdd[i][0]), equals(gdd[i][1]));
         });
       }
       for (int i = 0; i < gdd.length; i++) {
         test("Read Month", () {
-          expect(readMonth(gdd[i][0]), equals(gdd[i][2]));
+          expect(parseMonth(gdd[i][0]), equals(gdd[i][2]));
         });
       }
       for (int i = 0; i < gdd.length; i++) {
         test("Read Day", () {
-          int y = readYear(gdd[i][0]);
-          int m = readMonth(gdd[i][0]);
-          expect(readDay(y, m, gdd[i][0]), equals(gdd[i][3]));
+          int y = parseYear(gdd[i][0]);
+          int m = parseMonth(gdd[i][0]);
+          expect(parseDay(y, m, gdd[i][0]), equals(gdd[i][3]));
         });
       }
 
@@ -51,7 +51,7 @@ void main() {
       }
       for (int i = 0; i < gdd.length; i++) {
         test("Validate Day", () {
-          expect(readDay(gdd[i][1], gdd[i][2], gdd[i][3]), equals(gdd[i][3]));
+          expect(parseDay(gdd[i][1], gdd[i][2], gdd[i][3]), equals(gdd[i][3]));
         });
       }
 

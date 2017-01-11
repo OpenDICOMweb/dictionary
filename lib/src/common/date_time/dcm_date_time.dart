@@ -7,6 +7,7 @@
 import 'date.dart';
 import 'time.dart';
 import 'time_format.dart';
+import 'time_zone.dart';
 import 'utils.dart';
 
 /// A DICOM DateTime class, which handles DICOM DateTime [DT] Value Representations.
@@ -147,26 +148,26 @@ class DcmDateTime {
   /// Returns [true] if the arguments form a valid [DcmDateTime].
   static bool isValid(int y,
                       [int mm = 1, int d = 1, int h = 0, int m = 0, int s = 0, int ms = 0, int us = 0]) =>
-      isValidDateTime(y, mm, d, h, m, s, ms, us);
+      isDateTime(y, mm, d, h, m, s, ms, us);
 
   /// Parses the [String] specified by the arguments as a DICOM format
   /// DateTime [String]  (yyyyMMddhhmmss.ffffffMhhmm), and
   /// returns the corresponding [DcmDateTime].
   //TODO: Make sure TimeZone(s) are being handled correctly
-  // in particulate when reading a DT with a tzOffset convert it to local time.
+  // in particulate when parseing a DT with a tzOffset convert it to local time.
   static DcmDateTime dcmParse(String ddt, [int start = 0]) {
     Date.dcmParse(ddt, start);
     Time.dcmParse(ddt, start + 8);
     TimeZone tz = (ddt.length == 26) ? TimeZone.parse(ddt, 21) : null;
-    int us = (ddt.length >= 21) ? readMicrosecond(ddt, 18) : null;
-    int ms = (ddt.length >= 10) ? readMillisecond(ddt, 15) : null;
-    // if (readDot(ddt.substring(14, 15)) throw "Invalid decimal point";
-    int s = (ddt.length >= 6) ? readSecond(ddt, 12) : null;
-    int m = (ddt.length >= 4) ? readMinute(ddt, 10) : null;
-    int h = (ddt.length >= 10) ? readHour(ddt, 8) : null;
-    int mm = (ddt.length >= 6) ? readMonth(ddt, 4) : null;
-    int y = readYear(ddt);
-    int d = (ddt.length >= 6) ? readDay(y, mm, ddt, 6) : null;
+    int us = (ddt.length >= 21) ? parseMicrosecond(ddt, 18) : null;
+    int ms = (ddt.length >= 10) ? parseMillisecond(ddt, 15) : null;
+    // if (parseDot(ddt.substring(14, 15)) throw "Invalid decimal point";
+    int s = (ddt.length >= 6) ? parseSecond(ddt, 12) : null;
+    int m = (ddt.length >= 4) ? parseMinute(ddt, 10) : null;
+    int h = (ddt.length >= 10) ? parseHour(ddt, 8) : null;
+    int mm = (ddt.length >= 6) ? parseMonth(ddt, 4) : null;
+    int y = parseYear(ddt);
+    int d = (ddt.length >= 6) ? parseDay(y, mm, ddt, 6) : null;
     DateTime dt = new DateTime(y, mm, d, h, m, s, ms, us);
     return new DcmDateTime._(dt.add(tz.offsetInMinutes), tz);
   }
@@ -183,15 +184,15 @@ class DcmDateTime {
     int tzStart = ddt.lastIndexOf(tzMarks);
 
     TimeZone tz = (ddt.length == 26) ? TimeZone.parse(ddt, tzStart) : null;
-    int us = (ddt.length >= 21) ? readMicrosecond(ddt, 18) : null;
-    int ms = (ddt.length >= 10) ? readMillisecond(ddt, 15) : null;
-    // if (readDot(ddt.substring(14, 15)) throw "Invalid decimal point";
-    int s = (ddt.length >= 6) ? readSecond(ddt, 12) : null;
-    int m = (ddt.length >= 4) ? readMinute(ddt, 10) : null;
-    int y = readYear(ddt);
-    int mm = readMonth(ddt, 4);
-    int d = readDay(y, mm, ddt, 6);
-    int h = readHour(ddt, 8);
+    int us = (ddt.length >= 21) ? parseMicrosecond(ddt, 18) : null;
+    int ms = (ddt.length >= 10) ? parseMillisecond(ddt, 15) : null;
+    // if (parseDot(ddt.substring(14, 15)) throw "Invalid decimal point";
+    int s = (ddt.length >= 6) ? parseSecond(ddt, 12) : null;
+    int m = (ddt.length >= 4) ? parseMinute(ddt, 10) : null;
+    int y = parseYear(ddt);
+    int mm = parseMonth(ddt, 4);
+    int d = parseDay(y, mm, ddt, 6);
+    int h = parseHour(ddt, 8);
     DateTime dt = new DateTime(y, mm, d, h, m, s, ms, us);
     return new DcmDateTime._(dt.add(tz.offsetInMinutes), tz);
   }

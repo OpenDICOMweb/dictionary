@@ -14,7 +14,7 @@ main() {
 simpleReadTest() {
   test("Empty Buffer Test", () {
     String s0 = "";
-    StringReader buf = new StringReader(s0);
+    Utf16Reader buf = new Utf16Reader(s0);
     int length = s0.length;
 
     // check length, index, and simple read error
@@ -31,7 +31,7 @@ simpleReadTest() {
 
   test("Simple String Read Test", () {
     String s1 = "abcdefg";
-    StringReader buf = new StringReader(s1);
+    Utf16Reader buf = new Utf16Reader(s1);
     int length = s1.length;
 
     expect(buf.length, equals(length));
@@ -56,11 +56,11 @@ simpleReadTest() {
   test("Uint Read Test", () {
     String s;
     int length;
-    StringReader buf;
+    Utf16Reader buf;
 
     s = "000";
     length = s.length;
-    buf = new StringReader(s);
+    buf = new Utf16Reader(s);
     expect(buf.length, equals(length));
     expect(buf.read, equals("0".codeUnitAt(0)));
     expect(buf.readUint(2, 2), equals(0));
@@ -69,7 +69,7 @@ simpleReadTest() {
 
     s = "123";
     length = s.length;
-    buf = new StringReader(s);
+    buf = new Utf16Reader(s);
     expect(buf.length, equals(length));
     expect(buf.read, equals("1".codeUnitAt(0)));
     expect(buf.readUint(1, 1), equals(1));
@@ -78,7 +78,7 @@ simpleReadTest() {
     expect(buf.readUint(4, 4), equals(null));
 
     s = "12a3";
-    buf = new StringReader(s);
+    buf = new Utf16Reader(s);
     expect(buf.readUint(2, 2), equals(12));
     expect(buf.readUint(3, 3), equals(null));
   });
@@ -86,18 +86,18 @@ simpleReadTest() {
   test("VUint Read Test", () {
     String s;
     int length;
-    StringReader buf;
+    Utf16Reader buf;
 
     s = "00000";
     length = s.length;
-    buf = new StringReader(s);
+    buf = new Utf16Reader(s);
     expect(buf.length, equals(length));
     expect(buf.read, equals("0".codeUnitAt(0)));
     expect(buf.readUint(5, 5), equals(0));
     expect(buf.readUint(6, 6), equals(null));
 
     s = "123456";
-    buf = new StringReader(s);
+    buf = new Utf16Reader(s);
     expect(buf.readUint(1, 1), equals(1));
     expect(buf.readUint(2, 2), equals(12));
     expect(buf.readUint(3, 3), equals(123));
@@ -107,7 +107,7 @@ simpleReadTest() {
     expect(buf.readUint(7, 7), equals(null));
 
     s = "12a3";
-    buf = new StringReader(s);
+    buf = new Utf16Reader(s);
     expect(buf.readUint(-1, -1), equals(null));
     expect(buf.readUint(0, 0), equals(null));
     expect(buf.readUint(2, 2), equals(12));
@@ -118,11 +118,11 @@ simpleReadTest() {
   test("Int Read Test", () {
     String s;
     int length;
-    StringReader buf;
+    Utf16Reader buf;
 
     s = "+1";
     length = s.length;
-    buf = new StringReader(s);
+    buf = new Utf16Reader(s);
     expect(buf.length, equals(length));
     expect(buf.read, equals("+".codeUnitAt(0)));
     expect(buf.read, equals("1".codeUnitAt(0)));
@@ -135,7 +135,7 @@ simpleReadTest() {
 
     s = "-1";
     length = s.length;
-    buf = new StringReader(s);
+    buf = new Utf16Reader(s);
     expect(buf.length, equals(length));
     expect(buf.read, equals("-".codeUnitAt(0)));
     buf.readReset;
@@ -143,7 +143,7 @@ simpleReadTest() {
 
     s = "1";
     length = s.length;
-    buf = new StringReader(s);
+    buf = new Utf16Reader(s);
     expect(buf.length, equals(length));
     expect(buf.read, equals("1".codeUnitAt(0)));
     buf.readReset;
@@ -153,11 +153,11 @@ simpleReadTest() {
   test("Hex Read Test", () {
     String s;
     int length;
-    StringReader buf;
+    Utf16Reader buf;
 
     s = "0a";
     length = s.length;
-    buf = new StringReader(s);
+    buf = new Utf16Reader(s);
     expect(buf.length, equals(length));
     // expect(buf.read, equals("0".codeUnitAt(0)));
     expect(buf.hex, equals(0));
@@ -167,7 +167,7 @@ simpleReadTest() {
 
     s = "abcdef";
     length = s.length;
-    buf = new StringReader(s);
+    buf = new Utf16Reader(s);
     expect(buf.length, equals(length));
     expect(buf.readHex(0), equals(null));
     expect(buf.readHex(1), equals(0xa));
@@ -186,7 +186,7 @@ simpleReadTest() {
 
     s = "0a1b2c3d4e5f";
     length = s.length;
-    buf = new StringReader(s);
+    buf = new Utf16Reader(s);
     expect(buf.length, equals(length));
     expect(buf.readHex(0), equals(null));
     expect(buf.readHex(2), equals(0x0a));
@@ -205,7 +205,7 @@ simpleReadTest() {
 
     s = "0a1b2c3d4e5f";
     length = s.length;
-    buf = new StringReader(s);
+    buf = new Utf16Reader(s);
     expect(buf.length, equals(length));
     expect(buf.readVHex(0), equals(null));
     buf.readReset;
@@ -229,7 +229,7 @@ simpleReadTest() {
 readVUintTest() {
   test("Read VUint Test", () {
     String s0 = "";
-    StringReader buf = new StringReader(s0);
+    Utf16Reader buf = new Utf16Reader(s0);
     int length = s0.length;
 
     // check length, readIndex, and simple read error

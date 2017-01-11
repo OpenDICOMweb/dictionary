@@ -25,6 +25,7 @@ class Issue {
       if (msgs == null) throw "Invalid message $index: $msg";
       msgs.add(msg);
     }
+    return this;
   }
 
   String get lengthError => tag.vm.lengthError(badLength);
@@ -36,6 +37,15 @@ class Issue {
       out += '\n\t$index: $value';
     });
     return out;
+  }
+
+  static Issue createIfAbsent(Issue issue, Tag tag, int i, msgs) {
+    msgs = (msgs is String) ? [msgs] : msgs;
+    if (issue == null) {
+      return new Issue(tag, i, msgs);
+    } else {
+      return issue.add(i, msgs);
+    }
   }
 }
 

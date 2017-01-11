@@ -12,11 +12,8 @@ library odw.sdk.dictionary.common.reader.byte_buf;
 import 'dart:math';
 import 'dart:typed_data';
 
-import 'package:dictionary/src/common/ascii/constants.dart';
-import 'package:dictionary/src/common/date_time/date.dart';
-import 'package:dictionary/src/common/date_time/time.dart';
-import 'package:dictionary/src/common/date_time/utils.dart';
-import 'package:dictionary/src/common/uid/uid.dart';
+import 'package:dictionary/common.dart';
+import 'package:dictionary/date.dart';
 import 'package:dictionary/string.dart';
 
 part 'reader.dart';
@@ -29,6 +26,27 @@ part 'writer.dart';
 // names with string or String(suffix) return [String]s.
 // If a Readers returns [null], the [index] is not changed.
 
+
+// **** helpers
+
+/// The following must be true:
+///
+///     0 <= min <= length <= max <= _buf.length
+///
+/// But [_inRange] doesn't check
+bool _inRange(int v, int min, int max) => (v < min || v > max) ? false : true;
+
+int _checkRange(int v, int min, int max) {
+  if (_inRange(v, min, max)) throw 'RangeError: min($min) <= Value($v) <= max($max)';
+  return v;
+}
+
+String _intRangeError(int v, int min, int max) =>
+    (_inRange(v, min, max)) ? 'RangeError: min($min) <= value($v) <= max($max)' : null;
+
+String _invalidChar(String s, int c, int pos) =>
+    'Invalid character($c) at position($pos) in $s';
+
 int checkBufferLength(int bufferLength, int start, int end) {
   if (end == null) end = bufferLength;
   if (end < 0 || bufferLength < end)
@@ -37,6 +55,8 @@ int checkBufferLength(int bufferLength, int start, int end) {
     throw new ArgumentError("Invalid start($start) for buffer with end($end)");
   return end;
 }
+
+// **** end of helpers.
 
 /// Reader Interface
 ///
@@ -48,10 +68,10 @@ int checkBufferLength(int bufferLength, int start, int end) {
 /// isWritable = _wRemaining > 0;
 ///
 abstract class ByteBuf {
-  /// The [_buf] always [start]s at _rIndex = 0.
+  /// The [_buf] always [_start]s at _rIndex = 0.
   List<int> _buf;
 
-  /// The current read position in the [_buf]. Must be between [start] and [end].
+  /// The current read position in the [_buf]. Must be between [_start] and [_end].
   int _rIndex;
 
   /// The current write position in the [_buf]. Must be between [_rIndex] and [emd].
@@ -63,15 +83,15 @@ abstract class ByteBuf {
   /// **** Getters and Methods related to [_rIndex] and [_buf].[length].
 
   /// The 0Th position in the [_buf].
-  int get start => 0;
+  int get _start => 0;
+
+  /// Returns the index of the end of the buffer (same as length).
+  int get _end => _buf.length;
 
   /// Returns the number of elements [E] contained in [_buf].
-  int get length => _buf.length;
+  int get length => _end;
 
-  /// Synonym for [length]
-  int get end => length;
-
-  /// The current read position in the [_buf]. Starts at [start].
+  /// The current read position in the [_buf]. Starts at [_start].
   int get readIndex => _rIndex;
 
   /// Returns an [true] if [n] is a valid [_rIndex] in [_buf].
@@ -88,13 +108,14 @@ abstract class ByteBuf {
   bool hasReadable(int n) => _rRemaining >= n;
 
   int get readReset {
-    _wIndex = end;
+    _wIndex = _end;
     return _rIndex = 0;
   }
 
   /// Returns a valid read limit, which might be [min] <= [limit] <= [max],
   /// or [null] if no valid limit exists. [min] and [max] must be positive integers.
   int _getRLimit(int min, int max) {
+    max = (max == null) ? _wIndex : max;
     int limit = _rIndex + max;
     if (limit > _wIndex) {
       if (_rIndex + min > _wIndex) {
@@ -107,14 +128,12 @@ abstract class ByteBuf {
     }
   }
 
-  /// The current write position in the [_buf]. Ends at [end].
+  /// The current write position in the [_buf]. Ends at [_end].
   int get writeIndex => _wIndex;
+  int get _wRemaining => _end - _wIndex;
+  int get wRemaining => _wRemaining;
 
   /// Returns an [true] if [n] is a valid [_rIndex] in [_buf].
-  bool _isValidWIndex(int n) => (_wIndex <= n && n <= end);
-
-  int get _wRemaining => end - _wIndex;
-  int get wRemaining => _wRemaining;
   bool get isWritable => _wRemaining > 0;
   bool hasWritable(int n) => _wRemaining >= n;
 

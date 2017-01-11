@@ -9,8 +9,10 @@
 export 'package:dictionary/ascii.dart';
 export 'package:dictionary/constants.dart';
 export 'package:dictionary/integer.dart';
+export 'package:dictionary/src/common/constants.dart';
 export 'package:dictionary/src/common/float.dart';
 export 'package:dictionary/src/common/list.dart';
+export 'package:dictionary/src/common/utils.dart';
 export 'package:dictionary/string.dart';
 export 'package:dictionary/uid.dart';
 export 'package:dictionary/uuid.dart';

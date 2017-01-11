@@ -20,9 +20,9 @@ dateTest() {
       for (int i = 0; i < goodYears.length; i++) {
         var s = goodYears[i];
         int offset = 0;
-        int min = 0;
-        int max = s.length;
-        int v = readUint(goodYears[i], offset, 4, 4);
+        int min = 4;
+        int max = 4;
+        int v = readUint(s, offset, min, max);
         expect(v, equals(goodYearValues[i]));
       }
     });
@@ -36,9 +36,9 @@ dateTest() {
       for (int i = 0; i < badYears.length; i++) {
         var s = badYears[i];
         int offset = 0;
-        int min = 0;
-        int max = s.length;
-        int v = readUint(badYears[i], offset, 4, 4);
+        int min = 4;
+        int max = 4;
+        int v = readUint(s, offset, min, max);
         expect(v, equals(badYearValues[i]));
       }
     });

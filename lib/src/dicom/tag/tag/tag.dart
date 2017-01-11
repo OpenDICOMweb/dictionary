@@ -5,7 +5,6 @@
 // See the AUTHORS file for other contributors.
 
 import 'dart:convert';
-import 'dart:typed_data';
 
 import 'package:dictionary/src/common/ascii/constants.dart';
 import 'package:dictionary/src/common/ascii/predicates.dart';
@@ -218,14 +217,14 @@ class Tag extends TagBase {
 
   Issue checkValues(Tag tag, List values) {
     Issue issue = checkLength(tag, values);
-
     for (int i = 0; i < values.length; i++) {
-      String s = vr.checkValue(values[i]);
+       var msg = vr.checkValue(values[i]);
+       Issue.createIfAbsent(issue, tag, i, msg);
     }
-
     return (issue == null) ? null : issue;
   }
 
+/* TODO or Flush
   Issue checkByteValues(Tag tag, Uint8List bytes) {
     int vrIndex = tag.vrIndex;
     int length;
@@ -233,19 +232,17 @@ class Tag extends TagBase {
       length = bytes.lengthInBytes % vr.sizeInBytes;
     }
 
-    if (!checkLength(values, messages)) {
+    if (!checkByteLength(values, messages)) {
 
     }
   }
-
-
-
+  */
   String toString() {
     var retired = (isRetired == false) ? "" : ", (Retired)";
     return 'Element: $dcm $keyword, $vr, $vm, $retired';
   }
 
-  static lengthChecker(List values, int minLength, int maxLength, int width) {
+  static List<String> lengthChecker(List values, int minLength, int maxLength, int width) {
     int length = values.length;
     // These are the most common cases.
     if (length == 0 || (length == 1 && width == 0)) return null;
@@ -261,7 +258,7 @@ class Tag extends TagBase {
       msgs = msgs ??= [];
       msgs.add(msg); //TODO: test Not sure this is working
     }
-    return (msgs == null) ? null : ;
+    return (msgs == null) ? null : msgs;
   }
 
   /// Returns [true] if [tag] is in the range of DICOM [Dataset] Tags.

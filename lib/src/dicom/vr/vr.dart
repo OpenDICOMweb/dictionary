@@ -121,14 +121,14 @@ class VR {
   static const VR kBR =
       const VR._(32, 0x4252, true, "BR", "BulkData Reference", 1, kMaxLong, invalid);
 
-  /* Flush
+  // Flush?
   // Special constants only used in Tag class
   static const VR kOBOW = const VR._(34, 0x0001, null, "OBOW", "OB or OW", null, null, invalid);
   static const VR kUSSS = const VR._(35, 0x0003, null, "USSS", "US or SS", 2, 2, invalid);
   static const VR kUSSSOW = const VR._(36, 0x0003, null, "USSSOW", "US or SS or OW", 2, 2, invalid);
   static const VR kUSOW = const VR._(37, 0x0003, null, "USOW", "US or OW", 2, 2, invalid);
   static const VR kUSOW1 = const VR._(38, 0x0003, null, "USOW1", "US or OW1", 2, 2, invalid);
-  */
+
   // Special constants only used in Tag class
   //TODO: flush
   // static const VR kUnknown = const VR._(, 0x0000, false, "Unknown", 1);
@@ -297,14 +297,14 @@ Map<VR, Type> dataTypes = const {
   VR.kOF: "float32"
 };
 
-/* Flush
+// Flush
 class VRSpecial extends VR {
   final List<VR> list;
 
   //TODO: add min, max for value length
   const VRSpecial(this.list, int index, int code, bool isShort, String name, String desc,
       int minBytes, maxBytes,
-      [ValueChecker check = VR.invalid])
+      [ValueChecker check = invalid])
       : super._(index, code, isShort, name, desc, minBytes, maxBytes, check);
 
   static const VRSpecial kOBOW =
@@ -318,7 +318,7 @@ class VRSpecial extends VR {
   static const VRSpecial kUSOW1 =
       const VRSpecial(const [VR.kUS, VR.kOW], 05, -5, false, "USOW1", "US or OW1", 2, 2);
 }
-*/
+
 Issue addIssue(Tag tag, Issue issue, int i, String msg) {
   if (issue == null) {
     issue = new Issue(tag, i, msg);

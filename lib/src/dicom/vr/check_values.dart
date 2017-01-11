@@ -50,7 +50,7 @@ List<String> getErrorsOF(double v) => _checkFloat(v, Float32.min, Float32.max);
 // **** String Checkers
 bool _inRange(int length, int min, int max) => length < min || max < length;
 
-int _checkLength(int length, int min, int max) => (length < min || max < length) ? length : null;
+int _checkLength(int length, int min, int max) => _intCheckRange(length, min, max);
 
 String _hasLengthError(int length, int min, int max) => (length < min || max < length)
     ? 'Invalid Length for min($min) <= value(${length}) <= max($max)'
@@ -103,7 +103,7 @@ List<String> _stringErrors(String s, int max, bool filter(int c)) {
   return null; // Success
 }
 
-// DICOM Text Strings
+// DICOM Strings
 bool _StringFilter(int c) => (c < kSpace || c == kBackslash || c == kDelete);
 List<String> getErrorsAE(String s) => _stringErrors(s, 16, _StringFilter);
 List<String> getErrorsCS(String s) => _stringErrors(s, 16, _StringFilter);
@@ -212,6 +212,7 @@ int _readFixedUint(String s, [int offset = 0, int length]) {
 
 }
 */
+
 int _uintNull(s, i) => null;
 int _uintThrow(s, i) => throw 'Invalid character(${s[i] } at position $i of $s';
 String _charError(s, i) => 'Invalid character(${s[i] } at position $i of $s';
@@ -274,22 +275,19 @@ bool yearInRange(int year) => _intInRange(year, minYear, maxYear);
 
 int readYear(String s, [int offset = 0, minLength = 4]) {
   int year = readUint(s, offset, minLength, 4);
-  if (year != null && _intInRange(year, minYear, maxYear)) return year;
-  // There is an error
-  List<String> msgs;
-  msgs = uintSyntaxErrors(s, offset, minLength, 4, List<String> []);
-  msgs = yearValueError(year, msgs);
-  return msgs;
-
+  if (year != null && _intInRange(year, minYear, maxYear))
+    return year;
+  return null;
 }
+
 List<String> yearHasError(String s, [int offset = 0]) {
-  List msg = <String>[];
+  var msgs = <String>[];
   int limit = _getLimit(offset, 4, 4, s.length);
-  if (limit == null || limit != 4) msg.add("Insufficient length(4) for year");
-  int year = readUint(s, offset, 4, 4);
-  if (year == null) {
-    return msg.add(uintGetError(s, offset, 4, 4));
+  if (limit == null || limit != 4) msgs.add("Insufficient length(4) for year");
+  int y = readUint(s, offset, 4, 4);
+  if (y == null) {
+    msgs.add(_intRangeError(y, minYear, maxYear));
+    return msgs;
   }
-  if ()
-  return msg;
+  return msgs;
 }

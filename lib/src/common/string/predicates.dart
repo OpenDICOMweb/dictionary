@@ -36,7 +36,7 @@ String checkString(String s, int min, int max, CharPredicate pred) =>
 List<String> checkStringList(List<String> sList, int min, int max, CharPredicate pred) =>
     (testStringList(sList, min, max, pred)) ? sList : null;
 
-/// Returns [true] if all characters from [start] to [end] are digits; otherwise, [false].
+/// Returns [true] if all characters from [_start] to [_end] are digits; otherwise, [false].
 StringPredicate makeStringPredicate(CharPredicate pred) {
   return (String s, [int start = 0, int end]) {
     int stop = (end == null) ? s.length : end;
@@ -47,7 +47,7 @@ StringPredicate makeStringPredicate(CharPredicate pred) {
   };
 }
 
-/// Returns [true] if all characters from [start] to [end] are digits; otherwise, [false].
+/// Returns [true] if all characters from [_start] to [_end] are digits; otherwise, [false].
 StringPredicate isDigit = makeStringPredicate(isDigitChar);
 StringPredicate isUppercase = makeStringPredicate(isUppercaseChar);
 StringPredicate isLowercase = makeStringPredicate(isLowercaseChar);

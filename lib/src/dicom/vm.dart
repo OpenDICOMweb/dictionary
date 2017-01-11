@@ -5,7 +5,6 @@
 // See the AUTHORS file for other contributors.
 
 import 'constants.dart';
-import 'issue.dart';
 import 'vr/vr.dart';
 
 /// A class that defined Value Multiplicities and their validators.

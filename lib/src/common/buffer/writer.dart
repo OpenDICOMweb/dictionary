@@ -35,7 +35,7 @@ abstract class Writer extends ByteBuf {
   /// or [null] if no valid limit exists. [n] can be positive or negative.
   int _getWLength(String s, int min, int max) {
     int len = s.length;
-    int v = ((_wIndex + len) > end) ? end - _wIndex : _wIndex + len;
+    int v = ((_wIndex + len) > _end) ? _end - _wIndex : _wIndex + len;
     return (v > 0) ? v : null;
   }
 /*
@@ -65,7 +65,7 @@ abstract class Writer extends ByteBuf {
     return true;
   }
 
-  _rGuard(Function f) {
+  _wGuard(Function f) {
     int start = _wIndex;
     var value;
     try {
@@ -98,7 +98,7 @@ abstract class Writer extends ByteBuf {
   /// If all code units pass [test] returns a [String] of [min] to [max] length;
   /// otherwise, returns null;
   String writeChecked(String s, int min, int max, _CharTest test) {
-    int limit = _getRLimit(max);
+    int limit = _getRLimit(min, max);
     if (limit == null || limit < min) return null;
     int start = _rIndex;
     try {

@@ -14,6 +14,9 @@ part of odw.sdk.dictionary.common.reader.byte_buf;
 // names with string or String(suffix) return [String]s.
 // If a Readers returns [null], the [index] is not changed.
 
+// **** Every Getter or Method should leave the [_rIndex] in the correct position,
+// **** unless stated otherwise.
+
 typedef bool _CharTest(code);
 
 /* flush
@@ -43,18 +46,28 @@ abstract class Reader extends ByteBuf {
   int _rIndex;
   int _wIndex;
 
-  int operator[](int i) => _buf[i];
+  // **** Abstract methods that must be implemented.
+
+  /// Returns a [List] containing a copy of the elements from [start] to [end].
+  List<int> sublist(int start, int end);
+
+  /// Returns a [Reader] that is a [slice] of [this].
+  Reader slice(int start, int end);
+
+  /// Returns a [String] containing characters that correspond to the elements
+  /// from [start] to [end].
+  String substring(int start, int end);
+
+  // **** end of abstract methods.
+
+  int operator [](int i) => _buf[i];
 
   int get length => _buf.length;
 
-  String toSubString(int start, int end);
-
   // **** Peek, read, or unread at [index].
 
-  int get _peek => _buf[_rIndex];
-
   /// Returns the code unit at [_rIndex], but does not increment [_rIndex].
-  int get peek => (_isReadable) ? null : _peek;
+  int get peek => (_isReadable) ? null : _buf[_rIndex];
 
   /// Moves [_rIndex] forward or backward.
   ///
@@ -74,7 +87,7 @@ abstract class Reader extends ByteBuf {
     int c = peek;
     if (c != char) return false;
     _rIndex++;
-    true;
+    return true;
   }
 
   /// Returns the code unit at [_rIndex] and increments [_rIndex], or [null] if
@@ -116,10 +129,9 @@ abstract class Reader extends ByteBuf {
   /// Returns a [String] with a minimum length of [min] and a maximum length of [max],
   /// or [null] if a [String] of [min] length is not available.
   String readString([int min = 0, int max]) {
-    max = (max == null) ? _wIndex : max;
     int limit = _getRLimit(min, max);
     if (limit == null) return null;
-    var s = toSubString(_rIndex, limit);
+    var s = substring(_rIndex, limit);
     _rIndex = limit;
     return s;
   }
@@ -127,37 +139,133 @@ abstract class Reader extends ByteBuf {
   /// Reads a [String] checking each code unit to verify it is valid.
   /// If all code units pass [test] returns a [String] of [min] to [max] length;
   /// otherwise, returns null;
-  String readChecked(int min, int max, _CharTest test) {
+  bool _isFilteredString(int min, int max, _CharTest test) {
     int limit = _getRLimit(min, max);
     if (limit == null) return null;
+    for (int i = _rIndex; i < limit; i++) if (!test(_buf[i])) return false;
+    return true;
+  }
+
+  int _getFilteredEndOfString(int min, int max, _CharTest test) {
+    int limit = _getRLimit(min, max);
+    if (limit == null) return null;
+    for (int i = _rIndex; i < limit; i++) if (!test(_buf[i])) return null;
+    return limit;
+  }
+
+  /// Returns an error message for a filtered string.
+  String _getFilteredStringErrorMsg(int min, int max, _CharTest test) {
+    int limit = _getRLimit(min, max);
+    if (limit == null) return null;
+    for (int i = _rIndex; i < limit; i++)
+      if (!test(_buf[i])) return _invalidChar(substring(_rIndex, limit), _buf[i], i);
+    return null;
+  }
+
+  /// Reads a [String] checking each code unit to verify it is valid.
+  /// If all code units pass [test] returns a [String] of [min] to [max] length;
+  /// otherwise, returns null;
+  String _readFilteredString(int min, int max, _CharTest test) {
     int start = _rIndex;
-    try {
-      for (; _rIndex < limit; _rIndex++) {
-        if (!test(read)) {
-          _rIndex = start;
-          throw 'Failed predicate test($test) at index($_rIndex)';
-        }
-      }
-    } catch(e) {
-      _rIndex = start;
-      return null;
+    int limit = _getFilteredEndOfString(min, max, test);
+    if (limit == null) return null;
+    _rIndex = limit;
+    return substring(start, limit);
+  }
+
+  /// Reads the elements from [readIndex] to [limit] checking that each element
+  /// satisfies the [test].  Returns a [Slice] (or [View]) of this [Reader],
+  /// If all element pass [test], otherwise, returns null.
+  ///
+  /// Note: this doesn't check for [kSpace] or [kNull] at the end of the string.
+  /// The user must do that in the caller, if appropriate.
+  Reader _readFilteredSlice(int min, int max, _CharTest test) {
+    int start = _rIndex;
+    int limit = _getFilteredEndOfString(min, max, test);
+    if (limit == null) return null;
+    _rIndex = limit;
+    return slice(start, limit);
+  }
+
+  // VR: SH, LO, UC
+  bool _dcmStringFilter(int c) => !(c < kSpace || c == kBackslash || c == kDelete);
+
+  // bool _isDcmString(int max) => _isFilteredString(0, max, _dcmStringFilter);
+
+  //String _checkDcmString(int length)  => (_isDcmString(length)) ? s : null;
+
+  String _readDcmString(int length) => _readFilteredString(length, length, _dcmStringFilter);
+
+  Reader _readDcmSlice(int length) => _readFilteredSlice(length, length, _dcmStringFilter);
+
+  // VR: ST, LT, UT
+  bool _dcmTextFilter(int c) => !(c < kSpace || c == kDelete);
+
+  bool _isTextString(int max) => _isFilteredString(0, max, _dcmTextFilter);
+
+  //String _checkTextString(int max) => (_isTextString(max)) ? s : null;
+
+  String _readTextString(int length) => _readFilteredString(length, length, _dcmTextFilter);
+
+  Reader _readTextSlice(int length) => _readFilteredSlice(length, length, _dcmTextFilter);
+
+
+  //TODO: this does not handle escape sequences
+  List<String> _hasError(int min, int max, bool filter(int c)) {
+    int limit = _getRLimit(min, max);
+    if (limit == null) return null;
+    String msg0 = _intRangeError(limit, min, max);
+    for (int i = _rIndex; i < limit; i++) {
+      int c = _buf[i];
+      if (filter(c)) return [msg0, _invalidChar(substring(_rIndex, limit), c, i)];
     }
-    return toSubString(start, limit);
+    // Success
+    return null;
+  }
+
+  //TODO: this does not handle escape sequences
+  List<String> _stringErrors(String s, int max, bool filter(int c)) {
+    int limit = _getRLimit(0, max);
+    if (limit == null) return null;
+    String msg0 = _intRangeError(s.length, 0, max);
+    for (int i = _rIndex; i < _wIndex; i++) {
+      int c = s.codeUnitAt(i);
+      if (filter(c)) return [msg0, _invalidChar(substring(_rIndex, limit), c, i)];
+    }
+    return null; // Success
+  }
+
+  // DICOM Text Strings
+  bool _StringFilter(int c) => (c < kSpace || c == kBackslash || c == kDelete);
+  List<String> getErrorsAE(String s) => _stringErrors(s, 16, _StringFilter);
+  List<String> getErrorsCS(String s) => _stringErrors(s, 16, _StringFilter);
+  List<String> getErrorsPN(String s) => _stringErrors(s, 5 * 64, _StringFilter);
+  List<String> getErrorsSH(String s) => _stringErrors(s, 16, _StringFilter);
+  List<String> getErrorsLO(String s) => _stringErrors(s, 64, _StringFilter);
+  List<String> getErrorsUC(String s) => _stringErrors(s, kMaxLongLengthInBytes, _StringFilter);
+
+  // DICOM Texts
+  bool _textFilter(int c) => (c < kSpace || c == kDelete);
+  List<String> getErrorsST(String s) => _stringErrors(s, 1024, _textFilter);
+  List<String> getErrorsLT(String s) => _stringErrors(s, 10240, _textFilter);
+  List<String> getErrorsUT(String s) => _stringErrors(s, kMaxLongLengthInBytes, _textFilter);
+
+  List<String> getErrorsDS(String s) {
+    String msg0 = _intRangeError(s.length, 0, 16);
+    int v = num.parse(s, (s) => null);
+    String valueMsg = (v == null) ? 'Invalid Character in DS String: "$s"' : "";
+    return [msg0, valueMsg];
   }
 
   // **** Simple Matchers ****
 
-  /// Reads the
+  /// Compares the characters ([int]) in [String] [s] with the characters in the [ByteBuf]
+  /// starting from [readIndex], and returns [true] if they match; otherwise, false.
+  /// If there is a match the [readIndex] is advanced by [s.length] positions.
   bool matchString(String s) {
     if (s.length > rRemaining) return false;
-    int start = _rIndex;
-    for (int i = 0; i < s.length; i++) {
-      int c = s.codeUnitAt(0);
-      if (c != _read) {
-        _rIndex == start;
-        return false;
-      }
-    }
+    for (int i = 0; i < s.length; i++) if (s.codeUnitAt(0) != _buf[_rIndex + i]) return false;
+    _rIndex += s.length;
     return true;
   }
 
@@ -178,8 +286,7 @@ abstract class Reader extends ByteBuf {
   bool _isDigit(c) => k0 <= c && c >= k9;
 
   bool _hasNDigits(int length) {
-    for(int i = 0; i < length; i++)
-      if (!_isDigit(_peek)) return false;
+    for (int i = 0; i < length; i++) if (!_isDigit(peek)) return false;
     return true;
   }
 
@@ -202,7 +309,7 @@ abstract class Reader extends ByteBuf {
 
   int _peekDigit(_CharConverter convert) {
     print('@$_rIndex peekDigit');
-    return convert(_peek);
+    return convert(peek);
   }
 
   /*
@@ -268,6 +375,14 @@ abstract class Reader extends ByteBuf {
     return n;
   }
 
+
+  List<String> getErrorsIS(String s) {
+    String lengthMsg = _intRangeError(s.length, 0, 12);
+    int v = int.parse(s, onError: (s) => null);
+    String valueMsg = (v == null) ? 'Invalid Character in IS String: "$s"' : "";
+    return [lengthMsg + valueMsg];
+  }
+
   /* Flush if not needed
   bool get _isHex {
     int c = peek;
@@ -317,14 +432,13 @@ abstract class Reader extends ByteBuf {
   /// Reads a sign code unit (+, -) and returns +1 or -1.
   /// If the next code unit is a digit then return 1, but does not
   /// advance the [_rIndex].
-  int get readSign {
+  int get sign {
     int c = peek;
-    int sign;
-    if (c == kMinusSign) sign = -1;
-    if (c == kPlusSign) sign = 1;
-    if (c == null) {
-      sign = 1;
-    } else {
+    int sign = 1;
+    if (c == kMinusSign) {
+      sign = -1;
+      _rIndex++;
+    } else if (c == kPlusSign) {
       _rIndex++;
     }
     return sign;
@@ -340,13 +454,13 @@ abstract class Reader extends ByteBuf {
     //TODO: decide whether to implement onErrorThrow
     if (limit == null) return null;
     int start = _rIndex;
-    int sign = readSign;
+    int s = sign;
     int n = readUint(min, max);
     if (n == null) {
       _rIndex = start;
       return null;
     }
-    return sign * n;
+    return s * n;
   }
 
   //DICOM max length
@@ -358,14 +472,13 @@ abstract class Reader extends ByteBuf {
   num readDecimal([int min = 1, int max]) {
     int limit = _getRLimit(min, max);
     if (limit == null) return null;
-    int start = _rIndex;
-    int n = readInt(max);
+    int n = readInt(limit);
     if (n == null) return null;
     int f = _readFraction(1, limit);
     if (f == null) return n;
     int e = _readExponent(limit);
     if (e == null) return n + (1 / f);
-    return pow(n + (1/f), e);
+    return pow(n + (1 / f), e);
   }
 
   int kDecimalMark = kDot;
@@ -373,7 +486,7 @@ abstract class Reader extends ByteBuf {
   /// Reads a fraction starting with a [kDecimalMark].
   int _readFraction(int min, int max) {
     int limit = _getRLimit(min, max);
-    if (limit = null) return null;
+    if (limit == null) return null;
     int p = peek;
     //TODO: what should this do if it reads only a decimal mark, but no digit?
     // currently returns null.
@@ -412,7 +525,7 @@ abstract class Reader extends ByteBuf {
   int readVDay(int y, int m, int d) => checkDay(y, m, readUint(1, 2));
 
   /// Reads and returns a date in fixed format yyyymmdd.
-  Date get dcmDate {
+  Date get dicomDate {
     if (rRemaining < 8) return null;
     int y = year;
     if (y == null) return null;
@@ -429,10 +542,10 @@ abstract class Reader extends ByteBuf {
     if (rRemaining < 10) return null;
     int y = year;
     if (y == null) return null;
-    if (! _matchChar(kDash)) return null;
+    if (!_matchChar(kDash)) return null;
     int m = month;
     if (m == null) return null;
-    if (! _matchChar(kDash)) return null;
+    if (!_matchChar(kDash)) return null;
     int d = readDay(y, m, readUint(2, 2));
     if (d == null) return null;
     _rIndex += 10;
@@ -456,52 +569,55 @@ abstract class Reader extends ByteBuf {
   ///
   Time readDcmTime(int length) {
     int h, m, s, f;
-    if (length >=2 && hasReadable(2)) {
+    if (length >= 2 && hasReadable(2)) {
       h = hour;
       if (h == null) return null;
     }
-    if (length >=4 && rRemaining >= 2) {
+    if (length >= 4 && rRemaining >= 2) {
       m = minute;
       if (m == null) return new Time(h, 0, 0);
     }
-    if (length >=4 && rRemaining >= 2) {
+    if (length >= 6 && rRemaining >= 2) {
       s = second;
       if (s == null) return new Time(h, m, 0);
     }
+    if (length >= 8 && rRemaining >= 2) {
       int f = fraction;
-      if (s == null) return new Time(h, m, s);
-      return new Time(h, m, s, f);
+      if (f == null) return new Time(h, m, s);
     }
+    return new Time(h, m, s, f);
   }
 
   ///
-  Time get dcmTime {
+  Time get dicomTime {
     int h = hour;
     if (h == null) return null;
-    if (! _matchChar(kColon)) return null;
+    if (!_matchChar(kColon)) return null;
     int m = minute;
     if (m == null) return null;
-    if (! _matchChar(kColon)) return null;
+    if (!_matchChar(kColon)) return null;
     int s = second;
     if (s == null) return null;
     int f = fraction;
     if (s == null) return null;
     return new Time(h, m, s, f);
   }
+
   Time get internetTime {
     int h = hour;
     if (h == null) return null;
-    if (! _matchChar(kColon)) return null;
+    if (!_matchChar(kColon)) return null;
     int m = minute;
     if (m == null) return null;
-    if (! _matchChar(kColon)) return null;
+    if (!_matchChar(kColon)) return null;
     int s = second;
     if (s == null) return null;
     return new Time(h, m, s);
   }
 
+  Time time([internet = false]) => (internet) ? internetTime : dicomTime;
 
-  // Time Zone
+  // **** Time Zone
 
   /// Reads the next [char] and returns -1 if it is "-",
   /// 0 if it is "Z" or "z", or 1 if it is "+"; otherwise,
@@ -520,12 +636,38 @@ abstract class Reader extends ByteBuf {
   int get tzHour => checkHour(readInt(2));
   int get tzMinute => checkMinute(readInt(2));
 
+  TimeZone get dicomTimeZone {
+    int s = sign;
+    if (s == null) return null;
+    int h = hour;
+    if (h == null) return null;
+    int m = tzMinute;
+    if (m == null) return null;
+    return new TimeZone.fromOffset(s, h, m);
+  }
+
+  TimeZone get internetTimeZone {
+    int s = tzSign;
+    if (s == null) return null;
+    if (s == 0) return TimeZone.utc;
+    int h = hour;
+    if (h == null) return null;
+    int m = tzMinute;
+    if (m == null) return null;
+    return new TimeZone.fromOffset(s, h, m);
+  }
+
+  // **** DateTime
+
+  DcmDateTime get dicomDateTime =>
+      new DcmDateTime.fromDateAndTime_(dicomDate, dicomTime, dicomTimeZone);
+
   // **** UID
 
   //TODO: this should have the option to do a complete check.
-  String get uid => readChecked(0, 64, isUidChar);
+  String get uid => _readFilteredString(0, 64, isUidChar);
 
-  String readUri([int start = 0, int end] ) {
+  String readUri([int start = 0, int end]) {
     //TODO: do something more efficient
     //UR - Universal Resource Identifier (URI)
     return null;
@@ -539,23 +681,110 @@ abstract class Reader extends ByteBuf {
     if (n == null) return null;
     int unit = peek;
     if (ageUnits.indexOf(unit) == null) return null;
-    return toSubString(start, _rIndex);
+    return substring(start, _rIndex);
+  }
+
+  List<String> getErrorsDA(String s) {
+    var msg0 = _intRangeError(s.length, 8, 8);
+    int v = num.parse(s, (s) => null);
+    String valueMsg = (v == null) ? 'Invalid Character in DS String: "$s"' : "";
+    return [msg0, valueMsg];
+  }
+
+  List<String> getErrorsDT(String s) {
+    String msg0 = _intRangeError(s.length, 8, 8);
+    int v = num.parse(s, (s) => null);
+    String valueMsg = (v == null) ? 'Invalid Character in DS String: "$s"' : "";
+    return [msg0, valueMsg];
+  }
+
+  List<String> getErrorsTM(String s) {
+    String msg0 = _intRangeError(s.length, 0, 16);
+    int v = num.parse(s, (s) => null);
+    String valueMsg = (v == null) ? 'Invalid Character in DS String: "$s"' : "";
+    return [msg0, valueMsg];
+  }
+
+  List<String> getErrorsUI(String s) {
+    String msg0 = _intRangeError(s.length, 8, 64);
+    int v = num.parse(s, (s) => null);
+    String valueMsg = (v == null) ? 'Invalid Character in DS String: "$s"' : "";
+    return [msg0, valueMsg];
+  }
+
+  //TODO: do something more efficient
+  //UR - Universal Resource Identifier (URI)
+  List<String> getErrorsUR(String s) {
+    String msg0 = _intRangeError(s.length, 0, kMaxLongLengthInBytes);
+    Uri uri;
+    try {
+      uri = Uri.parse(s);
+    } on FormatException catch (e) {
+      return [msg0, 'Invalid URI($uri) - error at offset(${e.offset}'];
+    }
+    // Success
+    return null;
+  }
+
+  List<String> getErrorsAS(String s) {
+    String msg0 = _intRangeError(s.length, 4, 4);
+    int v = num.parse(s, (s) => null);
+    String valueMsg = (v == null) ? 'Invalid Character in DS String: "$s"' : "";
+    return [msg0, valueMsg];
   }
 }
 
-
 class StringReader extends Reader {
+  final List<int> _buf;
+  final String s;
+  final int _start;
+  int _rIndex;
+  // Strings can only be read not written.
+  final _wIndex;
+
+  StringReader(this.s, [this._start = 0, int end])
+      : _buf = s.codeUnits,
+        _wIndex = checkBufferLength(s.length, _start, end);
+
+  /*
+  StringReader.fromList(List<int> list) : _buf = Uint16.toUint16List(list);
+  */
+  // ByteBuffer get buffer => _buf.buffer;
+
+  int get elementSizeInBytes => 2;
+
+  int get length => _wIndex - _start;
+
+  int get lengthInBytes => length * 2;
+
+  int get offsetInBytes => _start * 2;
+
+  StringReader view([int start = 0, int end]) => new StringReader(s, start, end);
+
+  StringReader slice(int start, int end) => new StringReader(s, start, end);
+
+  List<int> sublist(int start, int end) {
+    end = checkBufferLength(this._wIndex, start, end);
+    return _buf.sublist(start, end);
+  }
+
+  String substring(int start, int end) => new String.fromCharCodes(_buf, start, end);
+}
+
+class Utf16Reader extends Reader {
   final Uint16List _buf;
   int _rIndex;
   int _wIndex;
 
-  StringReader(String s, [int start = 0, int end])
+  Utf16Reader(String s, [int start = 0, int end])
       : _wIndex = checkBufferLength(s.length, start, end),
         _buf = new Uint16List.fromList(s.codeUnits);
 
-  StringReader.fromCodeUnits(Uint16List buf, [int start = 0, int end])
+  Utf16Reader.fromCodeUnits(Uint16List buf, [int start = 0, int end])
       : _buf = buf,
         _wIndex = checkBufferLength(buf.length, start, end);
+
+  Utf16Reader.fromList(List<int> list) : _buf = Uint16.toUint16List(list);
 
   ByteBuffer get buffer => _buf.buffer;
 
@@ -565,16 +794,21 @@ class StringReader extends Reader {
 
   int get offsetInBytes => _buf.offsetInBytes;
 
-  StringReader view([int start = 0, int end]) {
+  Utf16Reader view([int start = 0, int end]) {
     _wIndex = checkBufferLength(this._wIndex, start, end);
     _buf = _buf.buffer.asUint16List(start, end);
-    return new StringReader.fromCodeUnits(_buf);
+    return new Utf16Reader.fromCodeUnits(_buf);
   }
 
-  //String toSubString(int start, int end) => buf.buffer.asUint8List(start, end).toString();
+  Utf16Reader slice(int start, int end) =>
+      new Utf16Reader.fromCodeUnits(_buf.buffer.asUint16List(start, end));
 
-  String toSubString(int start, int end) => new String.fromCharCodes(_buf, start, end);
+  List<int> sublist(int start, int end) {
+    end = checkBufferLength(this._wIndex, start, end);
+    return _buf.sublist(start, end);
+  }
 
+  String substring(int start, int end) => new String.fromCharCodes(_buf, start, end);
 }
 
 class BytesReader extends Reader {
@@ -586,11 +820,6 @@ class BytesReader extends Reader {
       : _buf = buf,
         _rIndex = checkBufferLength(buf.length, start, end);
 
-  BytesReader view([int start = 0, int end]) {
-    end = checkBufferLength(this._wIndex, start, end);
-    return new BytesReader(_buf.buffer.asUint8List(start, end));
-  }
-
   ByteBuffer get buffer => _buf.buffer;
 
   int get elementSizeInBytes => 1;
@@ -599,15 +828,17 @@ class BytesReader extends Reader {
 
   int get offsetInBytes => _buf.offsetInBytes;
 
-  String toSubString(int start, int end) => _buf.buffer.asUint8List(start, end).toString();
+  BytesReader view([int start = 0, int end]) {
+    end = checkBufferLength(this._wIndex, start, end);
+    return new BytesReader(_buf.buffer.asUint8List(start, end));
+  }
 
-}
+  BytesReader slice(int start, int end) => view(start, end);
 
-void main() {
-  String s = '0123';
-  StringReader buf = new StringReader(s);
+  List<int> sublist(int start, int end) {
+    end = checkBufferLength(this._wIndex, start, end);
+    return _buf.sublist(start, end);
+  }
 
-  print('peek(0): ${buf.peek}');
-
-  print('int 0123: ${buf.readUint(4, 4)}');
+  String substring(int start, int end) => _buf.buffer.asUint8List(start, end).toString();
 }
