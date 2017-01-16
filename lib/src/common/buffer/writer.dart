@@ -100,18 +100,21 @@ abstract class Writer extends ByteBuf {
   String writeChecked(String s, int min, int max, _CharTest test) {
     int limit = _getRLimit(min, max);
     if (limit == null || limit < min) return null;
-    int start = _rIndex;
+    int start = _wIndex;
     try {
-      for (; _rIndex < limit; _rIndex++) {
-        if (!test(write)) {
-          _rIndex = start;
-          throw 'Failed predicate test($test) at index($_rIndex)';
+      for (int i = 0; i < limit; i++) {
+        int c = s.codeUnitAt(i);
+        if (!test(c)) {
+          _wIndex = start;
+          throw 'Failed predicate test($test) at index($i)';
         }
+        _write(c);
       }
     } catch (e) {
-      _rIndex = start;
+      _wIndex = start;
       return null;
     }
+    _wIndex = _wIndex + limit;
     return toSubString(start, limit);
   }
 

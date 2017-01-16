@@ -4,13 +4,11 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu>
 // See the AUTHORS file for other contributors.
 
-import 'package:dictionary/src/dicom/vm.dart';
-import 'package:dictionary/src/dicom/vr/vr.dart';
-import 'package:dictionary/tag.dart';
+import 'package:dictionary/dicom.dart';
 
 /// A [class] for defining the elements of an [IOD].
-class IodTag extends Object with TagMixin {
-  final Tag tag;
+class IodTag {
+  final PublicTag tag;
   final EType eType;
 
   //TODO: make const

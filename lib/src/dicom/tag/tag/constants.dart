@@ -5,12 +5,27 @@
 // See the AUTHORS file for other contributors.
 
 /// A library for handling DICOM tags.
-///
-/// This library is designed to be imported using 'as tag'.
 
-// Standard Library definitions
+// Special Tag Related constants
 
-// **** Tag Name Constants
+/// This corresponds to the first 16-bits of [kSequenceDelimitationItem],
+/// [kItem], and [kItemDelimitationItem] which are the same value.
+const kDelimiterFirst16Bits = 0xFFFE;
+
+/// This corresponds to the last 16-bits of [kSequenceDelimitationItem].
+const kSequenceDelimiterLast16Bits = 0xE0DD;
+
+/// This corresponds to the last 16-bits of [kItemDelimitationItem].
+const kItemLast16bits = 0xE000;
+
+/// This corresponds to the last 16-bits of [kItemDelimitationItem].
+const kItemDelimiterLast16bits = 0xE00D;
+
+
+/// The padding character used to pad UIDs [String]s with odd length.
+const String uidPaddingChar = "0x00";
+
+// Standard DICOM Public Element  definitions
 
 const int kAffectedSOPInstanceUID = 0x00001000;
 const int kRequestedSOPInstanceUID = 0x00001001;

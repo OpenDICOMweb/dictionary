@@ -4,6 +4,8 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
+import 'dart:typed_data';
+
 import 'package:dictionary/tag.dart';
 import 'package:dictionary/src/common/integer/integer.dart';
 import 'package:dictionary/src/dicom/constants.dart';
@@ -14,10 +16,10 @@ import 'check_values.dart';
 //TODO:
 typedef dynamic Decode(int length);
 
-typedef List<String> ValueChecker(value);
+typedef List<String> ValueChecker(dynamic value);
 
 // Abbreviation used to shorten constant definitions so they line up.
-const kMaxLong = kMaxLongLengthInBytes;
+const int kMaxLong = kMaxLongLengthInBytes;
 
 enum VRType { integer, float, string, text, dateTime, sequence, other, unknown }
 
@@ -28,8 +30,8 @@ class VR {
   final bool isShort;
   final String name;
   final String desc;
-  final min;
-  final max;
+  final int min;
+  final int max;
   final ValueChecker checkValue;
 
   //TODO: add min, max for value length
@@ -60,6 +62,11 @@ class VR {
 
   String get info => 'VR: $name(${Int16.hex(code)})[$index]: isShort($isShort), '
       'ElementSize($sizeInBytes)';
+
+  //TODO: implement
+  Uint8List checkBytes(Uint8List bytes) => null;
+
+  String toString() => 'VR.k$name';
 
   // index, code, isShort, name, sizeInBytes, check, [this.type = null]);
   // Item ...
@@ -138,7 +145,7 @@ class VR {
   /// in this [List] the 0th dictionary ,is [null].
   ///
   //TODO: For performance It would be better to order this table from most common VR to Least.
-  static const List<VR> vrs = const [
+  static const List<VR> vrs = const <VR>[
     kNoVR,
     // Sequence
     kSQ,
@@ -162,19 +169,19 @@ class VR {
     kBR
   ];
 
-  static const List<VR> stringVRs = const [
+  static const List<VR> stringVRs = const <VR>[
     kAE, kAS, kBR, kCS, kDA, kDS, kDT, kIS, kLO, kLT, kPN, kSH, kST, kTM, kUC, kUI, kUR, kUT //
   ];
 
-  static const List<VR> byteVRs = const [
+  static const List<VR> byteVRs = const <VR>[
     kAT, kFD, kFL, kOB, kOD, kOF, kOW, kSL, kSS, kUL, kUN, kUS // stop reformat
   ];
 
-  static const List<VR> intVRs = const [kAT, kOB, kOW, kSL, kSS, kUL, kUS, kDS, kIS];
-  static const List<VR> floatVRs = const [kFD, kFL, kOD, kOF];
+  static const List<VR> intVRs = const <VR>[kAT, kOB, kOW, kSL, kSS, kUL, kUS, kDS, kIS];
+  static const List<VR> floatVRs = const <VR>[kFD, kFL, kOD, kOF];
 
   //TODO: flush when mapInverted works?
-  static const Map<int, VR> map = const {
+  static const Map<int, VR> map = const <int, VR>{
     0x4145: kAE, 0x4153: kAS, 0x4154: kAT, 0x4252: kBR, 0x4353: kCS, 0x4441: kDA,
     0x4453: kDS, 0x4454: kDT, 0x4644: kFD, 0x464c: kFL, 0x4953: kIS, 0x4c4f: kLO,
     0x4c54: kLT, 0x4f42: kOB, 0x4f44: kOD, 0x4f46: kOF, 0x4f4c: kOL, 0x4f57: kOW,
@@ -183,7 +190,7 @@ class VR {
     0x5553: kUS, 0x5554: kUT // stop reformat
   };
 
-  static const Map<String, VR> strings = const {
+  static const Map<String, VR> strings = const <String, VR>{
     "AE": kAE, "AS": kAS, "AT": kAT, "BR": kBR, "CS": kCS, "DA": kDA,
     "DS": kDS, "DT": kDT, "FD": kFD, "FL": kFL, "IS": kIS, "LO": kLO,
     "LT": kLT, "OB": kOB, "OD": kOD, "OF": kOF, "OL": kOL, "OW": kOW,
@@ -205,7 +212,7 @@ class VR {
   static VR lookup16(int vrCode) => vrs[vrCodeToIndex(vrCode)];
 
   //TODO: create invertedMap
-  static const Map<int, VR> mapInverted = const {
+  static const Map<int, VR> mapInverted = const <int, VR>{
     0x4541: kAE, 0x5341: kAS, 0x5441: kAT, 0x5242: kBR, 0x5343: kCS, 0x4144: kDA,
     0x5344: kDS, 0x5444: kDT, 0x4446: kFD, 0x4c46: kFL, 0x5349: kIS, 0x4f4c: kLO,
     0x544c: kLT, 0x424f: kOB, 0x444f: kOD, 0x464f: kOF, 0x4c4f: kOL, 0x574f: kOW,
@@ -235,7 +242,7 @@ class VR {
 
   //tODO: create index(int x, int y)
   int getIndex(int first, int second) {
-    var val = lookupTable[first];
+    dynamic val = lookupTable[first];
     if (val is VR) return val.index;
     if (val is Map<int, dynamic>) return val[second]._index;
     throw 'Invalid VR "${new String.fromCharCode(first)}${new String.fromCharCode(first)}"';
@@ -243,24 +250,24 @@ class VR {
 
   //TODO: review and make sure it is correct
   //TODO: Compare performance of this with [map] above.
-  static const Map<int, dynamic> lookupTable = const {
-    0x41: const {0x45: kAE, 0x53: kAS, 0x54: kAT},
+  static const Map<int, dynamic> lookupTable = const <int, dynamic>{
+    0x41: const <int, VR>{0x45: kAE, 0x53: kAS, 0x54: kAT},
     0x42: kBR,
     0x43: kCS,
-    0x44: const {0x41: kDA, 0x53: kDS, 0x54: kDT},
-    0x46: const {0x44: kFD, 0x4c: kFL},
+    0x44: const <int, VR>{0x41: kDA, 0x53: kDS, 0x54: kDT},
+    0x46: const <int, VR>{0x44: kFD, 0x4c: kFL},
     0x49: kIS,
-    0x4c: const {0x4f: kLO, 0x54: kLT},
-    0x4f: const {0x42: kOB, 0x44: kOD, 0x46: kOF, 0x4c: kOL, 0x57: kOW},
+    0x4c: const <int, VR>{0x4f: kLO, 0x54: kLT},
+    0x4f: const <int, VR>{0x42: kOB, 0x44: kOD, 0x46: kOF, 0x4c: kOL, 0x57: kOW},
     0x50: kPN,
-    0x53: const {0x48: kSH, 0x4c: kSL, 0x51: kSQ, 0x53: kSS, 0x54: kST},
+    0x53: const <int, VR>{0x48: kSH, 0x4c: kSL, 0x51: kSQ, 0x53: kSS, 0x54: kST},
     0x54: kTM,
-    0x55: const {0x43: kUC, 0x49: kUI, 0x4c: kUL, 0x4e: kUN, 0x52: kUR, 0x53: kUS, 0x54: kUT}
+    0x55: const <int, VR>{0x43: kUC, 0x49: kUI, 0x4c: kUL, 0x4e: kUN, 0x52: kUR, 0x53: kUS, 0x54: kUT}
   };
 }
 
 //TODO: Add this field to VR Definition
-Map<VR, Type> dataTypes = const {
+const Map<VR, String> dataTypes = const <VR, String>{
   // String VRs
   VR.kAE: "AE Title",
   VR.kAS: "String",
@@ -282,7 +289,7 @@ Map<VR, Type> dataTypes = const {
   VR.kUT: "Text",
 
   // Integers
-  VR.kAT: Uint32,
+  VR.kAT: "uint32",
   VR.kOB: "uint8",
   VR.kOW: "uint16",
   VR.kSL: "int32",
@@ -303,7 +310,7 @@ class VRSpecial extends VR {
 
   //TODO: add min, max for value length
   const VRSpecial(this.list, int index, int code, bool isShort, String name, String desc,
-      int minBytes, maxBytes,
+      int minBytes, int maxBytes,
       [ValueChecker check = invalid])
       : super._(index, code, isShort, name, desc, minBytes, maxBytes, check);
 
@@ -320,12 +327,8 @@ class VRSpecial extends VR {
 }
 
 Issue addIssue(Tag tag, Issue issue, int i, String msg) {
-  if (issue == null) {
-    issue = new Issue(tag, i, msg);
-  } else {
-    issue.add(i, msg);
-  }
-  return issue;
+  if (issue == null) return new Issue(tag, i, msg);
+  return issue.add(i, msg);
 }
 
 

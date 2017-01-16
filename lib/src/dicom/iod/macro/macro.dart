@@ -4,14 +4,14 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu>
 // See the AUTHORS file for other contributors.
 
-import 'package:dictionary/dictionary.dart';
-import 'package:dictionary/src/dicom/tag/tag/iod_tag.dart';
+import 'package:dictionary/dicom.dart';
 import 'package:dictionary/src/dicom/tag/tag/iod_sequence.dart';
+import 'package:dictionary/src/dicom/tag/tag/iod_tag.dart';
 
 abstract class MacroBase {
-  String name;
-  IodTag element;
-  String description;
+  String get name;
+  IodTag get element;
+  String get description;
 
   List<MacroBase> get include;
   List<IodTag> get elements;
@@ -27,9 +27,9 @@ abstract class MacroSequenceBase {
 }
 
 class Macro extends MacroBase {
-  String name;
-  IodTag element;
-  String description;
+  final String name;
+  final IodTag element;
+  final String description;
 
 
   Macro(this.name, this.element, this.description);

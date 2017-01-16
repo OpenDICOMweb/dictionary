@@ -68,15 +68,17 @@ int checkBufferLength(int bufferLength, int start, int end) {
 ///
 abstract class ByteBuf {
   /// The [_buf] always [_start]s at _rIndex = 0.
-  List<int> _buf;
+  List<int> get _buf;
 
   /// The current read position in the [_buf]. Must be between [_start] and [_end].
-  int _rIndex;
+  int get _rIndex;
+  set _rIndex(int i);
 
   /// The current write position in the [_buf]. Must be between [_rIndex] and [emd].
-  int _wIndex;
+  int get _wIndex;
+  set _wIndex(int i);
 
-  List<Issue> issues;
+  List<Issue> get issues;
 
   /// Returns the element at index [i] if [i] [_isValidRIndex]; otherwise, returns [null].
   int operator [](int i) => _buf[i];

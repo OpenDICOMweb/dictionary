@@ -1,83 +1,96 @@
 // Copyright (c) 2016, Open DICOMweb Project. All rights reserved.
 // Use of this source code is governed by the open source license
 // that can be found in the LICENSE file.
-// Author: Jim Philbin <jfphilbin@gmail.edu> -
+// Original author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
-import 'integer.dart';
-/// Hash functions for creating [hashCode]s.
+/// The 32-bit hash mask.
+const int k32BitHashMask = 0x1fffffff;
 
-//TODO: improve usage documentation
-/// A Standard [hash] functions.
-///
-/// THe [Hash] class used to create Hash functions that return [hashCode]s.
-///
-/// Uses strategy from Effective Java, Chapter 11.
-///
-/// Example:
-///     int get hashCode => hash(part3, hash(part2, hash(part1)));
-/// The static methods all use [kHashSeed] and [kHashMultiplier]
+// Jenkins hash functions - from quiver package on Pub.
+int _combine32(int hash, int value) {
+  int h = k32BitHashMask & (hash + value);
+  h = k32BitHashMask & (h + ((0x0007ffff & h) << 10));
+  return h ^ (h >> 6);
+}
+
+int _finish32(int hash) {
+  int h = k32BitHashMask & (hash + ((0x03ffffff & hash) << 3));
+  h = h ^ (h >> 11);
+  return k32BitHashMask & (h + ((0x00003fff & h) << 15));
+}
+
+/// Generates a hash code for one object.
+int hash(Object o) => _finish32(_combine32(0, o.hashCode));
+
+/// Generates a hash code for two objects.
+int hash2(Object o0, Object o1) => _finish32(_combine32(_combine32(0, o0.hashCode), o1.hashCode));
+
+/// Generates a hash code for three objects.
+int hash3(Object o0, Object o1, Object o2) =>
+    _finish32(_combine32(_combine32(_combine32(0, o0.hashCode), o1.hashCode), o2.hashCode));
+
+/// Generates a hash code for four objects.
+int hash4(Object o0, Object o1, Object o2, Object o3) => _finish32(_combine32(
+    _combine32(_combine32(_combine32(0, o0.hashCode), o1.hashCode), o2.hashCode), o3.hashCode));
+
+/// Generates a hash code for multiple [objects].
+int hashList(Iterable<Object> objects) =>
+    _finish32(objects.fold(0, (int h, Object o) => _combine32(h, o.hashCode)));
+
+/*TODO 64-bit
+/// The 64-bit hash mask.
+const int k64BitHashMask = 0x1fffffffffffffff;
+
+// Jenkins hash functions - from quiver package on Pub.
+int _combine64(int hash, int value) {
+  int h = k64BitHashMask & (hash + value);
+  h = k64BitHashMask & (h + ((0x0007ffff & h) << 10));
+  return h ^ (h >> 6);
+}
+
+int _finish64(int hash) {
+  int h = 0x1fffffff & (hash + ((0x03ffffffffffffff & hash) << 3));
+  h = h ^ (h >> 11);
+  return 0x1fffffff & (h + ((0x00003fffffffffff & h) << 15));
+}
+*/
+
+/// A class implementing a 32-bit Jenkins hash
 class Hash {
-    final int seed;
-    final int multiplier;
-    final int mask;
+  /// An untested hash seed.
+  static const int kHashSeed = 17;
+  /// The hash seed for any newly created [Hash] [Object]s.
+  final int seed;
 
-    const Hash._(this.seed, this.multiplier, this.mask);
+  /// Creates a new [Hash] object.
+  const Hash(this.seed);
 
-    static const hash32 = const Hash._(Int.kHashSeed, Int.kHashMultiplier, Int.k32BitHashMask);
-    static const hash64 = const Hash._(Int.kHashSeed, Int.kHashMultiplier, Int.k64BitHashMask);
-    static const hash = hash64;
+  /// A constant hash function.
+  static const Hash hash = const Hash(kHashSeed);
 
-    int _hash(Object o, int result) => (multiplier * result + o.hashCode) & mask;
+  int _hash(int hash, Object o) => _finish32(_combine32(kHashSeed, o.hashCode));
 
-    /// Returns a [hashCode] for 1 object.
-    call(Object o) => _hash(o, seed);
+  /// Returns a [hashCode] for 1 object.
+  int call(Object o) => _hash(kHashSeed, o.hashCode);
 
-    //TODO: delete if call is sufficient
-    //int arg1(Object o1) => _hash(o1, seed);
+  /// Generates a hash code for two objects.
+  int n2(Object o0, Object o1) => _finish32(_combine32(_combine32(0, o0.hashCode), 01.hashCode));
 
-    /// Returns a [hashCode] for 2 objects.
-    int arg2(Object o1, o2) => _hash(o1, _hash(o2, seed));
+  /// Generates a hash code for three objects.
+  int n3(Object o0, Object o1, Object o2) =>
+      _finish32(_combine32(_combine32(_combine32(0, o0.hashCode), o1.hashCode), o2.hashCode));
 
-    /// Returns a [hashCode] for 2 objects.
-    int arg3(Object o1, o2, o3) => _hash(o1, _hash(o2, _hash(o3, seed)));
+  /// Generates a hash code for four objects.
+  int n4(Object o0, Object o1, Object o2, Object o3) => _finish32(_combine32(
+      _combine32(_combine32(_combine32(0, o0.hashCode), o1.hashCode), o2.hashCode), o3.hashCode));
 
-    /// Returns a [hashCode] for 2 objects.
-    int arg4(Object o1, o2, o3, o4) => _hash(o1, _hash(o2, _hash(o3, _hash(o4, seed))));
+  /// Generates a hash code for four objects.
+  int n5(Object o0, Object o1, Object o2, Object o3, Object o4) =>
+  _finish32(_combine32(_combine32(_combine32(_combine32(
+  _combine32(0, o0.hashCode), o1.hashCode), o2.hashCode), o3.hashCode), o4.hashCode));
 
-    /// Returns a [hashCode] for 2 objects.
-    int arg5(Object o1, o2, o3, o4, o5) =>
-        _hash(o1, _hash(o2, _hash(o3, _hash(o4, _hash(o5, seed)))));
-
-    /// Returns a [hashCode] for a [List] of objects.
-    int list(List<Object> list) {
-        int value = Int.kHashSeed;
-        for (int i = 0; i < list.length; i++) value = _hash(list[i], value);
-        return value;
-    }
-
-    /// Returns a [hashCode] for 1 object using the default method.
-    static int n1(Object o1) => hash64(o1);
-
-    /// Returns a [hashCode] for 2 objects using the default method.
-    static int n2(Object o1, o2) => hash64(o1, hash64(o2));
-
-    /// Returns a [hashCode] for 3 objects using the default method.
-    static int n3(Object o1, o2, o3) => hash64(o1, hash64(o2, hash64(o3)));
-
-    /// Returns a [hashCode] for 4 objects using the default method.
-    static int n4(Object o1, o2, o3, o4) => hash64(o1, hash64(o2, hash64(o3, hash64(o4))));
-
-    /// Returns a [hashCode] for 5 objects using the default method.
-    static int n5(Object o1, o2, o3, o4, o5) =>
-        hash64(o1, hash64(o2, hash64(o3, hash64(o4, hash64(o5)))));
-
-    /// Returns a [hashCode] for a [List] of objects using the default method.
-    ///
-    /// Note: This should only be used when hashing more than 5 objects.
-    static int nList(List<Object> list) {
-        int value = Int.kHashSeed;
-        for (int i = 0; i < list.length; i++) value = hash64(list[i], value);
-        return value;
-    }
+  /// Generates a hash code for multiple [objects].
+  int list(Iterable<Object> objects) =>
+      _finish32(objects.fold(0, (int h, Object o) => _combine32(h, o.hashCode)));
 }

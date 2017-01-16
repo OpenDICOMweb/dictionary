@@ -12,6 +12,7 @@ import 'wk_uid_type.dart';
 class TransferSyntax extends WKUid {
   static const WKUidType _type = WKUidType.kSopClass;
   final String mediaType;
+
   ///  Specifies the size of the Pixel Cell. kBitsAllocated (0028,0100)
   // final int bitAllocated;
   /// [bitsStored] shall never be larger than [bitsAllocated]. kBitsStored (0028,0101)
@@ -25,12 +26,8 @@ class TransferSyntax extends WKUid {
   final bool mayHaveFragments;
 
   const TransferSyntax(String uid, String name, this.mediaType,
-      [bool isRetired = false,
-      this.isEncapsulated = true,
-      this.mayHaveFragments = true])
+      [bool isRetired = false, this.isEncapsulated = true, this.mayHaveFragments = true])
       : super(uid, _type, isRetired, name);
-
-  WKUidType get type => _type;
 
   // bool hasEmptyOffsetTable => false;
 
@@ -38,12 +35,13 @@ class TransferSyntax extends WKUid {
   bool get isTransferSyntax => true;
 
   bool get isNativeFormat => !isEncapsulated;
-  
+
   bool get isImplicitLittleEndian => this == kImplicitVRLittleEndian;
 
   bool get isBigEndian => this == kExplicitVRBigEndian;
 
   bool get isValidForDICOMweb => !(isImplicitLittleEndian || isBigEndian);
+
   /// Returns [true] if the [TransferSyntax] exists, but has been retired.
   bool get isRetiredTransferSyntax => isRetired;
 
@@ -81,8 +79,8 @@ class TransferSyntax extends WKUid {
   static const kDeflatedExplicitVRLittleEndian = const TransferSyntax(
       "1.2.840.10008.1.2.1.99", "Deflated Explicit VR Little Endian", "image/deflate??", false);
 
-  static const kExplicitVRBigEndian = const TransferSyntax("1.2.840.10008.1.2.2",
-      "Explicit VR Big Endian (Retired)", "image/bigEndian", false, true);
+  static const kExplicitVRBigEndian = const TransferSyntax(
+      "1.2.840.10008.1.2.2", "Explicit VR Big Endian (Retired)", "image/bigEndian", false, true);
 
   static const kJPEGBaseline_1 = const TransferSyntax(
       "1.2.840.10008.1.2.4.50",

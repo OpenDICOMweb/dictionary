@@ -4,7 +4,6 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> - 
 // See the AUTHORS file for other contributors.
 
-import 'package:dictionary/src/dicom/tag/tag/constants.dart';
 import 'package:dictionary/src/dicom/vm.dart';
 import 'package:dictionary/src/dicom/vr/vr.dart';
 
@@ -100,7 +99,7 @@ class DcmDir {
       0x00041512,
       "Referenced Transfer Syntax UID in File", VR.kUI, VM.k1, false);
 
-  static const DcmDir k = const DcmDir(
+  static const DcmDir kReferencedRelatedGeneralSOPClassUIDInFile = const DcmDir(
       "ReferencedRelatedGeneralSOPClassUIDInFile",
       0x0004151a,
       "Referenced Related General SOP Class UID in File", VR.kUI, VM.k1_n, false);
@@ -110,7 +109,7 @@ class DcmDir {
       0x00041600,
       "Number of References", VR.kUL, VM.k1, true);
 
-  static const List<DcmDir> dcmDirTags = const [
+  static const List<DcmDir> dcmDirTags = const <DcmDir>[
     kFileSetID, // (0004,1130)
     kFileSetDescriptorFileID, // (0004,1141)
     kSpecificCharacterSetOfFileSetDescriptorFile, // (0004,1142)

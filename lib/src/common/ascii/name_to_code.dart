@@ -9,7 +9,7 @@
 /// or control character. If [name] is not a valid name returns [null].
 int codeFromName(String name) => nameToCode[name.toUpperCase()];
 
-/// A map from [String] [name] to [int] [tag].
+/// A map from Ascii name ([String]) to [int].
 const Map<String, int> nameToCode = const <String, int>{
   // NUL:  Null
   "NUL": 0,

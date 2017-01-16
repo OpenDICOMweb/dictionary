@@ -29,12 +29,15 @@ class Int {
   static bool get isInteger => true;
 
   static get isSigned => true;
-  static get isUnsigned => false;
+  static get isUnsigned => !isSigned;
 
+  /// Calculates the minimum value for an IntXX based on its [lengthInBits].
   static int minValue(int lengthInBits) => (1 << (lengthInBits - 1));
 
+  /// Calculates the maximum value for an IntXX based on its [lengthInBits].
   static int maxValue(int lengthInBits) => (1 << (lengthInBits - 1)) - 1;
 
+  /// Returns [true] if [a] and [b] have the same integer value.
   static bool equal(List<int> a, List<int> b) {
     if (identical(a, b)) return true;
     if (a.length != b.length) return false;
@@ -43,15 +46,11 @@ class Int {
   }
 
   /// Returns [true] if [value] is between [min] and [max] inclusive.
+  //TODO: change so signature is inRange(int v, int min, int max) to conform to Dart RangeError.*.
   static bool inRange(int min, int value, int max) => (min <= value && value <= max);
 
   static String checkRange(int value, int min, int max) =>
       (inRange(value, min, max)) ? null : 'RangeError: min($min) <= Value($value) <= max($max)';
-
-  /// _Deprecated_: Use checkList instead.
-  @deprecated
-  static List<int> listGuard(List<int> vList, _InRange inRange, int minLength, int maxLength) =>
-      checkList(vList, inRange, minLength, maxLength);
 
   /// Returns a [List<int>] if all values are [int] and [inRange], otherwise [null].
   static List<int> checkList(List<int> vList, _InRange inRange, int minLength, int maxLength) {
@@ -75,65 +74,30 @@ class Int {
   static bool isNotValidList(List<int> vList, _InRange inRange, int minLength, int maxLength) =>
       !isValidList(vList, inRange, minLength, maxLength);
 
-  //**** hashing support ****
-  /// The default hash seed.
-  static const int kHashSeed = 17;
-
-  /// The default hash multiplier
-  static const int kHashMultiplier = 37;
-
-  // TODO: customize this so it is different on 32 and 64 bit systems
-  /// Returns a 64-bit [hashCode] for [Object] [o].
-  static int hash(Object o, [int result = kHashSeed]) => hash64(o, kHashSeed);
-
-  /// The 32-bit hash mask.
-  static const int k32BitHashMask = 0x3FFFFFFF;
-
-  /// Returns a 32-bit [hashCode] for [Object] [o].
-  ///
-  /// The sum is truncated to 30 bits to make sure it fits into Dart's small integer type([smi]).
-  /// See https://www.dartlang.org/articles/dart-vm/numeric-computation.
-  static int hash32(Object o, [int result = kHashSeed]) =>
-      (kHashMultiplier * result + o.hashCode) & k32BitHashMask;
-
-  /// The 64-bit hash mask.
-  static const int k64BitHashMask = 0x3FFFFFFFFFFFFFFF;
-
-  /// Returns a 64-bit [hashCode] for [Object] [o].
-  ///
-  /// The sum is truncated to 62 bits to make sure it fits into Dart's small integer type([smi]).
-  /// See https://www.dartlang.org/articles/dart-vm/numeric-computation.
-  static int hash64(Object o, [int result = kHashSeed]) =>
-      (kHashMultiplier * result + o.hashCode) & k64BitHashMask;
-
   //**** String Utilities ****
 
-  /// _Deprecated: Use [hex] instead._
-  @deprecated
-  static toHex(int i, [int padding = 0]) => i.toRadixString(16).padLeft(padding, "0");
-
-  /// Returns [value] as a hexadecimal string of [length] with prefix [prefix].
-  static hex(int i, [int padding = 0, prefix = '0x']) =>
-      prefix + i.toRadixString(16).padLeft(padding, "0");
+  /// Returns a representation of [i] as a hexadecimal string of [length] with prefix [prefix].
+  static hex(int i, [int length = 0, prefix = '0x']) =>
+      prefix + i.toRadixString(16).padLeft(length, "0");
 
   /// Returns a [List] of hex [Strings] mapped from [list]
-  static Iterable<String> listToHex(List<int> list) => list.map(hex);
+  static Iterable<String> listToHex(List<int> list) => list.map((int i) => hex(i));
 
   /// Returns a [String] in the form of a [List] of [hex] [String]s
   String listToHexString(List<String> list) => "[" + list.join(", ") + "]";
 
-  /// Returns [value] in kilobytes (KB).
+  /// Returns [i] in units of kilobytes (KB).
   static toKB(int i) => '${i / kKB}KB';
 
-  /// Returns [value] in megabytes (MB).
+  /// Returns [i] in units of megabytes (MB).
   static toMB(int i) => '${i / kMB}MB';
 
-  /// Returns [value] in megabytes (MB).
+  /// Returns [i] in units of megabytes (MB).
   static toGB(int i) => '${i / kGB}GB';
 
   /// Converts an [int] into a [String] of hexadecimal digits.
   ///
-  /// Returns a hexadecimal [String] of length [nDigits] with [padLeft] padding,
+  /// Returns a hexadecimal [String] of length [nDigits] with [s.padLeft] padding,
   /// and a leading [prefix], which defaults to "0x".
   static String format(int i,
       {int radix: 16, int nDigits: -1, String padding: '0', String prefix: '0x'}) {
@@ -160,24 +124,11 @@ class Int8 extends Int {
 
   static String checkRange(int v) => Int.checkRange(v, min, max);
 
-  /// _Deprecated_: Use [hex] instead.
-  @deprecated
-  static toHex(int i, [int padding = 0]) => Int.hex(i, padding);
-
   static hex(int i) => Int.hex(i, 2);
-
-  /// _Deprecated: Use [checkList] instead._
-  @deprecated
-  static List<int> validate(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
-      Int._checkList(vList, inRange, minLength, maxLength);
-
-  /// _Deprecated_: Use [Int8.checkList] instead.
-  static List<int> listGuard(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
-      checkList(vList, minLength, maxLength);
 
   /// Returns it argument [vList] if valid; otherwise, returns [null].
   static List<int> checkList(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
-      Int._checkList(vList, inRange, minLength, maxLength);
+      (vList is Int16List) ? vList : Int._checkList(vList, inRange, minLength, maxLength);
 
   /// Returns a [true] if all values are valid Uint32, otherwise [false].
   static bool isValidList(List<int> vList) => (checkList(vList) == null) ? false : true;
@@ -201,9 +152,9 @@ class Int8 extends Int {
     int oib =
         RangeError.checkValidRange(0, offsetInBytes, bytes.lengthInBytes);
     print('oib: $oib');
-    length = RangeError.checkValidRange(0, length, bytes.lengthInBytes);
-    print('length: $length');
-    return bytes.buffer.asInt8List(bytes.offsetInBytes + oib, length);
+    var limit = RangeError.checkValidRange(0, length, bytes.lengthInBytes);
+    print('length: $limit');
+    return bytes.buffer.asInt8List(bytes.offsetInBytes + oib, limit);
   }
 }
 
@@ -224,25 +175,11 @@ class Int16 extends Int {
 
   static String checkRange(int v) => Int.checkRange(v, min, max);
 
-  /// _Deprecated: Use [hex] instead._
-  @deprecated
-  static toHex(int i, [int padding = 0]) => Int.hex(i, padding);
-
   static hex(int i) => Int.hex(i, 4);
-
-  /// _Deprecated_: Use [Int.checkList] instead.
-  @deprecated
-  static List<int> validate(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
-      Int._checkList(vList, inRange, minLength, maxLength);
-
-  /// _Deprecated_: Use [Int16.checkList] instead.
-  @deprecated
-  static List<int> listGuard(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
-      checkList(vList, minLength, maxLength);
 
   /// Returns it argument [vList] if valid; otherwise, returns [null].
   static List<int> checkList(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
-      Int._checkList(vList, inRange, minLength, maxLength);
+      (vList is Int16List) ? vList : Int._checkList(vList, inRange, minLength, maxLength);
 
   /// Returns a [true] if all values are valid Uint32, otherwise [false].
   static bool isValidList(List<int> vList) => (checkList(vList) == null) ? false : true;
@@ -262,9 +199,10 @@ class Int16 extends Int {
   static Int16List view(Int16List list, [int offsetInBytes = 0, int length]) =>
       viewOfBytes(list.buffer.asUint8List());
 
-  /// Returns a [Int16List] created from the [Uint8List] [bytes]. If [offsetInBytes]
-  /// is aligned on an 2-byte boundary, then a [Int16List.view] is returned; otherwise,
-  /// the [bytes] are copied to a [new] [Int16List].
+  /// Returns a [Int16List] created from the [Uint8List] [bytes]. If [offset],
+  /// which is the number of elements to skip, is aligned on an 2-byte boundary,
+  /// then a [Int16List.view] is returned; otherwise, the [bytes] are copied to
+  /// a [new] [Int16List].
   static Int16List viewOfBytes(Uint8List bytes, [int offset = 0, length]) {
     print('offset: $offset, bytes.oib ${bytes.offsetInBytes}');
     int oib = toLengthInBytes(offset);
@@ -304,25 +242,11 @@ class Int32 extends Int {
 
   static String checkRange(int v) => Int.checkRange(v, min, max);
 
-  /// _Deprecated: Use [hex] instead._
-  @deprecated
-  static toHex(int i, [int padding = 0]) => Int.hex(i, padding);
-
   static hex(int i) => Int.hex(i, 8);
-
-  /// _Deprecated_: Use [Int32.checkList] instead.
-  @deprecated
-  static List<int> validate(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
-      Int._checkList(vList, inRange, minLength, maxLength);
-
-  /// _Deprecated_: Use [Int32.checkList] instead.
-  @deprecated
-  static List<int> listGuard(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
-      checkList(vList, minLength, maxLength);
 
   /// Returns it argument [vList] if valid; otherwise, returns [null].
   static List<int> checkList(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
-      Int._checkList(vList, inRange, minLength, maxLength);
+      (vList is Int32List) ? vList : Int._checkList(vList, inRange, minLength, maxLength);
 
   /// Returns a [true] if all values are valid Uint32, otherwise [false].
   static bool isValidList(List<int> vList) => (checkList(vList) == null) ? false : true;
@@ -381,20 +305,11 @@ class Int64 extends Int {
 
   static String checkRange(int v) => Int.checkRange(v, min, max);
 
-  /// _Deprecated: Use [hex] instead._
-  @deprecated
-  static toHex(int i, [int padding = 0]) => Int.hex(i, padding);
-
   static hex(int i) => Int.hex(i, 16);
-
-  /// _Deprecated_: Use [Int64.checkList] instead.
-  @deprecated
-  static List<int> validate(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
-      Int._checkList(vList, inRange, minLength, maxLength);
 
   /// Returns it argument [vList] if valid; otherwise, returns [null].
   static List<int> checkList(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
-      Int._checkList(vList, inRange, minLength, maxLength);
+      (vList is Int64List) ? vList : Int._checkList(vList, inRange, minLength, maxLength);
 
   /// Returns a [true] if all values are valid Uint32, otherwise [false].
   static bool isValidList(List<int> vList) => (checkList(vList) == null) ? false : true;
@@ -444,13 +359,6 @@ class Uint extends Int {
 
   static int max(int sizeInBits) => (1 << sizeInBits) - 1;
 
-  /// _Deprecated: Use [Int.hex] instead._
-  @deprecated
-  static toHex(int i, [int padding = 0]) => Int.hex(i, padding);
-
-  /// _Deprecated: Use [Int.hex] instead._
-  @deprecated
-  static hex(int i, [int padding = 0]) => Int.hex(i, padding);
 }
 
 class Uint8 extends Uint {
@@ -470,25 +378,11 @@ class Uint8 extends Uint {
 
   static String checkRange(int v) => Int.checkRange(v, min, max);
 
-  /// _Deprecated: Use [hex] instead._
-  @deprecated
-  static toHex(int i, [int padding = 0]) => Int.hex(i, padding);
-
   static hex(int i) => Int.hex(i, 2);
-
-  /// _Deprecated_: Use [Uint8.checkList] instead.
-  @deprecated
-  static List<int> validate(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
-      Int._checkList(vList, inRange, minLength, maxLength);
-
-  /// _Deprecated_: Use [Uint8.checkList] instead.
-  @deprecated
-  static List<int> listGuard(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
-      checkList(vList, minLength, maxLength);
 
   /// Returns it argument [vList] if valid; otherwise, returns [null].
   static List<int> checkList(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
-      Int._checkList(vList, inRange, minLength, maxLength);
+      (vList is Uint8List) ? vList : Int._checkList(vList, inRange, minLength, maxLength);
 
   /// Returns a [true] if all values are valid Uint8, otherwise [false].
   static bool isValidList(List<int> vList) => (checkList(vList) == null) ? false : true;
@@ -533,25 +427,11 @@ class Uint16 extends Uint {
 
   static String checkRange(int v) => Int.checkRange(v, min, max);
 
-  /// _Deprecated: Use [hex] instead._
-  @deprecated
-  static toHex(int i, [int padding = 0]) => Int.hex(i, padding);
-
   static hex(int i) => Int.hex(i, 4);
-
-  /// _Deprecated_: Use [Uint16.checkList] instead.
-  @deprecated
-  static List<int> validate(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
-      Int._checkList(vList, inRange, minLength, maxLength);
-
-  /// _Deprecated_: Use [Uint16.checkList] instead.
-  @deprecated
-  static List<int> listGuard(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
-      checkList(vList, minLength, maxLength);
 
   /// Returns it argument [vList] if valid; otherwise, returns [null].
   static List<int> checkList(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
-      Int._checkList(vList, inRange, minLength, maxLength);
+      (vList is Uint16List) ? vList : Int._checkList(vList, inRange, minLength, maxLength);
 
   /// Returns a [true] if all values are valid Uint32, otherwise [false].
   static bool isValidList(List<int> vList) => (checkList(vList) == null) ? false : true;
@@ -611,25 +491,11 @@ class Uint32 extends Uint {
 
   static String checkRange(int v) => Int.checkRange(v, min, max);
 
-  /// _Deprecated: Use [hex] instead._
-  @deprecated
-  static toHex(int i, [int padding = 0]) => Int.hex(i, padding);
-
   static hex(int i) => Int.hex(i, 8);
-
-  /// _Deprecated_: Use [Uint32.checkList] instead.
-  @deprecated
-  static List<int> validate(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
-      Int._checkList(vList, inRange, minLength, maxLength);
-
-  /// _Deprecated_: Use [Uint32.checkList] instead.
-  @deprecated
-  static List<int> listGuard(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
-      checkList(vList, minLength, maxLength);
 
   /// Returns it argument [vList] if valid; otherwise, returns [null].
   static List<int> checkList(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
-      Int._checkList(vList, inRange, minLength, maxLength);
+      (vList is Uint32List) ? vList : Int._checkList(vList, inRange, minLength, maxLength);
 
   /// Returns a [true] if all values are valid Uint32, otherwise [false].
   static bool isValidList(List<int> vList) => (checkList(vList) == null) ? false : true;
@@ -689,26 +555,11 @@ class Uint64 extends Uint {
 
   static String checkRange(int v) => Int.checkRange(v, min, max);
 
-  /// _Deprecated: Use [hex] instead._
-  @deprecated
-  static toHex(int i, [int padding = 0]) => Int.hex(i, padding);
-
   static hex(int i) => Int.hex(i, 16);
-
-  /// _Deprecated_: Use [Uint64.checkList] instead.
-  @deprecated
-  static List<int> validate(List<int> vList,
-          [int minLength = min, int maxLength = maxLongLength]) =>
-      Int._checkList(vList, inRange, minLength, maxLength);
-
-  /// _Deprecated_: Use [Uint64.checkList] instead.
-  @deprecated
-  static List<int> listGuard(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
-      checkList(vList, minLength, maxLength);
 
   /// Returns it argument [vList] if valid; otherwise, returns [null].
   static List<int> checkList(List<int> vList, [int minLength = 0, int maxLength = maxLongLength]) =>
-      Int._checkList(vList, inRange, minLength, maxLength);
+      (vList is Uint64List) ? vList : Int._checkList(vList, inRange, minLength, maxLength);
 
   /// Returns a [true] if all values are valid Uint32, otherwise [false].
   static bool isValidList(List<int> vList) => (checkList(vList) == null) ? false : true;
@@ -752,26 +603,6 @@ class Uint64 extends Uint {
   static toUint64List(List<int> list) =>
       (list is Uint64List) ? list : new Uint64List.fromList(list);
 }
-
-/// _Deprecated: Use [Int.hex] instead.
-@deprecated
-String intToHex(int i, [int nDigits = -1, String padding = '0', String prefix = '0x']) {
-  String s = i.toRadixString(16);
-  s = (nDigits == -1) ? s : s.padLeft(nDigits, padding);
-  return prefix + s;
-}
-
-/// _Deprecated: Use [Int.listToHex] instead.
-@deprecated
-Iterable<String> intListToHex(List<int> list) => list.map(intToHex);
-
-/// _Deprecated: Use [Int.listToHexString] instead.
-@deprecated
-String hexListToString(List<String> list) => "[" + list.join(", ") + "]";
-
-/// _Deprecated: Use [Int.inRange] instead.
-@deprecated
-bool inRange(int min, int value, int max) => ((min <= value) && (value <= max));
 
 class Range {
   final min;

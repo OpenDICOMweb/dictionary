@@ -7,11 +7,7 @@
 // DICOM
 
 export 'package:dictionary/src/dicom/constants.dart';
-//export 'package:dictionary/src/dicom/tag/dcm_dir/constants.dart';
-// 'package:dictionary/src/dicom/tag/dcm_dir/dcm_dir.dart';
 export 'package:dictionary/src/dicom/defined_terms/defined_terms.dart';
-//export 'package:dictionary/src/dicom/tag/element_def.dart';
-//export 'package:dictionary/src/dicom/tag/element_type.dart';
 export 'package:dictionary/src/dicom/enum_values/enum_values.dart';
 export 'package:dictionary/src/dicom/modality.dart';
 export 'package:dictionary/src/dicom/string/char_predicates.dart';

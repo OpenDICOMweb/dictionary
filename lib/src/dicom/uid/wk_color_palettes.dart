@@ -12,15 +12,13 @@ import 'wk_uid_type.dart';
 
 //TODO: finish
 class ColorPalette extends WKUid {
-  static const WKUidType _type = WKUidType.kColorPalette;
+  static const WKUidType uidType = WKUidType.kColorPalette;
   static const String refLink = 'http://dicom.nema.org/medical/dicom/current/output/html/part06.html#table_B.1-1';
   static const List<VR> vrs = const [VR.kSS, VR.kUS];
   final String description;
 
   const ColorPalette(String uid, String label, this.description)
       : super(uid, WKUidType.kColorPalette, false, "HOT_IRON");
-
-  WKUidType get type => _type;
 
   static const hotIron =
   const ColorPalette("1.2.840.10008.1.​5.​1", "HOT_IRON", "Hot Iron");

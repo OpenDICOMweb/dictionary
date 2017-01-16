@@ -13,6 +13,9 @@ class Group {
   static const int kGroupMask = 0xFFFF0000;
   static const shiftCount = 16;
 
+  /// Groups numbers that shall not be used in [PrivateTag]s.
+  static const List<int> invalidPrivateGroups = const <int>[0x0001, 0x0003, 0x0005, 0x0007, 0xFFFF];
+
   /// Returns the must significant 16 bits of the [tagCode]*[]:
   static int fromTag(int tagCode) => tagCode >> shiftCount;
 

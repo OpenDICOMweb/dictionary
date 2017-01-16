@@ -21,7 +21,9 @@
       <excludeFolder url="file://$MODULE_DIR$/packages" />
       <excludeFolder url="file://$MODULE_DIR$/temp" />
       <excludeFolder url="file://$MODULE_DIR$/test/common/ascii/packages" />
+      <excludeFolder url="file://$MODULE_DIR$/test/common/buffer/packages" />
       <excludeFolder url="file://$MODULE_DIR$/test/common/date_time/packages" />
+      <excludeFolder url="file://$MODULE_DIR$/test/common/integer/packages" />
       <excludeFolder url="file://$MODULE_DIR$/test/common/packages" />
       <excludeFolder url="file://$MODULE_DIR$/test/dicom/packages" />
       <excludeFolder url="file://$MODULE_DIR$/test/dicom/reader/packages" />
@@ -40,8 +42,10 @@
       <excludeFolder url="file://$MODULE_DIR$/tool/element_def/gen/packages" />
       <excludeFolder url="file://$MODULE_DIR$/tool/element_def/packages" />
       <excludeFolder url="file://$MODULE_DIR$/tool/packages" />
+      <excludeFolder url="file://$MODULE_DIR$/tool/src/build/packages" />
       <excludeFolder url="file://$MODULE_DIR$/tool/src/packages" />
       <excludeFolder url="file://$MODULE_DIR$/tool/src/private_tags/data/packages" />
+      <excludeFolder url="file://$MODULE_DIR$/tool/src/private_tags/output/packages" />
       <excludeFolder url="file://$MODULE_DIR$/tool/src/private_tags/packages" />
     </content>
     <orderEntry type="inheritedJdk" />

@@ -17,7 +17,7 @@ part of odw.sdk.dictionary.common.reader.byte_buf;
 // **** Every Getter or Method should leave the [_rIndex] in the correct position,
 // **** unless stated otherwise.
 
-typedef bool _CharTest(code);
+typedef bool _CharTest(int code);
 
 /* flush
 int checkBufferLength(int bufferLength, int start, int end) {
@@ -42,9 +42,10 @@ int checkBufferLength(int bufferLength, int start, int end) {
 typedef int _CharConverter(int c);
 
 abstract class Reader extends ByteBuf {
-  List<int> _buf;
-  int _rIndex;
-  int _wIndex;
+  //List<int> _buf;
+  //int _rIndex;
+  //int _wIndex;
+  //List<Issue> issues = [];
 
   // **** Abstract methods that must be implemented.
 
@@ -60,8 +61,10 @@ abstract class Reader extends ByteBuf {
 
   // **** end of abstract methods.
 
+  @override
   int operator [](int i) => _buf[i];
 
+  @override
   int get length => _buf.length;
 
   // **** Peek, read, or unread at [index].
@@ -131,7 +134,7 @@ abstract class Reader extends ByteBuf {
   String readString([int min = 0, int max]) {
     int limit = _getRLimit(min, max);
     if (limit == null) return null;
-    var s = substring(_rIndex, limit);
+    String s = substring(_rIndex, limit);
     _rIndex = limit;
     return s;
   }
@@ -174,7 +177,7 @@ abstract class Reader extends ByteBuf {
   }
 
   /// Reads the elements from [readIndex] to [limit] checking that each element
-  /// satisfies the [test].  Returns a [Slice] (or [View]) of this [Reader],
+  /// satisfies the [test].  Returns a Slice (or View) of this [Reader],
   /// If all element pass [test], otherwise, returns null.
   ///
   /// Note: this doesn't check for [kSpace] or [kNull] at the end of the string.
@@ -217,7 +220,7 @@ abstract class Reader extends ByteBuf {
     String msg0 = _intRangeError(limit, min, max);
     for (int i = _rIndex; i < limit; i++) {
       int c = _buf[i];
-      if (filter(c)) return [msg0, _invalidChar(substring(_rIndex, limit), c, i)];
+      if (filter(c)) return <String>[msg0, _invalidChar(substring(_rIndex, limit), c, i)];
     }
     // Success
     return null;
@@ -230,19 +233,19 @@ abstract class Reader extends ByteBuf {
     String msg0 = _intRangeError(s.length, 0, max);
     for (int i = _rIndex; i < _wIndex; i++) {
       int c = s.codeUnitAt(i);
-      if (filter(c)) return [msg0, _invalidChar(substring(_rIndex, limit), c, i)];
+      if (filter(c)) return <String>[msg0, _invalidChar(substring(_rIndex, limit), c, i)];
     }
     return null; // Success
   }
 
   // DICOM Text Strings
-  bool _StringFilter(int c) => (c < kSpace || c == kBackslash || c == kDelete);
-  List<String> getErrorsAE(String s) => _stringErrors(s, 16, _StringFilter);
-  List<String> getErrorsCS(String s) => _stringErrors(s, 16, _StringFilter);
-  List<String> getErrorsPN(String s) => _stringErrors(s, 5 * 64, _StringFilter);
-  List<String> getErrorsSH(String s) => _stringErrors(s, 16, _StringFilter);
-  List<String> getErrorsLO(String s) => _stringErrors(s, 64, _StringFilter);
-  List<String> getErrorsUC(String s) => _stringErrors(s, kMaxLongLengthInBytes, _StringFilter);
+  bool _stringFilter(int c) => (c < kSpace || c == kBackslash || c == kDelete);
+  List<String> getErrorsAE(String s) => _stringErrors(s, 16, _stringFilter);
+  List<String> getErrorsCS(String s) => _stringErrors(s, 16, _stringFilter);
+  List<String> getErrorsPN(String s) => _stringErrors(s, 5 * 64, _stringFilter);
+  List<String> getErrorsSH(String s) => _stringErrors(s, 16, _stringFilter);
+  List<String> getErrorsLO(String s) => _stringErrors(s, 64, _stringFilter);
+  List<String> getErrorsUC(String s) => _stringErrors(s, kMaxLongLengthInBytes, _stringFilter);
 
   // DICOM Texts
   bool _textFilter(int c) => (c < kSpace || c == kDelete);
@@ -403,13 +406,13 @@ abstract class Reader extends ByteBuf {
     int limit = _rIndex + max;
     int start = _rIndex;
     int n = 0;
-    print('@${_rIndex} start n: $n');
+    print('@$_rIndex start n: $n');
     for (; _rIndex < limit; _rIndex++) {
       int v = _toHex(_buf[_rIndex]);
-      print('@${_rIndex} v: $v');
+      print('@$_rIndex v: $v');
       if (v == null) return v;
       n = (n * 16) + v;
-      print('@${_rIndex} n: $n');
+      print('@$_rIndex n: $n');
     }
     if ((_rIndex - start) < min) {
       _rIndex = start;
@@ -598,7 +601,7 @@ abstract class Reader extends ByteBuf {
     int s = second;
     if (s == null) return null;
     int f = fraction;
-    if (s == null) return null;
+    if (f == null) return null;
     return new Time(h, m, s, f);
   }
 
@@ -614,11 +617,11 @@ abstract class Reader extends ByteBuf {
     return new Time(h, m, s);
   }
 
-  Time time([internet = false]) => (internet) ? internetTime : dicomTime;
+  Time time([bool internet = false]) => (internet) ? internetTime : dicomTime;
 
   // **** Time Zone
 
-  /// Reads the next [char] and returns -1 if it is "-",
+  /// Reads the next character and returns -1 if it is "-",
   /// 0 if it is "Z" or "z", or 1 if it is "+"; otherwise,
   /// returns [null].
   int get tzSign {
@@ -672,7 +675,7 @@ abstract class Reader extends ByteBuf {
     return null;
   }
 
-  static const List<int> ageUnits = const [kD, kW, kM, kY];
+  static const List<int> ageUnits = const <int>[kD, kW, kM, kY];
 
   String get age {
     int start = _rIndex;
@@ -684,31 +687,31 @@ abstract class Reader extends ByteBuf {
   }
 
   List<String> getErrorsDA(String s) {
-    var msg0 = _intRangeError(s.length, 8, 8);
-    int v = num.parse(s, (s) => null);
+    String msg0 = _intRangeError(s.length, 8, 8);
+    int v = num.parse(s, (String s) => null);
     String valueMsg = (v == null) ? 'Invalid Character in DS String: "$s"' : "";
-    return [msg0, valueMsg];
+    return <String>[msg0, valueMsg];
   }
 
   List<String> getErrorsDT(String s) {
     String msg0 = _intRangeError(s.length, 8, 8);
-    int v = num.parse(s, (s) => null);
+    int v = num.parse(s, (String s) => null);
     String valueMsg = (v == null) ? 'Invalid Character in DS String: "$s"' : "";
-    return [msg0, valueMsg];
+    return <String>[msg0, valueMsg];
   }
 
   List<String> getErrorsTM(String s) {
     String msg0 = _intRangeError(s.length, 0, 16);
-    int v = num.parse(s, (s) => null);
+    int v = num.parse(s, (String s) => null);
     String valueMsg = (v == null) ? 'Invalid Character in DS String: "$s"' : "";
-    return [msg0, valueMsg];
+    return <String>[msg0, valueMsg];
   }
 
   List<String> getErrorsUI(String s) {
     String msg0 = _intRangeError(s.length, 8, 64);
-    int v = num.parse(s, (s) => null);
+    int v = num.parse(s, (String s) => null);
     String valueMsg = (v == null) ? 'Invalid Character in DS String: "$s"' : "";
-    return [msg0, valueMsg];
+    return <String>[msg0, valueMsg];
   }
 
   //TODO: do something more efficient
@@ -719,7 +722,7 @@ abstract class Reader extends ByteBuf {
     try {
       uri = Uri.parse(s);
     } on FormatException catch (e) {
-      return [msg0, 'Invalid URI($uri) - error at offset(${e.offset}'];
+      return <String>[msg0, 'Invalid URI($uri) - error at offset(${e.offset}'];
     }
     // Success
     return null;
@@ -727,19 +730,20 @@ abstract class Reader extends ByteBuf {
 
   List<String> getErrorsAS(String s) {
     String msg0 = _intRangeError(s.length, 4, 4);
-    int v = num.parse(s, (s) => null);
+    int v = num.parse(s, (String s) => null);
     String valueMsg = (v == null) ? 'Invalid Character in DS String: "$s"' : "";
-    return [msg0, valueMsg];
+    return <String>[msg0, valueMsg];
   }
 }
 
 class StringReader extends Reader {
+  final List<Issue> issues = <Issue>[];
   final List<int> _buf;
   final String s;
   final int _start;
   int _rIndex;
   // Strings can only be read not written.
-  final _wIndex;
+  int _wIndex;
 
   StringReader(this.s, [this._start = 0, int end])
       : _buf = s.codeUnits,
@@ -771,6 +775,7 @@ class StringReader extends Reader {
 }
 
 class Utf16Reader extends Reader {
+  final List<Issue> issues = <Issue>[];
   final Uint16List _buf;
   int _rIndex;
   int _wIndex;
@@ -794,9 +799,9 @@ class Utf16Reader extends Reader {
   int get offsetInBytes => _buf.offsetInBytes;
 
   Utf16Reader view([int start = 0, int end]) {
-    _wIndex = checkBufferLength(this._wIndex, start, end);
-    _buf = _buf.buffer.asUint16List(start, end);
-    return new Utf16Reader.fromCodeUnits(_buf);
+    int wIndex = checkBufferLength(this._wIndex, start, end);
+    Uint16List buf = _buf.buffer.asUint16List(start, end);
+    return new Utf16Reader.fromCodeUnits(buf, start, wIndex);
   }
 
   Utf16Reader slice(int start, int end) =>
@@ -811,6 +816,7 @@ class Utf16Reader extends Reader {
 }
 
 class BytesReader extends Reader {
+  final List<Issue> issues = <Issue>[];
   final Uint8List _buf;
   int _rIndex;
   int _wIndex;
@@ -828,15 +834,15 @@ class BytesReader extends Reader {
   int get offsetInBytes => _buf.offsetInBytes;
 
   BytesReader view([int start = 0, int end]) {
-    end = checkBufferLength(this._wIndex, start, end);
-    return new BytesReader(_buf.buffer.asUint8List(start, end));
+    int limit = checkBufferLength(this._wIndex, start, end);
+    return new BytesReader(_buf.buffer.asUint8List(start, limit));
   }
 
   BytesReader slice(int start, int end) => view(start, end);
 
   List<int> sublist(int start, int end) {
-    end = checkBufferLength(this._wIndex, start, end);
-    return _buf.sublist(start, end);
+    int limit = checkBufferLength(this._wIndex, start, end);
+    return _buf.sublist(start, limit);
   }
 
   String substring(int start, int end) => _buf.buffer.asUint8List(start, end).toString();

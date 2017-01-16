@@ -98,6 +98,12 @@ class Float32 extends Float {
 
   static bool inRange(double val) => (val >= min) && (val <= max);
 
+  //TODO: verify that min range an max range are correct.
+  static double checkRange(double v) => (inRange(v)) ? v : null;
+
+  static List<String> hasError(double v) =>
+      (inRange(v)) ? null : ['RangeError: min($min) <= Value($v) <= max($max)'];
+
   static double guard(double min, double val, double max) =>
       inRange(val) ? val : _floatError("Float32", min, val, max);
 
@@ -192,6 +198,9 @@ class Float64 extends Float {
   //TODO: is this needed - when used
   //TODO: correct?
   static bool inRange(double val) => (val >= min) && (val <= max);
+
+  // A no-op except for type check
+  static double checkRange(double v) => v;
 
   //TODO: is this needed - when used
   //TODO: correct?

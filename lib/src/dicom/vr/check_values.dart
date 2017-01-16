@@ -6,7 +6,7 @@
 
 import 'package:dictionary/common.dart';
 
-List<String> invalid(value) => throw "Invalid value checker";
+List<String> invalid(dynamic value) => throw "Invalid value checker";
 
 // **** Integer (Int & Uint) Checkers
 
@@ -43,9 +43,9 @@ List<String> _checkFloat(double value, double min, double max) => (_floatInRange
     : ['RangeError: min($min) <= Value($value) <= max($max)'];
 
 List<String> getErrorsFD(double v) => null; // all doubles ok
-List<String> getErrorsFL(double v) => _checkFloat(v, Float32.min, Float32.max);
+List<String> getErrorsFL(double v) => Float32.hasError(v);
 List<String> getErrorsOD(double v) => null; // all doubles ok
-List<String> getErrorsOF(double v) => _checkFloat(v, Float32.min, Float32.max);
+List<String> getErrorsOF(double v) => Float32.hasError(v);
 
 // **** String Checkers
 bool _inRange(int length, int min, int max) => length < min || max < length;
@@ -53,7 +53,7 @@ bool _inRange(int length, int min, int max) => length < min || max < length;
 int _checkLength(int length, int min, int max) => _intCheckRange(length, min, max);
 
 String _hasLengthError(int length, int min, int max) => (length < min || max < length)
-    ? 'Invalid Length for min($min) <= value(${length}) <= max($max)'
+    ? 'Invalid Length for min($min) <= value($length) <= max($max)'
     : "";
 
 String _invalidChar(int c, int pos) => 'Value has invalid character($c) at position($pos)';
@@ -104,13 +104,13 @@ List<String> _stringErrors(String s, int max, bool filter(int c)) {
 }
 
 // DICOM Strings
-bool _StringFilter(int c) => (c < kSpace || c == kBackslash || c == kDelete);
-List<String> getErrorsAE(String s) => _stringErrors(s, 16, _StringFilter);
-List<String> getErrorsCS(String s) => _stringErrors(s, 16, _StringFilter);
-List<String> getErrorsPN(String s) => _stringErrors(s, 5 * 64, _StringFilter);
-List<String> getErrorsSH(String s) => _stringErrors(s, 16, _StringFilter);
-List<String> getErrorsLO(String s) => _stringErrors(s, 64, _StringFilter);
-List<String> getErrorsUC(String s) => _stringErrors(s, kMaxLongLengthInBytes, _StringFilter);
+bool _stringFilter(int c) => (c < kSpace || c == kBackslash || c == kDelete);
+List<String> getErrorsAE(String s) => _stringErrors(s, 16, _stringFilter);
+List<String> getErrorsCS(String s) => _stringErrors(s, 16, _stringFilter);
+List<String> getErrorsPN(String s) => _stringErrors(s, 5 * 64, _stringFilter);
+List<String> getErrorsSH(String s) => _stringErrors(s, 16, _stringFilter);
+List<String> getErrorsLO(String s) => _stringErrors(s, 64, _stringFilter);
+List<String> getErrorsUC(String s) => _stringErrors(s, kMaxLongLengthInBytes, _stringFilter);
 
 // DICOM Texts
 bool _textFilter(int c) => (c < kSpace || c == kDelete);
@@ -183,7 +183,7 @@ List<String> getErrorsAS(String s) {
   return [msg0, valueMsg];
 }
 
-/// Return the [limit], which is max or end w
+/// Return the limit, which is [max] or [end].
 int _getLimit(int offset, int min, int max, int end) {
   int limit = offset + max;
   if (limit > end) {
@@ -273,7 +273,7 @@ int maxYear = 2050;
 
 bool yearInRange(int year) => _intInRange(year, minYear, maxYear);
 
-int readYear(String s, [int offset = 0, minLength = 4]) {
+int readYear(String s, [int offset = 0, int minLength = 4]) {
   int year = readUint(s, offset, minLength, 4);
   if (year != null && _intInRange(year, minYear, maxYear))
     return year;

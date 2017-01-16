@@ -31,30 +31,37 @@ abstract class VRChecks {
 class AEChecks {
   static const VR vr = VR.kAE;
 
+  /// Returns [true] if all values are valid.
   static bool validValues(List<String> values) {
 
   }
 
+  /// Returns [values], if valid; otherwise null.
   static List<String> checkValues(List<String> values) {
 
   }
 
+  /// Returns an [Issue] if the values are incorrect, or not best practices
   static Issue getIssue(List<String> values) {
 
   }
 
+  /// Returns [true] if [bytes] contains valid values.
   static bool validBytes(Uint8List bytes) {
 
   }
 
-  static List<String> checkByes(Uint8List bytes) {
+  /// Returns [bytes], if valid; otherwise null.
+  static List<String> checkBytes(Uint8List bytes) {
 
   }
 
+  /// Returns [true] if [bytes] contains valid values.
   static Issue getBytesIssue(Uint8List bytes) {
 
   }
 
+  /// Returns a list of valid [values] converted from [bytes].
   static List<String> bytesToValues(Uint8List bytes) {
 
   }

@@ -23,21 +23,21 @@ import 'e_type.dart';
 //TODO: tagTypes[0] = TagTypes.kUnknown;
 //TODO:
 
-const kTagOffset = 0; // Tag
-const kGroupOffset = 0; // Group
-const kEltOffset = 2; // Elt
-const kIndexOffset = 4; // Index
-const kVRIndexOffset = 6; // VR
-const kVRElementSize = 7; // Sz
-const kVRSizeInBytes = 7; // Sz
-const kVMIndexOffset = 8; // VM
-const kMinOffset = 9; // Mn
-const kMaxOffset = 10; // Mx
-const kWidthOffset = 11; // W
-const kTypeOffset = 12; // T
-const kIsRetiredOffset = 13; // R
-const kUnused0 = 14; // Reserved 0
-const kUnused1 = 15; // Reserved 1
+const int kTagOffset = 0; // Tag
+const int kGroupOffset = 0; // Group
+const int kEltOffset = 2; // Elt
+const int kIndexOffset = 4; // Index
+const int kVRIndexOffset = 6; // VR
+const int kVRElementSize = 7; // Sz
+const int kVRSizeInBytes = 7; // Sz
+const int kVMIndexOffset = 8; // VM
+const int kMinOffset = 9; // Mn
+const int kMaxOffset = 10; // Mx
+const int kWidthOffset = 11; // W
+const int kTypeOffset = 12; // T
+const int kIsRetiredOffset = 13; // R
+const int kUnused0 = 14; // Reserved 0
+const int kUnused1 = 15; // Reserved 1
 
 //NOTE: Type can include DataElement Type, and Public
 
@@ -45,16 +45,17 @@ const kUnused1 = 15; // Reserved 1
 abstract class TagBase {
   static const bool public = true;
 
+  final Uint8List _bytes;
   /// The [ByteData] containing values for the [Tag].
-  final ByteData bd;
+  final ByteData _bd;
 
-  const TagBase(this.bd);
+  const TagBase(this._bytes, this._bd);
 
   bool get isPublic => public;
   bool get isPrivate => !isPublic;
 
   /// Returns the 32-bit [Tag] number from PS3.6.
-  int get tag => bd.getUint32(kTagOffset);
+  int get tag => _bd.getUint32(kTagOffset);
 
   /// Return the hexadecimal [String] corresponding to [tag].
   String get hex => '0x' + Int.hex(tag, 8);
@@ -63,15 +64,15 @@ abstract class TagBase {
   String get dcm => '(${Int.hex(group)},${Int.hex(elt)})';
 
   /// Returns the group number of [tag].
-  int get group => bd.getUint16(kGroupOffset);
+  int get group => _bd.getUint16(kGroupOffset);
 
-  /// Returns the [tagGroup] number as a hex [String].
+  /// Returns the [group] number as a hex [String].
   String get groupHex => Int.hex(group, 4);
 
-  /// Returns the [Elt] (Element) number of [tag].
-  int get elt => bd.getUint16(kEltOffset);
+  /// Returns the [elt] (Element) number of [tag].
+  int get elt => _bd.getUint16(kEltOffset);
 
-  /// Returns the dictionary number as a hex [String].
+  /// Returns the [elt] number as a hex [String].
   String get eltHex => Int.hex(elt, 4);
 
   String get keyword;
@@ -82,50 +83,50 @@ abstract class TagBase {
   bool get isExplicitVR => !isImplicitVR;
 
   // VR Getters
-  int get elementSize => bd.getUint8(kVRElementSize);
-  int get sizeInBytes => bd.getUint8(kVRSizeInBytes);
+  int get elementSize => _bd.getUint8(kVRElementSize);
+  int get sizeInBytes => _bd.getUint8(kVRSizeInBytes);
 
   // VM Getters
   VM get vm;
 
-  /// The minimum number of [values] for this element.
+  /// The minimum number of values for this element.
   ///
   /// If [min] is 0 then only 1 values is allowed. This is an optimization.
-  int get min => bd.getUint8(kMinOffset);
+  int get min => _bd.getUint8(kMinOffset);
   @deprecated
   int get vmMin => min;
 
-  /// The maximum number of [values] for this element.
+  /// The maximum number of values for this element.
   ///
   /// If [max] is -1 then the maximum is as many values that can fit in the Value Field.
-  int get max => bd.getUint8(kMaxOffset);
+  int get max => _bd.getUint8(kMaxOffset);
   @deprecated
   int get vmMax => max;
 
-  /// The [width] of each set of [values] for this element.
+  /// The [width] of each set of values for this element.
   ///
   /// [width] must be greater than or equal to 1.  If [width] is greater than 1,
-  /// then the minimum number of [values] is [min] * [width],
-  /// and the maximum number of [values] is [max] * [width], unless [max] == -1,
-  /// in which case the maximum number of [values] is as many [values] that can fit
+  /// then the minimum number of values is [min] * [width],
+  /// and the maximum number of values is [max] * [width], unless [max] == -1,
+  /// in which case the maximum number of values is as many values that can fit
   /// in the Value Field, but in all cases must be a even multiple of the [width].
-  int get width => bd.getUint8(kWidthOffset);
+  int get width => _bd.getUint8(kWidthOffset);
   @deprecated
   int get vmWidth => width;
 
-  /// The maximum length of the [values], i.e. Value Field.
+  /// The maximum length of the values, i.e. Value Field.
   int get maxLength => max * width;
 
-  EType get type => EType.list[bd.getUint8(kTypeOffset)];
+  EType get type => EType.list[_bd.getUint8(kTypeOffset)];
 
   //TODO: add warning to [Dataset] for any retired Data [Element]s.
   /// Returns [true] if this Data Element is retired from the DICOM Standard.
-  bool get isRetired => (bd.getUint8(kIsRetiredOffset) == 0) ? false : true;
+  bool get isRetired => (_bd.getUint8(kIsRetiredOffset) == 0) ? false : true;
 
-  /// Returns [true] if [values.length] is [inRange] for this element.
+  /// Returns [true] if [List] length is [inRange] for this element.
   bool inRange(List values) {
     int length = values.length;
-    if (length < 1) throw "Invalid Values Length($length)";
+    if (length < 1) throw new ArgumentError("Invalid Values Length($length)");
     if (min == 0 && length == 1) return true;
     if (width == 1) {
       return (max == -1 || length <= maxLength) ? true : false;
@@ -136,7 +137,7 @@ abstract class TagBase {
   }
 
   String toString() {
-    var retired = (isRetired) ? "Retired" : "";
+    String retired = (isRetired) ? "Retired" : "";
     return '$runtimeType$dcm VR($vr) VM($vm) Type($type) $retired';
   }
 }
@@ -144,24 +145,26 @@ abstract class TagBase {
 //TODO add Group Length Tags for Each Group
 
 //TODO: generate this table
-const PublicTagData = const [
-  const [0x00000000, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00],
+const List<List<int>> PublicTagData = const <List<int>>[
+  const <int>[0x00000000, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00],
   //     tag,        index,  VR  VM  min  max width type isRetired
-  const [0x00080000, 00, 00, 08, 09, 00, 00, 00, 01, 00, 0xFF, 0xFFFF], // Group Length
-  const [0x00080005, 00, 00, 08, 09, 00, 00, 00, 01, 00, 0xFF, 0xFFFF],
-  const [0x00080008, 00, 01, 07, 08, 01, -01, 01, 02, -01, 0xFF, 0xFFFF]
+  const <int>[0x00080000, 00, 00, 08, 09, 00, 00, 00, 01, 00, 0xFF, 0xFFFF], // Group Length
+  const <int>[0x00080005, 00, 00, 08, 09, 00, 00, 00, 01, 00, 0xFF, 0xFFFF],
+  const <int>[0x00080008, 00, 01, 07, 08, 01, -01, 01, 02, -01, 0xFF, 0xFFFF]
 ];
 
+const Uint8List foo =
+
 class Tag extends TagBase {
-  const Tag.bd(ByteData bd) : super(bd);
+  const Tag._(Uint8List bytes, ByteData bd) : super(bytes,bd);
 
-  String get keyword => tagKeywords[bd.getUint8(kIndexOffset)];
-  String get name => tagKeywords[bd.getUint8(kIndexOffset)];
-  VR get vr => vrs[bd.getUint8(kVRIndexOffset)];
-  VM get vm => vms[bd.getUint8(kVMIndexOffset)];
+  String get keyword => tagKeywords[_bd.getUint8(kIndexOffset)];
+  String get name => tagKeywords[_bd.getUint8(kIndexOffset)];
+  VR get vr => vrs[_bd.getUint8(kVRIndexOffset)];
+  VM get vm => vms[_bd.getUint8(kVMIndexOffset)];
 
-  static final k0008GroupLength = new Tag.bd(new ByteData.view(PublicTagData[1]));
-  static final kSpecificCharacterSet = new Tag.bd(new ByteData.view(PublicTagData[2]));
+  static final k0008GroupLength = new Tag_(new Uint8List.fromList(PublicTagData[1]));
+  static final kSpecificCharacterSet = new Tag_bd(new ByteData.fromList(PublicTagData[2]));
 
   //**** Can't be constant because there is no way to make ByteData constant
   static final  Map<int, Tag> tags =  {
@@ -173,7 +176,8 @@ class Tag extends TagBase {
   static const List<String> tagNames = const ["Unknown", "foo", "bar"];
   static const List<VR> vrs = const [VR.kNoVR, VR.kCS, VR.kOB];
   static const List<VM> vms = const [VM.kUnknown, VM.k1, VM.k2];
-  static const List<EType> tagTypes = const [VM.kUnknown, EType.k1, VM.k2];
+  static const List<EType> tagTypes =
+      const [EType.kUnknown, EType.k1, EType.k1c, EType.k2, EType.k2c, EType.k3];
 }
 
 class InvalidTag extends Tag {
@@ -182,8 +186,8 @@ class InvalidTag extends Tag {
     bd.setUint32(0, kTagOffset);
     bd.setInt16(4, -1);
     bd.setUint8(kVRIndexOffset, vrIndex);
-    return new InvalidTag.bd(bd);
+    return new InvalidTag_bd(bd);
   }
 
-  InvalidTag.bd(ByteData bd) : super.bd(bd);
+  InvalidTag._bd(ByteData bd) : super_bd(bd);
 }

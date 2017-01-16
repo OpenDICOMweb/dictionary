@@ -8,13 +8,13 @@ import 'constants.dart';
 
 //**** Predicates ****
 
-/// Returns True if the [c] is in the class [AsciiCharClass.Control]
+/// Returns True if the [c] is an Ascii control character.
 bool isControlChar(int c) => ((c >= 0) && (c <= kUs)) || (c == kDelete);
 
-/// Returns True if the [c] is in the class [AsciiCharClass.DIGIT]
+/// Returns True if the [c] is a decimal digit.
 bool isDigitChar(int c) => ((c >= k0) && (c <= k9));
 
-/// Returns True if the [c] is in the class [AsciiCharClass.DIGIT]
+/// Returns True if the [c] is a hexadecimal digit.
 bool isHexChar(int c) =>
     (k0 <= c && c <= k9) || (kA <= c && c <= kF) || (ka <= c && c <= kf);
 
