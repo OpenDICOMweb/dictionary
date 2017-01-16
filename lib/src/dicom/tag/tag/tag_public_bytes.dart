@@ -153,8 +153,6 @@ const List<List<int>> PublicTagData = const <List<int>>[
   const <int>[0x00080008, 00, 01, 07, 08, 01, -01, 01, 02, -01, 0xFF, 0xFFFF]
 ];
 
-const Uint8List foo =
-
 class Tag extends TagBase {
   const Tag._(Uint8List bytes, ByteData bd) : super(bytes,bd);
 
