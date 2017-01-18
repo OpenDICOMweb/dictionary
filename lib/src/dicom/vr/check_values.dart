@@ -43,9 +43,9 @@ List<String> _checkFloat(double value, double min, double max) => (_floatInRange
     : ['RangeError: min($min) <= Value($value) <= max($max)'];
 
 List<String> getErrorsFD(double v) => null; // all doubles ok
-List<String> getErrorsFL(double v) => Float32.hasError(v);
+List<String> getErrorsFL(double v) => null;
 List<String> getErrorsOD(double v) => null; // all doubles ok
-List<String> getErrorsOF(double v) => Float32.hasError(v);
+List<String> getErrorsOF(double v) => null;
 
 // **** String Checkers
 bool _inRange(int length, int min, int max) => length < min || max < length;

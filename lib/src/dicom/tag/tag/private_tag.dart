@@ -7,7 +7,7 @@
 import 'package:dictionary/src/dicom/vm.dart';
 import 'package:dictionary/src/dicom/vr/vr.dart';
 
-import 'tag.dart';
+import 'tag_base.dart';
 
 //TODO: rewrite
 /// Private Tags extends the [Tag] class.
@@ -47,7 +47,7 @@ import 'tag.dart';
 /// The superclass for Private Tags.
 ///
 /// It cannot be created because it has no public constructors.
-class PrivateCreatorTag extends Tag {
+class PrivateCreatorTag extends TagBase {
   final String company;
 
   //TODO: fix two uses of name below.
@@ -97,8 +97,10 @@ class UnknownPrivateCreatorTag extends PrivateCreatorTag {
   static final Map<int, UnknownPrivateCreatorTag> unknownPCTags = <int, UnknownPrivateCreatorTag>{};
 }
 
-class PrivateDataTag extends Tag {
+class PrivateDataTag extends TagBase {
   final PrivateCreatorTag creator;
+
+  @override
   final String name;
 
   /// Creates a Well Known Private Tag.

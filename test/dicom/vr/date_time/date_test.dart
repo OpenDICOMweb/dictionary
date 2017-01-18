@@ -11,7 +11,7 @@ main() {
   dateTest();
 }
 
-dateTest() {
+void dateTest() {
   List<String> goodYears = ["0000", "1900", "1999", "2000", "2049", "25000"];
   List<int> goodYearValues = [0000, 1900, 1999, 2000, 2049, 2500];
 

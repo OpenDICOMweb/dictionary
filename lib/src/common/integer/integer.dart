@@ -7,6 +7,7 @@
 import 'dart:typed_data';
 
 import 'package:dictionary/src/common/constants.dart';
+import 'package:dictionary/src/common/integer/hash.dart';
 import 'package:dictionary/src/dicom/constants.dart';
 
 //TODO: decide if [view] interface should be  view(TypedData td, offsetInBytes, length)
@@ -19,31 +20,6 @@ int _error(String type, int val) => throw new RangeError('$type: $val out of ran
 //TODO: merge hash stuff with hash.dart
 /// The [Type] of Range checkers.
 typedef bool _InRange(int val);
-
-/// The 32-bit hash mask.
-const int k32BitHashMask = 0x1fffffff;
-
-// Jenkins hash functions - from quiver package on Pub.
-int _combine32(int hash, int value) {
-  int h = k32BitHashMask & (hash + value);
-  h = k32BitHashMask & (h + ((0x0007ffff & h) << 10));
-  return h ^ (h >> 6);
-}
-
-int _finish32(int hash) {
-  int h = k32BitHashMask & (hash + ((0x03ffffff & hash) << 3));
-  h = h ^ (h >> 11);
-  return k32BitHashMask & (h + ((0x00003fff & h) << 15));
-}
-
-
-int hashList(List<int> vList) {
-  int hash = 0;
-  for (int i = 0; i < vList.length; i++) {
-    _combine32(hash, vList[i]);
-  }
-  return _finish32(hash);
-}
 
 class Int {
   //TODO: move these to common/src/constants.dart
@@ -71,12 +47,24 @@ class Int {
     return true;
   }
 
+  int hashList(List<int> vList) {
+    int hash = 0;
+    for (int i = 0; i < vList.length; i++) {
+      combine32(hash, vList[i]);
+    }
+    return finish32(hash);
+  }
+
   /// Returns [true] if [value] is between [min] and [max] inclusive.
   //TODO: change so signature is inRange(int v, int min, int max) to conform to Dart RangeError.*.
   static bool inRange(int min, int value, int max) => (min <= value && value <= max);
 
   static String checkRange(int value, int min, int max) =>
       (inRange(value, min, max)) ? null : 'RangeError: min($min) <= Value($value) <= max($max)';
+
+  static String rangeError(int value, int min, int max) => (inRange(value, min, max))
+      ? ""
+      : 'Integer RangeError: min($min) <= Value($value) <= max($max)';
 
   /// Returns a [List<int>] if all values are [int] and [inRange], otherwise [null].
   static List<int> checkList(List<int> vList, _InRange inRange, int minLength, int maxLength) {
@@ -221,7 +209,6 @@ class Int16 extends Int {
   static int toLength(int lengthInBytes) => lengthInBytes >> shiftValue;
 
   static int toLengthInBytes(int length) => length << shiftValue;
-
 
   static int hash(Int16List vList) => hashList(vList);
 

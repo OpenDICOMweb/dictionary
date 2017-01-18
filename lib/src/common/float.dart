@@ -7,6 +7,7 @@
 import 'dart:typed_data';
 
 import 'package:dictionary/src/dicom/constants.dart';
+import 'package:dictionary/src/common/integer/hash.dart';
 
 /// Floating Point Data Types
 
@@ -16,32 +17,6 @@ typedef bool _InRange(double val);
 double _floatError(String type, double min, double val, double max) {
   throw new RangeError('$type: out of range (min <= val <= max');
 }
-
-//TODO: merge hash stuff with hash.dart
-/// The 32-bit hash mask.
-const int k32BitHashMask = 0x1fffffff;
-
-// Jenkins hash functions - from quiver package on Pub.
-int _combine32(int hash, int value) {
-  int h = k32BitHashMask & (hash + value);
-  h = k32BitHashMask & (h + ((0x0007ffff & h) << 10));
-  return h ^ (h >> 6);
-}
-
-int _finish32(int hash) {
-  int h = k32BitHashMask & (hash + ((0x03ffffff & hash) << 3));
-  h = h ^ (h >> 11);
-  return k32BitHashMask & (h + ((0x00003fff & h) << 15));
-}
-
-int hashList(List<double> vList) {
-  int hash = 0;
-  for (int i = 0; i < vList.length; i++) {
-    _combine32(hash, vList[i].hashCode);
-  }
-  return _finish32(hash);
-}
-
 
 class Float {
   static String get type => "Float";
@@ -55,6 +30,14 @@ class Float {
     return true;
   }
 
+  int hashList(List<double> vList) {
+    int hash = 0;
+    for (int i = 0; i < vList.length; i++) {
+      combine32(hash, vList[i].hashCode);
+    }
+    return finish32(hash);
+  }
+
   static bool inRange(double min, double val, double max) => (min <= val && val <= max);
 
   static double guard(double min, double val, double max) =>
@@ -62,6 +45,9 @@ class Float {
 
   static String checkRange(double n, double min, double max) =>
       (inRange(n, min, max)) ? null : 'RangeError: min($min) <= Value($n) <= max($max)';
+
+  static String rangeError(double value, double min, double max) =>
+      (inRange(value, min, max)) ? "" : 'Float RangeError: min($min) <= Value($value) <= max($max)';
 
   /// Returns a [List<double>] if all values are [double] and [inRange], otherwise [null].
   static List<double> checkList(
@@ -93,43 +79,47 @@ class Float32 extends Float {
   static const int sizeInBytes = 4;
 
   //TODO: test
-  static const int min = 0x80800000;
+  /*
+  static const double min = 0x80800000;
   //TODO: test
-  static const int max = 0x7F7FFFFF;
+  static const double max = 0x7F7FFFFF;
   //TODO: test
-  static const int pZero = 0x00000000;
+  static const double pZero = 0x00000000;
   //TODO: test
-  static const int mZero = 0x80000000;
+  static const double mZero = 0x80000000;
   //TODO
-  static const int pInfinity = 0x7F800000;
+  static const double pInfinity = 0x7F800000;
   //TODO
-  static const int nInfinity = 0xFF800000;
+  static const double nInfinity = 0xFF800000;
   //TODO
   static const int qNaN = 0x7FC00000;
   //TODO
   static const int sNaN = 0x7FC00000;
+  */
   static const int maxShortLength = kMaxShortLengthInBytes ~/ sizeInBytes;
   static const int maxLongLength = kMaxLongLengthInBytes ~/ sizeInBytes;
   static final Float32List emptyList = new Float32List(0);
 
   static bool equal(Float32List a, Float32List b) => Float.equal(a, b);
 
-  static bool inRange(double val) => (val >= min) && (val <= max);
+  //TODO: does this matter
+ // static bool inRange(double val) => (val >= min) && (val <= max);
 
   //TODO: verify that min range an max range are correct.
-  static double checkRange(double v) => (inRange(v)) ? v : null;
+ // static double checkRange(double v) => (inRange(v)) ? v : null;
 
-  static List<String> hasError(double v) =>
-      (inRange(v)) ? null : ['RangeError: min($min) <= Value($v) <= max($max)'];
+ // static List<String> hasError(double v) =>
+ //     (inRange(v)) ? null : ['RangeError: min($min) <= Value($v) <= max($max)'];
 
-  static double guard(double min, double val, double max) =>
-      inRange(val) ? val : _floatError("Float32", min, val, max);
+ // static double guard(double min, double val, double max) =>
+ //     inRange(val) ? val : _floatError("Float32", min, val, max);
 
   /// Returns it argument [vList] if valid; otherwise, returns [null].
+  /*
   static List<double> checkList(List<double> vList,
           [int minLength = 0, int maxLength = maxLongLength]) =>
       (vList is Float32List) ? vList : Float._checkList(vList, inRange, minLength, maxLength);
-
+  */
   /// Returns it argument [vList] if valid; otherwise, returns [null].
   static List<double> listGuard(List<double> vList) {
     if (vList == null || vList.length == 0) throw "invalid Float32: $vList";
@@ -182,6 +172,7 @@ class Float64 extends Float {
   static const int shiftValue = 3;
 
   //TODO: test
+  /* TODO: fix or flush
   static const int min = 0x8010000000000000;
 
   //TODO: test
@@ -210,6 +201,7 @@ class Float64 extends Float {
 
   //FIX wrong
   static const int sNaNmax = 0x7FFFBFFFFFFFFFFF;
+  */
   static const int maxShortLength = kMaxShortLengthInBytes - sizeInBytes;
   static const int maxLongLength = kMaxLongLengthInBytes - sizeInBytes;
   static final Float64List emptyList = new Float64List(0);
@@ -218,20 +210,15 @@ class Float64 extends Float {
 
   //TODO: is this needed - when used
   //TODO: correct?
-  static bool inRange(double val) => (val >= min) && (val <= max);
+ // static bool inRange(double val) => (val >= min) && (val <= max);
 
   // A no-op except for type check
   static double checkRange(double v) => v;
 
   //TODO: is this needed - when used
   //TODO: correct?
-  static double guard(double min, double val, double max) =>
-      inRange(val) ? val : _floatError("Float64", min, val, max);
-
-  //TODO: is this needed - when can a Float64List be invalid? it can't
-  /// Returns a [values] if all values are valid [Float64List], otherwise null.
-  @deprecated
-  static Float64List validate(Float64List values) => listGuard(values);
+  //static double guard(double min, double val, double max) =>
+  //    inRange(val) ? val : _floatError("Float64", min, val, max);
 
   /// Returns it argument [values] if valid; otherwise, returns [null].
   static List<double> listGuard(List<double> values) {
@@ -240,11 +227,12 @@ class Float64 extends Float {
     return values;
   }
 
+  /* fix or flush
   /// Returns it argument [vList] if valid; otherwise, returns [null].
   static List<double> checkList(List<double> vList,
           [int minLength = 0, int maxLength = maxLongLength]) =>
       (vList is Float64List) ? vList : Float._checkList(vList, inRange, minLength, maxLength);
-
+  */
   /// Returns a [true] if all values are valid [Float64List], otherwise [false].
   static bool isValidList(List<double> vList) => (listGuard(vList) == null) ? false : true;
 

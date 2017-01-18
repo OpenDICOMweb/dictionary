@@ -7,6 +7,10 @@
 /// The 32-bit hash mask.
 const int k32BitHashMask = 0x1fffffff;
 
+int combine32(int hash, int value) => _combine32(hash, value);
+
+int finish32(int hash) =>  _finish32(hash);
+
 // Jenkins hash functions - from quiver package on Pub.
 int _combine32(int hash, int value) {
   int h = k32BitHashMask & (hash + value);

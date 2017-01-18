@@ -8,7 +8,7 @@ import 'package:dictionary/dicom.dart';
 
 /// A [class] for defining the elements of an [IOD].
 class IodTag {
-  final PublicTag tag;
+  final Tag tag;
   final EType eType;
 
   //TODO: make const

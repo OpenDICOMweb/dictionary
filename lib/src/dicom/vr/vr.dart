@@ -28,17 +28,17 @@ class VR {
   final int index;
   final int code;
   final bool isShort;
-  final String name;
+  final String id;
   final String desc;
   final int min;
   final int max;
   final ValueChecker checkValue;
 
   //TODO: add min, max for value length
-  const VR._(this.index, this.code, this.isShort, this.name, this.desc, this.min,
+  const VR._(this.index, this.code, this.isShort, this.id, this.desc, this.min,
       this.max, this.checkValue);
 
-  String get id => "k$name";
+  String get keyword => "k$id";
 
   int get sizeInBytes => max;
 
@@ -60,15 +60,15 @@ class VR {
 
   int get code16Bit => (code >> 8) + ((code & 0xFF) << 8);
 
-  String get info => 'VR: $name(${Int16.hex(code)})[$index]: isShort($isShort), '
+  String get info => 'VR: $id(${Int16.hex(code)})[$index]: isShort($isShort), '
       'ElementSize($sizeInBytes)';
 
   //TODO: implement
   Uint8List checkBytes(Uint8List bytes) => null;
 
-  String toString() => 'VR.k$name';
+  String toString() => 'VR.k$id';
 
-  // index, code, isShort, name, sizeInBytes, check, [this.type = null]);
+  // index, code, isShort, id, sizeInBytes, check, [this.type = null]);
   // Item ...
   static const VR kNoVR = const VR._(00, 0x0000, false, "NoVR", "Unknown VR", 0, 1, invalid);
 
@@ -199,16 +199,16 @@ class VR {
     "US": kUS, "UT": kUT // stop reformat
   };
 
-  /// Returns a [VR] if [s](a 2 uppercase character [String] is a valid [VR] [name].
+  /// Returns a [VR] if [s](a 2 uppercase character [String] is a valid [VR] [id].
   static VR lookup(String s) => strings[s];
 
-  /// Returns a [VR] if [vrCode](two [Uint8] integers) is a valid [VR] [name].
+  /// Returns a [VR] if [vrCode](two [Uint8] integers) is a valid [VR] [id].
   static VR lookup8(int vrCode) => vrs[vrCodeToIndex(vrCode)];
 
-  /// Returns a [VR] if [vrCode](one [Uint16] integer) is a valid [VR] [name].
+  /// Returns a [VR] if [vrCode](one [Uint16] integer) is a valid [VR] [id].
   static int indexOf(int vrCode) => vr16CodeToIndex(vrCode);
 
-  /// Returns a [VR] if [vrCode](one [Uint16] integer) is a valid [VR] [name].
+  /// Returns a [VR] if [vrCode](one [Uint16] integer) is a valid [VR] [id].
   static VR lookup16(int vrCode) => vrs[vrCodeToIndex(vrCode)];
 
   //TODO: create invertedMap
@@ -309,10 +309,10 @@ class VRSpecial extends VR {
   final List<VR> list;
 
   //TODO: add min, max for value length
-  const VRSpecial(this.list, int index, int code, bool isShort, String name, String desc,
+  const VRSpecial(this.list, int index, int code, bool isShort, String id, String desc,
       int minBytes, int maxBytes,
       [ValueChecker check = invalid])
-      : super._(index, code, isShort, name, desc, minBytes, maxBytes, check);
+      : super._(index, code, isShort, id, desc, minBytes, maxBytes, check);
 
   static const VRSpecial kOBOW =
       const VRSpecial(const [VR.kOB, VR.kOW], 01, -1, false, "OBOW", "OB or OW", 1, 2);
