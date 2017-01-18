@@ -75,7 +75,7 @@ class VRString extends VRBase<String> {
 
   bool isValidLength(String s) => (s == null || s.length < min || s.length > max) ? false : true;
 
-  bool isNotValidLength(String s) => !_isValidLength(s);
+  bool isNotValidLength(String s) => !isValidLength(s);
 
   //TODO: this does not handle escape sequences
   @override
