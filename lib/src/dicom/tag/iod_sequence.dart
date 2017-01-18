@@ -5,7 +5,7 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:dictionary/tag.dart';
-import 'iod_tag.dart';
+import 'package:dictionary/src/dicom/tag/iod_tag.dart';
 
 
 abstract class IodSequenceBase {

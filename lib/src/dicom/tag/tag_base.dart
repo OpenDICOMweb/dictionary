@@ -13,10 +13,10 @@ import 'package:dictionary/src/dicom/issue.dart';
 import 'package:dictionary/src/dicom/vm.dart';
 import 'package:dictionary/src/dicom/vr/vr.dart';
 
-import 'constants.dart';
-import 'elt.dart';
-import 'group.dart';
-import 'tag.dart';
+import 'package:dictionary/src/dicom/tag/constants.dart';
+import 'package:dictionary/src/dicom/tag/elt.dart';
+import 'package:dictionary/src/dicom/tag/group.dart';
+import 'package:dictionary/src/dicom/tag/tag.dart';
 
 const int kGroupMask = 0xFFFF0000;
 const int kElementMask = 0x0000FFFF;

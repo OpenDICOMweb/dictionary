@@ -4,7 +4,7 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> - 
 // See the AUTHORS file for other contributors.
 
-import 'package:dictionary/src/dicom/tag/tag/constants.dart';
+import 'package:dictionary/src/dicom/tag/constants.dart';
 
 /// A library for handling DICOM File Meta Information Tags.
 

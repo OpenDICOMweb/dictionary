@@ -4,7 +4,7 @@
 // Original author: Jim Philbin <jfphilbin@gmail.edu> - 
 // See the AUTHORS file for other contributors.
 
-import 'group.dart';
+import 'package:dictionary/src/dicom/tag/group.dart';
 
 /// Methods to use with a DICOM Elt (aka element), a 16-bit integer.
 ///

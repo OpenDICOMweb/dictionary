@@ -5,4 +5,4 @@
 // See the AUTHORS file for other contributors.
 
 export 'package:dictionary/src/dicom/constants.dart';
-export 'package:dictionary/src/dicom/tag/tag/constants.dart';
+export 'package:dictionary/src/dicom/tag/constants.dart';

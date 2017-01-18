@@ -4,7 +4,7 @@
 // Original author: Jim Philbin <jfphilbin@gmail.edu> - 
 // See the AUTHORS file for other contributors.
 
-import 'tag.dart';
+import 'package:dictionary/src/dicom/tag/tag.dart';
 
 /// An ordered List of all DICOM Data Elements.  See PS3.6.
 const Map<int, Tag> tagMap = const <int, Tag>{

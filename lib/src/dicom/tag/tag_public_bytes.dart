@@ -6,11 +6,12 @@
 
 import 'dart:typed_data';
 
+import 'package:dictionary/tag.dart';
 import 'package:dictionary/src/common/integer/integer.dart';
 import 'package:dictionary/src/dicom/vm.dart';
 import 'package:dictionary/src/dicom/vr/vr.dart';
 
-import 'e_type.dart';
+import 'package:dictionary/src/dicom/tag/e_type.dart';
 
 //                               Tag,
 //                       Group,       Elt,    Index, VR, Sz, VM,  Mn, Mx,  W,   T,  R,  P,  x
@@ -45,11 +46,10 @@ const int kUnused1 = 15; // Reserved 1
 abstract class TagBase {
   static const bool public = true;
 
-  final Uint8List _bytes;
   /// The [ByteData] containing values for the [Tag].
   final ByteData _bd;
 
-  const TagBase(this._bytes, this._bd);
+  const TagBase(this._bd);
 
   bool get isPublic => public;
   bool get isPrivate => !isPublic;
@@ -154,15 +154,21 @@ const List<List<int>> PublicTagData = const <List<int>>[
 ];
 
 class Tag extends TagBase {
-  const Tag._(Uint8List bytes, ByteData bd) : super(bytes,bd);
+
+  Tag._(ByteData bd) : super(bd);
+
+ factory Tag(List<int> data){
+   ByteData bd = new Uint8List.fromList(data).buffer.asByteData();
+   return new Tag._(bd);
+ }
 
   String get keyword => tagKeywords[_bd.getUint8(kIndexOffset)];
   String get name => tagKeywords[_bd.getUint8(kIndexOffset)];
   VR get vr => vrs[_bd.getUint8(kVRIndexOffset)];
   VM get vm => vms[_bd.getUint8(kVMIndexOffset)];
 
-  static final k0008GroupLength = new Tag_(new Uint8List.fromList(PublicTagData[1]));
-  static final kSpecificCharacterSet = new Tag_bd(new ByteData.fromList(PublicTagData[2]));
+  static final k0008GroupLength = new Tag(PublicTagData[1]);
+  static final kSpecificCharacterSet = new Tag(PublicTagData[2]);
 
   //**** Can't be constant because there is no way to make ByteData constant
   static final  Map<int, Tag> tags =  {
@@ -179,13 +185,15 @@ class Tag extends TagBase {
 }
 
 class InvalidTag extends Tag {
-  factory InvalidTag(int tag, int vrIndex) {
+
+  factory InvalidTag(int tagCode, int vrIndex) {
     ByteData bd = new ByteData(16);
-    bd.setUint32(0, kTagOffset);
+    bd.setUint16(kGroupOffset, Group.fromTag(tagCode));
+    bd.setUint16(kEltOffset, Elt.fromTag(tagCode));
     bd.setInt16(4, -1);
     bd.setUint8(kVRIndexOffset, vrIndex);
-    return new InvalidTag_bd(bd);
+    return new InvalidTag._bd(bd);
   }
 
-  InvalidTag._bd(ByteData bd) : super_bd(bd);
+  InvalidTag._bd(ByteData bd) : super._(bd);
 }

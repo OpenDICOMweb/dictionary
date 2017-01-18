@@ -7,9 +7,9 @@
 import 'package:dictionary/src/dicom/vm.dart';
 import 'package:dictionary/src/dicom/vr/vr.dart';
 
-import 'e_type.dart';
-import 'tag_base.dart';
-import 'tag_map.dart';
+import 'package:dictionary/src/dicom/tag/e_type.dart';
+import 'package:dictionary/src/dicom/tag/tag_base.dart';
+import 'package:dictionary/src/dicom/tag/tag_map.dart';
 
 class Tag extends TagBase {
   @override

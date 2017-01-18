@@ -7,7 +7,7 @@
 import 'package:dictionary/src/dicom/vm.dart';
 import 'package:dictionary/src/dicom/vr/vr.dart';
 
-import 'tag_base.dart';
+import 'package:dictionary/src/dicom/tag/tag_base.dart';
 
 //TODO: rewrite
 /// Private Tags extends the [Tag] class.
