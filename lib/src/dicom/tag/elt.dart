@@ -12,6 +12,7 @@ import 'package:dictionary/src/dicom/tag/group.dart';
 class Elt {
 
   static const int kElementMask = 0x0000FFFF;
+
   ///
   static int fromTag(int tagCode) => tagCode & kElementMask;
 

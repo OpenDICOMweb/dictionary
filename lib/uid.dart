@@ -9,7 +9,7 @@ export 'package:dictionary/src/dicom/uid/constants.dart';
 export 'package:dictionary/src/dicom/uid/sop_class.dart';
 export 'package:dictionary/src/dicom/uid/transfer_syntax.dart';
 export 'package:dictionary/src/dicom/uid/wk_uid.dart';
-export 'package:dictionary/src/dicom/uid/wk_uid_type.dart';
+export 'package:dictionary/src/dicom/uid/uid_type.dart';
 export 'package:dictionary/src/dicom/uid/wk_uids_list.dart';
 export 'package:dictionary/src/dicom/uid/wk_uids_map.dart';
 

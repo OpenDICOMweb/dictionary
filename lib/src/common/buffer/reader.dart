@@ -5,6 +5,9 @@
 // See the AUTHORS file for other contributors.
 
 //TODO: add UTF8 and ASCII converters
+//TODO: add UidParser
+//TODO: add Date and Time parsers
+//TODO: document
 part of odw.sdk.dictionary.common.reader.byte_buf;
 
 //TODO: Add a way to retrieve error messages

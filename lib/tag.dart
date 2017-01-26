@@ -12,5 +12,5 @@ export 'package:dictionary/src/dicom/issue.dart';
 export 'package:dictionary/src/dicom/tag/tag_base.dart';
 export 'package:dictionary/src/dicom/tag/tag_map.dart';
 export 'package:dictionary/src/dicom/tag/vr_tables.dart';
-export 'package:dictionary/src/dicom/tag/private_tag.dart';
+//export 'package:dictionary/src/dicom/tag/private_tag.dart';
 export 'package:dictionary/src/dicom/tag/tag.dart';

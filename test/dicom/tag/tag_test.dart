@@ -5,7 +5,7 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:dictionary/src/dicom/tag/constants.dart';
-import 'package:dictionary/src/dicom/tag/tag_base.dart';
+import 'package:dictionary/src/dicom/tag/tag.dart';
 
 List<int> tags = const [
   kSpecificCharacterSet,
@@ -21,11 +21,14 @@ List<int> tags = const [
   kReferencePixelX0,
   kVectorGridData
   ];
-main() {
+
+/// Test the Tag Class
+void main() {
   tagTest();
 }
 
-  tagTest() {
+/// Simple Tag Test
+void tagTest() {
 
   for(int i = 0; i < tags.length; i++) {
     Tag tag = Tag.lookup(tags[i]);

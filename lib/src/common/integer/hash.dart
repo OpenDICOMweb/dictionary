@@ -78,6 +78,7 @@ class Hash {
   /// Returns a [hashCode] for 1 object.
   int call(Object o) => _hash(kHashSeed, o.hashCode);
 
+  int n1(Object o) => _hash(kHashSeed, o.hashCode);
   /// Generates a hash code for two objects.
   int n2(Object o0, Object o1) => _finish32(_combine32(_combine32(0, o0.hashCode), 01.hashCode));
 

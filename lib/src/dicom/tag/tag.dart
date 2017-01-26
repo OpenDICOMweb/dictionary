@@ -4,9 +4,13 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
+import 'package:dictionary/common.dart';
 import 'package:dictionary/src/dicom/vm.dart';
 import 'package:dictionary/src/dicom/vr/vr.dart';
 
+import 'package:dictionary/src/dicom/tag/constants.dart';
+import 'package:dictionary/src/dicom/tag/elt.dart';
+import 'package:dictionary/src/dicom/tag/group.dart';
 import 'package:dictionary/src/dicom/tag/e_type.dart';
 import 'package:dictionary/src/dicom/tag/tag_base.dart';
 import 'package:dictionary/src/dicom/tag/tag_map.dart';
@@ -26,6 +30,9 @@ class Tag extends TagBase {
 
   bool get isWKFmi => fmiTags.contains(code);
 
+  /// Returns [true] if [code] is defined by the DICOM Standard.
+  bool get isWKPublic => lookup(code) != null;
+
   @override
   String get info {
     String retired = (isRetired) ? '- Retired' : '';
@@ -36,6 +43,121 @@ class Tag extends TagBase {
   String toString() {
     String retired = (isRetired == false) ? "" : ", (Retired)";
     return 'Element: $dcm $keyword, $vr, $vm, $retired';
+  }
+
+  static List<String> lengthChecker(List values, int minLength, int maxLength, int width) {
+    int length = values.length;
+    // These are the most common cases.
+    if (length == 0 || (length == 1 && width == 0)) return null;
+    List<String> msgs;
+    if (length % width != 0) msgs = ['Invalid Length($length) not a multiple of vmWidth($width)'];
+    if (length < minLength) {
+      var msg = 'Invalid Length($length) less than minLength($minLength)';
+      msgs = msgs ??= [];
+      msgs.add(msg);
+    }
+    if (length > maxLength) {
+      var msg = 'Invalid Length($length) greater than maxLength($maxLength)';
+      msgs = msgs ??= [];
+      msgs.add(msg); //TODO: test Not sure this is working
+    }
+    return (msgs == null) ? null : msgs;
+  }
+
+  // *** Private Tag Code methods
+  static bool isPrivateCode(int tagCode) => Group.isPrivate(Group.fromTag(tagCode));
+
+  static bool isPublicCode(int tagCode) => Group.isPublic(Group.fromTag(tagCode));
+
+  /// Returns true if [code] is a valid Private Creator Code.
+  static bool isPrivateCreatorCode(int tagCode) =>
+      isPrivateCode(tagCode) && Elt.isPrivateCreator(Elt.fromTag(tagCode));
+
+  static bool isPrivateDataCode(int tag) =>
+      Group.isPrivate(Group.fromTag(tag)) && Elt.isPrivateData(Elt.fromTag(tag));
+
+  static int privateCreatorBase(int code) => Elt.pcBase(Elt.fromTag(code));
+
+  static int privateCreatorLimit(int code) => Elt.pcLimit(Elt.fromTag(code));
+
+  /// Returns true if [pd] is a valid Private Data Code for the [pc] the Private Creator Code.
+  ///
+  /// If the [PrivateCreatorTag ]is present, verifies that [pd] and [pc] have the
+  /// same [group], and that [pd] has a valid [Elt].
+  static bool isValidPrivateDataTag(int pd, int pc) {
+    int pdg = Group.validPrivate(Group.fromTag(pd));
+    int pcg = Group.validPrivate(Group.fromTag(pc));
+    if (pdg == null || pcg == null || pdg != pcg) return null;
+    return Elt.isValidPrivateData(Elt.fromTag(pd), Elt.fromTag(pc));
+  }
+
+  //**** Private Tag Code "Constructors" ****
+  static bool isPCIndex(int pcIndex) => 0x0010 <= pcIndex && pcIndex <= 0x00FF;
+
+  /// Returns a valid [PrivateCreatorTag], or [null].
+  static int toPrivateCreator(int group, int pcIndex) {
+    if (Group.isPrivate(group) && _isPCIndex(pcIndex)) return _toPrivateCreator(group, pcIndex);
+    return null;
+  }
+
+  /// Returns a valid [PrivateDataTag], or [null].
+  static int toPrivateData(int group, int pcIndex, int pdIndex) {
+    if (Group.isPrivate(group) && _isPCIndex(pcIndex) && _isPDIndex(pcIndex, pdIndex))
+      return _toPrivateData(group, pcIndex, pcIndex);
+    return null;
+  }
+
+  /// Returns a [PrivateCreatorTag], without checking arguments.
+  static int _toPrivateCreator(int group, int pcIndex) => (group << 16) + pcIndex;
+
+  /// Returns a [PrivateDataTag], without checking arguments.
+  static int _toPrivateData(int group, int pcIndex, int pdIndex) =>
+      (group << 16) + (pcIndex << 8) + pdIndex;
+
+  // **** Private Tag Code Internal Utility functions ****
+
+  /// Return [true] if [pdCode] is a valid Private Creator Index.
+  static bool _isPCIndex(int pdCode) => 0x10 <= pdCode && pdCode <= 0xFF;
+
+  // Returns [true] if [pde] in a valid Private Data Index
+  //static bool _isSimplePDIndex(int pde) => 0x1000 >= pde && pde <= 0xFFFF;
+
+  /// Return [true] if [pdi] is a valid Private Data Index.
+  static bool _isPDIndex(int pci, int pdi) => _pdBase(pci) <= pdi && pdi <= _pdLimit(pci);
+
+  /// Returns the offset base for a Private Data Element with the Private Creator [pcIndex].
+  static int _pdBase(int pcIndex) => pcIndex << 8;
+
+  /// Returns the limit for a [PrivateDataTag] with a base of [pdBase].
+  static int _pdLimit(int pdBase) => pdBase + 0x00FF;
+
+  /// Returns [true] if [tag] is in the range of DICOM [Dataset] Tags.
+  /// Note: Does not test tag validity.
+  static bool inDatasetRange(int tag) => (kMinDatasetTag <= tag) && (tag <= kMaxDatasetTag);
+
+  static void checkDatasetRange(int tag) {
+    if (!inDatasetRange(tag)) rangeError(tag, kMinDatasetTag, kMaxDatasetTag);
+  }
+
+
+  /// Returns [code] in DICOM format '(gggg,eeee)'.
+  static String toHex(int code) => Int32.hex(code);
+
+  /// Returns [code] in DICOM format '(gggg,eeee)'.
+  static String toDcm(int code) => '(${Group.hex(Group.fromTag(code))},${Elt.hex(Elt.fromTag(code))})';
+
+  /// Returns a [List] of DICOM tag codes in '(gggg,eeee)' format
+  static Iterable<String> listToDcm(List<int> tags) => tags.map(toDcm);
+
+  /// Takes a [String] in format "(gggg,eeee)" and returns [int].
+  static int toInt(String s) {
+    String tmp = s.substring(1, 5) + s.substring(6, 10);
+    return int.parse(tmp, radix: 16);
+  }
+
+  static bool rangeError(int tag, int min, int max) {
+    String msg = 'invalid tag: $tag not in $min <= x <= $max';
+    throw new RangeError(msg);
   }
 
   //TODO: this should become public when fully converted to Tags.
@@ -93,7 +215,7 @@ class Tag extends TagBase {
     //TODO: 0x7Fxx,yyyy Elements
 
     // No match return [null]
-    return TagBase.tagError(tag);
+    return tagError(tag);
   }
 
   //**** Message Data Elements begin here ****
@@ -8900,7 +9022,7 @@ class Tag extends TagBase {
   = const Tag("AlgorithmParameters", 0x00660032, "Algorithm Parameters", VR.kLT, VM.k1, false);
   static const Tag kFacetSequence
   //(0066,0034)
-  = const Tag("FacetSequence", 0x00660034, "Facet Sequence", VR.kSQ, VM.k1, false);
+    = const Tag("FacetSequence", 0x00660034, "Facet Sequence", VR.kSQ, VM.k1, false);
   static const Tag kSurfaceProcessingAlgorithmIdentificationSequence
   //(0066,0035)
   = const Tag("SurfaceProcessingAlgorithmIdentificationSequence", 0x00660035,

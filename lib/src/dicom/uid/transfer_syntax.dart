@@ -3,14 +3,10 @@
 // that can be found in the LICENSE file.
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
-
-import 'package:dictionary/src/common/uid/uid.dart';
-
-import 'wk_uid.dart';
-import 'wk_uid_type.dart';
+part of odw.sdk.dictionary.uid;
 
 class TransferSyntax extends WKUid {
-  static const WKUidType _type = WKUidType.kSopClass;
+  static const UidType _type = UidType.kSOPClass;
   final String mediaType;
 
   ///  Specifies the size of the Pixel Cell. kBitsAllocated (0028,0100)
@@ -27,7 +23,7 @@ class TransferSyntax extends WKUid {
 
   const TransferSyntax(String uid, String name, this.mediaType,
       [bool isRetired = false, this.isEncapsulated = true, this.mayHaveFragments = true])
-      : super(uid, _type, isRetired, name);
+      : super._(uid, _type, isRetired, name);
 
   // bool hasEmptyOffsetTable => false;
 

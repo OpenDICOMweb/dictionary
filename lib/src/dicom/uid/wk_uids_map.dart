@@ -3,12 +3,11 @@
 // that can be found in the LICENSE file.
 // Author: Jim Philbin <jfphilbin@gmail.edu>
 // See the AUTHORS file for other contributors.
+part of odw.sdk.dictionary.uid;
 
-import 'package:dictionary/src/common/uid/uid.dart';
-
-import 'wk_uid.dart';
-
-const Map<String, Uid> wellKnownUids= const {
+//TODO: doc
+//TODO: change entries to proper type
+const Map<String, WKUid> wellKnownUids= const {
    "1.2.840.10008.1.1": WKUid.kVerificationSOPClass,
    "1.2.840.10008.1.2": WKUid.kImplicitVRLittleEndianDefaultTransferSyntaxforDICOM,
    "1.2.840.10008.1.2.1": WKUid.kExplicitVRLittleEndian,

@@ -6,12 +6,14 @@
       <excludeFolder url="file://$MODULE_DIR$/.tmp" />
       <excludeFolder url="file://$MODULE_DIR$/build" />
       <excludeFolder url="file://$MODULE_DIR$/doc" />
+      <excludeFolder url="file://$MODULE_DIR$/lib/src/common/uid" />
       <excludeFolder url="file://$MODULE_DIR$/lib/src/dicom/de_def" />
       <excludeFolder url="file://$MODULE_DIR$/lib/src/dicom/old_tag" />
       <excludeFolder url="file://$MODULE_DIR$/lib/src/dicom/old_tag/other" />
       <excludeFolder url="file://$MODULE_DIR$/lib/src/dicom/other" />
       <excludeFolder url="file://$MODULE_DIR$/lib/src/dicom/private_elements" />
       <excludeFolder url="file://$MODULE_DIR$/lib/src/dicom/string/other" />
+      <excludeFolder url="file://$MODULE_DIR$/lib/src/dicom/tag/byte_data" />
       <excludeFolder url="file://$MODULE_DIR$/lib/src/dicom/tag/old" />
       <excludeFolder url="file://$MODULE_DIR$/lib/src/dicom/tag/other" />
       <excludeFolder url="file://$MODULE_DIR$/lib/src/dicom/tag/tag_new" />
@@ -42,7 +44,6 @@
       <excludeFolder url="file://$MODULE_DIR$/tool/element_def/gen/packages" />
       <excludeFolder url="file://$MODULE_DIR$/tool/element_def/packages" />
       <excludeFolder url="file://$MODULE_DIR$/tool/packages" />
-      <excludeFolder url="file://$MODULE_DIR$/tool/src/packages" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

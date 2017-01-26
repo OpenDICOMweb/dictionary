@@ -5,7 +5,6 @@
 // See the AUTHORS file for other contributors.
 library odw.sdk.dictionary.vr;
 
-import 'dart:typed_data';
 
 import 'package:dictionary/common.dart';
 import 'package:dictionary/src/dicom/constants.dart';
@@ -88,7 +87,7 @@ class VRString extends VRBase<String> {
 
   String _lengthError(int length) => 'Length Error: min(0) <= Value($length) <= max($max)';
 
-  String errorMsg(String s) {
+  String errorMsg(String s, Test test) {
     if (s == null) return "Invalid Null String";
     if (isNotValidLength(s)) return _lengthError(s.length);
     for (int i = 0; i < max; i++) {
@@ -143,11 +142,11 @@ class VRString extends VRBase<String> {
 
   // String.Other
   static const VRString kPN =
-      const VRString._(28, 0x504e, true, "PN", "Person Name", 0, 5 * 64, isPN);
+      const VRString._(28, 0x504e, true, "PN", "Person Name", 0, 5 * 64, _isPN);
   static const VRString kUI =
   const VRString._(29, 0x5549, true, "UI", "Unique Id", 8, 64, _parseUI, _getUIError);
   static const VRString kUR =
-      const VRString._(30, 0x5552, false, "UR", "URI", 1, kMaxLong, _parseUR, _getURError);
+      const VRString._(30, 0x5552, false, "UR", "URI", 1, _kMaxLong, _parseUR, _getURError);
   static const VRString kAS =
   const VRString._(31, 0x4153, true, "AS", "Age String", 4, 4, _parseAge, _getAgeError);
 

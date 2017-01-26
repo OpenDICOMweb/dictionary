@@ -1,13 +1,12 @@
 // Copyright (c) 2016, Open DICOMweb Project. All rights reserved.
 // Use of this source code is governed by the open source license
 // that can be found in the LICENSE file.
-// Author: Jim Philbin <jfphilbin@gmail.edu> -
+// Author: Jim Philbin <jfphilbin@gmail.edu> - 
 // See the AUTHORS file for other contributors.
 
-import 'package:dictionary/src/dicom/vm.dart';
-import 'package:dictionary/src/dicom/vr/vr.dart';
+import 'package:dictionary/dicom.dart';
 
-import 'tag_base.dart';
+import 'private_data_tag.dart';
 import 'creators_map.dart';
 
 //TODO: rewrite
@@ -45,7 +44,60 @@ import 'creators_map.dart';
 //bool _isPrivateCreator(Tag tag) => 0x0010 <= tag.elt && tag.elt <= 0x00FF;
 //bool _isPrivateData(Tag tag) => 0x1000 <= tag.elt && tag.elt <= 0xFFFF;
 
+/// The superclass for Private Tags.
+///
+/// It cannot be created because it has no public constructors
+
+class PrivateCreatorTag extends TagBase {
+  final String token;
+  final Map<int, PrivateDataTag> dataTags;
+
+  PrivateCreatorTag(code, this.token, this.dataTags) : super(code, VR.kLO, VM.k1) {
+    if (! Tag.isPrivateCreatorCode(code))
+      throw new ArgumentError('Invalid Private Creator Tag Code($code)');
+  }
+
+  const PrivateCreatorTag._(code, this.token, this.dataTags) : super(code, VR.kLO, VM.k1);
+
+  bool get wasUN => super.vr == VR.kUN;
+
+  @override
+  bool get isPublic => false;
+  @override
+  bool get isCreator => true;
+
+  int get base => elt << 8;
+
+  int get limit => base + 0xFF;
+
+  bool isValidDataCode(int code) =>
+      group == codeGroup(code) && (base <= codeElt(code) && codeElt(code) <= limit);
+
+  static const PrivateCreatorTag kUnknown = const PrivateCreatorTag._(0, "UnknownName", const {});
+
+  static Map<int, PrivateDataTag> lookup(String creatorToken) => creatorsMap[creatorToken];
+
+}
 
 
+class UnknownPrivateCreatorTag extends PrivateCreatorTag {
+
+  UnknownPrivateCreatorTag(int code, String name,
+                           [VR vr = VR.kUN, VM vm = VM.k1, bool isRetired = false])
+      : super._(code, name, const {});
+
+  /* TODO: needed?
+  static UnknownPrivateCreatorTag lookup(int code) {
+    PrivateCreatorTag tag = PrivateCreatorTag.lookup(code);
+    if (tag != null) return tag;
+    return UnknownPrivateCreatorTag.lookup(code);
+  }
+
+  //TODO: figure this out
+  static final Map<int, UnknownPrivateCreatorTag> unknownPCTags = <int, UnknownPrivateCreatorTag>{};
+
+  static bool isValidPDataCode(UnknownPrivateCreatorTag c, int code) => c.isValidDataCode(code);
+  */
 
 
+}
