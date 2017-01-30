@@ -6,8 +6,7 @@
 library odw.sdk.dictionary.uid;
 
 import 'package:common/common.dart';
-import 'package:dictionary/dicom.dart';
-import 'package:dictionary/uuid.dart';
+import 'package:dictionary/dictionary.dart';
 
 import 'uid_type.dart';
 

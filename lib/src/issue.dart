@@ -4,7 +4,7 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
-import 'package:dictionary/tag.dart';
+import 'package:dictionary/dictionary.dart';
 
 class Issue {
   final Tag tag;

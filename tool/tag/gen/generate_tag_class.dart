@@ -12,7 +12,7 @@
 
 import 'dart:io';
 
-import 'package:dictionary/tag.dart';
+import 'package:dictionary/dictionary.dart';
 
 import 'tag_class_code.dart';
 

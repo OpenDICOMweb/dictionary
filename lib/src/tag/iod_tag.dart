@@ -4,7 +4,7 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu>
 // See the AUTHORS file for other contributors.
 
-import 'package:dictionary/dicom.dart';
+import 'package:dictionary/dictionary.dart';
 
 /// A [class] for defining the elements of an [IOD].
 class IodTag {

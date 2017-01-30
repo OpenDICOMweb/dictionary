@@ -4,7 +4,7 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> - 
 // See the AUTHORS file for other contributors.
 
-import 'package:dictionary/dicom.dart';
+import 'package:dictionary/dictionary.dart';
 
 import 'private_data_tag.dart';
 import 'creators_map.dart';

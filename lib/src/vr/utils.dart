@@ -135,8 +135,8 @@ String _dcmDateError(String s, int min, int max) {
 
 
 // **** DateTime
-
-bool _isDcmDateTime(String s, int min, int max) {
+//TODO: fix
+bool _isDcmDateTimeString(String s, int min, int max) {
   if (_isNotValidLength(s.length, min, max)) return false;
 
   int h, m, ss, f;
@@ -163,7 +163,6 @@ bool _isDcmDateTime(String s, int min, int max) {
   }
   return true;
 }
-
 
 String _checkDcmDateTime(String s, int min, int max) =>
     (_isDcmDateTimeString(s, min, max)) ? s : null;
@@ -212,10 +211,9 @@ String _uidError(String s, int min, int max) =>
 //UR - Universal Resource Identifier (URI)
 bool _isUri(String s, int min, int max) {
   if (_getLengthError(s.length, min, max) == null) return false;
-  Uri uri;
   try {
-    uri = Uri.parse(s);
-  } on FormatException catch (e) {
+    Uri.parse(s);
+  } on FormatException {
     return false;
   }
   // Success

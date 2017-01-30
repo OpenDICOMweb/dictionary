@@ -14,27 +14,20 @@
       <excludeFolder url="file://$MODULE_DIR$/lib/src/dicom/old_tag/other" />
       <excludeFolder url="file://$MODULE_DIR$/lib/src/dicom/other" />
       <excludeFolder url="file://$MODULE_DIR$/lib/src/dicom/private_elements" />
+      <excludeFolder url="file://$MODULE_DIR$/lib/src/dicom/tag/old" />
+      <excludeFolder url="file://$MODULE_DIR$/lib/src/other" />
       <excludeFolder url="file://$MODULE_DIR$/lib/src/string/other" />
       <excludeFolder url="file://$MODULE_DIR$/lib/src/tag/byte_data" />
-      <excludeFolder url="file://$MODULE_DIR$/lib/src/dicom/tag/old" />
       <excludeFolder url="file://$MODULE_DIR$/lib/src/tag/other" />
       <excludeFolder url="file://$MODULE_DIR$/lib/src/tag/tag_new" />
       <excludeFolder url="file://$MODULE_DIR$/lib/src/vr/other" />
-      <excludeFolder url="file://$MODULE_DIR$/lib/src/other" />
-      <excludeFolder url="file://$MODULE_DIR$/lib/src/tag/other" />
       <excludeFolder url="file://$MODULE_DIR$/packages" />
       <excludeFolder url="file://$MODULE_DIR$/temp" />
-      <excludeFolder url="file://$MODULE_DIR$/test/common/ascii/packages" />
-      <excludeFolder url="file://$MODULE_DIR$/test/common/buffer/packages" />
-      <excludeFolder url="file://$MODULE_DIR$/test/common/date_time/packages" />
-      <excludeFolder url="file://$MODULE_DIR$/test/common/integer/packages" />
-      <excludeFolder url="file://$MODULE_DIR$/test/common/packages" />
       <excludeFolder url="file://$MODULE_DIR$/test/dicom/packages" />
-      <excludeFolder url="file://$MODULE_DIR$/test/dicom/reader/packages" />
-      <excludeFolder url="file://$MODULE_DIR$/test/dicom/tag/packages" />
-      <excludeFolder url="file://$MODULE_DIR$/test/dicom/vr/date_time/packages" />
-      <excludeFolder url="file://$MODULE_DIR$/test/dicom/vr/packages" />
       <excludeFolder url="file://$MODULE_DIR$/test/packages" />
+      <excludeFolder url="file://$MODULE_DIR$/test/tag/packages" />
+      <excludeFolder url="file://$MODULE_DIR$/test/vr/date_time/packages" />
+      <excludeFolder url="file://$MODULE_DIR$/test/vr/packages" />
       <excludeFolder url="file://$MODULE_DIR$/tmp" />
       <excludeFolder url="file://$MODULE_DIR$/tool/cid/gen/input/csv/packages" />
       <excludeFolder url="file://$MODULE_DIR$/tool/cid/gen/input/json/packages" />
@@ -43,9 +36,9 @@
       <excludeFolder url="file://$MODULE_DIR$/tool/cid/gen/packages" />
       <excludeFolder url="file://$MODULE_DIR$/tool/cid/gen/src/packages" />
       <excludeFolder url="file://$MODULE_DIR$/tool/cid/packages" />
-      <excludeFolder url="file://$MODULE_DIR$/tool/element_def/gen/packages" />
-      <excludeFolder url="file://$MODULE_DIR$/tool/element_def/packages" />
       <excludeFolder url="file://$MODULE_DIR$/tool/packages" />
+      <excludeFolder url="file://$MODULE_DIR$/tool/tag/gen/packages" />
+      <excludeFolder url="file://$MODULE_DIR$/tool/tag/packages" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

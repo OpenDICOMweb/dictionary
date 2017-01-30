@@ -4,7 +4,7 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu>
 // See the AUTHORS file for other contributors.
 
-import 'package:dictionary/tag.dart';
+import 'package:dictionary/dictionary.dart';
 import 'package:dictionary/src/tag/iod_sequence.dart';
 import 'package:dictionary/src/tag/iod_tag.dart';
 

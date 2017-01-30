@@ -1,6 +1,6 @@
 name: dictionary
 description: The ODW DICOM Data Dictionary Library
-version: 0.5.0
+version: 0.5.1
 authors:
   - Jim Philbin <jfphilbin@gmail.com>
 
