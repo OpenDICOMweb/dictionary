@@ -166,7 +166,7 @@ bool _isDcmDateTime(String s, int min, int max) {
 
 
 String _checkDcmDateTime(String s, int min, int max) =>
-    (_isDcmDate(s, min, max)) ? s : null;
+    (_isDcmDateTimeString(s, min, max)) ? s : null;
 
 String _dcmDateTimeError(String s, int min, int max) {
   String msg = _getLengthError(s.length, min, max);
@@ -175,13 +175,13 @@ String _dcmDateTimeError(String s, int min, int max) {
 
 // **** Time
 
-bool _isDcmTime(String s, int min, int max) {
+bool _isDcmTimeString(String s, int min, int max) {
   if (_isNotValidLength(s.length, min, max)) return false;
-
+  return isDcmTimeString(s, min, max);
 }
 
-String _checkDcmTime(String s, int min, int max) =>
-    (_isDcmDate(s, min, max)) ? s : null;
+String _checkDcmTimeString(String s, int min, int max) =>
+    (isDcmTimeString(s, min, max)) ? s : null;
 
 String _dcmTimeError(String s, int min, int max) {
   String msg = _getLengthError(s.length, min, max);

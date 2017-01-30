@@ -50,9 +50,10 @@ class VRShortString extends VR<String> {
   static const VR kDA =
       const VRShortString._(25, 0x4441, "DA", "Date", 8, 8, _isDcmDateString, _dcmDateError);
   static const VR kDT =
-      const VRShortString._(26, 0x4454, "DT", "DateTime", 4, 26, _isDcmDateTime, _dcmDateTimeError);
+      const VRShortString._(26, 0x4454, "DT", "DateTime", 4, 26, _isDcmDateTimeString,
+                                _dcmDateTimeError);
   static const VR kTM =
-      const VRShortString._(27, 0x544d, "TM", "Time", 2, 14, _isDcmTime, _dcmTimeError);
+      const VRShortString._(27, 0x544d, "TM", "Time", 2, 14, _isDcmTimeString, _dcmTimeError);
 
   static const VR kUI =
       const VRShortString._(29, 0x5549, "UI", "Unique Id", 8, 64, _isUid, _uidError);

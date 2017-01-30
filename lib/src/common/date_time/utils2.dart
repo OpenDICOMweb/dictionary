@@ -405,8 +405,7 @@ bool isDcmTimeString(String s, int min, int max) {
   }
   index += 2;
   if (limit >= index + 2) {
-    int f = parseFraction(s, index);
-    if (f == null) return false;
+    if (parseFraction(s, index) == null) return false;
   }
   return true;
 }
