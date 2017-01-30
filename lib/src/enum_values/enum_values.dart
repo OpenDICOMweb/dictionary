@@ -4,9 +4,5 @@
 // Original author: Jim Philbin <jfphilbin@gmail.edu> - 
 // See the AUTHORS file for other contributors.
 
-// DICOM Dictionary libraries
-// These are all constant classes, etc. defined by the DICOM Standard
-
-
-export 'package:common/common.dart';
-export 'dicom.dart';
+export 'package:dictionary/src/enum_values/enum_value_base.dart';
+export 'package:dictionary/src/enum_values/universal_entity_id_type.dart';

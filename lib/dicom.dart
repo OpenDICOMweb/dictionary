@@ -6,13 +6,13 @@
 
 // DICOM
 
-export 'package:dictionary/src/dicom/constants.dart';
-export 'package:dictionary/src/dicom/defined_terms/defined_terms.dart';
-export 'package:dictionary/src/dicom/enum_values/enum_values.dart';
-export 'package:dictionary/src/dicom/modality.dart';
-export 'package:dictionary/src/dicom/string/char_predicates.dart';
-export 'package:dictionary/src/dicom/string/dicom_predicates.dart';
-export 'package:dictionary/src/dicom/vm.dart';
-export 'package:dictionary/src/dicom/vr/vr.dart';
+export 'package:dictionary/src/constants.dart';
+export 'package:dictionary/src/defined_terms/defined_terms.dart';
+export 'package:dictionary/src/enum_values/enum_values.dart';
+export 'package:dictionary/src/modality.dart';
+export 'package:dictionary/src/string/char_predicates.dart';
+export 'package:dictionary/src/string/dicom_predicates.dart';
+export 'package:dictionary/src/vm.dart';
+export 'package:dictionary/src/vr/vr.dart';
 export 'package:dictionary/tag.dart';
 export 'package:dictionary/uid.dart';

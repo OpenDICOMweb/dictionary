@@ -10,6 +10,9 @@ environment:
   sdk: ^1.0.0
 
 dependencies:
+  common:
+    path: C:/odw/sdk/common
+    version: 0.2.0
 
 dev_dependencies:
   benchmark_harness: any

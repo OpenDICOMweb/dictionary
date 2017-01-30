@@ -72,6 +72,13 @@
             </list>
           </value>
         </entry>
+        <entry key="common">
+          <value>
+            <list>
+              <option value="$PROJECT_DIR$/../common/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="convert">
           <value>
             <list>
@@ -348,6 +355,7 @@
       </option>
     </properties>
     <CLASSES>
+      <root url="file://$PROJECT_DIR$/../common/lib" />
       <root url="file://C:/tools/dart/pub/cache/hosted/pub.dartlang.org/analyzer-0.29.5/lib" />
       <root url="file://C:/tools/dart/pub/cache/hosted/pub.dartlang.org/ansicolor-0.0.9/lib" />
       <root url="file://C:/tools/dart/pub/cache/hosted/pub.dartlang.org/args-0.13.7/lib" />
