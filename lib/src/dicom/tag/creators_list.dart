@@ -4,9 +4,6 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
-import 'creators_map.dart';
-
-
 const List<String> creators = const [
   "1.2.840.113681",
   "1.2.840.113708.794.1.1.2.0",

@@ -3,19 +3,19 @@
 // that can be found in the LICENSE file.
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
-library odw.sdk.dictionary.vr;
+//library odw.sdk.dictionary.vr;
 
 
 import 'package:dictionary/common.dart';
 import 'package:dictionary/src/dicom/constants.dart';
 
-part 'utils.dart';
+//part 'utils.dart';
 
 typedef bool Test<E>(E value);
 typedef String ErrorMsg<E>(E value);
 
 // Abbreviation used to shorten constant definitions so they line up.
-const int _kMaxLong = kMaxLongLengthInBytes;
+const int kMaxLongVRLength = kMaxLongLengthInBytes;
 List<String> _invalid(dynamic value) => throw "Invalid value checker";
 
 abstract class VRBase<E> {
@@ -120,7 +120,7 @@ class VRString extends VRBase<String> {
   static const VRString kSH = const VRString._(
       20, 0x5348, true, "SH", "Short String", 1, 16, _parseDcmString, _getDcmErrors);
   static const VRString kUC = const VRString._(21, 0x5543, false, "UC", "Unlimited Characters", 1,
-      _kMaxLong, _parseDcmString, _getDcmErrors);
+      kMaxLongVRLength, _parseDcmString, _getDcmErrors);
 
   // String.Text
   static bool _isTextChar(int c) => !(c < kSpace || c == kDelete);
@@ -130,7 +130,7 @@ class VRString extends VRBase<String> {
   static const VRString kLT = const VRString._(
       23, 0x4c54, true, "LT", "Long Text", 1, 10240, _parseTextString, _getTextError);
   static const VRString kUT = const VRString._(
-      24, 0x5554, false, "UT", "Unlimited Text", 1, _kMaxLong, _parseTextString, _getTextError);
+      24, 0x5554, false, "UT", "Unlimited Text", 1, kMaxLongVRLength, _parseTextString, _getTextError);
 
   // String.DateTime
   static const VRString kDA = const VRString._(25, 0x4441, true, "DA", "Date", 8, 8,
@@ -146,7 +146,7 @@ class VRString extends VRBase<String> {
   static const VRString kUI =
   const VRString._(29, 0x5549, true, "UI", "Unique Id", 8, 64, _parseUI, _getUIError);
   static const VRString kUR =
-      const VRString._(30, 0x5552, false, "UR", "URI", 1, _kMaxLong, _parseUR, _getURError);
+      const VRString._(30, 0x5552, false, "UR", "URI", 1, kMaxLongVRLength, _parseUR, _getURError);
   static const VRString kAS =
   const VRString._(31, 0x4153, true, "AS", "Age String", 4, 4, _parseAge, _getAgeError);
 

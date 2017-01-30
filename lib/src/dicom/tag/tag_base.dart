@@ -48,17 +48,29 @@ abstract class TagBase {
   // **** VR Getters
 
   int get vrIndex => vr.index;
-  int get sizeInBytes => vr.sizeInBytes;
-  bool get isShort => vr.isShort;
+  @deprecated
+  int get sizeInBytes => elementSize;
 
-  // **** VR Getters
+  int get elementSize => vr.elementSize;
+  @deprecated
+  bool get isShort => hasShortVF;
+
+  bool get hasShortVF => vr.hasShortVF;
+  bool get hasLongVF => vr.hasLongVF;
+
+  // **** VM Getters
 
   int get minLength => vm.min;
 
+  //TODO: Validate that the number of values is legal
+  //TODO write unit tests to ensure this is correct
   /// Returns the maximum number of values allowed for this [Tag].
   int get maxLength {
-    int max = (vr.isShort) ? kMaxShortLengthInBytes : kMaxLongLengthInBytes;
-    return max ~/ vr.sizeInBytes;
+    if (vm.max == -1) {
+      int max = (vr.hasShortVF) ? kMaxShortVFLength : kMaxLongVFLength;
+      return max ~/ vr.elementSize;
+    }
+    return vm.max;
   }
 
   int get width => vm.width;
@@ -70,33 +82,9 @@ abstract class TagBase {
     return g.isOdd && (g > 0x0008 && g < 0xFFFE);
   }
 
-  //TODO: sort out the naming between Attribute, Data Element, tag, etc.
-  // DICOM Attribute Definitions
-
-  //TODO: add index field
-  // final String keyword;
-
-  //final int index
-  /// The DICOM Tag from PS3.6, Table 6-1.
-  //final int code;
-  // final VR vr;
-  //final int vrIndex;
-  //final bool isShort;
-
-  // final VM vm;
-  //final int vmMin;
-  //final int vmMax;
-  //final int vmWidth;
-  // final EType eType; // Predicate Type
-  //final Predicate condition
-  //TODO: remove name and make an indexed list of names.
-  // final String name;
-
-  //final bool isRetired;
-
   int get hashcode => code;
 
-  /// Returns true if the TagBase is defined by DICOM, false otherwise.
+  /// Returns true if the Tag is defined by DICOM, false otherwise.
   /// All DICOM Public tags have group numbers that are even integers.
   /// Note: This only checks that the group number is an even.
   bool get isPublic => group.isEven;
@@ -142,57 +130,76 @@ abstract class TagBase {
   ///     be greater than or equal to [min].
   /// [width]: The [width] of the matrix of values. If [width == 0 then singleton;
   ///     otherwise must be greater than 0;
-  //TODO: should be modified when DEType info is available.
+
+  //TODO: should be modified when EType info is available.
+  bool isValidValues(List values) {
+    if (isNotValidLength(values.length)) return false;
+    for(int i = 0; i < values.length; i++)
+      if (vr.isNotValidValue(values[i])) return false;
+    return true;
+  }
+
+  List checkValues(List values) => (isValidValues(values)) ? values : null;
+
+  // Placeholder until VR is integrated into TagBase
+  Object checkValue(dynamic value) => vr.isValidValue(value);
+
+  /// Returns an issues for these values.  This method should be called
+  /// after [isValidValues] returns [false].
+  Issue getIssue(List values) {
+    Issue issue = new Issue(this, values);
+    getLengthIssue(values.length, issue);
+    for (int i = 0; i < values.length; i++) {
+      String msg = vr.getValueError(values[i]);
+      if (msg != null) issue.badValue(i, msg);
+    }
+    return (issue.isNotEmpty) ? null : issue;
+  }
+
   bool isValidLength(int length) {
     // These are the most common cases.
     if (length == 0 || (length == 1 && width == 0)) return true;
     return (length % width == 0 && minLength <= length && length <= maxLength);
   }
 
-  Issue checkLength(TagBase tag, List values) => _checkLength(tag, values.length);
+  bool isNotValidLength(int length) => !isValidLength(length);
 
-  Issue _checkLength(TagBase tag, int length) {
-    List<String> msgs;
+  int checkLength(int length) => (isValidLength(length)) ? length : null;
+
+  Issue getLengthIssue(int length, Issue issue) {
     // These are the most common cases.
     if (length == 0 || (length == 1 && width == 0)) return null;
-    if (width != 0 && length % width != 0) msgs.add(
-        'Invalid Length($length) not a multiple of vmWidth($width)');
-    if (length < minLength) msgs.add('Invalid Length($length) less than minLength($minLength)');
-    if (length > maxLength) msgs.add('Invalid Length($length) greater than maxLength($maxLength)');
-    return (msgs.length != 0) ? new Issue.withLength(tag, length, msgs) : null;
+    if (width != 0 && length % width != 0)
+      issue.badWidth();
+    if (length < minLength || length > maxLength)
+      issue.badLength();
+    return issue;
   }
 
-  // Placeholder until VR is integrated into TagBase
-  dynamic checkValue(dynamic value, List<String> issues) => vr.checkValue(value);
+  //Flush?
+  String widthError(int length) =>
+    'Invalid Width for Tag$dcm}: '
+        'values length($length) is not a multiple of vmWidth($width)';
 
-  Issue checkValues(TagBase tag, List values) {
-    Issue issue = checkLength(tag, values);
-    for (int i = 0; i < values.length; i++) {
-      var msg = vr.checkValue(values[i]);
-      Issue.createIfAbsent(issue, tag, i, msg);
-    }
-    return (issue == null) ? null : issue;
+  //Flush?
+  String lengthError(int length) =>
+    'Invalid Length: min($minLength) <= length($length) <= max($maxLength)';
+
+  bool isValidVFLength(int lengthInBytes) {
+    int min = minLength * vr.minValueLength;
+    int max = maxLength * vr.maxValueLength;
+    if (min <= lengthInBytes && lengthInBytes <= max ) return true;
+    return false;
   }
 
-  Issue checkBytesLength(TagBase tag, Uint8List bytes) => _checkBytesLength(tag, bytes.lengthInBytes);
-
-  //TODO: debug - no debugging done.
-  Issue _checkBytesLength(TagBase tag, int length) {
-    List<String> msgs;
-    // These are the most common cases.
-    if (length == 0 || (length == 1 && width == 0)) return null;
-    if (width != 0 && length % width != 0) msgs.add(
-        'Invalid Length($length) not a multiple of vmWidth($width)');
-    if (length < minLength) msgs.add('Invalid Length($length) less than minLength($minLength)');
-    if (length > maxLength) msgs.add('Invalid Length($length) greater than maxLength($maxLength)');
-    return (msgs.length != 0) ? new Issue.withLength(tag, length, msgs) : null;
-  }
+  Uint8List checkVFLength(Uint8List bytes) =>
+      (isValidVFLength(bytes.length)) ? bytes : null;
 
   //Fix or Flush
-  Uint8List checkBytes(TagBase tag, Uint8List bytes) => vr.checkBytes(bytes);
+  Uint8List checkBytes(Uint8List bytes) => vr.checkBytes(bytes);
 
   @override
-  String toString() => 'Tag: $dcm $vr, $vm';
+  String toString() => 'Tag$dcm $vr, $vm';
 }
 
 /// Converts a DICOM [keyword] to the equivalent DICOM name.
@@ -200,8 +207,8 @@ abstract class TagBase {
 /// Given a keyword in camelCase, returns a [String] with a
 /// space (' ') inserted before each uppercase letter.
 ///
-/// Note: This algorithm does not return the exact [name] string,
-/// for example some [name]s have apostrophes ("'") in them,
+/// Note: This algorithm does not return the exact DICOM name string,
+/// for example some names have apostrophes ("'") in them,
 /// but they are not in the [keyword]. Also, all dashes ('-') in
 /// keywords have been converted to underscores ('_'), because
 /// dashes are illegal in Dart identifiers.

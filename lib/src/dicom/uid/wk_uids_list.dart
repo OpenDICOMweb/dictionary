@@ -3,7 +3,8 @@
 // that can be found in the LICENSE file.
 // Author: Jim Philbin <jfphilbin@gmail.edu>
 // See the AUTHORS file for other contributors.
-part of odw.sdk.dictionary.uid;
+
+import 'uid.dart';
 
 /// This library contains compile time constant definitions of "Well Known" [WKUid]s
 /// and there corresponding [String] values.

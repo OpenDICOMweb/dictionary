@@ -9,10 +9,12 @@ import 'package:dictionary/dicom.dart';
 /// A [class] for defining the elements of an [IOD].
 class IodTag {
   final Tag tag;
-  final EType eType;
+  final EType _type;
 
   //TODO: make const
-  IodTag(this.tag, this.eType);
+  IodTag(this.tag, this._type);
+
+  EType get eType => _type ?? tag.type;
 
   int get code => tag.code;
   String get hex => tag.hex;
@@ -41,7 +43,7 @@ class IodTag {
 
   bool isValidLength(int length) => tag.isValidLength(length);
   //bool isValidValue(value) => tag.isValidValue(value);
-  dynamic checkValue(value, List<String> issues) => tag.checkValue(value, issues);
+  dynamic checkValue(value, [List<String> issues]) => tag.checkValue(value);
 
   String toString() {
     var retired = (isRetired == false) ? "" : ", (Retired)";

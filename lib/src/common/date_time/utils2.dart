@@ -1,6 +1,12 @@
 // Copyright (c) 2016, Open DICOMweb Project. All rights reserved.
 // Use of this source code is governed by the open source license
 // that can be found in the LICENSE file.
+// Original author: Jim Philbin <jfphilbin@gmail.edu> - 
+// See the AUTHORS file for other contributors.
+
+// Copyright (c) 2016, Open DICOMweb Project. All rights reserved.
+// Use of this source code is governed by the open source license
+// that can be found in the LICENSE file.
 // Author: Jim Philbin <jfphilbin@gmail.edu>
 // See the AUTHORS file for other contributors.
 
@@ -38,7 +44,7 @@ bool _inRange(int min, int value, int max) => ((min <= value) && (value <= max))
 int _checkRange(int min, int v, int max) => _inRange(v, min, max) ? v : null;
 
 String _InvalidCharacterError(String s, int i) =>
-  'Invalid Character("${s[i]}") in String: $s';
+    'Invalid Character("${s[i]}") in String: $s';
 
 /// Return the [limit], which is max or end w
 int _getLimit(int start, int min, int max, int end) {
@@ -61,12 +67,12 @@ int parseUint(String s, [int offset = 0, int min = 0, int max]) {
   return _parseUint(s, offset, limit);
 }
 
-/// Parses a base 10 [int] from [offset] to [limit], and returns its corresponding value.
-/// If an error is encountered returns [null].
-int _parseUint(String s, int offset, int limit) {
-  print('_readUint s: $s');
+/// Parses a base 10 [int] from [start] to [limit], and returns its
+/// corresponding value. If an error is encountered returns [null].
+int _parseUint(String s, int start, int limit) {
+  //print('_readUint s: $s');
   int n = 0;
-  for (int i = offset; i < limit; i++) {
+  for (int i = start; i < limit; i++) {
     int c = s.codeUnitAt(i);
     if (c < k0 || c > k9) return null;
     int v = c - k0;
@@ -221,15 +227,6 @@ Date parseDicomDate(String s, [int start = 0]) {
   return new Date(y, m, d);
 }
 
-bool isDcmDateString(String s, [int start = 0]) {
-  if (s.length - start < 8) return false;
-  int y = parseYear(s, start);
-  if (y == null) return false;
-  int m = parseMonth(s, start+ 4);
-  if (m == null) return false;
-  int d = parseDay(y, m, s, start + 6);
-  return (d == null) ? false : true;
-}
 
 String dcmDateError(String s, [int start = 0]) {
   if (s.length - start < 8)
@@ -258,7 +255,7 @@ Date parseInternetDate(String s, [int start = 0]) {
 }
 
 Date parseDate(String s, [int start = 0, isInternet = false]) =>
-  (isInternet) ? parseInternetDate(s, start) : parseDicomDate(s, start);
+    (isInternet) ? parseInternetDate(s, start) : parseDicomDate(s, start);
 
 
 bool checkDateString(String s, [int start = 0]) {
@@ -509,11 +506,11 @@ TimeZone parseTimeZone(String s, [int start = 0, internet = false]) =>
     (internet) ? parseInternetTZ(s, start) : parseDicomTZ(s, start);
 // ** DateTime **
 bool isDateTime(int y,
-                     [int mm = 1, int d = 1, int h = 0, int m = 0, int s = 0, int ms = 0, int u = 0]) =>
+                [int mm = 1, int d = 1, int h = 0, int m = 0, int s = 0, int ms = 0, int u = 0]) =>
     isDate(y, mm, d) && isTime(h, m, s, ms, u);
 
 DateTime checkDateTime(int y,
-                          [int mm = 1, int d = 1, int h = 0, int m = 0, int s = 0, int ms = 0, int u = 0]) {
+                       [int mm = 1, int d = 1, int h = 0, int m = 0, int s = 0, int ms = 0, int u = 0]) {
   assert(isDate(y, mm, d));
   assert(isTime(h, m, s, ms, u));
   return new DateTime(y, mm, d, h, m, s, ms, u);

@@ -18,7 +18,6 @@ import 'package:core/dictionary.dart';
 import 'package:core/vm.dart';
 import 'package:core/vr.dart';
 
-import 'private_tag.dart';
 import 'tag_type_map.dart';
 
 /// A library for handling DICOM Tags.

@@ -6,6 +6,8 @@
 part of odw.sdk.dictionary.uid;
 
 //TODO: document class
+/// A UID constructed from a [String] or from a [root] and [leaf].  This
+/// class is the super class for all Well Known UIDs.
 class UidString extends Uid {
   static const int kMin = 6;
   static const int kMax = 64;
@@ -18,8 +20,8 @@ class UidString extends Uid {
       : string = check(s),
         super._();
 
-  UidString.withRoot(String root, String s)
-      : string = check(root + s),
+  UidString.withRoot(String root, String leaf)
+      : string = check(root + leaf),
         super._();
 
   const UidString._(this.string) : super._();

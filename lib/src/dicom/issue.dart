@@ -8,44 +8,43 @@ import 'package:dictionary/tag.dart';
 
 class Issue {
   final Tag tag;
-  int badLength;
-  Map<int, List<String>> _issues;
+  final List values;
+  bool _hasBadLength = false;
+  bool _hasBadWidth = false;
+  Map<int, String> _valueErrors = <int, String>{};
 
-  Issue(this.tag, int index, String msg) : _issues = {index: [msg]};
+  Issue(this.tag, this.values);
 
-  Issue.withLength(this.tag, this.badLength, List<String> msgs) : _issues = {0: msgs};
+  bool badLength() => _hasBadLength = true;
 
-  add(int index, String msg) {
-    if (_issues == null) {
-      _issues = {index: [msg]};
-    } else if (_issues[index] == null) {
-      _issues[index] = [msg];
-    } else {
-      var msgs = _issues[index];
-      if (msgs == null) throw "Invalid message $index: $msg";
-      msgs.add(msg);
-    }
-    return this;
-  }
+  bool badWidth() => _hasBadWidth = true;
 
-  String get lengthError => tag.vm.lengthError(badLength);
+  String badValue(int index, message) => _valueErrors[index] = message;
 
+
+  bool get isNotEmpty =>
+    _hasBadLength || _hasBadWidth || _valueErrors.length != 0;
+
+  bool get isEmpty => ! isNotEmpty;
+
+  String get widthMsg => (_hasBadWidth == true)
+      ? 'Invalid Width for${tag.dcm}: values length(${values.length}) '
+          'is not a multiple of vmWidth(${tag.width}'
+      : "";
+
+  String get lengthMsg => (_hasBadLength == true)
+      ? 'Invalid Length: min(${tag.minLength}) <= length(${values.length}) '
+          '<= max(${tag.maxLength})'
+      : "";
+
+  @override
   String toString() {
-    var out = "Issues with $tag\n\t";
-    if (badLength != null) out += lengthError;
-    _issues.forEach((int index, List<String> value) {
+    var out = "Issues with $tag\n";
+    out += lengthMsg;
+    out += widthMsg;
+    _valueErrors.forEach((int index, String value) {
       out += '\n\t$index: $value';
     });
     return out;
   }
-
-  static Issue createIfAbsent(Issue issue, Tag tag, int i, msgs) {
-    msgs = (msgs is String) ? [msgs] : msgs;
-    if (issue == null) {
-      return new Issue(tag, i, msgs);
-    } else {
-      return issue.add(i, msgs);
-    }
-  }
 }
-

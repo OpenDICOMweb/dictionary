@@ -45,6 +45,7 @@ class Tag extends TagBase {
     return 'Element: $dcm $keyword, $vr, $vm, $retired';
   }
 
+
   static List<String> lengthChecker(List values, int minLength, int maxLength, int width) {
     int length = values.length;
     // These are the most common cases.
@@ -3948,7 +3949,7 @@ class Tag extends TagBase {
                         "Vertices of the Polygonal Exposure Control Sensing Region", VR.kSS, VM.k2_n, false);
   static const Tag kNoName0
   //(0018,9445)
-  = const Tag("NoName0", 0x00189445, "See Note 3", VR.kNoVR, VM.kNoVM, true);
+  = const Tag("NoName0", 0x00189445, "See Note 3", VR.kUnknown, VM.kNoVM, true);
   static const Tag kColumnAngulationPatient
   //(0018,9447)
   = const Tag("ColumnAngulationPatient", 0x00189447, "Column Angulation (Patient)", VR.kFL,
@@ -5726,7 +5727,7 @@ class Tag extends TagBase {
                         VM.k1, false);
   static const Tag kNoName1
   //(0028,0020)
-  = const Tag("NoName1", 0x00280020, "See Note 3", VR.kNoVR, VM.kNoVM, true);
+  = const Tag("NoName1", 0x00280020, "See Note 3", VR.kUnknown, VM.kNoVM, true);
   static const Tag kPixelSpacing
   //(0028,0030)
   = const Tag("PixelSpacing", 0x00280030, "Pixel Spacing", VR.kDS, VM.k2, false);
@@ -13842,14 +13843,14 @@ class Tag extends TagBase {
       "DataSetTrailingPadding", 0xFFFCFFFC, "Data Set Trailing Padding", VR.kOB, VM.k1, false);
   static const Tag kItem
   //(FFFE,E000)
-  = const Tag("Item", 0xFFFEE000, "Item", VR.kNoVR, VM.kNoVM, false);
+  = const Tag("Item", 0xFFFEE000, "Item", VR.kUnknown, VM.kNoVM, false);
   static const Tag kItemDelimitationItem
   //(FFFE,E00D)
   = const Tag(
-      "ItemDelimitationItem", 0xFFFEE00D, "Item Delimitation Item", VR.kNoVR, VM.kNoVM, false);
+      "ItemDelimitationItem", 0xFFFEE00D, "Item Delimitation Item", VR.kUnknown, VM.kNoVM, false);
   static const Tag kSequenceDelimitationItem
   //(FFFE,E0DD)
-  = const Tag("SequenceDelimitationItem", 0xFFFEE0DD, "Sequence Delimitation Item", VR.kNoVR,
+  = const Tag("SequenceDelimitationItem", 0xFFFEE0DD, "Sequence Delimitation Item", VR.kUnknown,
                         VM.kNoVM, false);
 
   //**** Special Elements where multiple tags map to the same dictionary

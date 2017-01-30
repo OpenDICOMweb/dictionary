@@ -126,8 +126,8 @@ class Int8 extends Int {
   static const int sizeInBytes = 1;
   static const int min = -(1 << (sizeInBits - 1));
   static const int max = (1 << (sizeInBits - 1)) - 1;
-  static const int maxShortLength = kMaxShortLengthInBytes ~/ sizeInBytes;
-  static const int maxLongLength = kMaxLongLengthInBytes ~/ sizeInBytes;
+  static const int maxShortLength = kMaxShortVFLength;
+  static const int maxLongLength = kMaxLongVFLength;
   static final Int8List emptyList = new Int8List(0);
 
   static bool equal(Int8List a, Int8List b) => Int.equal(a, b);
@@ -160,6 +160,9 @@ class Int8 extends Int {
 
   static int hash(Int8List vList) => hashList(vList);
 
+  /// Returns a new [Int8List] that is a copy of [list].
+  static Int8List copy(List<int> list) => new Int8List.fromList(list);
+
   /// Returns a [Int8List.view] of [bytes].
   ///
   /// Note: [Int8List]s are always aligned.
@@ -178,8 +181,8 @@ class Int16 extends Int {
   static const int sizeInBytes = 2;
   static const int min = -(2 << (sizeInBits - 1));
   static const int max = (2 << (sizeInBits - 1)) - 1;
-  static const int maxShortLength = kMaxShortLengthInBytes ~/ sizeInBytes;
-  static const int maxLongLength = kMaxLongLengthInBytes ~/ sizeInBytes;
+  static const int maxShortLength = kMaxShortVFLength ~/ sizeInBytes;
+  static const int maxLongLength = 0xFFFFFFFF - 2 ~/ sizeInBytes;
   static final Int16List emptyList = new Int16List(0);
 
   static bool equal(Int16List a, Int16List b) => Int.equal(a, b);
@@ -211,6 +214,9 @@ class Int16 extends Int {
   static int toLengthInBytes(int length) => length << shiftValue;
 
   static int hash(Int16List vList) => hashList(vList);
+
+  /// Returns a new [Int16List] that is a copy of [list].
+  static Int16List copy(List<int> list) => new Int16List.fromList(list);
 
   /// Returns an [Int16List.view] of [list].
   static Int16List view(Int16List list, [int offsetInBytes = 0, int length]) =>
@@ -248,8 +254,8 @@ class Int32 extends Int {
   static const int sizeInBytes = 4;
   static const int min = -(1 << (sizeInBits - 1));
   static const int max = (1 << (sizeInBits - 1)) - 1;
-  static const int maxShortLength = kMaxShortLengthInBytes ~/ sizeInBytes;
-  static const int maxLongLength = kMaxLongLengthInBytes ~/ sizeInBytes;
+  static const int maxShortLength = kMaxShortVFLength ~/ sizeInBytes;
+  static const int maxLongLength = 0xFFFFFFFF - 4 ~/ sizeInBytes;
   static final Int32List emptyList = new Int32List(0);
 
   static bool equal(Int32List a, Int32List b) => Int.equal(a, b);
@@ -281,6 +287,9 @@ class Int32 extends Int {
   static int toLengthInBytes(int length) => length << shiftValue;
 
   static int hash(Int32List vList) => hashList(vList);
+
+  /// Returns a new [Int32List] that is a copy of [list].
+  static Int32List copy(List<int> list) => new Int32List.fromList(list);
 
   /// Returns an [Int32List.view] of [list].
   static Int32List view(Int32List list, [int offsetInBytes = 0, int length]) =>
@@ -314,8 +323,8 @@ class Int64 extends Int {
   static const int sizeInBytes = 8;
   static const int min = -(1 << (sizeInBits - 1));
   static const int max = (1 << (sizeInBits - 1)) - 1;
-  static const int maxShortLength = kMaxShortLengthInBytes ~/ sizeInBytes;
-  static const int maxLongLength = kMaxLongLengthInBytes ~/ sizeInBytes;
+  static const int maxShortLength = kMaxShortVFLength ~/ sizeInBytes;
+  static const int maxLongLength = 0xFFFFFFFF - 8 ~/ sizeInBytes;
   static final Int64List emptyList = new Int64List(0);
 
   static bool equal(Int64List a, Int64List b) => Int.equal(a, b);
@@ -347,6 +356,9 @@ class Int64 extends Int {
   static int toLengthInBytes(int length) => length << shiftValue;
 
   static int hash(Int64List vList) => hashList(vList);
+
+  /// Returns a new [Int64List] that is a copy of [list].
+  static Int64List copy(List<int> list) => new Int64List.fromList(list);
 
   /// Returns an [Int64List.view] of [list].
   static Int64List view(Int64List list, [int offsetInBytes = 0, int length]) =>
@@ -389,8 +401,8 @@ class Uint8 extends Uint {
   static const int sizeInBytes = 1;
   static const int min = 0;
   static const int max = (2 << sizeInBits) - 1;
-  static const int maxShortLength = kMaxShortLengthInBytes ~/ sizeInBytes;
-  static const int maxLongLength = kMaxLongLengthInBytes ~/ sizeInBytes;
+  static const int maxShortLength = kMaxShortVFLength;
+  static const int maxLongLength = kMaxLongVFLength;
   static final Uint8List emptyList = new Uint8List(0);
 
   static bool equal(Uint8List a, Uint8List b) => Int.equal(a, b);
@@ -424,6 +436,8 @@ class Uint8 extends Uint {
 
   static int hash(Uint8List vList) => hashList(vList);
 
+  /// Returns a new [Uint8List] that is a copy of [list].
+  static Uint8List copy(List<int> list) => new Uint8List.fromList(list);
   /// Returns a [Uint8List] view of [bytes].
   ///
   /// Note: [Uint8List] are always aligned.
@@ -440,8 +454,8 @@ class Uint16 extends Uint {
   static const int sizeInBytes = 2;
   static const int min = 0;
   static const int max = (2 << sizeInBits) - 1;
-  static const int maxShortLength = kMaxShortLengthInBytes ~/ sizeInBytes;
-  static const int maxLongLength = kMaxLongLengthInBytes ~/ sizeInBytes;
+  static const int maxShortLength = kMaxShortVFLength ~/ sizeInBytes;
+  static const int maxLongLength = 0xFFFFFFFF - 2 ~/ sizeInBytes;
   static final Uint16List emptyList = new Uint16List(0);
 
   static bool equal(Uint16List a, Uint16List b) => Int.equal(a, b);
@@ -473,6 +487,9 @@ class Uint16 extends Uint {
   static int toLengthInBytes(int length) => length << shiftValue;
 
   static int hash(Uint16List vList) => hashList(vList);
+
+  /// Returns a new [Uint16List] that is a copy of [list].
+  static Uint16List copy(List<int> list) => new Uint16List.fromList(list);
 
   /// Returns an [Uint16List.view] of [list].
   static Uint16List view(Uint16List list, [int offsetInBytes = 0, int length]) =>
@@ -506,8 +523,8 @@ class Uint32 extends Uint {
   static const int sizeInBytes = 4;
   static const int min = 0;
   static const int max = (2 << sizeInBits) - 1;
-  static const int maxShortLength = kMaxShortLengthInBytes ~/ sizeInBytes;
-  static const int maxLongLength = kMaxLongLengthInBytes ~/ sizeInBytes;
+  static const int maxShortLength = kMaxShortVFLength ~/ sizeInBytes;
+  static const int maxLongLength = 0xFFFFFFFF - 4 ~/ sizeInBytes;
   static final Uint32List emptyList = new Uint32List(0);
 
   static bool equal(Uint32List a, Uint32List b) => Int.equal(a, b);
@@ -539,6 +556,9 @@ class Uint32 extends Uint {
   static int toLengthInBytes(int length) => length << shiftValue;
 
   static int hash(Uint32List vList) => hashList(vList);
+
+  /// Returns a new [Uint32List] that is a copy of [list].
+  static Uint32List copy(List<int> list) => new Uint32List.fromList(list);
 
   /// Returns an [Uint32List.view] of [list].
   static Uint32List view(Uint32List list, [int offsetInBytes = 0, int length]) =>
@@ -572,8 +592,8 @@ class Uint64 extends Uint {
   static const int sizeInBytes = 8;
   static const int min = 0;
   static const int max = (1 << sizeInBits) - 1;
-  static const int maxShortLength = kMaxShortLengthInBytes ~/ sizeInBytes;
-  static const int maxLongLength = kMaxLongLengthInBytes ~/ sizeInBytes;
+  static const int maxShortLength = kMaxShortVFLength ~/ sizeInBytes;
+  static const int maxLongLength = 0xFFFFFFFF - 8 ~/ sizeInBytes;
   static final Uint64List emptyList = new Uint64List(0);
 
   static bool equal(Uint64List a, Uint64List b) => Int.equal(a, b);
@@ -607,6 +627,9 @@ class Uint64 extends Uint {
   static int toLengthInBytes(int length) => length << shiftValue;
 
   static int hash(Uint64List vList) => hashList(vList);
+
+  /// Returns a new [Uint64List] that is a copy of [list].
+  static Uint64List O(List<int> list) => new Uint64List.fromList(list);
 
   /// Returns a [Uint64List.view] created from the [Uint64List] [list].
   static Uint64List view(Uint64List list) =>

@@ -1,12 +1,142 @@
 // Copyright (c) 2016, Open DICOMweb Project. All rights reserved.
 // Use of this source code is governed by the open source license
 // that can be found in the LICENSE file.
-// Original author: Jim Philbin <jfphilbin@gmail.edu> -
+// Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
 import 'package:dictionary/common.dart';
+import 'package:dictionary/src/dicom/constants.dart';
+import 'package:dictionary/src/dicom/vm.dart';
+import 'package:dictionary/src/dicom/vr/vr.dart';
+import 'package:dictionary/tag.dart';
 
-List<String> invalid(dynamic value) => throw "Invalid value checker";
+typedef bool _VPredicate(E value);
+/// Validating Value Field
+///
+/// The maximum length of a Value Field is:
+///     `vr.max * vm.max`
+///
+//TODO: decide if this should be extended to Parsers
+
+/// The interface for value validators and checkers.
+///
+/// The following must be implemented:
+///   - isValid
+///   - check
+///
+typedef bool _Predicate(E value);
+typedef E _Checker(E value);
+typedef String _Errors(E value);
+abstract class VRCheckerBase<E> {
+  _Predicate valid;
+  /// Returns a [List<String>] containing error message.
+   _Errors errors;
+
+  E check(E value) => (test(value)) ? value : null;
+}
+
+class StringChecker extends VRCheckerBase<String> {
+  final _Predicate isValid;
+  final _Errors errors;_
+
+  StringChecker(this.isValid, this.check)
+}
+class ValuesChecker<E> {
+  // The value of [vm] should be a constant from vm.dart.
+  final VM vm;
+  // The value of [vr] should be a constant from vr.dart.
+  final VR vr;
+
+  final _VPredicate isValid;
+
+  const ValuesChecker(this.vm, this.vr, this.isValid);
+
+  static const kUnknown = const ValuesChecker(VM.kUnknown, VR.kUnknown, _invalid);
+  static const kSQ = const ValuesChecker(VM.k1, VR.kSQ, _invalid);
+  static const kSS = const ValuesChecker(VM.k1, VR.kSQ, _invalid);
+
+  EType get type;
+
+  int get elementSize => vr.elementSizeInBytes;
+
+  /// Returns the minimum Value Field length in bytes for the given
+  /// [VR] and [VM], if the Value Field contains at least 1 value.
+  int get minVFLength => vm.min * vr.min;
+
+  /// Returns the maximum Value Field length in bytes for the given [VR] and [VM].
+  int get maxVFLength => (vm.max == -1) ? vr.maxVFLength : vm.max * vr.max;
+
+  //TODO: should be modified when DEType info is available.
+  // Returns [true] the [lengthInBytes] is valid for the [VR] & [VR].
+  bool isValidVFLength(int lengthInBytes) =>
+      minVFLength <= lengthInBytes && lengthInBytes <= maxVFLength;
+
+  /// Returns the required minimum number of values for this [VM].
+  int get minValues => vm.min;
+
+  //TODO: is optimization for case where vr.sizeInBytes == 1 worth it?
+  /// Returns the maximum number of values allowed in the Value Field
+  /// for this [VM] and [VR].
+  int get maxValues => (vm.max == -1) ? maxVFLength ~/ vr.elementSize : vm.max;
+
+  /// Returns [true] if [values] satisfies the [vr].
+  // bool isValid(E value);
+
+  bool isNotValid(E value) => !isValid(value);
+
+  /// Returns [true] if all [values] are valid for the [vm] and [vr].
+  bool areValid(List<E> values) {
+    if (isNotValidLength(values.length)) for (E v in values) if (isNotValid(v)) return false;
+    return true;
+  }
+
+  bool areNotValid(List<E> values) => !areValid(values);
+
+  E check(E value) => (isValid(value)) ? value : null;
+
+  List<E> checkList(List<E> values) => (areValid(values)) ? values : null;
+  ///
+  /// [min]: The minimum number of values.
+  /// [max]: The maximum number of values. If -1 then max length of Value Field; otherwise, must
+  ///     be greater than or equal to [min].
+  /// [width]: The [width] of the matrix of values. If [width == 0 then singleton;
+  ///     otherwise must be greater than 0;
+
+  //TODO: should be modified when DEType info is available.
+  /// Returns True if the [length], i.e. the number of values, is valid for this [VM] and [VR].
+  ///
+  /// Note: A [length] of zero is always valid.
+  bool isValidValuesLength(int length) =>
+     (length == 0 || (length == 1 && vm.width == 0)) ||
+     ((length % vm.width) == 0) && _inVMRange(length);
+
+  /// Internal helper for isValidValuesLength
+  bool _inVMRange(int length) => (minValues <= length && length <= maxValues);
+
+  bool isNotValidLength(int length) => !isValidValuesLength(length);
+
+
+  /// Returns a [List<String>] of Error messages for a single value.
+  ///
+  /// Each [String] should have the format:
+  ///     `'$i: $s`
+  /// where [i] is then index of [value] in the values List,
+  /// and `s` is a [String] describing the error.
+  List<String> valueErrors(int i, E value);
+
+  ///
+  List<String> allErrors(List<E> values) {
+    List<String> msgs = <String>[];
+    for (int i = 0; i < values.length; i++) {
+      List<String> list = valueErrors(i, values[i]);
+      if (list.length > 0) msgs.addAll(list);
+    }
+    return msgs;
+  }
+}
+
+bool _invalid(dynamic value) =>
+    throw new ArgumentError('This Checker.isValid should never be called');
 
 // **** Integer (Int & Uint) Checkers
 
@@ -23,38 +153,14 @@ List<String> _intRangeErrors(int v, int min, int max) {
   return (s == null) ? null : [s];
 }
 
-List<String> checkSS(int v) => _intRangeErrors(v, Int16.min, Int16.max);
-List<String> checkSL(int v) => _intRangeErrors(v, Int32.min, Int32.max);
-List<String> checkOB(int v) => _intRangeErrors(v, Uint8.min, Uint8.max);
-List<String> checkUN(int v) => _intRangeErrors(v, Uint8.min, Uint8.max);
-List<String> checkOW(int v) => _intRangeErrors(v, Uint16.min, Uint16.max);
-List<String> checkUS(int v) => _intRangeErrors(v, Uint16.min, Uint16.max);
-List<String> checkUL(int v) => _intRangeErrors(v, Uint32.min, Uint32.max);
-List<String> checkAT(int v) => _intRangeErrors(v, Uint32.min, Uint32.max);
-List<String> checkOL(int v) => _intRangeErrors(v, Uint32.min, Uint32.max);
-
-// **** Floating Point (Float32 & FLoat54) Checkers
-
-/// Returns [true] if [value] is between [min] and [max] inclusive.
-bool _floatInRange(double min, double value, double max) => (min <= value && value <= max);
-
-List<String> _checkFloat(double value, double min, double max) => (_floatInRange(value, min, max))
-    ? null
-    : ['RangeError: min($min) <= Value($value) <= max($max)'];
-
-List<String> checkFD(double v) => null; // all doubles ok
-List<String> checkFL(double v) => null;
-List<String> checkOD(double v) => null; // all doubles ok
-List<String> checkOF(double v) => null;
-
 // **** String Checkers
 bool _inRange(int length, int min, int max) => length < min || max < length;
 
 int _checkLength(int length, int min, int max) => _intCheckRange(length, min, max);
 
 String _hasLengthError(int length, int min, int max) => (length < min || max < length)
-    ? 'Invalid Length for min($min) <= value($length) <= max($max)'
-    : "";
+                                                        ? 'Invalid Length for min($min) <= value($length) <= max($max)'
+                                                        : "";
 
 String _invalidChar(int c, int pos) => 'Value has invalid character($c) at position($pos)';
 
@@ -110,13 +216,13 @@ List<String> checkCS(String s) => _stringErrors(s, 16, _stringFilter);
 List<String> checkPN(String s) => _stringErrors(s, 5 * 64, _stringFilter);
 List<String> checkSH(String s) => _stringErrors(s, 16, _stringFilter);
 List<String> checkLO(String s) => _stringErrors(s, 64, _stringFilter);
-List<String> checkUC(String s) => _stringErrors(s, kMaxLongVFLength, _stringFilter);
+List<String> checkUC(String s) => _stringErrors(s, kMaxLongLengthInBytes, _stringFilter);
 
 // DICOM Texts
 bool _textFilter(int c) => (c < kSpace || c == kDelete);
 List<String> checkST(String s) => _stringErrors(s, 1024, _textFilter);
 List<String> checkLT(String s) => _stringErrors(s, 10240, _textFilter);
-List<String> checkUT(String s) => _stringErrors(s, kMaxLongVFLength, _textFilter);
+List<String> checkUT(String s) => _stringErrors(s, kMaxLongLengthInBytes, _textFilter);
 
 List<String> checkIS(String s) {
   String lengthMsg = _intRangeError(s.length, 0, 12);
@@ -165,7 +271,7 @@ List<String> checkUI(String s) {
 //TODO: do something more efficient
 //UR - Universal Resource Identifier (URI)
 List<String> checkUR(String s) {
-  String msg0 = _intRangeError(s.length, 0, kMaxLongVFLength);
+  String msg0 = _intRangeError(s.length, 0, kMaxLongLengthInBytes);
   Uri uri;
   try {
     uri = Uri.parse(s);

@@ -96,8 +96,8 @@ class Float32 extends Float {
   //TODO
   static const int sNaN = 0x7FC00000;
   */
-  static const int maxShortLength = kMaxShortLengthInBytes ~/ sizeInBytes;
-  static const int maxLongLength = kMaxLongLengthInBytes ~/ sizeInBytes;
+  static const int maxShortLength = kMaxShortVFLength ~/ sizeInBytes;
+  static const int maxLongLength = kMaxLongVFLength ~/ sizeInBytes;
   static final Float32List emptyList = new Float32List(0);
 
   static bool equal(Float32List a, Float32List b) => Float.equal(a, b);
@@ -142,6 +142,9 @@ class Float32 extends Float {
   static int toLengthInBytes(int length) => length << shiftValue;
 
   static int hash(Float32List vList) => hashList(vList);
+
+  /// Returns a new [FLoat32List] that is a copy of [list].
+  static Float32List copy(List<double> list) => new Float32List.fromList(list);
 
   static Float32List viewOfBytes(Uint8List bytes, [int length]) {
     print('isAligned: ${isAligned(bytes)}, length: $length');
@@ -202,8 +205,8 @@ class Float64 extends Float {
   //FIX wrong
   static const int sNaNmax = 0x7FFFBFFFFFFFFFFF;
   */
-  static const int maxShortLength = kMaxShortLengthInBytes - sizeInBytes;
-  static const int maxLongLength = kMaxLongLengthInBytes - sizeInBytes;
+  static const int maxShortLength = kMaxShortVFLength - sizeInBytes;
+  static const int maxLongLength = kMaxLongVFLength - sizeInBytes;
   static final Float64List emptyList = new Float64List(0);
 
   static bool equal(Float64List a, Float64List b) => Float.equal(a, b);
@@ -245,7 +248,10 @@ class Float64 extends Float {
 
   static int toLengthInBytes(int length) => length << shiftValue;
 
-  static int hash(Float32List vList) => hashList(vList);
+  static int hash(Float64List vList) => hashList(vList);
+
+  /// Returns a new [FLoatList] that is a copy of [list].
+  static Float64List copy(List<double> list) => new Float64List.fromList(list);
 
   /// Returns a [Float64List] created from [bytes]. if [bytes].offsetInBytes is aligned
   /// on an 8-byte boundary, then a [Float64List.view] is returned; otherwise,

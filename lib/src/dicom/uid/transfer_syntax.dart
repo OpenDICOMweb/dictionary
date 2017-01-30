@@ -5,10 +5,12 @@
 // See the AUTHORS file for other contributors.
 part of odw.sdk.dictionary.uid;
 
+//TODO: document
 class TransferSyntax extends WKUid {
-  static const UidType _type = UidType.kSOPClass;
+  static const UidType uidType = UidType.kTransferSyntax;
   final String mediaType;
 
+  //fix or flash:
   ///  Specifies the size of the Pixel Cell. kBitsAllocated (0028,0100)
   // final int bitAllocated;
   /// [bitsStored] shall never be larger than [bitsAllocated]. kBitsStored (0028,0101)
@@ -18,13 +20,15 @@ class TransferSyntax extends WKUid {
   /// specification.  High kHighBit (0028,0102)
 //  final int highBit;
   final bool isEncapsulated;
-//  final bool hasEmptyBasicOffsetTable;
+
+  //  final bool hasEmptyBasicOffsetTable;
   final bool mayHaveFragments;
 
   const TransferSyntax(String uid, String name, this.mediaType,
       [bool isRetired = false, this.isEncapsulated = true, this.mayHaveFragments = true])
-      : super._(uid, _type, isRetired, name);
+      : super._(uid, UidType.kTransferSyntax, isRetired, name);
 
+  // fix or flush
   // bool hasEmptyOffsetTable => false;
 
   /// Returns [true] if the [TransferSyntax] exists and has not been retired.

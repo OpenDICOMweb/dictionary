@@ -4,8 +4,6 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> - 
 // See the AUTHORS file for other contributors.
 
-import 'constants.dart';
-import 'vr/vr.dart';
 
 /// A class that defined Value Multiplicities and their validators.
 ///
@@ -42,40 +40,10 @@ class VM {
   bool get isFixed => min == max;
   bool get isSingleton => width == 0;
 
-  /// Validate that the number of values is legal
-  //TODO write unit tests to ensure this is correct
-
-  int checkLength(int length) {
-    // These are the most common cases.
-    if (length == 0 || (length == 1 && width == 0)) return length;
-    if (length % width == 0 && min <= length && length <= max) return length;
-    return null;
-  }
-  bool isValidLength(int length) => length == checkLength(length);
-
-  bool isValidLengthInBytes(VR vr, int lengthInBytes) {
-    int minBytes = vr.min;
-    int maxBytes = vr.max;
-    // These are the most common cases.
-    if (lengthInBytes == 0 || (width == 0 && lengthInBytes <= maxBytes)) return true;
-    return (lengthInBytes % width == 0 &&
-            min * minBytes <= lengthInBytes && lengthInBytes <= max * minBytes);
-  }
-
-  // Notes: max should be max * width
-  int maxLength(VR vr, [bool isLongLength = false]) {
-    if (max != -1) return max;
-    int limit = (isLongLength) ? kMaxLongLengthInBytes : kMaxShortLengthInBytes;
-    return limit ~/ vr.min;
-  }
-
-  String lengthError(int length) =>
-      'Invalid Length($length) - $name min($min), max($max), width($width)';
-
   String toString() => 'VM.$id';
 
   // Members
-  // For [k1] [width == 0]
+  // Special case optimization [k1] [width == 0]
   static const VM k1 = const VM("1", 1, 1, 0);
   static const VM k1_2 = const VM("1_2", 1, 2, 1);
   static const VM k1_3 = const VM("1-3", 1, 3, 1);

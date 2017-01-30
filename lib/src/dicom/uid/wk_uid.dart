@@ -20,8 +20,6 @@ class WKUid extends UidString {
 
   //static fromString(String s) => stringToUidMap[validate(s)];
 
-  String debug() => "UID: $string (type=$type, name=$name)";
-
   bool get isNotRetired => !isRetired;
 
   //TODO: create UidType class
@@ -38,8 +36,10 @@ class WKUid extends UidString {
 
   bool get isCodingScheme => type == UidType.kCodingScheme;
 
+  String get info => "UID: $string (type=$type, name=$name)";
+
   @override
-  String toString() => '$type($string): $name';
+  String toString() => string;
 
   static WKUid lookup(var uid) {
     if (uid is Uid) uid = uid.string;

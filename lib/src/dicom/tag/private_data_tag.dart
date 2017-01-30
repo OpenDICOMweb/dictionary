@@ -6,9 +6,6 @@
 
 import 'package:dictionary/dicom.dart';
 
-import 'group.dart';
-import 'elt.dart';
-import 'private_creator_tag.dart';
 import 'tag_base.dart';
 
 class PrivateDataTag extends TagBase {
@@ -4632,7 +4629,7 @@ class PrivateDataTag extends TagBase {
   static const PrivateDataTag k2284 = const PrivateDataTag._(
       2284, "SPI-P Release 1", 0x002900cf, VR.kCS, VM.k1, "ShutterSelectStatus");
   static const PrivateDataTag k2285 =
-      const PrivateDataTag._(2285, "SPI-P Release 1", 0x7fe10010, VR.kNoVR, VM.k1, "PixelData");
+      const PrivateDataTag._(2285, "SPI-P Release 1", 0x7fe10010, VR.kUnknown, VM.k1, "PixelData");
   static const PrivateDataTag k2286 =
       const PrivateDataTag._(2286, "SPI-P Release 1;1", 0x000900c0, VR.kLT, VM.k1, "Unknown");
   static const PrivateDataTag k2287 =

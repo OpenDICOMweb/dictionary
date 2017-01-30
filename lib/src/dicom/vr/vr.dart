@@ -3,142 +3,208 @@
 // that can be found in the LICENSE file.
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
+library odw.sdk.dictionary.vr;
 
 import 'dart:typed_data';
 
-import 'package:dictionary/tag.dart';
+import 'package:dictionary/ascii.dart';
+import 'package:dictionary/src/common/date_time/utils.dart';
 import 'package:dictionary/src/common/integer/integer.dart';
-import 'package:dictionary/src/dicom/constants.dart';
 import 'package:dictionary/src/dicom/vr/vr_index.dart';
 
-import 'check_values.dart';
+part 'float.dart';
+part 'integer.dart';
+part 'string.dart';
+part 'utils.dart';
 
-//TODO:
-typedef dynamic Decode(int length);
+//TODO: Explain VR class structure
+//typedef bool _Test<E>(E value);
+//typedef String _ErrorMsg<E>(E value);
 
-typedef List<String> ValueChecker(dynamic value);
+/// The maximum value of an unsigned 16-bit integer (2^32).
+const int kUint16Max = 0xFFFF;
 
-// Abbreviation used to shorten constant definitions so they line up.
-const int kMaxLong = kMaxLongLengthInBytes;
+/// The maximum value of an unsigned 32-bit integer (2^32).
+const int kUint32Max = 0xFFFFFFFF;
 
-enum VRType { integer, float, string, text, dateTime, sequence, other, unknown }
+/// The maximum length, in bytes, of a "short" (16-bit) Value Field.
+const int kMaxShortVF = kUint16Max;
+
+/// The maximum length, in bytes, of a "long" (32-bit) Value Field.
+///
+/// Note: the values is `[kUint32Max] - 1` because the maximum value (0xFFFFFFFF)
+/// is used to denote a Value Field with Undefined Length.
+const int kMaxLongVF = kUint32Max - 2;
 
 /// DICOM Value Representation [VR] definitions.
-class VR {
+class VR<E> {
+  static const int kMaxShortVFLength = kMaxShortVF;
+  static const int kMaxLongVFLength = kMaxLongVF;
   final int index;
   final int code;
-  final bool isShort;
   final String id;
   final String desc;
-  final int min;
-  final int max;
-  final ValueChecker checkValue;
 
-  //TODO: add min, max for value length
-  const VR._(this.index, this.code, this.isShort, this.id, this.desc, this.min,
-      this.max, this.checkValue);
+  const VR._(this.index, this.code, this.id, this.desc);
 
+  /// Create a VR with a Short (16-bit) Value Field length.
+  //const VR._(this.index, this.code, this.id, this.desc);
+
+  // **** This next getters are overridden in some of the subclasses.
+  // **** The values here are the most common values.  The private
+  // **** names (prefixed by underscore) are just abbreviations of
+  // **** longer public names.
+
+  /// The element size in bytes. The default is 1 for Strings and Sequences.
+  int get _eSize => 1;
+
+  /// The number of bytes in each element of a value of with this [VR].
+  int get elementSize => _eSize;
+
+  /// _Deprecated:_ Use [elementSize] instead.
+  @deprecated
+  int get sizeInBytes => _eSize;
+
+  /// _Deprecated:_ Use [elementSize] instead.
+  @deprecated
+  int get elementSizeInBytes => _eSize;
+
+  // TODO: make private?
+  /// Abbreviation for [minValueLength].
+  int get min => _eSize;
+
+  /// The minimum length in bytes of a value with this [VR].
+  int get minValueLength => min;
+
+  // TODO: make private?
+  /// Abbreviation for [maxValueLength].
+  int get max => _eSize;
+
+  /// The maximum length in bytes of a value with this [VR].
+  int get maxValueLength => max;
+
+  /// The minimum Length in bytes of a Value Field for this [VR].
+  int get minVFLength => min;
+
+  /// Abbreviation for [maxVFLength].
+  int get _maxVF => kMaxShortVF;
+
+  /// The maximum Length in bytes of a Value Field for this [VR].
+  int get maxVFLength => _maxVF;
+
+  /// Abbreviation for [undefinedVRLengthAllowed].
+  bool get _undefinedOK => false;
+
+  /// Returns [true] if the [VR] allows the Value Field Length to be
+  /// kUndefinedLength.  This is true for SQ, OB, OW, UN and Item.
+  bool get undefinedVRLengthAllowed => _undefinedOK;
+
+  /// Return the [id] in constant keyword format.
   String get keyword => "k$id";
 
-  int get sizeInBytes => max;
+  @deprecated
+  bool get isShort => hasShortVF;
 
-  bool get isNoVR => index == 0;
+  bool get hasShortVF => _maxVF <= kMaxShortVF;
+
+  bool get hasLongVF => _maxVF > kMaxShortVF;
+
+  int get vfLength => (hasShortVF) ? 2 : 4;
+
+  int get code16Bit => (code >> 8) + ((code & 0xFF) << 8);
+
+  String get info => '$runtimeType: $id(${Int16.hex(code)})[$index]: maxVFLength($_maxVF), '
+      'elementSize($elementSize)';
+
+  //TODO: decide if these are needed or useful
+  bool get isUnknown => index == 0;
   bool get isSequence => index == 1;
   bool get isInteger => 2 <= index && index <= 11;
   bool get isFloat => 12 <= index && index <= 17;
   bool get isBinary => 2 <= index && index <= 14;
-
   bool get isString => 16 <= index && index <= 32;
   bool get isText => 23 <= index && index <= 25;
   bool get isDateTime => 26 <= index && index <= 28;
   bool get isOther => 29 <= index && index <= 32;
-
   bool get isStringNumber => this == kIS || this == kDS;
   bool get isNumber => isInteger || isFloat || isStringNumber;
 
-  int get vfLength => (isShort) ? 2 : 4;
+  bool isValidValue(E value) => false;
 
-  int get code16Bit => (code >> 8) + ((code & 0xFF) << 8);
+  bool isNotValidValue(E value) => !isValidValue(value);
 
-  String get info => 'VR: $id(${Int16.hex(code)})[$index]: isShort($isShort), '
-      'ElementSize($sizeInBytes)';
+  //TODO: currently returns one [String], but since there could be more than one
+  //TODO: error maybe it should be a [List<String>].
+  String getValueError(E value) => null;
 
-  //TODO: implement
+  //TODO: implement or flush
   Uint8List checkBytes(Uint8List bytes) => null;
 
+  @override
   String toString() => 'VR.k$id';
 
-  // index, code, isShort, id, sizeInBytes, check, [this.type = null]);
-  // Item ...
-  static const VR kNoVR = const VR._(00, 0x0000, false, "NoVR", "Unknown VR", 0, 1, invalid);
+  // **** Constant definitions for all VRs.
 
+  // Unknown - placeholder in [vrs].
+  static const VR kUnknown = VROther.kUnknown;
   // Sequence
-  static const VR kSQ = const VR._(01, 0x5351, false, "SQ", "Sequence", 0, kMaxLong, invalid);
+  static const VR kSQ = VROther.kSQ;
 
-  // Integers (Int first, then Uint)
-  static const VR kSS = const VR._(02, 0x5353, true, "SS", "Signed Short", 2, 2, getErrorsSS);
-  static const VR kSL = const VR._(03, 0x534c, true, "SL", "Signed Long", 4, 4, getErrorsSL);
-  static const VR kOB = const VR._(04, 0x4f42, false, "OB", "Other Bytes", 1, 1, getErrorsOB);
-  static const VR kUN = const VR._(05, 0x554e, false, "UN", "Unknown VR", 1, 1, getErrorsUN);
-  static const VR kOW = const VR._(06, 0x4f57, false, "OW", "Other Bytes", 2, 2, getErrorsOW);
-  static const VR kUS = const VR._(07, 0x5553, true, "US", "Unsigned Short", 2, 2, getErrorsUS);
-  static const VR kUL = const VR._(08, 0x554c, true, "UL", "Unsigned Long", 4, 4, getErrorsUL);
-  //TODO: this should do a lookup to validate the Public or Private Tag
-  static const VR kAT = const VR._(09, 0x4154, true, "AT", "Attribute Tag", 4, 4, getErrorsAT);
-  static const VR kOL = const VR._(10, 0x4f4c, false, "OL", "Other Long", 4, 4, getErrorsOL);
+  // Integers
+  static const VR kSS = VRInt.kSS;
+  static const VR kSL = VRInt.kSL;
+  static const VR kOB = VRInt.kOB;
+  static const VR kUN = VRInt.kUN;
+  static const VR kOW = VRInt.kOW;
+  static const VR kUS = VRInt.kUS;
+  static const VR kUL = VRInt.kUL;
+  static const VR kOL = VRInt.kOL;
+  static const VR kAT = VRInt.kAT;
 
   // Floats
-  static const VR kFD = const VR._(11, 0x4644, true, "FD", "Float Double", 8, 8, getErrorsFD);
-  static const VR kFL = const VR._(12, 0x464c, true, "FL", "Float Single", 4, 4, getErrorsFL);
-  static const VR kOD = const VR._(13, 0x4f44, false, "OD", "Other Double", 8, 8, getErrorsOD);
-  static const VR kOF = const VR._(14, 0x4f46, false, "OF", "Other Float", 4, 4, getErrorsOF);
+  static const VR kFD = VRFloat.kFD;
+  static const VR kFL = VRFloat.kFL;
+  static const VR kOD = VRFloat.kOD;
+  static const VR kOF = VRFloat.kOF;
 
-  // Integer & String.integer
-  static const VR kIS = const VR._(15, 0x4953, true, "IS", "Integer String", 1, 12, getErrorsIS);
+  // String.numbers
+  static const VR kIS = VRShortString.kIS;
+  static const VR kDS = VRShortString.kDS;
 
-  // Float & String.float
-  static const VR kDS = const VR._(16, 0x4453, true, "DS", "Decimal String", 1, 16, getErrorsDS);
-
-  // String.array
-  static const VR kAE = const VR._(17, 0x4145, true, "AE", "AE Title", 1, 16, getErrorsAE);
-  static const VR kCS = const VR._(18, 0x4353, true, "CS", "Code String", 1, 16, getErrorsCS);
-  static const VR kLO = const VR._(19, 0x4c4f, true, "LO", "Long String", 1, 64, getErrorsLO);
-  static const VR kSH = const VR._(20, 0x5348, true, "SH", "Short String", 1, 16, getErrorsSH);
-  static const VR kUC =
-      const VR._(21, 0x5543, false, "UC", "Unlimited Characters", 1, kMaxLong, getErrorsUC);
+  // String.dcm
+  static const VR kAE = VRShortString.kAE;
+  static const VR kCS = VRShortString.kCS;
+  static const VR kLO = VRShortString.kLO;
+  static const VR kSH = VRShortString.kSH;
 
   // String.Text
-  static const VR kST = const VR._(22, 0x5354, true, "ST", "Short Text", 1, 1024, getErrorsST);
-  static const VR kLT = const VR._(23, 0x4c54, true, "LT", "Long Text", 1, 10240, getErrorsLT);
-  static const VR kUT =
-      const VR._(24, 0x5554, false, "UT", "Unlimited Text", 1, kMaxLong, getErrorsUT);
+  static const VR kST = VRShortString.kST;
+  static const VR kLT = VRShortString.kLT;
 
   // String.DateTime
-  static const VR kDA = const VR._(25, 0x4441, true, "DA", "Date", 8, 8, getErrorsDA);
-  static const VR kDT = const VR._(26, 0x4454, true, "DT", "DateTime", 4, 26, getErrorsDT);
-  static const VR kTM = const VR._(27, 0x544d, true, "TM", "Time", 2, 14, getErrorsTM);
+  static const VR kDA = VRShortString.kDA;
+  static const VR kDT = VRShortString.kDT;
+  static const VR kTM = VRShortString.kTM;
 
   // String.Other
-  static const VR kPN = const VR._(28, 0x504e, true, "PN", "Person Name", 0, 5 * 64, getErrorsPN);
-  static const VR kUI = const VR._(29, 0x5549, true, "UI", "Unique Id", 8, 64, getErrorsUI);
-  static const VR kUR = const VR._(30, 0x5552, false, "UR", "URI", 1, kMaxLong, getErrorsUR);
-  static const VR kAS = const VR._(31, 0x4153, true, "AS", "Age String", 4, 4, getErrorsAS);
+  static const VR kPN = VRShortString.kPN;
+  static const VR kUI = VRShortString.kUI;
+  static const VR kAS = VRShortString.kAS;
 
-  //Bulkdata Reference
-  static const VR kBR =
-      const VR._(32, 0x4252, true, "BR", "BulkData Reference", 1, kMaxLong, invalid);
+  // String with long Value Field
+  static const VR kUC = VRLongString.kUC;
+  static const VR kUR = VRLongString.kUR;
+  static const VR kUT = VRLongString.kUT;
 
-  // Flush?
-  // Special constants only used in Tag class
-  static const VR kOBOW = const VR._(34, 0x0001, null, "OBOW", "OB or OW", null, null, invalid);
-  static const VR kUSSS = const VR._(35, 0x0003, null, "USSS", "US or SS", 2, 2, invalid);
-  static const VR kUSSSOW = const VR._(36, 0x0003, null, "USSSOW", "US or SS or OW", 2, 2, invalid);
-  static const VR kUSOW = const VR._(37, 0x0003, null, "USOW", "US or OW", 2, 2, invalid);
-  static const VR kUSOW1 = const VR._(38, 0x0003, null, "USOW1", "US or OW1", 2, 2, invalid);
+  // Placeholder for Bulkdata Reference
+  static const VR kBR = VROther.kBR;
 
-  // Special constants only used in Tag class
-  //TODO: flush
-  // static const VR kUnknown = const VR._(, 0x0000, false, "Unknown", 1);
+  // Special values used by Tag
+  static const VR kOBOW = VRIntSpecial.kOBOW;
+  static const VR kUSSS = VRIntSpecial.kUSSS;
+  static const VR kUSSSOW = VRIntSpecial.kUSSSOW;
+  static const VR kUSOW = VRIntSpecial.kUSOW;
+  static const VR kUSOW1 = VRIntSpecial.kUSOW1;
 
   /// The order of the VRs in this [List] MUST correspond to the [index]
   /// in the definitions above.  Note: the [index]es start at 1, so
@@ -146,7 +212,7 @@ class VR {
   ///
   //TODO: For performance It would be better to order this table from most common VR to Least.
   static const List<VR> vrs = const <VR>[
-    kNoVR,
+    kUnknown,
     // Sequence
     kSQ,
     // Integers
@@ -221,25 +287,6 @@ class VR {
     0x5355: kUS, 0x5455: kUT // stop reformat
   };
 
-  // Flush:?
-  /// Returns the length of the Value Field of an Explicit VR Attribute.
-  static int length(VR vr) {
-    switch (vr) {
-      case kOB:
-      case kOD:
-      case kOW:
-      case kOF:
-      case kSQ:
-      case kUN:
-      case kUC:
-      case kUR:
-      case kUT:
-        return 4;
-      default:
-        return 2;
-    }
-  }
-
   //tODO: create index(int x, int y)
   int getIndex(int first, int second) {
     dynamic val = lookupTable[first];
@@ -262,7 +309,15 @@ class VR {
     0x50: kPN,
     0x53: const <int, VR>{0x48: kSH, 0x4c: kSL, 0x51: kSQ, 0x53: kSS, 0x54: kST},
     0x54: kTM,
-    0x55: const <int, VR>{0x43: kUC, 0x49: kUI, 0x4c: kUL, 0x4e: kUN, 0x52: kUR, 0x53: kUS, 0x54: kUT}
+    0x55: const <int, VR>{
+      0x43: kUC,
+      0x49: kUI,
+      0x4c: kUL,
+      0x4e: kUN,
+      0x52: kUR,
+      0x53: kUS,
+      0x54: kUT
+    }
   };
 }
 
@@ -304,31 +359,24 @@ const Map<VR, String> dataTypes = const <VR, String>{
   VR.kOF: "float32"
 };
 
-// Flush
-class VRSpecial extends VR {
-  final List<VR> list;
+//TODO: clean this up. remove VR.kUnknown and VR.kBR. How to handle SQ
+class VROther extends VR<Uint8List> {
+  @override
+  final int _maxVF;
+  @override
+  final bool _undefinedOK;
 
-  //TODO: add min, max for value length
-  const VRSpecial(this.list, int index, int code, bool isShort, String id, String desc,
-      int minBytes, int maxBytes,
-      [ValueChecker check = invalid])
-      : super._(index, code, isShort, id, desc, minBytes, maxBytes, check);
+  /// Create a VR with a Short (16-bit) Value Field length.
+  const VROther._(int index, int code, String id, String desc,
+      [this._maxVF = -1, this._undefinedOK = false])
+      : super._(index, code, id, desc);
 
-  static const VRSpecial kOBOW =
-      const VRSpecial(const [VR.kOB, VR.kOW], 01, -1, false, "OBOW", "OB or OW", 1, 2);
-  static const VRSpecial kUSSS =
-      const VRSpecial(const [VR.kUS, VR.kSS], 02, -2, false, "USSS", "US or SS", 2, 2);
-  static const VRSpecial kUSSSOW = const VRSpecial(
-      const [VR.kUS, VR.kSS, VR.kOW], 03, -3, false, "US or SS or OW", "USSSOW", 2, 2);
-  static const VRSpecial kUSOW =
-      const VRSpecial(const [VR.kUS, VR.kOW], 04, -4, false, "USOW", "US or OW", 2, 2);
-  static const VRSpecial kUSOW1 =
-      const VRSpecial(const [VR.kUS, VR.kOW], 05, -5, false, "USOW1", "US or OW1", 2, 2);
+  static const VR kUnknown = const VR._(00, 0x0000, "Unknown", "Unknown VR");
+
+  // TODO: Currently not used - might be useful for new media types.
+  /// Bulkdata Reference
+  static const VR kBR = const VR._(32, 0x4252, "BR", "BulkData Reference");
+
+  //Bulkdata Reference
+  static const VROther kSQ = const VROther._(32, 0x4252, "SQ", "Sequence", kMaxLongVF, true);
 }
-
-Issue addIssue(Tag tag, Issue issue, int i, String msg) {
-  if (issue == null) return new Issue(tag, i, msg);
-  return issue.add(i, msg);
-}
-
-

@@ -3,179 +3,94 @@
 // that can be found in the LICENSE file.
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
+part of odw.sdk.dictionary.vr;
 
-import 'package:dictionary/dicom.dart';
+typedef bool _StringTest(String value, int min, int max);
+typedef String _StringErrorMsg(String value, int min, int max);
 
-import 'vr_check.dart';
-
-class AE extends VRCheck<String> {
-  const AE();
-
+/// DICOM Strings with short (16-bit) Value Field Lengths.
+class VRShortString extends VR<String> {
   @override
-  VR get vr => VR.kAE;
-
+  final int _maxVF = kMaxShortVF;
   @override
-  bool isValid(String s) => isAEString(s);
+  final int min;
+  @override
+  final int max;
+  final _StringTest _isValid;
+  final _StringErrorMsg _getError;
 
-  String hasError(String s);
+  /// Create an integer VR.
+  const VRShortString._(int index, int code, String id, String desc, this.min, this.max,
+      this._isValid, this._getError)
+      : super._(index, code, id, desc);
+
+  bool isValidValue(String s) => _isValid(s, min, max);
+
+  String getValueIssue(String s) => _getError(s, min, max);
+
+  // String.dicom (without backslash)
+  static const VR kAE =
+      const VRShortString._(17, 0x4145, "AE", "AE Title", 1, 16, _isDcmString, _dcmStringError);
+  static const VR kCS =
+      const VRShortString._(18, 0x4353, "CS", "Code String", 1, 16, _isDcmString, _dcmStringError);
+  static const VR kLO =
+      const VRShortString._(19, 0x4c4f, "LO", "Long String", 1, 64, _isDcmString, _dcmStringError);
+  static const VR kPN = const VRShortString._(
+      28, 0x504e, "PN", "Person Name", 1, 5 * 64 * 3, _isDcmString, _dcmStringError);
+  static const VR kSH =
+      const VRShortString._(20, 0x5348, "SH", "Short String", 1, 16, _isDcmString, _dcmStringError);
+
+  // String.Text (includes backslash)
+  static const VR kST =
+      const VRShortString._(22, 0x5354, "ST", "Short Text", 1, 1024, _isDcmText, _dcmTextError);
+  static const VR kLT =
+      const VRShortString._(23, 0x4c54, "LT", "Long Text", 1, 10240, _isDcmText, _dcmTextError);
+
+  // String.DateTime
+  static const VR kDA =
+      const VRShortString._(25, 0x4441, "DA", "Date", 8, 8, _isDcmDateString, _dcmDateError);
+  static const VR kDT =
+      const VRShortString._(26, 0x4454, "DT", "DateTime", 4, 26, _isDcmDateTime, _dcmDateTimeError);
+  static const VR kTM =
+      const VRShortString._(27, 0x544d, "TM", "Time", 2, 14, _isDcmTime, _dcmTimeError);
+
+  static const VR kUI =
+      const VRShortString._(29, 0x5549, "UI", "Unique Id", 8, 64, _isUid, _uidError);
+  static const VR kAS =
+      const VRShortString._(31, 0x4153, "AS", "Age String", 4, 4, _isDcmAge, _dcmAgeError);
+
+  // String.integer
+  static const VR kIS =
+      const VRShortString._(15, 0x4953, "IS", "Integer String", 1, 12, _isISString, _dcmISError);
+
+  // String.float
+  static const VR kDS =
+      const VRShortString._(16, 0x4453, "DS", "Decimal String", 1, 16, _isDSString, _dcmDSError);
 }
 
-class AS extends VRCheck<String> {
-  const AS();
-
+class VRLongString extends VR<String> {
   @override
-  VR get vr => VR.kAS;
-
+  final int min = 1;
   @override
-  bool isValid(String s) => isASString(s);
-}
-
-class CS extends VRCheck<String> {
-  const CS();
-
+  final int max = kMaxLongVF;
   @override
-  VR get vr => VR.kCS;
+  final int _maxVF = kMaxLongVF;
+  final _StringTest _isValid;
+  final _StringErrorMsg _getError;
 
-  @override
-  bool isValid(String s) => isCSString(s);
-}
+  /// Create an integer VR.
+  const VRLongString._(int index, int code, String id, String desc, this._isValid, this._getError)
+      : super._(index, code, id, desc);
 
-class DA extends VRCheck<String> {
-  const DA();
+  bool isValidValue(String s) => _isValid(s, min, max);
 
-  @override
-  VR get vr => VR.kDA;
+  String getValueIssue(String s) => _getError(s, min, max);
 
-  @override
-  bool isValid(String s) => isDAString(s);
-}
+  static const VRLongString kUC =
+      const VRLongString._(21, 0x5543, "UC", "Unlimited Characters", _isDcmString, _dcmStringError);
 
-class DS extends VRCheck<String> {
-  const DS();
+  static const VRLongString kUR = const VRLongString._(30, 0x5552, "UR", "URI", _isUri, _uriError);
 
-  @override
-  VR get vr => VR.kDS;
-
-  @override
-  bool isValid(String s) => isDSString(s);
-}
-
-class DT extends VRCheck<String> {
-  const DT();
-
-  @override
-  VR get vr => VR.kDT;
-
-  @override
-  bool isValid(String s) => isDTString(s);
-}
-
-class IS extends VRCheck<String> {
-  const IS();
-
-  @override
-  VR get vr => VR.kIS;
-
-  @override
-  bool isValid(String s) => isISString(s);
-}
-
-class LO extends VRCheck<String> {
-  const LO();
-
-  @override
-  VR get vr => VR.kLO;
-
-  @override
-  bool isValid(String s) => isLOString(s);
-}
-
-class LT extends VRCheck<String> {
-  const LT();
-
-  @override
-  VR get vr => VR.kLT;
-
-  @override
-  bool isValid(String s) => isLTString(s);
-}
-
-class PN extends VRCheck<String> {
-  const PN();
-
-  @override
-  VR get vr => VR.kPN;
-
-  @override
-  bool isValid(String s) => isPNString(s);
-}
-
-class SH extends VRCheck<String> {
-  const SH();
-
-  @override
-  VR get vr => VR.kSH;
-
-  @override
-  bool isValid(String s) => isSHString(s);
-}
-
-class ST extends VRCheck<String> {
-  const ST();
-
-  @override
-  VR get vr => VR.kST;
-
-  @override
-  bool isValid(String s) => isSTString(s);
-}
-
-class TM extends VRCheck<String> {
-  const TM();
-
-  @override
-  VR get vr => VR.kTM;
-
-  @override
-  bool isValid(String s) => isTMString(s);
-}
-
-class UC extends VRCheck<String> {
-  const UC();
-
-  @override
-  VR get vr => VR.kUC;
-
-  @override
-  bool isValid(String s) => isUCString(s);
-}
-
-class UI extends VRCheck<String> {
-  const UI();
-
-  @override
-  VR get vr => VR.kUI;
-
-  @override
-  bool isValid(String s) => isUIString(s);
-}
-
-class UR extends VRCheck<String> {
-  const UR();
-
-  @override
-  VR get vr => VR.kUR;
-
-  @override
-  bool isValid(String s) => isURString(s);
-}
-
-class UT extends VRCheck<String> {
-  const UT();
-
-  @override
-  VR get vr => VR.kUT;
-
-  @override
-  bool isValid(String s) => isUTString(s);
+  static const VRLongString kUT =
+      const VRLongString._(24, 0x5554, "UT", "Unlimited Text", _isDcmText, _dcmTextError);
 }

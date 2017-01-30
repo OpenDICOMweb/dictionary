@@ -5,10 +5,8 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:dictionary/common.dart';
-import 'package:dictionary/tag.dart';
-import 'dart:convert';
 
-import 'package:dictionary/src/common/ascii/constants.dart';
+import 'dart:convert';
 
 /// Converts a DICOM [keyword] to the equivalent DICOM name.
 ///

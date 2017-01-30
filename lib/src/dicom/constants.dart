@@ -13,11 +13,24 @@ const int kStringPaddingChar = kAsciiSpace;
 /// Used to pad Uid value fields to an even length.
 const int kUidPaddingChar = 0;
 
+/// _Deprecated:_ Use [kMaxShortVFLength].
+@deprecated
+const int kMaxShortLengthInBytes  = 0xFFFF;
+
 /// The maximum length, in bytes, of a "short" (16-bit) Value Field.
-const int kMaxShortLengthInBytes = 0xFFFF;
+///
+/// Note: Short Value Fields may not have an Undefined Length
+const int kMaxShortVFLength = 0xFFFF;
+
+/// _Deprecated:_ Use [kMaxLongVFLength].
+@deprecated
+const int kMaxLongLengthInBytes = (1 << 32) - 2;
 
 /// The maximum length, in bytes, of a "long" (32-bit) Value Field.
-const int kMaxLongLengthInBytes = (1 << 32) - 1;
+///
+/// Note: The length must be even (for binary DICOM) and the Undefine
+/// Length value (0xFFFFFFFF) uses one value.
+const int kMaxLongVFLength = (1 << 32) - 2;
 
 /// This is the value of a DICOM Undefined Length from a 32-bit Value Field Length.
 const kUndefinedLength = 0xFFFFFFFF;

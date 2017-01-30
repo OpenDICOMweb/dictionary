@@ -248,13 +248,14 @@ abstract class Reader extends ByteBuf {
   List<String> getErrorsPN(String s) => _stringErrors(s, 5 * 64, _stringFilter);
   List<String> getErrorsSH(String s) => _stringErrors(s, 16, _stringFilter);
   List<String> getErrorsLO(String s) => _stringErrors(s, 64, _stringFilter);
-  List<String> getErrorsUC(String s) => _stringErrors(s, kMaxLongLengthInBytes, _stringFilter);
+  List<String> getErrorsUC(String s) => _stringErrors(s, kMaxLongVFLength,
+                                                          _stringFilter);
 
   // DICOM Texts
   bool _textFilter(int c) => (c < kSpace || c == kDelete);
   List<String> getErrorsST(String s) => _stringErrors(s, 1024, _textFilter);
   List<String> getErrorsLT(String s) => _stringErrors(s, 10240, _textFilter);
-  List<String> getErrorsUT(String s) => _stringErrors(s, kMaxLongLengthInBytes, _textFilter);
+  List<String> getErrorsUT(String s) => _stringErrors(s, kMaxLongVFLength, _textFilter);
 
   List<String> getErrorsDS(String s) {
     String msg0 = _intRangeError(s.length, 0, 16);
@@ -720,7 +721,7 @@ abstract class Reader extends ByteBuf {
   //TODO: do something more efficient
   //UR - Universal Resource Identifier (URI)
   List<String> getErrorsUR(String s) {
-    String msg0 = _intRangeError(s.length, 0, kMaxLongLengthInBytes);
+    String msg0 = _intRangeError(s.length, 0, kMaxLongVFLength);
     Uri uri;
     try {
       uri = Uri.parse(s);

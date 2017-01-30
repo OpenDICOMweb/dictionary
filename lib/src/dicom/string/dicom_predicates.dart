@@ -108,12 +108,12 @@ bool isCSString(String s) => _isDcmString(s, 16);
 bool isPNString(String s) => _isDcmString(s, 5 * 64);
 bool isSHString(String s) => _isDcmString(s, 16);
 bool isLOString(String s) => _isDcmString(s, 64);
-bool isUCString(String s) => _isDcmString(s, kMaxLongLengthInBytes);
+bool isUCString(String s) => _isDcmString(s, kMaxLongVFLength);
 
 // DICOM Texts
 bool isSTString(String s) => _isTextString(s, 1024);
 bool isLTString(String s) => _isTextString(s, 10240);
-bool isUTString(String s) => _isTextString(s, kMaxLongLengthInBytes);
+bool isUTString(String s) => _isTextString(s, kMaxLongVFLength);
 
 // UID String
 bool isUIString(String s) => _checkDigitString(s, 8, 64, kDot);
