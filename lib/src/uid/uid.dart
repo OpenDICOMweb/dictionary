@@ -52,6 +52,7 @@ abstract class Uid {
   /// Creates a constant [Uid].  Used to create 'Well Known' DICOM [Uid]s.
   const Uid._();
 
+  factory Uid() => new UidUuid();
   @override
   bool operator ==(Object other) => (other is Uid) && (string == other.string);
 
@@ -85,5 +86,15 @@ abstract class Uid {
     List<String> uList = new List(length);
     for (int i = 0; i < length; i++) uList[i] = Uuid.generator.string;
     return uList;
+  }
+
+  //TODO improve parser
+  static Uid parse(String uidString) {
+    // Remove leading & trailing spaces - defensive programming
+    String s = uidString.trim();
+    if (UidString.validate(s) == null) return null;
+    WKUid uid = wellKnownUids[s];
+    if (uid != null) return uid;
+    return new UidString._(s);
   }
 }

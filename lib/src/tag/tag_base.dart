@@ -15,6 +15,7 @@ import 'package:dictionary/src/vr/vr.dart';
 
 import 'package:dictionary/src/tag/constants.dart';
 import 'package:dictionary/src/tag/elt.dart';
+import 'package:dictionary/src/tag/e_type.dart';
 import 'package:dictionary/src/tag/group.dart';
 import 'package:dictionary/src/tag/tag.dart';
 
@@ -28,8 +29,9 @@ abstract class TagBase {
   final int code;
   final VR vr;
   final VM vm;
+  final EType type;
 
-  const TagBase(this.code, [this.vr = VR.kUN, this.vm = VM.k1_n]);
+  const TagBase(this.code, [this.vr = VR.kUN, this.vm = VM.k1_n, this.type = EType.kUnknown]);
 
   String get keyword => "Unknown Tag Keyword";
   String get name => "Unknown Tag Name";
@@ -222,6 +224,13 @@ String keywordToName(String keyword) {
     name.add(char);
   }
   return UTF8.decode(name);
+}
+
+String stringToKeyword(String s) {
+  s = s.replaceAll(' ', '_');
+  s = s.replaceAll('-', '_');
+  s = s.replaceAll('.', '_');
+  return s;
 }
 
 class InvalidTagError extends Error {

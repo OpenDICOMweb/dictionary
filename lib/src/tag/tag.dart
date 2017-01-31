@@ -9,8 +9,8 @@ import 'package:dictionary/src/vm.dart';
 import 'package:dictionary/src/vr/vr.dart';
 import 'package:dictionary/src/tag/constants.dart';
 import 'package:dictionary/src/tag/elt.dart';
-import 'package:dictionary/src/tag/group.dart';
 import 'package:dictionary/src/tag/e_type.dart';
+import 'package:dictionary/src/tag/group.dart';
 import 'package:dictionary/src/tag/tag_base.dart';
 import 'package:dictionary/src/tag/tag_map.dart';
 
@@ -19,13 +19,12 @@ class Tag extends TagBase {
   final String keyword;
   @override
   final String name;
-  final EType type;
   @override
   final bool isRetired;
 
   const Tag(this.keyword, int code, this.name, VR vr, VM vm,
-                  [this.isRetired = false, this.type = EType.kUnknown])
-      : super(code, vr, vm);
+                  [this.isRetired = false, EType type = EType.kUnknown])
+      : super(code, vr, vm, type);
 
   bool get isWKFmi => fmiTags.contains(code);
 
