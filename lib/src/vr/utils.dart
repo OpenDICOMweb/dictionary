@@ -132,7 +132,7 @@ String _dcmDateError(String s, int min, int max) {
   return "";
 }
 
-
+Date _dcmDateParse(String s) => Date.dcmParse(s);
 
 // **** DateTime
 //TODO: fix
@@ -172,6 +172,7 @@ String _dcmDateTimeError(String s, int min, int max) {
   if (msg == null) return msg;
 }
 
+DcmDateTime _dcmDateTimeParse(String s) => DcmDateTime.dcmParse(s);
 // **** Time
 
 bool _isDcmTimeString(String s, int min, int max) {
@@ -186,6 +187,8 @@ String _dcmTimeError(String s, int min, int max) {
   String msg = _getLengthError(s.length, min, max);
   if (msg == null) return msg;
 }
+
+Time _dcmTimeParse(String s) => Time.dcmParse(s);
 
 // **** UID String - UI
 
@@ -291,8 +294,41 @@ String _dcmDSError(String s, int min, int max) =>
     (_isDSString(s, min, max)) ? "" : 'Invalid Decimal(DS) String: $s';
 
 
-// *** UID Strings - UI
+// *** Unsigned Integer
+/// Return the limit, which is [max] or [end].
+int _getLimit(int offset, int min, int max, int end) {
+  int limit = offset + max;
+  if (limit > end) {
+    if (offset + min > end) {
+      return null;
+    } else {
+      return end - offset;
+    }
+  } else {
+    return limit;
+  }
+}
 
+int readUint(String s, [int offset = 0, int min = 0, int max]) {
+  if (s == null || s == "") return null;
+  int limit = _getLimit(offset, min, max, s.length);
+  if (limit == null || limit < min) return null;
+  return _readUint(s, offset, limit);
+}
+
+/// Parses a base 10 [int] from [offset] to [limit], and returns its corresponding value.
+/// If an error is encountered returns [null].
+int _readUint(String s, int offset, int limit) {
+  print('_readUint s: $s');
+  int n = 0;
+  for (int i = offset; i < limit; i++) {
+    int c = s.codeUnitAt(i);
+    if (c < k0 || c > k9) return null;
+    int v = c - k0;
+    n = (n * 10) + v;
+  }
+  return n;
+}
 
 int _getSign(String s, int start) {
   int c = s.codeUnitAt(0);

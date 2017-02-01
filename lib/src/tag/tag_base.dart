@@ -134,17 +134,19 @@ abstract class TagBase {
   ///     otherwise must be greater than 0;
 
   //TODO: should be modified when EType info is available.
-  bool isValidValues(List values) {
+  bool isValidValues<E>(List<E> values) {
     if (isNotValidLength(values.length)) return false;
     for(int i = 0; i < values.length; i++)
       if (vr.isNotValidValue(values[i])) return false;
     return true;
   }
 
-  List checkValues(List values) => (isValidValues(values)) ? values : null;
+  List<E> checkValues<E>(List<E> values) => (isValidValues(values)) ? values : null;
+
+
 
   // Placeholder until VR is integrated into TagBase
-  Object checkValue(dynamic value) => vr.isValidValue(value);
+  Object checkValue<E>(E value) => vr.isValidValue(value);
 
   /// Returns an issues for these values.  This method should be called
   /// after [isValidValues] returns [false].
@@ -200,38 +202,42 @@ abstract class TagBase {
   //Fix or Flush
   Uint8List checkBytes(Uint8List bytes) => vr.checkBytes(bytes);
 
+  E parse<E>(String s) => vr.parse(s);
+
+  /// Converts a DICOM [keyword] to the equivalent DICOM name.
+  ///
+  /// Given a keyword in camelCase, returns a [String] with a
+  /// space (' ') inserted before each uppercase letter.
+  ///
+  /// Note: This algorithm does not return the exact DICOM name string,
+  /// for example some names have apostrophes ("'") in them,
+  /// but they are not in the [keyword]. Also, all dashes ('-') in
+  /// keywords have been converted to underscores ('_'), because
+  /// dashes are illegal in Dart identifiers.
+  String keywordToName(String keyword) {
+    List<int> kw = keyword.codeUnits;
+    List<int> name = new List<int>();
+    name[0] = kw[0];
+    for (int i = 0; i < kw.length; i++) {
+      int char = kw[i];
+      if (isUppercaseChar(char)) name.add(kSpace);
+      name.add(char);
+    }
+    return UTF8.decode(name);
+  }
+
+  String stringToKeyword(String s) {
+    s = s.replaceAll(' ', '_');
+    s = s.replaceAll('-', '_');
+    s = s.replaceAll('.', '_');
+    return s;
+  }
+
   @override
   String toString() => 'Tag$dcm $vr, $vm';
 }
 
-/// Converts a DICOM [keyword] to the equivalent DICOM name.
-///
-/// Given a keyword in camelCase, returns a [String] with a
-/// space (' ') inserted before each uppercase letter.
-///
-/// Note: This algorithm does not return the exact DICOM name string,
-/// for example some names have apostrophes ("'") in them,
-/// but they are not in the [keyword]. Also, all dashes ('-') in
-/// keywords have been converted to underscores ('_'), because
-/// dashes are illegal in Dart identifiers.
-String keywordToName(String keyword) {
-  List<int> kw = keyword.codeUnits;
-  List<int> name = new List<int>();
-  name[0] = kw[0];
-  for (int i = 0; i < kw.length; i++) {
-    int char = kw[i];
-    if (isUppercaseChar(char)) name.add(kSpace);
-    name.add(char);
-  }
-  return UTF8.decode(name);
-}
 
-String stringToKeyword(String s) {
-  s = s.replaceAll(' ', '_');
-  s = s.replaceAll('-', '_');
-  s = s.replaceAll('.', '_');
-  return s;
-}
 
 class InvalidTagError extends Error {
   Object tag;

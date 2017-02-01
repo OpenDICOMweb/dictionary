@@ -4,7 +4,7 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> - 
 // See the AUTHORS file for other contributors.
 
-import 'package:dictionary/src/vr/check_values.dart';
+import 'package:dictionary/dictionary.dart';
 import 'package:test/test.dart';
 
 main() {

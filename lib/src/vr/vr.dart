@@ -133,9 +133,14 @@ class VR<E> {
 
   bool isNotValidValue(E value) => !isValidValue(value);
 
+  E check(E value) => null;
+
   //TODO: currently returns one [String], but since there could be more than one
   //TODO: error maybe it should be a [List<String>].
   String getValueError(E value) => null;
+
+  /// Returns a value of the appropriate type
+  E parse<E>(String s) => null;
 
   //TODO: implement or flush
   Uint8List checkBytes(Uint8List bytes) => null;

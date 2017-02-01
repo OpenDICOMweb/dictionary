@@ -7,6 +7,7 @@ part of odw.sdk.dictionary.vr;
 
 typedef bool _StringTest(String value, int min, int max);
 typedef String _StringErrorMsg(String value, int min, int max);
+typedef E _Parser<E>(String s);
 
 /// DICOM Strings with short (16-bit) Value Field Lengths.
 class VRShortString extends VR<String> {
@@ -18,15 +19,20 @@ class VRShortString extends VR<String> {
   final int max;
   final _StringTest _isValid;
   final _StringErrorMsg _getError;
+  final _Parser _parser;
 
   /// Create an integer VR.
   const VRShortString._(int index, int code, String id, String desc, this.min, this.max,
-      this._isValid, this._getError)
+      this._isValid, this._getError, [this._parser])
       : super._(index, code, id, desc);
+
+  bool isValidLength(String s) => _isValidLength(s.length, min, max);
 
   bool isValidValue(String s) => _isValid(s, min, max);
 
   String getValueIssue(String s) => _getError(s, min, max);
+
+  E parse<E>(String s) => (_parser != null) ? _parser(s) : null;
 
   // String.dicom (without backslash)
   static const VR kAE =
@@ -78,14 +84,22 @@ class VRLongString extends VR<String> {
   final int _maxVF = kMaxLongVF;
   final _StringTest _isValid;
   final _StringErrorMsg _getError;
+  final _Parser _parser;
 
   /// Create an integer VR.
-  const VRLongString._(int index, int code, String id, String desc, this._isValid, this._getError)
+  const VRLongString._(int index, int code, String id, String desc,
+                       this._isValid, this._getError, [this._parser])
       : super._(index, code, id, desc);
+
+  bool isValidLength(String s) => min <= s.length && s.length <= max;
 
   bool isValidValue(String s) => _isValid(s, min, max);
 
   String getValueIssue(String s) => _getError(s, min, max);
+
+  String check(String s) => (isValidValue(s)) ? s : null;
+
+  E parse<E>(String s) => (_parser != null) ? _parser(s) : null;
 
   static const VRLongString kUC =
       const VRLongString._(21, 0x5543, "UC", "Unlimited Characters", _isDcmString, _dcmStringError);
