@@ -39,7 +39,6 @@ pubspec.lock
 .idea/tasks.xml
 .idea/typescript-compiler.xml
 
-
 # Sensitive or high-churn files:
 .idea/dataSources.ids
 .idea/dataSources.xml
@@ -127,3 +126,4 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+/.idea/workspace.xml

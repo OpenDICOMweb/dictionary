@@ -4,8 +4,8 @@
 // Original author: Jim Philbin <jfphilbin@gmail.edu> - 
 // See the AUTHORS file for other contributors.
 
-export 'package:dictionary/src/uid/uid.dart';
 export 'package:dictionary/src/uid/constants.dart';
+export 'package:dictionary/src/uid/uid.dart';
 export 'package:dictionary/src/uid/uid_type.dart';
 export 'package:dictionary/src/uid/wk_uids_list.dart';
 export 'package:dictionary/src/uid/wk_uids_map.dart';

@@ -146,7 +146,7 @@ abstract class TagBase {
 
 
   // Placeholder until VR is integrated into TagBase
-  Object checkValue<E>(E value) => vr.isValidValue(value);
+  checkValue(dynamic value) => vr.isValidValue(value) ? value : null;
 
   /// Returns an issues for these values.  This method should be called
   /// after [isValidValues] returns [false].

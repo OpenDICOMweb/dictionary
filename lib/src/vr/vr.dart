@@ -37,7 +37,7 @@ const int kMaxShortVF = kUint16Max;
 const int kMaxLongVF = kUint32Max - 2;
 
 /// DICOM Value Representation [VR] definitions.
-class VR<E> {
+class VR<T> {
   static const int kMaxShortVFLength = kMaxShortVF;
   static const int kMaxLongVFLength = kMaxLongVF;
   final int index;
@@ -129,15 +129,15 @@ class VR<E> {
   bool get isStringNumber => this == kIS || this == kDS;
   bool get isNumber => isInteger || isFloat || isStringNumber;
 
-  bool isValidValue(E value) => false;
+  bool isValidValue<T>(T value) => false;
 
-  bool isNotValidValue(E value) => !isValidValue(value);
+  bool isNotValidValue<T>(T value) => !isValidValue(value);
 
-  E check(E value) => null;
+  T check<T>(T value) => null;
 
   //TODO: currently returns one [String], but since there could be more than one
   //TODO: error maybe it should be a [List<String>].
-  String getValueError(E value) => null;
+  String getValueError<T>(T value) => null;
 
   /// Returns a value of the appropriate type
   E parse<E>(String s) => null;
@@ -365,7 +365,7 @@ const Map<VR, String> dataTypes = const <VR, String>{
 };
 
 //TODO: clean this up. remove VR.kUnknown and VR.kBR. How to handle SQ
-class VROther extends VR<Uint8List> {
+class VROther extends VR {
   @override
   final int _maxVF;
   @override

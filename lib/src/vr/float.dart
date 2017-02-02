@@ -12,7 +12,7 @@ const int kMaxOL = kUint32Max - 4;
 const int kMaxOW = kUint32Max - 2;
 
 //TODO: doc
-class VRFloat extends VR<double> {
+class VRFloat extends VR {
   @override
   final int _eSize;
   @override

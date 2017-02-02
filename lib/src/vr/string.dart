@@ -5,8 +5,8 @@
 // See the AUTHORS file for other contributors.
 part of odw.sdk.dictionary.vr;
 
-typedef bool _StringTest(String value, int min, int max);
-typedef String _StringErrorMsg(String value, int min, int max);
+typedef bool _StringTest<String>(String value, int min, int max);
+typedef String _StringErrorMsg<String>(String value, int min, int max);
 typedef E _Parser<E>(String s);
 
 /// DICOM Strings with short (16-bit) Value Field Lengths.
@@ -28,7 +28,7 @@ class VRShortString extends VR<String> {
 
   bool isValidLength(String s) => _isValidLength(s.length, min, max);
 
-  bool isValidValue(String s) => _isValid(s, min, max);
+  bool isValidValue<String>(String s) => _isValid(s, min, max);
 
   String getValueIssue(String s) => _getError(s, min, max);
 
@@ -75,7 +75,7 @@ class VRShortString extends VR<String> {
       const VRShortString._(16, 0x4453, "DS", "Decimal String", 1, 16, _isDSString, _dcmDSError);
 }
 
-class VRLongString extends VR<String> {
+class VRLongString extends VR {
   @override
   final int min = 1;
   @override
@@ -93,11 +93,14 @@ class VRLongString extends VR<String> {
 
   bool isValidLength(String s) => min <= s.length && s.length <= max;
 
-  bool isValidValue(String s) => _isValid(s, min, max);
+  //@override
+  bool isValid(String s) => _isValid(s, min, max);
+
+  bool isNotValid(String s) => !isValid(s);
 
   String getValueIssue(String s) => _getError(s, min, max);
 
-  String check(String s) => (isValidValue(s)) ? s : null;
+  String check<String>(String s) => (isValidValue(s)) ? s : null;
 
   E parse<E>(String s) => (_parser != null) ? _parser(s) : null;
 

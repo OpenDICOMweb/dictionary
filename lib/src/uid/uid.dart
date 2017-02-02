@@ -16,6 +16,7 @@ part 'transfer_syntax.dart';
 part 'uid_string.dart';
 part 'uuid.dart';
 part 'wk_uid.dart';
+part 'well_known_frame_of_reference.dart';
 
 //TODO: cleanup documentation
 
