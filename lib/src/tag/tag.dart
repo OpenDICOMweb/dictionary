@@ -13,8 +13,8 @@ import 'package:dictionary/src/tag/constants.dart';
 import 'package:dictionary/src/tag/e_type.dart';
 import 'package:dictionary/src/tag/elt.dart';
 import 'package:dictionary/src/tag/group.dart';
+import 'package:dictionary/src/tag/private_creator_tag.dart';
 import 'package:dictionary/src/tag/private_data_tag.dart';
-import 'package:dictionary/src/tag/private_tag_unknown.dart';
 import 'package:dictionary/src/tag/public_tag.dart';
 import 'package:dictionary/src/vm.dart';
 import 'package:dictionary/src/vr/vr.dart';
@@ -211,18 +211,18 @@ abstract class Tag {
   @override
   String toString() => 'Tag$dcm $vr, $vm';
 
-  static lookup(int code, [VR vr = VR.kUN]) {
+  static Tag lookup(int code, [VR vr = VR.kUN]) {
     Tag tag = PublicTag.lookupCode(code);
     if (tag != null) return tag;
     if (Tag.isPublicCode(code)) {
       return new PublicTag("Unknown", code, "Unknown Public Tag", vr, VM.kUnknown);
     } else if (Tag.isPrivateCode(code)) {
+      // *** This should not happen!
       if (Tag.isPrivateCreatorCode(code))
-      return new UnknownPrivateCreatorTag("Unknkown", code, vr);
-    } else {
-      // This should never happen
-      throw 'Error: Unknown Tag Code${Tag.toDcm}';
+        return new PrivateCreatorTag.unknown("Unknown Creator", code, vr);
     }
+    // This should never happen
+    throw 'Error: Unknown Tag Code${Tag.toDcm}';
   }
 
   static lookupPublicKeyword(String keyword) => PublicTag.lookupKeyword(keyword);

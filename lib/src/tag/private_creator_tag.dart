@@ -5,7 +5,6 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:dictionary/src/tag/private_creator_tag_map.dart';
-import 'package:dictionary/src/tag/private_tag_unknown.dart';
 import 'package:dictionary/src/tag/private_data_tag.dart';
 import 'package:dictionary/src/tag/tag.dart';
 import 'package:dictionary/src/vm.dart';
@@ -24,9 +23,8 @@ class PrivateCreatorTag extends Tag {
   const PrivateCreatorTag._(int code, this.token, this.dataTagMap)
       : super(code, VR.kLO, VM.k1);
 
-  PrivateCreatorTag.unknown(int code, [VR vr = VR.kUN])
-      : token = "Unknown Private Creator Tag",
-        dataTagMap = const <int, PrivateDataTag>{},
+  PrivateCreatorTag.unknown(this.token, int code, [VR vr = VR.kUN])
+      : dataTagMap = const <int, PrivateDataTag>{},
         super(code, VR.kLO, VM.k1);
 
   bool get wasUN => super.vr == VR.kUN;
@@ -60,7 +58,7 @@ class PrivateCreatorTag extends Tag {
 
   static PrivateCreatorTag lookup(String token, int code, [VR vr = VR.kUnknown]) {
     PrivateCreatorTag tag = privateCreatorTagMap[token];
-    return (tag != null) ? tag : new UnknownPrivateCreatorTag(token, code, vr);
+    return (tag != null) ? tag : new PrivateCreatorTag.unknown(token, code, vr);
   }
 
   static const PrivateCreatorTag k0 =

@@ -9,14 +9,24 @@ import 'package:test/test.dart';
 
 main() {
   PrivateCreatorTagTest();
+  UnknownPrivateCreatorTagTest();
 }
 
   PrivateCreatorTagTest() {
     test("PrivateCreatorTag Test", () {
-      PrivateCreatorTag pTag = PrivateCreatorTag.lookup("ACUSON");
+      PrivateCreatorTag pTag = PrivateCreatorTag.lookup("ACUSON", 0x00090010);
       print(pTag.info);
       //print('${pTag.token}: ${pTag.dataTagMap}');
 
     });
 
+}
+
+UnknownPrivateCreatorTagTest() {
+  test("PrivateCreatorTag.unknown Test", () {
+    PrivateCreatorTag pTag = PrivateCreatorTag.lookup("foo", 0x00090010);
+    print(pTag.info);
+    //print('${pTag.token}: ${pTag.dataTagMap}');
+
+  });
 }

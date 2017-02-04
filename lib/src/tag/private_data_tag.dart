@@ -7,8 +7,9 @@
 import 'package:dictionary/src/vm.dart';
 import 'package:dictionary/src/vr/vr.dart';
 
-//import 'private_data_tag_list.dart';
 import 'tag.dart';
+//import 'private_data_tag_list.dart';
+
 
 class PrivateDataTag extends Tag {
   final int id;
@@ -19,8 +20,8 @@ class PrivateDataTag extends Tag {
   const PrivateDataTag._(this.id, this.token, int code, VR vr, VM vm, this.name)
       : super(code, vr, vm);
 
-  PrivateDataTag.Unknown(int code, [VR vr = VR.kUN])
-      : id = 0;
+  PrivateDataTag.unknown(int code, [this.token = "Unknown Creator", VR vr = VR.kUN])
+      : id = 0,
         name = "UnKnown Private Data Tag",
         super(code, vr, VM.kUnknown);
 
