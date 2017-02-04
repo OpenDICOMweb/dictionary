@@ -9,16 +9,14 @@ import 'dart:typed_data';
 
 import 'package:common/common.dart';
 import 'package:dictionary/src/constants.dart';
-import 'package:dictionary/src/issue.dart';
-import 'package:dictionary/src/vm.dart';
-import 'package:dictionary/src/vr/vr.dart';
-
 import 'package:dictionary/src/tag/constants.dart';
-import 'package:dictionary/src/tag/elt.dart';
 import 'package:dictionary/src/tag/e_type.dart';
+import 'package:dictionary/src/tag/elt.dart';
 import 'package:dictionary/src/tag/group.dart';
 import 'package:dictionary/src/tag/private_data_tag.dart';
 import 'package:dictionary/src/tag/public_tag.dart';
+import 'package:dictionary/src/vm.dart';
+import 'package:dictionary/src/vr/vr.dart';
 
 const int kGroupMask = 0xFFFF0000;
 const int kElementMask = 0x0000FFFF;
@@ -145,17 +143,7 @@ abstract class Tag {
   // Placeholder until VR is integrated into TagBase
   checkValue(dynamic value) => vr.isValidValue(value) ? value : null;
 
-  /// Returns an issues for these values.  This method should be called
-  /// after [isValidValues] returns [false].
-  Issue getIssue(List values) {
-    Issue issue = new Issue(this, values);
-    getLengthIssue(values.length, issue);
-    for (int i = 0; i < values.length; i++) {
-      String msg = vr.getValueError(values[i]);
-      if (msg != null) issue.badValue(i, msg);
-    }
-    return (issue.isNotEmpty) ? null : issue;
-  }
+
 
   bool isValidLength(int length) {
     // These are the most common cases.
@@ -166,14 +154,6 @@ abstract class Tag {
   bool isNotValidLength(int length) => !isValidLength(length);
 
   int checkLength(int length) => (isValidLength(length)) ? length : null;
-
-  Issue getLengthIssue(int length, Issue issue) {
-    // These are the most common cases.
-    if (length == 0 || (length == 1 && width == 0)) return null;
-    if (width != 0 && length % width != 0) issue.badWidth();
-    if (length < minLength || length > maxLength) issue.badLength();
-    return issue;
-  }
 
   //Flush?
   String widthError(int length) => 'Invalid Width for Tag$dcm}: '
@@ -230,12 +210,9 @@ abstract class Tag {
   @override
   String toString() => 'Tag$dcm $vr, $vm';
 
-  static lookupCode(int code) {
-    PublicTag pTag = PublicTag.lookupCode(code);
-    if (pTag != null) return pTag;
-    PrivateDataTag pdTag = PrivateDataTag.lookupCode(code);
-    if (pdTag != null) return pdTag;
-  }
+  static lookupPublicCode(int code) => PublicTag.lookupCode(code);
+
+  static lookupPublicKeyword(String keyword) => PublicTag.lookupKeyword(keyword);
 
   static List<String> lengthChecker(
       List values, int minLength, int maxLength, int width) {

@@ -92,63 +92,59 @@ class PublicTag extends Tag {
   }
 
   //TODO: make keyword lookup work
-  PublicTag lookupKeyword(String keyword, [bool shouldThrow = true]) {
-    PublicTag tag = publicTagKeywordMap[code];
-
-    // Tag tag = (isPrivateTag(v)) ? PrivateTag.lookup(v) : Tag.lookup(v);
-    // TODO handle private tags here???
-
+  static PublicTag lookupKeyword(String keyword, [bool shouldThrow = true]) {
+    PublicTag tag = publicTagKeywordMap[keyword];
     if (tag != null) return tag;
 
-    // Retired _special case_ codes that still must be handled
-
+    // Retired _special case_ keywords that still must be handled
+/* TODO: figure out what to do with this? remove?
     // (0020,31xx)
-    if ((code >= 0x00283100) && (code <= 0x002031FF)) return PublicTag.kSourceImageIDs;
+    if ((keyword >= 0x00283100) && (keyword <= 0x002031FF)) return PublicTag.kSourceImageIDs;
 
     // (0028,04X0)
-    if ((code >= 0x00280410) && (code <= 0x002804F0))
+    if ((keyword >= 0x00280410) && (keyword <= 0x002804F0))
       return PublicTag.kRowsForNthOrderCoefficients;
     // (0028,04X1)
-    if ((code >= 0x00280411) && (code <= 0x002804F1))
+    if ((keyword >= 0x00280411) && (keyword <= 0x002804F1))
       return PublicTag.kColumnsForNthOrderCoefficients;
     // (0028,04X2)
-    if ((code >= 0x00280412) && (code <= 0x002804F2)) return PublicTag.kCoefficientCoding;
+    if ((keyword >= 0x00280412) && (keyword <= 0x002804F2)) return PublicTag.kCoefficientCoding;
     // (0028,04X3)
-    if ((code >= 0x00280413) && (code <= 0x002804F3))
+    if ((keyword >= 0x00280413) && (keyword <= 0x002804F3))
       return PublicTag.kCoefficientCodingPointers;
 
     // (0028,08x0)
-    if ((code >= 0x00280810) && (code <= 0x002808F0)) return PublicTag.kCodeLabel;
+    if ((keyword >= 0x00280810) && (keyword <= 0x002808F0)) return PublicTag.kCodeLabel;
     // (0028,08x2)
-    if ((code >= 0x00280812) && (code <= 0x002808F2)) return PublicTag.kNumberOfTables;
+    if ((keyword >= 0x00280812) && (keyword <= 0x002808F2)) return PublicTag.kNumberOfTables;
     // (0028,08x3)
-    if ((code >= 0x00280813) && (code <= 0x002808F3)) return PublicTag.kCodeTableLocation;
+    if ((keyword >= 0x00280813) && (keyword <= 0x002808F3)) return PublicTag.kCodeTableLocation;
     // (0028,08x4)
-    if ((code >= 0x00280814) && (code <= 0x002808F4)) return PublicTag.kBitsForCodeWord;
+    if ((keyword >= 0x00280814) && (keyword <= 0x002808F4)) return PublicTag.kBitsForCodeWord;
     // (0028,08x8)
-    if ((code >= 0x00280818) && (code <= 0x002808F8)) return PublicTag.kImageDataLocation;
+    if ((keyword >= 0x00280818) && (keyword <= 0x002808F8)) return PublicTag.kImageDataLocation;
 
-    //**** (1000,xxxy ****
+    // **** (1000,xxxy ****
     // (1000,04X2)
-    if ((code >= 0x10000000) && (code <= 0x1000FFF0)) return PublicTag.kEscapeTriplet;
+    if ((keyword >= 0x10000000) && (keyword <= 0x1000FFF0)) return PublicTag.kEscapeTriplet;
     // (1000,04X3)
-    if ((code >= 0x10000001) && (code <= 0x1000FFF1)) return PublicTag.kRunLengthTriplet;
+    if ((keyword >= 0x10000001) && (keyword <= 0x1000FFF1)) return PublicTag.kRunLengthTriplet;
     // (1000,08x0)
-    if ((code >= 0x10000002) && (code <= 0x1000FFF2)) return PublicTag.kHuffmanTableSize;
+    if ((keyword >= 0x10000002) && (keyword <= 0x1000FFF2)) return PublicTag.kHuffmanTableSize;
     // (1000,08x2)
-    if ((code >= 0x10000003) && (code <= 0x1000FFF3))
+    if ((keyword >= 0x10000003) && (keyword <= 0x1000FFF3))
       return PublicTag.kHuffmanTableTriplet;
     // (1000,08x3)
-    if ((code >= 0x10000004) && (code <= 0x1000FFF4)) return PublicTag.kShiftTableSize;
+    if ((keyword >= 0x10000004) && (keyword <= 0x1000FFF4)) return PublicTag.kShiftTableSize;
     // (1000,08x4)
-    if ((code >= 0x10000005) && (code <= 0x1000FFF5)) return PublicTag.kShiftTableTriplet;
+    if ((keyword >= 0x10000005) && (keyword <= 0x1000FFF5)) return PublicTag.kShiftTableTriplet;
     // (1000,08x8)
-    if ((code >= 0x10100000) && (code <= 0x1010FFFF)) return PublicTag.kZonalMap;
+    if ((keyword >= 0x10100000) && (keyword <= 0x1010FFFF)) return PublicTag.kZonalMap;
 
     //TODO: 0x50xx,yyyy Elements
     //TODO: 0x60xx,yyyy Elements
     //TODO: 0x7Fxx,yyyy Elements
-
+*/
     // No match return [null]
     return tagKeywordError(keyword);
   }
