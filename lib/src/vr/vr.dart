@@ -37,7 +37,7 @@ const int kMaxShortVF = kUint16Max;
 const int kMaxLongVF = kUint32Max - 2;
 
 /// DICOM Value Representation [VR] definitions.
-class VR<T> {
+class VR {
   static const int kMaxShortVFLength = kMaxShortVF;
   static const int kMaxLongVFLength = kMaxLongVF;
   final int index;
@@ -129,18 +129,18 @@ class VR<T> {
   bool get isStringNumber => this == kIS || this == kDS;
   bool get isNumber => isInteger || isFloat || isStringNumber;
 
-  bool isValidValue<T>(T value) => false;
+  bool isValidValue(value) => false;
 
-  bool isNotValidValue<T>(T value) => !isValidValue(value);
+  bool isNotValidValue(value) => !isValidValue(value);
 
-  T check<T>(T value) => null;
+  dynamic check(value) => null;
 
   //TODO: currently returns one [String], but since there could be more than one
   //TODO: error maybe it should be a [List<String>].
-  String getValueError<T>(T value) => null;
+  String getValueError(value) => null;
 
   /// Returns a value of the appropriate type
-  E parse<E>(String s) => null;
+  dynamic parse(String s) => null;
 
   //TODO: implement or flush
   Uint8List checkBytes(Uint8List bytes) => null;

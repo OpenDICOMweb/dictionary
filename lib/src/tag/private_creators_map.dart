@@ -6,9 +6,9 @@
 
 import 'private_data_tag.dart';
 
-bool isWKCreator(String id) => creatorsMap[id] != null;
+bool isWKCreator(String id) => privateCreatorsMap[id] != null;
 
-const Map<String, Map<int, PrivateDataTag>> creatorsMap =
+const Map<String, Map<int, PrivateDataTag>> privateCreatorsMap =
     const <String, Map<int, PrivateDataTag>>{
   // "@type": "CreatorMap",
   "1.2.840.113681": const <int, PrivateDataTag>{

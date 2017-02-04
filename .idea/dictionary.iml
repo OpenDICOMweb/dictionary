@@ -37,6 +37,7 @@
       <excludeFolder url="file://$MODULE_DIR$/tool/cid/gen/src/packages" />
       <excludeFolder url="file://$MODULE_DIR$/tool/cid/packages" />
       <excludeFolder url="file://$MODULE_DIR$/tool/packages" />
+      <excludeFolder url="file://$MODULE_DIR$/tool/tag/gen/output/packages" />
       <excludeFolder url="file://$MODULE_DIR$/tool/tag/gen/packages" />
       <excludeFolder url="file://$MODULE_DIR$/tool/tag/packages" />
     </content>

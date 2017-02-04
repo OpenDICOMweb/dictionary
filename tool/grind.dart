@@ -32,6 +32,7 @@ formatdryrun() {
   log("Formatting Source...");
   DartFmt.dryRun('lib', lineLength: 100);
 }
+
 @Task('Formating Source...')
 format() {
   log("Formatting Source...");

@@ -6,8 +6,10 @@
 
 import 'package:dictionary/dictionary.dart';
 
+enum IssueAction {abort, quarantine, error, warning, info, bestPractice}
+
 class Issue {
-  final Tag tag;
+  final PublicTag tag;
   final List values;
   bool _hasBadLength = false;
   bool _hasBadWidth = false;

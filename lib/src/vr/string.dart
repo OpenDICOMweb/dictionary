@@ -10,7 +10,7 @@ typedef String _StringErrorMsg<String>(String value, int min, int max);
 typedef E _Parser<E>(String s);
 
 /// DICOM Strings with short (16-bit) Value Field Lengths.
-class VRShortString extends VR<String> {
+class VRShortString extends VR {
   @override
   final int _maxVF = kMaxShortVF;
   @override
@@ -28,7 +28,7 @@ class VRShortString extends VR<String> {
 
   bool isValidLength(String s) => _isValidLength(s.length, min, max);
 
-  bool isValidValue<String>(String s) => _isValid(s, min, max);
+  bool isValidValue(String s) => _isValid(s, min, max);
 
   String getValueIssue(String s) => _getError(s, min, max);
 

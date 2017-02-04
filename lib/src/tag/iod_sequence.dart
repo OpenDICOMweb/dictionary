@@ -9,7 +9,7 @@ import 'package:dictionary/src/tag/iod_tag.dart';
 
 
 abstract class IodSequenceBase {
-  Tag tag;
+  PublicTag tag;
   List<IodTag> itemElements;
   String description;
   

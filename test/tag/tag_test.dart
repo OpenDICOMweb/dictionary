@@ -5,7 +5,7 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:dictionary/src/tag/constants.dart';
-import 'package:dictionary/src/tag/tag.dart';
+import 'package:dictionary/src/tag/public_tag.dart';
 
 List<int> tags = const [
   kSpecificCharacterSet,
@@ -31,7 +31,7 @@ void main() {
 void tagTest() {
 
   for(int i = 0; i < tags.length; i++) {
-    Tag tag = Tag.lookup(tags[i]);
+    PublicTag tag = PublicTag.lookupCode(tags[i]);
     print('${tag.info}');
     print('isShort: ${tag.hasShortVF}, sizeInBytes: ${tag.vr.elementSize}');
     print('min: ${tag.minLength}, max: ${tag.maxLength}, width: ${tag.width}');

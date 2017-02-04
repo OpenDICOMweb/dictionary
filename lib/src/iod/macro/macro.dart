@@ -15,8 +15,8 @@ abstract class MacroBase {
 
   List<MacroBase> get include;
   List<IodTag> get elements;
-  Map<String, Tag> get keywords;
-  Map<int, Tag> get tags;
+  Map<String, PublicTag> get keywords;
+  Map<int, PublicTag> get tags;
 
 }
 
@@ -36,7 +36,7 @@ class Macro extends MacroBase {
 
   List<MacroBase> get include => [];
   List<IodTag> get elements => [];
-  Map<String, Tag> get keywords => {};
-  Map<int, Tag> get tags => {};
+  Map<String, PublicTag> get keywords => {};
+  Map<int, PublicTag> get tags => {};
 
 }

@@ -17,8 +17,6 @@ class VRFloat extends VR {
   final int _eSize;
   @override
   final int _maxVF;
-//  final _Test _isValid;
-//  final _ErrorMsg _getError;
 
   /// Create a VR with a Short (16-bit) Value Field length.
   const VRFloat._(int index, int code, String id, String desc, this._eSize, this._maxVF)
