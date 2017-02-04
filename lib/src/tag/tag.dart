@@ -143,13 +143,13 @@ abstract class Tag {
   // Placeholder until VR is integrated into TagBase
   checkValue(dynamic value) => vr.isValidValue(value) ? value : null;
 
-
-
   bool isValidLength(int length) {
     // These are the most common cases.
     if (length == 0 || (length == 1 && width == 0)) return true;
     return (length % width == 0 && minLength <= length && length <= maxLength);
   }
+
+  bool isValidWidth(int length) => (length % width) == 0;
 
   bool isNotValidLength(int length) => !isValidLength(length);
 

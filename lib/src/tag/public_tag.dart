@@ -5,13 +5,13 @@
 // See the AUTHORS file for other contributors.
 
 
-import 'package:dictionary/src/vm.dart';
-import 'package:dictionary/src/vr/vr.dart';
-import 'package:dictionary/src/tag/errors.dart';
 import 'package:dictionary/src/tag/e_type.dart';
+import 'package:dictionary/src/tag/errors.dart';
 import 'package:dictionary/src/tag/public_tag_code_map.dart';
 import 'package:dictionary/src/tag/public_tag_keyword_map.dart';
 import 'package:dictionary/src/tag/tag.dart';
+import 'package:dictionary/src/vm.dart';
+import 'package:dictionary/src/vr/vr.dart';
 
 class PublicTag extends Tag {
   @override
@@ -26,9 +26,6 @@ class PublicTag extends Tag {
       : super(code, vr, vm, type);
 
   bool get isWKFmi => fmiTags.contains(code);
-
-  /// Returns [true] if [code] is defined by the DICOM Standard.
-  bool get isWKPublic => lookupCode(code) != null;
 
   @override
   String get info {
