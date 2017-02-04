@@ -16,6 +16,7 @@
       <excludeFolder url="file://$MODULE_DIR$/lib/src/dicom/private_elements" />
       <excludeFolder url="file://$MODULE_DIR$/lib/src/dicom/tag/old" />
       <excludeFolder url="file://$MODULE_DIR$/lib/src/other" />
+      <excludeFolder url="file://$MODULE_DIR$/lib/src/string/old" />
       <excludeFolder url="file://$MODULE_DIR$/lib/src/string/other" />
       <excludeFolder url="file://$MODULE_DIR$/lib/src/tag/byte_data" />
       <excludeFolder url="file://$MODULE_DIR$/lib/src/tag/other" />
@@ -23,6 +24,7 @@
       <excludeFolder url="file://$MODULE_DIR$/lib/src/vr/other" />
       <excludeFolder url="file://$MODULE_DIR$/packages" />
       <excludeFolder url="file://$MODULE_DIR$/temp" />
+      <excludeFolder url="file://$MODULE_DIR$/test/defined_Term/packages" />
       <excludeFolder url="file://$MODULE_DIR$/test/dicom/packages" />
       <excludeFolder url="file://$MODULE_DIR$/test/packages" />
       <excludeFolder url="file://$MODULE_DIR$/test/tag/packages" />

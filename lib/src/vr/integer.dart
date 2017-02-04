@@ -5,7 +5,7 @@
 // See the AUTHORS file for other contributors.
 part of odw.sdk.dictionary.vr;
 
-class VRInt extends VR {
+class VRInt extends VR<int> {
   @override
   final int _eSize;
   final int min;

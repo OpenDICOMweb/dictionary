@@ -53,7 +53,7 @@ class PrivateCreatorTag extends Tag {
 
   PrivateCreatorTag(code, this.token, this.dataTags)
       : super(code, VR.kLO, VM.k1) {
-    if (!PublicTag.isPrivateCreatorCode(code))
+    if (!Tag.isPrivateCreatorCode(code))
       throw new ArgumentError('Invalid Private Creator Tag Code($code)');
   }
 

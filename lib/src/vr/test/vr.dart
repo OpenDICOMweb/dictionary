@@ -13,11 +13,11 @@ abstract class VR<T> {
 class VRInt extends VR<int> {
   VRInt();
 
-//  bool foo<int>(int n) => n > 0; // Thinks n is Object
+  bool foo(int n) => n > 0; // Thinks n is Object
 }
 
 class VRString extends VR<String> {
   VRString();
 
-  //bool foo(String s) => s.length > 0; // Thinks s is Object
+  bool foo(String s) => s.length > 0; // Thinks s is Object
 }

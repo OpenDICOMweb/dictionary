@@ -6,7 +6,6 @@
 
 import 'dart:io';
 
-import 'package:dictionary/src/tag/private_data_tag_list.dart';
 import 'package:dictionary/src/tag/public_tag.dart';
 import 'package:dictionary/src/tag/tag_map.dart';
 

@@ -14,7 +14,6 @@ export 'package:dictionary/src/defined_terms/defined_terms.dart';
 export 'package:dictionary/src/enum_values/enum_values.dart';
 export 'package:dictionary/src/issue.dart';
 export 'package:dictionary/src/modality.dart';
-export 'package:dictionary/src/string/char_predicates.dart';
 export 'package:dictionary/src/string/dicom_predicates.dart';
 export 'package:dictionary/src/vm.dart';
 export 'package:dictionary/src/vr/vr.dart';

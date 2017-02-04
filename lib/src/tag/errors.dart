@@ -4,7 +4,7 @@
 // Original author: Jim Philbin <jfphilbin@gmail.edu> - 
 // See the AUTHORS file for other contributors.
 
-import 'public_tag.dart';
+import 'tag.dart';
 
 class InvalidTagError extends Error {
   Object tag;
@@ -16,7 +16,7 @@ class InvalidTagError extends Error {
   String toString() {
     String msg;
     if (tag is int) {
-      msg = 'Code ${PublicTag.toDcm(tag)}';
+      msg = 'Code ${Tag.toDcm(tag)}';
     } else if (tag is String) {
       msg = 'Keyword "$tag"';
     } else {
@@ -37,7 +37,7 @@ class InvalidTagCodeError extends Error {
 
   @override
   String toString() =>
-      'Error: Invalid Tag Code ${PublicTag.toDcm(code)} with values $values';
+      'Error: Invalid Tag Code ${Tag.toDcm(code)} with values $values';
 }
 
 dynamic tagCodeError(int code, [List values]) =>

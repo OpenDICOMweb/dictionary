@@ -158,7 +158,7 @@ bool _isDcmDateTimeString(String s, int min, int max) {
   }
   index += 2;
   if (limit >= index + 2) {
-    int f = parseFraction(s, index);
+    f = parseFraction(s, index);
     if (f == null) return false;
   }
   return true;
@@ -169,7 +169,9 @@ String _checkDcmDateTime(String s, int min, int max) =>
 
 String _dcmDateTimeError(String s, int min, int max) {
   String msg = _getLengthError(s.length, min, max);
-  if (msg == null) return msg;
+  if (msg != null) return msg;
+  //Urgent: this is not specific enough
+  return 'Error in DcmDateTime String: $s';
 }
 
 DcmDateTime _dcmDateTimeParse(String s) => DcmDateTime.dcmParse(s);
@@ -185,7 +187,9 @@ String _checkDcmTimeString(String s, int min, int max) =>
 
 String _dcmTimeError(String s, int min, int max) {
   String msg = _getLengthError(s.length, min, max);
-  if (msg == null) return msg;
+  if (msg != null) return msg;
+  //Urgent: this is not specific enough
+  return 'Error in DcmDateTime String: $s';
 }
 
 Time _dcmTimeParse(String s) => Time.dcmParse(s);

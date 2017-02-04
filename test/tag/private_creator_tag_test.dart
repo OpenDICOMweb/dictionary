@@ -13,8 +13,10 @@ main() {
 
   PrivateCreatorTagTest() {
     test("PrivateCreatorTag Test", () {
-      PrivateCreatorTag.lookup("ACUSON");
-      expect(vr == VR.kAE, true);
+      PrivateCreatorTag pTag = PrivateCreatorTag.lookup("ACUSON");
+      print(pTag.info);
+      //print('${pTag.token}: ${pTag.dataTagMap}');
+
     });
 
 }

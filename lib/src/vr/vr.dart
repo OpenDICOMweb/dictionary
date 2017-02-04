@@ -7,9 +7,7 @@ library odw.sdk.dictionary.vr;
 
 import 'dart:typed_data';
 
-import 'package:common/ascii.dart';
-import 'package:common/date.dart';
-import 'package:common/integer.dart';
+import 'package:common/common.dart';
 import 'package:dictionary/src/vr/vr_index.dart';
 
 part 'float.dart';
@@ -37,7 +35,7 @@ const int kMaxShortVF = kUint16Max;
 const int kMaxLongVF = kUint32Max - 2;
 
 /// DICOM Value Representation [VR] definitions.
-class VR {
+class VR<T> {
   static const int kMaxShortVFLength = kMaxShortVF;
   static const int kMaxLongVFLength = kMaxLongVF;
   final int index;
@@ -133,14 +131,14 @@ class VR {
 
   bool isNotValidValue(value) => !isValidValue(value);
 
-  dynamic check(value) => null;
+  T check(value) => null;
 
   //TODO: currently returns one [String], but since there could be more than one
   //TODO: error maybe it should be a [List<String>].
   String getValueError(value) => null;
 
   /// Returns a value of the appropriate type
-  dynamic parse(String s) => null;
+  T parse(String s) => null;
 
   //TODO: implement or flush
   Uint8List checkBytes(Uint8List bytes) => null;
