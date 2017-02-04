@@ -19,6 +19,11 @@ class PrivateDataTag extends Tag {
   const PrivateDataTag._(this.id, this.token, int code, VR vr, VM vm, this.name)
       : super(code, vr, vm);
 
+  PrivateDataTag.Unknown(int code, [VR vr = VR.kUN])
+      : id = 0;
+        name = "UnKnown Private Data Tag",
+        super(code, vr, VM.kUnknown);
+
   @override
   bool get isPrivate => true;
 
@@ -27952,8 +27957,4 @@ class PrivateDataTag extends Tag {
       11166, "SIEMENS MED NM", 0x7fe30029, VR.kOW, VM.k1, "Number of R-Waves in Frame");
 }
 
-class UnknownPrivateDataTag extends PrivateDataTag {
-  UnknownPrivateDataTag(int code, [VR vr = VR.kUN, VM vm = VM.k1])
-      : super._(
-            null, "Unknown Private Creator", code, vr, vm, "UnKnown Private Data Tag");
-}
+

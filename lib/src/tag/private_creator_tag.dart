@@ -5,6 +5,7 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:dictionary/src/tag/private_creator_tag_map.dart';
+import 'package:dictionary/src/tag/private_tag_unknown.dart';
 import 'package:dictionary/src/tag/private_data_tag.dart';
 import 'package:dictionary/src/tag/tag.dart';
 import 'package:dictionary/src/vm.dart';
@@ -14,13 +15,19 @@ class PrivateCreatorTag extends Tag {
   final String token;
   final Map<int, PrivateDataTag> dataTagMap;
 
-  PrivateCreatorTag(code, this.token, this.dataTagMap) : super(code, VR.kLO, VM.k1) {
+  PrivateCreatorTag(int code, this.token, this.dataTagMap) : super(code, VR.kLO, VM.k1) {
+    //TODO: this should be checked before the Tag is created.
     if (!Tag.isPrivateCreatorCode(code))
       throw new ArgumentError('Invalid Private Creator Tag Code(code)');
   }
 
-  const PrivateCreatorTag._(int id, this.token, this.dataTagMap)
-      : super(id, VR.kLO, VM.k1);
+  const PrivateCreatorTag._(int code, this.token, this.dataTagMap)
+      : super(code, VR.kLO, VM.k1);
+
+  PrivateCreatorTag.unknown(int code, [VR vr = VR.kUN])
+      : token = "Unknown Private Creator Tag",
+        dataTagMap = const <int, PrivateDataTag>{},
+        super(code, VR.kLO, VM.k1);
 
   bool get wasUN => super.vr == VR.kUN;
 
@@ -51,8 +58,10 @@ class PrivateCreatorTag extends Tag {
   static const PrivateCreatorTag kUnknown =
       const PrivateCreatorTag._(0, "UnknownName", const {});
 
-  static PrivateCreatorTag lookup(String creatorToken, [int code]) =>
-      privateCreatorTagMap[creatorToken];
+  static PrivateCreatorTag lookup(String token, int code, [VR vr = VR.kUnknown]) {
+    PrivateCreatorTag tag = privateCreatorTagMap[token];
+    return (tag != null) ? tag : new UnknownPrivateCreatorTag(token, code, vr);
+  }
 
   static const PrivateCreatorTag k0 =
       const PrivateCreatorTag._(0, "1.2.840.113681", const <int, PrivateDataTag>{
