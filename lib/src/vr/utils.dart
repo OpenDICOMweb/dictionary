@@ -1,10 +1,12 @@
 // Copyright (c) 2016, Open DICOMweb Project. All rights reserved.
 // Use of this source code is governed by the open source license
 // that can be found in the LICENSE file.
-// Original author: Jim Philbin <jfphilbin@gmail.edu> - 
+// Original author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 part of odw.sdk.dictionary.vr;
 
+// TODO: reorganize and move predicates, errorMsg and parsers into
+// Common (Int, Float, String...)
 // TODO: these functions don't handle Escape sequences.
 
 // *** Length Utilities
@@ -16,32 +18,24 @@ bool _isValidLength(int length, int min, int max) {
 }
 
 /// Returns [true] if length is NOT valid.
-bool _isNotValidLength(int length, int min, int max) =>
-    !_isValidLength(length, min, max);
+bool _isNotValidLength(int length, int min, int max) => !_isValidLength(length, min, max);
 
 /// Returns a [String] containing an invalid length error message,
 /// or [null] if there are no errors.
 String _getLengthError(int length, int min, int max) {
-  if (length == null)
-    return 'Invalid length(Null)';
-  if (length == 0)
-    return 'Invalid length(0)';
+  if (length == null) return 'Invalid length(Null)';
+  if (length == 0) return 'Invalid length(0)';
   return (length < min || max < length)
-         ? 'Length Error: min($min) <= Value($length) <= max($max)'
-         : null;
+      ? 'Length Error: min($min) <= Value($length) <= max($max)'
+      : null;
 }
 
 /// Returns [true] if all characters pass the filter.
 bool _filteredTest(String s, int min, int max, bool filter(int c)) {
   if (_isNotValidLength(s.length, min, max)) return false;
-  for (int i = 0; i < max; i++)
-    if (!filter(s.codeUnitAt(i))) return false;
+  for (int i = 0; i < max; i++) if (!filter(s.codeUnitAt(i))) return false;
   return true;
 }
-
-/// Returns [s] if all characters pass the filter; otherwise, [null]
-String _filteredCheck(String s, int min, int max, bool filter(int c)) =>
-    (_filteredTest(s, min, max, filter)) ? s : null;
 
 //TODO: this currently returns only the first error - Should it return all errors?
 /// Returns an error [String] if some character in [s] does not pass the filter;
@@ -49,8 +43,7 @@ String _filteredCheck(String s, int min, int max, bool filter(int c)) =>
 String _getFilteredError(String s, int min, int max, bool filter(int c)) {
   String msg = _getLengthError(s.length, min, max);
   if (msg == null) return msg;
-  for (int i = 0; i < s.length; i++)
-    if (filter(s.codeUnitAt(i))) _invalidChar(s, i);
+  for (int i = 0; i < s.length; i++) if (filter(s.codeUnitAt(i))) _invalidChar(s, i);
   return "";
 }
 
@@ -66,11 +59,9 @@ bool _isDcmChar(int c) =>
     (c >= kSpace && c < kBackslash || c > kBackslash && c < kDelete);
 
 /// Returns [true] if [s] is a valid DICOM String.
-bool _isDcmString(String s, int min, int max) =>
-    _filteredTest(s, min, max, _isDcmChar);
+bool _isDcmString(String s, int min, int max) => _filteredTest(s, min, max, _isDcmChar);
 
-/// Returns [s] if [s] is a valid DICOM String; otherwise, null.
-String _checkDcmString(String s, int min, int max)  =>
+String _checkDcmString(String s, int min, int max) =>
     (_isDcmString(s, min, max)) ? s : null;
 
 /// Returns an error [String] if [s] is invalid; otherwise, "".
@@ -85,12 +76,7 @@ String _dcmStringError(String s, int min, int max) =>
 bool _isTextChar(int c) => !(c < kSpace || c == kDelete);
 
 /// Returns [true] if [s] is a valid DICOM String.
-bool _isDcmText(String s, int min, int max) =>
-    _filteredTest(s, min, max, _isTextChar);
-
-/// Returns [s] if [s] is a valid DICOM String; otherwise, null.
-String _checkDcmText(String s, int min, int max)  =>
-    (_isDcmText(s, min, max)) ? s : null;
+bool _isDcmText(String s, int min, int max) => _filteredTest(s, min, max, _isTextChar);
 
 /// Returns an error [String] if [s] is invalid; otherwise, "".
 String _dcmTextError(String s, int min, int max) =>
@@ -105,15 +91,11 @@ bool _isDcmDateString(String s, int min, int max) {
   if (s.length < 8) return false;
   int y = parseYear(s, start);
   if (y == null) return false;
-  int m = parseMonth(s, start+ 4);
+  int m = parseMonth(s, start + 4);
   if (m == null) return false;
   int d = parseDay(y, m, s, start + 6);
   return (d == null) ? false : true;
 }
-
-/// Returns [s], if [s] is a valid date in DICOM format; otherwise, [null].
-String _checkDcmDate(String s, int min, int max) =>
-    (_isDcmDateString(s, min, max)) ? s : null;
 
 /// Returns an error [String] if [s] is not a valid DICOM date; otherwise, "".
 String _dcmDateError(String s, int min, int max) {
@@ -121,18 +103,15 @@ String _dcmDateError(String s, int min, int max) {
   if (msg == null) return msg;
   int start = 0;
   int y = parseYear(s, start);
-  if (y == null)
-    return 'Invalid year(${s.substring(start, start + 4)})';
-  int m = parseMonth(s, start+ 4);
-  if (m == null)
-    return 'Invalid month(${s.substring(start + 4, start + 6)})';
+  if (y == null) return 'Invalid year(${s.substring(start, start + 4)})';
+  int m = parseMonth(s, start + 4);
+  if (m == null) return 'Invalid month(${s.substring(start + 4, start + 6)})';
   int d = parseDay(y, m, s, start + 6);
-  if (d == null)
-    return 'Invalid day(${s.substring(start + 6, start + 8)})';
+  if (d == null) return 'Invalid day(${s.substring(start + 6, start + 8)})';
   return "";
 }
 
-Date _dcmDateParse(String s) => Date.dcmParse(s);
+Date _parseDcmDate(String s, int min, int max) => Date.dcmParse(s);
 
 // **** DateTime
 //TODO: fix
@@ -164,9 +143,6 @@ bool _isDcmDateTimeString(String s, int min, int max) {
   return true;
 }
 
-String _checkDcmDateTime(String s, int min, int max) =>
-    (_isDcmDateTimeString(s, min, max)) ? s : null;
-
 String _dcmDateTimeError(String s, int min, int max) {
   String msg = _getLengthError(s.length, min, max);
   if (msg != null) return msg;
@@ -174,16 +150,14 @@ String _dcmDateTimeError(String s, int min, int max) {
   return 'Error in DcmDateTime String: $s';
 }
 
-DcmDateTime _dcmDateTimeParse(String s) => DcmDateTime.dcmParse(s);
+DcmDateTime _parseDcmDateTime(String s, int min, int max) => DcmDateTime.dcmParse(s);
+
 // **** Time
 
 bool _isDcmTimeString(String s, int min, int max) {
   if (_isNotValidLength(s.length, min, max)) return false;
   return isDcmTimeString(s, min, max);
 }
-
-String _checkDcmTimeString(String s, int min, int max) =>
-    (isDcmTimeString(s, min, max)) ? s : null;
 
 String _dcmTimeError(String s, int min, int max) {
   String msg = _getLengthError(s.length, min, max);
@@ -192,7 +166,7 @@ String _dcmTimeError(String s, int min, int max) {
   return 'Error in DcmDateTime String: $s';
 }
 
-Time _dcmTimeParse(String s) => Time.dcmParse(s);
+Time _parseDcmTime(String s, int min, int max) => Time.dcmParse(s);
 
 // **** UID String - UI
 
@@ -203,12 +177,7 @@ bool _isUidChar(int c) => !(isHexChar(c) || c == kDot);
 
 //TODO: fix - this isn't good enough
 /// Returns [true] if [s] is a valid DICOM String.
-bool _isUid(String s, int min, int max) =>
-    _filteredTest(s, min, max, _isUidChar);
-
-/// Returns [s] if [s] is a valid DICOM String; otherwise, null.
-String _checkUid(String s, int min, int max)  =>
-    (_isUid(s, min, max)) ? s : null;
+bool _isUid(String s, int min, int max) => _filteredTest(s, min, max, _isUidChar);
 
 /// Returns an error [String] if [s] is invalid; otherwise, "".
 String _uidError(String s, int min, int max) =>
@@ -227,9 +196,6 @@ bool _isUri(String s, int min, int max) {
   return true;
 }
 
-String _checkUri(String s, int min, int max) =>
-    (_isUri(s, min, max)) ? s : null;
-
 String _uriError(String s, int min, int max) {
   String error = _getLengthError(s.length, min, max);
   if (error != null) return error;
@@ -245,58 +211,71 @@ String _uriError(String s, int min, int max) {
 
 // *** DICOM Age Strings - AS
 
-bool _isAgeMarker(int c) =>
-    (c == kD || c == kW || c == kM || c == kY) ? true : false;
+bool _isAgeMarker(int c) => (c == kD || c == kW || c == kM || c == kY) ? true : false;
 
 /// Returns [true] if [s] is a valid DICOM String.
 bool _isDcmAge(String s, int min, int max) {
   if (s.length != 4) return false;
-  for (int i = 0; i < 3; i++)
-    if (!isDigitChar(s.codeUnitAt(i))) return false;
+  for (int i = 0; i < 3; i++) if (!isDigitChar(s.codeUnitAt(i))) return false;
   return _isAgeMarker(s.codeUnitAt(3)) ? true : false;
 }
-
-/// Returns [s] if [s] is a valid DICOM String; otherwise, null.
-String _checkDcmAge(String s, int min, int max)  =>
-    (_isDcmAge(s, min, max)) ? s : null;
 
 /// Returns an error [String] if [s] is invalid; otherwise, "".
 /// Note: [min] and [max] are here for the sake of the interface.
 String _dcmAgeError(String s, int min, int max) {
   String error = _getLengthError(s.length, min, max);
   if (s != null) return error;
-  for (int i = 0; i < 3; i++)
-    if (!isDigitChar(s.codeUnitAt(i))) _invalidChar(s, i);
+  for (int i = 0; i < 3; i++) if (!isDigitChar(s.codeUnitAt(i))) _invalidChar(s, i);
   return (!_isAgeMarker(s.codeUnitAt(3))) ? _invalidChar(s, 3) : "";
 }
 
+Duration _dcmAgeParse(String s, int min, int max) {
+  int n = readUint(s, 0, 3, 3);
+  int nDays;
+  switch (s[4]) {
+    case "D":
+      nDays = 1;
+      break;
+    case "W":
+      nDays = 7;
+      break;
+    case "M":
+      nDays = 30;
+      break;
+    case "Y":
+      nDays = 365;
+      break;
+    default:
+      return null;
+  }
+  return new Duration(days: n * nDays);
+}
 
 /// [IS - Integer String](http://dicom.nema.org/medical/dicom/current/output/html/part05.html#sect_6.2)
 
-int _parseIS(String s, int min, int max) {
+bool _isIntegerString(String s, int min, int max) =>
+    (_parseIntegerString(s, min, max) == null) ? false : true;
+
+String _integerStringError(String s, int min, int max) =>
+    (_isIntegerString(s, min, max)) ? "" : 'Invalid Integer(IS) String: $s';
+
+int _parseIntegerString(String s, int min, int max) {
   if (_isNotValidLength(s.length, min, max)) return null;
   return int.parse(s, onError: (String s) => null);
 }
 
-bool _isISString(String s, int min, int max) =>
-    (_parseIS(s, min, max) == null) ? false : true;
-
-String _dcmISError(String s, int min, int max) =>
-    (_isISString(s, min, max)) ? "" : 'Invalid Integer(IS) String: $s';
-
 /// DS -Decimal String
 
-num _parseDS(String s, int min, int max) {
+bool _isDecimalString(String s, int min, int max) =>
+    (_parseDecimalString(s, min, max) == null) ? false : true;
+
+String _decimalStringError(String s, int min, int max) =>
+    (_isDecimalString(s, min, max)) ? "" : 'Invalid Decimal(DS) String: $s';
+
+num _parseDecimalString(String s, int min, int max) {
   if (_isNotValidLength(s.length, min, max)) return null;
   return num.parse(s, (String s) => null);
 }
-
-bool _isDSString(String s, int min, int max) =>
-    (_parseDS(s, min, max) == null) ? false : true;
-
-String _dcmDSError(String s, int min, int max) =>
-    (_isDSString(s, min, max)) ? "" : 'Invalid Decimal(DS) String: $s';
-
 
 // *** Unsigned Integer
 /// Return the limit, which is [max] or [end].
@@ -334,13 +313,15 @@ int _readUint(String s, int offset, int limit) {
   return n;
 }
 
+
+/*
+
 int _getSign(String s, int start) {
   int c = s.codeUnitAt(0);
   if (c == kMinusSign) return -1;
   if (c == kPlusSign) return 1;
   return 1;
 }
-
 
 bool _isDigitString(String s, int start, int min, int max, [int separator]) {
   int pos = 0;
@@ -352,7 +333,6 @@ bool _isDigitString(String s, int start, int min, int max, [int separator]) {
   return true;
 }
 
-/*
 bool _isDigitString(String s, int minLength, int maxLength, [int seperator]) {
   if (_isNotValidLength(s)) return false;
   int pos = 0;
@@ -363,9 +343,9 @@ bool _isDigitString(String s, int minLength, int maxLength, [int seperator]) {
   if (pos < minLength) return false;
   return true;
 }
-*/
+
 String _digitStringError(String s, int min, int max, [int separator]) {
-  String errMsg =  _getLengthError(s.length, min, max);
+  String errMsg = _getLengthError(s.length, min, max);
   int pos = 0;
   for (; pos < max; pos++) {
     int c = s.codeUnitAt(pos);
@@ -392,4 +372,11 @@ String _isDigitError(String s, int minLength, int maxLength, [int separator = kD
     // return false;
   }
   return "";
+}
+*/
+
+/// Replaces pad char [kSpace] with [kNull]
+String _csFixer(String value, int min, int max) {
+  if (_isNotValidLength(value.length, min, max)) return null;
+  return value.toUpperCase();
 }

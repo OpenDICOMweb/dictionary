@@ -62,6 +62,8 @@ class PrivateCreatorTag extends Tag {
 
   bool get wasUN => super.vr == VR.kUN;
 
+  PrivateDataTag getKnownTag(int code) => dataTags[code];
+
   @override
   bool get isPublic => false;
   @override

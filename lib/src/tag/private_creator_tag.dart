@@ -41,6 +41,8 @@ class PrivateCreatorTag extends Tag {
   String get info => '$runtimeType($token) $dcm, $vr, $vm, $type, '
       'data ${fmtDataTagMap()}';
 
+  PrivateDataTag getKnownTag(int code) => dataTagMap[code];
+
   //TODO: improve formatting
   String fmtDataTagMap() {
     String out = "  {\n";

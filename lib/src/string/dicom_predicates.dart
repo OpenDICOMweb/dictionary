@@ -152,19 +152,7 @@ bool isTMChar(int c) => isDigitChar(c) || (c == kDot);
 ///
 bool _isValidLength(String s, int min, int max) {
   if (s == null || s.length == 0) return null;
-  return _intInRange(s.length, min, max);
-}
-
-bool _checkStringLength(String s, int min, int max) {
-  if (s == null || s.length == 0) return null;
-  return _intInRange(s.length, min, max);
-}
-
-bool _intInRange(int v, int min, int max) => (v < min || v > max) ? false : true;
-
-int _checkRange(int v, int min, int max) {
-  if (v < min || v > max) throw 'RangeError: min($min) <= Value($v) <= max($max)';
-  return v;
+  return Int.inRange(s.length, min, max);
 }
 
 String _invalidChar(int c, int pos) => 'Value has invalid character($c) at position($pos)';
@@ -216,27 +204,6 @@ bool _textFilter(int c) => !(c < kSpace || c == kDelete);
 
 bool _isTextString(String s, int max) => _isFilteredString(s, 0, max, _textFilter);
 
-String _checkTextString(String s, int max) => (_isTextString(s, max)) ? s : null;
-bool _digitFilter(int c) => c >= k0 && c <= k9;
-bool _hexFilter(int c) => (c >= k0 && c <= k9) || (c >= ka && c <= kf) || (c >= kA && c <= kF);
-// DICOM VRs with Digits
-bool _checkDigitString(String s, int minLength, int maxLength, [int sep]) {
-  if (!_isValidLength(s, 0, maxLength)) return false;
-  int index = 0;
-  for (; index < maxLength; index++) {
-    int c = s.codeUnitAt(index);
-    if (c < k0 || c > k9 || (sep != null && c != sep)) {
-      throw _invalidChar(c, index);
-      // return false;
-    }
-  }
-  if (index < minLength) {
-    throw 'The Value has fewer than the minimum($minLength) number of characters';
-    // return false;
-  }
-  return true;
-}
-
 // DICOM Strings
 bool isAEString(String s) => _isDcmString(s, 16);
 bool isCSString(String s) => _isDcmString(s, 16);
@@ -251,15 +218,15 @@ bool isLTString(String s) => _isTextString(s, 10240);
 bool isUTString(String s) => _isTextString(s, kMaxLongVFLength);
 
 // UID String
-bool isUIString(String s) => _checkDigitString(s, 8, 64, kDot);
+bool isUIString(String s) => _isDigitString(s, 8, 64, kDot);
 
 // UUID String
-bool isUuidString(String s) => _checkDigitString(s, 36, 36, kDash);
+bool isUuidString(String s) => _isDigitString(s, 36, 36, kDash);
 
 /// AS - Age String
 bool isASString(String s) {
   if (!_isValidLength(s, 4, 4)) return false;
-  if (!_checkDigitString(s, 3, 3)) return false;
+  if (!_isDigitString(s, 3, 3)) return false;
   if (!"DWMY".contains(s[3])) {
     throw 'Invalid Age Unit($s[3]';
     //return false;
@@ -268,7 +235,7 @@ bool isASString(String s) {
 }
 
 String ASError(String s) {
-  if (!_isValidLength(s, 4, 4)) if (!_checkDigitString(s, 3, 3))
+  if (!_isValidLength(s, 4, 4)) if (!_isDigitString(s, 3, 3))
     return 'Non-digits in age(AS) String: $s';
   if (!"DWMY".contains(s[3])) 'Invalid Age Unit($s[3]';
   return "";
@@ -279,7 +246,7 @@ bool isISString(String s) {
   if (!_isValidLength(s, 4, 4)) return false;
   int c = s.codeUnitAt(0);
   int hasSign = (c == kMinusSign || c == kPlusSign) ? 1 : 0;
-  if (!_checkDigitString(s, 0, 12 - hasSign, hasSign)) return false;
+  if (!_isDigitString(s, 0, 12 - hasSign, hasSign)) return false;
   return true;
 }
 
@@ -288,7 +255,7 @@ bool isDSString(String s) {
   if (!_isValidLength(s, 0, 16)) return false;
   int c = s.codeUnitAt(0);
   int hasSign = (c == kMinusSign || c == kPlusSign) ? 1 : 0;
-  if (!_checkDigitString(s, 0, 16 - hasSign, hasSign)) return false;
+  if (!_isDigitString(s, 0, 16 - hasSign, hasSign)) return false;
   return true;
 }
 
@@ -334,6 +301,17 @@ bool isTMString(String s) {
   return true;
 }
 
+// DICOM VRs with Digits
+bool _isDigitString(String s, int minLength, int maxLength, [int sep]) {
+  if (!_isValidLength(s, 0, maxLength)) return false;
+  int index = 0;
+  for (; index < maxLength; index++) {
+    int c = s.codeUnitAt(index);
+    if (c < k0 || c > k9 || (sep != null && c != sep)) return false;
+  }
+  return true;
+}
+
 //TODO: do something more efficient
 //UR - Universal Resource Identifier (URI)
 bool isURString(String s, [int index = 0, int end]) {
@@ -347,3 +325,10 @@ bool isURString(String s, [int index = 0, int end]) {
   }
   return true;
 }
+
+/* TODO: move elsewhere or flush
+bool _digitFilter(int c) => c >= k0 && c <= k9;
+bool _hexFilter(int c) => (c >= k0 && c <= k9) || (c >= ka && c <= kf) || (c >= kA && c <= kF);
+
+
+*/
