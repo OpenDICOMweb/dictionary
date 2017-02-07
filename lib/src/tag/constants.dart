@@ -21,7 +21,6 @@ const kItemLast16bits = 0xE000;
 /// This corresponds to the last 16-bits of [kItemDelimitationItem].
 const kItemDelimiterLast16bits = 0xE00D;
 
-
 /// The padding character used to pad UIDs [String]s with odd length.
 const String uidPaddingChar = "0x00";
 
@@ -3781,7 +3780,6 @@ const int kDataSetTrailingPadding = 0xfffcfffc;
 const int kItem = 0xfffee000;
 const int kItemDelimitationItem = 0xfffee00d;
 const int kSequenceDelimitationItem = 0xfffee0dd;
-
 
 const int kMinTag = kAffectedSOPInstanceUID;
 const int kMaxTag = kMaxDatasetTag;

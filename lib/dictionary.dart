@@ -1,12 +1,11 @@
 // Copyright (c) 2016, Open DICOMweb Project. All rights reserved.
 // Use of this source code is governed by the open source license
 // that can be found in the LICENSE file.
-// Original author: Jim Philbin <jfphilbin@gmail.edu> - 
+// Original author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
 // DICOM Dictionary libraries
 // These are all constant classes, etc. defined by the DICOM Standard
-
 
 export 'package:common/common.dart';
 export 'package:dictionary/src/constants.dart';

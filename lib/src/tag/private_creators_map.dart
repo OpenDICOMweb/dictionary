@@ -6538,7 +6538,8 @@ const Map<String, Map<int, PrivateDataTag>> privateCreatorsMap =
     0x31136000: PrivateDataTag.k4530,
     0x31136900: PrivateDataTag.k4531
   },
-  "http://www.gemedicalsystems.com/it_solutions/orthoview/2.1": const <int, PrivateDataTag>{
+  "http://www.gemedicalsystems.com/it_solutions/orthoview/2.1":
+      const <int, PrivateDataTag>{
     //"@type": "PrivateDataTag",
     0x31171000: PrivateDataTag.k4534,
     0x31172000: PrivateDataTag.k4535,
@@ -6547,7 +6548,8 @@ const Map<String, Map<int, PrivateDataTag>> privateCreatorsMap =
     0x31175000: PrivateDataTag.k4538,
     0x31176000: PrivateDataTag.k4539
   },
-  "http://www.gemedicalsystems.com/it_solutions/bamwallthickness/1.0": const <int, PrivateDataTag>{
+  "http://www.gemedicalsystems.com/it_solutions/bamwallthickness/1.0":
+      const <int, PrivateDataTag>{
     //"@type": "PrivateDataTag",
     0x31181000: PrivateDataTag.k4540,
     0x31182000: PrivateDataTag.k4541,

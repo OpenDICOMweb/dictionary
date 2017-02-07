@@ -10,7 +10,7 @@ import 'package:dictionary/src/tag/public_tag.dart';
 // ----------------------------------------------------------
 
 // Ordered List of all DICOM attributes
-  const Map<int, PublicTag> publicTagCodeMap = const {
+const Map<int, PublicTag> publicTagCodeMap = const {
   0x00001000: PublicTag.kAffectedSOPInstanceUID,
   0x00001001: PublicTag.kRequestedSOPInstanceUID,
   0x00020000: PublicTag.kFileMetaInformationGroupLength,

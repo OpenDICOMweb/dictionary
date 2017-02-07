@@ -187,8 +187,7 @@ const Map<String, PrivateCreatorTag> privateCreatorTagMap = const {
   "AMI ImageContextExt_01": PrivateCreatorTag.k173,
   "Applicare/RadWorks/Version 5.0": PrivateCreatorTag.k174,
   "Applicare/RadWorks/Version 6.0/Summary": PrivateCreatorTag.k175,
-  "http://www.gemedicalsystems.com/it_solutions/rad_pacs/":
-      PrivateCreatorTag.k176,
+  "http://www.gemedicalsystems.com/it_solutions/rad_pacs/": PrivateCreatorTag.k176,
   "Applicare/Print/Version 5.1": PrivateCreatorTag.k177,
   "Applicare/RadWorks/Version 6.0": PrivateCreatorTag.k178,
   "GEIIS PACS": PrivateCreatorTag.k179,
@@ -218,8 +217,7 @@ const Map<String, PrivateCreatorTag> privateCreatorTagMap = const {
   "AMI StudyExtensions_01": PrivateCreatorTag.k203,
   "RadWorksTBR": PrivateCreatorTag.k204,
   "Applicare/RadStore/Version 1.0": PrivateCreatorTag.k205,
-  "http://www.gemedicalsystems.com/it_solutions/orthoview/2.1":
-      PrivateCreatorTag.k206,
+  "http://www.gemedicalsystems.com/it_solutions/orthoview/2.1": PrivateCreatorTag.k206,
   "http://www.gemedicalsystems.com/it_solutions/bamwallthickness/1.0":
       PrivateCreatorTag.k207,
   "AMI ImageContext_01": PrivateCreatorTag.k208,

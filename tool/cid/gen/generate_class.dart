@@ -17,7 +17,7 @@ String outputDir = "C:/odw/sdk/core/lib/src/base/cid/gen/output/dart";
 /// that was created from the DICOM table in PS3.16.
 void main() {
   String s;
-  File   output;
+  File output;
 
   String jsonFilename = '$inputDir/coding_scheme.json';
   String classFilename = '$outputDir/coding_scheme.dart';

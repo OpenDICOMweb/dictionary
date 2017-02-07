@@ -49,6 +49,4 @@ class IodTag {
     var retired = (isRetired == false) ? "" : ", (Retired)";
     return 'IOD Element: ${tag.dcm} $keyword, $vr, $vm, $retired';
   }
-
-
 }

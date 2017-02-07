@@ -24,8 +24,10 @@ class VRFloat extends VR<double> {
 
   // Floats
   //                                          index, code, id, desc, eSize, maxVFLength,
-  static const VRFloat kFD = const VRFloat._(11, 0x4644, "FD", "Float Double", 8, kMaxShortVF);
-  static const VRFloat kFL = const VRFloat._(12, 0x464c, "FL", "Float Single", 4, kMaxShortVF);
+  static const VRFloat kFD =
+      const VRFloat._(11, 0x4644, "FD", "Float Double", 8, kMaxShortVF);
+  static const VRFloat kFL =
+      const VRFloat._(12, 0x464c, "FL", "Float Single", 4, kMaxShortVF);
   static const VRFloat kOD = const VRFloat._(13, 0x4f44, "OD", "Other Double", 8, kMaxOD);
   static const VRFloat kOF = const VRFloat._(14, 0x4f46, "OF", "Other Float", 4, kMaxOF);
 

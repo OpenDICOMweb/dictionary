@@ -15,7 +15,12 @@ class Group {
 
   /// Groups numbers that shall not be used in [PrivateTag]s.
   static const List<int> invalidPrivateGroups = const <int>[
-    0x0001, 0x0003, 0x0005, 0x0007, 0xFFFF]; // invalid groups
+    0x0001,
+    0x0003,
+    0x0005,
+    0x0007,
+    0xFFFF
+  ]; // invalid groups
 
   /// Returns the most significant 16 bits of the tag.code.
   static int fromTag(int tagCode) => tagCode >> shiftCount;
@@ -30,12 +35,12 @@ class Group {
   static int check(int g) => (isValid(g)) ? g : null;
 
   /// Returns[true] is [g] is a valid Public Group Number.
-  static bool isPublic(int g) => g.isEven && 0x0008 <= g  && g <= 0xFFFC;
+  static bool isPublic(int g) => g.isEven && 0x0008 <= g && g <= 0xFFFC;
 
   static bool isNotPublic(int g) => !isPublic(g);
 
   /// Returns [true] if [g] is a valid Private Group Number.
-  static bool isPrivate(int g)=> g.isOdd && (0x0007 < g && g < 0xFFFF);
+  static bool isPrivate(int g) => g.isOdd && (0x0007 < g && g < 0xFFFF);
 
   static bool isNotPrivate(int g) => !isPrivate(g);
 

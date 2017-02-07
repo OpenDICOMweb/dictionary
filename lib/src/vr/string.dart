@@ -42,9 +42,8 @@ class VRShortString extends VR<String> {
   // String.dicom (without backslash)
   static const VR kAE = const VRShortString._(
       17, 0x4145, "AE", "AE Title", 1, 16, _isDcmString, _dcmStringError);
-  static const VR kCS = const VRShortString._(
-      18, 0x4353, "CS", "Code String", 1, 16, _isDcmString, _dcmStringError,
-      _checkDcmString, _csFixer);
+  static const VR kCS = const VRShortString._(18, 0x4353, "CS", "Code String", 1, 16,
+      _isDcmString, _dcmStringError, _checkDcmString, _csFixer);
   static const VR kLO = const VRShortString._(
       19, 0x4c4f, "LO", "Long String", 1, 64, _isDcmString, _dcmStringError);
   static const VR kPN = const VRShortString._(
@@ -61,9 +60,8 @@ class VRShortString extends VR<String> {
   // String.DateTime
   static const VR kDA = const VRShortString._(
       25, 0x4441, "DA", "Date", 8, 8, _isDcmDateString, _dcmDateError, _parseDcmDate);
-  static const VR kDT = const VRShortString._(
-      26, 0x4454, "DT", "DateTime", 4, 26, _isDcmDateTimeString, _dcmDateTimeError,
-      _parseDcmDateTime);
+  static const VR kDT = const VRShortString._(26, 0x4454, "DT", "DateTime", 4, 26,
+      _isDcmDateTimeString, _dcmDateTimeError, _parseDcmDateTime);
   static const VR kTM = const VRShortString._(
       27, 0x544d, "TM", "Time", 2, 14, _isDcmTimeString, _dcmTimeError, _parseDcmTime);
 
@@ -73,12 +71,12 @@ class VRShortString extends VR<String> {
       31, 0x4153, "AS", "Age String", 4, 4, _isDcmAge, _dcmAgeError, _dcmAgeParse);
 
   // String.integer
-  static const VR kIS = const VRShortString._(
-      15, 0x4953, "IS", "Integer String", 1, 12, _isIntegerString, _integerStringError, _parseIntegerString);
+  static const VR kIS = const VRShortString._(15, 0x4953, "IS", "Integer String", 1, 12,
+      _isIntegerString, _integerStringError, _parseIntegerString);
 
   // String.float
-  static const VR kDS = const VRShortString._(
-      16, 0x4453, "DS", "Decimal String", 1, 16, _isDecimalString, _decimalStringError, _parseDecimalString);
+  static const VR kDS = const VRShortString._(16, 0x4453, "DS", "Decimal String", 1, 16,
+      _isDecimalString, _decimalStringError, _parseDecimalString);
 }
 
 class VRLongString extends VR {
@@ -120,4 +118,3 @@ class VRLongString extends VR {
   static const VRLongString kUT =
       const VRLongString._(24, 0x5554, "UT", "Unlimited Text", _isDcmText, _dcmTextError);
 }
-

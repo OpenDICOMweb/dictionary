@@ -15,8 +15,8 @@ part 'sop_class.dart';
 part 'transfer_syntax.dart';
 part 'uid_string.dart';
 part 'uuid.dart';
-part 'wk_uid.dart';
 part 'well_known_frame_of_reference.dart';
+part 'wk_uid.dart';
 
 //TODO: cleanup documentation
 
@@ -30,7 +30,6 @@ part 'well_known_frame_of_reference.dart';
 ///   3. generated from random [Uuid]s. See <http://www.oid-info.com/get/2.25>
 ///
 
-
 /// A class that implements *DICOM Unique Identifiers* (UID) <*add link*>,
 /// also known as OSI *Object Identifiers* (OID), in accordance with
 /// Rec. ITU-T X.667 | ISO/IEC 9834-8. See <http://www.oid-info.com/get/2.25>
@@ -41,7 +40,6 @@ part 'well_known_frame_of_reference.dart';
 ///   3. generated from random [Uuid]s. See <http://www.oid-info.com/get/2.25>
 ///
 abstract class Uid {
-
   /// Returns a [Uid] how value is [String], if present and valid;
   /// otherwise, returns a random [Uid] created from a random [Uuid].
   ///

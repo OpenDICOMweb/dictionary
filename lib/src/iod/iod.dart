@@ -1,7 +1,7 @@
 // Copyright (c) 2016, Open DICOMweb Project. All rights reserved.
 // Use of this source code is governed by the open source license
 // that can be found in the LICENSE file.
-// Author: Jim Philbin <jfphilbin@gmail.edu> - 
+// Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
 import 'package:dictionary/src/vm.dart';
@@ -21,7 +21,7 @@ class IOD {
   final bool isRetired;
 
   const IOD(this.tag, this.keywordIndex, this.nameIndex, this.vrIndex, this.vmIndex,
-            this._vmMin, this._vmMax, this._vmWidth, this.aTypeIndex, this.isRetired);
+      this._vmMin, this._vmMax, this._vmWidth, this.aTypeIndex, this.isRetired);
 
   VR get vr => VR.vrs[vrIndex];
 
@@ -36,8 +36,6 @@ class IOD {
   bool vmInRange(int vfLength) => (vmMin <= vfLength) && (vfLength <= vmMax);
 
   static const IOD foo = const IOD(1, 1, 1, 1, 1, 1, 1, 1, 1, false);
-
-
 }
 
 const List<int> vrTable = const [0, 1, 2];

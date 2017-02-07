@@ -1,7 +1,7 @@
 // Copyright (c) 2016, Open DICOMweb Project. All rights reserved.
 // Use of this source code is governed by the open source license
 // that can be found in the LICENSE file.
-// Author: Jim Philbin <jfphilbin@gmail.edu> - 
+// Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
 import 'dart:io';
@@ -15,16 +15,16 @@ const String classPath = outputDir + '/private_creator_tag.dart';
 const String mapPath = outputDir + '/private_creator_map.dart';
 
 void main(args) {
-    var out;
-    File classFile = new File(classPath);
-    out = generateClass(privateCreatorsMap);
-    //print('class:\n $out');
-    classFile.writeAsStringSync(out);
+  var out;
+  File classFile = new File(classPath);
+  out = generateClass(privateCreatorsMap);
+  //print('class:\n $out');
+  classFile.writeAsStringSync(out);
 
-    File mapFile = new File(mapPath);
-    out = generatePrivateCreatorTagMap(privateCreatorsMap);
-    //print('class:\n $out');
-    mapFile.writeAsStringSync(out);
+  File mapFile = new File(mapPath);
+  out = generatePrivateCreatorTagMap(privateCreatorsMap);
+  //print('class:\n $out');
+  mapFile.writeAsStringSync(out);
 }
 
 String generateClass(Map<String, Map<int, PrivateDataTag>> map) {
@@ -38,7 +38,8 @@ String generateClass(Map<String, Map<int, PrivateDataTag>> map) {
     String args = '$i, "$token", ${generateDataMap(dMap)}';
     out += 'static const PrivateCreatorTag k$i =\n'
         '    const PrivateCreatorTag._($args);\n';
-  };
+  }
+  ;
   return out += '}\n';
 }
 
@@ -101,7 +102,6 @@ String generateDataMap(Map<int, PrivateDataTag> map) {
   });
   return out += '}\n';
 }
-
 
 String generatePrivateCreatorTagMap(Map<String, Map<int, PrivateDataTag>> map) {
   var out = '''

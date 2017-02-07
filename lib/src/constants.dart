@@ -16,7 +16,7 @@ const int kUidPaddingChar = 0;
 
 /// _Deprecated:_ Use [kMaxShortVFLength].
 @deprecated
-const int kMaxShortLengthInBytes  = 0xFFFF;
+const int kMaxShortLengthInBytes = 0xFFFF;
 
 /// The maximum length, in bytes, of a "short" (16-bit) Value Field.
 ///
@@ -40,4 +40,3 @@ bool hasUndefinedLength(int i) => i == kUndefinedLength;
 
 // Transfer Syntax
 const int transferSyntaxTag = 0x00020010;
-

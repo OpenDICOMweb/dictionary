@@ -10,7 +10,7 @@ import 'package:dictionary/src/tag/public_tag.dart';
 // ----------------------------------------------------------
 
 // Ordered List of all DICOM attributes
-  const Map<int, PublicTag> publicTagKeywordMap = const {
+const Map<int, PublicTag> publicTagKeywordMap = const {
   "AffectedSOPInstanceUID": PublicTag.kAffectedSOPInstanceUID,
   "RequestedSOPInstanceUID": PublicTag.kRequestedSOPInstanceUID,
   "FileMetaInformationGroupLength": PublicTag.kFileMetaInformationGroupLength,
@@ -27,14 +27,18 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "PrivateInformation": PublicTag.kPrivateInformation,
   "FileSetID": PublicTag.kFileSetID,
   "FileSetDescriptorFileID": PublicTag.kFileSetDescriptorFileID,
-  "SpecificCharacterSetOfFileSetDescriptorFile": PublicTag.kSpecificCharacterSetOfFileSetDescriptorFile,
-  "OffsetOfTheFirstDirectoryRecordOfTheRootDirectoryEntity": PublicTag.kOffsetOfTheFirstDirectoryRecordOfTheRootDirectoryEntity,
-  "OffsetOfTheLastDirectoryRecordOfTheRootDirectoryEntity": PublicTag.kOffsetOfTheLastDirectoryRecordOfTheRootDirectoryEntity,
+  "SpecificCharacterSetOfFileSetDescriptorFile":
+      PublicTag.kSpecificCharacterSetOfFileSetDescriptorFile,
+  "OffsetOfTheFirstDirectoryRecordOfTheRootDirectoryEntity":
+      PublicTag.kOffsetOfTheFirstDirectoryRecordOfTheRootDirectoryEntity,
+  "OffsetOfTheLastDirectoryRecordOfTheRootDirectoryEntity":
+      PublicTag.kOffsetOfTheLastDirectoryRecordOfTheRootDirectoryEntity,
   "FileSetConsistencyFlag": PublicTag.kFileSetConsistencyFlag,
   "DirectoryRecordSequence": PublicTag.kDirectoryRecordSequence,
   "OffsetOfTheNextDirectoryRecord": PublicTag.kOffsetOfTheNextDirectoryRecord,
   "RecordInUseFlag": PublicTag.kRecordInUseFlag,
-  "OffsetOfReferencedLowerLevelDirectoryEntity": PublicTag.kOffsetOfReferencedLowerLevelDirectoryEntity,
+  "OffsetOfReferencedLowerLevelDirectoryEntity":
+      PublicTag.kOffsetOfReferencedLowerLevelDirectoryEntity,
   "DirectoryRecordType": PublicTag.kDirectoryRecordType,
   "PrivateRecordUID": PublicTag.kPrivateRecordUID,
   "ReferencedFileID": PublicTag.kReferencedFileID,
@@ -91,7 +95,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "ReferringPhysicianName": PublicTag.kReferringPhysicianName,
   "ReferringPhysicianAddress": PublicTag.kReferringPhysicianAddress,
   "ReferringPhysicianTelephoneNumbers": PublicTag.kReferringPhysicianTelephoneNumbers,
-  "ReferringPhysicianIdentificationSequence": PublicTag.kReferringPhysicianIdentificationSequence,
+  "ReferringPhysicianIdentificationSequence":
+      PublicTag.kReferringPhysicianIdentificationSequence,
   "CodeValue": PublicTag.kCodeValue,
   "ExtendedCodeValue": PublicTag.kExtendedCodeValue,
   "CodingSchemeDesignator": PublicTag.kCodingSchemeDesignator,
@@ -120,11 +125,14 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "SeriesDescriptionCodeSequence": PublicTag.kSeriesDescriptionCodeSequence,
   "InstitutionalDepartmentName": PublicTag.kInstitutionalDepartmentName,
   "PhysiciansOfRecord": PublicTag.kPhysiciansOfRecord,
-  "PhysiciansOfRecordIdentificationSequence": PublicTag.kPhysiciansOfRecordIdentificationSequence,
+  "PhysiciansOfRecordIdentificationSequence":
+      PublicTag.kPhysiciansOfRecordIdentificationSequence,
   "PerformingPhysicianName": PublicTag.kPerformingPhysicianName,
-  "PerformingPhysicianIdentificationSequence": PublicTag.kPerformingPhysicianIdentificationSequence,
+  "PerformingPhysicianIdentificationSequence":
+      PublicTag.kPerformingPhysicianIdentificationSequence,
   "NameOfPhysiciansReadingStudy": PublicTag.kNameOfPhysiciansReadingStudy,
-  "PhysiciansReadingStudyIdentificationSequence": PublicTag.kPhysiciansReadingStudyIdentificationSequence,
+  "PhysiciansReadingStudyIdentificationSequence":
+      PublicTag.kPhysiciansReadingStudyIdentificationSequence,
   "OperatorsName": PublicTag.kOperatorsName,
   "OperatorIdentificationSequence": PublicTag.kOperatorIdentificationSequence,
   "AdmittingDiagnosesDescription": PublicTag.kAdmittingDiagnosesDescription,
@@ -132,17 +140,20 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "ManufacturerModelName": PublicTag.kManufacturerModelName,
   "ReferencedResultsSequence": PublicTag.kReferencedResultsSequence,
   "ReferencedStudySequence": PublicTag.kReferencedStudySequence,
-  "ReferencedPerformedProcedureStepSequence": PublicTag.kReferencedPerformedProcedureStepSequence,
+  "ReferencedPerformedProcedureStepSequence":
+      PublicTag.kReferencedPerformedProcedureStepSequence,
   "ReferencedSeriesSequence": PublicTag.kReferencedSeriesSequence,
   "ReferencedPatientSequence": PublicTag.kReferencedPatientSequence,
   "ReferencedVisitSequence": PublicTag.kReferencedVisitSequence,
   "ReferencedOverlaySequence": PublicTag.kReferencedOverlaySequence,
-  "ReferencedStereometricInstanceSequence": PublicTag.kReferencedStereometricInstanceSequence,
+  "ReferencedStereometricInstanceSequence":
+      PublicTag.kReferencedStereometricInstanceSequence,
   "ReferencedWaveformSequence": PublicTag.kReferencedWaveformSequence,
   "ReferencedImageSequence": PublicTag.kReferencedImageSequence,
   "ReferencedCurveSequence": PublicTag.kReferencedCurveSequence,
   "ReferencedInstanceSequence": PublicTag.kReferencedInstanceSequence,
-  "ReferencedRealWorldValueMappingInstanceSequence": PublicTag.kReferencedRealWorldValueMappingInstanceSequence,
+  "ReferencedRealWorldValueMappingInstanceSequence":
+      PublicTag.kReferencedRealWorldValueMappingInstanceSequence,
   "ReferencedSOPClassUID": PublicTag.kReferencedSOPClassUID,
   "ReferencedSOPInstanceUID": PublicTag.kReferencedSOPInstanceUID,
   "SOPClassesSupported": PublicTag.kSOPClassesSupported,
@@ -158,7 +169,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "FailureReason": PublicTag.kFailureReason,
   "FailedSOPSequence": PublicTag.kFailedSOPSequence,
   "ReferencedSOPSequence": PublicTag.kReferencedSOPSequence,
-  "StudiesContainingOtherReferencedInstancesSequence": PublicTag.kStudiesContainingOtherReferencedInstancesSequence,
+  "StudiesContainingOtherReferencedInstancesSequence":
+      PublicTag.kStudiesContainingOtherReferencedInstancesSequence,
   "RelatedSeriesSequence": PublicTag.kRelatedSeriesSequence,
   "LossyImageCompressionRetired": PublicTag.kLossyImageCompressionRetired,
   "DerivationDescription": PublicTag.kDerivationDescription,
@@ -184,21 +196,31 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "AnatomicRegionSequence": PublicTag.kAnatomicRegionSequence,
   "AnatomicRegionModifierSequence": PublicTag.kAnatomicRegionModifierSequence,
   "PrimaryAnatomicStructureSequence": PublicTag.kPrimaryAnatomicStructureSequence,
-  "AnatomicStructureSpaceOrRegionSequence": PublicTag.kAnatomicStructureSpaceOrRegionSequence,
-  "PrimaryAnatomicStructureModifierSequence": PublicTag.kPrimaryAnatomicStructureModifierSequence,
+  "AnatomicStructureSpaceOrRegionSequence":
+      PublicTag.kAnatomicStructureSpaceOrRegionSequence,
+  "PrimaryAnatomicStructureModifierSequence":
+      PublicTag.kPrimaryAnatomicStructureModifierSequence,
   "TransducerPositionSequence": PublicTag.kTransducerPositionSequence,
   "TransducerPositionModifierSequence": PublicTag.kTransducerPositionModifierSequence,
   "TransducerOrientationSequence": PublicTag.kTransducerOrientationSequence,
-  "TransducerOrientationModifierSequence": PublicTag.kTransducerOrientationModifierSequence,
-  "AnatomicStructureSpaceOrRegionCodeSequenceTrial": PublicTag.kAnatomicStructureSpaceOrRegionCodeSequenceTrial,
-  "AnatomicPortalOfEntranceCodeSequenceTrial": PublicTag.kAnatomicPortalOfEntranceCodeSequenceTrial,
-  "AnatomicApproachDirectionCodeSequenceTrial": PublicTag.kAnatomicApproachDirectionCodeSequenceTrial,
+  "TransducerOrientationModifierSequence":
+      PublicTag.kTransducerOrientationModifierSequence,
+  "AnatomicStructureSpaceOrRegionCodeSequenceTrial":
+      PublicTag.kAnatomicStructureSpaceOrRegionCodeSequenceTrial,
+  "AnatomicPortalOfEntranceCodeSequenceTrial":
+      PublicTag.kAnatomicPortalOfEntranceCodeSequenceTrial,
+  "AnatomicApproachDirectionCodeSequenceTrial":
+      PublicTag.kAnatomicApproachDirectionCodeSequenceTrial,
   "AnatomicPerspectiveDescriptionTrial": PublicTag.kAnatomicPerspectiveDescriptionTrial,
   "AnatomicPerspectiveCodeSequenceTrial": PublicTag.kAnatomicPerspectiveCodeSequenceTrial,
-  "AnatomicLocationOfExaminingInstrumentDescriptionTrial": PublicTag.kAnatomicLocationOfExaminingInstrumentDescriptionTrial,
-  "AnatomicLocationOfExaminingInstrumentCodeSequenceTrial": PublicTag.kAnatomicLocationOfExaminingInstrumentCodeSequenceTrial,
-  "AnatomicStructureSpaceOrRegionModifierCodeSequenceTrial": PublicTag.kAnatomicStructureSpaceOrRegionModifierCodeSequenceTrial,
-  "OnAxisBackgroundAnatomicStructureCodeSequenceTrial": PublicTag.kOnAxisBackgroundAnatomicStructureCodeSequenceTrial,
+  "AnatomicLocationOfExaminingInstrumentDescriptionTrial":
+      PublicTag.kAnatomicLocationOfExaminingInstrumentDescriptionTrial,
+  "AnatomicLocationOfExaminingInstrumentCodeSequenceTrial":
+      PublicTag.kAnatomicLocationOfExaminingInstrumentCodeSequenceTrial,
+  "AnatomicStructureSpaceOrRegionModifierCodeSequenceTrial":
+      PublicTag.kAnatomicStructureSpaceOrRegionModifierCodeSequenceTrial,
+  "OnAxisBackgroundAnatomicStructureCodeSequenceTrial":
+      PublicTag.kOnAxisBackgroundAnatomicStructureCodeSequenceTrial,
   "AlternateRepresentationSequence": PublicTag.kAlternateRepresentationSequence,
   "IrradiationEventUID": PublicTag.kIrradiationEventUID,
   "IdentifyingComments": PublicTag.kIdentifyingComments,
@@ -229,9 +251,11 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "PatientSex": PublicTag.kPatientSex,
   "PatientInsurancePlanCodeSequence": PublicTag.kPatientInsurancePlanCodeSequence,
   "PatientPrimaryLanguageCodeSequence": PublicTag.kPatientPrimaryLanguageCodeSequence,
-  "PatientPrimaryLanguageModifierCodeSequence": PublicTag.kPatientPrimaryLanguageModifierCodeSequence,
+  "PatientPrimaryLanguageModifierCodeSequence":
+      PublicTag.kPatientPrimaryLanguageModifierCodeSequence,
   "QualityControlSubject": PublicTag.kQualityControlSubject,
-  "QualityControlSubjectTypeCodeSequence": PublicTag.kQualityControlSubjectTypeCodeSequence,
+  "QualityControlSubjectTypeCodeSequence":
+      PublicTag.kQualityControlSubjectTypeCodeSequence,
   "OtherPatientIDs": PublicTag.kOtherPatientIDs,
   "OtherPatientNames": PublicTag.kOtherPatientNames,
   "OtherPatientIDsSequence": PublicTag.kOtherPatientIDsSequence,
@@ -288,8 +312,10 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "DeidentificationMethodCodeSequence": PublicTag.kDeidentificationMethodCodeSequence,
   "ClinicalTrialSeriesID": PublicTag.kClinicalTrialSeriesID,
   "ClinicalTrialSeriesDescription": PublicTag.kClinicalTrialSeriesDescription,
-  "ClinicalTrialProtocolEthicsCommitteeName": PublicTag.kClinicalTrialProtocolEthicsCommitteeName,
-  "ClinicalTrialProtocolEthicsCommitteeApprovalNumber": PublicTag.kClinicalTrialProtocolEthicsCommitteeApprovalNumber,
+  "ClinicalTrialProtocolEthicsCommitteeName":
+      PublicTag.kClinicalTrialProtocolEthicsCommitteeName,
+  "ClinicalTrialProtocolEthicsCommitteeApprovalNumber":
+      PublicTag.kClinicalTrialProtocolEthicsCommitteeApprovalNumber,
   "ConsentForClinicalTrialUseSequence": PublicTag.kConsentForClinicalTrialUseSequence,
   "DistributionType": PublicTag.kDistributionType,
   "ConsentForDistributionFlag": PublicTag.kConsentForDistributionFlag,
@@ -337,8 +363,10 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "TransformNumberOfAxes": PublicTag.kTransformNumberOfAxes,
   "TransformOrderOfAxes": PublicTag.kTransformOrderOfAxes,
   "TransformedAxisUnits": PublicTag.kTransformedAxisUnits,
-  "CoordinateSystemTransformRotationAndScaleMatrix": PublicTag.kCoordinateSystemTransformRotationAndScaleMatrix,
-  "CoordinateSystemTransformTranslationMatrix": PublicTag.kCoordinateSystemTransformTranslationMatrix,
+  "CoordinateSystemTransformRotationAndScaleMatrix":
+      PublicTag.kCoordinateSystemTransformRotationAndScaleMatrix,
+  "CoordinateSystemTransformTranslationMatrix":
+      PublicTag.kCoordinateSystemTransformTranslationMatrix,
   "InternalDetectorFrameTime": PublicTag.kInternalDetectorFrameTime,
   "NumberOfFramesIntegrated": PublicTag.kNumberOfFramesIntegrated,
   "DetectorTemperatureSequence": PublicTag.kDetectorTemperatureSequence,
@@ -446,7 +474,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "LINACOutput": PublicTag.kLINACOutput,
   "ContrastBolusAgent": PublicTag.kContrastBolusAgent,
   "ContrastBolusAgentSequence": PublicTag.kContrastBolusAgentSequence,
-  "ContrastBolusAdministrationRouteSequence": PublicTag.kContrastBolusAdministrationRouteSequence,
+  "ContrastBolusAdministrationRouteSequence":
+      PublicTag.kContrastBolusAdministrationRouteSequence,
   "BodyPartExamined": PublicTag.kBodyPartExamined,
   "ScanningSequence": PublicTag.kScanningSequence,
   "SequenceVariant": PublicTag.kSequenceVariant,
@@ -509,8 +538,10 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "TimeOfSecondaryCapture": PublicTag.kTimeOfSecondaryCapture,
   "SecondaryCaptureDeviceManufacturer": PublicTag.kSecondaryCaptureDeviceManufacturer,
   "HardcopyDeviceManufacturer": PublicTag.kHardcopyDeviceManufacturer,
-  "SecondaryCaptureDeviceManufacturerModelName": PublicTag.kSecondaryCaptureDeviceManufacturerModelName,
-  "SecondaryCaptureDeviceSoftwareVersions": PublicTag.kSecondaryCaptureDeviceSoftwareVersions,
+  "SecondaryCaptureDeviceManufacturerModelName":
+      PublicTag.kSecondaryCaptureDeviceManufacturerModelName,
+  "SecondaryCaptureDeviceSoftwareVersions":
+      PublicTag.kSecondaryCaptureDeviceSoftwareVersions,
   "HardcopyDeviceSoftwareVersion": PublicTag.kHardcopyDeviceSoftwareVersion,
   "HardcopyDeviceManufacturerModelName": PublicTag.kHardcopyDeviceManufacturerModelName,
   "SoftwareVersions": PublicTag.kSoftwareVersions,
@@ -564,7 +595,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "ReconstructionDiameter": PublicTag.kReconstructionDiameter,
   "DistanceSourceToDetector": PublicTag.kDistanceSourceToDetector,
   "DistanceSourceToPatient": PublicTag.kDistanceSourceToPatient,
-  "EstimatedRadiographicMagnificationFactor": PublicTag.kEstimatedRadiographicMagnificationFactor,
+  "EstimatedRadiographicMagnificationFactor":
+      PublicTag.kEstimatedRadiographicMagnificationFactor,
   "GantryDetectorTilt": PublicTag.kGantryDetectorTilt,
   "GantryDetectorSlew": PublicTag.kGantryDetectorSlew,
   "TableHeight": PublicTag.kTableHeight,
@@ -629,7 +661,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "VariableFlipAngleFlag": PublicTag.kVariableFlipAngleFlag,
   "SAR": PublicTag.kSAR,
   "dBdt": PublicTag.kdBdt,
-  "AcquisitionDeviceProcessingDescription": PublicTag.kAcquisitionDeviceProcessingDescription,
+  "AcquisitionDeviceProcessingDescription":
+      PublicTag.kAcquisitionDeviceProcessingDescription,
   "AcquisitionDeviceProcessingCode": PublicTag.kAcquisitionDeviceProcessingCode,
   "CassetteOrientation": PublicTag.kCassetteOrientation,
   "CassetteSize": PublicTag.kCassetteSize,
@@ -773,7 +806,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "DetectorID": PublicTag.kDetectorID,
   "DateOfLastDetectorCalibration": PublicTag.kDateOfLastDetectorCalibration,
   "TimeOfLastDetectorCalibration": PublicTag.kTimeOfLastDetectorCalibration,
-  "ExposuresOnDetectorSinceLastCalibration": PublicTag.kExposuresOnDetectorSinceLastCalibration,
+  "ExposuresOnDetectorSinceLastCalibration":
+      PublicTag.kExposuresOnDetectorSinceLastCalibration,
   "ExposuresOnDetectorSinceManufactured": PublicTag.kExposuresOnDetectorSinceManufactured,
   "DetectorTimeSinceLastExposure": PublicTag.kDetectorTimeSinceLastExposure,
   "DetectorActiveTime": PublicTag.kDetectorActiveTime,
@@ -790,7 +824,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "FieldOfViewRotation": PublicTag.kFieldOfViewRotation,
   "FieldOfViewHorizontalFlip": PublicTag.kFieldOfViewHorizontalFlip,
   "PixelDataAreaOriginRelativeToFOV": PublicTag.kPixelDataAreaOriginRelativeToFOV,
-  "PixelDataAreaRotationAngleRelativeToFOV": PublicTag.kPixelDataAreaRotationAngleRelativeToFOV,
+  "PixelDataAreaRotationAngleRelativeToFOV":
+      PublicTag.kPixelDataAreaRotationAngleRelativeToFOV,
   "GridAbsorbingMaterial": PublicTag.kGridAbsorbingMaterial,
   "GridSpacingMaterial": PublicTag.kGridSpacingMaterial,
   "GridThickness": PublicTag.kGridThickness,
@@ -886,7 +921,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "NumberOfKSpaceTrajectories": PublicTag.kNumberOfKSpaceTrajectories,
   "CoverageOfKSpace": PublicTag.kCoverageOfKSpace,
   "SpectroscopyAcquisitionPhaseRows": PublicTag.kSpectroscopyAcquisitionPhaseRows,
-  "ParallelReductionFactorInPlaneRetired": PublicTag.kParallelReductionFactorInPlaneRetired,
+  "ParallelReductionFactorInPlaneRetired":
+      PublicTag.kParallelReductionFactorInPlaneRetired,
   "TransmitterFrequency": PublicTag.kTransmitterFrequency,
   "ResonantNucleus": PublicTag.kResonantNucleus,
   "FrequencyCorrection": PublicTag.kFrequencyCorrection,
@@ -908,11 +944,13 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "FrameReferenceDateTime": PublicTag.kFrameReferenceDateTime,
   "MRMetaboliteMapSequence": PublicTag.kMRMetaboliteMapSequence,
   "ParallelReductionFactorOutOfPlane": PublicTag.kParallelReductionFactorOutOfPlane,
-  "SpectroscopyAcquisitionOutOfPlanePhaseSteps": PublicTag.kSpectroscopyAcquisitionOutOfPlanePhaseSteps,
+  "SpectroscopyAcquisitionOutOfPlanePhaseSteps":
+      PublicTag.kSpectroscopyAcquisitionOutOfPlanePhaseSteps,
   "BulkMotionStatus": PublicTag.kBulkMotionStatus,
   "ParallelReductionFactorSecondInPlane": PublicTag.kParallelReductionFactorSecondInPlane,
   "CardiacBeatRejectionTechnique": PublicTag.kCardiacBeatRejectionTechnique,
-  "RespiratoryMotionCompensationTechnique": PublicTag.kRespiratoryMotionCompensationTechnique,
+  "RespiratoryMotionCompensationTechnique":
+      PublicTag.kRespiratoryMotionCompensationTechnique,
   "RespiratorySignalSource": PublicTag.kRespiratorySignalSource,
   "BulkMotionCompensationTechnique": PublicTag.kBulkMotionCompensationTechnique,
   "BulkMotionSignalSource": PublicTag.kBulkMotionSignalSource,
@@ -927,10 +965,13 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "GradientOutput": PublicTag.kGradientOutput,
   "FlowCompensationDirection": PublicTag.kFlowCompensationDirection,
   "TaggingDelay": PublicTag.kTaggingDelay,
-  "RespiratoryMotionCompensationTechniqueDescription": PublicTag.kRespiratoryMotionCompensationTechniqueDescription,
+  "RespiratoryMotionCompensationTechniqueDescription":
+      PublicTag.kRespiratoryMotionCompensationTechniqueDescription,
   "RespiratorySignalSourceID": PublicTag.kRespiratorySignalSourceID,
-  "ChemicalShiftMinimumIntegrationLimitInHz": PublicTag.kChemicalShiftMinimumIntegrationLimitInHz,
-  "ChemicalShiftMaximumIntegrationLimitInHz": PublicTag.kChemicalShiftMaximumIntegrationLimitInHz,
+  "ChemicalShiftMinimumIntegrationLimitInHz":
+      PublicTag.kChemicalShiftMinimumIntegrationLimitInHz,
+  "ChemicalShiftMaximumIntegrationLimitInHz":
+      PublicTag.kChemicalShiftMaximumIntegrationLimitInHz,
   "MRVelocityEncodingSequence": PublicTag.kMRVelocityEncodingSequence,
   "FirstOrderPhaseCorrection": PublicTag.kFirstOrderPhaseCorrection,
   "WaterReferencedPhaseCorrection": PublicTag.kWaterReferencedPhaseCorrection,
@@ -942,8 +983,10 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "FrameAcquisitionDuration": PublicTag.kFrameAcquisitionDuration,
   "MRImageFrameTypeSequence": PublicTag.kMRImageFrameTypeSequence,
   "MRSpectroscopyFrameTypeSequence": PublicTag.kMRSpectroscopyFrameTypeSequence,
-  "MRAcquisitionPhaseEncodingStepsInPlane": PublicTag.kMRAcquisitionPhaseEncodingStepsInPlane,
-  "MRAcquisitionPhaseEncodingStepsOutOfPlane": PublicTag.kMRAcquisitionPhaseEncodingStepsOutOfPlane,
+  "MRAcquisitionPhaseEncodingStepsInPlane":
+      PublicTag.kMRAcquisitionPhaseEncodingStepsInPlane,
+  "MRAcquisitionPhaseEncodingStepsOutOfPlane":
+      PublicTag.kMRAcquisitionPhaseEncodingStepsOutOfPlane,
   "SpectroscopyAcquisitionPhaseColumns": PublicTag.kSpectroscopyAcquisitionPhaseColumns,
   "CardiacCyclePosition": PublicTag.kCardiacCyclePosition,
   "SpecificAbsorptionRateSequence": PublicTag.kSpecificAbsorptionRateSequence,
@@ -966,8 +1009,10 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "ASLBolusCutoffTechnique": PublicTag.kASLBolusCutoffTechnique,
   "ASLBolusCutoffDelayTime": PublicTag.kASLBolusCutoffDelayTime,
   "ASLSlabSequence": PublicTag.kASLSlabSequence,
-  "ChemicalShiftMinimumIntegrationLimitInppm": PublicTag.kChemicalShiftMinimumIntegrationLimitInppm,
-  "ChemicalShiftMaximumIntegrationLimitInppm": PublicTag.kChemicalShiftMaximumIntegrationLimitInppm,
+  "ChemicalShiftMinimumIntegrationLimitInppm":
+      PublicTag.kChemicalShiftMinimumIntegrationLimitInppm,
+  "ChemicalShiftMaximumIntegrationLimitInppm":
+      PublicTag.kChemicalShiftMaximumIntegrationLimitInppm,
   "CTAcquisitionTypeSequence": PublicTag.kCTAcquisitionTypeSequence,
   "AcquisitionType": PublicTag.kAcquisitionType,
   "TubeAngle": PublicTag.kTubeAngle,
@@ -1004,7 +1049,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "DistanceSourceToDataCollectionCenter": PublicTag.kDistanceSourceToDataCollectionCenter,
   "ContrastBolusAgentNumber": PublicTag.kContrastBolusAgentNumber,
   "ContrastBolusIngredientCodeSequence": PublicTag.kContrastBolusIngredientCodeSequence,
-  "ContrastAdministrationProfileSequence": PublicTag.kContrastAdministrationProfileSequence,
+  "ContrastAdministrationProfileSequence":
+      PublicTag.kContrastAdministrationProfileSequence,
   "ContrastBolusUsageSequence": PublicTag.kContrastBolusUsageSequence,
   "ContrastBolusAgentAdministered": PublicTag.kContrastBolusAgentAdministered,
   "ContrastBolusAgentDetected": PublicTag.kContrastBolusAgentDetected,
@@ -1029,22 +1075,31 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "AcquisitionProtocolName": PublicTag.kAcquisitionProtocolName,
   "AcquisitionProtocolDescription": PublicTag.kAcquisitionProtocolDescription,
   "ContrastBolusIngredientOpaque": PublicTag.kContrastBolusIngredientOpaque,
-  "DistanceReceptorPlaneToDetectorHousing": PublicTag.kDistanceReceptorPlaneToDetectorHousing,
+  "DistanceReceptorPlaneToDetectorHousing":
+      PublicTag.kDistanceReceptorPlaneToDetectorHousing,
   "IntensifierActiveShape": PublicTag.kIntensifierActiveShape,
   "IntensifierActiveDimensions": PublicTag.kIntensifierActiveDimensions,
   "PhysicalDetectorSize": PublicTag.kPhysicalDetectorSize,
   "PositionOfIsocenterProjection": PublicTag.kPositionOfIsocenterProjection,
   "FieldOfViewSequence": PublicTag.kFieldOfViewSequence,
   "FieldOfViewDescription": PublicTag.kFieldOfViewDescription,
-  "ExposureControlSensingRegionsSequence": PublicTag.kExposureControlSensingRegionsSequence,
+  "ExposureControlSensingRegionsSequence":
+      PublicTag.kExposureControlSensingRegionsSequence,
   "ExposureControlSensingRegionShape": PublicTag.kExposureControlSensingRegionShape,
-  "ExposureControlSensingRegionLeftVerticalEdge": PublicTag.kExposureControlSensingRegionLeftVerticalEdge,
-  "ExposureControlSensingRegionRightVerticalEdge": PublicTag.kExposureControlSensingRegionRightVerticalEdge,
-  "ExposureControlSensingRegionUpperHorizontalEdge": PublicTag.kExposureControlSensingRegionUpperHorizontalEdge,
-  "ExposureControlSensingRegionLowerHorizontalEdge": PublicTag.kExposureControlSensingRegionLowerHorizontalEdge,
-  "CenterOfCircularExposureControlSensingRegion": PublicTag.kCenterOfCircularExposureControlSensingRegion,
-  "RadiusOfCircularExposureControlSensingRegion": PublicTag.kRadiusOfCircularExposureControlSensingRegion,
-  "VerticesOfThePolygonalExposureControlSensingRegion": PublicTag.kVerticesOfThePolygonalExposureControlSensingRegion,
+  "ExposureControlSensingRegionLeftVerticalEdge":
+      PublicTag.kExposureControlSensingRegionLeftVerticalEdge,
+  "ExposureControlSensingRegionRightVerticalEdge":
+      PublicTag.kExposureControlSensingRegionRightVerticalEdge,
+  "ExposureControlSensingRegionUpperHorizontalEdge":
+      PublicTag.kExposureControlSensingRegionUpperHorizontalEdge,
+  "ExposureControlSensingRegionLowerHorizontalEdge":
+      PublicTag.kExposureControlSensingRegionLowerHorizontalEdge,
+  "CenterOfCircularExposureControlSensingRegion":
+      PublicTag.kCenterOfCircularExposureControlSensingRegion,
+  "RadiusOfCircularExposureControlSensingRegion":
+      PublicTag.kRadiusOfCircularExposureControlSensingRegion,
+  "VerticesOfThePolygonalExposureControlSensingRegion":
+      PublicTag.kVerticesOfThePolygonalExposureControlSensingRegion,
   "NoName0": PublicTag.kNoName0,
   "ColumnAngulationPatient": PublicTag.kColumnAngulationPatient,
   "BeamAngle": PublicTag.kBeamAngle,
@@ -1057,7 +1112,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "IsocenterReferenceSystemSequence": PublicTag.kIsocenterReferenceSystemSequence,
   "PositionerIsocenterPrimaryAngle": PublicTag.kPositionerIsocenterPrimaryAngle,
   "PositionerIsocenterSecondaryAngle": PublicTag.kPositionerIsocenterSecondaryAngle,
-  "PositionerIsocenterDetectorRotationAngle": PublicTag.kPositionerIsocenterDetectorRotationAngle,
+  "PositionerIsocenterDetectorRotationAngle":
+      PublicTag.kPositionerIsocenterDetectorRotationAngle,
   "TableXPositionToIsocenter": PublicTag.kTableXPositionToIsocenter,
   "TableYPositionToIsocenter": PublicTag.kTableYPositionToIsocenter,
   "TableZPositionToIsocenter": PublicTag.kTableZPositionToIsocenter,
@@ -1068,7 +1124,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "AcquiredImageAreaDoseProduct": PublicTag.kAcquiredImageAreaDoseProduct,
   "CArmPositionerTabletopRelationship": PublicTag.kCArmPositionerTabletopRelationship,
   "XRayGeometrySequence": PublicTag.kXRayGeometrySequence,
-  "IrradiationEventIdentificationSequence": PublicTag.kIrradiationEventIdentificationSequence,
+  "IrradiationEventIdentificationSequence":
+      PublicTag.kIrradiationEventIdentificationSequence,
   "XRay3DFrameTypeSequence": PublicTag.kXRay3DFrameTypeSequence,
   "ContributingSourcesSequence": PublicTag.kContributingSourcesSequence,
   "XRay3DAcquisitionSequence": PublicTag.kXRay3DAcquisitionSequence,
@@ -1097,15 +1154,19 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "DiffusionBValueZZ": PublicTag.kDiffusionBValueZZ,
   "DecayCorrectionDateTime": PublicTag.kDecayCorrectionDateTime,
   "StartDensityThreshold": PublicTag.kStartDensityThreshold,
-  "StartRelativeDensityDifferenceThreshold": PublicTag.kStartRelativeDensityDifferenceThreshold,
+  "StartRelativeDensityDifferenceThreshold":
+      PublicTag.kStartRelativeDensityDifferenceThreshold,
   "StartCardiacTriggerCountThreshold": PublicTag.kStartCardiacTriggerCountThreshold,
-  "StartRespiratoryTriggerCountThreshold": PublicTag.kStartRespiratoryTriggerCountThreshold,
+  "StartRespiratoryTriggerCountThreshold":
+      PublicTag.kStartRespiratoryTriggerCountThreshold,
   "TerminationCountsThreshold": PublicTag.kTerminationCountsThreshold,
   "TerminationDensityThreshold": PublicTag.kTerminationDensityThreshold,
   "TerminationRelativeDensityThreshold": PublicTag.kTerminationRelativeDensityThreshold,
   "TerminationTimeThreshold": PublicTag.kTerminationTimeThreshold,
-  "TerminationCardiacTriggerCountThreshold": PublicTag.kTerminationCardiacTriggerCountThreshold,
-  "TerminationRespiratoryTriggerCountThreshold": PublicTag.kTerminationRespiratoryTriggerCountThreshold,
+  "TerminationCardiacTriggerCountThreshold":
+      PublicTag.kTerminationCardiacTriggerCountThreshold,
+  "TerminationRespiratoryTriggerCountThreshold":
+      PublicTag.kTerminationRespiratoryTriggerCountThreshold,
   "DetectorGeometry": PublicTag.kDetectorGeometry,
   "TransverseDetectorSeparation": PublicTag.kTransverseDetectorSeparation,
   "AxialDetectorDimension": PublicTag.kAxialDetectorDimension,
@@ -1135,9 +1196,11 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "SensitivityCalibrated": PublicTag.kSensitivityCalibrated,
   "DetectorNormalizationCorrection": PublicTag.kDetectorNormalizationCorrection,
   "IterativeReconstructionMethod": PublicTag.kIterativeReconstructionMethod,
-  "AttenuationCorrectionTemporalRelationship": PublicTag.kAttenuationCorrectionTemporalRelationship,
+  "AttenuationCorrectionTemporalRelationship":
+      PublicTag.kAttenuationCorrectionTemporalRelationship,
   "PatientPhysiologicalStateSequence": PublicTag.kPatientPhysiologicalStateSequence,
-  "PatientPhysiologicalStateCodeSequence": PublicTag.kPatientPhysiologicalStateCodeSequence,
+  "PatientPhysiologicalStateCodeSequence":
+      PublicTag.kPatientPhysiologicalStateCodeSequence,
   "DepthsOfFocus": PublicTag.kDepthsOfFocus,
   "ExcludedIntervalsSequence": PublicTag.kExcludedIntervalsSequence,
   "ExclusionStartDateTime": PublicTag.kExclusionStartDateTime,
@@ -1212,7 +1275,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "ModifiedImageDescription": PublicTag.kModifiedImageDescription,
   "ImageComments": PublicTag.kImageComments,
   "OriginalImageIdentification": PublicTag.kOriginalImageIdentification,
-  "OriginalImageIdentificationNomenclature": PublicTag.kOriginalImageIdentificationNomenclature,
+  "OriginalImageIdentificationNomenclature":
+      PublicTag.kOriginalImageIdentificationNomenclature,
   "StackID": PublicTag.kStackID,
   "InStackPositionNumber": PublicTag.kInStackPositionNumber,
   "FrameAnatomySequence": PublicTag.kFrameAnatomySequence,
@@ -1222,7 +1286,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "PlaneOrientationSequence": PublicTag.kPlaneOrientationSequence,
   "TemporalPositionIndex": PublicTag.kTemporalPositionIndex,
   "NominalCardiacTriggerDelayTime": PublicTag.kNominalCardiacTriggerDelayTime,
-  "NominalCardiacTriggerTimePriorToRPeak": PublicTag.kNominalCardiacTriggerTimePriorToRPeak,
+  "NominalCardiacTriggerTimePriorToRPeak":
+      PublicTag.kNominalCardiacTriggerTimePriorToRPeak,
   "ActualCardiacTriggerTimePriorToRPeak": PublicTag.kActualCardiacTriggerTimePriorToRPeak,
   "FrameAcquisitionNumber": PublicTag.kFrameAcquisitionNumber,
   "DimensionIndexValues": PublicTag.kDimensionIndexValues,
@@ -1233,8 +1298,10 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "DimensionOrganizationUID": PublicTag.kDimensionOrganizationUID,
   "DimensionIndexPointer": PublicTag.kDimensionIndexPointer,
   "FunctionalGroupPointer": PublicTag.kFunctionalGroupPointer,
-  "UnassignedSharedConvertedAttributesSequence": PublicTag.kUnassignedSharedConvertedAttributesSequence,
-  "UnassignedPerFrameConvertedAttributesSequence": PublicTag.kUnassignedPerFrameConvertedAttributesSequence,
+  "UnassignedSharedConvertedAttributesSequence":
+      PublicTag.kUnassignedSharedConvertedAttributesSequence,
+  "UnassignedPerFrameConvertedAttributesSequence":
+      PublicTag.kUnassignedPerFrameConvertedAttributesSequence,
   "ConversionSourceAttributesSequence": PublicTag.kConversionSourceAttributesSequence,
   "DimensionIndexPrivateCreator": PublicTag.kDimensionIndexPrivateCreator,
   "DimensionOrganizationSequence": PublicTag.kDimensionOrganizationSequence,
@@ -1273,14 +1340,16 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "PatientOrientationInFrameSequence": PublicTag.kPatientOrientationInFrameSequence,
   "FrameLabel": PublicTag.kFrameLabel,
   "AcquisitionIndex": PublicTag.kAcquisitionIndex,
-  "ContributingSOPInstancesReferenceSequence": PublicTag.kContributingSOPInstancesReferenceSequence,
+  "ContributingSOPInstancesReferenceSequence":
+      PublicTag.kContributingSOPInstancesReferenceSequence,
   "ReconstructionIndex": PublicTag.kReconstructionIndex,
   "LightPathFilterPassThroughWavelength": PublicTag.kLightPathFilterPassThroughWavelength,
   "LightPathFilterPassBand": PublicTag.kLightPathFilterPassBand,
   "ImagePathFilterPassThroughWavelength": PublicTag.kImagePathFilterPassThroughWavelength,
   "ImagePathFilterPassBand": PublicTag.kImagePathFilterPassBand,
   "PatientEyeMovementCommanded": PublicTag.kPatientEyeMovementCommanded,
-  "PatientEyeMovementCommandCodeSequence": PublicTag.kPatientEyeMovementCommandCodeSequence,
+  "PatientEyeMovementCommandCodeSequence":
+      PublicTag.kPatientEyeMovementCommandCodeSequence,
   "SphericalLensPower": PublicTag.kSphericalLensPower,
   "CylinderLensPower": PublicTag.kCylinderLensPower,
   "CylinderAxis": PublicTag.kCylinderAxis,
@@ -1316,7 +1385,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "MaximumAlongScanDistortion": PublicTag.kMaximumAlongScanDistortion,
   "OphthalmicImageOrientation": PublicTag.kOphthalmicImageOrientation,
   "DepthOfTransverseImage": PublicTag.kDepthOfTransverseImage,
-  "MydriaticAgentConcentrationUnitsSequence": PublicTag.kMydriaticAgentConcentrationUnitsSequence,
+  "MydriaticAgentConcentrationUnitsSequence":
+      PublicTag.kMydriaticAgentConcentrationUnitsSequence,
   "AcrossScanSpatialResolution": PublicTag.kAcrossScanSpatialResolution,
   "MaximumAcrossScanDistortion": PublicTag.kMaximumAcrossScanDistortion,
   "MydriaticAgentConcentration": PublicTag.kMydriaticAgentConcentration,
@@ -1324,10 +1394,14 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "IlluminationPower": PublicTag.kIlluminationPower,
   "IlluminationBandwidth": PublicTag.kIlluminationBandwidth,
   "MydriaticAgentSequence": PublicTag.kMydriaticAgentSequence,
-  "OphthalmicAxialMeasurementsRightEyeSequence": PublicTag.kOphthalmicAxialMeasurementsRightEyeSequence,
-  "OphthalmicAxialMeasurementsLeftEyeSequence": PublicTag.kOphthalmicAxialMeasurementsLeftEyeSequence,
-  "OphthalmicAxialMeasurementsDeviceType": PublicTag.kOphthalmicAxialMeasurementsDeviceType,
-  "OphthalmicAxialLengthMeasurementsType": PublicTag.kOphthalmicAxialLengthMeasurementsType,
+  "OphthalmicAxialMeasurementsRightEyeSequence":
+      PublicTag.kOphthalmicAxialMeasurementsRightEyeSequence,
+  "OphthalmicAxialMeasurementsLeftEyeSequence":
+      PublicTag.kOphthalmicAxialMeasurementsLeftEyeSequence,
+  "OphthalmicAxialMeasurementsDeviceType":
+      PublicTag.kOphthalmicAxialMeasurementsDeviceType,
+  "OphthalmicAxialLengthMeasurementsType":
+      PublicTag.kOphthalmicAxialLengthMeasurementsType,
   "OphthalmicAxialLengthSequence": PublicTag.kOphthalmicAxialLengthSequence,
   "OphthalmicAxialLength": PublicTag.kOphthalmicAxialLength,
   "LensStatusCodeSequence": PublicTag.kLensStatusCodeSequence,
@@ -1335,12 +1409,15 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "IOLFormulaCodeSequence": PublicTag.kIOLFormulaCodeSequence,
   "IOLFormulaDetail": PublicTag.kIOLFormulaDetail,
   "KeratometerIndex": PublicTag.kKeratometerIndex,
-  "SourceOfOphthalmicAxialLengthCodeSequence": PublicTag.kSourceOfOphthalmicAxialLengthCodeSequence,
+  "SourceOfOphthalmicAxialLengthCodeSequence":
+      PublicTag.kSourceOfOphthalmicAxialLengthCodeSequence,
   "TargetRefraction": PublicTag.kTargetRefraction,
   "RefractiveProcedureOccurred": PublicTag.kRefractiveProcedureOccurred,
   "RefractiveSurgeryTypeCodeSequence": PublicTag.kRefractiveSurgeryTypeCodeSequence,
-  "OphthalmicUltrasoundMethodCodeSequence": PublicTag.kOphthalmicUltrasoundMethodCodeSequence,
-  "OphthalmicAxialLengthMeasurementsSequence": PublicTag.kOphthalmicAxialLengthMeasurementsSequence,
+  "OphthalmicUltrasoundMethodCodeSequence":
+      PublicTag.kOphthalmicUltrasoundMethodCodeSequence,
+  "OphthalmicAxialLengthMeasurementsSequence":
+      PublicTag.kOphthalmicAxialLengthMeasurementsSequence,
   "IOLPower": PublicTag.kIOLPower,
   "PredictedRefractiveError": PublicTag.kPredictedRefractiveError,
   "OphthalmicAxialLengthVelocity": PublicTag.kOphthalmicAxialLengthVelocity,
@@ -1351,60 +1428,97 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "IOLManufacturer": PublicTag.kIOLManufacturer,
   "LensConstantDescription": PublicTag.kLensConstantDescription,
   "ImplantName": PublicTag.kImplantName,
-  "KeratometryMeasurementTypeCodeSequence": PublicTag.kKeratometryMeasurementTypeCodeSequence,
+  "KeratometryMeasurementTypeCodeSequence":
+      PublicTag.kKeratometryMeasurementTypeCodeSequence,
   "ImplantPartNumber": PublicTag.kImplantPartNumber,
-  "ReferencedOphthalmicAxialMeasurementsSequence": PublicTag.kReferencedOphthalmicAxialMeasurementsSequence,
-  "OphthalmicAxialLengthMeasurementsSegmentNameCodeSequence": PublicTag.kOphthalmicAxialLengthMeasurementsSegmentNameCodeSequence,
-  "RefractiveErrorBeforeRefractiveSurgeryCodeSequence": PublicTag.kRefractiveErrorBeforeRefractiveSurgeryCodeSequence,
+  "ReferencedOphthalmicAxialMeasurementsSequence":
+      PublicTag.kReferencedOphthalmicAxialMeasurementsSequence,
+  "OphthalmicAxialLengthMeasurementsSegmentNameCodeSequence":
+      PublicTag.kOphthalmicAxialLengthMeasurementsSegmentNameCodeSequence,
+  "RefractiveErrorBeforeRefractiveSurgeryCodeSequence":
+      PublicTag.kRefractiveErrorBeforeRefractiveSurgeryCodeSequence,
   "IOLPowerForExactEmmetropia": PublicTag.kIOLPowerForExactEmmetropia,
   "IOLPowerForExactTargetRefraction": PublicTag.kIOLPowerForExactTargetRefraction,
-  "AnteriorChamberDepthDefinitionCodeSequence": PublicTag.kAnteriorChamberDepthDefinitionCodeSequence,
+  "AnteriorChamberDepthDefinitionCodeSequence":
+      PublicTag.kAnteriorChamberDepthDefinitionCodeSequence,
   "LensThicknessSequence": PublicTag.kLensThicknessSequence,
   "AnteriorChamberDepthSequence": PublicTag.kAnteriorChamberDepthSequence,
   "LensThickness": PublicTag.kLensThickness,
   "AnteriorChamberDepth": PublicTag.kAnteriorChamberDepth,
-  "SourceOfLensThicknessDataCodeSequence": PublicTag.kSourceOfLensThicknessDataCodeSequence,
-  "SourceOfAnteriorChamberDepthDataCodeSequence": PublicTag.kSourceOfAnteriorChamberDepthDataCodeSequence,
-  "SourceOfRefractiveMeasurementsSequence": PublicTag.kSourceOfRefractiveMeasurementsSequence,
-  "SourceOfRefractiveMeasurementsCodeSequence": PublicTag.kSourceOfRefractiveMeasurementsCodeSequence,
-  "OphthalmicAxialLengthMeasurementModified": PublicTag.kOphthalmicAxialLengthMeasurementModified,
-  "OphthalmicAxialLengthDataSourceCodeSequence": PublicTag.kOphthalmicAxialLengthDataSourceCodeSequence,
-  "OphthalmicAxialLengthAcquisitionMethodCodeSequence": PublicTag.kOphthalmicAxialLengthAcquisitionMethodCodeSequence,
+  "SourceOfLensThicknessDataCodeSequence":
+      PublicTag.kSourceOfLensThicknessDataCodeSequence,
+  "SourceOfAnteriorChamberDepthDataCodeSequence":
+      PublicTag.kSourceOfAnteriorChamberDepthDataCodeSequence,
+  "SourceOfRefractiveMeasurementsSequence":
+      PublicTag.kSourceOfRefractiveMeasurementsSequence,
+  "SourceOfRefractiveMeasurementsCodeSequence":
+      PublicTag.kSourceOfRefractiveMeasurementsCodeSequence,
+  "OphthalmicAxialLengthMeasurementModified":
+      PublicTag.kOphthalmicAxialLengthMeasurementModified,
+  "OphthalmicAxialLengthDataSourceCodeSequence":
+      PublicTag.kOphthalmicAxialLengthDataSourceCodeSequence,
+  "OphthalmicAxialLengthAcquisitionMethodCodeSequence":
+      PublicTag.kOphthalmicAxialLengthAcquisitionMethodCodeSequence,
   "SignalToNoiseRatio": PublicTag.kSignalToNoiseRatio,
-  "OphthalmicAxialLengthDataSourceDescription": PublicTag.kOphthalmicAxialLengthDataSourceDescription,
-  "OphthalmicAxialLengthMeasurementsTotalLengthSequence": PublicTag.kOphthalmicAxialLengthMeasurementsTotalLengthSequence,
-  "OphthalmicAxialLengthMeasurementsSegmentalLengthSequence": PublicTag.kOphthalmicAxialLengthMeasurementsSegmentalLengthSequence,
-  "OphthalmicAxialLengthMeasurementsLengthSummationSequence": PublicTag.kOphthalmicAxialLengthMeasurementsLengthSummationSequence,
-  "UltrasoundOphthalmicAxialLengthMeasurementsSequence": PublicTag.kUltrasoundOphthalmicAxialLengthMeasurementsSequence,
-  "OpticalOphthalmicAxialLengthMeasurementsSequence": PublicTag.kOpticalOphthalmicAxialLengthMeasurementsSequence,
-  "UltrasoundSelectedOphthalmicAxialLengthSequence": PublicTag.kUltrasoundSelectedOphthalmicAxialLengthSequence,
-  "OphthalmicAxialLengthSelectionMethodCodeSequence": PublicTag.kOphthalmicAxialLengthSelectionMethodCodeSequence,
-  "OpticalSelectedOphthalmicAxialLengthSequence": PublicTag.kOpticalSelectedOphthalmicAxialLengthSequence,
-  "SelectedSegmentalOphthalmicAxialLengthSequence": PublicTag.kSelectedSegmentalOphthalmicAxialLengthSequence,
-  "SelectedTotalOphthalmicAxialLengthSequence": PublicTag.kSelectedTotalOphthalmicAxialLengthSequence,
-  "OphthalmicAxialLengthQualityMetricSequence": PublicTag.kOphthalmicAxialLengthQualityMetricSequence,
-  "OphthalmicAxialLengthQualityMetricTypeCodeSequence": PublicTag.kOphthalmicAxialLengthQualityMetricTypeCodeSequence,
-  "OphthalmicAxialLengthQualityMetricTypeDescription": PublicTag.kOphthalmicAxialLengthQualityMetricTypeDescription,
-  "IntraocularLensCalculationsRightEyeSequence": PublicTag.kIntraocularLensCalculationsRightEyeSequence,
-  "IntraocularLensCalculationsLeftEyeSequence": PublicTag.kIntraocularLensCalculationsLeftEyeSequence,
-  "ReferencedOphthalmicAxialLengthMeasurementQCImageSequence": PublicTag.kReferencedOphthalmicAxialLengthMeasurementQCImageSequence,
+  "OphthalmicAxialLengthDataSourceDescription":
+      PublicTag.kOphthalmicAxialLengthDataSourceDescription,
+  "OphthalmicAxialLengthMeasurementsTotalLengthSequence":
+      PublicTag.kOphthalmicAxialLengthMeasurementsTotalLengthSequence,
+  "OphthalmicAxialLengthMeasurementsSegmentalLengthSequence":
+      PublicTag.kOphthalmicAxialLengthMeasurementsSegmentalLengthSequence,
+  "OphthalmicAxialLengthMeasurementsLengthSummationSequence":
+      PublicTag.kOphthalmicAxialLengthMeasurementsLengthSummationSequence,
+  "UltrasoundOphthalmicAxialLengthMeasurementsSequence":
+      PublicTag.kUltrasoundOphthalmicAxialLengthMeasurementsSequence,
+  "OpticalOphthalmicAxialLengthMeasurementsSequence":
+      PublicTag.kOpticalOphthalmicAxialLengthMeasurementsSequence,
+  "UltrasoundSelectedOphthalmicAxialLengthSequence":
+      PublicTag.kUltrasoundSelectedOphthalmicAxialLengthSequence,
+  "OphthalmicAxialLengthSelectionMethodCodeSequence":
+      PublicTag.kOphthalmicAxialLengthSelectionMethodCodeSequence,
+  "OpticalSelectedOphthalmicAxialLengthSequence":
+      PublicTag.kOpticalSelectedOphthalmicAxialLengthSequence,
+  "SelectedSegmentalOphthalmicAxialLengthSequence":
+      PublicTag.kSelectedSegmentalOphthalmicAxialLengthSequence,
+  "SelectedTotalOphthalmicAxialLengthSequence":
+      PublicTag.kSelectedTotalOphthalmicAxialLengthSequence,
+  "OphthalmicAxialLengthQualityMetricSequence":
+      PublicTag.kOphthalmicAxialLengthQualityMetricSequence,
+  "OphthalmicAxialLengthQualityMetricTypeCodeSequence":
+      PublicTag.kOphthalmicAxialLengthQualityMetricTypeCodeSequence,
+  "OphthalmicAxialLengthQualityMetricTypeDescription":
+      PublicTag.kOphthalmicAxialLengthQualityMetricTypeDescription,
+  "IntraocularLensCalculationsRightEyeSequence":
+      PublicTag.kIntraocularLensCalculationsRightEyeSequence,
+  "IntraocularLensCalculationsLeftEyeSequence":
+      PublicTag.kIntraocularLensCalculationsLeftEyeSequence,
+  "ReferencedOphthalmicAxialLengthMeasurementQCImageSequence":
+      PublicTag.kReferencedOphthalmicAxialLengthMeasurementQCImageSequence,
   "OphthalmicMappingDeviceType": PublicTag.kOphthalmicMappingDeviceType,
   "AcquisitionMethodCodeSequence": PublicTag.kAcquisitionMethodCodeSequence,
   "AcquisitionMethodAlgorithmSequence": PublicTag.kAcquisitionMethodAlgorithmSequence,
-  "OphthalmicThicknessMapTypeCodeSequence": PublicTag.kOphthalmicThicknessMapTypeCodeSequence,
-  "OphthalmicThicknessMappingNormalsSequence": PublicTag.kOphthalmicThicknessMappingNormalsSequence,
-  "RetinalThicknessDefinitionCodeSequence": PublicTag.kRetinalThicknessDefinitionCodeSequence,
-  "PixelValueMappingToCodedConceptSequence": PublicTag.kPixelValueMappingToCodedConceptSequence,
+  "OphthalmicThicknessMapTypeCodeSequence":
+      PublicTag.kOphthalmicThicknessMapTypeCodeSequence,
+  "OphthalmicThicknessMappingNormalsSequence":
+      PublicTag.kOphthalmicThicknessMappingNormalsSequence,
+  "RetinalThicknessDefinitionCodeSequence":
+      PublicTag.kRetinalThicknessDefinitionCodeSequence,
+  "PixelValueMappingToCodedConceptSequence":
+      PublicTag.kPixelValueMappingToCodedConceptSequence,
   "MappedPixelValue": PublicTag.kMappedPixelValue,
   "PixelValueMappingExplanation": PublicTag.kPixelValueMappingExplanation,
-  "OphthalmicThicknessMapQualityThresholdSequence": PublicTag.kOphthalmicThicknessMapQualityThresholdSequence,
-  "OphthalmicThicknessMapThresholdQualityRating": PublicTag.kOphthalmicThicknessMapThresholdQualityRating,
+  "OphthalmicThicknessMapQualityThresholdSequence":
+      PublicTag.kOphthalmicThicknessMapQualityThresholdSequence,
+  "OphthalmicThicknessMapThresholdQualityRating":
+      PublicTag.kOphthalmicThicknessMapThresholdQualityRating,
   "AnatomicStructureReferencePoint": PublicTag.kAnatomicStructureReferencePoint,
   "RegistrationToLocalizerSequence": PublicTag.kRegistrationToLocalizerSequence,
   "RegisteredLocalizerUnits": PublicTag.kRegisteredLocalizerUnits,
   "RegisteredLocalizerTopLeftHandCorner": PublicTag.kRegisteredLocalizerTopLeftHandCorner,
-  "RegisteredLocalizerBottomRightHandCorner": PublicTag.kRegisteredLocalizerBottomRightHandCorner,
-  "OphthalmicThicknessMapQualityRatingSequence": PublicTag.kOphthalmicThicknessMapQualityRatingSequence,
+  "RegisteredLocalizerBottomRightHandCorner":
+      PublicTag.kRegisteredLocalizerBottomRightHandCorner,
+  "OphthalmicThicknessMapQualityRatingSequence":
+      PublicTag.kOphthalmicThicknessMapQualityRatingSequence,
   "RelevantOPTAttributesSequence": PublicTag.kRelevantOPTAttributesSequence,
   "VisualFieldHorizontalExtent": PublicTag.kVisualFieldHorizontalExtent,
   "VisualFieldVerticalExtent": PublicTag.kVisualFieldVerticalExtent,
@@ -1413,7 +1527,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "MaximumStimulusLuminance": PublicTag.kMaximumStimulusLuminance,
   "BackgroundLuminance": PublicTag.kBackgroundLuminance,
   "StimulusColorCodeSequence": PublicTag.kStimulusColorCodeSequence,
-  "BackgroundIlluminationColorCodeSequence": PublicTag.kBackgroundIlluminationColorCodeSequence,
+  "BackgroundIlluminationColorCodeSequence":
+      PublicTag.kBackgroundIlluminationColorCodeSequence,
   "StimulusArea": PublicTag.kStimulusArea,
   "StimulusPresentationTime": PublicTag.kStimulusPresentationTime,
   "FixationSequence": PublicTag.kFixationSequence,
@@ -1426,7 +1541,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "ExcessiveFixationLossesDataFlag": PublicTag.kExcessiveFixationLossesDataFlag,
   "ExcessiveFixationLosses": PublicTag.kExcessiveFixationLosses,
   "StimuliRetestingQuantity": PublicTag.kStimuliRetestingQuantity,
-  "CommentsOnPatientPerformanceOfVisualField": PublicTag.kCommentsOnPatientPerformanceOfVisualField,
+  "CommentsOnPatientPerformanceOfVisualField":
+      PublicTag.kCommentsOnPatientPerformanceOfVisualField,
   "FalseNegativesEstimateFlag": PublicTag.kFalseNegativesEstimateFlag,
   "FalseNegativesEstimate": PublicTag.kFalseNegativesEstimate,
   "NegativeCatchTrialsQuantity": PublicTag.kNegativeCatchTrialsQuantity,
@@ -1439,15 +1555,18 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "PositiveCatchTrialsQuantity": PublicTag.kPositiveCatchTrialsQuantity,
   "TestPointNormalsDataFlag": PublicTag.kTestPointNormalsDataFlag,
   "TestPointNormalsSequence": PublicTag.kTestPointNormalsSequence,
-  "GlobalDeviationProbabilityNormalsFlag": PublicTag.kGlobalDeviationProbabilityNormalsFlag,
+  "GlobalDeviationProbabilityNormalsFlag":
+      PublicTag.kGlobalDeviationProbabilityNormalsFlag,
   "FalsePositivesQuantity": PublicTag.kFalsePositivesQuantity,
   "ExcessiveFalsePositivesDataFlag": PublicTag.kExcessiveFalsePositivesDataFlag,
   "ExcessiveFalsePositives": PublicTag.kExcessiveFalsePositives,
   "VisualFieldTestNormalsFlag": PublicTag.kVisualFieldTestNormalsFlag,
   "ResultsNormalsSequence": PublicTag.kResultsNormalsSequence,
-  "AgeCorrectedSensitivityDeviationAlgorithmSequence": PublicTag.kAgeCorrectedSensitivityDeviationAlgorithmSequence,
+  "AgeCorrectedSensitivityDeviationAlgorithmSequence":
+      PublicTag.kAgeCorrectedSensitivityDeviationAlgorithmSequence,
   "GlobalDeviationFromNormal": PublicTag.kGlobalDeviationFromNormal,
-  "GeneralizedDefectSensitivityDeviationAlgorithmSequence": PublicTag.kGeneralizedDefectSensitivityDeviationAlgorithmSequence,
+  "GeneralizedDefectSensitivityDeviationAlgorithmSequence":
+      PublicTag.kGeneralizedDefectSensitivityDeviationAlgorithmSequence,
   "LocalizedDeviationFromNormal": PublicTag.kLocalizedDeviationFromNormal,
   "PatientReliabilityIndicator": PublicTag.kPatientReliabilityIndicator,
   "VisualFieldMeanSensitivity": PublicTag.kVisualFieldMeanSensitivity,
@@ -1456,40 +1575,54 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "LocalizedDeviationProbability": PublicTag.kLocalizedDeviationProbability,
   "ShortTermFluctuationCalculated": PublicTag.kShortTermFluctuationCalculated,
   "ShortTermFluctuation": PublicTag.kShortTermFluctuation,
-  "ShortTermFluctuationProbabilityCalculated": PublicTag.kShortTermFluctuationProbabilityCalculated,
+  "ShortTermFluctuationProbabilityCalculated":
+      PublicTag.kShortTermFluctuationProbabilityCalculated,
   "ShortTermFluctuationProbability": PublicTag.kShortTermFluctuationProbability,
-  "CorrectedLocalizedDeviationFromNormalCalculated": PublicTag.kCorrectedLocalizedDeviationFromNormalCalculated,
-  "CorrectedLocalizedDeviationFromNormal": PublicTag.kCorrectedLocalizedDeviationFromNormal,
-  "CorrectedLocalizedDeviationFromNormalProbabilityCalculated": PublicTag.kCorrectedLocalizedDeviationFromNormalProbabilityCalculated,
-  "CorrectedLocalizedDeviationFromNormalProbability": PublicTag.kCorrectedLocalizedDeviationFromNormalProbability,
+  "CorrectedLocalizedDeviationFromNormalCalculated":
+      PublicTag.kCorrectedLocalizedDeviationFromNormalCalculated,
+  "CorrectedLocalizedDeviationFromNormal":
+      PublicTag.kCorrectedLocalizedDeviationFromNormal,
+  "CorrectedLocalizedDeviationFromNormalProbabilityCalculated":
+      PublicTag.kCorrectedLocalizedDeviationFromNormalProbabilityCalculated,
+  "CorrectedLocalizedDeviationFromNormalProbability":
+      PublicTag.kCorrectedLocalizedDeviationFromNormalProbability,
   "GlobalDeviationProbabilitySequence": PublicTag.kGlobalDeviationProbabilitySequence,
-  "LocalizedDeviationProbabilitySequence": PublicTag.kLocalizedDeviationProbabilitySequence,
+  "LocalizedDeviationProbabilitySequence":
+      PublicTag.kLocalizedDeviationProbabilitySequence,
   "FovealSensitivityMeasured": PublicTag.kFovealSensitivityMeasured,
   "FovealSensitivity": PublicTag.kFovealSensitivity,
   "VisualFieldTestDuration": PublicTag.kVisualFieldTestDuration,
   "VisualFieldTestPointSequence": PublicTag.kVisualFieldTestPointSequence,
   "VisualFieldTestPointXCoordinate": PublicTag.kVisualFieldTestPointXCoordinate,
   "VisualFieldTestPointYCoordinate": PublicTag.kVisualFieldTestPointYCoordinate,
-  "AgeCorrectedSensitivityDeviationValue": PublicTag.kAgeCorrectedSensitivityDeviationValue,
+  "AgeCorrectedSensitivityDeviationValue":
+      PublicTag.kAgeCorrectedSensitivityDeviationValue,
   "StimulusResults": PublicTag.kStimulusResults,
   "SensitivityValue": PublicTag.kSensitivityValue,
   "RetestStimulusSeen": PublicTag.kRetestStimulusSeen,
   "RetestSensitivityValue": PublicTag.kRetestSensitivityValue,
   "VisualFieldTestPointNormalsSequence": PublicTag.kVisualFieldTestPointNormalsSequence,
   "QuantifiedDefect": PublicTag.kQuantifiedDefect,
-  "AgeCorrectedSensitivityDeviationProbabilityValue": PublicTag.kAgeCorrectedSensitivityDeviationProbabilityValue,
-  "GeneralizedDefectCorrectedSensitivityDeviationFlag": PublicTag.kGeneralizedDefectCorrectedSensitivityDeviationFlag,
-  "GeneralizedDefectCorrectedSensitivityDeviationValue": PublicTag.kGeneralizedDefectCorrectedSensitivityDeviationValue,
-  "GeneralizedDefectCorrectedSensitivityDeviationProbabilityValue": PublicTag.kGeneralizedDefectCorrectedSensitivityDeviationProbabilityValue,
+  "AgeCorrectedSensitivityDeviationProbabilityValue":
+      PublicTag.kAgeCorrectedSensitivityDeviationProbabilityValue,
+  "GeneralizedDefectCorrectedSensitivityDeviationFlag":
+      PublicTag.kGeneralizedDefectCorrectedSensitivityDeviationFlag,
+  "GeneralizedDefectCorrectedSensitivityDeviationValue":
+      PublicTag.kGeneralizedDefectCorrectedSensitivityDeviationValue,
+  "GeneralizedDefectCorrectedSensitivityDeviationProbabilityValue":
+      PublicTag.kGeneralizedDefectCorrectedSensitivityDeviationProbabilityValue,
   "MinimumSensitivityValue": PublicTag.kMinimumSensitivityValue,
   "BlindSpotLocalized": PublicTag.kBlindSpotLocalized,
   "BlindSpotXCoordinate": PublicTag.kBlindSpotXCoordinate,
   "BlindSpotYCoordinate": PublicTag.kBlindSpotYCoordinate,
   "VisualAcuityMeasurementSequence": PublicTag.kVisualAcuityMeasurementSequence,
-  "RefractiveParametersUsedOnPatientSequence": PublicTag.kRefractiveParametersUsedOnPatientSequence,
+  "RefractiveParametersUsedOnPatientSequence":
+      PublicTag.kRefractiveParametersUsedOnPatientSequence,
   "MeasurementLaterality": PublicTag.kMeasurementLaterality,
-  "OphthalmicPatientClinicalInformationLeftEyeSequence": PublicTag.kOphthalmicPatientClinicalInformationLeftEyeSequence,
-  "OphthalmicPatientClinicalInformationRightEyeSequence": PublicTag.kOphthalmicPatientClinicalInformationRightEyeSequence,
+  "OphthalmicPatientClinicalInformationLeftEyeSequence":
+      PublicTag.kOphthalmicPatientClinicalInformationLeftEyeSequence,
+  "OphthalmicPatientClinicalInformationRightEyeSequence":
+      PublicTag.kOphthalmicPatientClinicalInformationRightEyeSequence,
   "FovealPointNormativeDataFlag": PublicTag.kFovealPointNormativeDataFlag,
   "FovealPointProbabilityValue": PublicTag.kFovealPointProbabilityValue,
   "ScreeningBaselineMeasured": PublicTag.kScreeningBaselineMeasured,
@@ -1501,8 +1634,10 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "DataSetVersion": PublicTag.kDataSetVersion,
   "DataSetSource": PublicTag.kDataSetSource,
   "DataSetDescription": PublicTag.kDataSetDescription,
-  "VisualFieldTestReliabilityGlobalIndexSequence": PublicTag.kVisualFieldTestReliabilityGlobalIndexSequence,
-  "VisualFieldGlobalResultsIndexSequence": PublicTag.kVisualFieldGlobalResultsIndexSequence,
+  "VisualFieldTestReliabilityGlobalIndexSequence":
+      PublicTag.kVisualFieldTestReliabilityGlobalIndexSequence,
+  "VisualFieldGlobalResultsIndexSequence":
+      PublicTag.kVisualFieldGlobalResultsIndexSequence,
   "DataObservationSequence": PublicTag.kDataObservationSequence,
   "IndexNormalsFlag": PublicTag.kIndexNormalsFlag,
   "IndexProbability": PublicTag.kIndexProbability,
@@ -1564,7 +1699,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "QualityControlImage": PublicTag.kQualityControlImage,
   "BurnedInAnnotation": PublicTag.kBurnedInAnnotation,
   "RecognizableVisualFeatures": PublicTag.kRecognizableVisualFeatures,
-  "LongitudinalTemporalInformationModified": PublicTag.kLongitudinalTemporalInformationModified,
+  "LongitudinalTemporalInformationModified":
+      PublicTag.kLongitudinalTemporalInformationModified,
   "ReferencedColorPaletteInstanceUID": PublicTag.kReferencedColorPaletteInstanceUID,
   "TransformLabel": PublicTag.kTransformLabel,
   "TransformVersionNumber": PublicTag.kTransformVersionNumber,
@@ -1600,12 +1736,18 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "RecommendedViewingMode": PublicTag.kRecommendedViewingMode,
   "GrayLookupTableDescriptor": PublicTag.kGrayLookupTableDescriptor,
   "RedPaletteColorLookupTableDescriptor": PublicTag.kRedPaletteColorLookupTableDescriptor,
-  "GreenPaletteColorLookupTableDescriptor": PublicTag.kGreenPaletteColorLookupTableDescriptor,
-  "BluePaletteColorLookupTableDescriptor": PublicTag.kBluePaletteColorLookupTableDescriptor,
-  "AlphaPaletteColorLookupTableDescriptor": PublicTag.kAlphaPaletteColorLookupTableDescriptor,
-  "LargeRedPaletteColorLookupTableDescriptor": PublicTag.kLargeRedPaletteColorLookupTableDescriptor,
-  "LargeGreenPaletteColorLookupTableDescriptor": PublicTag.kLargeGreenPaletteColorLookupTableDescriptor,
-  "LargeBluePaletteColorLookupTableDescriptor": PublicTag.kLargeBluePaletteColorLookupTableDescriptor,
+  "GreenPaletteColorLookupTableDescriptor":
+      PublicTag.kGreenPaletteColorLookupTableDescriptor,
+  "BluePaletteColorLookupTableDescriptor":
+      PublicTag.kBluePaletteColorLookupTableDescriptor,
+  "AlphaPaletteColorLookupTableDescriptor":
+      PublicTag.kAlphaPaletteColorLookupTableDescriptor,
+  "LargeRedPaletteColorLookupTableDescriptor":
+      PublicTag.kLargeRedPaletteColorLookupTableDescriptor,
+  "LargeGreenPaletteColorLookupTableDescriptor":
+      PublicTag.kLargeGreenPaletteColorLookupTableDescriptor,
+  "LargeBluePaletteColorLookupTableDescriptor":
+      PublicTag.kLargeBluePaletteColorLookupTableDescriptor,
   "PaletteColorLookupTableUID": PublicTag.kPaletteColorLookupTableUID,
   "GrayLookupTableData": PublicTag.kGrayLookupTableData,
   "RedPaletteColorLookupTableData": PublicTag.kRedPaletteColorLookupTableData,
@@ -1613,12 +1755,16 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "BluePaletteColorLookupTableData": PublicTag.kBluePaletteColorLookupTableData,
   "AlphaPaletteColorLookupTableData": PublicTag.kAlphaPaletteColorLookupTableData,
   "LargeRedPaletteColorLookupTableData": PublicTag.kLargeRedPaletteColorLookupTableData,
-  "LargeGreenPaletteColorLookupTableData": PublicTag.kLargeGreenPaletteColorLookupTableData,
+  "LargeGreenPaletteColorLookupTableData":
+      PublicTag.kLargeGreenPaletteColorLookupTableData,
   "LargeBluePaletteColorLookupTableData": PublicTag.kLargeBluePaletteColorLookupTableData,
   "LargePaletteColorLookupTableUID": PublicTag.kLargePaletteColorLookupTableUID,
-  "SegmentedRedPaletteColorLookupTableData": PublicTag.kSegmentedRedPaletteColorLookupTableData,
-  "SegmentedGreenPaletteColorLookupTableData": PublicTag.kSegmentedGreenPaletteColorLookupTableData,
-  "SegmentedBluePaletteColorLookupTableData": PublicTag.kSegmentedBluePaletteColorLookupTableData,
+  "SegmentedRedPaletteColorLookupTableData":
+      PublicTag.kSegmentedRedPaletteColorLookupTableData,
+  "SegmentedGreenPaletteColorLookupTableData":
+      PublicTag.kSegmentedGreenPaletteColorLookupTableData,
+  "SegmentedBluePaletteColorLookupTableData":
+      PublicTag.kSegmentedBluePaletteColorLookupTableData,
   "BreastImplantPresent": PublicTag.kBreastImplantPresent,
   "PartialView": PublicTag.kPartialView,
   "PartialViewDescription": PublicTag.kPartialViewDescription,
@@ -1632,7 +1778,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "BlendingWeightConstant": PublicTag.kBlendingWeightConstant,
   "BlendingLookupTableDescriptor": PublicTag.kBlendingLookupTableDescriptor,
   "BlendingLookupTableData": PublicTag.kBlendingLookupTableData,
-  "EnhancedPaletteColorLookupTableSequence": PublicTag.kEnhancedPaletteColorLookupTableSequence,
+  "EnhancedPaletteColorLookupTableSequence":
+      PublicTag.kEnhancedPaletteColorLookupTableSequence,
   "BlendingLUT2Sequence": PublicTag.kBlendingLUT2Sequence,
   "BlendingLUT2TransferFunction": PublicTag.kBlendingLUT2TransferFunction,
   "DataPathID": PublicTag.kDataPathID,
@@ -1678,7 +1825,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "DisplayFilterPercentage": PublicTag.kDisplayFilterPercentage,
   "FramePixelShiftSequence": PublicTag.kFramePixelShiftSequence,
   "SubtractionItemID": PublicTag.kSubtractionItemID,
-  "PixelIntensityRelationshipLUTSequence": PublicTag.kPixelIntensityRelationshipLUTSequence,
+  "PixelIntensityRelationshipLUTSequence":
+      PublicTag.kPixelIntensityRelationshipLUTSequence,
   "FramePixelDataPropertiesSequence": PublicTag.kFramePixelDataPropertiesSequence,
   "GeometricalProperties": PublicTag.kGeometricalProperties,
   "GeometricMaximumDistortion": PublicTag.kGeometricMaximumDistortion,
@@ -1693,7 +1841,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "PixelShiftFrameRange": PublicTag.kPixelShiftFrameRange,
   "LUTFrameRange": PublicTag.kLUTFrameRange,
   "ImageToEquipmentMappingMatrix": PublicTag.kImageToEquipmentMappingMatrix,
-  "EquipmentCoordinateSystemIdentification": PublicTag.kEquipmentCoordinateSystemIdentification,
+  "EquipmentCoordinateSystemIdentification":
+      PublicTag.kEquipmentCoordinateSystemIdentification,
   "StudyStatusID": PublicTag.kStudyStatusID,
   "StudyPriorityID": PublicTag.kStudyPriorityID,
   "StudyIDIssuer": PublicTag.kStudyIDIssuer,
@@ -1708,7 +1857,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "ScheduledStudyLocation": PublicTag.kScheduledStudyLocation,
   "ScheduledStudyLocationAETitle": PublicTag.kScheduledStudyLocationAETitle,
   "ReasonForStudy": PublicTag.kReasonForStudy,
-  "RequestingPhysicianIdentificationSequence": PublicTag.kRequestingPhysicianIdentificationSequence,
+  "RequestingPhysicianIdentificationSequence":
+      PublicTag.kRequestingPhysicianIdentificationSequence,
   "RequestingPhysician": PublicTag.kRequestingPhysician,
   "RequestingService": PublicTag.kRequestingService,
   "RequestingServiceCodeSequence": PublicTag.kRequestingServiceCodeSequence,
@@ -1747,7 +1897,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "CurrentPatientLocation": PublicTag.kCurrentPatientLocation,
   "PatientInstitutionResidence": PublicTag.kPatientInstitutionResidence,
   "PatientState": PublicTag.kPatientState,
-  "PatientClinicalTrialParticipationSequence": PublicTag.kPatientClinicalTrialParticipationSequence,
+  "PatientClinicalTrialParticipationSequence":
+      PublicTag.kPatientClinicalTrialParticipationSequence,
   "VisitComments": PublicTag.kVisitComments,
   "WaveformOriginality": PublicTag.kWaveformOriginality,
   "NumberOfWaveformChannels": PublicTag.kNumberOfWaveformChannels,
@@ -1784,7 +1935,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "DisplayShadingFlag": PublicTag.kDisplayShadingFlag,
   "FractionalChannelDisplayScale": PublicTag.kFractionalChannelDisplayScale,
   "AbsoluteChannelDisplayScale": PublicTag.kAbsoluteChannelDisplayScale,
-  "MultiplexedAudioChannelsDescriptionCodeSequence": PublicTag.kMultiplexedAudioChannelsDescriptionCodeSequence,
+  "MultiplexedAudioChannelsDescriptionCodeSequence":
+      PublicTag.kMultiplexedAudioChannelsDescriptionCodeSequence,
   "ChannelIdentificationCode": PublicTag.kChannelIdentificationCode,
   "ChannelMode": PublicTag.kChannelMode,
   "ScheduledStationAETitle": PublicTag.kScheduledStationAETitle,
@@ -1797,7 +1949,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "ScheduledProtocolCodeSequence": PublicTag.kScheduledProtocolCodeSequence,
   "ScheduledProcedureStepID": PublicTag.kScheduledProcedureStepID,
   "StageCodeSequence": PublicTag.kStageCodeSequence,
-  "ScheduledPerformingPhysicianIdentificationSequence": PublicTag.kScheduledPerformingPhysicianIdentificationSequence,
+  "ScheduledPerformingPhysicianIdentificationSequence":
+      PublicTag.kScheduledPerformingPhysicianIdentificationSequence,
   "ScheduledStationName": PublicTag.kScheduledStationName,
   "ScheduledProcedureStepLocation": PublicTag.kScheduledProcedureStepLocation,
   "PreMedication": PublicTag.kPreMedication,
@@ -1810,9 +1963,11 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "IdentifierTypeCode": PublicTag.kIdentifierTypeCode,
   "AssigningFacilitySequence": PublicTag.kAssigningFacilitySequence,
   "AssigningJurisdictionCodeSequence": PublicTag.kAssigningJurisdictionCodeSequence,
-  "AssigningAgencyOrDepartmentCodeSequence": PublicTag.kAssigningAgencyOrDepartmentCodeSequence,
+  "AssigningAgencyOrDepartmentCodeSequence":
+      PublicTag.kAssigningAgencyOrDepartmentCodeSequence,
   "ScheduledProcedureStepSequence": PublicTag.kScheduledProcedureStepSequence,
-  "ReferencedNonImageCompositeSOPInstanceSequence": PublicTag.kReferencedNonImageCompositeSOPInstanceSequence,
+  "ReferencedNonImageCompositeSOPInstanceSequence":
+      PublicTag.kReferencedNonImageCompositeSOPInstanceSequence,
   "PerformedStationAETitle": PublicTag.kPerformedStationAETitle,
   "PerformedStationName": PublicTag.kPerformedStationName,
   "PerformedLocation": PublicTag.kPerformedLocation,
@@ -1829,7 +1984,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "ScheduledStepAttributesSequence": PublicTag.kScheduledStepAttributesSequence,
   "RequestAttributesSequence": PublicTag.kRequestAttributesSequence,
   "CommentsOnThePerformedProcedureStep": PublicTag.kCommentsOnThePerformedProcedureStep,
-  "PerformedProcedureStepDiscontinuationReasonCodeSequence": PublicTag.kPerformedProcedureStepDiscontinuationReasonCodeSequence,
+  "PerformedProcedureStepDiscontinuationReasonCodeSequence":
+      PublicTag.kPerformedProcedureStepDiscontinuationReasonCodeSequence,
   "QuantitySequence": PublicTag.kQuantitySequence,
   "Quantity": PublicTag.kQuantity,
   "MeasuringUnitsSequence": PublicTag.kMeasuringUnitsSequence,
@@ -1857,7 +2013,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "ScheduledSpecimenSequence": PublicTag.kScheduledSpecimenSequence,
   "SpecimenAccessionNumber": PublicTag.kSpecimenAccessionNumber,
   "ContainerIdentifier": PublicTag.kContainerIdentifier,
-  "IssuerOfTheContainerIdentifierSequence": PublicTag.kIssuerOfTheContainerIdentifierSequence,
+  "IssuerOfTheContainerIdentifierSequence":
+      PublicTag.kIssuerOfTheContainerIdentifierSequence,
   "AlternateContainerIdentifierSequence": PublicTag.kAlternateContainerIdentifierSequence,
   "ContainerTypeCodeSequence": PublicTag.kContainerTypeCodeSequence,
   "ContainerDescription": PublicTag.kContainerDescription,
@@ -1871,12 +2028,15 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "AcquisitionContextDescription": PublicTag.kAcquisitionContextDescription,
   "SpecimenTypeCodeSequence": PublicTag.kSpecimenTypeCodeSequence,
   "SpecimenDescriptionSequence": PublicTag.kSpecimenDescriptionSequence,
-  "IssuerOfTheSpecimenIdentifierSequence": PublicTag.kIssuerOfTheSpecimenIdentifierSequence,
+  "IssuerOfTheSpecimenIdentifierSequence":
+      PublicTag.kIssuerOfTheSpecimenIdentifierSequence,
   "SpecimenShortDescription": PublicTag.kSpecimenShortDescription,
   "SpecimenDetailedDescription": PublicTag.kSpecimenDetailedDescription,
   "SpecimenPreparationSequence": PublicTag.kSpecimenPreparationSequence,
-  "SpecimenPreparationStepContentItemSequence": PublicTag.kSpecimenPreparationStepContentItemSequence,
-  "SpecimenLocalizationContentItemSequence": PublicTag.kSpecimenLocalizationContentItemSequence,
+  "SpecimenPreparationStepContentItemSequence":
+      PublicTag.kSpecimenPreparationStepContentItemSequence,
+  "SpecimenLocalizationContentItemSequence":
+      PublicTag.kSpecimenLocalizationContentItemSequence,
   "SlideIdentifier": PublicTag.kSlideIdentifier,
   "ImageCenterPointCoordinatesSequence": PublicTag.kImageCenterPointCoordinatesSequence,
   "XOffsetInSlideCoordinateSystem": PublicTag.kXOffsetInSlideCoordinateSystem,
@@ -1895,10 +2055,13 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "FillerOrderNumberProcedure": PublicTag.kFillerOrderNumberProcedure,
   "ConfidentialityCode": PublicTag.kConfidentialityCode,
   "ReportingPriority": PublicTag.kReportingPriority,
-  "ReasonForRequestedProcedureCodeSequence": PublicTag.kReasonForRequestedProcedureCodeSequence,
+  "ReasonForRequestedProcedureCodeSequence":
+      PublicTag.kReasonForRequestedProcedureCodeSequence,
   "NamesOfIntendedRecipientsOfResults": PublicTag.kNamesOfIntendedRecipientsOfResults,
-  "IntendedRecipientsOfResultsIdentificationSequence": PublicTag.kIntendedRecipientsOfResultsIdentificationSequence,
-  "ReasonForPerformedProcedureCodeSequence": PublicTag.kReasonForPerformedProcedureCodeSequence,
+  "IntendedRecipientsOfResultsIdentificationSequence":
+      PublicTag.kIntendedRecipientsOfResultsIdentificationSequence,
+  "ReasonForPerformedProcedureCodeSequence":
+      PublicTag.kReasonForPerformedProcedureCodeSequence,
   "RequestedProcedureDescriptionTrial": PublicTag.kRequestedProcedureDescriptionTrial,
   "PersonIdentificationCodeSequence": PublicTag.kPersonIdentificationCodeSequence,
   "PersonAddress": PublicTag.kPersonAddress,
@@ -1907,40 +2070,57 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "ReasonForTheImagingServiceRequest": PublicTag.kReasonForTheImagingServiceRequest,
   "IssueDateOfImagingServiceRequest": PublicTag.kIssueDateOfImagingServiceRequest,
   "IssueTimeOfImagingServiceRequest": PublicTag.kIssueTimeOfImagingServiceRequest,
-  "PlacerOrderNumberImagingServiceRequestRetired": PublicTag.kPlacerOrderNumberImagingServiceRequestRetired,
-  "FillerOrderNumberImagingServiceRequestRetired": PublicTag.kFillerOrderNumberImagingServiceRequestRetired,
+  "PlacerOrderNumberImagingServiceRequestRetired":
+      PublicTag.kPlacerOrderNumberImagingServiceRequestRetired,
+  "FillerOrderNumberImagingServiceRequestRetired":
+      PublicTag.kFillerOrderNumberImagingServiceRequestRetired,
   "OrderEnteredBy": PublicTag.kOrderEnteredBy,
   "OrderEntererLocation": PublicTag.kOrderEntererLocation,
   "OrderCallbackPhoneNumber": PublicTag.kOrderCallbackPhoneNumber,
-  "PlacerOrderNumberImagingServiceRequest": PublicTag.kPlacerOrderNumberImagingServiceRequest,
-  "FillerOrderNumberImagingServiceRequest": PublicTag.kFillerOrderNumberImagingServiceRequest,
+  "PlacerOrderNumberImagingServiceRequest":
+      PublicTag.kPlacerOrderNumberImagingServiceRequest,
+  "FillerOrderNumberImagingServiceRequest":
+      PublicTag.kFillerOrderNumberImagingServiceRequest,
   "ImagingServiceRequestComments": PublicTag.kImagingServiceRequestComments,
-  "ConfidentialityConstraintOnPatientDataDescription": PublicTag.kConfidentialityConstraintOnPatientDataDescription,
-  "GeneralPurposeScheduledProcedureStepStatus": PublicTag.kGeneralPurposeScheduledProcedureStepStatus,
-  "GeneralPurposePerformedProcedureStepStatus": PublicTag.kGeneralPurposePerformedProcedureStepStatus,
-  "GeneralPurposeScheduledProcedureStepPriority": PublicTag.kGeneralPurposeScheduledProcedureStepPriority,
-  "ScheduledProcessingApplicationsCodeSequence": PublicTag.kScheduledProcessingApplicationsCodeSequence,
+  "ConfidentialityConstraintOnPatientDataDescription":
+      PublicTag.kConfidentialityConstraintOnPatientDataDescription,
+  "GeneralPurposeScheduledProcedureStepStatus":
+      PublicTag.kGeneralPurposeScheduledProcedureStepStatus,
+  "GeneralPurposePerformedProcedureStepStatus":
+      PublicTag.kGeneralPurposePerformedProcedureStepStatus,
+  "GeneralPurposeScheduledProcedureStepPriority":
+      PublicTag.kGeneralPurposeScheduledProcedureStepPriority,
+  "ScheduledProcessingApplicationsCodeSequence":
+      PublicTag.kScheduledProcessingApplicationsCodeSequence,
   "ScheduledProcedureStepStartDateTime": PublicTag.kScheduledProcedureStepStartDateTime,
   "MultipleCopiesFlag": PublicTag.kMultipleCopiesFlag,
-  "PerformedProcessingApplicationsCodeSequence": PublicTag.kPerformedProcessingApplicationsCodeSequence,
+  "PerformedProcessingApplicationsCodeSequence":
+      PublicTag.kPerformedProcessingApplicationsCodeSequence,
   "HumanPerformerCodeSequence": PublicTag.kHumanPerformerCodeSequence,
-  "ScheduledProcedureStepModificationDateTime": PublicTag.kScheduledProcedureStepModificationDateTime,
+  "ScheduledProcedureStepModificationDateTime":
+      PublicTag.kScheduledProcedureStepModificationDateTime,
   "ExpectedCompletionDateTime": PublicTag.kExpectedCompletionDateTime,
-  "ResultingGeneralPurposePerformedProcedureStepsSequence": PublicTag.kResultingGeneralPurposePerformedProcedureStepsSequence,
-  "ReferencedGeneralPurposeScheduledProcedureStepSequence": PublicTag.kReferencedGeneralPurposeScheduledProcedureStepSequence,
+  "ResultingGeneralPurposePerformedProcedureStepsSequence":
+      PublicTag.kResultingGeneralPurposePerformedProcedureStepsSequence,
+  "ReferencedGeneralPurposeScheduledProcedureStepSequence":
+      PublicTag.kReferencedGeneralPurposeScheduledProcedureStepSequence,
   "ScheduledWorkitemCodeSequence": PublicTag.kScheduledWorkitemCodeSequence,
   "PerformedWorkitemCodeSequence": PublicTag.kPerformedWorkitemCodeSequence,
   "InputAvailabilityFlag": PublicTag.kInputAvailabilityFlag,
   "InputInformationSequence": PublicTag.kInputInformationSequence,
   "RelevantInformationSequence": PublicTag.kRelevantInformationSequence,
-  "ReferencedGeneralPurposeScheduledProcedureStepTransactionUID": PublicTag.kReferencedGeneralPurposeScheduledProcedureStepTransactionUID,
+  "ReferencedGeneralPurposeScheduledProcedureStepTransactionUID":
+      PublicTag.kReferencedGeneralPurposeScheduledProcedureStepTransactionUID,
   "ScheduledStationNameCodeSequence": PublicTag.kScheduledStationNameCodeSequence,
   "ScheduledStationClassCodeSequence": PublicTag.kScheduledStationClassCodeSequence,
-  "ScheduledStationGeographicLocationCodeSequence": PublicTag.kScheduledStationGeographicLocationCodeSequence,
+  "ScheduledStationGeographicLocationCodeSequence":
+      PublicTag.kScheduledStationGeographicLocationCodeSequence,
   "PerformedStationNameCodeSequence": PublicTag.kPerformedStationNameCodeSequence,
   "PerformedStationClassCodeSequence": PublicTag.kPerformedStationClassCodeSequence,
-  "PerformedStationGeographicLocationCodeSequence": PublicTag.kPerformedStationGeographicLocationCodeSequence,
-  "RequestedSubsequentWorkitemCodeSequence": PublicTag.kRequestedSubsequentWorkitemCodeSequence,
+  "PerformedStationGeographicLocationCodeSequence":
+      PublicTag.kPerformedStationGeographicLocationCodeSequence,
+  "RequestedSubsequentWorkitemCodeSequence":
+      PublicTag.kRequestedSubsequentWorkitemCodeSequence,
   "NonDICOMOutputCodeSequence": PublicTag.kNonDICOMOutputCodeSequence,
   "OutputInformationSequence": PublicTag.kOutputInformationSequence,
   "ScheduledHumanPerformersSequence": PublicTag.kScheduledHumanPerformersSequence,
@@ -1953,7 +2133,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "PerformedProcedureStepEndDateTime": PublicTag.kPerformedProcedureStepEndDateTime,
   "ProcedureStepCancellationDateTime": PublicTag.kProcedureStepCancellationDateTime,
   "EntranceDoseInmGy": PublicTag.kEntranceDoseInmGy,
-  "ReferencedImageRealWorldValueMappingSequence": PublicTag.kReferencedImageRealWorldValueMappingSequence,
+  "ReferencedImageRealWorldValueMappingSequence":
+      PublicTag.kReferencedImageRealWorldValueMappingSequence,
   "RealWorldValueMappingSequence": PublicTag.kRealWorldValueMappingSequence,
   "PixelValueMappingCodeSequence": PublicTag.kPixelValueMappingCodeSequence,
   "LUTLabel": PublicTag.kLUTLabel,
@@ -1969,9 +2150,11 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "ReferencedFindingsGroupUIDTrial": PublicTag.kReferencedFindingsGroupUIDTrial,
   "FindingsGroupRecordingDateTrial": PublicTag.kFindingsGroupRecordingDateTrial,
   "FindingsGroupRecordingTimeTrial": PublicTag.kFindingsGroupRecordingTimeTrial,
-  "FindingsSourceCategoryCodeSequenceTrial": PublicTag.kFindingsSourceCategoryCodeSequenceTrial,
+  "FindingsSourceCategoryCodeSequenceTrial":
+      PublicTag.kFindingsSourceCategoryCodeSequenceTrial,
   "VerifyingOrganization": PublicTag.kVerifyingOrganization,
-  "DocumentingOrganizationIdentifierCodeSequenceTrial": PublicTag.kDocumentingOrganizationIdentifierCodeSequenceTrial,
+  "DocumentingOrganizationIdentifierCodeSequenceTrial":
+      PublicTag.kDocumentingOrganizationIdentifierCodeSequenceTrial,
   "VerificationDateTime": PublicTag.kVerificationDateTime,
   "ObservationDateTime": PublicTag.kObservationDateTime,
   "ValueType": PublicTag.kValueType,
@@ -1982,12 +2165,14 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "SequencingIndicatorTrial": PublicTag.kSequencingIndicatorTrial,
   "DocumentIdentifierCodeSequenceTrial": PublicTag.kDocumentIdentifierCodeSequenceTrial,
   "DocumentAuthorTrial": PublicTag.kDocumentAuthorTrial,
-  "DocumentAuthorIdentifierCodeSequenceTrial": PublicTag.kDocumentAuthorIdentifierCodeSequenceTrial,
+  "DocumentAuthorIdentifierCodeSequenceTrial":
+      PublicTag.kDocumentAuthorIdentifierCodeSequenceTrial,
   "IdentifierCodeSequenceTrial": PublicTag.kIdentifierCodeSequenceTrial,
   "VerifyingObserverSequence": PublicTag.kVerifyingObserverSequence,
   "ObjectBinaryIdentifierTrial": PublicTag.kObjectBinaryIdentifierTrial,
   "VerifyingObserverName": PublicTag.kVerifyingObserverName,
-  "DocumentingObserverIdentifierCodeSequenceTrial": PublicTag.kDocumentingObserverIdentifierCodeSequenceTrial,
+  "DocumentingObserverIdentifierCodeSequenceTrial":
+      PublicTag.kDocumentingObserverIdentifierCodeSequenceTrial,
   "AuthorObserverSequence": PublicTag.kAuthorObserverSequence,
   "ParticipantSequence": PublicTag.kParticipantSequence,
   "CustodialOrganizationSequence": PublicTag.kCustodialOrganizationSequence,
@@ -1995,12 +2180,15 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "ParticipationDateTime": PublicTag.kParticipationDateTime,
   "ObserverType": PublicTag.kObserverType,
   "ProcedureIdentifierCodeSequenceTrial": PublicTag.kProcedureIdentifierCodeSequenceTrial,
-  "VerifyingObserverIdentificationCodeSequence": PublicTag.kVerifyingObserverIdentificationCodeSequence,
+  "VerifyingObserverIdentificationCodeSequence":
+      PublicTag.kVerifyingObserverIdentificationCodeSequence,
   "ObjectDirectoryBinaryIdentifierTrial": PublicTag.kObjectDirectoryBinaryIdentifierTrial,
   "EquivalentCDADocumentSequence": PublicTag.kEquivalentCDADocumentSequence,
   "ReferencedWaveformChannels": PublicTag.kReferencedWaveformChannels,
-  "DateOfDocumentOrVerbalTransactionTrial": PublicTag.kDateOfDocumentOrVerbalTransactionTrial,
-  "TimeOfDocumentCreationOrVerbalTransactionTrial": PublicTag.kTimeOfDocumentCreationOrVerbalTransactionTrial,
+  "DateOfDocumentOrVerbalTransactionTrial":
+      PublicTag.kDateOfDocumentOrVerbalTransactionTrial,
+  "TimeOfDocumentCreationOrVerbalTransactionTrial":
+      PublicTag.kTimeOfDocumentCreationOrVerbalTransactionTrial,
   "DateTime": PublicTag.kDateTime,
   "Date": PublicTag.kDate,
   "Time": PublicTag.kTime,
@@ -2023,7 +2211,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "ObservationUID": PublicTag.kObservationUID,
   "ReferencedObservationUIDTrial": PublicTag.kReferencedObservationUIDTrial,
   "ReferencedObservationClassTrial": PublicTag.kReferencedObservationClassTrial,
-  "ReferencedObjectObservationClassTrial": PublicTag.kReferencedObjectObservationClassTrial,
+  "ReferencedObjectObservationClassTrial":
+      PublicTag.kReferencedObjectObservationClassTrial,
   "AnnotationGroupNumber": PublicTag.kAnnotationGroupNumber,
   "ObservationDateTrial": PublicTag.kObservationDateTrial,
   "ObservationTimeTrial": PublicTag.kObservationTimeTrial,
@@ -2044,17 +2233,21 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "VerbalSourceTrial": PublicTag.kVerbalSourceTrial,
   "AddressTrial": PublicTag.kAddressTrial,
   "TelephoneNumberTrial": PublicTag.kTelephoneNumberTrial,
-  "VerbalSourceIdentifierCodeSequenceTrial": PublicTag.kVerbalSourceIdentifierCodeSequenceTrial,
+  "VerbalSourceIdentifierCodeSequenceTrial":
+      PublicTag.kVerbalSourceIdentifierCodeSequenceTrial,
   "PredecessorDocumentsSequence": PublicTag.kPredecessorDocumentsSequence,
   "ReferencedRequestSequence": PublicTag.kReferencedRequestSequence,
   "PerformedProcedureCodeSequence": PublicTag.kPerformedProcedureCodeSequence,
-  "CurrentRequestedProcedureEvidenceSequence": PublicTag.kCurrentRequestedProcedureEvidenceSequence,
+  "CurrentRequestedProcedureEvidenceSequence":
+      PublicTag.kCurrentRequestedProcedureEvidenceSequence,
   "ReportDetailSequenceTrial": PublicTag.kReportDetailSequenceTrial,
   "PertinentOtherEvidenceSequence": PublicTag.kPertinentOtherEvidenceSequence,
-  "HL7StructuredDocumentReferenceSequence": PublicTag.kHL7StructuredDocumentReferenceSequence,
+  "HL7StructuredDocumentReferenceSequence":
+      PublicTag.kHL7StructuredDocumentReferenceSequence,
   "ObservationSubjectUIDTrial": PublicTag.kObservationSubjectUIDTrial,
   "ObservationSubjectClassTrial": PublicTag.kObservationSubjectClassTrial,
-  "ObservationSubjectTypeCodeSequenceTrial": PublicTag.kObservationSubjectTypeCodeSequenceTrial,
+  "ObservationSubjectTypeCodeSequenceTrial":
+      PublicTag.kObservationSubjectTypeCodeSequenceTrial,
   "CompletionFlag": PublicTag.kCompletionFlag,
   "CompletionFlagDescription": PublicTag.kCompletionFlagDescription,
   "VerificationFlag": PublicTag.kVerificationFlag,
@@ -2109,7 +2302,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "SubstanceAdministrationNotes": PublicTag.kSubstanceAdministrationNotes,
   "SubstanceAdministrationDeviceID": PublicTag.kSubstanceAdministrationDeviceID,
   "ProductParameterSequence": PublicTag.kProductParameterSequence,
-  "SubstanceAdministrationParameterSequence": PublicTag.kSubstanceAdministrationParameterSequence,
+  "SubstanceAdministrationParameterSequence":
+      PublicTag.kSubstanceAdministrationParameterSequence,
   "LensDescription": PublicTag.kLensDescription,
   "RightLensSequence": PublicTag.kRightLensSequence,
   "LeftLensSequence": PublicTag.kLeftLensSequence,
@@ -2156,7 +2350,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "VisualAcuityModifiers": PublicTag.kVisualAcuityModifiers,
   "DecimalVisualAcuity": PublicTag.kDecimalVisualAcuity,
   "OptotypeDetailedDefinition": PublicTag.kOptotypeDetailedDefinition,
-  "ReferencedRefractiveMeasurementsSequence": PublicTag.kReferencedRefractiveMeasurementsSequence,
+  "ReferencedRefractiveMeasurementsSequence":
+      PublicTag.kReferencedRefractiveMeasurementsSequence,
   "SpherePower": PublicTag.kSpherePower,
   "CylinderPower": PublicTag.kCylinderPower,
   "CornealTopographySurface": PublicTag.kCornealTopographySurface,
@@ -2166,12 +2361,14 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "EquivalentPupilRadius": PublicTag.kEquivalentPupilRadius,
   "CornealTopographyMapTypeCodeSequence": PublicTag.kCornealTopographyMapTypeCodeSequence,
   "VerticesOfTheOutlineOfPupil": PublicTag.kVerticesOfTheOutlineOfPupil,
-  "CornealTopographyMappingNormalsSequence": PublicTag.kCornealTopographyMappingNormalsSequence,
+  "CornealTopographyMappingNormalsSequence":
+      PublicTag.kCornealTopographyMappingNormalsSequence,
   "MaximumCornealCurvatureSequence": PublicTag.kMaximumCornealCurvatureSequence,
   "MaximumCornealCurvature": PublicTag.kMaximumCornealCurvature,
   "MaximumCornealCurvatureLocation": PublicTag.kMaximumCornealCurvatureLocation,
   "MinimumKeratometricSequence": PublicTag.kMinimumKeratometricSequence,
-  "SimulatedKeratometricCylinderSequence": PublicTag.kSimulatedKeratometricCylinderSequence,
+  "SimulatedKeratometricCylinderSequence":
+      PublicTag.kSimulatedKeratometricCylinderSequence,
   "AverageCornealPower": PublicTag.kAverageCornealPower,
   "CornealISValue": PublicTag.kCornealISValue,
   "AnalyzedArea": PublicTag.kAnalyzedArea,
@@ -2180,8 +2377,10 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "CornealEccentricityIndex": PublicTag.kCornealEccentricityIndex,
   "KeratoconusPredictionIndex": PublicTag.kKeratoconusPredictionIndex,
   "DecimalPotentialVisualAcuity": PublicTag.kDecimalPotentialVisualAcuity,
-  "CornealTopographyMapQualityEvaluation": PublicTag.kCornealTopographyMapQualityEvaluation,
-  "SourceImageCornealProcessedDataSequence": PublicTag.kSourceImageCornealProcessedDataSequence,
+  "CornealTopographyMapQualityEvaluation":
+      PublicTag.kCornealTopographyMapQualityEvaluation,
+  "SourceImageCornealProcessedDataSequence":
+      PublicTag.kSourceImageCornealProcessedDataSequence,
   "CornealPointLocation": PublicTag.kCornealPointLocation,
   "CornealPointEstimated": PublicTag.kCornealPointEstimated,
   "AxialPower": PublicTag.kAxialPower,
@@ -2217,7 +2416,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "BottomRightHandCornerOfLocalizerArea": PublicTag.kBottomRightHandCornerOfLocalizerArea,
   "OpticalPathIdentificationSequence": PublicTag.kOpticalPathIdentificationSequence,
   "PlanePositionSlideSequence": PublicTag.kPlanePositionSlideSequence,
-  "ColumnPositionInTotalImagePixelMatrix": PublicTag.kColumnPositionInTotalImagePixelMatrix,
+  "ColumnPositionInTotalImagePixelMatrix":
+      PublicTag.kColumnPositionInTotalImagePixelMatrix,
   "RowPositionInTotalImagePixelMatrix": PublicTag.kRowPositionInTotalImagePixelMatrix,
   "PixelOriginInterpretation": PublicTag.kPixelOriginInterpretation,
   "CalibrationImage": PublicTag.kCalibrationImage,
@@ -2236,7 +2436,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "ContainerComponentDiameter": PublicTag.kContainerComponentDiameter,
   "ContainerComponentDescription": PublicTag.kContainerComponentDescription,
   "DeviceDescription": PublicTag.kDeviceDescription,
-  "ContrastBolusIngredientPercentByVolume": PublicTag.kContrastBolusIngredientPercentByVolume,
+  "ContrastBolusIngredientPercentByVolume":
+      PublicTag.kContrastBolusIngredientPercentByVolume,
   "OCTFocalDistance": PublicTag.kOCTFocalDistance,
   "BeamSpotSize": PublicTag.kBeamSpotSize,
   "EffectiveRefractiveIndex": PublicTag.kEffectiveRefractiveIndex,
@@ -2268,7 +2469,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "EnergyWindowRangeSequence": PublicTag.kEnergyWindowRangeSequence,
   "EnergyWindowLowerLimit": PublicTag.kEnergyWindowLowerLimit,
   "EnergyWindowUpperLimit": PublicTag.kEnergyWindowUpperLimit,
-  "RadiopharmaceuticalInformationSequence": PublicTag.kRadiopharmaceuticalInformationSequence,
+  "RadiopharmaceuticalInformationSequence":
+      PublicTag.kRadiopharmaceuticalInformationSequence,
   "ResidualSyringeCounts": PublicTag.kResidualSyringeCounts,
   "EnergyWindowName": PublicTag.kEnergyWindowName,
   "DetectorVector": PublicTag.kDetectorVector,
@@ -2311,8 +2513,10 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "EnergyWindowNumber": PublicTag.kEnergyWindowNumber,
   "ImageID": PublicTag.kImageID,
   "PatientOrientationCodeSequence": PublicTag.kPatientOrientationCodeSequence,
-  "PatientOrientationModifierCodeSequence": PublicTag.kPatientOrientationModifierCodeSequence,
-  "PatientGantryRelationshipCodeSequence": PublicTag.kPatientGantryRelationshipCodeSequence,
+  "PatientOrientationModifierCodeSequence":
+      PublicTag.kPatientOrientationModifierCodeSequence,
+  "PatientGantryRelationshipCodeSequence":
+      PublicTag.kPatientGantryRelationshipCodeSequence,
   "SliceProgressionDirection": PublicTag.kSliceProgressionDirection,
   "SeriesType": PublicTag.kSeriesType,
   "Units": PublicTag.kUnits,
@@ -2351,7 +2555,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "HistogramData": PublicTag.kHistogramData,
   "SegmentationType": PublicTag.kSegmentationType,
   "SegmentSequence": PublicTag.kSegmentSequence,
-  "SegmentedPropertyCategoryCodeSequence": PublicTag.kSegmentedPropertyCategoryCodeSequence,
+  "SegmentedPropertyCategoryCodeSequence":
+      PublicTag.kSegmentedPropertyCategoryCodeSequence,
   "SegmentNumber": PublicTag.kSegmentNumber,
   "SegmentLabel": PublicTag.kSegmentLabel,
   "SegmentDescription": PublicTag.kSegmentDescription,
@@ -2364,7 +2569,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "MaximumFractionalValue": PublicTag.kMaximumFractionalValue,
   "SegmentedPropertyTypeCodeSequence": PublicTag.kSegmentedPropertyTypeCodeSequence,
   "SegmentationFractionalType": PublicTag.kSegmentationFractionalType,
-  "SegmentedPropertyTypeModifierCodeSequence": PublicTag.kSegmentedPropertyTypeModifierCodeSequence,
+  "SegmentedPropertyTypeModifierCodeSequence":
+      PublicTag.kSegmentedPropertyTypeModifierCodeSequence,
   "UsedSegmentsSequence": PublicTag.kUsedSegmentsSequence,
   "DeformableRegistrationSequence": PublicTag.kDeformableRegistrationSequence,
   "SourceFrameOfReferenceUID": PublicTag.kSourceFrameOfReferenceUID,
@@ -2372,8 +2578,10 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "GridDimensions": PublicTag.kGridDimensions,
   "GridResolution": PublicTag.kGridResolution,
   "VectorGridData": PublicTag.kVectorGridData,
-  "PreDeformationMatrixRegistrationSequence": PublicTag.kPreDeformationMatrixRegistrationSequence,
-  "PostDeformationMatrixRegistrationSequence": PublicTag.kPostDeformationMatrixRegistrationSequence,
+  "PreDeformationMatrixRegistrationSequence":
+      PublicTag.kPreDeformationMatrixRegistrationSequence,
+  "PostDeformationMatrixRegistrationSequence":
+      PublicTag.kPostDeformationMatrixRegistrationSequence,
   "NumberOfSurfaces": PublicTag.kNumberOfSurfaces,
   "SurfaceSequence": PublicTag.kSurfaceSequence,
   "SurfaceNumber": PublicTag.kSurfaceNumber,
@@ -2410,14 +2618,16 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "SurfaceCount": PublicTag.kSurfaceCount,
   "ReferencedSurfaceSequence": PublicTag.kReferencedSurfaceSequence,
   "ReferencedSurfaceNumber": PublicTag.kReferencedSurfaceNumber,
-  "SegmentSurfaceGenerationAlgorithmIdentificationSequence": PublicTag.kSegmentSurfaceGenerationAlgorithmIdentificationSequence,
+  "SegmentSurfaceGenerationAlgorithmIdentificationSequence":
+      PublicTag.kSegmentSurfaceGenerationAlgorithmIdentificationSequence,
   "SegmentSurfaceSourceInstanceSequence": PublicTag.kSegmentSurfaceSourceInstanceSequence,
   "AlgorithmFamilyCodeSequence": PublicTag.kAlgorithmFamilyCodeSequence,
   "AlgorithmNameCodeSequence": PublicTag.kAlgorithmNameCodeSequence,
   "AlgorithmVersion": PublicTag.kAlgorithmVersion,
   "AlgorithmParameters": PublicTag.kAlgorithmParameters,
   "FacetSequence": PublicTag.kFacetSequence,
-  "SurfaceProcessingAlgorithmIdentificationSequence": PublicTag.kSurfaceProcessingAlgorithmIdentificationSequence,
+  "SurfaceProcessingAlgorithmIdentificationSequence":
+      PublicTag.kSurfaceProcessingAlgorithmIdentificationSequence,
   "AlgorithmName": PublicTag.kAlgorithmName,
   "RecommendedPointRadius": PublicTag.kRecommendedPointRadius,
   "RecommendedLineThickness": PublicTag.kRecommendedLineThickness,
@@ -2433,7 +2643,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "NotificationFromManufacturerSequence": PublicTag.kNotificationFromManufacturerSequence,
   "InformationIssueDateTime": PublicTag.kInformationIssueDateTime,
   "InformationSummary": PublicTag.kInformationSummary,
-  "ImplantRegulatoryDisapprovalCodeSequence": PublicTag.kImplantRegulatoryDisapprovalCodeSequence,
+  "ImplantRegulatoryDisapprovalCodeSequence":
+      PublicTag.kImplantRegulatoryDisapprovalCodeSequence,
   "OverallTemplateSpatialTolerance": PublicTag.kOverallTemplateSpatialTolerance,
   "HPGLDocumentSequence": PublicTag.kHPGLDocumentSequence,
   "HPGLDocumentID": PublicTag.kHPGLDocumentID,
@@ -2480,7 +2691,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "PlanningLandmarkPlaneSequence": PublicTag.kPlanningLandmarkPlaneSequence,
   "PlanningLandmarkID": PublicTag.kPlanningLandmarkID,
   "PlanningLandmarkDescription": PublicTag.kPlanningLandmarkDescription,
-  "PlanningLandmarkIdentificationCodeSequence": PublicTag.kPlanningLandmarkIdentificationCodeSequence,
+  "PlanningLandmarkIdentificationCodeSequence":
+      PublicTag.kPlanningLandmarkIdentificationCodeSequence,
   "TwoDPointCoordinatesSequence": PublicTag.kTwoDPointCoordinatesSequence,
   "TwoDPointCoordinates": PublicTag.kTwoDPointCoordinates,
   "ThreeDPointCoordinates": PublicTag.kThreeDPointCoordinates,
@@ -2501,7 +2713,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "GraphicObjectSequence": PublicTag.kGraphicObjectSequence,
   "BoundingBoxTopLeftHandCorner": PublicTag.kBoundingBoxTopLeftHandCorner,
   "BoundingBoxBottomRightHandCorner": PublicTag.kBoundingBoxBottomRightHandCorner,
-  "BoundingBoxTextHorizontalJustification": PublicTag.kBoundingBoxTextHorizontalJustification,
+  "BoundingBoxTextHorizontalJustification":
+      PublicTag.kBoundingBoxTextHorizontalJustification,
   "AnchorPoint": PublicTag.kAnchorPoint,
   "AnchorPointVisibility": PublicTag.kAnchorPointVisibility,
   "GraphicDimensions": PublicTag.kGraphicDimensions,
@@ -2513,21 +2726,25 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "ImageHorizontalFlip": PublicTag.kImageHorizontalFlip,
   "ImageRotation": PublicTag.kImageRotation,
   "DisplayedAreaTopLeftHandCornerTrial": PublicTag.kDisplayedAreaTopLeftHandCornerTrial,
-  "DisplayedAreaBottomRightHandCornerTrial": PublicTag.kDisplayedAreaBottomRightHandCornerTrial,
+  "DisplayedAreaBottomRightHandCornerTrial":
+      PublicTag.kDisplayedAreaBottomRightHandCornerTrial,
   "DisplayedAreaTopLeftHandCorner": PublicTag.kDisplayedAreaTopLeftHandCorner,
   "DisplayedAreaBottomRightHandCorner": PublicTag.kDisplayedAreaBottomRightHandCorner,
   "DisplayedAreaSelectionSequence": PublicTag.kDisplayedAreaSelectionSequence,
   "GraphicLayerSequence": PublicTag.kGraphicLayerSequence,
   "GraphicLayerOrder": PublicTag.kGraphicLayerOrder,
-  "GraphicLayerRecommendedDisplayGrayscaleValue": PublicTag.kGraphicLayerRecommendedDisplayGrayscaleValue,
-  "GraphicLayerRecommendedDisplayRGBValue": PublicTag.kGraphicLayerRecommendedDisplayRGBValue,
+  "GraphicLayerRecommendedDisplayGrayscaleValue":
+      PublicTag.kGraphicLayerRecommendedDisplayGrayscaleValue,
+  "GraphicLayerRecommendedDisplayRGBValue":
+      PublicTag.kGraphicLayerRecommendedDisplayRGBValue,
   "GraphicLayerDescription": PublicTag.kGraphicLayerDescription,
   "ContentLabel": PublicTag.kContentLabel,
   "ContentDescription": PublicTag.kContentDescription,
   "PresentationCreationDate": PublicTag.kPresentationCreationDate,
   "PresentationCreationTime": PublicTag.kPresentationCreationTime,
   "ContentCreatorName": PublicTag.kContentCreatorName,
-  "ContentCreatorIdentificationCodeSequence": PublicTag.kContentCreatorIdentificationCodeSequence,
+  "ContentCreatorIdentificationCodeSequence":
+      PublicTag.kContentCreatorIdentificationCodeSequence,
   "AlternateContentDescriptionSequence": PublicTag.kAlternateContentDescriptionSequence,
   "PresentationSizeMode": PublicTag.kPresentationSizeMode,
   "PresentationPixelSpacing": PublicTag.kPresentationPixelSpacing,
@@ -2581,7 +2798,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "RegistrationSequence": PublicTag.kRegistrationSequence,
   "MatrixRegistrationSequence": PublicTag.kMatrixRegistrationSequence,
   "MatrixSequence": PublicTag.kMatrixSequence,
-  "FrameOfReferenceTransformationMatrixType": PublicTag.kFrameOfReferenceTransformationMatrixType,
+  "FrameOfReferenceTransformationMatrixType":
+      PublicTag.kFrameOfReferenceTransformationMatrixType,
   "RegistrationTypeCodeSequence": PublicTag.kRegistrationTypeCodeSequence,
   "FiducialDescription": PublicTag.kFiducialDescription,
   "FiducialIdentifier": PublicTag.kFiducialIdentifier,
@@ -2592,10 +2810,12 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "FiducialUID": PublicTag.kFiducialUID,
   "FiducialSetSequence": PublicTag.kFiducialSetSequence,
   "FiducialSequence": PublicTag.kFiducialSequence,
-  "GraphicLayerRecommendedDisplayCIELabValue": PublicTag.kGraphicLayerRecommendedDisplayCIELabValue,
+  "GraphicLayerRecommendedDisplayCIELabValue":
+      PublicTag.kGraphicLayerRecommendedDisplayCIELabValue,
   "BlendingSequence": PublicTag.kBlendingSequence,
   "RelativeOpacity": PublicTag.kRelativeOpacity,
-  "ReferencedSpatialRegistrationSequence": PublicTag.kReferencedSpatialRegistrationSequence,
+  "ReferencedSpatialRegistrationSequence":
+      PublicTag.kReferencedSpatialRegistrationSequence,
   "BlendingPosition": PublicTag.kBlendingPosition,
   "HangingProtocolName": PublicTag.kHangingProtocolName,
   "HangingProtocolDescription": PublicTag.kHangingProtocolDescription,
@@ -2603,7 +2823,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "HangingProtocolCreator": PublicTag.kHangingProtocolCreator,
   "HangingProtocolCreationDateTime": PublicTag.kHangingProtocolCreationDateTime,
   "HangingProtocolDefinitionSequence": PublicTag.kHangingProtocolDefinitionSequence,
-  "HangingProtocolUserIdentificationCodeSequence": PublicTag.kHangingProtocolUserIdentificationCodeSequence,
+  "HangingProtocolUserIdentificationCodeSequence":
+      PublicTag.kHangingProtocolUserIdentificationCodeSequence,
   "HangingProtocolUserGroupName": PublicTag.kHangingProtocolUserGroupName,
   "SourceHangingProtocolSequence": PublicTag.kSourceHangingProtocolSequence,
   "NumberOfPriorsReferenced": PublicTag.kNumberOfPriorsReferenced,
@@ -2622,7 +2843,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "ImageSetLabel": PublicTag.kImageSetLabel,
   "SelectorAttributeVR": PublicTag.kSelectorAttributeVR,
   "SelectorSequencePointer": PublicTag.kSelectorSequencePointer,
-  "SelectorSequencePointerPrivateCreator": PublicTag.kSelectorSequencePointerPrivateCreator,
+  "SelectorSequencePointerPrivateCreator":
+      PublicTag.kSelectorSequencePointerPrivateCreator,
   "SelectorAttributePrivateCreator": PublicTag.kSelectorAttributePrivateCreator,
   "SelectorATValue": PublicTag.kSelectorATValue,
   "SelectorCSValue": PublicTag.kSelectorCSValue,
@@ -2654,7 +2876,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "DisplaySetNumber": PublicTag.kDisplaySetNumber,
   "DisplaySetLabel": PublicTag.kDisplaySetLabel,
   "DisplaySetPresentationGroup": PublicTag.kDisplaySetPresentationGroup,
-  "DisplaySetPresentationGroupDescription": PublicTag.kDisplaySetPresentationGroupDescription,
+  "DisplaySetPresentationGroupDescription":
+      PublicTag.kDisplaySetPresentationGroupDescription,
   "PartialDataDisplayHandling": PublicTag.kPartialDataDisplayHandling,
   "SynchronizedScrollingSequence": PublicTag.kSynchronizedScrollingSequence,
   "DisplaySetScrollingGroup": PublicTag.kDisplaySetScrollingGroup,
@@ -2677,7 +2900,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "FilterByCategory": PublicTag.kFilterByCategory,
   "FilterByAttributePresence": PublicTag.kFilterByAttributePresence,
   "FilterByOperator": PublicTag.kFilterByOperator,
-  "StructuredDisplayBackgroundCIELabValue": PublicTag.kStructuredDisplayBackgroundCIELabValue,
+  "StructuredDisplayBackgroundCIELabValue":
+      PublicTag.kStructuredDisplayBackgroundCIELabValue,
   "EmptyImageBoxCIELabValue": PublicTag.kEmptyImageBoxCIELabValue,
   "StructuredDisplayImageBoxSequence": PublicTag.kStructuredDisplayImageBoxSequence,
   "StructuredDisplayTextBoxSequence": PublicTag.kStructuredDisplayTextBoxSequence,
@@ -2689,7 +2913,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "ReformattingOperationType": PublicTag.kReformattingOperationType,
   "ReformattingThickness": PublicTag.kReformattingThickness,
   "ReformattingInterval": PublicTag.kReformattingInterval,
-  "ReformattingOperationInitialViewDirection": PublicTag.kReformattingOperationInitialViewDirection,
+  "ReformattingOperationInitialViewDirection":
+      PublicTag.kReformattingOperationInitialViewDirection,
   "ThreeDRenderingType": PublicTag.kThreeDRenderingType,
   "SortingOperationsSequence": PublicTag.kSortingOperationsSequence,
   "SortByCategory": PublicTag.kSortByCategory,
@@ -2697,7 +2922,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "DisplaySetPatientOrientation": PublicTag.kDisplaySetPatientOrientation,
   "VOIType": PublicTag.kVOIType,
   "PseudoColorType": PublicTag.kPseudoColorType,
-  "PseudoColorPaletteInstanceReferenceSequence": PublicTag.kPseudoColorPaletteInstanceReferenceSequence,
+  "PseudoColorPaletteInstanceReferenceSequence":
+      PublicTag.kPseudoColorPaletteInstanceReferenceSequence,
   "ShowGrayscaleInverted": PublicTag.kShowGrayscaleInverted,
   "ShowImageTrueSizeFlag": PublicTag.kShowImageTrueSizeFlag,
   "ShowGraphicAnnotationFlag": PublicTag.kShowGraphicAnnotationFlag,
@@ -2708,13 +2934,16 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "ContinuationStartMeterset": PublicTag.kContinuationStartMeterset,
   "ContinuationEndMeterset": PublicTag.kContinuationEndMeterset,
   "ProcedureStepState": PublicTag.kProcedureStepState,
-  "ProcedureStepProgressInformationSequence": PublicTag.kProcedureStepProgressInformationSequence,
+  "ProcedureStepProgressInformationSequence":
+      PublicTag.kProcedureStepProgressInformationSequence,
   "ProcedureStepProgress": PublicTag.kProcedureStepProgress,
   "ProcedureStepProgressDescription": PublicTag.kProcedureStepProgressDescription,
-  "ProcedureStepCommunicationsURISequence": PublicTag.kProcedureStepCommunicationsURISequence,
+  "ProcedureStepCommunicationsURISequence":
+      PublicTag.kProcedureStepCommunicationsURISequence,
   "ContactURI": PublicTag.kContactURI,
   "ContactDisplayName": PublicTag.kContactDisplayName,
-  "ProcedureStepDiscontinuationReasonCodeSequence": PublicTag.kProcedureStepDiscontinuationReasonCodeSequence,
+  "ProcedureStepDiscontinuationReasonCodeSequence":
+      PublicTag.kProcedureStepDiscontinuationReasonCodeSequence,
   "BeamTaskSequence": PublicTag.kBeamTaskSequence,
   "BeamTaskType": PublicTag.kBeamTaskType,
   "BeamOrderIndexTrial": PublicTag.kBeamOrderIndexTrial,
@@ -2734,11 +2963,13 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "DoubleExposureFieldDeltaTrial": PublicTag.kDoubleExposureFieldDeltaTrial,
   "RelatedReferenceRTImageSequence": PublicTag.kRelatedReferenceRTImageSequence,
   "GeneralMachineVerificationSequence": PublicTag.kGeneralMachineVerificationSequence,
-  "ConventionalMachineVerificationSequence": PublicTag.kConventionalMachineVerificationSequence,
+  "ConventionalMachineVerificationSequence":
+      PublicTag.kConventionalMachineVerificationSequence,
   "IonMachineVerificationSequence": PublicTag.kIonMachineVerificationSequence,
   "FailedAttributesSequence": PublicTag.kFailedAttributesSequence,
   "OverriddenAttributesSequence": PublicTag.kOverriddenAttributesSequence,
-  "ConventionalControlPointVerificationSequence": PublicTag.kConventionalControlPointVerificationSequence,
+  "ConventionalControlPointVerificationSequence":
+      PublicTag.kConventionalControlPointVerificationSequence,
   "IonControlPointVerificationSequence": PublicTag.kIonControlPointVerificationSequence,
   "AttributeOccurrenceSequence": PublicTag.kAttributeOccurrenceSequence,
   "AttributeOccurrencePointer": PublicTag.kAttributeOccurrencePointer,
@@ -2748,9 +2979,12 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "ScheduledProcedureStepPriority": PublicTag.kScheduledProcedureStepPriority,
   "WorklistLabel": PublicTag.kWorklistLabel,
   "ProcedureStepLabel": PublicTag.kProcedureStepLabel,
-  "ScheduledProcessingParametersSequence": PublicTag.kScheduledProcessingParametersSequence,
-  "PerformedProcessingParametersSequence": PublicTag.kPerformedProcessingParametersSequence,
-  "UnifiedProcedureStepPerformedProcedureSequence": PublicTag.kUnifiedProcedureStepPerformedProcedureSequence,
+  "ScheduledProcessingParametersSequence":
+      PublicTag.kScheduledProcessingParametersSequence,
+  "PerformedProcessingParametersSequence":
+      PublicTag.kPerformedProcessingParametersSequence,
+  "UnifiedProcedureStepPerformedProcedureSequence":
+      PublicTag.kUnifiedProcedureStepPerformedProcedureSequence,
   "RelatedProcedureStepSequence": PublicTag.kRelatedProcedureStepSequence,
   "ProcedureStepRelationshipType": PublicTag.kProcedureStepRelationshipType,
   "ReplacedProcedureStepSequence": PublicTag.kReplacedProcedureStepSequence,
@@ -2767,11 +3001,15 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "ImplantAssemblyTemplateName": PublicTag.kImplantAssemblyTemplateName,
   "ImplantAssemblyTemplateIssuer": PublicTag.kImplantAssemblyTemplateIssuer,
   "ImplantAssemblyTemplateVersion": PublicTag.kImplantAssemblyTemplateVersion,
-  "ReplacedImplantAssemblyTemplateSequence": PublicTag.kReplacedImplantAssemblyTemplateSequence,
+  "ReplacedImplantAssemblyTemplateSequence":
+      PublicTag.kReplacedImplantAssemblyTemplateSequence,
   "ImplantAssemblyTemplateType": PublicTag.kImplantAssemblyTemplateType,
-  "OriginalImplantAssemblyTemplateSequence": PublicTag.kOriginalImplantAssemblyTemplateSequence,
-  "DerivationImplantAssemblyTemplateSequence": PublicTag.kDerivationImplantAssemblyTemplateSequence,
-  "ImplantAssemblyTemplateTargetAnatomySequence": PublicTag.kImplantAssemblyTemplateTargetAnatomySequence,
+  "OriginalImplantAssemblyTemplateSequence":
+      PublicTag.kOriginalImplantAssemblyTemplateSequence,
+  "DerivationImplantAssemblyTemplateSequence":
+      PublicTag.kDerivationImplantAssemblyTemplateSequence,
+  "ImplantAssemblyTemplateTargetAnatomySequence":
+      PublicTag.kImplantAssemblyTemplateTargetAnatomySequence,
   "ProcedureTypeCodeSequence": PublicTag.kProcedureTypeCodeSequence,
   "SurgicalTechnique": PublicTag.kSurgicalTechnique,
   "ComponentTypesSequence": PublicTag.kComponentTypesSequence,
@@ -2782,30 +3020,44 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "ComponentID": PublicTag.kComponentID,
   "ComponentAssemblySequence": PublicTag.kComponentAssemblySequence,
   "Component1ReferencedID": PublicTag.kComponent1ReferencedID,
-  "Component1ReferencedMatingFeatureSetID": PublicTag.kComponent1ReferencedMatingFeatureSetID,
+  "Component1ReferencedMatingFeatureSetID":
+      PublicTag.kComponent1ReferencedMatingFeatureSetID,
   "Component1ReferencedMatingFeatureID": PublicTag.kComponent1ReferencedMatingFeatureID,
   "Component2ReferencedID": PublicTag.kComponent2ReferencedID,
-  "Component2ReferencedMatingFeatureSetID": PublicTag.kComponent2ReferencedMatingFeatureSetID,
+  "Component2ReferencedMatingFeatureSetID":
+      PublicTag.kComponent2ReferencedMatingFeatureSetID,
   "Component2ReferencedMatingFeatureID": PublicTag.kComponent2ReferencedMatingFeatureID,
   "ImplantTemplateGroupName": PublicTag.kImplantTemplateGroupName,
   "ImplantTemplateGroupDescription": PublicTag.kImplantTemplateGroupDescription,
   "ImplantTemplateGroupIssuer": PublicTag.kImplantTemplateGroupIssuer,
   "ImplantTemplateGroupVersion": PublicTag.kImplantTemplateGroupVersion,
   "ReplacedImplantTemplateGroupSequence": PublicTag.kReplacedImplantTemplateGroupSequence,
-  "ImplantTemplateGroupTargetAnatomySequence": PublicTag.kImplantTemplateGroupTargetAnatomySequence,
+  "ImplantTemplateGroupTargetAnatomySequence":
+      PublicTag.kImplantTemplateGroupTargetAnatomySequence,
   "ImplantTemplateGroupMembersSequence": PublicTag.kImplantTemplateGroupMembersSequence,
   "ImplantTemplateGroupMemberID": PublicTag.kImplantTemplateGroupMemberID,
-  "ThreeDImplantTemplateGroupMemberMatchingPoint": PublicTag.kThreeDImplantTemplateGroupMemberMatchingPoint,
-  "ThreeDImplantTemplateGroupMemberMatchingAxes": PublicTag.kThreeDImplantTemplateGroupMemberMatchingAxes,
-  "ImplantTemplateGroupMemberMatching2DCoordinatesSequence": PublicTag.kImplantTemplateGroupMemberMatching2DCoordinatesSequence,
-  "TwoDImplantTemplateGroupMemberMatchingPoint": PublicTag.kTwoDImplantTemplateGroupMemberMatchingPoint,
-  "TwoDImplantTemplateGroupMemberMatchingAxes": PublicTag.kTwoDImplantTemplateGroupMemberMatchingAxes,
-  "ImplantTemplateGroupVariationDimensionSequence": PublicTag.kImplantTemplateGroupVariationDimensionSequence,
-  "ImplantTemplateGroupVariationDimensionName": PublicTag.kImplantTemplateGroupVariationDimensionName,
-  "ImplantTemplateGroupVariationDimensionRankSequence": PublicTag.kImplantTemplateGroupVariationDimensionRankSequence,
-  "ReferencedImplantTemplateGroupMemberID": PublicTag.kReferencedImplantTemplateGroupMemberID,
-  "ImplantTemplateGroupVariationDimensionRank": PublicTag.kImplantTemplateGroupVariationDimensionRank,
-  "SurfaceScanAcquisitionTypeCodeSequence": PublicTag.kSurfaceScanAcquisitionTypeCodeSequence,
+  "ThreeDImplantTemplateGroupMemberMatchingPoint":
+      PublicTag.kThreeDImplantTemplateGroupMemberMatchingPoint,
+  "ThreeDImplantTemplateGroupMemberMatchingAxes":
+      PublicTag.kThreeDImplantTemplateGroupMemberMatchingAxes,
+  "ImplantTemplateGroupMemberMatching2DCoordinatesSequence":
+      PublicTag.kImplantTemplateGroupMemberMatching2DCoordinatesSequence,
+  "TwoDImplantTemplateGroupMemberMatchingPoint":
+      PublicTag.kTwoDImplantTemplateGroupMemberMatchingPoint,
+  "TwoDImplantTemplateGroupMemberMatchingAxes":
+      PublicTag.kTwoDImplantTemplateGroupMemberMatchingAxes,
+  "ImplantTemplateGroupVariationDimensionSequence":
+      PublicTag.kImplantTemplateGroupVariationDimensionSequence,
+  "ImplantTemplateGroupVariationDimensionName":
+      PublicTag.kImplantTemplateGroupVariationDimensionName,
+  "ImplantTemplateGroupVariationDimensionRankSequence":
+      PublicTag.kImplantTemplateGroupVariationDimensionRankSequence,
+  "ReferencedImplantTemplateGroupMemberID":
+      PublicTag.kReferencedImplantTemplateGroupMemberID,
+  "ImplantTemplateGroupVariationDimensionRank":
+      PublicTag.kImplantTemplateGroupVariationDimensionRank,
+  "SurfaceScanAcquisitionTypeCodeSequence":
+      PublicTag.kSurfaceScanAcquisitionTypeCodeSequence,
   "SurfaceScanModeCodeSequence": PublicTag.kSurfaceScanModeCodeSequence,
   "RegistrationMethodCodeSequence": PublicTag.kRegistrationMethodCodeSequence,
   "ShotDurationTime": PublicTag.kShotDurationTime,
@@ -2828,7 +3080,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "SOPInstanceStatus": PublicTag.kSOPInstanceStatus,
   "SOPAuthorizationDateTime": PublicTag.kSOPAuthorizationDateTime,
   "SOPAuthorizationComment": PublicTag.kSOPAuthorizationComment,
-  "AuthorizationEquipmentCertificationNumber": PublicTag.kAuthorizationEquipmentCertificationNumber,
+  "AuthorizationEquipmentCertificationNumber":
+      PublicTag.kAuthorizationEquipmentCertificationNumber,
   "MACIDNumber": PublicTag.kMACIDNumber,
   "MACCalculationTransferSyntaxUID": PublicTag.kMACCalculationTransferSyntaxUID,
   "MACAlgorithm": PublicTag.kMACAlgorithm,
@@ -2944,7 +3197,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "DestinationAE": PublicTag.kDestinationAE,
   "OwnerID": PublicTag.kOwnerID,
   "NumberOfFilms": PublicTag.kNumberOfFilms,
-  "ReferencedPrintJobSequencePullStoredPrint": PublicTag.kReferencedPrintJobSequencePullStoredPrint,
+  "ReferencedPrintJobSequencePullStoredPrint":
+      PublicTag.kReferencedPrintJobSequencePullStoredPrint,
   "PrinterStatus": PublicTag.kPrinterStatus,
   "PrinterStatusInfo": PublicTag.kPrinterStatusInfo,
   "PrinterName": PublicTag.kPrinterName,
@@ -2961,7 +3215,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "PresentationLUTContentSequence": PublicTag.kPresentationLUTContentSequence,
   "ProposedStudySequence": PublicTag.kProposedStudySequence,
   "OriginalImageSequence": PublicTag.kOriginalImageSequence,
-  "LabelUsingInformationExtractedFromInstances": PublicTag.kLabelUsingInformationExtractedFromInstances,
+  "LabelUsingInformationExtractedFromInstances":
+      PublicTag.kLabelUsingInformationExtractedFromInstances,
   "LabelText": PublicTag.kLabelText,
   "LabelStyleSelection": PublicTag.kLabelStyleSelection,
   "MediaDisposition": PublicTag.kMediaDisposition,
@@ -2970,7 +3225,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "AllowMediaSplitting": PublicTag.kAllowMediaSplitting,
   "IncludeNonDICOMObjects": PublicTag.kIncludeNonDICOMObjects,
   "IncludeDisplayApplication": PublicTag.kIncludeDisplayApplication,
-  "PreserveCompositeInstancesAfterMediaCreation": PublicTag.kPreserveCompositeInstancesAfterMediaCreation,
+  "PreserveCompositeInstancesAfterMediaCreation":
+      PublicTag.kPreserveCompositeInstancesAfterMediaCreation,
   "TotalNumberOfPiecesOfMediaCreated": PublicTag.kTotalNumberOfPiecesOfMediaCreated,
   "RequestedMediaApplicationProfile": PublicTag.kRequestedMediaApplicationProfile,
   "ReferencedStorageMediaSequence": PublicTag.kReferencedStorageMediaSequence,
@@ -3070,12 +3326,14 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "ROIPhysicalPropertyValue": PublicTag.kROIPhysicalPropertyValue,
   "ROIElementalCompositionSequence": PublicTag.kROIElementalCompositionSequence,
   "ROIElementalCompositionAtomicNumber": PublicTag.kROIElementalCompositionAtomicNumber,
-  "ROIElementalCompositionAtomicMassFraction": PublicTag.kROIElementalCompositionAtomicMassFraction,
+  "ROIElementalCompositionAtomicMassFraction":
+      PublicTag.kROIElementalCompositionAtomicMassFraction,
   "FrameOfReferenceRelationshipSequence": PublicTag.kFrameOfReferenceRelationshipSequence,
   "RelatedFrameOfReferenceUID": PublicTag.kRelatedFrameOfReferenceUID,
   "FrameOfReferenceTransformationType": PublicTag.kFrameOfReferenceTransformationType,
   "FrameOfReferenceTransformationMatrix": PublicTag.kFrameOfReferenceTransformationMatrix,
-  "FrameOfReferenceTransformationComment": PublicTag.kFrameOfReferenceTransformationComment,
+  "FrameOfReferenceTransformationComment":
+      PublicTag.kFrameOfReferenceTransformationComment,
   "MeasuredDoseReferenceSequence": PublicTag.kMeasuredDoseReferenceSequence,
   "MeasuredDoseDescription": PublicTag.kMeasuredDoseDescription,
   "MeasuredDoseType": PublicTag.kMeasuredDoseType,
@@ -3103,7 +3361,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "MetersetRateDelivered": PublicTag.kMetersetRateDelivered,
   "ScanSpotMetersetsDelivered": PublicTag.kScanSpotMetersetsDelivered,
   "DoseRateDelivered": PublicTag.kDoseRateDelivered,
-  "TreatmentSummaryCalculatedDoseReferenceSequence": PublicTag.kTreatmentSummaryCalculatedDoseReferenceSequence,
+  "TreatmentSummaryCalculatedDoseReferenceSequence":
+      PublicTag.kTreatmentSummaryCalculatedDoseReferenceSequence,
   "CumulativeDoseToDoseReference": PublicTag.kCumulativeDoseToDoseReference,
   "FirstTreatmentDate": PublicTag.kFirstTreatmentDate,
   "MostRecentTreatmentDate": PublicTag.kMostRecentTreatmentDate,
@@ -3123,25 +3382,34 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "CalculatedDoseReferenceDoseValue": PublicTag.kCalculatedDoseReferenceDoseValue,
   "StartMeterset": PublicTag.kStartMeterset,
   "EndMeterset": PublicTag.kEndMeterset,
-  "ReferencedMeasuredDoseReferenceSequence": PublicTag.kReferencedMeasuredDoseReferenceSequence,
-  "ReferencedMeasuredDoseReferenceNumber": PublicTag.kReferencedMeasuredDoseReferenceNumber,
-  "ReferencedCalculatedDoseReferenceSequence": PublicTag.kReferencedCalculatedDoseReferenceSequence,
-  "ReferencedCalculatedDoseReferenceNumber": PublicTag.kReferencedCalculatedDoseReferenceNumber,
+  "ReferencedMeasuredDoseReferenceSequence":
+      PublicTag.kReferencedMeasuredDoseReferenceSequence,
+  "ReferencedMeasuredDoseReferenceNumber":
+      PublicTag.kReferencedMeasuredDoseReferenceNumber,
+  "ReferencedCalculatedDoseReferenceSequence":
+      PublicTag.kReferencedCalculatedDoseReferenceSequence,
+  "ReferencedCalculatedDoseReferenceNumber":
+      PublicTag.kReferencedCalculatedDoseReferenceNumber,
   "BeamLimitingDeviceLeafPairsSequence": PublicTag.kBeamLimitingDeviceLeafPairsSequence,
   "RecordedWedgeSequence": PublicTag.kRecordedWedgeSequence,
   "RecordedCompensatorSequence": PublicTag.kRecordedCompensatorSequence,
   "RecordedBlockSequence": PublicTag.kRecordedBlockSequence,
-  "TreatmentSummaryMeasuredDoseReferenceSequence": PublicTag.kTreatmentSummaryMeasuredDoseReferenceSequence,
+  "TreatmentSummaryMeasuredDoseReferenceSequence":
+      PublicTag.kTreatmentSummaryMeasuredDoseReferenceSequence,
   "RecordedSnoutSequence": PublicTag.kRecordedSnoutSequence,
   "RecordedRangeShifterSequence": PublicTag.kRecordedRangeShifterSequence,
-  "RecordedLateralSpreadingDeviceSequence": PublicTag.kRecordedLateralSpreadingDeviceSequence,
+  "RecordedLateralSpreadingDeviceSequence":
+      PublicTag.kRecordedLateralSpreadingDeviceSequence,
   "RecordedRangeModulatorSequence": PublicTag.kRecordedRangeModulatorSequence,
   "RecordedSourceSequence": PublicTag.kRecordedSourceSequence,
   "SourceSerialNumber": PublicTag.kSourceSerialNumber,
-  "TreatmentSessionApplicationSetupSequence": PublicTag.kTreatmentSessionApplicationSetupSequence,
+  "TreatmentSessionApplicationSetupSequence":
+      PublicTag.kTreatmentSessionApplicationSetupSequence,
   "ApplicationSetupCheck": PublicTag.kApplicationSetupCheck,
-  "RecordedBrachyAccessoryDeviceSequence": PublicTag.kRecordedBrachyAccessoryDeviceSequence,
-  "ReferencedBrachyAccessoryDeviceNumber": PublicTag.kReferencedBrachyAccessoryDeviceNumber,
+  "RecordedBrachyAccessoryDeviceSequence":
+      PublicTag.kRecordedBrachyAccessoryDeviceSequence,
+  "ReferencedBrachyAccessoryDeviceNumber":
+      PublicTag.kReferencedBrachyAccessoryDeviceNumber,
   "RecordedChannelSequence": PublicTag.kRecordedChannelSequence,
   "SpecifiedChannelTotalTime": PublicTag.kSpecifiedChannelTotalTime,
   "DeliveredChannelTotalTime": PublicTag.kDeliveredChannelTotalTime,
@@ -3210,7 +3478,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "TableTopPitchAngleTolerance": PublicTag.kTableTopPitchAngleTolerance,
   "TableTopRollAngleTolerance": PublicTag.kTableTopRollAngleTolerance,
   "TableTopVerticalPositionTolerance": PublicTag.kTableTopVerticalPositionTolerance,
-  "TableTopLongitudinalPositionTolerance": PublicTag.kTableTopLongitudinalPositionTolerance,
+  "TableTopLongitudinalPositionTolerance":
+      PublicTag.kTableTopLongitudinalPositionTolerance,
   "TableTopLateralPositionTolerance": PublicTag.kTableTopLateralPositionTolerance,
   "RTPlanRelationship": PublicTag.kRTPlanRelationship,
   "FractionGroupSequence": PublicTag.kFractionGroupSequence,
@@ -3228,12 +3497,14 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "BeamDosePointEquivalentDepth": PublicTag.kBeamDosePointEquivalentDepth,
   "BeamDosePointSSD": PublicTag.kBeamDosePointSSD,
   "BeamDoseMeaning": PublicTag.kBeamDoseMeaning,
-  "BeamDoseVerificationControlPointSequence": PublicTag.kBeamDoseVerificationControlPointSequence,
+  "BeamDoseVerificationControlPointSequence":
+      PublicTag.kBeamDoseVerificationControlPointSequence,
   "AverageBeamDosePointDepth": PublicTag.kAverageBeamDosePointDepth,
   "AverageBeamDosePointEquivalentDepth": PublicTag.kAverageBeamDosePointEquivalentDepth,
   "AverageBeamDosePointSSD": PublicTag.kAverageBeamDosePointSSD,
   "NumberOfBrachyApplicationSetups": PublicTag.kNumberOfBrachyApplicationSetups,
-  "BrachyApplicationSetupDoseSpecificationPoint": PublicTag.kBrachyApplicationSetupDoseSpecificationPoint,
+  "BrachyApplicationSetupDoseSpecificationPoint":
+      PublicTag.kBrachyApplicationSetupDoseSpecificationPoint,
   "BrachyApplicationSetupDose": PublicTag.kBrachyApplicationSetupDose,
   "BeamSequence": PublicTag.kBeamSequence,
   "TreatmentMachineName": PublicTag.kTreatmentMachineName,
@@ -3242,7 +3513,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "BeamLimitingDeviceSequence": PublicTag.kBeamLimitingDeviceSequence,
   "RTBeamLimitingDeviceType": PublicTag.kRTBeamLimitingDeviceType,
   "SourceToBeamLimitingDeviceDistance": PublicTag.kSourceToBeamLimitingDeviceDistance,
-  "IsocenterToBeamLimitingDeviceDistance": PublicTag.kIsocenterToBeamLimitingDeviceDistance,
+  "IsocenterToBeamLimitingDeviceDistance":
+      PublicTag.kIsocenterToBeamLimitingDeviceDistance,
   "NumberOfLeafJawPairs": PublicTag.kNumberOfLeafJawPairs,
   "LeafPositionBoundaries": PublicTag.kLeafPositionBoundaries,
   "BeamNumber": PublicTag.kBeamNumber,
@@ -3253,7 +3525,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "HighDoseTechniqueType": PublicTag.kHighDoseTechniqueType,
   "ReferenceImageNumber": PublicTag.kReferenceImageNumber,
   "PlannedVerificationImageSequence": PublicTag.kPlannedVerificationImageSequence,
-  "ImagingDeviceSpecificAcquisitionParameters": PublicTag.kImagingDeviceSpecificAcquisitionParameters,
+  "ImagingDeviceSpecificAcquisitionParameters":
+      PublicTag.kImagingDeviceSpecificAcquisitionParameters,
   "TreatmentDeliveryType": PublicTag.kTreatmentDeliveryType,
   "NumberOfWedges": PublicTag.kNumberOfWedges,
   "WedgeSequence": PublicTag.kWedgeSequence,
@@ -3262,7 +3535,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "WedgeID": PublicTag.kWedgeID,
   "WedgeAngle": PublicTag.kWedgeAngle,
   "WedgeFactor": PublicTag.kWedgeFactor,
-  "TotalWedgeTrayWaterEquivalentThickness": PublicTag.kTotalWedgeTrayWaterEquivalentThickness,
+  "TotalWedgeTrayWaterEquivalentThickness":
+      PublicTag.kTotalWedgeTrayWaterEquivalentThickness,
   "WedgeOrientation": PublicTag.kWedgeOrientation,
   "IsocenterToWedgeTrayDistance": PublicTag.kIsocenterToWedgeTrayDistance,
   "SourceToWedgeTrayDistance": PublicTag.kSourceToWedgeTrayDistance,
@@ -3287,7 +3561,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "CompensatorTrayID": PublicTag.kCompensatorTrayID,
   "NumberOfBlocks": PublicTag.kNumberOfBlocks,
   "TotalBlockTrayFactor": PublicTag.kTotalBlockTrayFactor,
-  "TotalBlockTrayWaterEquivalentThickness": PublicTag.kTotalBlockTrayWaterEquivalentThickness,
+  "TotalBlockTrayWaterEquivalentThickness":
+      PublicTag.kTotalBlockTrayWaterEquivalentThickness,
   "BlockSequence": PublicTag.kBlockSequence,
   "BlockTrayID": PublicTag.kBlockTrayID,
   "SourceToBlockTrayDistance": PublicTag.kSourceToBlockTrayDistance,
@@ -3366,7 +3641,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "SetupDeviceParameter": PublicTag.kSetupDeviceParameter,
   "SetupReferenceDescription": PublicTag.kSetupReferenceDescription,
   "TableTopVerticalSetupDisplacement": PublicTag.kTableTopVerticalSetupDisplacement,
-  "TableTopLongitudinalSetupDisplacement": PublicTag.kTableTopLongitudinalSetupDisplacement,
+  "TableTopLongitudinalSetupDisplacement":
+      PublicTag.kTableTopLongitudinalSetupDisplacement,
   "TableTopLateralSetupDisplacement": PublicTag.kTableTopLateralSetupDisplacement,
   "BrachyTreatmentTechnique": PublicTag.kBrachyTreatmentTechnique,
   "BrachyTreatmentType": PublicTag.kBrachyTreatmentType,
@@ -3380,7 +3656,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "SourceModelID": PublicTag.kSourceModelID,
   "SourceDescription": PublicTag.kSourceDescription,
   "SourceEncapsulationNominalThickness": PublicTag.kSourceEncapsulationNominalThickness,
-  "SourceEncapsulationNominalTransmission": PublicTag.kSourceEncapsulationNominalTransmission,
+  "SourceEncapsulationNominalTransmission":
+      PublicTag.kSourceEncapsulationNominalTransmission,
   "SourceIsotopeName": PublicTag.kSourceIsotopeName,
   "SourceIsotopeHalfLife": PublicTag.kSourceIsotopeHalfLife,
   "SourceStrengthUnits": PublicTag.kSourceStrengthUnits,
@@ -3402,8 +3679,10 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "BrachyAccessoryDeviceID": PublicTag.kBrachyAccessoryDeviceID,
   "BrachyAccessoryDeviceType": PublicTag.kBrachyAccessoryDeviceType,
   "BrachyAccessoryDeviceName": PublicTag.kBrachyAccessoryDeviceName,
-  "BrachyAccessoryDeviceNominalThickness": PublicTag.kBrachyAccessoryDeviceNominalThickness,
-  "BrachyAccessoryDeviceNominalTransmission": PublicTag.kBrachyAccessoryDeviceNominalTransmission,
+  "BrachyAccessoryDeviceNominalThickness":
+      PublicTag.kBrachyAccessoryDeviceNominalThickness,
+  "BrachyAccessoryDeviceNominalTransmission":
+      PublicTag.kBrachyAccessoryDeviceNominalTransmission,
   "ChannelSequence": PublicTag.kChannelSequence,
   "ChannelNumber": PublicTag.kChannelNumber,
   "ChannelLength": PublicTag.kChannelLength,
@@ -3418,7 +3697,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "SourceApplicatorLength": PublicTag.kSourceApplicatorLength,
   "SourceApplicatorManufacturer": PublicTag.kSourceApplicatorManufacturer,
   "SourceApplicatorWallNominalThickness": PublicTag.kSourceApplicatorWallNominalThickness,
-  "SourceApplicatorWallNominalTransmission": PublicTag.kSourceApplicatorWallNominalTransmission,
+  "SourceApplicatorWallNominalTransmission":
+      PublicTag.kSourceApplicatorWallNominalTransmission,
   "SourceApplicatorStepSize": PublicTag.kSourceApplicatorStepSize,
   "TransferTubeNumber": PublicTag.kTransferTubeNumber,
   "TransferTubeLength": PublicTag.kTransferTubeLength,
@@ -3436,11 +3716,13 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "CompensatorDivergence": PublicTag.kCompensatorDivergence,
   "CompensatorMountingPosition": PublicTag.kCompensatorMountingPosition,
   "SourceToCompensatorDistance": PublicTag.kSourceToCompensatorDistance,
-  "TotalCompensatorTrayWaterEquivalentThickness": PublicTag.kTotalCompensatorTrayWaterEquivalentThickness,
+  "TotalCompensatorTrayWaterEquivalentThickness":
+      PublicTag.kTotalCompensatorTrayWaterEquivalentThickness,
   "IsocenterToCompensatorTrayDistance": PublicTag.kIsocenterToCompensatorTrayDistance,
   "CompensatorColumnOffset": PublicTag.kCompensatorColumnOffset,
   "IsocenterToCompensatorDistances": PublicTag.kIsocenterToCompensatorDistances,
-  "CompensatorRelativeStoppingPowerRatio": PublicTag.kCompensatorRelativeStoppingPowerRatio,
+  "CompensatorRelativeStoppingPowerRatio":
+      PublicTag.kCompensatorRelativeStoppingPowerRatio,
   "CompensatorMillingToolDiameter": PublicTag.kCompensatorMillingToolDiameter,
   "IonRangeCompensatorSequence": PublicTag.kIonRangeCompensatorSequence,
   "CompensatorDescription": PublicTag.kCompensatorDescription,
@@ -3464,7 +3746,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "LateralSpreadingDeviceID": PublicTag.kLateralSpreadingDeviceID,
   "LateralSpreadingDeviceType": PublicTag.kLateralSpreadingDeviceType,
   "LateralSpreadingDeviceDescription": PublicTag.kLateralSpreadingDeviceDescription,
-  "LateralSpreadingDeviceWaterEquivalentThickness": PublicTag.kLateralSpreadingDeviceWaterEquivalentThickness,
+  "LateralSpreadingDeviceWaterEquivalentThickness":
+      PublicTag.kLateralSpreadingDeviceWaterEquivalentThickness,
   "NumberOfRangeModulators": PublicTag.kNumberOfRangeModulators,
   "RangeModulatorSequence": PublicTag.kRangeModulatorSequence,
   "RangeModulatorNumber": PublicTag.kRangeModulatorNumber,
@@ -3482,14 +3765,18 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "RangeShifterSetting": PublicTag.kRangeShifterSetting,
   "IsocenterToRangeShifterDistance": PublicTag.kIsocenterToRangeShifterDistance,
   "RangeShifterWaterEquivalentThickness": PublicTag.kRangeShifterWaterEquivalentThickness,
-  "LateralSpreadingDeviceSettingsSequence": PublicTag.kLateralSpreadingDeviceSettingsSequence,
+  "LateralSpreadingDeviceSettingsSequence":
+      PublicTag.kLateralSpreadingDeviceSettingsSequence,
   "LateralSpreadingDeviceSetting": PublicTag.kLateralSpreadingDeviceSetting,
-  "IsocenterToLateralSpreadingDeviceDistance": PublicTag.kIsocenterToLateralSpreadingDeviceDistance,
+  "IsocenterToLateralSpreadingDeviceDistance":
+      PublicTag.kIsocenterToLateralSpreadingDeviceDistance,
   "RangeModulatorSettingsSequence": PublicTag.kRangeModulatorSettingsSequence,
   "RangeModulatorGatingStartValue": PublicTag.kRangeModulatorGatingStartValue,
   "RangeModulatorGatingStopValue": PublicTag.kRangeModulatorGatingStopValue,
-  "RangeModulatorGatingStartWaterEquivalentThickness": PublicTag.kRangeModulatorGatingStartWaterEquivalentThickness,
-  "RangeModulatorGatingStopWaterEquivalentThickness": PublicTag.kRangeModulatorGatingStopWaterEquivalentThickness,
+  "RangeModulatorGatingStartWaterEquivalentThickness":
+      PublicTag.kRangeModulatorGatingStartWaterEquivalentThickness,
+  "RangeModulatorGatingStopWaterEquivalentThickness":
+      PublicTag.kRangeModulatorGatingStopWaterEquivalentThickness,
   "IsocenterToRangeModulatorDistance": PublicTag.kIsocenterToRangeModulatorDistance,
   "ScanSpotTuneID": PublicTag.kScanSpotTuneID,
   "NumberOfScanSpotPositions": PublicTag.kNumberOfScanSpotPositions,
@@ -3519,15 +3806,18 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "ApplicatorOpening": PublicTag.kApplicatorOpening,
   "ApplicatorOpeningX": PublicTag.kApplicatorOpeningX,
   "ApplicatorOpeningY": PublicTag.kApplicatorOpeningY,
-  "SourceToApplicatorMountingPositionDistance": PublicTag.kSourceToApplicatorMountingPositionDistance,
+  "SourceToApplicatorMountingPositionDistance":
+      PublicTag.kSourceToApplicatorMountingPositionDistance,
   "ReferencedRTPlanSequence": PublicTag.kReferencedRTPlanSequence,
   "ReferencedBeamSequence": PublicTag.kReferencedBeamSequence,
   "ReferencedBeamNumber": PublicTag.kReferencedBeamNumber,
   "ReferencedReferenceImageNumber": PublicTag.kReferencedReferenceImageNumber,
   "StartCumulativeMetersetWeight": PublicTag.kStartCumulativeMetersetWeight,
   "EndCumulativeMetersetWeight": PublicTag.kEndCumulativeMetersetWeight,
-  "ReferencedBrachyApplicationSetupSequence": PublicTag.kReferencedBrachyApplicationSetupSequence,
-  "ReferencedBrachyApplicationSetupNumber": PublicTag.kReferencedBrachyApplicationSetupNumber,
+  "ReferencedBrachyApplicationSetupSequence":
+      PublicTag.kReferencedBrachyApplicationSetupSequence,
+  "ReferencedBrachyApplicationSetupNumber":
+      PublicTag.kReferencedBrachyApplicationSetupNumber,
   "ReferencedSourceNumber": PublicTag.kReferencedSourceNumber,
   "ReferencedFractionGroupSequence": PublicTag.kReferencedFractionGroupSequence,
   "ReferencedFractionGroupNumber": PublicTag.kReferencedFractionGroupNumber,
@@ -3535,7 +3825,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "ReferencedReferenceImageSequence": PublicTag.kReferencedReferenceImageSequence,
   "ReferencedDoseReferenceSequence": PublicTag.kReferencedDoseReferenceSequence,
   "ReferencedDoseReferenceNumber": PublicTag.kReferencedDoseReferenceNumber,
-  "BrachyReferencedDoseReferenceSequence": PublicTag.kBrachyReferencedDoseReferenceSequence,
+  "BrachyReferencedDoseReferenceSequence":
+      PublicTag.kBrachyReferencedDoseReferenceSequence,
   "ReferencedStructureSetSequence": PublicTag.kReferencedStructureSetSequence,
   "ReferencedPatientSetupNumber": PublicTag.kReferencedPatientSetupNumber,
   "ReferencedDoseSequence": PublicTag.kReferencedDoseSequence,
@@ -3549,7 +3840,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "ReferencedStartControlPointIndex": PublicTag.kReferencedStartControlPointIndex,
   "ReferencedStopControlPointIndex": PublicTag.kReferencedStopControlPointIndex,
   "ReferencedRangeShifterNumber": PublicTag.kReferencedRangeShifterNumber,
-  "ReferencedLateralSpreadingDeviceNumber": PublicTag.kReferencedLateralSpreadingDeviceNumber,
+  "ReferencedLateralSpreadingDeviceNumber":
+      PublicTag.kReferencedLateralSpreadingDeviceNumber,
   "ReferencedRangeModulatorNumber": PublicTag.kReferencedRangeModulatorNumber,
   "ApprovalStatus": PublicTag.kApprovalStatus,
   "ReviewDate": PublicTag.kReviewDate,
@@ -3655,7 +3947,8 @@ import 'package:dictionary/src/tag/public_tag.dart';
   "TotalProcessingTime": PublicTag.kTotalProcessingTime,
   "DetectorCalibrationData": PublicTag.kDetectorCalibrationData,
   "AdditionalScreeningPerformed": PublicTag.kAdditionalScreeningPerformed,
-  "AdditionalInspectionSelectionCriteria": PublicTag.kAdditionalInspectionSelectionCriteria,
+  "AdditionalInspectionSelectionCriteria":
+      PublicTag.kAdditionalInspectionSelectionCriteria,
   "AdditionalInspectionMethodSequence": PublicTag.kAdditionalInspectionMethodSequence,
   "AITDeviceType": PublicTag.kAITDeviceType,
   "QRMeasurementsSequence": PublicTag.kQRMeasurementsSequence,

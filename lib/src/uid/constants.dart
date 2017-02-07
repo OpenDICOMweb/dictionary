@@ -42,7 +42,8 @@ const kJPEG_LSLosslessImageCompression = "1.2.840.10008.1.2.4.80";
 const kJPEG_LSLossyImageCompression = "1.2.840.10008.1.2.4.81";
 const kJPEG2000ImageCompressionLosslessOnly = "1.2.840.10008.1.2.4.90";
 const kJPEG2000ImageCompression = "1.2.840.10008.1.2.4.91";
-const kJPEG2000Part2Multi_componentImageCompressionLosslessOnly = "1.2.840.10008.1.2.4.92";
+const kJPEG2000Part2Multi_componentImageCompressionLosslessOnly =
+    "1.2.840.10008.1.2.4.92";
 const kJPEG2000Part2Multi_componentImageCompression = "1.2.840.10008.1.2.4.93";
 const kJPIPReferenced = "1.2.840.10008.1.2.4.94";
 const kJPIPReferencedDeflate = "1.2.840.10008.1.2.4.95";
@@ -133,8 +134,10 @@ const kMediaCreationManagementSOPClassUID = "1.2.840.10008.5.1.1.33";
 const kComputedRadiographyImageStorage = "1.2.840.10008.5.1.4.1.1.1";
 const kDigitalX_RayImageStorage_ForPresentation = "1.2.840.10008.5.1.4.1.1.1.1";
 const kDigitalX_RayImageStorage_ForProcessing = "1.2.840.10008.5.1.4.1.1.1.1.1";
-const kDigitalMammographyX_RayImageStorage_ForPresentation = "1.2.840.10008.5.1.4.1.1.1.2";
-const kDigitalMammographyX_RayImageStorage_ForProcessing = "1.2.840.10008.5.1.4.1.1.1.2.1";
+const kDigitalMammographyX_RayImageStorage_ForPresentation =
+    "1.2.840.10008.5.1.4.1.1.1.2";
+const kDigitalMammographyX_RayImageStorage_ForProcessing =
+    "1.2.840.10008.5.1.4.1.1.1.2.1";
 const kDigitalIntra_OralX_RayImageStorage_ForPresentation = "1.2.840.10008.5.1.4.1.1.1.3";
 const kDigitalIntra_OralX_RayImageStorage_ForProcessing = "1.2.840.10008.5.1.4.1.1.1.3.1";
 const kCTImageStorage = "1.2.840.10008.5.1.4.1.1.2";
@@ -153,8 +156,10 @@ const kUltrasoundImageStorage = "1.2.840.10008.5.1.4.1.1.6.1";
 const kEnhancedUSVolumeStorage = "1.2.840.10008.5.1.4.1.1.6.2";
 const kSecondaryCaptureImageStorage = "1.2.840.10008.5.1.4.1.1.7";
 const kMulti_frameSingleBitSecondaryCaptureImageStorage = "1.2.840.10008.5.1.4.1.1.7.1";
-const kMulti_frameGrayscaleByteSecondaryCaptureImageStorage = "1.2.840.10008.5.1.4.1.1.7.2";
-const kMulti_frameGrayscaleWordSecondaryCaptureImageStorage = "1.2.840.10008.5.1.4.1.1.7.3";
+const kMulti_frameGrayscaleByteSecondaryCaptureImageStorage =
+    "1.2.840.10008.5.1.4.1.1.7.2";
+const kMulti_frameGrayscaleWordSecondaryCaptureImageStorage =
+    "1.2.840.10008.5.1.4.1.1.7.3";
 const kMulti_frameTrueColorSecondaryCaptureImageStorage = "1.2.840.10008.5.1.4.1.1.7.4";
 const kStandaloneOverlayStorage_Retired = "1.2.840.10008.5.1.4.1.1.8";
 const kStandaloneCurveStorage_Retired = "1.2.840.10008.5.1.4.1.1.9";
@@ -172,7 +177,8 @@ const kStandaloneModalityLUTStorage_Retired = "1.2.840.10008.5.1.4.1.1.10";
 const kStandaloneVOILUTStorage_Retired = "1.2.840.10008.5.1.4.1.1.11";
 const kGrayscaleSoftcopyPresentationStateStorageSOPClass = "1.2.840.10008.5.1.4.1.1.11.1";
 const kColorSoftcopyPresentationStateStorageSOPClass = "1.2.840.10008.5.1.4.1.1.11.2";
-const kPseudo_ColorSoftcopyPresentationStateStorageSOPClass = "1.2.840.10008.5.1.4.1.1.11.3";
+const kPseudo_ColorSoftcopyPresentationStateStorageSOPClass =
+    "1.2.840.10008.5.1.4.1.1.11.3";
 const kBlendingSoftcopyPresentationStateStorageSOPClass = "1.2.840.10008.5.1.4.1.1.11.4";
 const kXA_XRFGrayscaleSoftcopyPresentationStateStorage = "1.2.840.10008.5.1.4.1.1.11.5";
 const kX_RayAngiographicImageStorage = "1.2.840.10008.5.1.4.1.1.12.1";
@@ -220,7 +226,8 @@ const kSpectaclePrescriptionReportStorage = "1.2.840.10008.5.1.4.1.1.78.6";
 const kOphthalmicAxialMeasurementsStorage = "1.2.840.10008.5.1.4.1.1.78.7";
 const kIntraocularLensCalculationsStorage = "1.2.840.10008.5.1.4.1.1.78.8";
 const kMacularGridThicknessandVolumeReportStorage = "1.2.840.10008.5.1.4.1.1.79.1";
-const kOphthalmicVisualFieldStaticPerimetryMeasurementsStorage = "1.2.840.10008.5.1.4.1.1.80.1";
+const kOphthalmicVisualFieldStaticPerimetryMeasurementsStorage =
+    "1.2.840.10008.5.1.4.1.1.80.1";
 const kOphthalmicThicknessMapStorage = "1.2.840.10008.5.1.4.1.1.81.1";
 const kCornealTopographyMapStorage = "11.2.840.10008.5.1.4.1.1.82.1";
 const kTextSRStorage_Trial_Retired = "1.2.840.10008.5.1.4.1.1.88.1";
@@ -269,9 +276,12 @@ const kPatientRootQuery_RetrieveInformationModel_GET = "1.2.840.10008.5.1.4.1.2.
 const kStudyRootQuery_RetrieveInformationModel_FIND = "1.2.840.10008.5.1.4.1.2.2.1";
 const kStudyRootQuery_RetrieveInformationModel_MOVE = "1.2.840.10008.5.1.4.1.2.2.2";
 const kStudyRootQuery_RetrieveInformationModel_GET = "1.2.840.10008.5.1.4.1.2.2.3";
-const kPatient_StudyOnlyQuery_RetrieveInformationModel_FIND_Retired = "1.2.840.10008.5.1.4.1.2.3.1";
-const kPatient_StudyOnlyQuery_RetrieveInformationModel_MOVE_Retired = "1.2.840.10008.5.1.4.1.2.3.2";
-const kPatient_StudyOnlyQuery_RetrieveInformationModel_GET_Retired = "1.2.840.10008.5.1.4.1.2.3.3";
+const kPatient_StudyOnlyQuery_RetrieveInformationModel_FIND_Retired =
+    "1.2.840.10008.5.1.4.1.2.3.1";
+const kPatient_StudyOnlyQuery_RetrieveInformationModel_MOVE_Retired =
+    "1.2.840.10008.5.1.4.1.2.3.2";
+const kPatient_StudyOnlyQuery_RetrieveInformationModel_GET_Retired =
+    "1.2.840.10008.5.1.4.1.2.3.3";
 const kCompositeInstanceRootRetrieve_MOVE = "1.2.840.10008.5.1.4.1.2.4.2";
 const kCompositeInstanceRootRetrieve_GET = "1.2.840.10008.5.1.4.1.2.4.3";
 const kCompositeInstanceRetrieveWithoutBulkData_GET = "1.2.840.10008.5.1.4.1.2.5.3";
@@ -284,7 +294,8 @@ const kInstanceAvailabilityNotificationSOPClass = "1.2.840.10008.5.1.4.33";
 const kRTBeamsDeliveryInstructionStorage_Trial_Retired = "1.2.840.10008.5.1.4.34.1";
 const kRTConventionalMachineVerification_Trial_Retired = "1.2.840.10008.5.1.4.34.2";
 const kRTIonMachineVerification_Trial_Retired = "1.2.840.10008.5.1.4.34.3";
-const kUnifiedWorklistandProcedureStepServiceClass_Trial_Retired = "1.2.840.10008.5.1.4.34.4";
+const kUnifiedWorklistandProcedureStepServiceClass_Trial_Retired =
+    "1.2.840.10008.5.1.4.34.4";
 const kUnifiedProcedureStep_PushSOPClass_Trial_Retired = "1.2.840.10008.5.1.4.34.4.1";
 const kUnifiedProcedureStep_WatchSOPClass_Trial_Retired = "1.2.840.10008.5.1.4.34.4.2";
 const kUnifiedProcedureStep_PullSOPClass_Trial_Retired = "1.2.840.10008.5.1.4.34.4.3";

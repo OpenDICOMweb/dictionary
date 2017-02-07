@@ -77,10 +77,13 @@ class TransferSyntax extends WKUid {
   static const defaultForDicomWeb = kExplicitVRLittleEndian;
 
   static const kDeflatedExplicitVRLittleEndian = const TransferSyntax(
-      "1.2.840.10008.1.2.1.99", "Deflated Explicit VR Little Endian", "image/deflate??", false);
+      "1.2.840.10008.1.2.1.99",
+      "Deflated Explicit VR Little Endian",
+      "image/deflate??",
+      false);
 
-  static const kExplicitVRBigEndian = const TransferSyntax(
-      "1.2.840.10008.1.2.2", "Explicit VR Big Endian (Retired)", "image/bigEndian", false, true);
+  static const kExplicitVRBigEndian = const TransferSyntax("1.2.840.10008.1.2.2",
+      "Explicit VR Big Endian (Retired)", "image/bigEndian", false, true);
 
   static const kJPEGBaseline_1 = const TransferSyntax(
       "1.2.840.10008.1.2.4.50",
@@ -98,8 +101,8 @@ class TransferSyntax extends WKUid {
 
   static const kJPEGLossy12BitDefault = kJPEGExtended_2_4;
 
-  static const kJPEGExtended_3_5_Retired = const TransferSyntax(
-      "1.2.840.10008.1.2.4.52", "JPEG Extended (Process 3 & 5) (Retired)", "image/jpeg", true);
+  static const kJPEGExtended_3_5_Retired = const TransferSyntax("1.2.840.10008.1.2.4.52",
+      "JPEG Extended (Process 3 & 5) (Retired)", "image/jpeg", true);
 
   static const kJPEGSpectralSelectionNon_Hierarchical_6_8_Retired = const TransferSyntax(
       "1.2.840.10008.1.2.4.53",
@@ -126,7 +129,9 @@ class TransferSyntax extends WKUid {
       true);
 
   static const kJPEGLosslessNon_Hierarchical_14 = const TransferSyntax(
-      "1.2.840.10008.1.2.4.57", "JPEG Lossless, Non-Hierarchical (Process 14)", "image/jpeg???");
+      "1.2.840.10008.1.2.4.57",
+      "JPEG Lossless, Non-Hierarchical (Process 14)",
+      "image/jpeg???");
 
   static const kJPEGLosslessNon_Hierarchical_15_Retired = const TransferSyntax(
       "1.2.840.10008.1.2.4.58",
@@ -170,45 +175,58 @@ class TransferSyntax extends WKUid {
       "image/jpeg",
       true);
 
-  static const kJPEGLosslessHierarchical_28_Retired = const TransferSyntax("1.2.840.10008.1.2.4.65",
-      "JPEG Lossless, Hierarchical (Process 28) (Retired)", "image/jpeg", true);
+  static const kJPEGLosslessHierarchical_28_Retired = const TransferSyntax(
+      "1.2.840.10008.1.2.4.65",
+      "JPEG Lossless, Hierarchical (Process 28) (Retired)",
+      "image/jpeg",
+      true);
 
-  static const kJPEGLosslessHierarchical_29_Retired = const TransferSyntax("1.2.840.10008.1.2.4.66",
-      "JPEG Lossless, Hierarchical (Process 29) (Retired)", "image/jpeg", true);
+  static const kJPEGLosslessHierarchical_29_Retired = const TransferSyntax(
+      "1.2.840.10008.1.2.4.66",
+      "JPEG Lossless, Hierarchical (Process 29) (Retired)",
+      "image/jpeg",
+      true);
 
-  static const kJPEGLosslessNon_HierarchicalFirst_OrderPrediction_14_1 = const TransferSyntax(
-      "1.2.840.10008.1.2.4.70",
-      "JPEG Lossless, Non-Hierarchical, First-Order Prediction "
-      "(Process 14 [Selection Value 1]) : Default Transfer Syntax "
-      "for Lossless JPEG Image Compression",
-      "image/jpeg");
+  static const kJPEGLosslessNon_HierarchicalFirst_OrderPrediction_14_1 =
+      const TransferSyntax(
+          "1.2.840.10008.1.2.4.70",
+          "JPEG Lossless, Non-Hierarchical, First-Order Prediction "
+          "(Process 14 [Selection Value 1]) : Default Transfer Syntax "
+          "for Lossless JPEG Image Compression",
+          "image/jpeg");
 
-  static const kJPEGLosslessDefault = kJPEGLosslessNon_HierarchicalFirst_OrderPrediction_14_1;
+  static const kJPEGLosslessDefault =
+      kJPEGLosslessNon_HierarchicalFirst_OrderPrediction_14_1;
 
   static const kJPEG_LSLosslessImageCompression = const TransferSyntax(
       "1.2.840.10008.1.2.4.80", "JPEG-LS Lossless Image Compression", "image/jpeg-ls");
   static const kJPEG_LSLossyImageCompression = const TransferSyntax(
-      "1.2.840.10008.1.2.4.81", "JPEG-LS Lossy (Near-Lossless) Image Compression", "image/jpeg-ls");
+      "1.2.840.10008.1.2.4.81",
+      "JPEG-LS Lossy (Near-Lossless) Image Compression",
+      "image/jpeg-ls");
 
   static const kJPEG2000ImageCompressionLosslessOnly = const TransferSyntax(
       "1.2.840.10008.1.2.4.90", "JPEG 2000 Image Compression Lossless Only", "image/jp2");
 
-  static const kJPEG2000ImageCompression =
-      const TransferSyntax("1.2.840.10008.1.2.4.91", "JPEG 2000 Image Compression", "image/jp2");
+  static const kJPEG2000ImageCompression = const TransferSyntax(
+      "1.2.840.10008.1.2.4.91", "JPEG 2000 Image Compression", "image/jp2");
 
-  static const kJPEG2000Part2Multi_componentImageCompressionLosslessOnly = const TransferSyntax(
-      "1.2.840.10008.1.2.4.92",
-      "JPEG 2000 Part 2 Multi-component Image Compression Lossless Only",
-      "image/jp2");
+  static const kJPEG2000Part2Multi_componentImageCompressionLosslessOnly =
+      const TransferSyntax(
+          "1.2.840.10008.1.2.4.92",
+          "JPEG 2000 Part 2 Multi-component Image Compression Lossless Only",
+          "image/jp2");
 
   static const kJPEG2000Part2Multi_componentImageCompression = const TransferSyntax(
-      "1.2.840.10008.1.2.4.93", "JPEG 2000 Part 2 Multi-component Image Compression", "image/jp2");
+      "1.2.840.10008.1.2.4.93",
+      "JPEG 2000 Part 2 Multi-component Image Compression",
+      "image/jp2");
 
   static const kJPIPReferenced =
       const TransferSyntax("1.2.840.10008.1.2.4.94", "JPIP Referenced", "image/jpip???");
 
-  static const kJPIPReferencedDeflate =
-      const TransferSyntax("1.2.840.10008.1.2.4.95", "JPIP Referenced Deflate", "image/jpip???");
+  static const kJPIPReferencedDeflate = const TransferSyntax(
+      "1.2.840.10008.1.2.4.95", "JPIP Referenced Deflate", "image/jpip???");
 
   static const kMPEG2MainProfile_MainLevel = const TransferSyntax(
       "1.2.840.10008.1.2.4.100", "MPEG2 Main Profile @ Main Level", "image/mpeg");
@@ -217,7 +235,10 @@ class TransferSyntax extends WKUid {
       "1.2.840.10008.1.2.4.101", "MPEG2 Main Profile @ High Level", "image/mpeg???");
 
   static const kMPEG_4AVC_H264HighProfile_Level41 = const TransferSyntax(
-      "1.2.840.10008.1.2.4.102", "MPEG-4 AVC/H.264 High Profile / Level 4.1", "image/mpeg4", false);
+      "1.2.840.10008.1.2.4.102",
+      "MPEG-4 AVC/H.264 High Profile / Level 4.1",
+      "image/mpeg4",
+      false);
 
   static const kMPEG_4AVC_H264BD_compatibleHighProfile_Level41 = const TransferSyntax(
       "1.2.840.10008.1.2.4.103",

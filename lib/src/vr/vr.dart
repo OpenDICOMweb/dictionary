@@ -112,7 +112,8 @@ class VR<T> {
 
   int get code16Bit => (code >> 8) + ((code & 0xFF) << 8);
 
-  String get info => '$runtimeType: $id(${Int16.hex(code)})[$index]: maxVFLength($_maxVF), '
+  String get info =>
+      '$runtimeType: $id(${Int16.hex(code)})[$index]: maxVFLength($_maxVF), '
       'elementSize($elementSize)';
 
   //TODO: decide if these are needed or useful
@@ -240,7 +241,8 @@ class VR<T> {
   ];
 
   static const List<VR> stringVRs = const <VR>[
-    kAE, kAS, kBR, kCS, kDA, kDS, kDT, kIS, kLO, kLT, kPN, kSH, kST, kTM, kUC, kUI, kUR, kUT //
+    kAE, kAS, kBR, kCS, kDA, kDS, kDT, kIS, kLO, kLT, kPN, kSH, kST, kTM, kUC, kUI, kUR,
+    kUT //
   ];
 
   static const List<VR> byteVRs = const <VR>[
@@ -383,5 +385,5 @@ class VROther extends VR {
 
   //Bulkdata Reference
   static const VROther kSQ =
-  const VROther._(32, 0x5351, "SQ", "Sequence", kMaxLongVF, true);
+      const VROther._(1, 0x5351, "SQ", "Sequence", kMaxLongVF, true);
 }

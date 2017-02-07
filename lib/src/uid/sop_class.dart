@@ -26,5 +26,4 @@ class SopClassUid extends WKUid {
 
   static const kVerificationSOPClass = const SopClassUid(
       "1.2.840.10008.1.1", UidType.kSOPClass, false, "Verification SOP Class", "PS3.4");
-
 }

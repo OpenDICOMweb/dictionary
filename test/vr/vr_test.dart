@@ -1,12 +1,12 @@
 // Copyright (c) 2016, Open DICOMweb Project. All rights reserved.
 // Use of this source code is governed by the open source license
 // that can be found in the LICENSE file.
-// Author: Jim Philbin <jfphilbin@gmail.edu> - 
+// Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
 import 'package:common/common.dart';
-import 'package:dictionary/src/vr/vr_index.dart';
 import 'package:dictionary/src/vr/vr.dart';
+import 'package:dictionary/src/vr/vr_index.dart';
 import 'package:test/test.dart';
 
 main() {
@@ -71,7 +71,7 @@ main() {
       int index = vr.index;
       int vrCode8 = vr.code;
       int vrCode16 = vr.code16Bit;
-      print('8: ${Int16.hex(vrCode8)}, 16: ${Int16.hex(vrCode16)}');
+      print('$i: ${Int16.hex(vrCode8)}, 16: ${Int16.hex(vrCode16)}');
 
       int vrIndex8Bit = kVR8BitCodeList.indexOf(vrCode8);
       print('vr.index: $index , vrIndex8Bit: $vrIndex8Bit');

@@ -11,7 +11,7 @@ main() {
   //List<String> uints = ["9", "99", "999", "9999", "9999999999"];
 
   //int v = readUint(uints[0], 0, 1, 1);
- // print('v = $v');
+  // print('v = $v');
   uintTest();
 }
 
@@ -21,7 +21,6 @@ uintTest() {
   List<String> uintStrings = ["9", "09", "990", "0999", "9099099909"];
   List<int> uintValues = [9, 09, 990, 0999, 9099099909];
   List<int> uintLength_1Values = [0, 0, 99, 099, 909909990];
-
 
   List<String> badUintStrings = ["", "X", "9X", "99S", "999S", "99999999X"];
   List<int> badUintValues = [null, null, null, null, null, null];

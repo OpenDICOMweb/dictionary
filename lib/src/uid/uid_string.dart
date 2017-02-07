@@ -30,7 +30,7 @@ class UidString extends Uid {
   UidType get type => UidType.kConstructed;
 
   //TODO: Needed.
- // String get root;
+  // String get root;
 
   /// Returns [s] if it is a valid [Uid] [String]; otherwise, [null].
   static String check(String s) => isValid(s) ? s : null;
@@ -38,7 +38,8 @@ class UidString extends Uid {
   static String test(String s) => isValid(s) ? s : throw "Invalid Uid String: $s";
 
   static String validRoot(String root) {
-    if (root.length > maxRootLength) throw new ArgumentError("root length > $maxRootLength");
+    if (root.length > maxRootLength)
+      throw new ArgumentError("root length > $maxRootLength");
     if ((checkString(root, kMin, kMax, kPred) == null))
       throw new ArgumentError('invalid UID root: $root');
     return root;
@@ -59,7 +60,7 @@ class UidString extends Uid {
   */
 
   /// Returns [s] if it is a valid [Uid] [String]; otherwise, [null].
-  static String validate(String s) => (testString(s, kMin, kMax, kPred)) ? s: null;
+  static String validate(String s) => (testString(s, kMin, kMax, kPred)) ? s : null;
 
   static final RegExp uidPattern = new RegExp(r"[012]((\.0)|(\.[1-9]\d*))+");
 

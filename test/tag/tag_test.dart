@@ -1,7 +1,7 @@
 // Copyright (c) 2016, Open DICOMweb Project. All rights reserved.
 // Use of this source code is governed by the open source license
 // that can be found in the LICENSE file.
-// Author: Jim Philbin <jfphilbin@gmail.edu> - 
+// Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
 import 'package:dictionary/src/tag/constants.dart';
@@ -20,7 +20,7 @@ List<int> tags = const [
   kTagAngleSecondAxis,
   kReferencePixelX0,
   kVectorGridData
-  ];
+];
 
 /// Test the Tag Class
 void main() {
@@ -29,13 +29,10 @@ void main() {
 
 /// Simple Tag Test
 void tagTest() {
-
-  for(int i = 0; i < tags.length; i++) {
+  for (int i = 0; i < tags.length; i++) {
     PublicTag tag = PublicTag.lookupCode(tags[i]);
     print('${tag.info}');
     print('isShort: ${tag.hasShortVF}, sizeInBytes: ${tag.vr.elementSize}');
     print('min: ${tag.minLength}, max: ${tag.maxLength}, width: ${tag.width}');
   }
-
-
 }

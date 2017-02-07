@@ -10,7 +10,6 @@ import 'package:dictionary/src/vr/vr_index.dart';
 import 'package:dictionary/src/vr/vr.dart';
 
 main() {
-
   test8BitVR();
   test16BitVRMapLookup();
 }
@@ -339,7 +338,6 @@ test16BitVRMapLookup() {
   });
 }
 
-
 test16BitVRVectorLookup() {
   test("Inverted Vector Lookup (16-Bit)", () {
     VR vr = VR.lookup16(kAE16);
@@ -501,4 +499,3 @@ test16BitVRVectorLookup() {
     expect(vr == VR.kUT, true);
   });
 }
-

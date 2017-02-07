@@ -1,7 +1,7 @@
 // Copyright (c) 2016, Open DICOMweb Project. All rights reserved.
 // Use of this source code is governed by the open source license
 // that can be found in the LICENSE file.
-// Original author: Jim Philbin <jfphilbin@gmail.edu> - 
+// Original author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
 import 'package:common/src/string/regex.dart';
@@ -34,18 +34,18 @@ const String personName = '^\^($last)\^($first)\^($middle)\^($prefix)\^($suffix)
 //const String dcrPunctuation = r" !\\"\#\$\%&\'";
 const String dcrUppercase = r"[A-Z]";
 const String dcrLowercase = r"[a-z]";
-const String dcrDigits    = r"[0-9]";
+const String dcrDigits = r"[0-9]";
 //const String dcrG0 = r"!\"#$%&\'()*+,";
 
 //TODO test - these should be equialent - which is faster?
 // !\#$%&\'()*+,-./:;<=>?@[\]^_`{|}~
 const String punc = """ !\"#\$%&'()*+,-./:;<=>?@[\\]^_`{|}~""";
-const String punc1 =  " !\"#\$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
+const String punc1 = " !\"#\$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
 const String punc2 = r" !#$%&'()*+,-./:;<=>?@[\]^_`{|}~";
 
 // G0 subset of US-ASCII
 final int g0Start = " ".codeUnitAt(0);
-final int g0End   = "~".codeUnitAt(0) + 1;
+final int g0End = "~".codeUnitAt(0) + 1;
 
 /*TODO delete
 bool inDcrG0(String char) {
@@ -154,4 +154,3 @@ bool validUTString(String s) {
   return null;
 }
 */
-

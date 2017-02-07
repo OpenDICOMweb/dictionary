@@ -10,7 +10,6 @@ import 'package:dictionary/src/vr/vr.dart';
 import 'tag.dart';
 //import 'private_data_tag_list.dart';
 
-
 class PrivateDataTag extends Tag {
   final int id;
   final String token;
@@ -27957,5 +27956,3 @@ class PrivateDataTag extends Tag {
   static const PrivateDataTag k11166 = const PrivateDataTag._(
       11166, "SIEMENS MED NM", 0x7fe30029, VR.kOW, VM.k1, "Number of R-Waves in Frame");
 }
-
-

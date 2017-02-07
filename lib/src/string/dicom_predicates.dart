@@ -54,7 +54,8 @@ bool _isDcrNBCharSCS(int c, [bool isEscapeAllowed = false]) =>
 
 /// The four legal DICOM control characters.
 /// Returns [true] if [c] is a DICOM Control character; otherwise [false].
-bool _isDcmCtrlChar(int c) => (c == kLinefeed) || (c == kCr) || (c == kHTab) || (c == kFormfeed);
+bool _isDcmCtrlChar(int c) =>
+    (c == kLinefeed) || (c == kCr) || (c == kHTab) || (c == kFormfeed);
 
 // Public Predicates
 
@@ -122,13 +123,15 @@ bool isTextChar(int c) => isReplaceableDcrChar(c) || isControlChar(c);
 CharPredicate isAEChar = isNBDcrNBChar;
 
 /// Returns [true] if [c] is legal in Code String; otherwise, [false],
-bool isCSChar(int c) => isUppercaseChar(c) || isDigitChar(c) || (c == kSpace) || (c == kUnderscore);
+bool isCSChar(int c) =>
+    isUppercaseChar(c) || isDigitChar(c) || (c == kSpace) || (c == kUnderscore);
 
 ///Returns [true] if [c] is legal in a DICOM Date VR (DA) ; otherwise, [false].
 CharPredicate isDAChar = isDigitChar;
 
 ///Returns [true] if [c] is legal in a DICOM Date VR (DA) ; otherwise, [false].
-bool isDSChar(int c) => isDigitChar(c) || isSignChar(c) || isDotChar(c) || isExponentChar(c);
+bool isDSChar(int c) =>
+    isDigitChar(c) || isSignChar(c) || isDotChar(c) || isExponentChar(c);
 
 ///Returns [true] if [c] is legal in a DICOM DateTime VR (DT) ; otherwise, [false].
 bool isDTChar(int c) => isTMChar(c) || isSignChar(c);
@@ -155,7 +158,8 @@ bool _isValidLength(String s, int min, int max) {
   return Int.inRange(s.length, min, max);
 }
 
-String _invalidChar(int c, int pos) => 'Value has invalid character($c) at position($pos)';
+String _invalidChar(int c, int pos) =>
+    'Value has invalid character($c) at position($pos)';
 
 //TODO: this does not handle escape sequences
 bool _isFilteredString(String s, int min, int max, bool filter(int c)) {

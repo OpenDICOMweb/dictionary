@@ -20,8 +20,9 @@ String cleanString(String s) {
 bool isDigit(String s) {
   int min = "0".codeUnitAt(0);
   int max = "9".codeUnitAt(0);
-  return ((min <=s.codeUnitAt(0)) && (s.codeUnitAt(0) <= max)) ? true : false;
+  return ((min <= s.codeUnitAt(0)) && (s.codeUnitAt(0) <= max)) ? true : false;
 }
+
 // TODO move to generators.dart library
 String cleanKeyword(String s) {
   // Remove spaces and apsotrophies
@@ -45,8 +46,8 @@ class CodingSchemeClassTable {
   List<String> fieldNames;
   List<List<String>> values;
 
-  CodingSchemeClassTable(this.className, this.fieldCount, this.fieldTypes,
-                         this.fieldNames, this.values) {
+  CodingSchemeClassTable(
+      this.className, this.fieldCount, this.fieldTypes, this.fieldNames, this.values) {
     cleanValues();
   }
 
@@ -155,7 +156,7 @@ $codingSchemeTables
       String uid = v[kUid];
       String description = v[kDescription];
       valuesString +=
-      '  static const k$keyword = const CodingScheme("$designator", "$uid", "$description");\n';
+          '  static const k$keyword = const CodingScheme("$designator", "$uid", "$description");\n';
     }
     return valuesString;
   }
@@ -173,8 +174,7 @@ $codingSchemeTables
       String keyword = v[kKeyword];
 
       map.add('"$designator": $keyword');
-      if (v[kUid] != "")
-        uidMap.add('"$uid": $keyword');
+      if (v[kUid] != "") uidMap.add('"$uid": $keyword');
       mapKeys.add('"$designator"');
       mapValues.add('$keyword');
     }
@@ -182,7 +182,8 @@ $codingSchemeTables
     var indent = "".padRight(4);
     var lines = uidMap.join(',\n$indent');
 
-    var s = '  static const Map<String, CodingScheme> uidMap = const {\n$indent$lines};\n\n';
+    var s =
+        '  static const Map<String, CodingScheme> uidMap = const {\n$indent$lines};\n\n';
     lines = map.join(',\n$indent');
     s += '  static const Map<String, CodingScheme> map = const {\n$indent$lines};\n\n';
     lines = mapKeys.join(",\n$indent");
@@ -225,18 +226,12 @@ $codingSchemeTables
     File file = new File(filename);
     String s = file.readAsStringSync();
     Map m = JSON.decode(s);
-    return new CodingSchemeClassTable(m["className"],
-                                          m["fieldCount"],
-                                          m["fieldTypes"],
-                                          m["fieldNames"],
-                                          m["values"]);
+    return new CodingSchemeClassTable(
+        m["className"], m["fieldCount"], m["fieldTypes"], m["fieldNames"], m["values"]);
   }
 
   static void write(File file, CodingSchemeClassTable table) {
     String s = JSON.encode(table);
     file.writeAsStringSync(s);
   }
-
-
-
 }

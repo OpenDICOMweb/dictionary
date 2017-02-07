@@ -88,7 +88,8 @@ class Uuid {
   bool operator ==(Object other) {
     if (other is Uuid) {
       if (_bytes.length != other._bytes.length) return false;
-      for (int i = 0; i < lengthInBytes; i++) if (_bytes[i] != other._bytes[i]) return false;
+      for (int i = 0; i < lengthInBytes; i++)
+        if (_bytes[i] != other._bytes[i]) return false;
       return true;
     } else {
       return false;
@@ -160,12 +161,10 @@ Uint8List _validateV4Uint8List(Uint8List bytes) {
 }
 */
 
-
 Uint8List _getBytes(Random rng) {
   Uint8List bytes = new Uint8List(16);
   Uint32List int32 = bytes.buffer.asUint32List();
-  for (int i = 0; i < 4; i++)
-    int32[i] = rng.nextInt(0xFFFFFFFF);
+  for (int i = 0; i < 4; i++) int32[i] = rng.nextInt(0xFFFFFFFF);
   bytes[6] = bytes[6] >> 4 | 0x40;
   bytes[8] = bytes[8] >> 2 | 0x80;
   return bytes;
@@ -179,7 +178,8 @@ bool _isValidV4Uint8List(Uint8List bytes) =>
 Uint8List _listToBytes(List<int> list) {
   if (list.length < 16) throw new ArgumentError('Invalid List Length: ${list.length}');
 
-  Uint8List bytes = (list is Uint8List) ? list : new Uint8List.fromList(list.sublist(0, 16));
+  Uint8List bytes =
+      (list is Uint8List) ? list : new Uint8List.fromList(list.sublist(0, 16));
   if ((bytes[6] >> 4) != 0x4) bytes[6] = (bytes[6] & 0x0f) | 0x40;
   if ((bytes[8] >> 6) != 0x2) bytes[8] = (bytes[8] & 0x3f) | 0x80;
   return bytes;
@@ -193,7 +193,8 @@ Uint8List _listToBytes(List<int> list) {
 /// Can optionally be provided a [Uint8List] to write into and
 /// a positional [offset] for where to start inputting into the buffer.
 Uint8List _parseToBytes(String s, [Uint8List list, int offset = 0]) {
-  Uint8List bytes = (list != null) ? list.buffer.asUint8List(offset, 16) : new Uint8List(16);
+  Uint8List bytes =
+      (list != null) ? list.buffer.asUint8List(offset, 16) : new Uint8List(16);
   void toBytes(int byteIndex, int start, int end) {
     for (int i = start; i < end; i += 2)
       //TODO: change this to use s.codeUnitAt(i)
@@ -230,8 +231,7 @@ String _toUuidFormat(Uint8List bytes, [int offset = 0]) {
 
 String _toUidString(Uint8List bytes, [int offset = 0]) {
   StringBuffer sb = new StringBuffer();
-  for(int i = offset; i < offset + 16; i++)
-    sb.write(byteToHex[bytes[i]]);
+  for (int i = offset; i < offset + 16; i++) sb.write(byteToHex[bytes[i]]);
   return sb.toString();
 }
 

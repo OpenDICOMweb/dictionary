@@ -4,7 +4,6 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
-
 import 'package:dictionary/src/tag/e_type.dart';
 import 'package:dictionary/src/tag/errors.dart';
 import 'package:dictionary/src/tag/public_tag_code_map.dart';

@@ -4,7 +4,6 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
-
 //TODO: this class might disappear when all the types are implemented as classes.
 /// Uid Types
 class UidType {
@@ -32,15 +31,18 @@ class UidType {
   static const kTransferSyntax = const UidType._(3, "Transfer Syntax");
   static const kWellKnownFrameOfReference = const UidType._(4, "Frame Of Reference");
   static const kWellKnownSOPInstance = const UidType._(5, "SOP Instance");
-  static const kDicomUidCodingScheme = const UidType._(6, "DICOM UIDs as a Coding Scheme");
+  static const kDicomUidCodingScheme =
+      const UidType._(6, "DICOM UIDs as a Coding Scheme");
   static const kMetaSOPClass = const UidType._(7, "Meta SOP Class");
   static const kServiceClass = const UidType._(8, "Service Class");
   static const kCodingScheme = const UidType._(9, "Coding Scheme");
   static const kApplicationContextName = const UidType._(10, "Application Context Name");
   static const kWellKnownPrinterSOPInstance = const UidType._(11, "Printer SOP Instance");
-  static const kWellKnownPrintQueueSOPInstance = const UidType._(12, "Print Queue SOP Instance");
+  static const kWellKnownPrintQueueSOPInstance =
+      const UidType._(12, "Print Queue SOP Instance");
   static const kQueryRetrieve = const UidType._(13, "Query Retrieve");
-  static const kApplicationHostingModel = const UidType._(14, "Application Hosting Model");
+  static const kApplicationHostingModel =
+      const UidType._(14, "Application Hosting Model");
   static const kLdapOid = const UidType._(15, "LDAP OID");
   static const kMappingResource = const UidType._(16, "Mapping Resource");
   static const kColorPalette = const UidType._(17, "Color Palette");

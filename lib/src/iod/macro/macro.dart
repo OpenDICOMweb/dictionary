@@ -17,13 +17,11 @@ abstract class MacroBase {
   List<IodTag> get elements;
   Map<String, PublicTag> get keywords;
   Map<int, PublicTag> get tags;
-
 }
 
 abstract class MacroSequenceBase {
   IodTag element;
   IodSequenceBase sequence;
-
 }
 
 class Macro extends MacroBase {
@@ -31,12 +29,10 @@ class Macro extends MacroBase {
   final IodTag element;
   final String description;
 
-
   Macro(this.name, this.element, this.description);
 
   List<MacroBase> get include => [];
   List<IodTag> get elements => [];
   Map<String, PublicTag> get keywords => {};
   Map<int, PublicTag> get tags => {};
-
 }

@@ -1,9 +1,8 @@
 // Copyright (c) 2016, Open DICOMweb Project. All rights reserved.
 // Use of this source code is governed by the open source license
 // that can be found in the LICENSE file.
-// Author: Jim Philbin <jfphilbin@gmail.edu> - 
+// Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
-
 
 /// A class that defined Value Multiplicities and their validators.
 ///
@@ -16,11 +15,14 @@ class VM {
   //Used to write in gen_table_format
   //TODO: add index to constant values.
   final int index = 0;
+
   /// The name of this [VM].
   final String name;
+
   /// THe minimum number of values that must be present, if any values are present.
   /// [min] [%] [width] must equal 0.
   final int min;
+
   /// The maximum number of values that are allowed. [max] [%] [width] must equal 0.
   /// If [max] is -1 than as many values as will fit in the Value Field are allowed.
   final int max;
@@ -108,8 +110,23 @@ class VM {
   //TODO: add all VM const definitions to this List.
   // Lookup Map
   static const List<VM> vms = const [
-    VM.k1, VM.k1_2,VM.k1_32,VM.k1_99, VM.k16, VM.k1_n, VM.k2, VM.k2_2n, VM.k2_n,
-    VM.k3, VM.k3_3n, VM.k3_n, VM.k4, VM.k6, VM.k6_n, VM.k9];
+    VM.k1,
+    VM.k1_2,
+    VM.k1_32,
+    VM.k1_99,
+    VM.k16,
+    VM.k1_n,
+    VM.k2,
+    VM.k2_2n,
+    VM.k2_n,
+    VM.k3,
+    VM.k3_3n,
+    VM.k3_n,
+    VM.k4,
+    VM.k6,
+    VM.k6_n,
+    VM.k9
+  ];
 
   // Lookup Map
   static const Map<String, VM> keywordMap = const {
@@ -158,15 +175,14 @@ class VM {
 
   //TODO add the other VM definitions
   // Write the class out in gen_table_format
- // static void writeToFile(String filename) {
- //   int nRows = _map.length;
- //   int nCols = VM.nCols;
- // }
+  // static void writeToFile(String filename) {
+  //   int nRows = _map.length;
+  //   int nCols = VM.nCols;
+  // }
 
   String tableEntry() => 'className=VM, nRows=$nRows, nCols=$nColumns';
   String fieldNames() => 'index, id, name, min, max, width, fixed';
   String fieldTypes() => 'int, String, String, int, int, int, bool';
   String toLogEntry() =>
       'VM: $index: $id, name=$name, min=$min, max=$max, width=$width, fixed=$isFixed';
-
 }

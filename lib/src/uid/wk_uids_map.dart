@@ -38,7 +38,8 @@ const Map<String, WKUid> wellKnownUids = const {
   "1.2.840.10008.1.2.4.81": WKUid.kJPEG_LSLossyImageCompression,
   "1.2.840.10008.1.2.4.90": WKUid.kJPEG2000ImageCompressionLosslessOnly,
   "1.2.840.10008.1.2.4.91": WKUid.kJPEG2000ImageCompression,
-  "1.2.840.10008.1.2.4.92": WKUid.kJPEG2000Part2Multi_componentImageCompressionLosslessOnly,
+  "1.2.840.10008.1.2.4.92":
+      WKUid.kJPEG2000Part2Multi_componentImageCompressionLosslessOnly,
   "1.2.840.10008.1.2.4.93": WKUid.kJPEG2000Part2Multi_componentImageCompression,
   "1.2.840.10008.1.2.4.94": WKUid.kJPIPReferenced,
   "1.2.840.10008.1.2.4.95": WKUid.kJPIPReferencedDeflate,
@@ -105,7 +106,8 @@ const Map<String, WKUid> wellKnownUids = const {
   "1.2.840.10008.5.1.1.4.1": WKUid.kBasicColorImageBoxSOPClass,
   "1.2.840.10008.5.1.1.4.2": WKUid.kReferencedImageBoxSOPClass_Retired,
   "1.2.840.10008.5.1.1.9": WKUid.kBasicGrayscalePrintManagementMetaSOPClass,
-  "1.2.840.10008.5.1.1.9.1": WKUid.kReferencedGrayscalePrintManagementMetaSOPClass_Retired,
+  "1.2.840.10008.5.1.1.9.1":
+      WKUid.kReferencedGrayscalePrintManagementMetaSOPClass_Retired,
   "1.2.840.10008.5.1.1.14": WKUid.kPrintJobSOPClass,
   "1.2.840.10008.5.1.1.15": WKUid.kBasicAnnotationBoxSOPClass,
   "1.2.840.10008.5.1.1.16": WKUid.kPrinterSOPClass,
@@ -129,10 +131,14 @@ const Map<String, WKUid> wellKnownUids = const {
   "1.2.840.10008.5.1.4.1.1.1": WKUid.kComputedRadiographyImageStorage,
   "1.2.840.10008.5.1.4.1.1.1.1": WKUid.kDigitalX_RayImageStorage_ForPresentation,
   "1.2.840.10008.5.1.4.1.1.1.1.1": WKUid.kDigitalX_RayImageStorage_ForProcessing,
-  "1.2.840.10008.5.1.4.1.1.1.2": WKUid.kDigitalMammographyX_RayImageStorage_ForPresentation,
-  "1.2.840.10008.5.1.4.1.1.1.2.1": WKUid.kDigitalMammographyX_RayImageStorage_ForProcessing,
-  "1.2.840.10008.5.1.4.1.1.1.3": WKUid.kDigitalIntra_OralX_RayImageStorage_ForPresentation,
-  "1.2.840.10008.5.1.4.1.1.1.3.1": WKUid.kDigitalIntra_OralX_RayImageStorage_ForProcessing,
+  "1.2.840.10008.5.1.4.1.1.1.2":
+      WKUid.kDigitalMammographyX_RayImageStorage_ForPresentation,
+  "1.2.840.10008.5.1.4.1.1.1.2.1":
+      WKUid.kDigitalMammographyX_RayImageStorage_ForProcessing,
+  "1.2.840.10008.5.1.4.1.1.1.3":
+      WKUid.kDigitalIntra_OralX_RayImageStorage_ForPresentation,
+  "1.2.840.10008.5.1.4.1.1.1.3.1":
+      WKUid.kDigitalIntra_OralX_RayImageStorage_ForProcessing,
   "1.2.840.10008.5.1.4.1.1.2": WKUid.kCTImageStorage,
   "1.2.840.10008.5.1.4.1.1.2.1": WKUid.kEnhancedCTImageStorage,
   "1.2.840.10008.5.1.4.1.1.2.2": WKUid.kLegacyConvertedEnhancedCTImageStorage,
@@ -149,8 +155,10 @@ const Map<String, WKUid> wellKnownUids = const {
   "1.2.840.10008.5.1.4.1.1.6.2": WKUid.kEnhancedUSVolumeStorage,
   "1.2.840.10008.5.1.4.1.1.7": WKUid.kSecondaryCaptureImageStorage,
   "1.2.840.10008.5.1.4.1.1.7.1": WKUid.kMulti_frameSingleBitSecondaryCaptureImageStorage,
-  "1.2.840.10008.5.1.4.1.1.7.2": WKUid.kMulti_frameGrayscaleByteSecondaryCaptureImageStorage,
-  "1.2.840.10008.5.1.4.1.1.7.3": WKUid.kMulti_frameGrayscaleWordSecondaryCaptureImageStorage,
+  "1.2.840.10008.5.1.4.1.1.7.2":
+      WKUid.kMulti_frameGrayscaleByteSecondaryCaptureImageStorage,
+  "1.2.840.10008.5.1.4.1.1.7.3":
+      WKUid.kMulti_frameGrayscaleWordSecondaryCaptureImageStorage,
   "1.2.840.10008.5.1.4.1.1.7.4": WKUid.kMulti_frameTrueColorSecondaryCaptureImageStorage,
   "1.2.840.10008.5.1.4.1.1.8": WKUid.kStandaloneOverlayStorage_Retired,
   "1.2.840.10008.5.1.4.1.1.9": WKUid.kStandaloneCurveStorage_Retired,
@@ -166,9 +174,11 @@ const Map<String, WKUid> wellKnownUids = const {
   "1.2.840.10008.5.1.4.1.1.9.6.1": WKUid.kRespiratoryWaveformStorage,
   "1.2.840.10008.5.1.4.1.1.10": WKUid.kStandaloneModalityLUTStorage_Retired,
   "1.2.840.10008.5.1.4.1.1.11": WKUid.kStandaloneVOILUTStorage_Retired,
-  "1.2.840.10008.5.1.4.1.1.11.1": WKUid.kGrayscaleSoftcopyPresentationStateStorageSOPClass,
+  "1.2.840.10008.5.1.4.1.1.11.1":
+      WKUid.kGrayscaleSoftcopyPresentationStateStorageSOPClass,
   "1.2.840.10008.5.1.4.1.1.11.2": WKUid.kColorSoftcopyPresentationStateStorageSOPClass,
-  "1.2.840.10008.5.1.4.1.1.11.3": WKUid.kPseudo_ColorSoftcopyPresentationStateStorageSOPClass,
+  "1.2.840.10008.5.1.4.1.1.11.3":
+      WKUid.kPseudo_ColorSoftcopyPresentationStateStorageSOPClass,
   "1.2.840.10008.5.1.4.1.1.11.4": WKUid.kBlendingSoftcopyPresentationStateStorageSOPClass,
   "1.2.840.10008.5.1.4.1.1.11.5": WKUid.kXA_XRFGrayscaleSoftcopyPresentationStateStorage,
   "1.2.840.10008.5.1.4.1.1.12.1": WKUid.kX_RayAngiographicImageStorage,
@@ -216,7 +226,8 @@ const Map<String, WKUid> wellKnownUids = const {
   "1.2.840.10008.5.1.4.1.1.78.7": WKUid.kOphthalmicAxialMeasurementsStorage,
   "1.2.840.10008.5.1.4.1.1.78.8": WKUid.kIntraocularLensCalculationsStorage,
   "1.2.840.10008.5.1.4.1.1.79.1": WKUid.kMacularGridThicknessandVolumeReportStorage,
-  "1.2.840.10008.5.1.4.1.1.80.1": WKUid.kOphthalmicVisualFieldStaticPerimetryMeasurementsStorage,
+  "1.2.840.10008.5.1.4.1.1.80.1":
+      WKUid.kOphthalmicVisualFieldStaticPerimetryMeasurementsStorage,
   "1.2.840.10008.5.1.4.1.1.81.1": WKUid.kOphthalmicThicknessMapStorage,
   "11.2.840.10008.5.1.4.1.1.82.1": WKUid.kCornealTopographyMapStorage,
   "1.2.840.10008.5.1.4.1.1.88.1": WKUid.kTextSRStorage_Trial_Retired,
@@ -265,9 +276,12 @@ const Map<String, WKUid> wellKnownUids = const {
   "1.2.840.10008.5.1.4.1.2.2.1": WKUid.kStudyRootQueryRetrieveInformationModel_FIND,
   "1.2.840.10008.5.1.4.1.2.2.2": WKUid.kStudyRootQueryRetrieveInformationModel_MOVE,
   "1.2.840.10008.5.1.4.1.2.2.3": WKUid.kStudyRootQueryRetrieveInformationModel_GET,
-  "1.2.840.10008.5.1.4.1.2.3.1": WKUid.kPatient_StudyOnlyQueryRetrieveInformationModel_FIND_Retired,
-  "1.2.840.10008.5.1.4.1.2.3.2": WKUid.kPatient_StudyOnlyQueryRetrieveInformationModel_MOVE_Retired,
-  "1.2.840.10008.5.1.4.1.2.3.3": WKUid.kPatient_StudyOnlyQueryRetrieveInformationModel_GET_Retired,
+  "1.2.840.10008.5.1.4.1.2.3.1":
+      WKUid.kPatient_StudyOnlyQueryRetrieveInformationModel_FIND_Retired,
+  "1.2.840.10008.5.1.4.1.2.3.2":
+      WKUid.kPatient_StudyOnlyQueryRetrieveInformationModel_MOVE_Retired,
+  "1.2.840.10008.5.1.4.1.2.3.3":
+      WKUid.kPatient_StudyOnlyQueryRetrieveInformationModel_GET_Retired,
   "1.2.840.10008.5.1.4.1.2.4.2": WKUid.kCompositeInstanceRootRetrieve_MOVE,
   "1.2.840.10008.5.1.4.1.2.4.3": WKUid.kCompositeInstanceRootRetrieve_GET,
   "1.2.840.10008.5.1.4.1.2.5.3": WKUid.kCompositeInstanceRetrieveWithoutBulkData_GET,
@@ -280,7 +294,8 @@ const Map<String, WKUid> wellKnownUids = const {
   "1.2.840.10008.5.1.4.34.1": WKUid.kRTBeamsDeliveryInstructionStorage_Trial_Retired,
   "1.2.840.10008.5.1.4.34.2": WKUid.kRTConventionalMachineVerification_Trial_Retired,
   "1.2.840.10008.5.1.4.34.3": WKUid.kRTIonMachineVerification_Trial_Retired,
-  "1.2.840.10008.5.1.4.34.4": WKUid.kUnifiedWorklistandProcedureStepServiceClass_Trial_Retired,
+  "1.2.840.10008.5.1.4.34.4":
+      WKUid.kUnifiedWorklistandProcedureStepServiceClass_Trial_Retired,
   "1.2.840.10008.5.1.4.34.4.1": WKUid.kUnifiedProcedureStep_PushSOPClass_Trial_Retired,
   "1.2.840.10008.5.1.4.34.4.2": WKUid.kUnifiedProcedureStep_WatchSOPClass_Trial_Retired,
   "1.2.840.10008.5.1.4.34.4.3": WKUid.kUnifiedProcedureStep_PullSOPClass_Trial_Retired,

@@ -16,7 +16,8 @@ class ColorPalette extends WKUid {
   const ColorPalette(String uid, String label, this.description)
       : super._(uid, UidType.kColorPalette, false, "HOT_IRON");
 
-  static const hotIron = const ColorPalette("1.2.840.10008.1.​5.​1", "HOT_IRON", "Hot Iron");
+  static const hotIron =
+      const ColorPalette("1.2.840.10008.1.​5.​1", "HOT_IRON", "Hot Iron");
 
   static const pet = const ColorPalette("1.2.840.10008.1.​5.​1", "PET", "PET");
 

@@ -8,7 +8,6 @@ import 'package:dictionary/dictionary.dart';
 
 /// A library of compile time constants for handling DICOM Directory data
 
-
 /// A [Map<int, String>] of [tag]:[keyword] pairs.
 const Map<int, String> dcmDirTagToKeyword = const {
   0x00041130: "FileSetID",
@@ -103,25 +102,26 @@ bool isValidDcmDirTag(int tag) => dcmDirTags.contains(tag);
 
 /// A [tag] ordered list of DICOM Directory Keywords.
 const List<String> dcmDirKeywords = const [
-    "FileSetID",
-    "FileSetDescriptorFileID",
-    "SpecificCharacterSetOfFileSetDescriptorFile",
-    "OffsetOfTheFirstDirectoryRecordOfTheRootDirectoryEntity",
-    "OffsetOfTheLastDirectoryRecordOfTheRootDirectoryEntity",
-    "FileSetConsistencyFlag",
-    "DirectoryRecordSequence",
-    "OffsetOfTheNextDirectoryRecord",
-    "RecordInUseFlag",
-    "OffsetOfReferencedLowerLevelDirectoryEntity",
-    "DirectoryRecordType",
-    "PrivateRecordUID",
-    "ReferencedFileID",
-    "MRDRDirectoryRecordOffset",
-    "ReferencedSOPClassUIDInFile",
-    "ReferencedSOPInstanceUIDInFile",
-    "ReferencedTransferSyntaxUIDInFile",
-    "ReferencedRelatedGeneralSOPClassUIDInFile",
-    "NumberOfReferences"];
+  "FileSetID",
+  "FileSetDescriptorFileID",
+  "SpecificCharacterSetOfFileSetDescriptorFile",
+  "OffsetOfTheFirstDirectoryRecordOfTheRootDirectoryEntity",
+  "OffsetOfTheLastDirectoryRecordOfTheRootDirectoryEntity",
+  "FileSetConsistencyFlag",
+  "DirectoryRecordSequence",
+  "OffsetOfTheNextDirectoryRecord",
+  "RecordInUseFlag",
+  "OffsetOfReferencedLowerLevelDirectoryEntity",
+  "DirectoryRecordType",
+  "PrivateRecordUID",
+  "ReferencedFileID",
+  "MRDRDirectoryRecordOffset",
+  "ReferencedSOPClassUIDInFile",
+  "ReferencedSOPInstanceUIDInFile",
+  "ReferencedTransferSyntaxUIDInFile",
+  "ReferencedRelatedGeneralSOPClassUIDInFile",
+  "NumberOfReferences"
+];
 
 /// Returns true if [dcmDirKeywords] contains [keyword].
-bool isValidDcmDirKeyword(String keyword ) => dcmDirTags.contains(keyword);
+bool isValidDcmDirKeyword(String keyword) => dcmDirTags.contains(keyword);

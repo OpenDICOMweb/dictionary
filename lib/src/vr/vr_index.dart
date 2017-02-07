@@ -1,9 +1,8 @@
 // Copyright (c) 2016, Open DICOMweb Project. All rights reserved.
 // Use of this source code is governed by the open source license
 // that can be found in the LICENSE file.
-// Original author: Jim Philbin <jfphilbin@gmail.edu> - 
+// Original author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
-
 
 const int kUnknown = 0;
 const int kAE8 = 0x4145;
@@ -44,9 +43,9 @@ const int kUT8 = 0x5554;
 /// order of [VR.vrs]
 const List<int> kVR8BitCodeList = const [
   kUnknown, kSQ8, kSS8, kSL8, kOB8, kUN8, kOW8, kUS8, kUL8, kAT8,
-  kOL8,  kFD8, kFL8, kOD8, kOF8, kIS8, kDS8, kAE8, kCS8, kLO8,
-  kSH8,  kUC8, kST8, kLT8, kUT8, kDA8, kDT8, kTM8, kPN8, kUI8,
-  kUR8,  kAS8, kBR8 // preserve formatting
+  kOL8, kFD8, kFL8, kOD8, kOF8, kIS8, kDS8, kAE8, kCS8, kLO8,
+  kSH8, kUC8, kST8, kLT8, kUT8, kDA8, kDT8, kTM8, kPN8, kUI8,
+  kUR8, kAS8, kBR8 // preserve formatting
 ];
 
 /// Returns the [_index] of [vrCode] in kVR8List.
@@ -86,7 +85,6 @@ const int kUN16 = 0x4e55;
 const int kUR16 = 0x5255;
 const int kUS16 = 0x5355;
 const int kUT16 = 0x5455;
-
 
 /// A [List] of valid [VR]s as 16-bit values.  Since the target architectures
 /// are all [LittleEndian], the byte order is reversed. The [VR]s are in the

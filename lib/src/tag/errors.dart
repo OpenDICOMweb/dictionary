@@ -1,7 +1,7 @@
 // Copyright (c) 2016, Open DICOMweb Project. All rights reserved.
 // Use of this source code is governed by the open source license
 // that can be found in the LICENSE file.
-// Original author: Jim Philbin <jfphilbin@gmail.edu> - 
+// Original author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
 import 'tag.dart';
@@ -26,8 +26,7 @@ class InvalidTagError extends Error {
   }
 }
 
-dynamic tagError(Object obj, [List values]) =>
-    throw new InvalidTagError(obj, values);
+dynamic tagError(Object obj, [List values]) => throw new InvalidTagError(obj, values);
 
 class InvalidTagCodeError extends Error {
   int code;
@@ -36,8 +35,7 @@ class InvalidTagCodeError extends Error {
   InvalidTagCodeError(this.code, [this.values]);
 
   @override
-  String toString() =>
-      'Error: Invalid Tag Code ${Tag.toDcm(code)} with values $values';
+  String toString() => 'Error: Invalid Tag Code ${Tag.toDcm(code)} with values $values';
 }
 
 dynamic tagCodeError(int code, [List values]) =>

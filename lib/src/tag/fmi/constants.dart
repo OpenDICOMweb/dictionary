@@ -1,7 +1,7 @@
 // Copyright (c) 2016, Open DICOMweb Project. All rights reserved.
 // Use of this source code is governed by the open source license
 // that can be found in the LICENSE file.
-// Author: Jim Philbin <jfphilbin@gmail.edu> - 
+// Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
 import 'package:dictionary/src/tag/constants.dart';
@@ -15,7 +15,6 @@ import 'package:dictionary/src/tag/constants.dart';
 /// [True] for any File Meta Information [Tag], false otherwise.
 //bool fmiTagInRange(int tag) => (MIN_FMI_TAG <= tag) && (tag <= MAX_FMI_TAG);
 
-
 const List<int> fmiTags = const [
   kFileMetaInformationGroupLength,
   kFileMetaInformationVersion,
@@ -28,7 +27,8 @@ const List<int> fmiTags = const [
   kSendingApplicationEntityTitle,
   kReceivingApplicationEntityTitle,
   kPrivateInformationCreatorUID,
-  kPrivateInformation];
+  kPrivateInformation
+];
 
 int fmiTagIndex(int tag) => fmiTags.indexOf(tag);
 bool isValidFmiTag(int tag) => fmiTags.contains(tag);
@@ -45,7 +45,8 @@ const List<String> fmiKeywords = const [
   "SendingApplicationEntityTitle",
   "ReceivingApplicationEntityTitle",
   "PrivateInformationCreatorUID",
-  "PrivateInformation"];
+  "PrivateInformation"
+];
 
 int fmiKeywordIndex(String keyword) => fmiKeywords.indexOf(keyword);
 bool isValidFmiKeyword(String keyword) => fmiKeywords.contains(keyword);
@@ -79,12 +80,8 @@ const Map<int, String> fmiTagToKeywordMap = const {
   kSendingApplicationEntityTitle: "SendingApplicationEntityTitle",
   kReceivingApplicationEntityTitle: "ReceivingApplicationEntityTitle",
   kPrivateInformationCreatorUID: "PrivateInformationCreatorUID",
-  kPrivateInformation: "PrivateInformation"};
+  kPrivateInformation: "PrivateInformation"
+};
 
 String fmiTagToKeyword(int tag) => fmiTagToKeywordMap[tag];
 //String fmiTagToName(int tag) => keywordToName(fmiTagToKeywordMap[tag]);
-
-
-
-
-
