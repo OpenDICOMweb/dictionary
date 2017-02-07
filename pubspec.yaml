@@ -12,10 +12,10 @@ environment:
 dependencies:
   common:
     path: C:/odw/sdk/common
-    version: 0.5.2
+    version: ^0.5.2
 
 dev_dependencies:
-  benchmark_harness: any
-  grinder: any
+  benchmark_harness: ^1.0.4
+  grinder: ^0.8.0
   test: ^0.12.0
 

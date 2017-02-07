@@ -382,5 +382,6 @@ class VROther extends VR {
   static const VR kBR = const VR._(32, 0x4252, "BR", "BulkData Reference");
 
   //Bulkdata Reference
-  static const VROther kSQ = const VROther._(32, 0x4252, "SQ", "Sequence", kMaxLongVF, true);
+  static const VROther kSQ =
+  const VROther._(32, 0x5351, "SQ", "Sequence", kMaxLongVF, true);
 }

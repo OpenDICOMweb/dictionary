@@ -37,6 +37,9 @@ main() {
   test("Check vr16BitCodeList", () {
     print('Check vr16itCodeList');
     for (int i = 0; i < VR.vrs.length; i++) {
+      print('vr16(${Int16.hex(VR.vrs[i].code16Bit)}');
+      print('vr8(${Int16.hex(VR.vrs[i].code)}');
+      print('kVR16(${Int16.hex(kVR16BitCodeList[i])}');
       expect(VR.vrs[i].code16Bit == kVR16BitCodeList[i], true);
     }
   });

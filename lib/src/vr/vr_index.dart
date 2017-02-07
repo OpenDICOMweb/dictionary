@@ -5,7 +5,7 @@
 // See the AUTHORS file for other contributors.
 
 
-const int kNoVR = 0;
+const int kUnknown = 0;
 const int kAE8 = 0x4145;
 const int kAS8 = 0x4153;
 const int kAT8 = 0x4154;
@@ -43,7 +43,7 @@ const int kUT8 = 0x5554;
 /// are all [LittleEndian], the byte order is reversed. The [VR]s are in the
 /// order of [VR.vrs]
 const List<int> kVR8BitCodeList = const [
-  kNoVR, kSQ8, kSS8, kSL8, kOB8, kUN8, kOW8, kUS8, kUL8, kAT8,
+  kUnknown, kSQ8, kSS8, kSL8, kOB8, kUN8, kOW8, kUS8, kUL8, kAT8,
   kOL8,  kFD8, kFL8, kOD8, kOF8, kIS8, kDS8, kAE8, kCS8, kLO8,
   kSH8,  kUC8, kST8, kLT8, kUT8, kDA8, kDT8, kTM8, kPN8, kUI8,
   kUR8,  kAS8, kBR8 // preserve formatting
@@ -87,11 +87,12 @@ const int kUR16 = 0x5255;
 const int kUS16 = 0x5355;
 const int kUT16 = 0x5455;
 
+
 /// A [List] of valid [VR]s as 16-bit values.  Since the target architectures
 /// are all [LittleEndian], the byte order is reversed. The [VR]s are in the
 /// order of [VR.vrs]
 const List<int> kVR16BitCodeList = const [
-  kNoVR, kSQ16, kSS16, kSL16, kOB16, kUN16, kOW16, kUS16, kUL16, kAT16,
+  kUnknown, kSQ16, kSS16, kSL16, kOB16, kUN16, kOW16, kUS16, kUL16, kAT16,
   kOL16, kFD16, kFL16, kOD16, kOF16, kIS16, kDS16, kAE16, kCS16, kLO16,
   kSH16, kUC16, kST16, kLT16, kUT16, kDA16, kDT16, kTM16, kPN16, kUI16,
   kUR16, kAS16, kBR16 // preserve formatting

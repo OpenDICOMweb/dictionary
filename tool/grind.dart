@@ -20,6 +20,17 @@ init() {
 }
 */
 
+@DefaultTask('Running Default Tasks...')
+void myDefault() {
+  test();
+  testformat();
+}
+
+@Task('Testing Dart...')
+void test() {
+  new PubApp.local('test').run([]);
+}
+
 @Task('Cleaning...')
 clean() {
   log("Cleaning...");
@@ -28,7 +39,7 @@ clean() {
 }
 
 @Task('Dry Run of Formating Source...')
-formatdryrun() {
+testformat() {
   log("Formatting Source...");
   DartFmt.dryRun('lib', lineLength: 100);
 }
@@ -63,11 +74,6 @@ buildRelease() {
 //@Depends(init)
 compile() {
   log("Compiling...");
-}
-
-@Task('Testing Dart...')
-test() {
-  new PubApp.local('test').run([]);
 }
 
 @Task('Testing JavaScript...')
