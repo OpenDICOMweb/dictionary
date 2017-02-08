@@ -33,7 +33,9 @@ String _getLengthError(int length, int min, int max) {
 /// Returns [true] if all characters pass the filter.
 bool _filteredTest(String s, int min, int max, bool filter(int c)) {
   if (_isNotValidLength(s.length, min, max)) return false;
-  for (int i = 0; i < max; i++) if (!filter(s.codeUnitAt(i))) return false;
+  for (int i = 0; i < s.length; i++) {
+    if (!filter(s.codeUnitAt(i))) return false;
+  }
   return true;
 }
 
