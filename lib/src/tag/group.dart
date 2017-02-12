@@ -35,7 +35,7 @@ class Group {
   static int check(int g) => (isValid(g)) ? g : null;
 
   /// Returns[true] is [g] is a valid Public Group Number.
-  static bool isPublic(int g) => g.isEven && 0x0008 <= g && g <= 0xFFFC;
+  static bool isPublic(int g) => g.isEven && (0x0002 <= g && g <= 0xFFFC);
 
   static bool isNotPublic(int g) => !isPublic(g);
 
