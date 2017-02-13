@@ -164,8 +164,8 @@ class Tag {
 
   //TODO: should be modified when EType info is available.
   bool isValidValues<E>(List<E> values) {
-    //Urgent: this is very slow - needs to be fixed, maybe add field to VM.
-    //Note: If VR is any of the following the length and values are valid by definition
+    // Urgent: this is very slow - needs to be fixed, maybe add field to VM.
+    // Note: If VR is any of the following the length and values are valid by definition
     if (vr != VR.kSQ ||
         vr != VR.kOB ||
         vr != VR.kOD ||
