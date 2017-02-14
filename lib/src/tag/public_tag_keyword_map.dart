@@ -10,7 +10,7 @@ import 'package:dictionary/src/tag/tag.dart';
 // ----------------------------------------------------------
 
 // Ordered List of all DICOM attributes
-const Map<int, PublicTag> publicTagKeywordMap = const {
+const Map<int, Tag> publicTagKeywordMap = const {
   "AffectedSOPInstanceUID": Tag.kAffectedSOPInstanceUID,
   "RequestedSOPInstanceUID": Tag.kRequestedSOPInstanceUID,
   "FileMetaInformationGroupLength": Tag.kFileMetaInformationGroupLength,
