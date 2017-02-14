@@ -10,6 +10,7 @@
 export 'package:common/common.dart';
 export 'package:dictionary/src/constants.dart';
 export 'package:dictionary/src/defined_terms/defined_terms.dart';
+export 'package:dictionary/src/entity/ie_level.dart';
 export 'package:dictionary/src/enum_values/enum_values.dart';
 export 'package:dictionary/src/modality.dart';
 export 'package:dictionary/src/string/dicom_predicates.dart';
