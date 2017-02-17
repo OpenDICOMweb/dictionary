@@ -6,7 +6,7 @@ authors:
   - Jim Philbin <jfphilbin@gmail.com>
   # subsequent contributors
 
-homepage: https://github.com/OpenDICOMweb/dictionary
+homepage: https://github.com/OpenDICOMweb/dictionary.git
 
 environment:
   sdk: ^1.21.0

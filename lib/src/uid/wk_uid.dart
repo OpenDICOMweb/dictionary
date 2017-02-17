@@ -50,15 +50,17 @@ class WKUid extends UidString {
   //*****   Constant Values   *****
   static const kVerificationSOPClass = const WKUid._(
       "1.2.840.10008.1.1", UidType.kSOPClass, false, "Verification SOP Class");
-  static const kImplicitVRLittleEndianDefaultTransferSyntaxforDICOM = const WKUid._(
+  static const kImplicitVRLittleEndian= const WKUid._(
     "1.2.840.10008.1.2",
     UidType.kTransferSyntax,
     false,
     "Implicit VR Little Endian: Default Transfer Syntax for DICOM",
   );
+  static const kDefaultTransferSyntaxForDICOM = kImplicitVRLittleEndian;
 
   static const kExplicitVRLittleEndian = const WKUid._(
       "1.2.840.10008.1.2.1", UidType.kTransferSyntax, false, "Explicit VR Little Endian");
+  static const kDefaultTransferSyntaxForDicomWeb = kExplicitVRLittleEndian;
   static const kDeflatedExplicitVRLittleEndian = const WKUid._("1.2.840.10008.1.2.1.99",
       UidType.kTransferSyntax, false, "Deflated Explicit VR Little Endian");
   static const kExplicitVRBigEndian_Retired = const WKUid._("1.2.840.10008.1.2.2",

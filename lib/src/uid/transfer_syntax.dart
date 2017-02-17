@@ -51,7 +51,7 @@ class TransferSyntax extends WKUid {
   /// Returns the TransferSyntax corresponding to the [String] or [Uid].
   static lookup(ts) {
     if (ts is TransferSyntax) return ts;
-    if (ts is Uid) ts = map[ts.string];
+    if (ts is Uid) return map[ts.string];
     if (ts is String) return map[ts];
     return null;
   }

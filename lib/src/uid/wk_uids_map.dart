@@ -10,7 +10,7 @@ import 'uid.dart';
 //TODO: change entries to proper type
 const Map<String, WKUid> wellKnownUids = const {
   "1.2.840.10008.1.1": WKUid.kVerificationSOPClass,
-  "1.2.840.10008.1.2": WKUid.kImplicitVRLittleEndianDefaultTransferSyntaxforDICOM,
+  "1.2.840.10008.1.2": WKUid.kImplicitVRLittleEndian,
   "1.2.840.10008.1.2.1": WKUid.kExplicitVRLittleEndian,
   "1.2.840.10008.1.2.1.99": WKUid.kDeflatedExplicitVRLittleEndian,
   "1.2.840.10008.1.2.2": WKUid.kExplicitVRBigEndian_Retired,

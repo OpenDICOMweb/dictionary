@@ -215,7 +215,6 @@ class VR<T> {
   /// in the definitions above.  Note: the [index]es start at 1, so
   /// in this [List] the 0th dictionary ,is [null].
   ///
-  //TODO: For performance It would be better to order this table from most common VR to Least.
   static const List<VR> vrs = const <VR>[
     kUnknown,
     // Sequence
@@ -241,7 +240,8 @@ class VR<T> {
   ];
 
   static const List<VR> stringVRs = const <VR>[
-    kAE, kAS, kBR, kCS, kDA, kDS, kDT, kIS, kLO, kLT, kPN, kSH, kST, kTM, kUC, kUI, kUR,
+    kAE, kAS, kBR, kCS, kDA, kDS, kDT, kIS, kLO, kLT, kPN, kSH, kST, kTM, kUC,
+    kUI, kUR,
     kUT //
   ];
 
@@ -249,16 +249,31 @@ class VR<T> {
     kAT, kFD, kFL, kOB, kOD, kOF, kOW, kSL, kSS, kUL, kUN, kUS // stop reformat
   ];
 
-  static const List<VR> intVRs = const <VR>[kAT, kOB, kOW, kSL, kSS, kUL, kUS, kDS, kIS];
+  static const List<VR> intVRs = const <VR>[
+    kAT,
+    kOB,
+    kOW,
+    kSL,
+    kSS,
+    kUL,
+    kUS,
+    kDS,
+    kIS
+  ];
   static const List<VR> floatVRs = const <VR>[kFD, kFL, kOD, kOF];
 
   //TODO: flush when mapInverted works?
   static const Map<int, VR> map = const <int, VR>{
-    0x4145: kAE, 0x4153: kAS, 0x4154: kAT, 0x4252: kBR, 0x4353: kCS, 0x4441: kDA,
-    0x4453: kDS, 0x4454: kDT, 0x4644: kFD, 0x464c: kFL, 0x4953: kIS, 0x4c4f: kLO,
-    0x4c54: kLT, 0x4f42: kOB, 0x4f44: kOD, 0x4f46: kOF, 0x4f4c: kOL, 0x4f57: kOW,
-    0x504e: kPN, 0x5348: kSH, 0x534c: kSL, 0x5351: kSQ, 0x5353: kSS, 0x5354: kST,
-    0x544d: kTM, 0x5543: kUC, 0x5549: kUI, 0x554c: kUL, 0x554e: kUN, 0x5552: kUR,
+    0x4145: kAE, 0x4153: kAS, 0x4154: kAT, 0x4252: kBR, 0x4353: kCS,
+    0x4441: kDA,
+    0x4453: kDS, 0x4454: kDT, 0x4644: kFD, 0x464c: kFL, 0x4953: kIS,
+    0x4c4f: kLO,
+    0x4c54: kLT, 0x4f42: kOB, 0x4f44: kOD, 0x4f46: kOF, 0x4f4c: kOL,
+    0x4f57: kOW,
+    0x504e: kPN, 0x5348: kSH, 0x534c: kSL, 0x5351: kSQ, 0x5353: kSS,
+    0x5354: kST,
+    0x544d: kTM, 0x5543: kUC, 0x5549: kUI, 0x554c: kUL, 0x554e: kUN,
+    0x5552: kUR,
     0x5553: kUS, 0x5554: kUT // stop reformat
   };
 
@@ -285,11 +300,16 @@ class VR<T> {
 
   //TODO: create invertedMap
   static const Map<int, VR> mapInverted = const <int, VR>{
-    0x4541: kAE, 0x5341: kAS, 0x5441: kAT, 0x5242: kBR, 0x5343: kCS, 0x4144: kDA,
-    0x5344: kDS, 0x5444: kDT, 0x4446: kFD, 0x4c46: kFL, 0x5349: kIS, 0x4f4c: kLO,
-    0x544c: kLT, 0x424f: kOB, 0x444f: kOD, 0x464f: kOF, 0x4c4f: kOL, 0x574f: kOW,
-    0x4e50: kPN, 0x4853: kSH, 0x4c53: kSL, 0x5153: kSQ, 0x5353: kSS, 0x5453: kST,
-    0x4d54: kTM, 0x4355: kUC, 0x4955: kUI, 0x4c55: kUL, 0x4e55: kUN, 0x5255: kUR,
+    0x4541: kAE, 0x5341: kAS, 0x5441: kAT, 0x5242: kBR, 0x5343: kCS,
+    0x4144: kDA,
+    0x5344: kDS, 0x5444: kDT, 0x4446: kFD, 0x4c46: kFL, 0x5349: kIS,
+    0x4f4c: kLO,
+    0x544c: kLT, 0x424f: kOB, 0x444f: kOD, 0x464f: kOF, 0x4c4f: kOL,
+    0x574f: kOW,
+    0x4e50: kPN, 0x4853: kSH, 0x4c53: kSL, 0x5153: kSQ, 0x5353: kSS,
+    0x5453: kST,
+    0x4d54: kTM, 0x4355: kUC, 0x4955: kUI, 0x4c55: kUL, 0x4e55: kUN,
+    0x5255: kUR,
     0x5355: kUS, 0x5455: kUT // stop reformat
   };
 
@@ -311,9 +331,21 @@ class VR<T> {
     0x46: const <int, VR>{0x44: kFD, 0x4c: kFL},
     0x49: kIS,
     0x4c: const <int, VR>{0x4f: kLO, 0x54: kLT},
-    0x4f: const <int, VR>{0x42: kOB, 0x44: kOD, 0x46: kOF, 0x4c: kOL, 0x57: kOW},
+    0x4f: const <int, VR>{
+      0x42: kOB,
+      0x44: kOD,
+      0x46: kOF,
+      0x4c: kOL,
+      0x57: kOW
+    },
     0x50: kPN,
-    0x53: const <int, VR>{0x48: kSH, 0x4c: kSL, 0x51: kSQ, 0x53: kSS, 0x54: kST},
+    0x53: const <int, VR>{
+      0x48: kSH,
+      0x4c: kSL,
+      0x51: kSQ,
+      0x53: kSS,
+      0x54: kST
+    },
     0x54: kTM,
     0x55: const <int, VR>{
       0x43: kUC,
