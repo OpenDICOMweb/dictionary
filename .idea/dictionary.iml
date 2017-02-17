@@ -28,6 +28,7 @@
       <excludeFolder url="file://$MODULE_DIR$/test/dicom/packages" />
       <excludeFolder url="file://$MODULE_DIR$/test/packages" />
       <excludeFolder url="file://$MODULE_DIR$/test/tag/packages" />
+      <excludeFolder url="file://$MODULE_DIR$/test/uid/packages" />
       <excludeFolder url="file://$MODULE_DIR$/test/uuid/packages" />
       <excludeFolder url="file://$MODULE_DIR$/test/vr/date_time/packages" />
       <excludeFolder url="file://$MODULE_DIR$/test/vr/packages" />

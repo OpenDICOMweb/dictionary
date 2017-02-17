@@ -10,8 +10,10 @@ import 'uid.dart';
 /// and there corresponding [String] values.
 const List<WKUid> wkUids = const [
   WKUid.kVerificationSOPClass,
-  WKUid.kImplicitVRLittleEndianDefaultTransferSyntaxforDICOM,
+  WKUid.kImplicitVRLittleEndian,
+  WKUid.kDefaultTransferSyntaxForDICOM,
   WKUid.kExplicitVRLittleEndian,
+  WKUid.kDefaultTransferSyntaxForDicomWeb,
   WKUid.kDeflatedExplicitVRLittleEndian,
   WKUid.kExplicitVRBigEndian_Retired,
   WKUid.kJPEGBaseline_1,

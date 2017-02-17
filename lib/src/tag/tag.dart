@@ -184,10 +184,13 @@ class Tag {
   }
 
   List<E> parseList<E>(List<String> sList) {
+    print('parseList: $sList');
     if (isNotValidLength(sList.length)) return null;
     List<E> values = new List<E>(sList.length);
     for (int i = 0; i < values.length; i++) {
+      print('sList[$i]: ${sList[i]}');
       E v = vr.parse(sList[i]);
+      print('v: $v');
       if (v == null) return null;
       values[i] = v;
     }
