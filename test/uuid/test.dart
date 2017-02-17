@@ -39,6 +39,6 @@ void checkUuid(Uuid uuid) {
 }
 
 void checkRandomUid() {
-  String s = new Uid().string;
+  String s = new UidBase().asString;
   print('Uid: $s');
 }

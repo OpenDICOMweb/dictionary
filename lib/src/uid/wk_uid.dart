@@ -8,7 +8,7 @@ part of odw.sdk.dictionary.uid;
 //TODO wwe need add the keyword to the to the class.
 
 /// Compile time constant definitions for the "Well Known" UIDs from PS 3.6
-class WKUid extends UidString {
+class WKUid extends Uid {
   //TODO add keyword to table below
   // final String  keyword;
   @override
@@ -36,13 +36,13 @@ class WKUid extends UidString {
 
   bool get isCodingScheme => type == UidType.kCodingScheme;
 
-  String get info => "UID: $string (type=$type, name=$name)";
+  String get info => "UID: $asString (type=$type, name=$name)";
 
   @override
-  String toString() => string;
+  String toString() => asString;
 
   static WKUid lookup(var uid) {
-    if (uid is Uid) uid = uid.string;
+    if (uid is UidBase) uid = uid.asString;
     if (uid is String) return wellKnownUids[uid];
     return null;
   }

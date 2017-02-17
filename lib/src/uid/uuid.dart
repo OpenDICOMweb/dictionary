@@ -5,7 +5,7 @@
 // See the AUTHORS file for other contributors.
 part of odw.sdk.dictionary.uid;
 
-class UidUuid extends Uid {
+class UidUuid extends UidBase {
   /// The UID Root for UIDs created from random (V4) UUIDs.
   static const String uidRoot = "2.25.";
   final Uuid uuid;
@@ -15,13 +15,13 @@ class UidUuid extends Uid {
         super._();
 
   @override
-  String get string => uidRoot + uuid.toString();
+  String get asString => uidRoot + uuid.toString();
 
   @override
   UidType get type => UidType.kRandomUuid;
 
   @override
-  String toString() => string;
+  String toString() => asString;
 
   /// Returns a [String] containing a random UID as per the
   /// OID Standard.  See TODO: add reference.

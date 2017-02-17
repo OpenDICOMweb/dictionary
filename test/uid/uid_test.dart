@@ -8,19 +8,21 @@ import 'package:dictionary/dictionary.dart';
 import 'package:test/test.dart';
 
 void main() {
-  transferSyntaxTest();
+  fooTest();
 }
 
-void transferSyntaxTest() {
+void fooTest() {
   
-  group('Transfer Syntax Tests', () {
-    
+  group('Uid Tests', () {
+
+
     test('String to UID', () {
-      UidBase uid = WKUid.lookup("1.2.840.10008.1.2");
+      Uid uid = Uid.parse("1.2.840.10008.1.2");
       expect(uid == WKUid.kImplicitVRLittleEndian, true);
-      uid = WKUid.lookup("1.2.840.10008.1.2.1");
+      expect(uid.asString, equals("1.2.840.10008.1.2"));
+      uid = Uid.parse("1.2.840.10008.1.2.1");
       expect(uid == WKUid.kExplicitVRLittleEndian, true);
-      
+
     });
 
     test('String to TransferSyntax', () {
@@ -30,7 +32,8 @@ void transferSyntaxTest() {
       expect(uid == TransferSyntax.kExplicitVRLittleEndian, true);
 
     });
-    
+
+
   });
 
 }

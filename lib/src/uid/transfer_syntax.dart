@@ -48,16 +48,16 @@ class TransferSyntax extends WKUid {
   bool get isValidForRS =>
       (isNotRetired) || (name != kImplicitVRLittleEndian && name != kExplicitVRBigEndian);
 
-  /// Returns the TransferSyntax corresponding to the [String] or [Uid].
+  /// Returns the TransferSyntax corresponding to the [String] or [UidBase].
   static lookup(ts) {
     if (ts is TransferSyntax) return ts;
-    if (ts is Uid) return map[ts.string];
+    if (ts is UidBase) return map[ts.asString];
     if (ts is String) return map[ts];
     return null;
   }
 
   @override
-  String toString() => 'TransferSyntax($string): $name';
+  String toString() => 'TransferSyntax($asString): $name';
 
   //TODO we need add the keyword to the to the class.
   //*****   Constant Values   *****
@@ -255,7 +255,7 @@ class TransferSyntax extends WKUid {
   static const kXMLEncoding =
       const TransferSyntax("1.2.840.10008.1.2.6.2", "XML Encoding", "text/xml???", false);
 
-  static const Map<String, Uid> map = const {
+  static const Map<String, UidBase> map = const {
     "1.2.840.10008.1.2": kImplicitVRLittleEndian,
     "1.2.840.10008.1.2.1": kExplicitVRLittleEndian,
     "1.2.840.10008.1.2.1.99": kDeflatedExplicitVRLittleEndian,

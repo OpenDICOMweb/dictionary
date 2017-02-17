@@ -4,3 +4,7 @@
 
 ## Class Structure
 
+UidBase
+    Uid
+    UuidUid
+

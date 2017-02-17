@@ -12,7 +12,7 @@ class WellKnownFrameOfReference extends WKUid {
       String uid, UidType type, bool isRetired, String name, String link)
       : super._(uid, type, isRetired, name);
 
-  String toString() => '$runtimeType($string)';
+  String toString() => '$runtimeType($asString)';
 
   // Add all constant WK Frame of Reference definitions from wk_uid.dart
   static const kVerificationSOPClass = const SopClassUid(

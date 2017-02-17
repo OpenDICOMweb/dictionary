@@ -16,7 +16,7 @@ class SopClassUid extends WKUid {
   //TODO: create UidType class
   bool get isSopClass => true;
 
-  String toString() => '$runtimeType($string)';
+  String toString() => '$runtimeType($asString)';
 
   //TODO: make the return type SopClassUid a subtype of WKUid
   static WKUid lookup(v) {

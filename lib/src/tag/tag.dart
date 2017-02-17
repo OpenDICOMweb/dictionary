@@ -143,10 +143,11 @@ class Tag {
   }
 
   //TODO: Use the 'package:collection/collection.dart' ListEquality
+  //TODO:  decide if this ahould be here
   /// Compares the elements of two [List]s and returns [true] if all
   /// elements are equal; otherwise, returns [false].
   /// Note: this is not recursive!
-  static bool _listEquals<E>(List<E> e1, List<E> e2) {
+  static bool listEquals<E>(List<E> e1, List<E> e2) {
     if (identical(e1, e2)) return true;
     if (e1 == null || e2 == null) return false;
     if (e1.length != e2.length) return false;
