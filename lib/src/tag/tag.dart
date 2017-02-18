@@ -273,7 +273,7 @@ class Tag {
   @override
   String toString() {
     String retired = (isRetired == false) ? "" : ", (Retired)";
-    return 'Element: $dcm $keyword, $vr, $vm, $retired';
+    return '$runtimeType: $dcm $keyword, $vr, $vm, $retired';
   }
 
   //@override
