@@ -94,3 +94,5 @@ Temporary Items
 .idea/typescript-compiler.xml
 pubspec.lock
 
+lib/src/tag/other/public_tag.dart
+.idea/workspace.xml
