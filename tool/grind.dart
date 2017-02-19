@@ -64,13 +64,13 @@ void clean() {
 @Task('Dry Run of Formating Source...')
 void testformat() {
   log("Formatting Source...");
-  DartFmt.dryRun('lib', lineLength: 100);
+  DartFmt.dryRun('lib', lineLength: 80);
 }
 
 @Task('Formating Source...')
 void format() {
   log("Formatting Source...");
-  DartFmt.dryRun('lib', lineLength: 100);
+  DartFmt.format('lib', lineLength: 80);
 }
 
 @Task('DartDoc')
