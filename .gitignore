@@ -1,4 +1,5 @@
 
+
 ## Dart Language Stuff
 # ==========================
 # See https://www.dartlang.org/tools/private-files.html
@@ -94,3 +95,8 @@ Temporary Items
 .idea/typescript-compiler.xml
 pubspec.lock
 
+/lib/src/dicom/
+/lib/src/tag/byte_data/
+/lib/src/tag/other/
+/lib/src/tag/tag_new/
+/lib/src/vr/other/
