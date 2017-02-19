@@ -27,7 +27,7 @@ void myDefault() {
 @Task('Pre-Commit')
 @Depends(unittest, analyze, format)
 void precommit(){
-
+  log('Pre-Commit...');
 }
 
 @Task('Analyzing Sources...')
