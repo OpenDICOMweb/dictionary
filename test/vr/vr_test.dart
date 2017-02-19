@@ -9,7 +9,7 @@ import 'package:dictionary/src/vr/vr.dart';
 import 'package:dictionary/src/vr/vr_index.dart';
 import 'package:test/test.dart';
 
-main() {
+void main() {
   //printCode();
 
   test("Check List Lengths", () {

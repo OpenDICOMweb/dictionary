@@ -13,7 +13,8 @@ abstract class EnumValue<E> {
   final Term term;
   final bool isRetired;
 
-  const EnumValue(this.index, this.name, this.value, this.term, [this.isRetired = false]);
+  const EnumValue(this.index, this.name, this.value, this.term,
+      [this.isRetired = false]);
 
   bool get isExtensible => false;
 
@@ -25,13 +26,15 @@ abstract class EnumValue<E> {
 }
 
 class YesNo extends EnumValue<String> {
+
   const YesNo(int index, String name, String value, Term term)
       : super(index, name, value, term);
 
-  static const kNO = const YesNo(0, "NO", "NO", Term.NO);
-  static const kYES = const YesNo(1, "YES", "YES", Term.YES);
+  static const YesNo kNO = const YesNo(0, "NO", "NO", Term.kNO);
+  static const YesNo kYES = const YesNo(1, "YES", "YES", Term.kYES);
 
+  @override
   YesNo lookup(String key) => map[key];
 
-  static const map = const {"NO": kNO, "YES": kYES};
+  static const Map<String, YesNo> map = const {"NO": kNO, "YES": kYES};
 }

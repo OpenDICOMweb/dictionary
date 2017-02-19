@@ -20,8 +20,8 @@ class PublicTag extends Tag {
   @override
   final bool isRetired;
 
-  const PublicTag(this.keyword, int code, this.name, VR vr, VM vm,
-      [this.isRetired = false, EType type = EType.kUnknown])
+  const PublicTag(String keyword, int code, String name, VR vr, VM vm,
+      [bool isRetired = false, EType type = EType.kUnknown])
       : super(code, vr, vm, type);
 
   bool get isWKFmi => fmiTags.contains(code);

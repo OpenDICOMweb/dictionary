@@ -238,7 +238,7 @@ bool isASString(String s) {
   return true;
 }
 
-String ASError(String s) {
+String getASErrors(String s) {
   if (!_isValidLength(s, 4, 4)) if (!_isDigitString(s, 3, 3))
     return 'Non-digits in age(AS) String: $s';
   if (!"DWMY".contains(s[3])) 'Invalid Age Unit($s[3]';

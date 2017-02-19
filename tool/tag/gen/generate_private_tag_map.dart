@@ -6,14 +6,14 @@
 
 import 'dart:io';
 
-import 'package:dictionary/src/tag/public_tag.dart';
+import 'package:dictionary/src/tag/tag.dart';
 import 'package:dictionary/src/tag/tag_map.dart';
 
 const String outputDir = "C:/odw/sdk/dictionary/tool/tag/gen/output";
 const String codeMapPath = outputDir + '/public_tag_code_map.dart';
 const String keywordMapPath = outputDir + '/public_tag_keyword_map.dart';
 
-void main(args) {
+void main(List<String> args) {
   String s;
   File privateTagCodeFile = new File(codeMapPath);
   s = generateCodeMap(tagMap);
@@ -28,7 +28,7 @@ void main(args) {
    */
 }
 
-String generateCodeMap(Map<int, PublicTag> map) {
+String generateCodeMap(Map<int, Tag> map) {
   var s = '''
 // Copyright (c) 2016, Open DICOMweb Project. All rights reserved.
 // Use of this source code is governed by the open source license
@@ -42,14 +42,14 @@ import 'package:dictionary/src/tag/public_tag.dart';
 // ----------------------------------------------------------
 
 // Ordered List of all DICOM attributes
-  const Map<int, PublicTag> publicTagCodeMap = const {\n''';
-  map.values.forEach((PublicTag tag) {
-    s += '  ${tag.hex}: PublicTag.k${tag.keyword},\n';
+  const Map<int, Tag> publicTagCodeMap = const {\n''';
+  map.values.forEach((Tag tag) {
+    s += '  ${tag.hex}: Tag.k${tag.keyword},\n';
   });
   return s += '};\n';
 }
 
-String generateKeywordMap(Map<int, PublicTag> map) {
+String generateKeywordMap(Map<int, Tag> map) {
   var s = '''
 // Copyright (c) 2016, Open DICOMweb Project. All rights reserved.
 // Use of this source code is governed by the open source license
@@ -63,9 +63,9 @@ import 'package:dictionary/src/tag/public_tag.dart';
 // ----------------------------------------------------------
 
 // Ordered List of all DICOM attributes
-  const Map<int, PublicTag> publicTagKeywordMap = const {\n''';
-  map.values.forEach((PublicTag tag) {
-    s += '  "${tag.keyword}": PublicTag.k${tag.keyword},\n';
+  const Map<int, Tag> publicTagKeywordMap = const {\n''';
+  map.values.forEach((Tag tag) {
+    s += '  "${tag.keyword}": Tag.k${tag.keyword},\n';
   });
   return s += '};\n';
 }

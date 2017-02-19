@@ -5,28 +5,30 @@
 // See the AUTHORS file for other contributors.
 part of odw.sdk.dictionary.uid;
 
-//TODO: Move all definitions from
+//TODO: Move all definitions from PS3.6 Table A-2 Well Known Frames of Reference
 
 class WellKnownFrameOfReference extends WKUid {
   const WellKnownFrameOfReference(
       String uid, UidType type, bool isRetired, String name, String link)
       : super._(uid, type, isRetired, name);
 
+  @override
   String toString() => '$runtimeType($asString)';
 
   // Add all constant WK Frame of Reference definitions from wk_uid.dart
-  static const kVerificationSOPClass = const SopClassUid(
-      "1.2.840.10008.1.1", UidType.kSOPClass, false, "Verification SOP Class", "PS3.4");
+  static const WellKnownFrameOfReference kTal = const WellKnownFrameOfReference(
+      "1.2.840.",
+      UidType.kWellKnownFrameOfReference,
+      false,
+      "Verification SOP Class",
+      "PS3.4");
 
   //TODO: Modify to use [members] below
-  static WKUid lookup(v) {
+  static WKUid lookup(String v) {
     WKUid wk = WKUid.lookup(v);
     return ((wk != null) && (wk.type == UidType.kSOPClass)) ? wk : null;
   }
 
   //TODO: add all members to this map
-  static const Map<String, WellKnownFrameOfReference> members =
-      const <String, WellKnownFrameOfReference>{
-    "1.2.840.10008.1.1": kVerificationSOPClass
-  };
+  static const Map<String, WellKnownFrameOfReference> members = const {};
 }

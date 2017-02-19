@@ -7,7 +7,7 @@
 import 'package:dictionary/dictionary.dart';
 import 'package:test/test.dart';
 
-main() {
+void main() {
   dateTest();
 }
 

@@ -9,14 +9,16 @@ import 'package:dictionary/src/tag/iod_sequence.dart';
 import 'package:dictionary/src/tag/iod_tag.dart';
 
 abstract class MacroBase {
-  String get name;
-  IodTag get element;
-  String get description;
+  final String name;
+  final IodTag tag;
+  final String description;
 
-  List<MacroBase> get include;
-  List<IodTag> get elements;
-  Map<String, PublicTag> get keywords;
-  Map<int, PublicTag> get tags;
+  MacroBase(this.name, this.tag, this.description);
+
+  List<MacroBase> get include  => [];
+  List<IodTag> get elements  => [];
+  Map<String, Tag> get keywords  => {};
+  Map<int, Tag> get tags  => {};
 }
 
 abstract class MacroSequenceBase {
@@ -25,14 +27,13 @@ abstract class MacroSequenceBase {
 }
 
 class Macro extends MacroBase {
-  final String name;
-  final IodTag element;
-  final String description;
 
-  Macro(this.name, this.element, this.description);
 
-  List<MacroBase> get include => [];
-  List<IodTag> get elements => [];
-  Map<String, PublicTag> get keywords => {};
-  Map<int, PublicTag> get tags => {};
+  Macro(String name, IodTag tag, String description)
+  : super(name, tag, description);
+
+ // List<MacroBase> get include => [];
+ // List<IodTag> get elements => [];
+ // Map<String, Tag> get keywords => {};
+ // Map<int, Tag> get tags => {};
 }

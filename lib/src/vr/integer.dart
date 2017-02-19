@@ -8,10 +8,13 @@ part of odw.sdk.dictionary.vr;
 class VRInt extends VR<int> {
   @override
   final int _eSize;
+  @override
   final int min;
+  @override
   final int max;
   @override
   final int _maxVF;
+  @override
   final bool _undefinedOK;
 
   /// Create an integer VR.
@@ -20,11 +23,13 @@ class VRInt extends VR<int> {
       [this._maxVF = kMaxShortVF, this._undefinedOK = false])
       : super._(index, code, id, desc);
 
+  @override
   bool isValidValue(int n) {
     return (min <= n) && (n <= max);
   }
 
-  String getValueError<int>(int n) => (isNotValidValue(n))
+  @override
+  String getValueError(int n) => (isNotValidValue(n))
       ? 'Range Error: min($min) <= value($n) <= max($max)'
       : null;
 

@@ -4,17 +4,16 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
+import 'package:dictionary/src/vr/vr.dart';
+import 'package:dictionary/src/vr/vr_index.dart';
 import 'package:test/test.dart';
 
-import 'package:dictionary/src/vr/vr_index.dart';
-import 'package:dictionary/src/vr/vr.dart';
-
-main() {
+void main() {
   test8BitVR();
   test16BitVRMapLookup();
 }
 
-test8BitVR() {
+void test8BitVR() {
   test("Regular Map Lookup (8-Bit)", () {
     VR vr = VR.map[kAE8];
     expect(vr == VR.kAE, true);
@@ -176,7 +175,7 @@ test8BitVR() {
   });
 }
 
-test16BitVRMapLookup() {
+void test16BitVRMapLookup() {
   test("Inverted Map Lookup (16-Bit)", () {
     VR vr = VR.mapInverted[kAE16];
     expect(vr == VR.kAE, true);
@@ -338,7 +337,7 @@ test16BitVRMapLookup() {
   });
 }
 
-test16BitVRVectorLookup() {
+void test16BitVRVectorLookup() {
   test("Inverted Vector Lookup (16-Bit)", () {
     VR vr = VR.lookup16(kAE16);
     expect(vr == VR.kAE, true);

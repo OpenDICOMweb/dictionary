@@ -14,13 +14,13 @@ class EType {
   const EType(this.index, this.isConditional, this.name);
 
   /// Use this when the EType is not known.
-  static const kUnknown = const EType(0, false, "0");
+  static const EType kUnknown = const EType(0, false, "0");
 
-  static const k1 = const EType(1, false, "1");
-  static const k1c = const EType(2, true, "1C");
-  static const k2 = const EType(3, false, "2");
-  static const k2c = const EType(4, true, "2C");
-  static const k3 = const EType(5, false, "3");
+  static const EType k1 = const EType(1, false, "1");
+  static const EType k1c = const EType(2, true, "1C");
+  static const EType k2 = const EType(3, false, "2");
+  static const EType k2c = const EType(4, true, "2C");
+  static const EType k3 = const EType(5, false, "3");
 
   static const List<EType> list = const [kUnknown, k1, k1c, k2, k2c, k3];
 
@@ -38,5 +38,6 @@ class EType {
     return list[index];
   }
 
+  @override
   String toString() => 'ElementType($name)';
 }

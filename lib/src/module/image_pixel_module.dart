@@ -7,8 +7,8 @@
 import 'package:dictionary/dictionary.dart';
 import 'package:dictionary/src/entity/ie_level.dart';
 
-class image_pixel_module {
-  image_pixel_module();
+class ImagePixelModule {
+  ImagePixelModule();
 }
 
 class ImagePixel {

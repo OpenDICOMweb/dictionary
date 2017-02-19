@@ -7,18 +7,16 @@
 // Copyright 2015 Google. All rights reserved. Use of this source code is
 // governed by a BSD-style license that can be found in the LICENSE file.
 
+import 'dart:async';
+import 'dart:io';
+
 import 'package:grinder/grinder.dart';
 
-import 'grind_core.dart';
+Future main(List<String> args) => grind(args);
 
-main(args) => grind(args);
+Directory dartDocDir = new Directory('C:/odw/sdk/doc/dictionary');
 
-// Uncomment if needed
-/* @Task('Initializing...')
-init() {
-  log("Initializing stuff...");
-}
-*/
+const bool runAsync = false;
 
 @DefaultTask('Running Default Tasks...')
 void myDefault() {
@@ -26,65 +24,89 @@ void myDefault() {
  // testformat();
 }
 
+@Task('Pre-Commit')
+@Depends(unittest, analyze, format)
+void precommit(){
+
+}
+
+@Task('Analyzing Sources...')
+void analyze() {
+  log('Analyzing Common...');
+  Analyzer.analyze(['lib', 'test', 'tool'], fatalWarnings: true);
+}
+
+@Task('Unit Testing...')
+Future unittest() async {
+  if (runAsync) {
+    log('Unit Tests (running asynchronously)...');
+    await new TestRunner().testAsync();
+  } else {
+    log('Unit Tests (running synchronously)...');
+    new PubApp.local('test').run([]);
+    // new TestRunner();
+  }
+}
+
 @Task('Testing Dart...')
+@Depends(unittest)
 void test() {
   new PubApp.local('test').run([]);
 }
 
 @Task('Cleaning...')
-clean() {
+void clean() {
   log("Cleaning...");
   delete(buildDir);
   delete(dartDocDir);
 }
 
 @Task('Dry Run of Formating Source...')
-testformat() {
+void testformat() {
   log("Formatting Source...");
   DartFmt.dryRun('lib', lineLength: 100);
 }
 
 @Task('Formating Source...')
-format() {
+void format() {
   log("Formatting Source...");
   DartFmt.dryRun('lib', lineLength: 100);
 }
 
 @Task('DartDoc')
-dartdoc() {
+void dartdoc() {
   log('Generating Documentation...');
   DartDoc.doc();
 }
 
 @Task('Build the project.')
-build() {
+void build() {
   log("Building...");
   Pub.get();
   Pub.build(mode: "debug");
 }
 
 @Task('Building release...')
-buildRelease() {
+void buildRelease() {
   log("Building release...");
   Pub.upgrade();
   Pub.build(mode: "release");
 }
 
 @Task('Compiling...')
-//@Depends(init)
-compile() {
+void compile() {
   log("Compiling...");
 }
 
 @Task('Testing JavaScript...')
 @Depends(build)
-testJavaScript() {
+void testJavaScript() {
   new PubApp.local('test').run([]);
 }
 
 @Task('Deploy...')
 @Depends(clean, format, compile, buildRelease, test, testJavaScript)
-deploy() {
+void deploy() {
   log("Deploying...");
   log('Regenerating Documentationfrom scratch...');
   delete(dartDocDir);

@@ -4,7 +4,7 @@
 // Original author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
-import 'package:common/src/string/regex.dart';
+import 'package:common/string.dart';
 
 //TODO: cleanup and document if used
 

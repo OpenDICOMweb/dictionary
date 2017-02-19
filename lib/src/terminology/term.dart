@@ -5,20 +5,20 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
-const _PhotometricInterpretationReleatedTerms = const [
-  Term.Monochrome1,
-  Term.Monochrome2,
-  Term.Monochrome3,
-  Term.RGB,
-  Term.YBR_FULL,
-  Term.YBR_FULL_422,
-  Term.YBR_PARTIAL_422,
-  Term.YBR_PARTIAL_420,
-  Term.YBR_ICT,
-  Term.YBR_RCT
+const List<Term> kPhotometricInterpretationRelatedTerms = const <Term>[
+  Term.kMonochrome1,
+  Term.kMonochrome2,
+  Term.kMonochrome3,
+  Term.kRGB,
+  Term.kYBR_FULL,
+  Term.kYBR_FULL_422,
+  Term.kYBR_PARTIAL_422,
+  Term.kYBR_PARTIAL_420,
+  Term.kYBR_ICT,
+  Term.kYBR_RCT
 ];
 
-//const _PhotometricInterpretation = const [Term.PhotometricInterpretation];
+//const _PhotometricInterpretation = const [Term.kPhotometricInterpretation];
 
 class RelatedTerms {
   final Term term;
@@ -26,18 +26,18 @@ class RelatedTerms {
 
   const RelatedTerms(this.term, this.related);
 
-  static const PhotometricInterpretation =
-      const RelatedTerms(Term.PhotometricInterpretation, const [
-    Term.Monochrome1,
-    Term.Monochrome2,
-    Term.Monochrome3,
-    Term.RGB,
-    Term.YBR_FULL,
-    Term.YBR_FULL_422,
-    Term.YBR_PARTIAL_422,
-    Term.YBR_PARTIAL_420,
-    Term.YBR_ICT,
-    Term.YBR_RCT
+  static const RelatedTerms kPhotometricInterpretation =
+      const RelatedTerms(Term.kPhotometricInterpretation, const <Term>[
+    Term.kMonochrome1,
+    Term.kMonochrome2,
+    Term.kMonochrome3,
+    Term.kRGB,
+    Term.kYBR_FULL,
+    Term.kYBR_FULL_422,
+    Term.kYBR_PARTIAL_422,
+    Term.kYBR_PARTIAL_420,
+    Term.kYBR_ICT,
+    Term.kYBR_RCT
   ]);
 }
 
@@ -47,10 +47,10 @@ class Term {
 
   const Term(this.name, this.definition);
 
-  static const YES = const Term("YES", "True or in agreement");
-  static const NO = const Term("NO", "False or NOT in agreement");
+  static const Term kYES = const Term("YES", "True or in agreement");
+  static const Term kNO = const Term("NO", "False or NOT in agreement");
 
-  static const PhotometricInterpretation = const Term(
+  static const Term kPhotometricInterpretation = const Term(
       "Photometric Interpretation",
       "The value of Photometric Interpretation (0028,0004) specifies the intended "
       "interpretation of the image pixel data. See PS3.5 for restrictions imposed by "
@@ -58,21 +58,21 @@ class Term {
       "are permitted but the meaning is "
       "not defined by this Standard.");
 
-  static const Monochrome1 = const Term(
+  static const Term kMonochrome1 = const Term(
       "MONOCHROME1",
       'Pixel data represent a single monochrome image plane. The minimum '
       'sample value is intended to be displayed as white after any VOI '
       'gray scale transformations have been performed. See PS3.4. '
       'This value may be used only when Samples per Pixel '
       '(0028,0002) has a value of 1.');
-  static const Monochrome2 = const Term(
+  static const Term kMonochrome2 = const Term(
       "MONOCHROME2",
       'Pixel data represent a single monochrome image plane. The minimum '
       'sample value is intended to be displayed as black after any VOI '
       'gray scale transformations have been performed. See PS3.4. This '
       'value may be used only when Samples per Pixel (0028,0002) has a '
       'value of 1.');
-  static const Monochrome3 = const Term(
+  static const Term kMonochrome3 = const Term(
     "MONOCHROME3",
     'Pixel data describe a color image with a single sample per pixel (single '
         'image plane). The pixel value is used as an index into each of the Red, '
@@ -81,7 +81,7 @@ class Term {
         'value of 1. When the Photometric Interpretation is Palette Color; Red, '
         'Blue, and Green Palette Color Lookup Tables shall be present.',
   );
-  static const RGB = const Term(
+  static const Term kRGB = const Term(
     "RGB",
     'Pixel data represent a color image described by red, green, and blue '
         'image planes. The minimum sample value for each color plane represents minimum '
@@ -89,13 +89,13 @@ class Term {
         '(0028,0002) has a value of 3.',
   );
 
-  static const HSV = const Term("HSV", "Retired.");
-
-  static const ARGB = const Term("ARGB", "Retired.");
-
-  static const CMYK = const Term("CMYK", "Retired.");
-
-  static const YBR_FULL = const Term(
+  static const Term kHSV = const Term("HSV", "Retired.");
+  // ignore: constant_identifier_names
+  static const Term kARGB = const Term("ARGB", "Retired.");
+  // ignore: constant_identifier_names
+  static const Term kCMYK = const Term("CMYK", "Retired.");
+  // ignore: constant_identifier_names
+  static const Term kYBR_FULL = const Term(
     "YBR_FULL",
     'Pixel data represent a color image described by one luminance (Y) '
         'and two chrominance planes (CB and CR). This photometric interpretation may be used '
@@ -113,7 +113,8 @@ class Term {
   );
 
   //TODO: finish
-  static const YBR_FULL_422 = const Term(
+  // ignore: constant_identifier_names
+  static const Term kYBR_FULL_422 = const Term(
     "YBR_FULL_422",
     'The same as YBR_FULL except that the CB and CR values are '
         'sampled horizontally at half the Y rate and as a result there are half as '
@@ -121,11 +122,13 @@ class Term {
   );
 
   //TODO: finish
-  static const YBR_PARTIAL_422 =
+  // ignore: constant_identifier_names
+  static const Term kYBR_PARTIAL_422 =
       const Term("YBR_PARTIAL_422", 'The same as YBR_FULL_422 except that:...');
 
   //TODO: finish
-  static const YBR_PARTIAL_420 = const Term(
+  // ignore: constant_identifier_names
+  static const Term kYBR_PARTIAL_420 = const Term(
     "YBR_PARTIAL_420",
     'The same as YBR_PARTIAL_422 except that the CB and CR values are sampled '
         'horizontally and vertically at half the Y rate and as a result there '
@@ -134,18 +137,20 @@ class Term {
   );
 
   //TODO: finish
-  static const YBR_ICT = const Term("YBR_ICT", 'Irreversible Color Transformation:...');
+  // ignore: constant_identifier_names
+  static const Term kYBR_ICT = const Term("YBR_ICT", 'Irreversible Color Transformation:...');
 
   //TODO: finish
-  static const YBR_RCT = const Term("YBR_RCT", 'Reversible Color Transformation:...');
+  // ignore: constant_identifier_names
+  static const Term kYBR_RCT = const Term("YBR_RCT", 'Reversible Color Transformation:...');
 
-  static const DNS =
+  static const Term kDNS =
       const Term("DNS", 'An Internet dotted name. Either in ASCII or as integers');
-  static const EUI64 = const Term("EUI64", 'An IEEE Extended Unique Identifier');
-  static const ISO =
+  static const Term kEUI64 = const Term("EUI64", 'An IEEE Extended Unique Identifier');
+  static const Term kISO =
       const Term("ISO", 'An International Standards Organization Object Identifier');
-  static const URI = const Term("URI", 'Uniform Resource Identifier');
-  static const UUID = const Term("UUID", 'The DCE Universal Unique Identifier');
-  static const X400 = const Term("X400", 'An X.400 MHS identifier');
-  static const X500 = const Term("X500", 'An X.500 directory name');
+  static const Term kURI = const Term("URI", 'Uniform Resource Identifier');
+  static const Term kUUID = const Term("UUID", 'The DCE Universal Unique Identifier');
+  static const Term kX400 = const Term("X400", 'An X.400 MHS identifier');
+  static const Term kX500 = const Term("X500", 'An X.500 directory name');
 }

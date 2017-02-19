@@ -129,15 +129,15 @@ class VR<T> {
   bool get isStringNumber => this == kIS || this == kDS;
   bool get isNumber => isInteger || isFloat || isStringNumber;
 
-  bool isValidValue(value) => false;
+  bool isValidValue(T value) => false;
 
-  bool isNotValidValue(value) => !isValidValue(value);
+  bool isNotValidValue(T value) => !isValidValue(value);
 
-  T check(value) => null;
+  T check(T value) => null;
 
   //TODO: currently returns one [String], but since there could be more than one
   //TODO: error maybe it should be a [List<String>].
-  String getValueError(value) => null;
+  String getValueError(T value) => null;
 
   /// Returns a value of the appropriate type
   T parse(String s) => null;

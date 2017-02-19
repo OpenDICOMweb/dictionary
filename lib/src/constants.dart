@@ -34,7 +34,7 @@ const int kMaxLongLengthInBytes = (1 << 32) - 2;
 const int kMaxLongVFLength = (1 << 32) - 2;
 
 /// This is the value of a DICOM Undefined Length from a 32-bit Value Field Length.
-const kUndefinedLength = 0xFFFFFFFF;
+const int kUndefinedLength = 0xFFFFFFFF;
 
 bool hasUndefinedLength(int i) => i == kUndefinedLength;
 

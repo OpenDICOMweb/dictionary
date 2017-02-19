@@ -8,7 +8,7 @@ import 'package:dictionary/dictionary.dart';
 
 /// A [class] for defining the elements of an [IOD].
 class IodTag {
-  final PublicTag tag;
+  final Tag tag;
   final EType _type;
 
   //TODO: make const
@@ -43,8 +43,9 @@ class IodTag {
 
   bool isValidLength(int length) => tag.isValidLength(length);
   //bool isValidValue(value) => tag.isValidValue(value);
-  dynamic checkValue(value, [List<String> issues]) => tag.checkValue(value);
+  dynamic checkValue(dynamic value, [List<String> issues]) => tag.checkValue(value);
 
+  @override
   String toString() {
     var retired = (isRetired == false) ? "" : ", (Retired)";
     return 'IOD Element: ${tag.dcm} $keyword, $vr, $vm, $retired';

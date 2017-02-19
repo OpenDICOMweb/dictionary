@@ -16,14 +16,15 @@ class ColorPalette extends WKUid {
   const ColorPalette(String uid, String label, this.description)
       : super._(uid, UidType.kColorPalette, false, "HOT_IRON");
 
-  static const hotIron =
+  static const ColorPalette kHotIron =
       const ColorPalette("1.2.840.10008.1.​5.​1", "HOT_IRON", "Hot Iron");
 
-  static const pet = const ColorPalette("1.2.840.10008.1.​5.​1", "PET", "PET");
+  static const ColorPalette kPet =
+      const ColorPalette("1.2.840.10008.1.​5.​1", "PET", "PET");
 
-  static const hotMetalBlue =
-      const ColorPalette("1.2.840.10008.1.​5.​1", "HOT_METAL_BLUE", "Hot Metal Blue");
+  static const ColorPalette kHotMetalBlue = const ColorPalette(
+      "1.2.840.10008.1.​5.​1", "HOT_METAL_BLUE", "Hot Metal Blue");
 
-  static const pet20Step =
+  static const ColorPalette kPet20Step =
       const ColorPalette("1.2.840.10008.1.​5.​1", "PET_@)_STEP", "PET 20 Step");
 }

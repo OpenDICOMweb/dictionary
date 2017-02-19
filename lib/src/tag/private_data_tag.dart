@@ -13,16 +13,16 @@ import 'tag.dart';
 class PrivateDataTag extends Tag {
   final int id;
   final String token;
-  @override
-  final String name;
 
-  const PrivateDataTag._(this.id, this.token, int code, VR vr, VM vm, this.name)
-      : super(code, vr, vm);
 
-  PrivateDataTag.unknown(int code, [this.token = "Unknown Creator", VR vr = VR.kUN])
+  const PrivateDataTag._(this.id, this.token, int code, VR vr, VM vm,
+      String name)
+      : super.privateData(code, vr, vm, name);
+
+  PrivateDataTag.unknown(int code, [this.token = "Unknown Creator",
+  VR vr = VR.kUN])
       : id = 0,
-        name = "UnKnown Private Data Tag",
-        super(code, vr, VM.kUnknown);
+        super.privateData(code, vr, VM.kUnknown, "UnKnown Private Data Tag");
 
   @override
   bool get isPrivate => true;

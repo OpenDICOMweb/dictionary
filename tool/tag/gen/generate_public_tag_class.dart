@@ -13,7 +13,7 @@ import 'tag_class_code.dart';
 const String outputDir = "C:/odw/sdk/core/lib/src/base/tag/gen/output";
 const String outputPath = outputDir + '/tag_constants.dart';
 
-void main(args) {
+void main(List<String> args) {
   File outFile = new File(outputPath);
   var members = generateMembers(tagMap);
   var s = '$header$members';
@@ -21,10 +21,10 @@ void main(args) {
   outFile.writeAsStringSync(s);
 }
 
-String generateMembers(Map<int, PublicTag> map) {
+String generateMembers(Map<int, Tag> map) {
   var s = "";
 
-  map.values.forEach((PublicTag tag) {
+  map.values.forEach((Tag tag) {
     s += '  static const Tag k${tag.keyword} = const Tag(${tag.hex});\n';
   });
   return s += '}\n';

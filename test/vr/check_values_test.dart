@@ -7,7 +7,7 @@
 import 'package:dictionary/dictionary.dart';
 import 'package:test/test.dart';
 
-main() {
+void main() {
   //List<String> uints = ["9", "99", "999", "9999", "9999999999"];
 
   //int v = readUint(uints[0], 0, 1, 1);
@@ -17,10 +17,10 @@ main() {
 
 // TODO: create good and bad data generators for these tests
 
-uintTest() {
+void uintTest() {
   List<String> uintStrings = ["9", "09", "990", "0999", "9099099909"];
   List<int> uintValues = [9, 09, 990, 0999, 9099099909];
-  List<int> uintLength_1Values = [0, 0, 99, 099, 909909990];
+  List<int> uintLength1Values = [0, 0, 99, 099, 909909990];
 
   List<String> badUintStrings = ["", "X", "9X", "99S", "999S", "99999999X"];
   List<int> badUintValues = [null, null, null, null, null, null];
@@ -44,7 +44,7 @@ uintTest() {
         int min = 0;
         int max = s.length - 1;
         int v = readUint(uintStrings[i], offset, min, max);
-        expect(v, equals(uintLength_1Values[i]));
+        expect(v, equals(uintLength1Values[i]));
       }
     });
 

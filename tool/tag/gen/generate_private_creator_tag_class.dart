@@ -14,7 +14,7 @@ const String outputDir = "C:/odw/sdk/dictionary/tool/tag/gen/output";
 const String classPath = outputDir + '/private_creator_tag.dart';
 const String mapPath = outputDir + '/private_creator_map.dart';
 
-void main(args) {
+void main(List <String> args) {
   var out;
   File classFile = new File(classPath);
   out = generateClass(privateCreatorsMap);
@@ -39,7 +39,6 @@ String generateClass(Map<String, Map<int, PrivateDataTag>> map) {
     out += 'static const PrivateCreatorTag k$i =\n'
         '    const PrivateCreatorTag._($args);\n';
   }
-  ;
   return out += '}\n';
 }
 

@@ -21,7 +21,6 @@ export 'package:dictionary/src/tag/errors.dart';
 export 'package:dictionary/src/tag/group.dart';
 export 'package:dictionary/src/tag/private_creator_tag.dart';
 export 'package:dictionary/src/tag/private_data_tag.dart';
-export 'package:dictionary/src/tag/public_tag.dart';
 export 'package:dictionary/src/tag/tag.dart';
 export 'package:dictionary/src/tag/tag_map.dart';
 export 'package:dictionary/src/vm.dart';

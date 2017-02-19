@@ -7,12 +7,12 @@
 import 'package:dictionary/src/tag/private_creator_tag.dart';
 import 'package:test/test.dart';
 
-main() {
-  PrivateCreatorTagTest();
-  UnknownPrivateCreatorTagTest();
+void main() {
+  privateCreatorTagTest();
+  unknownPrivateCreatorTagTest();
 }
 
-PrivateCreatorTagTest() {
+void privateCreatorTagTest() {
   test("PrivateCreatorTag Test", () {
     PrivateCreatorTag pTag = PrivateCreatorTag.lookup("ACUSON", 0x00090010);
     print(pTag.info);
@@ -20,7 +20,7 @@ PrivateCreatorTagTest() {
   });
 }
 
-UnknownPrivateCreatorTagTest() {
+void unknownPrivateCreatorTagTest() {
   test("PrivateCreatorTag.unknown Test", () {
     PrivateCreatorTag pTag = PrivateCreatorTag.lookup("foo", 0x00090010);
     print(pTag.info);

@@ -31,13 +31,16 @@ class VRShortString extends VR<String> {
 
   bool isValidLength(String s) => _isValidLength(s.length, min, max);
 
+  @override
   bool isValidValue(String s) => _isValid(s, min, max);
 
+  @override
   String check(String s) => (_isValid(s, min, max)) ? s : null;
 
   String getValueIssue(String s) => _getError(s, min, max);
 
-  E parse<E>(String s) => (_parser != null) ? _parser(s, min, max) : check(s);
+  @override
+  String parse(String s) => (_parser != null) ? _parser(s, min, max) : check(s);
 
   // String.dicom (without backslash)
   static const VR kAE = const VRShortString._(
@@ -95,7 +98,7 @@ class VRShortString extends VR<String> {
       _parseDecimalString);
 }
 
-class VRLongString extends VR {
+class VRLongString extends VR<String> {
   @override
   final int min = 1;
   @override
@@ -121,9 +124,11 @@ class VRLongString extends VR {
 
   String getValueIssue(String s) => _getError(s, min, max);
 
-  String check<String>(String s) => (isValidValue(s)) ? s : null;
+  @override
+  String check(String s) => (isValidValue(s)) ? s : null;
 
-  E parse<E>(String s) => (_parser != null) ? _parser(s, min, max) : null;
+  @override
+  String parse(String s) => (_parser != null) ? _parser(s, min, max) : null;
 
   static const VRLongString kUC = const VRLongString._(
       21, 0x5543, "UC", "Unlimited Characters", _isDcmString, _dcmStringError);

@@ -38,6 +38,7 @@ class PrivateCreatorTag extends Tag {
 
   int get limit => base + 0xFF;
 
+  @override
   String get info => '$runtimeType($token) $dcm, $vr, $vm, $type, '
       'data ${fmtDataTagMap()}';
 

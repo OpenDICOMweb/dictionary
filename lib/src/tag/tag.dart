@@ -16,7 +16,6 @@ import 'package:dictionary/src/tag/errors.dart';
 import 'package:dictionary/src/tag/group.dart';
 import 'package:dictionary/src/tag/private_creator_tag.dart';
 import 'package:dictionary/src/tag/private_data_tag.dart';
-import 'package:dictionary/src/tag/public_tag.dart';
 import 'package:dictionary/src/tag/public_tag_code_map.dart';
 import 'package:dictionary/src/tag/public_tag_keyword_map.dart';
 import 'package:dictionary/src/vm.dart';
@@ -37,6 +36,8 @@ class Tag {
   final String name;
   final bool isRetired;
 
+  ///TODO: Tag and Tag.public are inconsistent when new Tag, PrivateTag... files
+  ///      are generated make them consistent.
   const Tag(this.code,
       [this.vr = VR.kUN,
       this.vm = VM.k1_n,
@@ -47,6 +48,11 @@ class Tag {
 
   const Tag.public(this.keyword, this.code, this.name, this.vr, this.vm,
       [this.isRetired = false, this.type = EType.kUnknown]);
+
+  const Tag.privateData(this.code, this.vr, this.vm, this.name, [
+  this.type = EType.kUnknown,
+  this.keyword = "Unknown Tag Keyword",
+  this.isRetired = false]);
 
   bool get isWKFmi => fmiTags.contains(code);
 
@@ -202,7 +208,7 @@ class Tag {
       checkValues<E>(List<E> values) => (isValidValues(values)) ? values : null;
 
   // Placeholder until VR is integrated into TagBase
-  checkValue(dynamic value) => vr.isValidValue(value) ? value : null;
+  List<E> checkValue<E>(dynamic value) => vr.isValidValue(value) ? value : null;
 
   bool isValidLength(int length) {
     print('isValidLength: $length');
@@ -283,7 +289,7 @@ class Tag {
     Tag tag = Tag.lookupCode(code);
     if (tag != null) return tag;
     if (Tag.isPublicCode(code)) {
-      return new PublicTag(
+      return new Tag.public(
           "Unknown", code, "Unknown Public Tag", vr, VM.kUnknown);
     } else if (Tag.isPrivateCode(code)) {
       // *** This should not happen!

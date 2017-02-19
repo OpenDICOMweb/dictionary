@@ -46,8 +46,8 @@ class CodingSchemeClassTable {
   List<String> fieldNames;
   List<List<String>> values;
 
-  CodingSchemeClassTable(
-      this.className, this.fieldCount, this.fieldTypes, this.fieldNames, this.values) {
+  CodingSchemeClassTable(this.className, this.fieldCount, this.fieldTypes,
+      this.fieldNames, this.values) {
     cleanValues();
   }
 
@@ -63,7 +63,8 @@ class CodingSchemeClassTable {
     }
   }
 
-  String commaSeparatedString(String prefix, List args, String suffix, {last: false}) {
+  String commaSeparatedString(String prefix, List args, String suffix,
+      {bool last: false}) {
     String s = "";
     int end = args.length - 1;
     for (int i = 0; i < end; i++) {
@@ -185,7 +186,8 @@ $codingSchemeTables
     var s =
         '  static const Map<String, CodingScheme> uidMap = const {\n$indent$lines};\n\n';
     lines = map.join(',\n$indent');
-    s += '  static const Map<String, CodingScheme> map = const {\n$indent$lines};\n\n';
+    s +=
+        '  static const Map<String, CodingScheme> map = const {\n$indent$lines};\n\n';
     lines = mapKeys.join(",\n$indent");
     s += '  static const List<String> tags = const [\n$indent$lines];\n\n';
     lines = mapValues.join(",\n$indent");
@@ -226,8 +228,8 @@ $codingSchemeTables
     File file = new File(filename);
     String s = file.readAsStringSync();
     Map m = JSON.decode(s);
-    return new CodingSchemeClassTable(
-        m["className"], m["fieldCount"], m["fieldTypes"], m["fieldNames"], m["values"]);
+    return new CodingSchemeClassTable(m["className"], m["fieldCount"],
+        m["fieldTypes"], m["fieldNames"], m["values"]);
   }
 
   static void write(File file, CodingSchemeClassTable table) {

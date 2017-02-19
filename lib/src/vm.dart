@@ -9,9 +9,9 @@
 /// The Value Multiplicity (VM) of an Attribute defines the minimum, maximum and width
 /// of an array of values in an Attribute's Value Field.
 class VM {
-  static const nColumns = 4;
+  static const int nColumns = 4;
   //TODO: why can't this be constant
-  static final nRows = vms.length;
+  static final int nRows = vms.length;
   //Used to write in gen_table_format
   //TODO: add index to constant values.
   final int index = 0;
@@ -42,6 +42,7 @@ class VM {
   bool get isFixed => min == max;
   bool get isSingleton => width == 0;
 
+  @override
   String toString() => 'VM.$id';
 
   // Members

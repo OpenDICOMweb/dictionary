@@ -16,14 +16,15 @@ class SopClassUid extends WKUid {
   //TODO: create UidType class
   bool get isSopClass => true;
 
+  @override
   String toString() => '$runtimeType($asString)';
 
   //TODO: make the return type SopClassUid a subtype of WKUid
-  static WKUid lookup(v) {
+  static WKUid lookup(String v) {
     WKUid wk = WKUid.lookup(v);
     return ((wk != null) && (wk.type == UidType.kSOPClass)) ? wk : null;
   }
 
-  static const kVerificationSOPClass = const SopClassUid(
+  static const SopClassUid kVerificationSOPClass = const SopClassUid(
       "1.2.840.10008.1.1", UidType.kSOPClass, false, "Verification SOP Class", "PS3.4");
 }

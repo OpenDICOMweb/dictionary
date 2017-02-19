@@ -13,50 +13,57 @@ class PhotometricInterpretation extends DefinedTerm<String> {
       [bool isRetired = false])
       : super(index, name, value, definition);
 
+  @override
   PhotometricInterpretation lookup(String name) => map[name];
 
   Iterable<String> get keys => map.keys;
 
   Iterable<PhotometricInterpretation> get values => map.values;
 
-  static const kMonochrome1 =
-      const PhotometricInterpretation(0, "Monochrome1", "MONOCHROME1", Term.Monochrome1);
+  static const PhotometricInterpretation kMonochrome1 =
+      const PhotometricInterpretation(0, "Monochrome1", "MONOCHROME1", Term.kMonochrome1);
 
-  static const kMonochrome2 =
-      const PhotometricInterpretation(0, "Monochrome2", "MONOCHROME2", Term.Monochrome2);
+  static const PhotometricInterpretation kMonochrome2 =
+      const PhotometricInterpretation(0, "Monochrome2", "MONOCHROME2", Term.kMonochrome2);
 
-  static const kMonochrome3 =
-      const PhotometricInterpretation(0, "Monochrome3", "MONOCHROME3", Term.Monochrome3);
+  static const PhotometricInterpretation kMonochrome3 =
+      const PhotometricInterpretation(0, "Monochrome3", "MONOCHROME3", Term.kMonochrome3);
 
-  static const kRGB = const PhotometricInterpretation(0, "RGB", "RGB", Term.RGB);
+  static const PhotometricInterpretation kRGB = const PhotometricInterpretation(0, "RGB", "RGB", Term.kRGB);
 
-  static const kHSV = const PhotometricInterpretation(0, "HSV", "HSV", Term.HSV, true);
+  static const PhotometricInterpretation kHSV = const PhotometricInterpretation(0, "HSV", "HSV", Term.kHSV, true);
 
-  static const kARGB =
-      const PhotometricInterpretation(0, "ARGB", "ARGB", Term.ARGB, true);
+  static const PhotometricInterpretation kARGB =
+      const PhotometricInterpretation(0, "ARGB", "ARGB", Term.kARGB, true);
 
-  static const kCMYK =
-      const PhotometricInterpretation(0, "CMYK", "CMYK", Term.CMYK, true);
+  static const PhotometricInterpretation kCMYK =
+      const PhotometricInterpretation(0, "CMYK", "CMYK", Term.kCMYK, true);
 
-  static const kYBR_FULL =
-      const PhotometricInterpretation(0, "YBR_FULL", "YBR_FULL", Term.YBR_FULL);
+  // ignore: constant_identifier_names
+  static const PhotometricInterpretation kYBR_FULL =
+      const PhotometricInterpretation(0, "YBR_FULL", "YBR_FULL", Term.kYBR_FULL);
 
-  static const kYBR_FULL_422 = const PhotometricInterpretation(
-      0, "YBR_FULL_422", "YBR_FULL_422", Term.YBR_FULL_422);
+  // ignore: constant_identifier_names
+  static const PhotometricInterpretation kYBR_FULL_422 = const PhotometricInterpretation(
+      0, "YBR_FULL_422", "YBR_FULL_422", Term.kYBR_FULL_422);
 
-  static const kYBR_PARTIAL_422 = const PhotometricInterpretation(
-      0, "YBR_PARTIAL_422", "YBR_PARTIAL_422", Term.YBR_PARTIAL_422);
+  // ignore: constant_identifier_names
+  static const PhotometricInterpretation kYBR_PARTIAL_422 = const PhotometricInterpretation(
+      0, "YBR_PARTIAL_422", "YBR_PARTIAL_422", Term.kYBR_PARTIAL_422);
 
-  static const kYBR_PARTIAL_420 = const PhotometricInterpretation(
-      0, "YBR_PARTIAL_420", "YBR_PARTIAL_420", Term.YBR_PARTIAL_420, true);
+  // ignore: constant_identifier_names
+  static const PhotometricInterpretation kYBR_PARTIAL_420 = const PhotometricInterpretation(
+      0, "YBR_PARTIAL_420", "YBR_PARTIAL_420", Term.kYBR_PARTIAL_420, true);
 
-  static const kYBR_ICT =
-      const PhotometricInterpretation(0, "YBR_ICT", "YBR_ICT", Term.YBR_ICT);
+  // ignore: constant_identifier_names
+  static const PhotometricInterpretation kYBR_ICT =
+      const PhotometricInterpretation(0, "YBR_ICT", "YBR_ICT", Term.kYBR_ICT);
 
-  static const kYBR_RCT =
-      const PhotometricInterpretation(0, "YBR_RCT", "YBR_RCT", Term.YBR_RCT);
+  // ignore: constant_identifier_names
+  static const PhotometricInterpretation kYBR_RCT =
+      const PhotometricInterpretation(0, "YBR_RCT", "YBR_RCT", Term.kYBR_RCT);
 
-  static const map = const {
+  static const Map<String, PhotometricInterpretation>map = const {
     "MONOCHROME1": kMonochrome1,
     "MONOCHROME2": kMonochrome2,
     "MONOCHROME3": kMonochrome3,

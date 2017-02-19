@@ -11,7 +11,7 @@ import 'package:common/common.dart';
 /// The [Group] methods expect their argument to be a 16-bit group number.
 class Group {
   static const int kGroupMask = 0xFFFF0000;
-  static const shiftCount = 16;
+  static const int shiftCount = 16;
 
   /// Groups numbers that shall not be used in [PrivateTag]s.
   static const List<int> invalidPrivateGroups = const <int>[

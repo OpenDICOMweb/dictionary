@@ -10,16 +10,16 @@
 
 /// This corresponds to the first 16-bits of [kSequenceDelimitationItem],
 /// [kItem], and [kItemDelimitationItem] which are the same value.
-const kDelimiterFirst16Bits = 0xFFFE;
+const int kDelimiterFirst16Bits = 0xFFFE;
 
 /// This corresponds to the last 16-bits of [kSequenceDelimitationItem].
-const kSequenceDelimiterLast16Bits = 0xE0DD;
+const int kSequenceDelimiterLast16Bits = 0xE0DD;
 
 /// This corresponds to the last 16-bits of [kItemDelimitationItem].
-const kItemLast16bits = 0xE000;
+const int kItemLast16bits = 0xE000;
 
 /// This corresponds to the last 16-bits of [kItemDelimitationItem].
-const kItemDelimiterLast16bits = 0xE00D;
+const int kItemDelimiterLast16bits = 0xE00D;
 
 /// The padding character used to pad UIDs [String]s with odd length.
 const String uidPaddingChar = "0x00";
@@ -3788,13 +3788,13 @@ const int kMinFmiTag = kFileMetaInformationGroupLength;
 const int kMaxFmiTag = kPrivateInformation;
 
 /// File-set ID
-const kMinDcmDirTag = kFileSetID;
+const int kMinDcmDirTag = kFileSetID;
 
 /// Number of References
-const kMaxDcmDirTag = kNumberOfReferences;
+const int kMaxDcmDirTag = kNumberOfReferences;
 
 /// Group Length
-const kMinDatasetTag = kLengthToEnd;
+const int kMinDatasetTag = kLengthToEnd;
 
 /// Data Set Trailing Padding
-const kMaxDatasetTag = kDataSetTrailingPadding;
+const int kMaxDatasetTag = kDataSetTrailingPadding;
