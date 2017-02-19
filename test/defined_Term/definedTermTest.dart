@@ -94,11 +94,11 @@ void show() {
   });
   test("ascii", () {
     var asciis =
-        const Ascii(0, "NUL", "null character", const AsciiType(0, "null character"));
+        const Ascii(0, "NUL", "null character", const CharType(0, "null character"));
     expect(
         asciis,
         equals(const Ascii(
-            0, "NUL", "null character", const AsciiType(0, "null character"))));
+            0, "NUL", "null character", const CharType(0, "null character"))));
   });
   test("colors", () {
     var color = const ColorPalette("uid1", "label1", "dart language");
