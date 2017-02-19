@@ -43,7 +43,8 @@ class IodTag {
 
   bool isValidLength(int length) => tag.isValidLength(length);
   //bool isValidValue(value) => tag.isValidValue(value);
-  dynamic checkValue(dynamic value, [List<String> issues]) => tag.checkValue(value);
+  dynamic checkValue(dynamic value, [List<String> issues]) =>
+      tag.checkValue(value);
 
   @override
   String toString() {

@@ -32,19 +32,25 @@ class SopClassUid extends WKUid {
 
   //TODO: verify that all SOPClass Definitions are present
 
-  static const kVerificationSOPClass = const SopClassUid(
-      "1.2.840.10008.1.1", WKUidType.kSopClass, false, "Verification SOP Class");
+  static const kVerificationSOPClass = const SopClassUid("1.2.840.10008.1.1",
+      WKUidType.kSopClass, false, "Verification SOP Class");
 
-  static const kMediaStorageDirectoryStorage = const WKUid("1.2.840.10008.1.3.10",
-      WKUidType.kSopClass, false, "Media Storage Directory Storage");
+  static const kMediaStorageDirectoryStorage = const WKUid(
+      "1.2.840.10008.1.3.10",
+      WKUidType.kSopClass,
+      false,
+      "Media Storage Directory Storage");
 
   static const kBasicStudyContentNotificationSOPClass_Retired = const WKUid(
       "1.2.840.10008.1.9",
       WKUidType.kSopClass,
       true,
       "Basic Study Content Notification SOP Class (Retired)");
-  static const kStorageCommitmentPushModelSOPClass = const WKUid("1.2.840.10008.1.20.1",
-      WKUidType.kSopClass, true, "Storage Commitment Push Model SOP Class");
+  static const kStorageCommitmentPushModelSOPClass = const WKUid(
+      "1.2.840.10008.1.20.1",
+      WKUidType.kSopClass,
+      true,
+      "Storage Commitment Push Model SOP Class");
 
   static const kStorageCommitmentPullModelSOPClass_Retired = const WKUid(
       "1.2.840.10008.1.20.2",
@@ -52,11 +58,17 @@ class SopClassUid extends WKUid {
       true,
       "Storage Commitment Pull Model SOP Class (Retired)");
 
-  static const kProceduralEventLoggingSOPClass = const WKUid("1.2.840.10008.1.40",
-      WKUidType.kSopClass, false, "Procedural Event Logging SOP Class");
+  static const kProceduralEventLoggingSOPClass = const WKUid(
+      "1.2.840.10008.1.40",
+      WKUidType.kSopClass,
+      false,
+      "Procedural Event Logging SOP Class");
 
-  static const kSubstanceAdministrationLoggingSOPClass = const WKUid("1.2.840.10008.1.42",
-      WKUidType.kSopClass, false, "Substance Administration Logging SOP Class");
+  static const kSubstanceAdministrationLoggingSOPClass = const WKUid(
+      "1.2.840.10008.1.42",
+      WKUidType.kSopClass,
+      false,
+      "Substance Administration Logging SOP Class");
   static const kDetachedPatientManagementSOPClass_Retired = const WKUid(
       "1.2.840.10008.3.1.2.1.1",
       WKUidType.kSopClass,
@@ -89,7 +101,8 @@ class SopClassUid extends WKUid {
     false,
     "Modality Performed Procedure Step Retrieve SOP Class",
   );
-  static const kModalityPerformedProcedureStepNotificationSOPClass = const WKUid(
+  static const kModalityPerformedProcedureStepNotificationSOPClass =
+      const WKUid(
     "1.­2.840.10008.3.1.2.3.5",
     WKUidType.kSopClass,
     false,
@@ -109,34 +122,46 @@ class SopClassUid extends WKUid {
 
   static const kBasicFilmSessionSOPClass = const WKUid("1.2.840.10008.5.1.1.1",
       WKUidType.kSopClass, false, "Basic Film Session SOP Class");
-  static const kBasicFilmBoxSOPClass = const WKUid(
-      "1.2.840.10008.5.1.1.2", WKUidType.kSopClass, false, "Basic Film Box SOP Class");
-  static const kBasicGrayscaleImageBoxSOPClass = const WKUid("1.2.840.10008.5.1.1.4",
-      WKUidType.kSopClass, false, "Basic Grayscale Image Box SOP Class");
-  static const kBasicColorImageBoxSOPClass = const WKUid("1.2.840.10008.5.1.1.4.1",
-      WKUidType.kSopClass, false, "Basic Color Image Box SOP Class");
+  static const kBasicFilmBoxSOPClass = const WKUid("1.2.840.10008.5.1.1.2",
+      WKUidType.kSopClass, false, "Basic Film Box SOP Class");
+  static const kBasicGrayscaleImageBoxSOPClass = const WKUid(
+      "1.2.840.10008.5.1.1.4",
+      WKUidType.kSopClass,
+      false,
+      "Basic Grayscale Image Box SOP Class");
+  static const kBasicColorImageBoxSOPClass = const WKUid(
+      "1.2.840.10008.5.1.1.4.1",
+      WKUidType.kSopClass,
+      false,
+      "Basic Color Image Box SOP Class");
   static const kReferencedImageBoxSOPClass_Retired = const WKUid(
       "1.2.840.10008.5.1.1.4.2",
       WKUidType.kSopClass,
       true,
       "Referenced Image Box SOP Class (Retired)");
-  static const kPrintJobSOPClass = const WKUid(
-      "1.2.840.10008.5.1.1.14", WKUidType.kSopClass, false, "Print Job SOP Class");
-  static const kBasicAnnotationBoxSOPClass = const WKUid("1.2.840.10008.5.1.1.15",
-      WKUidType.kSopClass, false, "Basic Annotation Box SOP Class");
-  static const kPrinterSOPClass = const WKUid(
-      "1.2.840.10008.5.1.1.16", WKUidType.kSopClass, false, "Printer SOP Class");
+  static const kPrintJobSOPClass = const WKUid("1.2.840.10008.5.1.1.14",
+      WKUidType.kSopClass, false, "Print Job SOP Class");
+  static const kBasicAnnotationBoxSOPClass = const WKUid(
+      "1.2.840.10008.5.1.1.15",
+      WKUidType.kSopClass,
+      false,
+      "Basic Annotation Box SOP Class");
+  static const kPrinterSOPClass = const WKUid("1.2.840.10008.5.1.1.16",
+      WKUidType.kSopClass, false, "Printer SOP Class");
   static const kPrinterConfigurationRetrievalSOPClass = const WKUid(
       "1.2.840.10008.5.1.1.16.376",
       WKUidType.kSopClass,
       false,
       "Printer Configuration Retrieval SOP Class");
-  static const kVOILUTBoxSOPClass = const WKUid(
-      "1.2.840.10008.5.1.1.22", WKUidType.kSopClass, false, "VOI LUT Box SOP Class");
-  static const kPresentationLUTSOPClass = const WKUid(
-      "1.2.840.10008.5.1.1.23", WKUidType.kSopClass, false, "Presentation LUT SOP Class");
-  static const kImageOverlayBoxSOPClass_Retired = const WKUid("1.2.840.10008.5.1.1.24",
-      WKUidType.kSopClass, true, "Image Overlay Box SOP Class (Retired)");
+  static const kVOILUTBoxSOPClass = const WKUid("1.2.840.10008.5.1.1.22",
+      WKUidType.kSopClass, false, "VOI LUT Box SOP Class");
+  static const kPresentationLUTSOPClass = const WKUid("1.2.840.10008.5.1.1.23",
+      WKUidType.kSopClass, false, "Presentation LUT SOP Class");
+  static const kImageOverlayBoxSOPClass_Retired = const WKUid(
+      "1.2.840.10008.5.1.1.24",
+      WKUidType.kSopClass,
+      true,
+      "Image Overlay Box SOP Class (Retired)");
   static const kBasicPrintImageOverlayBoxSOPClass_Retired = const WKUid(
       "1.2.840.10008.5.1.1.24.1",
       WKUidType.kSopClass,
@@ -148,8 +173,11 @@ class SopClassUid extends WKUid {
       WKUidType.kSopClass,
       true,
       "Print Queue Management SOP Class (Retired)");
-  static const kStoredPrintStorageSOPClass_Retired = const WKUid("1.2.840.10008.5.1.1.27",
-      WKUidType.kSopClass, true, "Stored Print Storage SOP Class (Retired)");
+  static const kStoredPrintStorageSOPClass_Retired = const WKUid(
+      "1.2.840.10008.5.1.1.27",
+      WKUidType.kSopClass,
+      true,
+      "Stored Print Storage SOP Class (Retired)");
   static const kHardcopyGrayscaleImageStorageSOPClass_Retired = const WKUid(
     "1.2.840.10008.5.1.1.29",
     WKUidType.kSopClass,
@@ -161,12 +189,21 @@ class SopClassUid extends WKUid {
       WKUidType.kSopClass,
       true,
       "Hardcopy Color Image Storage SOP Class (Retired)");
-  static const kPullPrintRequestSOPClass_Retired = const WKUid("1.2.840.10008.5.1.1.31",
-      WKUidType.kSopClass, true, "Pull Print Request SOP Class (Retired)");
-  static const kMediaCreationManagementSOPClassUID = const WKUid("1.2.840.10008.5.1.1.33",
-      WKUidType.kSopClass, false, "Media Creation Management SOP Class UID");
-  static const kComputedRadiographyImageStorage = const WKUid("1.2.840.10008.5.1.4.1.1.1",
-      WKUidType.kSopClass, false, "Computed Radiography Image Storage");
+  static const kPullPrintRequestSOPClass_Retired = const WKUid(
+      "1.2.840.10008.5.1.1.31",
+      WKUidType.kSopClass,
+      true,
+      "Pull Print Request SOP Class (Retired)");
+  static const kMediaCreationManagementSOPClassUID = const WKUid(
+      "1.2.840.10008.5.1.1.33",
+      WKUidType.kSopClass,
+      false,
+      "Media Creation Management SOP Class UID");
+  static const kComputedRadiographyImageStorage = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.1",
+      WKUidType.kSopClass,
+      false,
+      "Computed Radiography Image Storage");
   static const kDigitalX_RayImageStorage_ForPresentation = const WKUid(
     "1.2.840.10008.5.1.4.1.1.1.1",
     WKUidType.kSopClass,
@@ -179,7 +216,8 @@ class SopClassUid extends WKUid {
     false,
     "Digital X-Ray Image Storage - For Processing",
   );
-  static const kDigitalMammographyX_RayImageStorage_ForPresentation = const WKUid(
+  static const kDigitalMammographyX_RayImageStorage_ForPresentation =
+      const WKUid(
     "1.2.840.10008.5.1.4.1.1.1.2",
     WKUidType.kSopClass,
     false,
@@ -191,7 +229,8 @@ class SopClassUid extends WKUid {
     false,
     "Digital Mammography X-Ray Image Storage - For Processing",
   );
-  static const kDigitalIntra_OralX_RayImageStorage_ForPresentation = const WKUid(
+  static const kDigitalIntra_OralX_RayImageStorage_ForPresentation =
+      const WKUid(
     "1.2.840.10008.5.1.4.1.1.1.3",
     WKUidType.kSopClass,
     false,
@@ -203,10 +242,13 @@ class SopClassUid extends WKUid {
     false,
     "Digital Intra-Oral X-Ray Image Storage - For Processing",
   );
-  static const kCTImageStorage = const WKUid(
-      "1.2.840.10008.5.1.4.1.1.2", WKUidType.kSopClass, false, "CT Image Storage");
-  static const kEnhancedCTImageStorage = const WKUid("1.2.840.10008.5.1.4.1.1.2.1",
-      WKUidType.kSopClass, false, "Enhanced CT Image Storage");
+  static const kCTImageStorage = const WKUid("1.2.840.10008.5.1.4.1.1.2",
+      WKUidType.kSopClass, false, "CT Image Storage");
+  static const kEnhancedCTImageStorage = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.2.1",
+      WKUidType.kSopClass,
+      false,
+      "Enhanced CT Image Storage");
   static const kLegacyConvertedEnhancedCTImageStorage = const WKUid(
       "1.2.840.10008.5.1.4.1.1.2.2",
       WKUidType.kSopClass,
@@ -222,14 +264,23 @@ class SopClassUid extends WKUid {
       WKUidType.kSopClass,
       false,
       "Ultrasound Multi-frame Image Storage");
-  static const kMRImageStorage = const WKUid(
-      "1.2.840.10008.5.1.4.1.1.4", WKUidType.kSopClass, false, "MR Image Storage");
-  static const kEnhancedMRImageStorage = const WKUid("1.2.840.10008.5.1.4.1.1.4.1",
-      WKUidType.kSopClass, false, "Enhanced MR Image Storage");
-  static const kMRSpectroscopyStorage = const WKUid("1.2.840.10008.5.1.4.1.1.4.2",
-      WKUidType.kSopClass, false, "MR Spectroscopy Storage");
-  static const kEnhancedMRColorImageStorage = const WKUid("1.2.840.10008.5.1.4.1.1.4.3",
-      WKUidType.kSopClass, false, "Enhanced MR Color Image Storage");
+  static const kMRImageStorage = const WKUid("1.2.840.10008.5.1.4.1.1.4",
+      WKUidType.kSopClass, false, "MR Image Storage");
+  static const kEnhancedMRImageStorage = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.4.1",
+      WKUidType.kSopClass,
+      false,
+      "Enhanced MR Image Storage");
+  static const kMRSpectroscopyStorage = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.4.2",
+      WKUidType.kSopClass,
+      false,
+      "MR Spectroscopy Storage");
+  static const kEnhancedMRColorImageStorage = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.4.3",
+      WKUidType.kSopClass,
+      false,
+      "Enhanced MR Color Image Storage");
   static const kLegacyConvertedEnhancedMRImageStorage = const WKUid(
       "1.2.840.10008.5.1.4.1.1.4.4",
       WKUidType.kSopClass,
@@ -240,27 +291,41 @@ class SopClassUid extends WKUid {
       WKUidType.kSopClass,
       true,
       "Nuclear Medicine Image Storage (Retired)");
-  static const kUltrasoundImageStorage_Retired = const WKUid("1.2.840.10008.5.1.4.1.1.6",
-      WKUidType.kSopClass, true, "Ultrasound Image Storage (Retired)");
-  static const kUltrasoundImageStorage = const WKUid("1.2.840.10008.5.1.4.1.1.6.1",
-      WKUidType.kSopClass, false, "Ultrasound Image Storage");
-  static const kEnhancedUSVolumeStorage = const WKUid("1.2.840.10008.5.1.4.1.1.6.2",
-      WKUidType.kSopClass, false, "Enhanced US Volume Storage");
-  static const kSecondaryCaptureImageStorage = const WKUid("1.2.840.10008.5.1.4.1.1.7",
-      WKUidType.kSopClass, false, "Secondary Capture Image Storage");
+  static const kUltrasoundImageStorage_Retired = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.6",
+      WKUidType.kSopClass,
+      true,
+      "Ultrasound Image Storage (Retired)");
+  static const kUltrasoundImageStorage = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.6.1",
+      WKUidType.kSopClass,
+      false,
+      "Ultrasound Image Storage");
+  static const kEnhancedUSVolumeStorage = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.6.2",
+      WKUidType.kSopClass,
+      false,
+      "Enhanced US Volume Storage");
+  static const kSecondaryCaptureImageStorage = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.7",
+      WKUidType.kSopClass,
+      false,
+      "Secondary Capture Image Storage");
   static const kMulti_frameSingleBitSecondaryCaptureImageStorage = const WKUid(
     "1.2.840.10008.5.1.4.1.1.7.1",
     WKUidType.kSopClass,
     false,
     "Multi-frame Single Bit Secondary Capture Image Storage",
   );
-  static const kMulti_frameGrayscaleByteSecondaryCaptureImageStorage = const WKUid(
+  static const kMulti_frameGrayscaleByteSecondaryCaptureImageStorage =
+      const WKUid(
     "1.2.840.10008.5.1.4.1.1.7.2",
     WKUidType.kSopClass,
     false,
     "Multi-frame Grayscale Byte Secondary Capture Image Storage",
   );
-  static const kMulti_frameGrayscaleWordSecondaryCaptureImageStorage = const WKUid(
+  static const kMulti_frameGrayscaleWordSecondaryCaptureImageStorage =
+      const WKUid(
     "1.2.840.10008.5.1.4.1.1.7.3",
     WKUidType.kSopClass,
     false,
@@ -277,24 +342,36 @@ class SopClassUid extends WKUid {
       WKUidType.kSopClass,
       true,
       "Standalone Overlay Storage (Retired)");
-  static const kStandaloneCurveStorage_Retired = const WKUid("1.2.840.10008.5.1.4.1.1.9",
-      WKUidType.kSopClass, true, "Standalone Curve Storage (Retired)");
-  static const kWaveformStorage_Trial_Retired = const WKUid("1.2.840.10008.5.1.4.1.1.9.1",
-      WKUidType.kSopClass, true, "Waveform Storage - Trial (Retired)");
+  static const kStandaloneCurveStorage_Retired = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.9",
+      WKUidType.kSopClass,
+      true,
+      "Standalone Curve Storage (Retired)");
+  static const kWaveformStorage_Trial_Retired = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.9.1",
+      WKUidType.kSopClass,
+      true,
+      "Waveform Storage - Trial (Retired)");
   static const ktwelve_lead_12ECGWaveformStorage = const WKUid(
       "1.2.840.10008.5.1.4.1.1.9.1.1",
       WKUidType.kSopClass,
       false,
       "twelve-lead(12) ECG Waveform Storage");
-  static const kGeneralECGWaveformStorage = const WKUid("1.2.840.10008.5.1.4.1.1.9.1.2",
-      WKUidType.kSopClass, false, "General ECG Waveform Storage");
+  static const kGeneralECGWaveformStorage = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.9.1.2",
+      WKUidType.kSopClass,
+      false,
+      "General ECG Waveform Storage");
   static const kAmbulatoryECGWaveformStorage = const WKUid(
       "1.2.840.10008.5.1.4.1.1.9.1.3",
       WKUidType.kSopClass,
       false,
       "Ambulatory ECG Waveform Storage");
-  static const kHemodynamicWaveformStorage = const WKUid("1.2.840.10008.5.1.4.1.1.9.2.1",
-      WKUidType.kSopClass, false, "Hemodynamic Waveform Storage");
+  static const kHemodynamicWaveformStorage = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.9.2.1",
+      WKUidType.kSopClass,
+      false,
+      "Hemodynamic Waveform Storage");
   static const kCardiacElectrophysiologyWaveformStorage = const WKUid(
     "1.2.840.10008.5.1.4.1.1.9.3.1",
     WKUidType.kSopClass,
@@ -306,15 +383,21 @@ class SopClassUid extends WKUid {
       WKUidType.kSopClass,
       false,
       "Basic Voice Audio Waveform Storage");
-  static const kGeneralAudioWaveformStorage = const WKUid("1.2.840.10008.5.1.4.1.1.9.4.2",
-      WKUidType.kSopClass, false, "General Audio Waveform Storage");
+  static const kGeneralAudioWaveformStorage = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.9.4.2",
+      WKUidType.kSopClass,
+      false,
+      "General Audio Waveform Storage");
   static const kArterialPulseWaveformStorage = const WKUid(
       "1.2.840.10008.5.1.4.1.1.9.5.1",
       WKUidType.kSopClass,
       false,
       "Arterial Pulse Waveform Storage");
-  static const kRespiratoryWaveformStorage = const WKUid("1.2.840.10008.5.1.4.1.1.9.6.1",
-      WKUidType.kSopClass, false, "Respiratory Waveform Storage");
+  static const kRespiratoryWaveformStorage = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.9.6.1",
+      WKUidType.kSopClass,
+      false,
+      "Respiratory Waveform Storage");
   static const kStandaloneModalityLUTStorage_Retired = const WKUid(
       "1.2.840.10008.5.1.4.1.1.10",
       WKUidType.kSopClass,
@@ -337,7 +420,8 @@ class SopClassUid extends WKUid {
     false,
     "Color Softcopy Presentation State Storage SOP Class",
   );
-  static const kPseudo_ColorSoftcopyPresentationStateStorageSOPClass = const WKUid(
+  static const kPseudo_ColorSoftcopyPresentationStateStorageSOPClass =
+      const WKUid(
     "1.2.840.10008.5.1.4.1.1.11.3",
     WKUidType.kSopClass,
     false,
@@ -360,15 +444,21 @@ class SopClassUid extends WKUid {
       WKUidType.kSopClass,
       false,
       "X-Ray Angiographic Image Storage");
-  static const kEnhancedXAImageStorage = const WKUid("1.2.840.10008.5.1.4.1.1.12.1.1",
-      WKUidType.kSopClass, false, "Enhanced XA Image Storage");
+  static const kEnhancedXAImageStorage = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.12.1.1",
+      WKUidType.kSopClass,
+      false,
+      "Enhanced XA Image Storage");
   static const kX_RayRadiofluoroscopicImageStorage = const WKUid(
       "1.2.840.10008.5.1.4.1.1.12.2",
       WKUidType.kSopClass,
       false,
       "X-Ray Radiofluoroscopic Image Storage");
-  static const kEnhancedXRFImageStorage = const WKUid("1.2.840.10008.5.1.4.1.1.12.2.1",
-      WKUidType.kSopClass, false, "Enhanced XRF Image Storage");
+  static const kEnhancedXRFImageStorage = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.12.2.1",
+      WKUidType.kSopClass,
+      false,
+      "Enhanced XRF Image Storage");
   static const kX_RayAngiographicBi_PlaneImageStorage_Retired = const WKUid(
     "1.2.840.10008.5.1.4.1.1.12.3",
     WKUidType.kSopClass,
@@ -404,46 +494,79 @@ class SopClassUid extends WKUid {
     false,
     "Intravascular Optical Coherence Tomography Image Storage - For Processing",
   );
-  static const kNuclearMedicineImageStorage = const WKUid("1.2.840.10008.5.1.4.1.1.20",
-      WKUidType.kSopClass, false, "Nuclear Medicine Image Storage");
-  static const kRawDataStorage = const WKUid(
-      "1.2.840.10008.5.1.4.1.1.66", WKUidType.kSopClass, false, "Raw Data Storage");
-  static const kSpatialRegistrationStorage = const WKUid("1.2.840.10008.5.1.4.1.1.66.1",
-      WKUidType.kSopClass, false, "Spatial Registration Storage");
-  static const kSpatialFiducialsStorage = const WKUid("1.2.840.10008.5.1.4.1.1.66.2",
-      WKUidType.kSopClass, false, "Spatial Fiducials Storage");
+  static const kNuclearMedicineImageStorage = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.20",
+      WKUidType.kSopClass,
+      false,
+      "Nuclear Medicine Image Storage");
+  static const kRawDataStorage = const WKUid("1.2.840.10008.5.1.4.1.1.66",
+      WKUidType.kSopClass, false, "Raw Data Storage");
+  static const kSpatialRegistrationStorage = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.66.1",
+      WKUidType.kSopClass,
+      false,
+      "Spatial Registration Storage");
+  static const kSpatialFiducialsStorage = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.66.2",
+      WKUidType.kSopClass,
+      false,
+      "Spatial Fiducials Storage");
   static const kDeformableSpatialRegistrationStorage = const WKUid(
       "1.2.840.10008.5.1.4.1.1.66.3",
       WKUidType.kSopClass,
       false,
       "Deformable Spatial Registration Storage");
   static const kSegmentationStorage = const WKUid(
-      "1.2.840.10008.5.1.4.1.1.66.4", WKUidType.kSopClass, false, "Segmentation Storage");
-  static const kSurfaceSegmentationStorage = const WKUid("1.2.840.10008.5.1.4.1.1.66.5",
-      WKUidType.kSopClass, false, "Surface Segmentation Storage");
-  static const kRealWorldValueMappingStorage = const WKUid("1.2.840.10008.5.1.4.1.1.67",
-      WKUidType.kSopClass, false, "Real World Value Mapping Storage");
-  static const kSurfaceScanMeshStorage = const WKUid("1.2.840.10008.5.1.4.1.1.68.1",
-      WKUidType.kSopClass, false, "Surface Scan Mesh Storage");
-  static const kSurfaceScanPointCloudStorage = const WKUid("1.2.840.10008.5.1.4.1.1.68.2",
-      WKUidType.kSopClass, false, "Surface Scan Point Cloud Storage");
-  static const kVLImageStorage_Trial_Retired = const WKUid("1.2.840.10008.5.1.4.1.1.77.1",
-      WKUidType.kSopClass, true, "VL Image Storage - Trial (Retired)");
+      "1.2.840.10008.5.1.4.1.1.66.4",
+      WKUidType.kSopClass,
+      false,
+      "Segmentation Storage");
+  static const kSurfaceSegmentationStorage = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.66.5",
+      WKUidType.kSopClass,
+      false,
+      "Surface Segmentation Storage");
+  static const kRealWorldValueMappingStorage = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.67",
+      WKUidType.kSopClass,
+      false,
+      "Real World Value Mapping Storage");
+  static const kSurfaceScanMeshStorage = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.68.1",
+      WKUidType.kSopClass,
+      false,
+      "Surface Scan Mesh Storage");
+  static const kSurfaceScanPointCloudStorage = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.68.2",
+      WKUidType.kSopClass,
+      false,
+      "Surface Scan Point Cloud Storage");
+  static const kVLImageStorage_Trial_Retired = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.77.1",
+      WKUidType.kSopClass,
+      true,
+      "VL Image Storage - Trial (Retired)");
   static const kVLMulti_frameImageStorage_Trial_Retired = const WKUid(
     "1.2.840.10008.5.1.4.1.1.77.2",
     WKUidType.kSopClass,
     true,
     "VL Multi-frame Image Storage - Trial (Retired)",
   );
-  static const kVLEndoscopicImageStorage = const WKUid("1.2.840.10008.5.1.4.1.1.77.1.1",
-      WKUidType.kSopClass, false, "VL Endoscopic Image Storage");
+  static const kVLEndoscopicImageStorage = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.77.1.1",
+      WKUidType.kSopClass,
+      false,
+      "VL Endoscopic Image Storage");
   static const kVideoEndoscopicImageStorage = const WKUid(
       "1.2.840.10008.5.1.4.1.1.77.1.1.1",
       WKUidType.kSopClass,
       false,
       "Video Endoscopic Image Storage");
-  static const kVLMicroscopicImageStorage = const WKUid("1.2.840.10008.5.1.4.1.1.77.1.2",
-      WKUidType.kSopClass, false, "VL Microscopic Image Storage");
+  static const kVLMicroscopicImageStorage = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.77.1.2",
+      WKUidType.kSopClass,
+      false,
+      "VL Microscopic Image Storage");
   static const kVideoMicroscopicImageStorage = const WKUid(
       "1.2.840.10008.5.1.4.1.1.77.1.2.1",
       WKUidType.kSopClass,
@@ -455,8 +578,11 @@ class SopClassUid extends WKUid {
     false,
     "VL Slide-Coordinates Microscopic Image Storage",
   );
-  static const kVLPhotographicImageStorage = const WKUid("1.2.840.10008.5.1.4.1.1.77.1.4",
-      WKUidType.kSopClass, false, "VL Photographic Image Storage");
+  static const kVLPhotographicImageStorage = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.77.1.4",
+      WKUidType.kSopClass,
+      false,
+      "VL Photographic Image Storage");
   static const kVideoPhotographicImageStorage = const WKUid(
       "1.2.840.10008.5.1.4.1.1.77.1.4.1",
       WKUidType.kSopClass,
@@ -536,7 +662,8 @@ class SopClassUid extends WKUid {
     false,
     "Macular Grid Thickness and Volume Report Storage",
   );
-  static const kOphthalmicVisualFieldStaticPerimetryMeasurementsStorage = const WKUid(
+  static const kOphthalmicVisualFieldStaticPerimetryMeasurementsStorage =
+      const WKUid(
     "1.2.840.10008.5.1.4.1.1.80.1",
     WKUidType.kSopClass,
     false,
@@ -547,12 +674,21 @@ class SopClassUid extends WKUid {
       WKUidType.kSopClass,
       false,
       "Ophthalmic Thickness Map Storage");
-  static const kCornealTopographyMapStorage = const WKUid("11.2.840.10008.5.1.4.1.1.82.1",
-      WKUidType.kSopClass, false, "Corneal Topography Map Storage");
-  static const kTextSRStorage_Trial_Retired = const WKUid("1.2.840.10008.5.1.4.1.1.88.1",
-      WKUidType.kSopClass, true, "Text SR Storage - Trial (Retired)");
-  static const kAudioSRStorage_Trial_Retired = const WKUid("1.2.840.10008.5.1.4.1.1.88.2",
-      WKUidType.kSopClass, true, "Audio SR Storage - Trial (Retired)");
+  static const kCornealTopographyMapStorage = const WKUid(
+      "11.2.840.10008.5.1.4.1.1.82.1",
+      WKUidType.kSopClass,
+      false,
+      "Corneal Topography Map Storage");
+  static const kTextSRStorage_Trial_Retired = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.88.1",
+      WKUidType.kSopClass,
+      true,
+      "Text SR Storage - Trial (Retired)");
+  static const kAudioSRStorage_Trial_Retired = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.88.2",
+      WKUidType.kSopClass,
+      true,
+      "Audio SR Storage - Trial (Retired)");
   static const kDetailSRStorage_Trial_Retired = const WKUid(
       "1.2.840.10008.5.1.4.1.1.88.3",
       WKUidType.kSopClass,
@@ -563,18 +699,33 @@ class SopClassUid extends WKUid {
       WKUidType.kSopClass,
       true,
       "Comprehensive SR Storage - Trial (Retired)");
-  static const kBasicTextSRStorage = const WKUid("1.2.840.10008.5.1.4.1.1.88.11",
-      WKUidType.kSopClass, false, "Basic Text SR Storage");
-  static const kEnhancedSRStorage = const WKUid(
-      "1.2.840.10008.5.1.4.1.1.88.22", WKUidType.kSopClass, false, "Enhanced SR Storage");
-  static const kComprehensiveSRStorage = const WKUid("1.2.840.10008.5.1.4.1.1.88.33",
-      WKUidType.kSopClass, false, "Comprehensive SR Storage");
-  static const kComprehensive3DSRStorage = const WKUid("1.2.840.10008.5.1.4.1.1.88.34",
-      WKUidType.kSopClass, false, "Comprehensive 3D SR Storage");
-  static const kProcedureLogStorage = const WKUid("1.2.840.10008.5.1.4.1.1.88.40",
-      WKUidType.kSopClass, false, "Procedure Log Storage");
-  static const kMammographyCADSRStorage = const WKUid("1.2.840.10008.5.1.4.1.1.88.50",
-      WKUidType.kSopClass, false, "Mammography CAD SR Storage");
+  static const kBasicTextSRStorage = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.88.11",
+      WKUidType.kSopClass,
+      false,
+      "Basic Text SR Storage");
+  static const kEnhancedSRStorage = const WKUid("1.2.840.10008.5.1.4.1.1.88.22",
+      WKUidType.kSopClass, false, "Enhanced SR Storage");
+  static const kComprehensiveSRStorage = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.88.33",
+      WKUidType.kSopClass,
+      false,
+      "Comprehensive SR Storage");
+  static const kComprehensive3DSRStorage = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.88.34",
+      WKUidType.kSopClass,
+      false,
+      "Comprehensive 3D SR Storage");
+  static const kProcedureLogStorage = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.88.40",
+      WKUidType.kSopClass,
+      false,
+      "Procedure Log Storage");
+  static const kMammographyCADSRStorage = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.88.50",
+      WKUidType.kSopClass,
+      false,
+      "Mammography CAD SR Storage");
   static const kKeyObjectSelectionDocumentStorage = const WKUid(
       "1.2.840.10008.5.1.4.1.1.88.59",
       WKUidType.kSopClass,
@@ -582,16 +733,28 @@ class SopClassUid extends WKUid {
       "Key Object Selection Document Storage");
   static const kChestCADSRStorage = const WKUid("1.2.840.10008.5.1.4.1.1.88.65",
       WKUidType.kSopClass, false, "Chest CAD SR Storage");
-  static const kX_RayRadiationDoseSRStorage = const WKUid("1.2.840.10008.5.1.4.1.1.88.67",
-      WKUidType.kSopClass, false, "X-Ray Radiation Dose SR Storage");
+  static const kX_RayRadiationDoseSRStorage = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.88.67",
+      WKUidType.kSopClass,
+      false,
+      "X-Ray Radiation Dose SR Storage");
   static const kColonCADSRStorage = const WKUid("1.2.840.10008.5.1.4.1.1.88.69",
       WKUidType.kSopClass, false, "Colon CAD SR Storage");
-  static const kImplantationPlanSRStorage = const WKUid("1.2.840.10008.5.1.4.1.1.88.70",
-      WKUidType.kSopClass, false, "Implantation Plan SR Storage");
-  static const kEncapsulatedPDFStorage = const WKUid("1.2.840.10008.5.1.4.1.1.104.1",
-      WKUidType.kSopClass, false, "Encapsulated PDF Storage");
-  static const kEncapsulatedCDAStorage = const WKUid("1.2.840.10008.5.1.4.1.1.104.2",
-      WKUidType.kSopClass, false, "Encapsulated CDA Storage");
+  static const kImplantationPlanSRStorage = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.88.70",
+      WKUidType.kSopClass,
+      false,
+      "Implantation Plan SR Storage");
+  static const kEncapsulatedPDFStorage = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.104.1",
+      WKUidType.kSopClass,
+      false,
+      "Encapsulated PDF Storage");
+  static const kEncapsulatedCDAStorage = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.104.2",
+      WKUidType.kSopClass,
+      false,
+      "Encapsulated CDA Storage");
   static const kPositronEmissionTomographyImageStorage = const WKUid(
       "1.2.840.10008.5.1.4.1.1.128",
       WKUidType.kSopClass,
@@ -608,23 +771,32 @@ class SopClassUid extends WKUid {
       WKUidType.kSopClass,
       true,
       "Standalone PET Curve Storage (Retired)");
-  static const kEnhancedPETImageStorage = const WKUid("1.2.840.10008.5.1.4.1.1.130",
-      WKUidType.kSopClass, false, "Enhanced PET Image Storage");
-  static const kBasicStructuredDisplayStorage = const WKUid("1.2.840.10008.5.1.4.1.1.131",
-      WKUidType.kSopClass, false, "Basic Structured Display Storage");
-  static const kRTImageStorage = const WKUid(
-      "1.2.840.10008.5.1.4.1.1.481.1", WKUidType.kSopClass, false, "RT Image Storage");
-  static const kRTDoseStorage = const WKUid(
-      "1.2.840.10008.5.1.4.1.1.481.2", WKUidType.kSopClass, false, "RT Dose Storage");
-  static const kRTStructureSetStorage = const WKUid("1.2.840.10008.5.1.4.1.1.481.3",
-      WKUidType.kSopClass, false, "RT Structure Set Storage");
+  static const kEnhancedPETImageStorage = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.130",
+      WKUidType.kSopClass,
+      false,
+      "Enhanced PET Image Storage");
+  static const kBasicStructuredDisplayStorage = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.131",
+      WKUidType.kSopClass,
+      false,
+      "Basic Structured Display Storage");
+  static const kRTImageStorage = const WKUid("1.2.840.10008.5.1.4.1.1.481.1",
+      WKUidType.kSopClass, false, "RT Image Storage");
+  static const kRTDoseStorage = const WKUid("1.2.840.10008.5.1.4.1.1.481.2",
+      WKUidType.kSopClass, false, "RT Dose Storage");
+  static const kRTStructureSetStorage = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.481.3",
+      WKUidType.kSopClass,
+      false,
+      "RT Structure Set Storage");
   static const kRTBeamsTreatmentRecordStorage = const WKUid(
       "1.2.840.10008.5.1.4.1.1.481.4",
       WKUidType.kSopClass,
       false,
       "RT Beams Treatment Record Storage");
-  static const kRTPlanStorage = const WKUid(
-      "1.2.840.10008.5.1.4.1.1.481.5", WKUidType.kSopClass, false, "RT Plan Storage");
+  static const kRTPlanStorage = const WKUid("1.2.840.10008.5.1.4.1.1.481.5",
+      WKUidType.kSopClass, false, "RT Plan Storage");
   static const kRTBrachyTreatmentRecordStorage = const WKUid(
       "1.2.840.10008.5.1.4.1.1.481.6",
       WKUidType.kSopClass,
@@ -635,15 +807,18 @@ class SopClassUid extends WKUid {
       WKUidType.kSopClass,
       false,
       "RT Treatment Summary Record Storage");
-  static const kRTIonPlanStorage = const WKUid(
-      "1.2.840.10008.5.1.4.1.1.481.8", WKUidType.kSopClass, false, "RT Ion Plan Storage");
+  static const kRTIonPlanStorage = const WKUid("1.2.840.10008.5.1.4.1.1.481.8",
+      WKUidType.kSopClass, false, "RT Ion Plan Storage");
   static const kRTIonBeamsTreatmentRecordStorage = const WKUid(
       "1.2.840.10008.5.1.4.1.1.481.9",
       WKUidType.kSopClass,
       false,
       "RT Ion Beams Treatment Record Storage");
-  static const kDICOSCTImageStorage = const WKUid("1.2.840.10008.5.1.4.1.1.501.1",
-      WKUidType.kSopClass, false, "DICOS CT Image Storage");
+  static const kDICOSCTImageStorage = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.501.1",
+      WKUidType.kSopClass,
+      false,
+      "DICOS CT Image Storage");
   static const kDICOSDigitalX_RayImageStorage_ForPresentation = const WKUid(
     "1.2.840.10008.5.1.4.1.1.501.2.1",
     WKUidType.kSopClass,
@@ -670,8 +845,11 @@ class SopClassUid extends WKUid {
       WKUidType.kSopClass,
       false,
       "DICOS Quadrupole Resonance (QR) Storage");
-  static const kEddyCurrentImageStorage = const WKUid("1.2.840.10008.5.1.4.1.1.601.1",
-      WKUidType.kSopClass, false, "Eddy Current Image Storage");
+  static const kEddyCurrentImageStorage = const WKUid(
+      "1.2.840.10008.5.1.4.1.1.601.1",
+      WKUidType.kSopClass,
+      false,
+      "Eddy Current Image Storage");
 
   static const kEddyCurrentMulti_frameImageStorage = const WKUid(
       "1.2.840.10008.5.1.4.1.1.601.2",
@@ -714,19 +892,22 @@ class SopClassUid extends WKUid {
     false,
     "Study Root Query/Retrieve Information Model - GET",
   );
-  static const kPatient_StudyOnlyQueryRetrieveInformationModel_FIND_Retired = const WKUid(
+  static const kPatient_StudyOnlyQueryRetrieveInformationModel_FIND_Retired =
+      const WKUid(
     "1.2.840.10008.5.1.4.1.2.3.1",
     WKUidType.kSopClass,
     true,
     "Patient/Study Only Query/Retrieve Information Model - FIND (Retired)",
   );
-  static const kPatient_StudyOnlyQueryRetrieveInformationModel_MOVE_Retired = const WKUid(
+  static const kPatient_StudyOnlyQueryRetrieveInformationModel_MOVE_Retired =
+      const WKUid(
     "1.2.840.10008.5.1.4.1.2.3.2",
     WKUidType.kSopClass,
     true,
     "Patient/Study Only Query/Retrieve Information Model - MOVE (Retired)",
   );
-  static const kPatient_StudyOnlyQueryRetrieveInformationModel_GET_Retired = const WKUid(
+  static const kPatient_StudyOnlyQueryRetrieveInformationModel_GET_Retired =
+      const WKUid(
     "1.2.840.10008.5.1.4.1.2.3.3",
     WKUidType.kSopClass,
     true,
@@ -753,25 +934,29 @@ class SopClassUid extends WKUid {
       WKUidType.kSopClass,
       false,
       "Modality Worklist Information Model - FIND");
-  static const kGeneralPurposeWorklistInformationModel_FIND_Retired = const WKUid(
+  static const kGeneralPurposeWorklistInformationModel_FIND_Retired =
+      const WKUid(
     "1.2.840.10008.5.1.4.32.1",
     WKUidType.kSopClass,
     true,
     "General Purpose Worklist Information Model - FIND (Retired)",
   );
-  static const kGeneralPurposeScheduledProcedureStepSOPClass_Retired = const WKUid(
+  static const kGeneralPurposeScheduledProcedureStepSOPClass_Retired =
+      const WKUid(
     "1.2.840.10008.5.1.4.32.2",
     WKUidType.kSopClass,
     true,
     "General Purpose Scheduled Procedure Step SOP Class (Retired)",
   );
-  static const kGeneralPurposePerformedProcedureStepSOPClass_Retired = const WKUid(
+  static const kGeneralPurposePerformedProcedureStepSOPClass_Retired =
+      const WKUid(
     "1.2.840.10008.5.1.4.32.3",
     WKUidType.kSopClass,
     true,
     "General Purpose Performed Procedure Step SOP Class (Retired)",
   );
-  static const kGeneralPurposeWorklistManagementMetaSOPClass_Retired = const WKUid(
+  static const kGeneralPurposeWorklistManagementMetaSOPClass_Retired =
+      const WKUid(
     "1.2.840.10008.5.1.4.32",
     WKUidType.kMetaSopClass,
     true,
@@ -799,7 +984,8 @@ class SopClassUid extends WKUid {
       WKUidType.kSopClass,
       true,
       "RT Ion Machine Verification - Trial (Retired)");
-  static const kUnifiedWorklistandProcedureStepServiceClass_Trial_Retired = const WKUid(
+  static const kUnifiedWorklistandProcedureStepServiceClass_Trial_Retired =
+      const WKUid(
     "1.2.840.10008.5.1.4.34.4",
     WKUidType.kServiceClass,
     true,
@@ -859,8 +1045,11 @@ class SopClassUid extends WKUid {
       WKUidType.kSopClass,
       false,
       "RT Conventional Machine Verification");
-  static const kRTIonMachineVerification = const WKUid("1.2.840.10008.5.1.4.34.9",
-      WKUidType.kSopClass, false, "RT Ion Machine Verification");
+  static const kRTIonMachineVerification = const WKUid(
+      "1.2.840.10008.5.1.4.34.9",
+      WKUidType.kSopClass,
+      false,
+      "RT Ion Machine Verification");
   static const kGeneralRelevantPatientInformationQuery = const WKUid(
       "1.2.840.10008.5.1.4.37.1",
       WKUidType.kSopClass,
@@ -877,8 +1066,8 @@ class SopClassUid extends WKUid {
       WKUidType.kSopClass,
       false,
       "Cardiac Relevant Patient Information Query");
-  static const kHangingProtocolStorage = const WKUid(
-      "1.2.840.10008.5.1.4.38.1", WKUidType.kSopClass, false, "Hanging Protocol Storage");
+  static const kHangingProtocolStorage = const WKUid("1.2.840.10008.5.1.4.38.1",
+      WKUidType.kSopClass, false, "Hanging Protocol Storage");
   static const kHangingProtocolInformationModel_FIND = const WKUid(
       "1.2.840.10008.5.1.4.38.2",
       WKUidType.kSopClass,
@@ -899,10 +1088,16 @@ class SopClassUid extends WKUid {
       WKUidType.kSopClass,
       false,
       "Product Characteristics Query SOP Class");
-  static const kSubstanceApprovalQuerySOPClass = const WKUid("1.2.840.10008.5.1.4.42",
-      WKUidType.kSopClass, false, "Substance Approval Query SOP Class");
-  static const kGenericImplantTemplateStorage = const WKUid("1.2.840.10008.5.1.4.43.1",
-      WKUidType.kSopClass, false, "Generic Implant Template Storage");
+  static const kSubstanceApprovalQuerySOPClass = const WKUid(
+      "1.2.840.10008.5.1.4.42",
+      WKUidType.kSopClass,
+      false,
+      "Substance Approval Query SOP Class");
+  static const kGenericImplantTemplateStorage = const WKUid(
+      "1.2.840.10008.5.1.4.43.1",
+      WKUidType.kSopClass,
+      false,
+      "Generic Implant Template Storage");
   static const kGenericImplantTemplateInformationModel_FIND = const WKUid(
     "1.2.840.10008.5.1.4.43.2",
     WKUidType.kSopClass,
@@ -920,8 +1115,11 @@ class SopClassUid extends WKUid {
       WKUidType.kSopClass,
       false,
       "Generic Implant Template Information Model - GET");
-  static const kImplantAssemblyTemplateStorage = const WKUid("1.2.840.10008.5.1.4.44.1",
-      WKUidType.kSopClass, false, "Implant Assembly Template Storage");
+  static const kImplantAssemblyTemplateStorage = const WKUid(
+      "1.2.840.10008.5.1.4.44.1",
+      WKUidType.kSopClass,
+      false,
+      "Implant Assembly Template Storage");
   static const kImplantAssemblyTemplateInformationModel_FIND = const WKUid(
     "1.2.840.10008.5.1.4.44.2",
     WKUidType.kSopClass,
@@ -940,8 +1138,11 @@ class SopClassUid extends WKUid {
     false,
     "Implant Assembly Template Information Model - GET",
   );
-  static const kImplantTemplateGroupStorage = const WKUid("1.2.840.10008.5.1.4.45.1",
-      WKUidType.kSopClass, false, "Implant Template Group Storage");
+  static const kImplantTemplateGroupStorage = const WKUid(
+      "1.2.840.10008.5.1.4.45.1",
+      WKUidType.kSopClass,
+      false,
+      "Implant Template Group Storage");
   static const kImplantTemplateGroupInformationModel_FIND = const WKUid(
       "1.2.840.10008.5.1.4.45.2",
       WKUidType.kSopClass,

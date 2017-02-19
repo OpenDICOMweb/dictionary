@@ -114,7 +114,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "CodingSchemeRegistry": Tag.kCodingSchemeRegistry,
   "CodingSchemeExternalID": Tag.kCodingSchemeExternalID,
   "CodingSchemeName": Tag.kCodingSchemeName,
-  "CodingSchemeResponsibleOrganization": Tag.kCodingSchemeResponsibleOrganization,
+  "CodingSchemeResponsibleOrganization":
+      Tag.kCodingSchemeResponsibleOrganization,
   "ContextUID": Tag.kContextUID,
   "TimezoneOffsetFromUTC": Tag.kTimezoneOffsetFromUTC,
   "NetworkID": Tag.kNetworkID,
@@ -211,8 +212,10 @@ const Map<String, Tag> publicTagKeywordMap = const {
       Tag.kAnatomicPortalOfEntranceCodeSequenceTrial,
   "AnatomicApproachDirectionCodeSequenceTrial":
       Tag.kAnatomicApproachDirectionCodeSequenceTrial,
-  "AnatomicPerspectiveDescriptionTrial": Tag.kAnatomicPerspectiveDescriptionTrial,
-  "AnatomicPerspectiveCodeSequenceTrial": Tag.kAnatomicPerspectiveCodeSequenceTrial,
+  "AnatomicPerspectiveDescriptionTrial":
+      Tag.kAnatomicPerspectiveDescriptionTrial,
+  "AnatomicPerspectiveCodeSequenceTrial":
+      Tag.kAnatomicPerspectiveCodeSequenceTrial,
   "AnatomicLocationOfExaminingInstrumentDescriptionTrial":
       Tag.kAnatomicLocationOfExaminingInstrumentDescriptionTrial,
   "AnatomicLocationOfExaminingInstrumentCodeSequenceTrial":
@@ -236,7 +239,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "ComplexImageComponent": Tag.kComplexImageComponent,
   "AcquisitionContrast": Tag.kAcquisitionContrast,
   "DerivationCodeSequence": Tag.kDerivationCodeSequence,
-  "ReferencedPresentationStateSequence": Tag.kReferencedPresentationStateSequence,
+  "ReferencedPresentationStateSequence":
+      Tag.kReferencedPresentationStateSequence,
   "ReferencedOtherPlaneSequence": Tag.kReferencedOtherPlaneSequence,
   "FrameDisplaySequence": Tag.kFrameDisplaySequence,
   "RecommendedDisplayFrameRateInFloat": Tag.kRecommendedDisplayFrameRateInFloat,
@@ -245,7 +249,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "PatientID": Tag.kPatientID,
   "IssuerOfPatientID": Tag.kIssuerOfPatientID,
   "TypeOfPatientID": Tag.kTypeOfPatientID,
-  "IssuerOfPatientIDQualifiersSequence": Tag.kIssuerOfPatientIDQualifiersSequence,
+  "IssuerOfPatientIDQualifiersSequence":
+      Tag.kIssuerOfPatientIDQualifiersSequence,
   "PatientBirthDate": Tag.kPatientBirthDate,
   "PatientBirthTime": Tag.kPatientBirthTime,
   "PatientSex": Tag.kPatientSex,
@@ -306,7 +311,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "ClinicalTrialSubjectReadingID": Tag.kClinicalTrialSubjectReadingID,
   "ClinicalTrialTimePointID": Tag.kClinicalTrialTimePointID,
   "ClinicalTrialTimePointDescription": Tag.kClinicalTrialTimePointDescription,
-  "ClinicalTrialCoordinatingCenterName": Tag.kClinicalTrialCoordinatingCenterName,
+  "ClinicalTrialCoordinatingCenterName":
+      Tag.kClinicalTrialCoordinatingCenterName,
   "PatientIdentityRemoved": Tag.kPatientIdentityRemoved,
   "DeidentificationMethod": Tag.kDeidentificationMethod,
   "DeidentificationMethodCodeSequence": Tag.kDeidentificationMethodCodeSequence,
@@ -328,7 +334,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "MaterialIsolationDiameter": Tag.kMaterialIsolationDiameter,
   "MaterialGrade": Tag.kMaterialGrade,
   "MaterialPropertiesDescription": Tag.kMaterialPropertiesDescription,
-  "MaterialPropertiesFileFormatRetired": Tag.kMaterialPropertiesFileFormatRetired,
+  "MaterialPropertiesFileFormatRetired":
+      Tag.kMaterialPropertiesFileFormatRetired,
   "MaterialNotes": Tag.kMaterialNotes,
   "ComponentShape": Tag.kComponentShape,
   "CurvatureType": Tag.kCurvatureType,
@@ -381,8 +388,10 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "KVUsedInGainCalibration": Tag.kKVUsedInGainCalibration,
   "MAUsedInGainCalibration": Tag.kMAUsedInGainCalibration,
   "NumberOfFramesUsedForIntegration": Tag.kNumberOfFramesUsedForIntegration,
-  "FilterMaterialUsedInGainCalibration": Tag.kFilterMaterialUsedInGainCalibration,
-  "FilterThicknessUsedInGainCalibration": Tag.kFilterThicknessUsedInGainCalibration,
+  "FilterMaterialUsedInGainCalibration":
+      Tag.kFilterMaterialUsedInGainCalibration,
+  "FilterThicknessUsedInGainCalibration":
+      Tag.kFilterThicknessUsedInGainCalibration,
   "DateOfGainCalibration": Tag.kDateOfGainCalibration,
   "TimeOfGainCalibration": Tag.kTimeOfGainCalibration,
   "BadPixelImage": Tag.kBadPixelImage,
@@ -483,7 +492,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "MRAcquisitionType": Tag.kMRAcquisitionType,
   "SequenceName": Tag.kSequenceName,
   "AngioFlag": Tag.kAngioFlag,
-  "InterventionDrugInformationSequence": Tag.kInterventionDrugInformationSequence,
+  "InterventionDrugInformationSequence":
+      Tag.kInterventionDrugInformationSequence,
   "InterventionDrugStopTime": Tag.kInterventionDrugStopTime,
   "InterventionDrugDose": Tag.kInterventionDrugDose,
   "InterventionDrugCodeSequence": Tag.kInterventionDrugCodeSequence,
@@ -508,7 +518,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "EffectiveDuration": Tag.kEffectiveDuration,
   "AcquisitionStartCondition": Tag.kAcquisitionStartCondition,
   "AcquisitionStartConditionData": Tag.kAcquisitionStartConditionData,
-  "AcquisitionTerminationConditionData": Tag.kAcquisitionTerminationConditionData,
+  "AcquisitionTerminationConditionData":
+      Tag.kAcquisitionTerminationConditionData,
   "RepetitionTime": Tag.kRepetitionTime,
   "EchoTime": Tag.kEchoTime,
   "InversionTime": Tag.kInversionTime,
@@ -543,7 +554,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "SecondaryCaptureDeviceSoftwareVersions":
       Tag.kSecondaryCaptureDeviceSoftwareVersions,
   "HardcopyDeviceSoftwareVersion": Tag.kHardcopyDeviceSoftwareVersion,
-  "HardcopyDeviceManufacturerModelName": Tag.kHardcopyDeviceManufacturerModelName,
+  "HardcopyDeviceManufacturerModelName":
+      Tag.kHardcopyDeviceManufacturerModelName,
   "SoftwareVersions": Tag.kSoftwareVersions,
   "VideoImageFormatAcquired": Tag.kVideoImageFormatAcquired,
   "DigitalImageFormatAcquired": Tag.kDigitalImageFormatAcquired,
@@ -557,7 +569,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "ContrastFlowRate": Tag.kContrastFlowRate,
   "ContrastFlowDuration": Tag.kContrastFlowDuration,
   "ContrastBolusIngredient": Tag.kContrastBolusIngredient,
-  "ContrastBolusIngredientConcentration": Tag.kContrastBolusIngredientConcentration,
+  "ContrastBolusIngredientConcentration":
+      Tag.kContrastBolusIngredientConcentration,
   "SpatialResolution": Tag.kSpatialResolution,
   "TriggerTime": Tag.kTriggerTime,
   "TriggerSourceOrType": Tag.kTriggerSourceOrType,
@@ -579,7 +592,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "RadionuclideTotalDose": Tag.kRadionuclideTotalDose,
   "RadionuclideHalfLife": Tag.kRadionuclideHalfLife,
   "RadionuclidePositronFraction": Tag.kRadionuclidePositronFraction,
-  "RadiopharmaceuticalSpecificActivity": Tag.kRadiopharmaceuticalSpecificActivity,
+  "RadiopharmaceuticalSpecificActivity":
+      Tag.kRadiopharmaceuticalSpecificActivity,
   "RadiopharmaceuticalStartDateTime": Tag.kRadiopharmaceuticalStartDateTime,
   "RadiopharmaceuticalStopDateTime": Tag.kRadiopharmaceuticalStopDateTime,
   "BeatRejectionFlag": Tag.kBeatRejectionFlag,
@@ -696,7 +710,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "VerticesOfThePolygonalShutter": Tag.kVerticesOfThePolygonalShutter,
   "ShutterPresentationValue": Tag.kShutterPresentationValue,
   "ShutterOverlayGroup": Tag.kShutterOverlayGroup,
-  "ShutterPresentationColorCIELabValue": Tag.kShutterPresentationColorCIELabValue,
+  "ShutterPresentationColorCIELabValue":
+      Tag.kShutterPresentationColorCIELabValue,
   "CollimatorShape": Tag.kCollimatorShape,
   "CollimatorLeftVerticalEdge": Tag.kCollimatorLeftVerticalEdge,
   "CollimatorRightVerticalEdge": Tag.kCollimatorRightVerticalEdge,
@@ -747,7 +762,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "DepthOfScanField": Tag.kDepthOfScanField,
   "PatientPosition": Tag.kPatientPosition,
   "ViewPosition": Tag.kViewPosition,
-  "ProjectionEponymousNameCodeSequence": Tag.kProjectionEponymousNameCodeSequence,
+  "ProjectionEponymousNameCodeSequence":
+      Tag.kProjectionEponymousNameCodeSequence,
   "ImageTransformationMatrix": Tag.kImageTransformationMatrix,
   "ImageTranslationVector": Tag.kImageTranslationVector,
   "Sensitivity": Tag.kSensitivity,
@@ -772,9 +788,11 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "PulseRepetitionFrequency": Tag.kPulseRepetitionFrequency,
   "DopplerCorrectionAngle": Tag.kDopplerCorrectionAngle,
   "SteeringAngle": Tag.kSteeringAngle,
-  "DopplerSampleVolumeXPositionRetired": Tag.kDopplerSampleVolumeXPositionRetired,
+  "DopplerSampleVolumeXPositionRetired":
+      Tag.kDopplerSampleVolumeXPositionRetired,
   "DopplerSampleVolumeXPosition": Tag.kDopplerSampleVolumeXPosition,
-  "DopplerSampleVolumeYPositionRetired": Tag.kDopplerSampleVolumeYPositionRetired,
+  "DopplerSampleVolumeYPositionRetired":
+      Tag.kDopplerSampleVolumeYPositionRetired,
   "DopplerSampleVolumeYPosition": Tag.kDopplerSampleVolumeYPosition,
   "TMLinePositionX0Retired": Tag.kTMLinePositionX0Retired,
   "TMLinePositionX0": Tag.kTMLinePositionX0,
@@ -808,10 +826,12 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "TimeOfLastDetectorCalibration": Tag.kTimeOfLastDetectorCalibration,
   "ExposuresOnDetectorSinceLastCalibration":
       Tag.kExposuresOnDetectorSinceLastCalibration,
-  "ExposuresOnDetectorSinceManufactured": Tag.kExposuresOnDetectorSinceManufactured,
+  "ExposuresOnDetectorSinceManufactured":
+      Tag.kExposuresOnDetectorSinceManufactured,
   "DetectorTimeSinceLastExposure": Tag.kDetectorTimeSinceLastExposure,
   "DetectorActiveTime": Tag.kDetectorActiveTime,
-  "DetectorActivationOffsetFromExposure": Tag.kDetectorActivationOffsetFromExposure,
+  "DetectorActivationOffsetFromExposure":
+      Tag.kDetectorActivationOffsetFromExposure,
   "DetectorBinning": Tag.kDetectorBinning,
   "DetectorElementPhysicalSize": Tag.kDetectorElementPhysicalSize,
   "DetectorElementSpacing": Tag.kDetectorElementSpacing,
@@ -888,7 +908,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "SpectralWidth": Tag.kSpectralWidth,
   "ChemicalShiftReference": Tag.kChemicalShiftReference,
   "VolumeLocalizationTechnique": Tag.kVolumeLocalizationTechnique,
-  "MRAcquisitionFrequencyEncodingSteps": Tag.kMRAcquisitionFrequencyEncodingSteps,
+  "MRAcquisitionFrequencyEncodingSteps":
+      Tag.kMRAcquisitionFrequencyEncodingSteps,
   "Decoupling": Tag.kDecoupling,
   "DecoupledNucleus": Tag.kDecoupledNucleus,
   "DecouplingFrequency": Tag.kDecouplingFrequency,
@@ -917,7 +938,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "DiffusionGradientOrientation": Tag.kDiffusionGradientOrientation,
   "VelocityEncodingDirection": Tag.kVelocityEncodingDirection,
   "VelocityEncodingMinimumValue": Tag.kVelocityEncodingMinimumValue,
-  "VelocityEncodingAcquisitionSequence": Tag.kVelocityEncodingAcquisitionSequence,
+  "VelocityEncodingAcquisitionSequence":
+      Tag.kVelocityEncodingAcquisitionSequence,
   "NumberOfKSpaceTrajectories": Tag.kNumberOfKSpaceTrajectories,
   "CoverageOfKSpace": Tag.kCoverageOfKSpace,
   "SpectroscopyAcquisitionPhaseRows": Tag.kSpectroscopyAcquisitionPhaseRows,
@@ -931,7 +953,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "SlabOrientation": Tag.kSlabOrientation,
   "MidSlabPosition": Tag.kMidSlabPosition,
   "MRSpatialSaturationSequence": Tag.kMRSpatialSaturationSequence,
-  "MRTimingAndRelatedParametersSequence": Tag.kMRTimingAndRelatedParametersSequence,
+  "MRTimingAndRelatedParametersSequence":
+      Tag.kMRTimingAndRelatedParametersSequence,
   "MREchoSequence": Tag.kMREchoSequence,
   "MRModifierSequence": Tag.kMRModifierSequence,
   "MRDiffusionSequence": Tag.kMRDiffusionSequence,
@@ -947,7 +970,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "SpectroscopyAcquisitionOutOfPlanePhaseSteps":
       Tag.kSpectroscopyAcquisitionOutOfPlanePhaseSteps,
   "BulkMotionStatus": Tag.kBulkMotionStatus,
-  "ParallelReductionFactorSecondInPlane": Tag.kParallelReductionFactorSecondInPlane,
+  "ParallelReductionFactorSecondInPlane":
+      Tag.kParallelReductionFactorSecondInPlane,
   "CardiacBeatRejectionTechnique": Tag.kCardiacBeatRejectionTechnique,
   "RespiratoryMotionCompensationTechnique":
       Tag.kRespiratoryMotionCompensationTechnique,
@@ -955,7 +979,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "BulkMotionCompensationTechnique": Tag.kBulkMotionCompensationTechnique,
   "BulkMotionSignalSource": Tag.kBulkMotionSignalSource,
   "ApplicableSafetyStandardAgency": Tag.kApplicableSafetyStandardAgency,
-  "ApplicableSafetyStandardDescription": Tag.kApplicableSafetyStandardDescription,
+  "ApplicableSafetyStandardDescription":
+      Tag.kApplicableSafetyStandardDescription,
   "OperatingModeSequence": Tag.kOperatingModeSequence,
   "OperatingModeType": Tag.kOperatingModeType,
   "OperatingMode": Tag.kOperatingMode,
@@ -987,7 +1012,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
       Tag.kMRAcquisitionPhaseEncodingStepsInPlane,
   "MRAcquisitionPhaseEncodingStepsOutOfPlane":
       Tag.kMRAcquisitionPhaseEncodingStepsOutOfPlane,
-  "SpectroscopyAcquisitionPhaseColumns": Tag.kSpectroscopyAcquisitionPhaseColumns,
+  "SpectroscopyAcquisitionPhaseColumns":
+      Tag.kSpectroscopyAcquisitionPhaseColumns,
   "CardiacCyclePosition": Tag.kCardiacCyclePosition,
   "SpecificAbsorptionRateSequence": Tag.kSpecificAbsorptionRateSequence,
   "RFEchoTrainLength": Tag.kRFEchoTrainLength,
@@ -1046,9 +1072,11 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "ExposureInmAs": Tag.kExposureInmAs,
   "ConstantVolumeFlag": Tag.kConstantVolumeFlag,
   "FluoroscopyFlag": Tag.kFluoroscopyFlag,
-  "DistanceSourceToDataCollectionCenter": Tag.kDistanceSourceToDataCollectionCenter,
+  "DistanceSourceToDataCollectionCenter":
+      Tag.kDistanceSourceToDataCollectionCenter,
   "ContrastBolusAgentNumber": Tag.kContrastBolusAgentNumber,
-  "ContrastBolusIngredientCodeSequence": Tag.kContrastBolusIngredientCodeSequence,
+  "ContrastBolusIngredientCodeSequence":
+      Tag.kContrastBolusIngredientCodeSequence,
   "ContrastAdministrationProfileSequence":
       Tag.kContrastAdministrationProfileSequence,
   "ContrastBolusUsageSequence": Tag.kContrastBolusUsageSequence,
@@ -1161,7 +1189,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
       Tag.kStartRespiratoryTriggerCountThreshold,
   "TerminationCountsThreshold": Tag.kTerminationCountsThreshold,
   "TerminationDensityThreshold": Tag.kTerminationDensityThreshold,
-  "TerminationRelativeDensityThreshold": Tag.kTerminationRelativeDensityThreshold,
+  "TerminationRelativeDensityThreshold":
+      Tag.kTerminationRelativeDensityThreshold,
   "TerminationTimeThreshold": Tag.kTerminationTimeThreshold,
   "TerminationCardiacTriggerCountThreshold":
       Tag.kTerminationCardiacTriggerCountThreshold,
@@ -1249,7 +1278,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "NumberOfTemporalPositions": Tag.kNumberOfTemporalPositions,
   "TemporalResolution": Tag.kTemporalResolution,
   "SynchronizationFrameOfReferenceUID": Tag.kSynchronizationFrameOfReferenceUID,
-  "SOPInstanceUIDOfConcatenationSource": Tag.kSOPInstanceUIDOfConcatenationSource,
+  "SOPInstanceUIDOfConcatenationSource":
+      Tag.kSOPInstanceUIDOfConcatenationSource,
   "SeriesInStudy": Tag.kSeriesInStudy,
   "AcquisitionsInSeries": Tag.kAcquisitionsInSeries,
   "ImagesInAcquisition": Tag.kImagesInAcquisition,
@@ -1288,7 +1318,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "NominalCardiacTriggerDelayTime": Tag.kNominalCardiacTriggerDelayTime,
   "NominalCardiacTriggerTimePriorToRPeak":
       Tag.kNominalCardiacTriggerTimePriorToRPeak,
-  "ActualCardiacTriggerTimePriorToRPeak": Tag.kActualCardiacTriggerTimePriorToRPeak,
+  "ActualCardiacTriggerTimePriorToRPeak":
+      Tag.kActualCardiacTriggerTimePriorToRPeak,
   "FrameAcquisitionNumber": Tag.kFrameAcquisitionNumber,
   "DimensionIndexValues": Tag.kDimensionIndexValues,
   "FrameComments": Tag.kFrameComments,
@@ -1309,7 +1340,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "ConcatenationFrameOffsetNumber": Tag.kConcatenationFrameOffsetNumber,
   "FunctionalGroupPrivateCreator": Tag.kFunctionalGroupPrivateCreator,
   "NominalPercentageOfCardiacPhase": Tag.kNominalPercentageOfCardiacPhase,
-  "NominalPercentageOfRespiratoryPhase": Tag.kNominalPercentageOfRespiratoryPhase,
+  "NominalPercentageOfRespiratoryPhase":
+      Tag.kNominalPercentageOfRespiratoryPhase,
   "StartingRespiratoryAmplitude": Tag.kStartingRespiratoryAmplitude,
   "StartingRespiratoryPhase": Tag.kStartingRespiratoryPhase,
   "EndingRespiratoryAmplitude": Tag.kEndingRespiratoryAmplitude,
@@ -1343,9 +1375,11 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "ContributingSOPInstancesReferenceSequence":
       Tag.kContributingSOPInstancesReferenceSequence,
   "ReconstructionIndex": Tag.kReconstructionIndex,
-  "LightPathFilterPassThroughWavelength": Tag.kLightPathFilterPassThroughWavelength,
+  "LightPathFilterPassThroughWavelength":
+      Tag.kLightPathFilterPassThroughWavelength,
   "LightPathFilterPassBand": Tag.kLightPathFilterPassBand,
-  "ImagePathFilterPassThroughWavelength": Tag.kImagePathFilterPassThroughWavelength,
+  "ImagePathFilterPassThroughWavelength":
+      Tag.kImagePathFilterPassThroughWavelength,
   "ImagePathFilterPassBand": Tag.kImagePathFilterPassBand,
   "PatientEyeMovementCommanded": Tag.kPatientEyeMovementCommanded,
   "PatientEyeMovementCommandCodeSequence":
@@ -1365,8 +1399,10 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "StereoRotation": Tag.kStereoRotation,
   "AcquisitionDeviceTypeCodeSequence": Tag.kAcquisitionDeviceTypeCodeSequence,
   "IlluminationTypeCodeSequence": Tag.kIlluminationTypeCodeSequence,
-  "LightPathFilterTypeStackCodeSequence": Tag.kLightPathFilterTypeStackCodeSequence,
-  "ImagePathFilterTypeStackCodeSequence": Tag.kImagePathFilterTypeStackCodeSequence,
+  "LightPathFilterTypeStackCodeSequence":
+      Tag.kLightPathFilterTypeStackCodeSequence,
+  "ImagePathFilterTypeStackCodeSequence":
+      Tag.kImagePathFilterTypeStackCodeSequence,
   "LensesCodeSequence": Tag.kLensesCodeSequence,
   "ChannelDescriptionCodeSequence": Tag.kChannelDescriptionCodeSequence,
   "RefractiveStateSequence": Tag.kRefractiveStateSequence,
@@ -1514,7 +1550,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "AnatomicStructureReferencePoint": Tag.kAnatomicStructureReferencePoint,
   "RegistrationToLocalizerSequence": Tag.kRegistrationToLocalizerSequence,
   "RegisteredLocalizerUnits": Tag.kRegisteredLocalizerUnits,
-  "RegisteredLocalizerTopLeftHandCorner": Tag.kRegisteredLocalizerTopLeftHandCorner,
+  "RegisteredLocalizerTopLeftHandCorner":
+      Tag.kRegisteredLocalizerTopLeftHandCorner,
   "RegisteredLocalizerBottomRightHandCorner":
       Tag.kRegisteredLocalizerBottomRightHandCorner,
   "OphthalmicThicknessMapQualityRatingSequence":
@@ -1571,7 +1608,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "PatientReliabilityIndicator": Tag.kPatientReliabilityIndicator,
   "VisualFieldMeanSensitivity": Tag.kVisualFieldMeanSensitivity,
   "GlobalDeviationProbability": Tag.kGlobalDeviationProbability,
-  "LocalDeviationProbabilityNormalsFlag": Tag.kLocalDeviationProbabilityNormalsFlag,
+  "LocalDeviationProbabilityNormalsFlag":
+      Tag.kLocalDeviationProbabilityNormalsFlag,
   "LocalizedDeviationProbability": Tag.kLocalizedDeviationProbability,
   "ShortTermFluctuationCalculated": Tag.kShortTermFluctuationCalculated,
   "ShortTermFluctuation": Tag.kShortTermFluctuation,
@@ -1601,7 +1639,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "SensitivityValue": Tag.kSensitivityValue,
   "RetestStimulusSeen": Tag.kRetestStimulusSeen,
   "RetestSensitivityValue": Tag.kRetestSensitivityValue,
-  "VisualFieldTestPointNormalsSequence": Tag.kVisualFieldTestPointNormalsSequence,
+  "VisualFieldTestPointNormalsSequence":
+      Tag.kVisualFieldTestPointNormalsSequence,
   "QuantifiedDefect": Tag.kQuantifiedDefect,
   "AgeCorrectedSensitivityDeviationProbabilityValue":
       Tag.kAgeCorrectedSensitivityDeviationProbabilityValue,
@@ -1735,7 +1774,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "GrayScale": Tag.kGrayScale,
   "RecommendedViewingMode": Tag.kRecommendedViewingMode,
   "GrayLookupTableDescriptor": Tag.kGrayLookupTableDescriptor,
-  "RedPaletteColorLookupTableDescriptor": Tag.kRedPaletteColorLookupTableDescriptor,
+  "RedPaletteColorLookupTableDescriptor":
+      Tag.kRedPaletteColorLookupTableDescriptor,
   "GreenPaletteColorLookupTableDescriptor":
       Tag.kGreenPaletteColorLookupTableDescriptor,
   "BluePaletteColorLookupTableDescriptor":
@@ -1754,10 +1794,12 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "GreenPaletteColorLookupTableData": Tag.kGreenPaletteColorLookupTableData,
   "BluePaletteColorLookupTableData": Tag.kBluePaletteColorLookupTableData,
   "AlphaPaletteColorLookupTableData": Tag.kAlphaPaletteColorLookupTableData,
-  "LargeRedPaletteColorLookupTableData": Tag.kLargeRedPaletteColorLookupTableData,
+  "LargeRedPaletteColorLookupTableData":
+      Tag.kLargeRedPaletteColorLookupTableData,
   "LargeGreenPaletteColorLookupTableData":
       Tag.kLargeGreenPaletteColorLookupTableData,
-  "LargeBluePaletteColorLookupTableData": Tag.kLargeBluePaletteColorLookupTableData,
+  "LargeBluePaletteColorLookupTableData":
+      Tag.kLargeBluePaletteColorLookupTableData,
   "LargePaletteColorLookupTableUID": Tag.kLargePaletteColorLookupTableUID,
   "SegmentedRedPaletteColorLookupTableData":
       Tag.kSegmentedRedPaletteColorLookupTableData,
@@ -1881,7 +1923,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "ScheduledAdmissionTime": Tag.kScheduledAdmissionTime,
   "ScheduledDischargeDate": Tag.kScheduledDischargeDate,
   "ScheduledDischargeTime": Tag.kScheduledDischargeTime,
-  "ScheduledPatientInstitutionResidence": Tag.kScheduledPatientInstitutionResidence,
+  "ScheduledPatientInstitutionResidence":
+      Tag.kScheduledPatientInstitutionResidence,
   "AdmittingDate": Tag.kAdmittingDate,
   "AdmittingTime": Tag.kAdmittingTime,
   "DischargeDate": Tag.kDischargeDate,
@@ -1926,11 +1969,13 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "NotchFilterFrequency": Tag.kNotchFilterFrequency,
   "NotchFilterBandwidth": Tag.kNotchFilterBandwidth,
   "WaveformDataDisplayScale": Tag.kWaveformDataDisplayScale,
-  "WaveformDisplayBackgroundCIELabValue": Tag.kWaveformDisplayBackgroundCIELabValue,
+  "WaveformDisplayBackgroundCIELabValue":
+      Tag.kWaveformDisplayBackgroundCIELabValue,
   "WaveformPresentationGroupSequence": Tag.kWaveformPresentationGroupSequence,
   "PresentationGroupNumber": Tag.kPresentationGroupNumber,
   "ChannelDisplaySequence": Tag.kChannelDisplaySequence,
-  "ChannelRecommendedDisplayCIELabValue": Tag.kChannelRecommendedDisplayCIELabValue,
+  "ChannelRecommendedDisplayCIELabValue":
+      Tag.kChannelRecommendedDisplayCIELabValue,
   "ChannelPosition": Tag.kChannelPosition,
   "DisplayShadingFlag": Tag.kDisplayShadingFlag,
   "FractionalChannelDisplayScale": Tag.kFractionalChannelDisplayScale,
@@ -1983,7 +2028,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "PerformedProtocolType": Tag.kPerformedProtocolType,
   "ScheduledStepAttributesSequence": Tag.kScheduledStepAttributesSequence,
   "RequestAttributesSequence": Tag.kRequestAttributesSequence,
-  "CommentsOnThePerformedProcedureStep": Tag.kCommentsOnThePerformedProcedureStep,
+  "CommentsOnThePerformedProcedureStep":
+      Tag.kCommentsOnThePerformedProcedureStep,
   "PerformedProcedureStepDiscontinuationReasonCodeSequence":
       Tag.kPerformedProcedureStepDiscontinuationReasonCodeSequence,
   "QuantitySequence": Tag.kQuantitySequence,
@@ -2007,7 +2053,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "BillingSuppliesAndDevicesSequence": Tag.kBillingSuppliesAndDevicesSequence,
   "ReferencedProcedureStepSequence": Tag.kReferencedProcedureStepSequence,
   "PerformedSeriesSequence": Tag.kPerformedSeriesSequence,
-  "CommentsOnTheScheduledProcedureStep": Tag.kCommentsOnTheScheduledProcedureStep,
+  "CommentsOnTheScheduledProcedureStep":
+      Tag.kCommentsOnTheScheduledProcedureStep,
   "ProtocolContextSequence": Tag.kProtocolContextSequence,
   "ContentItemModifierSequence": Tag.kContentItemModifierSequence,
   "ScheduledSpecimenSequence": Tag.kScheduledSpecimenSequence,
@@ -2015,7 +2062,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "ContainerIdentifier": Tag.kContainerIdentifier,
   "IssuerOfTheContainerIdentifierSequence":
       Tag.kIssuerOfTheContainerIdentifierSequence,
-  "AlternateContainerIdentifierSequence": Tag.kAlternateContainerIdentifierSequence,
+  "AlternateContainerIdentifierSequence":
+      Tag.kAlternateContainerIdentifierSequence,
   "ContainerTypeCodeSequence": Tag.kContainerTypeCodeSequence,
   "ContainerDescription": Tag.kContainerDescription,
   "ContainerComponentSequence": Tag.kContainerComponentSequence,
@@ -2038,7 +2086,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "SpecimenLocalizationContentItemSequence":
       Tag.kSpecimenLocalizationContentItemSequence,
   "SlideIdentifier": Tag.kSlideIdentifier,
-  "ImageCenterPointCoordinatesSequence": Tag.kImageCenterPointCoordinatesSequence,
+  "ImageCenterPointCoordinatesSequence":
+      Tag.kImageCenterPointCoordinatesSequence,
   "XOffsetInSlideCoordinateSystem": Tag.kXOffsetInSlideCoordinateSystem,
   "YOffsetInSlideCoordinateSystem": Tag.kYOffsetInSlideCoordinateSystem,
   "ZOffsetInSlideCoordinateSystem": Tag.kZOffsetInSlideCoordinateSystem,
@@ -2092,7 +2141,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
       Tag.kGeneralPurposeScheduledProcedureStepPriority,
   "ScheduledProcessingApplicationsCodeSequence":
       Tag.kScheduledProcessingApplicationsCodeSequence,
-  "ScheduledProcedureStepStartDateTime": Tag.kScheduledProcedureStepStartDateTime,
+  "ScheduledProcedureStepStartDateTime":
+      Tag.kScheduledProcedureStepStartDateTime,
   "MultipleCopiesFlag": Tag.kMultipleCopiesFlag,
   "PerformedProcessingApplicationsCodeSequence":
       Tag.kPerformedProcessingApplicationsCodeSequence,
@@ -2129,7 +2179,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "HumanPerformerName": Tag.kHumanPerformerName,
   "RawDataHandling": Tag.kRawDataHandling,
   "InputReadinessState": Tag.kInputReadinessState,
-  "PerformedProcedureStepStartDateTime": Tag.kPerformedProcedureStepStartDateTime,
+  "PerformedProcedureStepStartDateTime":
+      Tag.kPerformedProcedureStepStartDateTime,
   "PerformedProcedureStepEndDateTime": Tag.kPerformedProcedureStepEndDateTime,
   "ProcedureStepCancellationDateTime": Tag.kProcedureStepCancellationDateTime,
   "EntranceDoseInmGy": Tag.kEntranceDoseInmGy,
@@ -2159,11 +2210,13 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "ObservationDateTime": Tag.kObservationDateTime,
   "ValueType": Tag.kValueType,
   "ConceptNameCodeSequence": Tag.kConceptNameCodeSequence,
-  "MeasurementPrecisionDescriptionTrial": Tag.kMeasurementPrecisionDescriptionTrial,
+  "MeasurementPrecisionDescriptionTrial":
+      Tag.kMeasurementPrecisionDescriptionTrial,
   "ContinuityOfContent": Tag.kContinuityOfContent,
   "UrgencyOrPriorityAlertsTrial": Tag.kUrgencyOrPriorityAlertsTrial,
   "SequencingIndicatorTrial": Tag.kSequencingIndicatorTrial,
-  "DocumentIdentifierCodeSequenceTrial": Tag.kDocumentIdentifierCodeSequenceTrial,
+  "DocumentIdentifierCodeSequenceTrial":
+      Tag.kDocumentIdentifierCodeSequenceTrial,
   "DocumentAuthorTrial": Tag.kDocumentAuthorTrial,
   "DocumentAuthorIdentifierCodeSequenceTrial":
       Tag.kDocumentAuthorIdentifierCodeSequenceTrial,
@@ -2179,10 +2232,12 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "ParticipationType": Tag.kParticipationType,
   "ParticipationDateTime": Tag.kParticipationDateTime,
   "ObserverType": Tag.kObserverType,
-  "ProcedureIdentifierCodeSequenceTrial": Tag.kProcedureIdentifierCodeSequenceTrial,
+  "ProcedureIdentifierCodeSequenceTrial":
+      Tag.kProcedureIdentifierCodeSequenceTrial,
   "VerifyingObserverIdentificationCodeSequence":
       Tag.kVerifyingObserverIdentificationCodeSequence,
-  "ObjectDirectoryBinaryIdentifierTrial": Tag.kObjectDirectoryBinaryIdentifierTrial,
+  "ObjectDirectoryBinaryIdentifierTrial":
+      Tag.kObjectDirectoryBinaryIdentifierTrial,
   "EquivalentCDADocumentSequence": Tag.kEquivalentCDADocumentSequence,
   "ReferencedWaveformChannels": Tag.kReferencedWaveformChannels,
   "DateOfDocumentOrVerbalTransactionTrial":
@@ -2204,7 +2259,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "FloatingPointValue": Tag.kFloatingPointValue,
   "RationalNumeratorValue": Tag.kRationalNumeratorValue,
   "RationalDenominatorValue": Tag.kRationalDenominatorValue,
-  "ObservationCategoryCodeSequenceTrial": Tag.kObservationCategoryCodeSequenceTrial,
+  "ObservationCategoryCodeSequenceTrial":
+      Tag.kObservationCategoryCodeSequenceTrial,
   "ConceptCodeSequence": Tag.kConceptCodeSequence,
   "BibliographicCitationTrial": Tag.kBibliographicCitationTrial,
   "PurposeOfReferenceCodeSequence": Tag.kPurposeOfReferenceCodeSequence,
@@ -2335,8 +2391,10 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "BackgroundColor": Tag.kBackgroundColor,
   "Optotype": Tag.kOptotype,
   "OptotypePresentation": Tag.kOptotypePresentation,
-  "SubjectiveRefractionRightEyeSequence": Tag.kSubjectiveRefractionRightEyeSequence,
-  "SubjectiveRefractionLeftEyeSequence": Tag.kSubjectiveRefractionLeftEyeSequence,
+  "SubjectiveRefractionRightEyeSequence":
+      Tag.kSubjectiveRefractionRightEyeSequence,
+  "SubjectiveRefractionLeftEyeSequence":
+      Tag.kSubjectiveRefractionLeftEyeSequence,
   "AddNearSequence": Tag.kAddNearSequence,
   "AddIntermediateSequence": Tag.kAddIntermediateSequence,
   "AddOtherSequence": Tag.kAddOtherSequence,
@@ -2359,7 +2417,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "PupilCentroidXCoordinate": Tag.kPupilCentroidXCoordinate,
   "PupilCentroidYCoordinate": Tag.kPupilCentroidYCoordinate,
   "EquivalentPupilRadius": Tag.kEquivalentPupilRadius,
-  "CornealTopographyMapTypeCodeSequence": Tag.kCornealTopographyMapTypeCodeSequence,
+  "CornealTopographyMapTypeCodeSequence":
+      Tag.kCornealTopographyMapTypeCodeSequence,
   "VerticesOfTheOutlineOfPupil": Tag.kVerticesOfTheOutlineOfPupil,
   "CornealTopographyMappingNormalsSequence":
       Tag.kCornealTopographyMappingNormalsSequence,
@@ -2413,7 +2472,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "PaletteColorLookupTableSequence": Tag.kPaletteColorLookupTableSequence,
   "ReferencedImageNavigationSequence": Tag.kReferencedImageNavigationSequence,
   "TopLeftHandCornerOfLocalizerArea": Tag.kTopLeftHandCornerOfLocalizerArea,
-  "BottomRightHandCornerOfLocalizerArea": Tag.kBottomRightHandCornerOfLocalizerArea,
+  "BottomRightHandCornerOfLocalizerArea":
+      Tag.kBottomRightHandCornerOfLocalizerArea,
   "OpticalPathIdentificationSequence": Tag.kOpticalPathIdentificationSequence,
   "PlanePositionSlideSequence": Tag.kPlanePositionSlideSequence,
   "ColumnPositionInTotalImagePixelMatrix":
@@ -2454,7 +2514,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "OCTZOffsetApplied": Tag.kOCTZOffsetApplied,
   "IntravascularFrameContentSequence": Tag.kIntravascularFrameContentSequence,
   "IntravascularLongitudinalDistance": Tag.kIntravascularLongitudinalDistance,
-  "IntravascularOCTFrameContentSequence": Tag.kIntravascularOCTFrameContentSequence,
+  "IntravascularOCTFrameContentSequence":
+      Tag.kIntravascularOCTFrameContentSequence,
   "OCTZOffsetCorrection": Tag.kOCTZOffsetCorrection,
   "CatheterDirectionOfRotation": Tag.kCatheterDirectionOfRotation,
   "SeamLineLocation": Tag.kSeamLineLocation,
@@ -2620,7 +2681,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "ReferencedSurfaceNumber": Tag.kReferencedSurfaceNumber,
   "SegmentSurfaceGenerationAlgorithmIdentificationSequence":
       Tag.kSegmentSurfaceGenerationAlgorithmIdentificationSequence,
-  "SegmentSurfaceSourceInstanceSequence": Tag.kSegmentSurfaceSourceInstanceSequence,
+  "SegmentSurfaceSourceInstanceSequence":
+      Tag.kSegmentSurfaceSourceInstanceSequence,
   "AlgorithmFamilyCodeSequence": Tag.kAlgorithmFamilyCodeSequence,
   "AlgorithmNameCodeSequence": Tag.kAlgorithmNameCodeSequence,
   "AlgorithmVersion": Tag.kAlgorithmVersion,
@@ -2639,8 +2701,10 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "OriginalImplantTemplateSequence": Tag.kOriginalImplantTemplateSequence,
   "EffectiveDateTime": Tag.kEffectiveDateTime,
   "ImplantTargetAnatomySequence": Tag.kImplantTargetAnatomySequence,
-  "InformationFromManufacturerSequence": Tag.kInformationFromManufacturerSequence,
-  "NotificationFromManufacturerSequence": Tag.kNotificationFromManufacturerSequence,
+  "InformationFromManufacturerSequence":
+      Tag.kInformationFromManufacturerSequence,
+  "NotificationFromManufacturerSequence":
+      Tag.kNotificationFromManufacturerSequence,
   "InformationIssueDateTime": Tag.kInformationIssueDateTime,
   "InformationSummary": Tag.kInformationSummary,
   "ImplantRegulatoryDisapprovalCodeSequence":
@@ -2660,7 +2724,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "HPGLPenDescription": Tag.kHPGLPenDescription,
   "RecommendedRotationPoint": Tag.kRecommendedRotationPoint,
   "BoundingRectangle": Tag.kBoundingRectangle,
-  "ImplantTemplate3DModelSurfaceNumber": Tag.kImplantTemplate3DModelSurfaceNumber,
+  "ImplantTemplate3DModelSurfaceNumber":
+      Tag.kImplantTemplate3DModelSurfaceNumber,
   "SurfaceModelDescriptionSequence": Tag.kSurfaceModelDescriptionSequence,
   "SurfaceModelLabel": Tag.kSurfaceModelLabel,
   "SurfaceModelScalingFactor": Tag.kSurfaceModelScalingFactor,
@@ -2673,10 +2738,12 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "MatingFeatureSetLabel": Tag.kMatingFeatureSetLabel,
   "MatingFeatureSequence": Tag.kMatingFeatureSequence,
   "MatingFeatureID": Tag.kMatingFeatureID,
-  "MatingFeatureDegreeOfFreedomSequence": Tag.kMatingFeatureDegreeOfFreedomSequence,
+  "MatingFeatureDegreeOfFreedomSequence":
+      Tag.kMatingFeatureDegreeOfFreedomSequence,
   "DegreeOfFreedomID": Tag.kDegreeOfFreedomID,
   "DegreeOfFreedomType": Tag.kDegreeOfFreedomType,
-  "TwoDMatingFeatureCoordinatesSequence": Tag.kTwoDMatingFeatureCoordinatesSequence,
+  "TwoDMatingFeatureCoordinatesSequence":
+      Tag.kTwoDMatingFeatureCoordinatesSequence,
   "ReferencedHPGLDocumentID": Tag.kReferencedHPGLDocumentID,
   "TwoDMatingPoint": Tag.kTwoDMatingPoint,
   "TwoDMatingAxes": Tag.kTwoDMatingAxes,
@@ -2725,7 +2792,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "ImageRotationRetired": Tag.kImageRotationRetired,
   "ImageHorizontalFlip": Tag.kImageHorizontalFlip,
   "ImageRotation": Tag.kImageRotation,
-  "DisplayedAreaTopLeftHandCornerTrial": Tag.kDisplayedAreaTopLeftHandCornerTrial,
+  "DisplayedAreaTopLeftHandCornerTrial":
+      Tag.kDisplayedAreaTopLeftHandCornerTrial,
   "DisplayedAreaBottomRightHandCornerTrial":
       Tag.kDisplayedAreaBottomRightHandCornerTrial,
   "DisplayedAreaTopLeftHandCorner": Tag.kDisplayedAreaTopLeftHandCorner,
@@ -2745,11 +2813,13 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "ContentCreatorName": Tag.kContentCreatorName,
   "ContentCreatorIdentificationCodeSequence":
       Tag.kContentCreatorIdentificationCodeSequence,
-  "AlternateContentDescriptionSequence": Tag.kAlternateContentDescriptionSequence,
+  "AlternateContentDescriptionSequence":
+      Tag.kAlternateContentDescriptionSequence,
   "PresentationSizeMode": Tag.kPresentationSizeMode,
   "PresentationPixelSpacing": Tag.kPresentationPixelSpacing,
   "PresentationPixelAspectRatio": Tag.kPresentationPixelAspectRatio,
-  "PresentationPixelMagnificationRatio": Tag.kPresentationPixelMagnificationRatio,
+  "PresentationPixelMagnificationRatio":
+      Tag.kPresentationPixelMagnificationRatio,
   "GraphicGroupLabel": Tag.kGraphicGroupLabel,
   "GraphicGroupDescription": Tag.kGraphicGroupDescription,
   "CompoundGraphicSequence": Tag.kCompoundGraphicSequence,
@@ -2949,7 +3019,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "BeamOrderIndexTrial": Tag.kBeamOrderIndexTrial,
   "AutosequenceFlag": Tag.kAutosequenceFlag,
   "TableTopVerticalAdjustedPosition": Tag.kTableTopVerticalAdjustedPosition,
-  "TableTopLongitudinalAdjustedPosition": Tag.kTableTopLongitudinalAdjustedPosition,
+  "TableTopLongitudinalAdjustedPosition":
+      Tag.kTableTopLongitudinalAdjustedPosition,
   "TableTopLateralAdjustedPosition": Tag.kTableTopLateralAdjustedPosition,
   "PatientSupportAdjustedAngle": Tag.kPatientSupportAdjustedAngle,
   "TableTopEccentricAdjustedAngle": Tag.kTableTopEccentricAdjustedAngle,
@@ -2970,7 +3041,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "OverriddenAttributesSequence": Tag.kOverriddenAttributesSequence,
   "ConventionalControlPointVerificationSequence":
       Tag.kConventionalControlPointVerificationSequence,
-  "IonControlPointVerificationSequence": Tag.kIonControlPointVerificationSequence,
+  "IonControlPointVerificationSequence":
+      Tag.kIonControlPointVerificationSequence,
   "AttributeOccurrenceSequence": Tag.kAttributeOccurrenceSequence,
   "AttributeOccurrencePointer": Tag.kAttributeOccurrencePointer,
   "AttributeItemSelector": Tag.kAttributeItemSelector,
@@ -3022,19 +3094,23 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "Component1ReferencedID": Tag.kComponent1ReferencedID,
   "Component1ReferencedMatingFeatureSetID":
       Tag.kComponent1ReferencedMatingFeatureSetID,
-  "Component1ReferencedMatingFeatureID": Tag.kComponent1ReferencedMatingFeatureID,
+  "Component1ReferencedMatingFeatureID":
+      Tag.kComponent1ReferencedMatingFeatureID,
   "Component2ReferencedID": Tag.kComponent2ReferencedID,
   "Component2ReferencedMatingFeatureSetID":
       Tag.kComponent2ReferencedMatingFeatureSetID,
-  "Component2ReferencedMatingFeatureID": Tag.kComponent2ReferencedMatingFeatureID,
+  "Component2ReferencedMatingFeatureID":
+      Tag.kComponent2ReferencedMatingFeatureID,
   "ImplantTemplateGroupName": Tag.kImplantTemplateGroupName,
   "ImplantTemplateGroupDescription": Tag.kImplantTemplateGroupDescription,
   "ImplantTemplateGroupIssuer": Tag.kImplantTemplateGroupIssuer,
   "ImplantTemplateGroupVersion": Tag.kImplantTemplateGroupVersion,
-  "ReplacedImplantTemplateGroupSequence": Tag.kReplacedImplantTemplateGroupSequence,
+  "ReplacedImplantTemplateGroupSequence":
+      Tag.kReplacedImplantTemplateGroupSequence,
   "ImplantTemplateGroupTargetAnatomySequence":
       Tag.kImplantTemplateGroupTargetAnatomySequence,
-  "ImplantTemplateGroupMembersSequence": Tag.kImplantTemplateGroupMembersSequence,
+  "ImplantTemplateGroupMembersSequence":
+      Tag.kImplantTemplateGroupMembersSequence,
   "ImplantTemplateGroupMemberID": Tag.kImplantTemplateGroupMemberID,
   "ThreeDImplantTemplateGroupMemberMatchingPoint":
       Tag.kThreeDImplantTemplateGroupMemberMatchingPoint,
@@ -3093,7 +3169,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "Signature": Tag.kSignature,
   "CertifiedTimestampType": Tag.kCertifiedTimestampType,
   "CertifiedTimestamp": Tag.kCertifiedTimestamp,
-  "DigitalSignaturePurposeCodeSequence": Tag.kDigitalSignaturePurposeCodeSequence,
+  "DigitalSignaturePurposeCodeSequence":
+      Tag.kDigitalSignaturePurposeCodeSequence,
   "ReferencedDigitalSignatureSequence": Tag.kReferencedDigitalSignatureSequence,
   "ReferencedSOPInstanceMACSequence": Tag.kReferencedSOPInstanceMACSequence,
   "MAC": Tag.kMAC,
@@ -3131,7 +3208,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "PrintingBitDepth": Tag.kPrintingBitDepth,
   "MediaInstalledSequence": Tag.kMediaInstalledSequence,
   "OtherMediaAvailableSequence": Tag.kOtherMediaAvailableSequence,
-  "SupportedImageDisplayFormatsSequence": Tag.kSupportedImageDisplayFormatsSequence,
+  "SupportedImageDisplayFormatsSequence":
+      Tag.kSupportedImageDisplayFormatsSequence,
   "ReferencedFilmBoxSequence": Tag.kReferencedFilmBoxSequence,
   "ReferencedStoredPrintSequence": Tag.kReferencedStoredPrintSequence,
   "ImageDisplayFormat": Tag.kImageDisplayFormat,
@@ -3152,14 +3230,16 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "MaxDensity": Tag.kMaxDensity,
   "Trim": Tag.kTrim,
   "ConfigurationInformation": Tag.kConfigurationInformation,
-  "ConfigurationInformationDescription": Tag.kConfigurationInformationDescription,
+  "ConfigurationInformationDescription":
+      Tag.kConfigurationInformationDescription,
   "MaximumCollatedFilms": Tag.kMaximumCollatedFilms,
   "Illumination": Tag.kIllumination,
   "ReflectedAmbientLight": Tag.kReflectedAmbientLight,
   "PrinterPixelSpacing": Tag.kPrinterPixelSpacing,
   "ReferencedFilmSessionSequence": Tag.kReferencedFilmSessionSequence,
   "ReferencedImageBoxSequence": Tag.kReferencedImageBoxSequence,
-  "ReferencedBasicAnnotationBoxSequence": Tag.kReferencedBasicAnnotationBoxSequence,
+  "ReferencedBasicAnnotationBoxSequence":
+      Tag.kReferencedBasicAnnotationBoxSequence,
   "ImageBoxPosition": Tag.kImageBoxPosition,
   "Polarity": Tag.kPolarity,
   "RequestedImageSize": Tag.kRequestedImageSize,
@@ -3206,7 +3286,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "QueueStatus": Tag.kQueueStatus,
   "PrintJobDescriptionSequence": Tag.kPrintJobDescriptionSequence,
   "ReferencedPrintJobSequence": Tag.kReferencedPrintJobSequence,
-  "PrintManagementCapabilitiesSequence": Tag.kPrintManagementCapabilitiesSequence,
+  "PrintManagementCapabilitiesSequence":
+      Tag.kPrintManagementCapabilitiesSequence,
   "PrinterCharacteristicsSequence": Tag.kPrinterCharacteristicsSequence,
   "FilmBoxContentSequence": Tag.kFilmBoxContentSequence,
   "ImageBoxContentSequence": Tag.kImageBoxContentSequence,
@@ -3325,13 +3406,16 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "ROIPhysicalProperty": Tag.kROIPhysicalProperty,
   "ROIPhysicalPropertyValue": Tag.kROIPhysicalPropertyValue,
   "ROIElementalCompositionSequence": Tag.kROIElementalCompositionSequence,
-  "ROIElementalCompositionAtomicNumber": Tag.kROIElementalCompositionAtomicNumber,
+  "ROIElementalCompositionAtomicNumber":
+      Tag.kROIElementalCompositionAtomicNumber,
   "ROIElementalCompositionAtomicMassFraction":
       Tag.kROIElementalCompositionAtomicMassFraction,
-  "FrameOfReferenceRelationshipSequence": Tag.kFrameOfReferenceRelationshipSequence,
+  "FrameOfReferenceRelationshipSequence":
+      Tag.kFrameOfReferenceRelationshipSequence,
   "RelatedFrameOfReferenceUID": Tag.kRelatedFrameOfReferenceUID,
   "FrameOfReferenceTransformationType": Tag.kFrameOfReferenceTransformationType,
-  "FrameOfReferenceTransformationMatrix": Tag.kFrameOfReferenceTransformationMatrix,
+  "FrameOfReferenceTransformationMatrix":
+      Tag.kFrameOfReferenceTransformationMatrix,
   "FrameOfReferenceTransformationComment":
       Tag.kFrameOfReferenceTransformationComment,
   "MeasuredDoseReferenceSequence": Tag.kMeasuredDoseReferenceSequence,
@@ -3390,7 +3474,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
       Tag.kReferencedCalculatedDoseReferenceSequence,
   "ReferencedCalculatedDoseReferenceNumber":
       Tag.kReferencedCalculatedDoseReferenceNumber,
-  "BeamLimitingDeviceLeafPairsSequence": Tag.kBeamLimitingDeviceLeafPairsSequence,
+  "BeamLimitingDeviceLeafPairsSequence":
+      Tag.kBeamLimitingDeviceLeafPairsSequence,
   "RecordedWedgeSequence": Tag.kRecordedWedgeSequence,
   "RecordedCompensatorSequence": Tag.kRecordedCompensatorSequence,
   "RecordedBlockSequence": Tag.kRecordedBlockSequence,
@@ -3421,7 +3506,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "ReferencedSourceApplicatorNumber": Tag.kReferencedSourceApplicatorNumber,
   "RecordedChannelShieldSequence": Tag.kRecordedChannelShieldSequence,
   "ReferencedChannelShieldNumber": Tag.kReferencedChannelShieldNumber,
-  "BrachyControlPointDeliveredSequence": Tag.kBrachyControlPointDeliveredSequence,
+  "BrachyControlPointDeliveredSequence":
+      Tag.kBrachyControlPointDeliveredSequence,
   "SafePositionExitDate": Tag.kSafePositionExitDate,
   "SafePositionExitTime": Tag.kSafePositionExitTime,
   "SafePositionReturnDate": Tag.kSafePositionReturnDate,
@@ -3470,8 +3556,10 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "ToleranceTableLabel": Tag.kToleranceTableLabel,
   "GantryAngleTolerance": Tag.kGantryAngleTolerance,
   "BeamLimitingDeviceAngleTolerance": Tag.kBeamLimitingDeviceAngleTolerance,
-  "BeamLimitingDeviceToleranceSequence": Tag.kBeamLimitingDeviceToleranceSequence,
-  "BeamLimitingDevicePositionTolerance": Tag.kBeamLimitingDevicePositionTolerance,
+  "BeamLimitingDeviceToleranceSequence":
+      Tag.kBeamLimitingDeviceToleranceSequence,
+  "BeamLimitingDevicePositionTolerance":
+      Tag.kBeamLimitingDevicePositionTolerance,
   "SnoutPositionTolerance": Tag.kSnoutPositionTolerance,
   "PatientSupportAngleTolerance": Tag.kPatientSupportAngleTolerance,
   "TableTopEccentricAngleTolerance": Tag.kTableTopEccentricAngleTolerance,
@@ -3486,7 +3574,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "FractionGroupNumber": Tag.kFractionGroupNumber,
   "FractionGroupDescription": Tag.kFractionGroupDescription,
   "NumberOfFractionsPlanned": Tag.kNumberOfFractionsPlanned,
-  "NumberOfFractionPatternDigitsPerDay": Tag.kNumberOfFractionPatternDigitsPerDay,
+  "NumberOfFractionPatternDigitsPerDay":
+      Tag.kNumberOfFractionPatternDigitsPerDay,
   "RepeatFractionCycleLength": Tag.kRepeatFractionCycleLength,
   "FractionPattern": Tag.kFractionPattern,
   "NumberOfBeams": Tag.kNumberOfBeams,
@@ -3500,7 +3589,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "BeamDoseVerificationControlPointSequence":
       Tag.kBeamDoseVerificationControlPointSequence,
   "AverageBeamDosePointDepth": Tag.kAverageBeamDosePointDepth,
-  "AverageBeamDosePointEquivalentDepth": Tag.kAverageBeamDosePointEquivalentDepth,
+  "AverageBeamDosePointEquivalentDepth":
+      Tag.kAverageBeamDosePointEquivalentDepth,
   "AverageBeamDosePointSSD": Tag.kAverageBeamDosePointSSD,
   "NumberOfBrachyApplicationSetups": Tag.kNumberOfBrachyApplicationSetups,
   "BrachyApplicationSetupDoseSpecificationPoint":
@@ -3595,7 +3685,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "GantryAngle": Tag.kGantryAngle,
   "GantryRotationDirection": Tag.kGantryRotationDirection,
   "BeamLimitingDeviceAngle": Tag.kBeamLimitingDeviceAngle,
-  "BeamLimitingDeviceRotationDirection": Tag.kBeamLimitingDeviceRotationDirection,
+  "BeamLimitingDeviceRotationDirection":
+      Tag.kBeamLimitingDeviceRotationDirection,
   "PatientSupportAngle": Tag.kPatientSupportAngle,
   "PatientSupportRotationDirection": Tag.kPatientSupportRotationDirection,
   "TableTopEccentricAxisDistance": Tag.kTableTopEccentricAxisDistance,
@@ -3655,7 +3746,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "ActiveSourceLength": Tag.kActiveSourceLength,
   "SourceModelID": Tag.kSourceModelID,
   "SourceDescription": Tag.kSourceDescription,
-  "SourceEncapsulationNominalThickness": Tag.kSourceEncapsulationNominalThickness,
+  "SourceEncapsulationNominalThickness":
+      Tag.kSourceEncapsulationNominalThickness,
   "SourceEncapsulationNominalTransmission":
       Tag.kSourceEncapsulationNominalTransmission,
   "SourceIsotopeName": Tag.kSourceIsotopeName,
@@ -3696,7 +3788,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "SourceApplicatorName": Tag.kSourceApplicatorName,
   "SourceApplicatorLength": Tag.kSourceApplicatorLength,
   "SourceApplicatorManufacturer": Tag.kSourceApplicatorManufacturer,
-  "SourceApplicatorWallNominalThickness": Tag.kSourceApplicatorWallNominalThickness,
+  "SourceApplicatorWallNominalThickness":
+      Tag.kSourceApplicatorWallNominalThickness,
   "SourceApplicatorWallNominalTransmission":
       Tag.kSourceApplicatorWallNominalTransmission,
   "SourceApplicatorStepSize": Tag.kSourceApplicatorStepSize,
@@ -3764,7 +3857,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "RangeShifterSettingsSequence": Tag.kRangeShifterSettingsSequence,
   "RangeShifterSetting": Tag.kRangeShifterSetting,
   "IsocenterToRangeShifterDistance": Tag.kIsocenterToRangeShifterDistance,
-  "RangeShifterWaterEquivalentThickness": Tag.kRangeShifterWaterEquivalentThickness,
+  "RangeShifterWaterEquivalentThickness":
+      Tag.kRangeShifterWaterEquivalentThickness,
   "LateralSpreadingDeviceSettingsSequence":
       Tag.kLateralSpreadingDeviceSettingsSequence,
   "LateralSpreadingDeviceSetting": Tag.kLateralSpreadingDeviceSetting,
@@ -3821,7 +3915,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "ReferencedSourceNumber": Tag.kReferencedSourceNumber,
   "ReferencedFractionGroupSequence": Tag.kReferencedFractionGroupSequence,
   "ReferencedFractionGroupNumber": Tag.kReferencedFractionGroupNumber,
-  "ReferencedVerificationImageSequence": Tag.kReferencedVerificationImageSequence,
+  "ReferencedVerificationImageSequence":
+      Tag.kReferencedVerificationImageSequence,
   "ReferencedReferenceImageSequence": Tag.kReferencedReferenceImageSequence,
   "ReferencedDoseReferenceSequence": Tag.kReferencedDoseReferenceSequence,
   "ReferencedDoseReferenceNumber": Tag.kReferencedDoseReferenceNumber,
@@ -3867,7 +3962,8 @@ const Map<String, Tag> publicTagKeywordMap = const {
   "InterpretationApprovalTime": Tag.kInterpretationApprovalTime,
   "PhysicianApprovingInterpretation": Tag.kPhysicianApprovingInterpretation,
   "InterpretationDiagnosisDescription": Tag.kInterpretationDiagnosisDescription,
-  "InterpretationDiagnosisCodeSequence": Tag.kInterpretationDiagnosisCodeSequence,
+  "InterpretationDiagnosisCodeSequence":
+      Tag.kInterpretationDiagnosisCodeSequence,
   "ResultsDistributionListSequence": Tag.kResultsDistributionListSequence,
   "DistributionName": Tag.kDistributionName,
   "DistributionAddress": Tag.kDistributionAddress,

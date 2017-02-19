@@ -18,7 +18,8 @@ bool _isValidLength(int length, int min, int max) {
 }
 
 /// Returns [true] if length is NOT valid.
-bool _isNotValidLength(int length, int min, int max) => !_isValidLength(length, min, max);
+bool _isNotValidLength(int length, int min, int max) =>
+    !_isValidLength(length, min, max);
 
 /// Returns a [String] containing an invalid length error message,
 /// or [null] if there are no errors.
@@ -45,7 +46,8 @@ bool _filteredTest(String s, int min, int max, bool filter(int c)) {
 String _getFilteredError(String s, int min, int max, bool filter(int c)) {
   String msg = _getLengthError(s.length, min, max);
   if (msg == null) return msg;
-  for (int i = 0; i < s.length; i++) if (filter(s.codeUnitAt(i))) _invalidChar(s, i);
+  for (int i = 0; i < s.length; i++)
+    if (filter(s.codeUnitAt(i))) _invalidChar(s, i);
   return "";
 }
 
@@ -61,7 +63,8 @@ bool _isDcmChar(int c) =>
     (c >= kSpace && c < kBackslash || c > kBackslash && c < kDelete);
 
 /// Returns [true] if [s] is a valid DICOM String.
-bool _isDcmString(String s, int min, int max) => _filteredTest(s, min, max, _isDcmChar);
+bool _isDcmString(String s, int min, int max) =>
+    _filteredTest(s, min, max, _isDcmChar);
 
 String _checkDcmString(String s, int min, int max) =>
     (_isDcmString(s, min, max)) ? s : null;
@@ -78,7 +81,8 @@ String _dcmStringError(String s, int min, int max) =>
 bool _isTextChar(int c) => !(c < kSpace || c == kDelete);
 
 /// Returns [true] if [s] is a valid DICOM String.
-bool _isDcmText(String s, int min, int max) => _filteredTest(s, min, max, _isTextChar);
+bool _isDcmText(String s, int min, int max) =>
+    _filteredTest(s, min, max, _isTextChar);
 
 /// Returns an error [String] if [s] is invalid; otherwise, "".
 String _dcmTextError(String s, int min, int max) =>
@@ -152,7 +156,8 @@ String _dcmDateTimeError(String s, int min, int max) {
   return 'Error in DcmDateTime String: $s';
 }
 
-DcmDateTime _parseDcmDateTime(String s, int min, int max) => DcmDateTime.dcmParse(s);
+DcmDateTime _parseDcmDateTime(String s, int min, int max) =>
+    DcmDateTime.dcmParse(s);
 
 // **** Time
 
@@ -179,7 +184,8 @@ bool _isUidChar(int c) => !(isHexChar(c) || c == kDot);
 
 //TODO: fix - this isn't good enough
 /// Returns [true] if [s] is a valid DICOM String.
-bool _isUid(String s, int min, int max) => _filteredTest(s, min, max, _isUidChar);
+bool _isUid(String s, int min, int max) =>
+    _filteredTest(s, min, max, _isUidChar);
 
 /// Returns an error [String] if [s] is invalid; otherwise, "".
 String _uidError(String s, int min, int max) =>
@@ -213,7 +219,8 @@ String _uriError(String s, int min, int max) {
 
 // *** DICOM Age Strings - AS
 
-bool _isAgeMarker(int c) => (c == kD || c == kW || c == kM || c == kY) ? true : false;
+bool _isAgeMarker(int c) =>
+    (c == kD || c == kW || c == kM || c == kY) ? true : false;
 
 /// Returns [true] if [s] is a valid DICOM String.
 bool _isDcmAge(String s, int min, int max) {
@@ -227,7 +234,8 @@ bool _isDcmAge(String s, int min, int max) {
 String _dcmAgeError(String s, int min, int max) {
   String error = _getLengthError(s.length, min, max);
   if (s != null) return error;
-  for (int i = 0; i < 3; i++) if (!isDigitChar(s.codeUnitAt(i))) _invalidChar(s, i);
+  for (int i = 0; i < 3; i++)
+    if (!isDigitChar(s.codeUnitAt(i))) _invalidChar(s, i);
   return (!_isAgeMarker(s.codeUnitAt(3))) ? _invalidChar(s, 3) : "";
 }
 

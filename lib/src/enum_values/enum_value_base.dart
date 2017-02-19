@@ -26,7 +26,6 @@ abstract class EnumValue<E> {
 }
 
 class YesNo extends EnumValue<String> {
-
   const YesNo(int index, String name, String value, Term term)
       : super(index, name, value, term);
 

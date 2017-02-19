@@ -19,7 +19,8 @@ class VRFloat extends VR<double> {
   final int _maxVF;
 
   /// Create a VR with a Short (16-bit) Value Field length.
-  const VRFloat._(int index, int code, String id, String desc, this._eSize, this._maxVF)
+  const VRFloat._(
+      int index, int code, String id, String desc, this._eSize, this._maxVF)
       : super._(index, code, id, desc);
 
   // Floats
@@ -28,8 +29,10 @@ class VRFloat extends VR<double> {
       const VRFloat._(11, 0x4644, "FD", "Float Double", 8, kMaxShortVF);
   static const VRFloat kFL =
       const VRFloat._(12, 0x464c, "FL", "Float Single", 4, kMaxShortVF);
-  static const VRFloat kOD = const VRFloat._(13, 0x4f44, "OD", "Other Double", 8, kMaxOD);
-  static const VRFloat kOF = const VRFloat._(14, 0x4f46, "OF", "Other Float", 4, kMaxOF);
+  static const VRFloat kOD =
+      const VRFloat._(13, 0x4f44, "OD", "Other Double", 8, kMaxOD);
+  static const VRFloat kOF =
+      const VRFloat._(14, 0x4f46, "OF", "Other Float", 4, kMaxOF);
 
   @override
   String toString() => 'VRFloat.k$id';

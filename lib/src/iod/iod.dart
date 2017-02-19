@@ -20,8 +20,17 @@ class IOD {
   final int aTypeIndex;
   final bool isRetired;
 
-  const IOD(this.tag, this.keywordIndex, this.nameIndex, this.vrIndex, this.vmIndex,
-      this._vmMin, this._vmMax, this._vmWidth, this.aTypeIndex, this.isRetired);
+  const IOD(
+      this.tag,
+      this.keywordIndex,
+      this.nameIndex,
+      this.vrIndex,
+      this.vmIndex,
+      this._vmMin,
+      this._vmMax,
+      this._vmWidth,
+      this.aTypeIndex,
+      this.isRetired);
 
   VR get vr => VR.vrs[vrIndex];
 

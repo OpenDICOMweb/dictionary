@@ -28,7 +28,8 @@ const String first = last;
 const String middle = last;
 const String prefix = r"[A-Za-Z][A-Za-Z-\.]";
 const String suffix = r"[A-Za-Z][A-Za-Z-\.]";
-const String personName = '^\^($last)\^($first)\^($middle)\^($prefix)\^($suffix)\^\$';
+const String personName =
+    '^\^($last)\^($first)\^($middle)\^($prefix)\^($suffix)\^\$';
 
 /// DICOM Default Character Repitoire (DCR)
 //const String dcrPunctuation = r" !\\"\#\$\%&\'";

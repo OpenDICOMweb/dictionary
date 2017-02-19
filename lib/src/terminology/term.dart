@@ -138,19 +138,23 @@ class Term {
 
   //TODO: finish
   // ignore: constant_identifier_names
-  static const Term kYBR_ICT = const Term("YBR_ICT", 'Irreversible Color Transformation:...');
+  static const Term kYBR_ICT =
+      const Term("YBR_ICT", 'Irreversible Color Transformation:...');
 
   //TODO: finish
   // ignore: constant_identifier_names
-  static const Term kYBR_RCT = const Term("YBR_RCT", 'Reversible Color Transformation:...');
+  static const Term kYBR_RCT =
+      const Term("YBR_RCT", 'Reversible Color Transformation:...');
 
-  static const Term kDNS =
-      const Term("DNS", 'An Internet dotted name. Either in ASCII or as integers');
-  static const Term kEUI64 = const Term("EUI64", 'An IEEE Extended Unique Identifier');
-  static const Term kISO =
-      const Term("ISO", 'An International Standards Organization Object Identifier');
+  static const Term kDNS = const Term(
+      "DNS", 'An Internet dotted name. Either in ASCII or as integers');
+  static const Term kEUI64 =
+      const Term("EUI64", 'An IEEE Extended Unique Identifier');
+  static const Term kISO = const Term(
+      "ISO", 'An International Standards Organization Object Identifier');
   static const Term kURI = const Term("URI", 'Uniform Resource Identifier');
-  static const Term kUUID = const Term("UUID", 'The DCE Universal Unique Identifier');
+  static const Term kUUID =
+      const Term("UUID", 'The DCE Universal Unique Identifier');
   static const Term kX400 = const Term("X400", 'An X.400 MHS identifier');
   static const Term kX500 = const Term("X500", 'An X.500 directory name');
 }

@@ -14,7 +14,8 @@ class PrivateCreatorTag extends Tag {
   final String token;
   final Map<int, PrivateDataTag> dataTagMap;
 
-  PrivateCreatorTag(int code, this.token, this.dataTagMap) : super(code, VR.kLO, VM.k1) {
+  PrivateCreatorTag(int code, this.token, this.dataTagMap)
+      : super(code, VR.kLO, VM.k1) {
     //TODO: this should be checked before the Tag is created.
     if (!Tag.isPrivateCreatorCode(code))
       throw new ArgumentError('Invalid Private Creator Tag Code(code)');
@@ -54,18 +55,20 @@ class PrivateCreatorTag extends Tag {
   }
 
   bool isValidDataCode(int code) =>
-      group == codeGroup(code) && (base <= codeElt(code) && codeElt(code) <= limit);
+      group == codeGroup(code) &&
+      (base <= codeElt(code) && codeElt(code) <= limit);
 
   static const PrivateCreatorTag kUnknown =
       const PrivateCreatorTag._(0, "UnknownName", const {});
 
-  static PrivateCreatorTag lookup(String token, int code, [VR vr = VR.kUnknown]) {
+  static PrivateCreatorTag lookup(String token, int code,
+      [VR vr = VR.kUnknown]) {
     PrivateCreatorTag tag = privateCreatorTagMap[token];
     return (tag != null) ? tag : new PrivateCreatorTag.unknown(token, code, vr);
   }
 
-  static const PrivateCreatorTag k0 =
-      const PrivateCreatorTag._(0, "1.2.840.113681", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k0 = const PrivateCreatorTag._(
+      0, "1.2.840.113681", const <int, PrivateDataTag>{
     0x00191000: PrivateDataTag.k1,
     0x00191100: PrivateDataTag.k2,
     0x00191200: PrivateDataTag.k3,
@@ -104,8 +107,8 @@ class PrivateCreatorTag extends Tag {
     0x00091400: PrivateDataTag.k28,
     0x00091500: PrivateDataTag.k29,
   });
-  static const PrivateCreatorTag k3 =
-      const PrivateCreatorTag._(3, "AEGIS_DICOM_2.00", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k3 = const PrivateCreatorTag._(
+      3, "AEGIS_DICOM_2.00", const <int, PrivateDataTag>{
     0x00030000: PrivateDataTag.k30,
     0x00050000: PrivateDataTag.k31,
     0x00090000: PrivateDataTag.k32,
@@ -156,8 +159,8 @@ class PrivateCreatorTag extends Tag {
     0x00298000: PrivateDataTag.k50,
     0x00299000: PrivateDataTag.k51,
   });
-  static const PrivateCreatorTag k7 =
-      const PrivateCreatorTag._(7, "CARDIO-D.R. 1.0", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k7 = const PrivateCreatorTag._(
+      7, "CARDIO-D.R. 1.0", const <int, PrivateDataTag>{
     0x00090000: PrivateDataTag.k52,
     0x00090100: PrivateDataTag.k53,
     0x00094000: PrivateDataTag.k54,
@@ -445,14 +448,14 @@ class PrivateCreatorTag extends Tag {
     0x0119f000: PrivateDataTag.k10973,
     0x0119ff00: PrivateDataTag.k10974,
   });
-  static const PrivateCreatorTag k9 =
-      const PrivateCreatorTag._(9, "CMR42 CIRCLECVI", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k9 = const PrivateCreatorTag._(
+      9, "CMR42 CIRCLECVI", const <int, PrivateDataTag>{
     0x25101000: PrivateDataTag.k69,
     0x25102000: PrivateDataTag.k70,
     0x25103000: PrivateDataTag.k71,
   });
-  static const PrivateCreatorTag k10 =
-      const PrivateCreatorTag._(10, "DCMTK_ANONYMIZER", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k10 = const PrivateCreatorTag._(
+      10, "DCMTK_ANONYMIZER", const <int, PrivateDataTag>{
     0x00090000: PrivateDataTag.k72,
     0x00091000: PrivateDataTag.k73,
     0x00092000: PrivateDataTag.k74,
@@ -460,8 +463,8 @@ class PrivateCreatorTag extends Tag {
     0x00094000: PrivateDataTag.k76,
     0x00095000: PrivateDataTag.k77,
   });
-  static const PrivateCreatorTag k11 =
-      const PrivateCreatorTag._(11, "DIDI TO PCR 1.1", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k11 = const PrivateCreatorTag._(
+      11, "DIDI TO PCR 1.1", const <int, PrivateDataTag>{
     0x00192200: PrivateDataTag.k78,
     0x00192300: PrivateDataTag.k79,
     0x00192400: PrivateDataTag.k80,
@@ -505,8 +508,8 @@ class PrivateCreatorTag extends Tag {
     0x00198e00: PrivateDataTag.k6565,
     0x00198f00: PrivateDataTag.k6567,
   });
-  static const PrivateCreatorTag k12 =
-      const PrivateCreatorTag._(12, "DIGISCAN IMAGE", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k12 = const PrivateCreatorTag._(
+      12, "DIGISCAN IMAGE", const <int, PrivateDataTag>{
     0x00293100: PrivateDataTag.k113,
     0x00293200: PrivateDataTag.k114,
     0x00293300: PrivateDataTag.k115,
@@ -1233,8 +1236,8 @@ class PrivateCreatorTag extends Tag {
     0x0019cb00: PrivateDataTag.k10488,
     0x0019dd00: PrivateDataTag.k10489,
   });
-  static const PrivateCreatorTag k22 =
-      const PrivateCreatorTag._(22, "GEMS_ACRQA_1.0 BLOCK1", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k22 = const PrivateCreatorTag._(
+      22, "GEMS_ACRQA_1.0 BLOCK1", const <int, PrivateDataTag>{
     0x00230000: PrivateDataTag.k437,
     0x00231000: PrivateDataTag.k438,
     0x00232000: PrivateDataTag.k439,
@@ -1246,8 +1249,8 @@ class PrivateCreatorTag extends Tag {
     0x00238000: PrivateDataTag.k445,
     0x00239000: PrivateDataTag.k446,
   });
-  static const PrivateCreatorTag k23 =
-      const PrivateCreatorTag._(23, "GEMS_ACRQA_1.0 BLOCK2", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k23 = const PrivateCreatorTag._(
+      23, "GEMS_ACRQA_1.0 BLOCK2", const <int, PrivateDataTag>{
     0x00230000: PrivateDataTag.k447,
     0x00231000: PrivateDataTag.k448,
     0x00232000: PrivateDataTag.k449,
@@ -1259,8 +1262,8 @@ class PrivateCreatorTag extends Tag {
     0x00238000: PrivateDataTag.k455,
     0x00239000: PrivateDataTag.k456,
   });
-  static const PrivateCreatorTag k24 =
-      const PrivateCreatorTag._(24, "GEMS_ACRQA_1.0 BLOCK3", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k24 = const PrivateCreatorTag._(
+      24, "GEMS_ACRQA_1.0 BLOCK3", const <int, PrivateDataTag>{
     0x00230000: PrivateDataTag.k457,
     0x00231000: PrivateDataTag.k458,
     0x00232000: PrivateDataTag.k459,
@@ -1272,8 +1275,8 @@ class PrivateCreatorTag extends Tag {
     0x00238000: PrivateDataTag.k465,
     0x00239000: PrivateDataTag.k466,
   });
-  static const PrivateCreatorTag k25 =
-      const PrivateCreatorTag._(25, "GEMS_ACRQA_2.0 BLOCK1", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k25 = const PrivateCreatorTag._(
+      25, "GEMS_ACRQA_2.0 BLOCK1", const <int, PrivateDataTag>{
     0x00230000: PrivateDataTag.k467,
     0x00231000: PrivateDataTag.k468,
     0x00232000: PrivateDataTag.k469,
@@ -1285,8 +1288,8 @@ class PrivateCreatorTag extends Tag {
     0x00238000: PrivateDataTag.k481,
     0x00239000: PrivateDataTag.k482,
   });
-  static const PrivateCreatorTag k26 =
-      const PrivateCreatorTag._(26, "GEMS_ACRQA_2.0 BLOCK2", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k26 = const PrivateCreatorTag._(
+      26, "GEMS_ACRQA_2.0 BLOCK2", const <int, PrivateDataTag>{
     0x00230000: PrivateDataTag.k483,
     0x00231000: PrivateDataTag.k484,
     0x00232000: PrivateDataTag.k485,
@@ -1298,8 +1301,8 @@ class PrivateCreatorTag extends Tag {
     0x00238000: PrivateDataTag.k491,
     0x00239000: PrivateDataTag.k492,
   });
-  static const PrivateCreatorTag k27 =
-      const PrivateCreatorTag._(27, "GEMS_ACRQA_2.0 BLOCK3", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k27 = const PrivateCreatorTag._(
+      27, "GEMS_ACRQA_2.0 BLOCK3", const <int, PrivateDataTag>{
     0x00230000: PrivateDataTag.k493,
     0x00231000: PrivateDataTag.k494,
     0x00232000: PrivateDataTag.k495,
@@ -1313,8 +1316,8 @@ class PrivateCreatorTag extends Tag {
     0x0023f000: PrivateDataTag.k503,
     0x0023ff00: PrivateDataTag.k504,
   });
-  static const PrivateCreatorTag k28 =
-      const PrivateCreatorTag._(28, "GEMS_ADWSoft_3D1", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k28 = const PrivateCreatorTag._(
+      28, "GEMS_ADWSoft_3D1", const <int, PrivateDataTag>{
     0x00470100: PrivateDataTag.k505,
     0x00475000: PrivateDataTag.k506,
     0x00475100: PrivateDataTag.k507,
@@ -1368,8 +1371,8 @@ class PrivateCreatorTag extends Tag {
     0x0047d400: PrivateDataTag.k3987,
     0x0047d500: PrivateDataTag.k3988,
   });
-  static const PrivateCreatorTag k29 =
-      const PrivateCreatorTag._(29, "GEMS_ADWSoft_DPO", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k29 = const PrivateCreatorTag._(
+      29, "GEMS_ADWSoft_DPO", const <int, PrivateDataTag>{
     0x00398000: PrivateDataTag.k557,
     0x00398500: PrivateDataTag.k558,
     0x00399000: PrivateDataTag.k559,
@@ -1802,8 +1805,8 @@ class PrivateCreatorTag extends Tag {
     0x00219000: PrivateDataTag.k10517,
     0x00219200: PrivateDataTag.k10518,
   });
-  static const PrivateCreatorTag k38 =
-      const PrivateCreatorTag._(38, "SIEMENS RA GEN", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k38 = const PrivateCreatorTag._(
+      38, "SIEMENS RA GEN", const <int, PrivateDataTag>{
     0x00195200: PrivateDataTag.k767,
     0x00112000: PrivateDataTag.k1762,
     0x00112500: PrivateDataTag.k1763,
@@ -1963,8 +1966,8 @@ class PrivateCreatorTag extends Tag {
     0x00330500: PrivateDataTag.k854,
     0x00330600: PrivateDataTag.k855,
   });
-  static const PrivateCreatorTag k41 =
-      const PrivateCreatorTag._(41, "GE_GENESIS_REV3.0", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k41 = const PrivateCreatorTag._(
+      41, "GE_GENESIS_REV3.0", const <int, PrivateDataTag>{
     0x00193900: PrivateDataTag.k856,
     0x00198f00: PrivateDataTag.k876,
     0x00199c00: PrivateDataTag.k877,
@@ -2206,8 +2209,8 @@ class PrivateCreatorTag extends Tag {
     0x0041b200: PrivateDataTag.k966,
     0x0041b300: PrivateDataTag.k967,
   });
-  static const PrivateCreatorTag k53 =
-      const PrivateCreatorTag._(53, "Philips Imaging DD 001", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k53 = const PrivateCreatorTag._(
+      53, "Philips Imaging DD 001", const <int, PrivateDataTag>{
     0x20011700: PrivateDataTag.k968,
     0x20011800: PrivateDataTag.k969,
     0x20013f00: PrivateDataTag.k970,
@@ -2330,8 +2333,8 @@ class PrivateCreatorTag extends Tag {
     0x2001f100: PrivateDataTag.k11050,
     0x2001f200: PrivateDataTag.k11051,
   });
-  static const PrivateCreatorTag k54 =
-      const PrivateCreatorTag._(54, "PHILIPS IMAGING DD 001", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k54 = const PrivateCreatorTag._(
+      54, "PHILIPS IMAGING DD 001", const <int, PrivateDataTag>{
     0x20010100: PrivateDataTag.k972,
     0x20010200: PrivateDataTag.k973,
     0x20010300: PrivateDataTag.k974,
@@ -2855,16 +2858,16 @@ class PrivateCreatorTag extends Tag {
     0x2005b200: PrivateDataTag.k7462,
     0x2005c000: PrivateDataTag.k7463,
   });
-  static const PrivateCreatorTag k58 =
-      const PrivateCreatorTag._(58, "PHILIPS MR R5.5/PART", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k58 = const PrivateCreatorTag._(
+      58, "PHILIPS MR R5.5/PART", const <int, PrivateDataTag>{
     0x19100000: PrivateDataTag.k1036,
   });
-  static const PrivateCreatorTag k59 =
-      const PrivateCreatorTag._(59, "PHILIPS MR R5.6/PART", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k59 = const PrivateCreatorTag._(
+      59, "PHILIPS MR R5.6/PART", const <int, PrivateDataTag>{
     0x19100000: PrivateDataTag.k1037,
   });
-  static const PrivateCreatorTag k60 =
-      const PrivateCreatorTag._(60, "PHILIPS MR SPECTRO;1", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k60 = const PrivateCreatorTag._(
+      60, "PHILIPS MR SPECTRO;1", const <int, PrivateDataTag>{
     0x00190100: PrivateDataTag.k1038,
     0x00190200: PrivateDataTag.k1039,
     0x00190300: PrivateDataTag.k1040,
@@ -2921,8 +2924,8 @@ class PrivateCreatorTag extends Tag {
     0x00091000: PrivateDataTag.k1088,
     0x00091200: PrivateDataTag.k1089,
   });
-  static const PrivateCreatorTag k62 =
-      const PrivateCreatorTag._(62, "PHILIPS MR/LAST", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k62 = const PrivateCreatorTag._(
+      62, "PHILIPS MR/LAST", const <int, PrivateDataTag>{
     0x00190900: PrivateDataTag.k1090,
     0x00190e00: PrivateDataTag.k1091,
     0x0019b100: PrivateDataTag.k1092,
@@ -2978,8 +2981,8 @@ class PrivateCreatorTag extends Tag {
     0x00410700: PrivateDataTag.k6719,
     0x00410900: PrivateDataTag.k6720,
   });
-  static const PrivateCreatorTag k63 =
-      const PrivateCreatorTag._(63, "PHILIPS MR/PART", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k63 = const PrivateCreatorTag._(
+      63, "PHILIPS MR/PART", const <int, PrivateDataTag>{
     0x19100000: PrivateDataTag.k1138,
     0x19100500: PrivateDataTag.k1139,
     0x19100600: PrivateDataTag.k1140,
@@ -3172,16 +3175,16 @@ class PrivateCreatorTag extends Tag {
     0x70011600: PrivateDataTag.k7891,
     0x70011700: PrivateDataTag.k7892,
   });
-  static const PrivateCreatorTag k66 =
-      const PrivateCreatorTag._(66, "SIEMENS CM VA0  ACQU", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k66 = const PrivateCreatorTag._(
+      66, "SIEMENS CM VA0  ACQU", const <int, PrivateDataTag>{
     0x00191000: PrivateDataTag.k1242,
     0x00191100: PrivateDataTag.k1243,
     0x00191200: PrivateDataTag.k1244,
     0x00191300: PrivateDataTag.k1245,
     0x00191400: PrivateDataTag.k1246,
   });
-  static const PrivateCreatorTag k67 =
-      const PrivateCreatorTag._(67, "SIEMENS CM VA0  CMS", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k67 = const PrivateCreatorTag._(
+      67, "SIEMENS CM VA0  CMS", const <int, PrivateDataTag>{
     0x00090000: PrivateDataTag.k1247,
     0x00091000: PrivateDataTag.k1248,
     0x00091200: PrivateDataTag.k1249,
@@ -3253,8 +3256,8 @@ class PrivateCreatorTag extends Tag {
     0x00197000: PrivateDataTag.k8147,
     0x00198000: PrivateDataTag.k8148,
   });
-  static const PrivateCreatorTag k68 =
-      const PrivateCreatorTag._(68, "SIEMENS CM VA0  LAB", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k68 = const PrivateCreatorTag._(
+      68, "SIEMENS CM VA0  LAB", const <int, PrivateDataTag>{
     0x00091000: PrivateDataTag.k1315,
     0x00091100: PrivateDataTag.k1316,
     0x00091200: PrivateDataTag.k1317,
@@ -3264,15 +3267,15 @@ class PrivateCreatorTag extends Tag {
     0x00091600: PrivateDataTag.k1322,
     0x00092000: PrivateDataTag.k1323,
   });
-  static const PrivateCreatorTag k69 =
-      const PrivateCreatorTag._(69, "SIEMENS CSA NON-IMAGE", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k69 = const PrivateCreatorTag._(
+      69, "SIEMENS CSA NON-IMAGE", const <int, PrivateDataTag>{
     0x00291000: PrivateDataTag.k1324,
     0x7fe11000: PrivateDataTag.k11163,
     0x00290800: PrivateDataTag.k1368,
     0x00290900: PrivateDataTag.k1369,
   });
-  static const PrivateCreatorTag k70 =
-      const PrivateCreatorTag._(70, "SIEMENS CT VA0  COAD", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k70 = const PrivateCreatorTag._(
+      70, "SIEMENS CT VA0  COAD", const <int, PrivateDataTag>{
     0x00191000: PrivateDataTag.k1326,
     0x00191100: PrivateDataTag.k1327,
     0x00192000: PrivateDataTag.k1328,
@@ -3323,8 +3326,8 @@ class PrivateCreatorTag extends Tag {
     0x0019c500: PrivateDataTag.k8171,
     0x00199000: PrivateDataTag.k10504,
   });
-  static const PrivateCreatorTag k71 =
-      const PrivateCreatorTag._(71, "SIEMENS CSA HEADER", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k71 = const PrivateCreatorTag._(
+      71, "SIEMENS CSA HEADER", const <int, PrivateDataTag>{
     0x00290800: PrivateDataTag.k1362,
     0x00290900: PrivateDataTag.k1363,
     0x00291000: PrivateDataTag.k1364,
@@ -3332,8 +3335,8 @@ class PrivateCreatorTag extends Tag {
     0x00291900: PrivateDataTag.k1366,
     0x00292000: PrivateDataTag.k1367,
   });
-  static const PrivateCreatorTag k72 =
-      const PrivateCreatorTag._(72, "SIEMENS CT VA0  GEN", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k72 = const PrivateCreatorTag._(
+      72, "SIEMENS CT VA0  GEN", const <int, PrivateDataTag>{
     0x00191000: PrivateDataTag.k1378,
     0x00191100: PrivateDataTag.k1379,
     0x00192000: PrivateDataTag.k1380,
@@ -3384,8 +3387,8 @@ class PrivateCreatorTag extends Tag {
     0x0021a200: PrivateDataTag.k1425,
     0x0021a700: PrivateDataTag.k1426,
   });
-  static const PrivateCreatorTag k73 =
-      const PrivateCreatorTag._(73, "SIEMENS CT VA0  IDE", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k73 = const PrivateCreatorTag._(
+      73, "SIEMENS CT VA0  IDE", const <int, PrivateDataTag>{
     0x00091000: PrivateDataTag.k1427,
     0x00093000: PrivateDataTag.k1428,
     0x00093100: PrivateDataTag.k1429,
@@ -3396,18 +3399,18 @@ class PrivateCreatorTag extends Tag {
     0x00095000: PrivateDataTag.k1434,
     0x00095100: PrivateDataTag.k1435,
   });
-  static const PrivateCreatorTag k74 =
-      const PrivateCreatorTag._(74, "SIEMENS CT VA0  ORI", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k74 = const PrivateCreatorTag._(
+      74, "SIEMENS CT VA0  ORI", const <int, PrivateDataTag>{
     0x00092000: PrivateDataTag.k1436,
     0x00093000: PrivateDataTag.k1437,
   });
-  static const PrivateCreatorTag k75 =
-      const PrivateCreatorTag._(75, "SIEMENS CT VA0  OST", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k75 = const PrivateCreatorTag._(
+      75, "SIEMENS CT VA0  OST", const <int, PrivateDataTag>{
     0x60210000: PrivateDataTag.k1438,
     0x60211000: PrivateDataTag.k1439,
   });
-  static const PrivateCreatorTag k76 =
-      const PrivateCreatorTag._(76, "SIEMENS CT VA0  RAW", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k76 = const PrivateCreatorTag._(
+      76, "SIEMENS CT VA0  RAW", const <int, PrivateDataTag>{
     0x00211000: PrivateDataTag.k1440,
     0x00212000: PrivateDataTag.k1441,
     0x00213000: PrivateDataTag.k1442,
@@ -3418,13 +3421,13 @@ class PrivateCreatorTag extends Tag {
     0x00214400: PrivateDataTag.k1447,
     0x00215000: PrivateDataTag.k1448,
   });
-  static const PrivateCreatorTag k77 =
-      const PrivateCreatorTag._(77, "SIEMENS DICOM", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k77 = const PrivateCreatorTag._(
+      77, "SIEMENS DICOM", const <int, PrivateDataTag>{
     0x00091000: PrivateDataTag.k1449,
     0x00091200: PrivateDataTag.k1450,
   });
-  static const PrivateCreatorTag k78 =
-      const PrivateCreatorTag._(78, "SIEMENS DLR.01", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k78 = const PrivateCreatorTag._(
+      78, "SIEMENS DLR.01", const <int, PrivateDataTag>{
     0x00191000: PrivateDataTag.k1451,
     0x00191100: PrivateDataTag.k1452,
     0x00191500: PrivateDataTag.k1453,
@@ -3513,8 +3516,8 @@ class PrivateCreatorTag extends Tag {
     0x4009e100: PrivateDataTag.k1533,
     0x4009e300: PrivateDataTag.k1534,
   });
-  static const PrivateCreatorTag k80 =
-      const PrivateCreatorTag._(80, "SIEMENS MED DISPLAY", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k80 = const PrivateCreatorTag._(
+      80, "SIEMENS MED DISPLAY", const <int, PrivateDataTag>{
     0x00290400: PrivateDataTag.k1535,
     0x00291000: PrivateDataTag.k1536,
     0x00291100: PrivateDataTag.k1537,
@@ -3530,8 +3533,8 @@ class PrivateCreatorTag extends Tag {
     0x0029c100: PrivateDataTag.k1547,
     0x00298000: PrivateDataTag.k8497,
   });
-  static const PrivateCreatorTag k81 =
-      const PrivateCreatorTag._(81, "SIEMENS MED HG", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k81 = const PrivateCreatorTag._(
+      81, "SIEMENS MED HG", const <int, PrivateDataTag>{
     0x00291000: PrivateDataTag.k1548,
     0x00291500: PrivateDataTag.k1549,
     0x00292000: PrivateDataTag.k1550,
@@ -3541,8 +3544,8 @@ class PrivateCreatorTag extends Tag {
     0x00296000: PrivateDataTag.k1554,
     0x00297000: PrivateDataTag.k1555,
   });
-  static const PrivateCreatorTag k82 =
-      const PrivateCreatorTag._(82, "SIEMENS MED MG", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k82 = const PrivateCreatorTag._(
+      82, "SIEMENS MED MG", const <int, PrivateDataTag>{
     0x00291000: PrivateDataTag.k1556,
     0x00291500: PrivateDataTag.k1557,
     0x00292000: PrivateDataTag.k1558,
@@ -3571,8 +3574,8 @@ class PrivateCreatorTag extends Tag {
     0x70051000: PrivateDataTag.k1578,
     0x00211100: PrivateDataTag.k10519,
   });
-  static const PrivateCreatorTag k84 =
-      const PrivateCreatorTag._(84, "SIEMENS MEDCOM HEADER", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k84 = const PrivateCreatorTag._(
+      84, "SIEMENS MEDCOM HEADER", const <int, PrivateDataTag>{
     0x00290900: PrivateDataTag.k1580,
     0x00291000: PrivateDataTag.k1581,
     0x00292000: PrivateDataTag.k1582,
@@ -3602,8 +3605,8 @@ class PrivateCreatorTag extends Tag {
     0x00297000: PrivateDataTag.k10567,
     0x00297500: PrivateDataTag.k10568,
   });
-  static const PrivateCreatorTag k85 =
-      const PrivateCreatorTag._(85, "SIEMENS MR VA0  COAD", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k85 = const PrivateCreatorTag._(
+      85, "SIEMENS MR VA0  COAD", const <int, PrivateDataTag>{
     0x00191200: PrivateDataTag.k1591,
     0x00191400: PrivateDataTag.k1592,
     0x00191600: PrivateDataTag.k1593,
@@ -3650,18 +3653,18 @@ class PrivateCreatorTag extends Tag {
     0x0019d900: PrivateDataTag.k1645,
     0x0019da00: PrivateDataTag.k1646,
   });
-  static const PrivateCreatorTag k86 =
-      const PrivateCreatorTag._(86, "SIEMENS MEDCOM HEADER2", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k86 = const PrivateCreatorTag._(
+      86, "SIEMENS MEDCOM HEADER2", const <int, PrivateDataTag>{
     0x00296000: PrivateDataTag.k1635,
   });
-  static const PrivateCreatorTag k87 =
-      const PrivateCreatorTag._(87, "SIEMENS MEDCOM OOG", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k87 = const PrivateCreatorTag._(
+      87, "SIEMENS MEDCOM OOG", const <int, PrivateDataTag>{
     0x00290800: PrivateDataTag.k1636,
     0x00290900: PrivateDataTag.k1637,
     0x00291000: PrivateDataTag.k1638,
   });
-  static const PrivateCreatorTag k88 =
-      const PrivateCreatorTag._(88, "SIEMENS MR VA0  GEN", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k88 = const PrivateCreatorTag._(
+      88, "SIEMENS MR VA0  GEN", const <int, PrivateDataTag>{
     0x00191000: PrivateDataTag.k1647,
     0x00191100: PrivateDataTag.k1648,
     0x00191200: PrivateDataTag.k1649,
@@ -3744,8 +3747,8 @@ class PrivateCreatorTag extends Tag {
     0x00219500: PrivateDataTag.k1726,
     0x00219600: PrivateDataTag.k1727,
   });
-  static const PrivateCreatorTag k89 =
-      const PrivateCreatorTag._(89, "SIEMENS MR VA0  RAW", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k89 = const PrivateCreatorTag._(
+      89, "SIEMENS MR VA0  RAW", const <int, PrivateDataTag>{
     0x00210000: PrivateDataTag.k1728,
     0x00210100: PrivateDataTag.k1729,
     0x00210200: PrivateDataTag.k1730,
@@ -3777,14 +3780,14 @@ class PrivateCreatorTag extends Tag {
     0x00215400: PrivateDataTag.k1757,
     0x00215500: PrivateDataTag.k1758,
   });
-  static const PrivateCreatorTag k90 =
-      const PrivateCreatorTag._(90, "SIEMENS NUMARIS II", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k90 = const PrivateCreatorTag._(
+      90, "SIEMENS NUMARIS II", const <int, PrivateDataTag>{
     0x7fe30000: PrivateDataTag.k1759,
     0x7fe31000: PrivateDataTag.k1760,
     0x7fe32000: PrivateDataTag.k1761,
   });
-  static const PrivateCreatorTag k91 =
-      const PrivateCreatorTag._(91, "SIEMENS RA PLANE A", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k91 = const PrivateCreatorTag._(
+      91, "SIEMENS RA PLANE A", const <int, PrivateDataTag>{
     0x00112800: PrivateDataTag.k1848,
     0x00112900: PrivateDataTag.k1849,
     0x00112a00: PrivateDataTag.k1850,
@@ -3919,8 +3922,8 @@ class PrivateCreatorTag extends Tag {
     0x0019df00: PrivateDataTag.k1980,
     0x0019e000: PrivateDataTag.k1981,
   });
-  static const PrivateCreatorTag k92 =
-      const PrivateCreatorTag._(92, "SIEMENS RA PLANE B", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k92 = const PrivateCreatorTag._(
+      92, "SIEMENS RA PLANE B", const <int, PrivateDataTag>{
     0x00112800: PrivateDataTag.k1982,
     0x00112900: PrivateDataTag.k1983,
     0x00112a00: PrivateDataTag.k1984,
@@ -4166,8 +4169,8 @@ class PrivateCreatorTag extends Tag {
     0x0021a500: PrivateDataTag.k8388,
     0x0021a600: PrivateDataTag.k8389,
   });
-  static const PrivateCreatorTag k95 = const PrivateCreatorTag._(
-      95, "SIEMENS SMS-AX  ORIGINAL IMAGE INFO 1.0", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k95 = const PrivateCreatorTag._(95,
+      "SIEMENS SMS-AX  ORIGINAL IMAGE INFO 1.0", const <int, PrivateDataTag>{
     0x00250000: PrivateDataTag.k2117,
     0x00250100: PrivateDataTag.k2118,
     0x00250200: PrivateDataTag.k2119,
@@ -4265,8 +4268,8 @@ class PrivateCreatorTag extends Tag {
     0x00990500: PrivateDataTag.k9193,
     0x00a50500: PrivateDataTag.k9194,
   });
-  static const PrivateCreatorTag k99 =
-      const PrivateCreatorTag._(99, "SPI RELEASE 1", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k99 = const PrivateCreatorTag._(
+      99, "SPI RELEASE 1", const <int, PrivateDataTag>{
     0x00091000: PrivateDataTag.k2184,
     0x00091500: PrivateDataTag.k2185,
     0x00094000: PrivateDataTag.k2186,
@@ -4276,8 +4279,8 @@ class PrivateCreatorTag extends Tag {
     0x00112000: PrivateDataTag.k2190,
     0x00296000: PrivateDataTag.k2191,
   });
-  static const PrivateCreatorTag k100 =
-      const PrivateCreatorTag._(100, "SPI Release 1", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k100 = const PrivateCreatorTag._(
+      100, "SPI Release 1", const <int, PrivateDataTag>{
     0x00091000: PrivateDataTag.k2192,
     0x00091500: PrivateDataTag.k2193,
     0x00094000: PrivateDataTag.k2194,
@@ -4299,8 +4302,8 @@ class PrivateCreatorTag extends Tag {
     0x00112000: PrivateDataTag.k2206,
     0x00296000: PrivateDataTag.k2207,
   });
-  static const PrivateCreatorTag k102 =
-      const PrivateCreatorTag._(102, "SPI-P Release 1", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k102 = const PrivateCreatorTag._(
+      102, "SPI-P Release 1", const <int, PrivateDataTag>{
     0x00090000: PrivateDataTag.k2208,
     0x00090400: PrivateDataTag.k2209,
     0x00090800: PrivateDataTag.k2210,
@@ -4393,8 +4396,8 @@ class PrivateCreatorTag extends Tag {
     0x0029b100: PrivateDataTag.k6696,
     0x0029bf00: PrivateDataTag.k6697,
   });
-  static const PrivateCreatorTag k103 =
-      const PrivateCreatorTag._(103, "SPI-P Release 1;1", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k103 = const PrivateCreatorTag._(
+      103, "SPI-P Release 1;1", const <int, PrivateDataTag>{
     0x0009c000: PrivateDataTag.k2286,
     0x0009c100: PrivateDataTag.k2287,
     0x00190000: PrivateDataTag.k2288,
@@ -4432,16 +4435,16 @@ class PrivateCreatorTag extends Tag {
     0x00294e00: PrivateDataTag.k2320,
     0x00294f00: PrivateDataTag.k2321,
   });
-  static const PrivateCreatorTag k104 =
-      const PrivateCreatorTag._(104, "SPI-P Release 1;2", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k104 = const PrivateCreatorTag._(
+      104, "SPI-P Release 1;2", const <int, PrivateDataTag>{
     0x00290000: PrivateDataTag.k2322,
     0x00290400: PrivateDataTag.k2323,
     0x00290c00: PrivateDataTag.k2324,
     0x00291e00: PrivateDataTag.k2325,
     0x00291f00: PrivateDataTag.k2326,
   });
-  static const PrivateCreatorTag k105 =
-      const PrivateCreatorTag._(105, "SPI-P Release 1;3", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k105 = const PrivateCreatorTag._(
+      105, "SPI-P Release 1;3", const <int, PrivateDataTag>{
     0x00290000: PrivateDataTag.k2327,
     0x00290100: PrivateDataTag.k2328,
     0x00290200: PrivateDataTag.k2329,
@@ -4453,14 +4456,14 @@ class PrivateCreatorTag extends Tag {
     0x00291e00: PrivateDataTag.k2335,
     0x00291f00: PrivateDataTag.k2336,
   });
-  static const PrivateCreatorTag k106 =
-      const PrivateCreatorTag._(106, "SPI-P Release 2;1", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k106 = const PrivateCreatorTag._(
+      106, "SPI-P Release 2;1", const <int, PrivateDataTag>{
     0x00111800: PrivateDataTag.k2337,
     0x00230d00: PrivateDataTag.k2338,
     0x00230e00: PrivateDataTag.k2339,
   });
-  static const PrivateCreatorTag k107 =
-      const PrivateCreatorTag._(107, "SPI-P-GV-CT Release 1", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k107 = const PrivateCreatorTag._(
+      107, "SPI-P-GV-CT Release 1", const <int, PrivateDataTag>{
     0x00090000: PrivateDataTag.k2340,
     0x00091000: PrivateDataTag.k2341,
     0x00092000: PrivateDataTag.k2342,
@@ -4518,8 +4521,8 @@ class PrivateCreatorTag extends Tag {
     0x0029d000: PrivateDataTag.k2395,
     0x0029d100: PrivateDataTag.k2396,
   });
-  static const PrivateCreatorTag k108 =
-      const PrivateCreatorTag._(108, "SPI-P-PCR Release 2", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k108 = const PrivateCreatorTag._(
+      108, "SPI-P-PCR Release 2", const <int, PrivateDataTag>{
     0x00193000: PrivateDataTag.k2397,
     0x00191000: PrivateDataTag.k6502,
     0x00192000: PrivateDataTag.k6518,
@@ -4682,8 +4685,8 @@ class PrivateCreatorTag extends Tag {
     0x00191300: PrivateDataTag.k2452,
     0x00192000: PrivateDataTag.k2453,
   });
-  static const PrivateCreatorTag k119 =
-      const PrivateCreatorTag._(119, "Silhouette Annot V1.0", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k119 = const PrivateCreatorTag._(
+      119, "Silhouette Annot V1.0", const <int, PrivateDataTag>{
     0x00291100: PrivateDataTag.k2454,
     0x00291200: PrivateDataTag.k2455,
     0x00291300: PrivateDataTag.k2456,
@@ -4724,8 +4727,8 @@ class PrivateCreatorTag extends Tag {
       120, "Silhouette Graphics Export V1.0", const <int, PrivateDataTag>{
     0x00290000: PrivateDataTag.k2490,
   });
-  static const PrivateCreatorTag k121 =
-      const PrivateCreatorTag._(121, "Silhouette Line V1.0", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k121 = const PrivateCreatorTag._(
+      121, "Silhouette Line V1.0", const <int, PrivateDataTag>{
     0x00291100: PrivateDataTag.k2491,
     0x00291200: PrivateDataTag.k2492,
     0x00291300: PrivateDataTag.k2493,
@@ -4746,8 +4749,8 @@ class PrivateCreatorTag extends Tag {
     0x00292800: PrivateDataTag.k2508,
     0x00292900: PrivateDataTag.k2509,
   });
-  static const PrivateCreatorTag k122 =
-      const PrivateCreatorTag._(122, "Silhouette ROI V1.0", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k122 = const PrivateCreatorTag._(
+      122, "Silhouette ROI V1.0", const <int, PrivateDataTag>{
     0x00291100: PrivateDataTag.k2510,
     0x00291200: PrivateDataTag.k2511,
     0x00291300: PrivateDataTag.k2512,
@@ -4779,8 +4782,8 @@ class PrivateCreatorTag extends Tag {
     0x00294200: PrivateDataTag.k2535,
     0x00294300: PrivateDataTag.k2536,
   });
-  static const PrivateCreatorTag k124 =
-      const PrivateCreatorTag._(124, "Silhouette V1.0", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k124 = const PrivateCreatorTag._(
+      124, "Silhouette V1.0", const <int, PrivateDataTag>{
     0x00291300: PrivateDataTag.k2537,
     0x00291400: PrivateDataTag.k2538,
     0x00291700: PrivateDataTag.k2539,
@@ -4824,8 +4827,8 @@ class PrivateCreatorTag extends Tag {
     0x01351100: PrivateDataTag.k2563,
     0x01351200: PrivateDataTag.k2564,
   });
-  static const PrivateCreatorTag k126 =
-      const PrivateCreatorTag._(126, "TOSHIBA_MEC_1.0", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k126 = const PrivateCreatorTag._(
+      126, "TOSHIBA_MEC_1.0", const <int, PrivateDataTag>{
     0x00090100: PrivateDataTag.k2624,
     0x00090200: PrivateDataTag.k2625,
     0x00090300: PrivateDataTag.k2626,
@@ -4842,8 +4845,8 @@ class PrivateCreatorTag extends Tag {
     0x7ff10300: PrivateDataTag.k2637,
     0x7ff11000: PrivateDataTag.k2638,
   });
-  static const PrivateCreatorTag k127 =
-      const PrivateCreatorTag._(127, "TOSHIBA_MEC_CT_1.0", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k127 = const PrivateCreatorTag._(
+      127, "TOSHIBA_MEC_CT_1.0", const <int, PrivateDataTag>{
     0x00190100: PrivateDataTag.k2639,
     0x00190200: PrivateDataTag.k2640,
     0x00190300: PrivateDataTag.k2641,
@@ -4954,8 +4957,8 @@ class PrivateCreatorTag extends Tag {
     0x7fdff100: PrivateDataTag.k2742,
     0x7fdff500: PrivateDataTag.k2743,
   });
-  static const PrivateCreatorTag k130 =
-      const PrivateCreatorTag._(130, "AGFA-AG_HPState", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k130 = const PrivateCreatorTag._(
+      130, "AGFA-AG_HPState", const <int, PrivateDataTag>{
     0x00870200: PrivateDataTag.k2697,
     0x00870300: PrivateDataTag.k2741,
     0x00111100: PrivateDataTag.k2748,
@@ -4993,8 +4996,8 @@ class PrivateCreatorTag extends Tag {
       131, "ACUSON:1.2.840.113680.1.0:7ffe", const <int, PrivateDataTag>{
     0x7fdf0000: PrivateDataTag.k2744,
   });
-  static const PrivateCreatorTag k132 =
-      const PrivateCreatorTag._(132, "AgilityRuntime", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k132 = const PrivateCreatorTag._(
+      132, "AgilityRuntime", const <int, PrivateDataTag>{
     0x00112000: PrivateDataTag.k2745,
     0x00112100: PrivateDataTag.k2746,
     0x00112200: PrivateDataTag.k2747,
@@ -5004,8 +5007,8 @@ class PrivateCreatorTag extends Tag {
     0x00291400: PrivateDataTag.k2833,
     0x00291f00: PrivateDataTag.k2834,
   });
-  static const PrivateCreatorTag k133 =
-      const PrivateCreatorTag._(133, "AGFA_ADC_Compact", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k133 = const PrivateCreatorTag._(
+      133, "AGFA_ADC_Compact", const <int, PrivateDataTag>{
     0x00193000: PrivateDataTag.k2772,
     0x00194000: PrivateDataTag.k2773,
     0x00195000: PrivateDataTag.k2774,
@@ -5062,8 +5065,8 @@ class PrivateCreatorTag extends Tag {
     0x00290000: PrivateDataTag.k2813,
     0x00290100: PrivateDataTag.k2814,
   });
-  static const PrivateCreatorTag k138 =
-      const PrivateCreatorTag._(138, "MITRA MARKUP 1.0", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k138 = const PrivateCreatorTag._(
+      138, "MITRA MARKUP 1.0", const <int, PrivateDataTag>{
     0x00290000: PrivateDataTag.k2815,
     0x00290100: PrivateDataTag.k2816,
     0x00290200: PrivateDataTag.k2817,
@@ -5107,8 +5110,8 @@ class PrivateCreatorTag extends Tag {
     0x00330800: PrivateDataTag.k2851,
     0x00330a00: PrivateDataTag.k2853,
   });
-  static const PrivateCreatorTag k142 =
-      const PrivateCreatorTag._(142, "AgilityOverlay", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k142 = const PrivateCreatorTag._(
+      142, "AgilityOverlay", const <int, PrivateDataTag>{
     0x00710100: PrivateDataTag.k2867,
     0x00710200: PrivateDataTag.k2868,
     0x00710300: PrivateDataTag.k2869,
@@ -5150,8 +5153,8 @@ class PrivateCreatorTag extends Tag {
     0x00715d00: PrivateDataTag.k2905,
     0x00716000: PrivateDataTag.k2906,
   });
-  static const PrivateCreatorTag k143 =
-      const PrivateCreatorTag._(143, "AGFA KOSD 1.0", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k143 = const PrivateCreatorTag._(
+      143, "AGFA KOSD 1.0", const <int, PrivateDataTag>{
     0x00350000: PrivateDataTag.k2917,
     0x00350300: PrivateDataTag.k2918,
   });
@@ -5160,8 +5163,8 @@ class PrivateCreatorTag extends Tag {
     0x2e131000: PrivateDataTag.k2919,
     0x2e131100: PrivateDataTag.k2920,
   });
-  static const PrivateCreatorTag k145 =
-      const PrivateCreatorTag._(145, "agfa/xeroverse", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k145 = const PrivateCreatorTag._(
+      145, "agfa/xeroverse", const <int, PrivateDataTag>{
     0x7fdb9900: PrivateDataTag.k2921,
   });
   static const PrivateCreatorTag k146 = const PrivateCreatorTag._(
@@ -5192,8 +5195,8 @@ class PrivateCreatorTag extends Tag {
     0x00092700: PrivateDataTag.k2942,
     0x00092800: PrivateDataTag.k2943,
   });
-  static const PrivateCreatorTag k148 =
-      const PrivateCreatorTag._(148, "GEMS_PETD_01", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k148 = const PrivateCreatorTag._(
+      148, "GEMS_PETD_01", const <int, PrivateDataTag>{
     0x00090200: PrivateDataTag.k3144,
     0x00090300: PrivateDataTag.k3145,
     0x00090400: PrivateDataTag.k3146,
@@ -5605,15 +5608,15 @@ class PrivateCreatorTag extends Tag {
     0x00191800: PrivateDataTag.k10491,
     0x00230200: PrivateDataTag.k10522,
   });
-  static const PrivateCreatorTag k149 =
-      const PrivateCreatorTag._(149, "GEMS_DL_PATNT_01", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k149 = const PrivateCreatorTag._(
+      149, "GEMS_DL_PATNT_01", const <int, PrivateDataTag>{
     0x00118000: PrivateDataTag.k3537,
     0x00118100: PrivateDataTag.k3538,
     0x00118200: PrivateDataTag.k3539,
     0x00118300: PrivateDataTag.k3540,
   });
-  static const PrivateCreatorTag k150 =
-      const PrivateCreatorTag._(150, "GEMS_DL_STUDY_01", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k150 = const PrivateCreatorTag._(
+      150, "GEMS_DL_STUDY_01", const <int, PrivateDataTag>{
     0x00158000: PrivateDataTag.k3559,
     0x00158100: PrivateDataTag.k3560,
     0x00158200: PrivateDataTag.k3561,
@@ -5640,8 +5643,8 @@ class PrivateCreatorTag extends Tag {
     0x00159c00: PrivateDataTag.k3582,
     0x00159d00: PrivateDataTag.k3583,
   });
-  static const PrivateCreatorTag k151 =
-      const PrivateCreatorTag._(151, "GEMS_DL_SERIES_01", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k151 = const PrivateCreatorTag._(
+      151, "GEMS_DL_SERIES_01", const <int, PrivateDataTag>{
     0x00158500: PrivateDataTag.k3584,
     0x00158700: PrivateDataTag.k3585,
     0x00158c00: PrivateDataTag.k3586,
@@ -5649,8 +5652,8 @@ class PrivateCreatorTag extends Tag {
     0x00194c00: PrivateDataTag.k3725,
     0x00194d00: PrivateDataTag.k3726,
   });
-  static const PrivateCreatorTag k152 =
-      const PrivateCreatorTag._(152, "GEMS_DL_IMG_01", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k152 = const PrivateCreatorTag._(
+      152, "GEMS_DL_IMG_01", const <int, PrivateDataTag>{
     0x00190b00: PrivateDataTag.k3589,
     0x00192b00: PrivateDataTag.k3590,
     0x00193000: PrivateDataTag.k3591,
@@ -5779,8 +5782,8 @@ class PrivateCreatorTag extends Tag {
     0x0019ee00: PrivateDataTag.k3714,
     0x0019ef00: PrivateDataTag.k3715,
   });
-  static const PrivateCreatorTag k153 =
-      const PrivateCreatorTag._(153, "GEMS_XR3DCAL_01", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k153 = const PrivateCreatorTag._(
+      153, "GEMS_XR3DCAL_01", const <int, PrivateDataTag>{
     0x00212000: PrivateDataTag.k3727,
   });
   static const PrivateCreatorTag k154 = const PrivateCreatorTag._(
@@ -5809,8 +5812,8 @@ class PrivateCreatorTag extends Tag {
     0x00216000: PrivateDataTag.k3749,
     0x00216500: PrivateDataTag.k3750,
   });
-  static const PrivateCreatorTag k155 =
-      const PrivateCreatorTag._(155, "GEMS_3D_INTVL_01", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k155 = const PrivateCreatorTag._(
+      155, "GEMS_3D_INTVL_01", const <int, PrivateDataTag>{
     0x00230100: PrivateDataTag.k3751,
     0x00230200: PrivateDataTag.k3752,
     0x00230300: PrivateDataTag.k3753,
@@ -5849,8 +5852,8 @@ class PrivateCreatorTag extends Tag {
     0x00234300: PrivateDataTag.k3786,
     0x00234400: PrivateDataTag.k3787,
   });
-  static const PrivateCreatorTag k156 =
-      const PrivateCreatorTag._(156, "GEMS_DL_FRAME_01", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k156 = const PrivateCreatorTag._(
+      156, "GEMS_DL_FRAME_01", const <int, PrivateDataTag>{
     0x00250200: PrivateDataTag.k3788,
     0x00250300: PrivateDataTag.k3789,
     0x00250400: PrivateDataTag.k3790,
@@ -5895,19 +5898,19 @@ class PrivateCreatorTag extends Tag {
     0x00253b00: PrivateDataTag.k3830,
     0x00253c00: PrivateDataTag.k3831,
   });
-  static const PrivateCreatorTag k157 =
-      const PrivateCreatorTag._(157, "GEMS_ADWSoft_DPO1", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k157 = const PrivateCreatorTag._(
+      157, "GEMS_ADWSoft_DPO1", const <int, PrivateDataTag>{
     0x00399500: PrivateDataTag.k3858,
   });
-  static const PrivateCreatorTag k158 =
-      const PrivateCreatorTag._(158, "GEMS_AWSoft_SB1", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k158 = const PrivateCreatorTag._(
+      158, "GEMS_AWSoft_SB1", const <int, PrivateDataTag>{
     0x00395000: PrivateDataTag.k3859,
     0x00395100: PrivateDataTag.k3860,
     0x00395200: PrivateDataTag.k3861,
     0x00399500: PrivateDataTag.k3862,
   });
-  static const PrivateCreatorTag k159 =
-      const PrivateCreatorTag._(159, "GEMS_AWSOFT_CD1", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k159 = const PrivateCreatorTag._(
+      159, "GEMS_AWSOFT_CD1", const <int, PrivateDataTag>{
     0x00396500: PrivateDataTag.k3863,
     0x00397000: PrivateDataTag.k3864,
     0x00397500: PrivateDataTag.k3865,
@@ -5918,8 +5921,8 @@ class PrivateCreatorTag extends Tag {
     0x0039aa00: PrivateDataTag.k3870,
     0x0039ff00: PrivateDataTag.k3871,
   });
-  static const PrivateCreatorTag k160 =
-      const PrivateCreatorTag._(160, "GEMS_HELIOS_01", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k160 = const PrivateCreatorTag._(
+      160, "GEMS_HELIOS_01", const <int, PrivateDataTag>{
     0x00450100: PrivateDataTag.k3956,
     0x00450200: PrivateDataTag.k3957,
     0x00450300: PrivateDataTag.k3958,
@@ -5968,20 +5971,20 @@ class PrivateCreatorTag extends Tag {
     0x00454400: PrivateDataTag.k10660,
     0x00454500: PrivateDataTag.k10661,
   });
-  static const PrivateCreatorTag k161 =
-      const PrivateCreatorTag._(161, "GEMS_3DSTATE_001", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k161 = const PrivateCreatorTag._(
+      161, "GEMS_3DSTATE_001", const <int, PrivateDataTag>{
     0x0047e900: PrivateDataTag.k3989,
     0x0047ea00: PrivateDataTag.k3990,
     0x0047eb00: PrivateDataTag.k3991,
     0x0047ec00: PrivateDataTag.k3992,
     0x0047ed00: PrivateDataTag.k3993,
   });
-  static const PrivateCreatorTag k162 =
-      const PrivateCreatorTag._(162, "GEMS_IQTB_IDEN_47", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k162 = const PrivateCreatorTag._(
+      162, "GEMS_IQTB_IDEN_47", const <int, PrivateDataTag>{
     0x00470200: PrivateDataTag.k4018,
   });
-  static const PrivateCreatorTag k163 =
-      const PrivateCreatorTag._(163, "GEMS_CT_HINO_01", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k163 = const PrivateCreatorTag._(
+      163, "GEMS_CT_HINO_01", const <int, PrivateDataTag>{
     0x004b0100: PrivateDataTag.k4020,
     0x004b0200: PrivateDataTag.k4021,
     0x004b0300: PrivateDataTag.k4022,
@@ -6006,16 +6009,16 @@ class PrivateCreatorTag extends Tag {
     0x7fd15000: PrivateDataTag.k4267,
     0x7fd16000: PrivateDataTag.k4268,
   });
-  static const PrivateCreatorTag k165 =
-      const PrivateCreatorTag._(165, "GEMS_CT_VES_01", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k165 = const PrivateCreatorTag._(
+      165, "GEMS_CT_VES_01", const <int, PrivateDataTag>{
     0x00510100: PrivateDataTag.k4025,
   });
-  static const PrivateCreatorTag k166 =
-      const PrivateCreatorTag._(166, "AMI Annotations_01", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k166 = const PrivateCreatorTag._(
+      166, "AMI Annotations_01", const <int, PrivateDataTag>{
     0x31011000: PrivateDataTag.k4034,
   });
-  static const PrivateCreatorTag k167 =
-      const PrivateCreatorTag._(167, "AMI Annotations_02", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k167 = const PrivateCreatorTag._(
+      167, "AMI Annotations_02", const <int, PrivateDataTag>{
     0x31012000: PrivateDataTag.k4035,
   });
   static const PrivateCreatorTag k168 = const PrivateCreatorTag._(
@@ -6050,8 +6053,8 @@ class PrivateCreatorTag extends Tag {
     0x3103d000: PrivateDataTag.k4070,
     0x3103e000: PrivateDataTag.k4071,
   });
-  static const PrivateCreatorTag k170 =
-      const PrivateCreatorTag._(170, "GEMS_CT_CARDIAC_001", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k170 = const PrivateCreatorTag._(
+      170, "GEMS_CT_CARDIAC_001", const <int, PrivateDataTag>{
     0x00490200: PrivateDataTag.k4056,
     0x00490300: PrivateDataTag.k4057,
     0x00490400: PrivateDataTag.k4058,
@@ -6077,8 +6080,8 @@ class PrivateCreatorTag extends Tag {
     0x31051000: PrivateDataTag.k4072,
     0x31052000: PrivateDataTag.k4073,
   });
-  static const PrivateCreatorTag k172 =
-      const PrivateCreatorTag._(172, "AMI ImageTransform_01", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k172 = const PrivateCreatorTag._(
+      172, "AMI ImageTransform_01", const <int, PrivateDataTag>{
     0x31071000: PrivateDataTag.k4074,
     0x31072000: PrivateDataTag.k4075,
     0x31073000: PrivateDataTag.k4076,
@@ -6142,8 +6145,8 @@ class PrivateCreatorTag extends Tag {
     0x3109ee00: PrivateDataTag.k4128,
     0x3109ef00: PrivateDataTag.k4129,
   });
-  static const PrivateCreatorTag k175 = const PrivateCreatorTag._(
-      175, "Applicare/RadWorks/Version 6.0/Summary", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k175 = const PrivateCreatorTag._(175,
+      "Applicare/RadWorks/Version 6.0/Summary", const <int, PrivateDataTag>{
     0x31090100: PrivateDataTag.k4130,
     0x31091100: PrivateDataTag.k4131,
     0x31091200: PrivateDataTag.k4132,
@@ -6203,8 +6206,8 @@ class PrivateCreatorTag extends Tag {
     0x09072400: PrivateDataTag.k4260,
     0x09073100: PrivateDataTag.k4262,
   });
-  static const PrivateCreatorTag k180 =
-      const PrivateCreatorTag._(180, "GEMS_GDXE_FALCON_04", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k180 = const PrivateCreatorTag._(
+      180, "GEMS_GDXE_FALCON_04", const <int, PrivateDataTag>{
     0x00110300: PrivateDataTag.k4269,
     0x00110400: PrivateDataTag.k4270,
     0x00110500: PrivateDataTag.k4271,
@@ -6245,8 +6248,8 @@ class PrivateCreatorTag extends Tag {
     0x00116000: PrivateDataTag.k4306,
     0x00116d00: PrivateDataTag.k4307,
   });
-  static const PrivateCreatorTag k181 =
-      const PrivateCreatorTag._(181, "GEMS_FALCON_03", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k181 = const PrivateCreatorTag._(
+      181, "GEMS_FALCON_03", const <int, PrivateDataTag>{
     0x00455500: PrivateDataTag.k4308,
     0x00456200: PrivateDataTag.k4309,
     0x00456300: PrivateDataTag.k4310,
@@ -6256,8 +6259,8 @@ class PrivateCreatorTag extends Tag {
     0x00457200: PrivateDataTag.k4314,
     0x00457300: PrivateDataTag.k4315,
   });
-  static const PrivateCreatorTag k182 =
-      const PrivateCreatorTag._(182, "GEMS_SEND_02", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k182 = const PrivateCreatorTag._(
+      182, "GEMS_SEND_02", const <int, PrivateDataTag>{
     0x00455500: PrivateDataTag.k4316,
     0x00456200: PrivateDataTag.k4317,
     0x00456300: PrivateDataTag.k4318,
@@ -6336,8 +6339,8 @@ class PrivateCreatorTag extends Tag {
       const PrivateCreatorTag._(187, "KRETZ_US", const <int, PrivateDataTag>{
     0x7fe10100: PrivateDataTag.k4377,
   });
-  static const PrivateCreatorTag k188 =
-      const PrivateCreatorTag._(188, "QUASAR_INTERNAL_USE", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k188 = const PrivateCreatorTag._(
+      188, "QUASAR_INTERNAL_USE", const <int, PrivateDataTag>{
     0x00090100: PrivateDataTag.k4378,
     0x00090200: PrivateDataTag.k4379,
     0x00090300: PrivateDataTag.k4380,
@@ -6381,12 +6384,12 @@ class PrivateCreatorTag extends Tag {
     0x00379200: PrivateDataTag.k4418,
     0x00410100: PrivateDataTag.k4419,
   });
-  static const PrivateCreatorTag k189 =
-      const PrivateCreatorTag._(189, "APEX_PRIVATE", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k189 = const PrivateCreatorTag._(
+      189, "APEX_PRIVATE", const <int, PrivateDataTag>{
     0x00271100: PrivateDataTag.k4420,
   });
-  static const PrivateCreatorTag k190 =
-      const PrivateCreatorTag._(190, "GEMS_XELPRV_01", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k190 = const PrivateCreatorTag._(
+      190, "GEMS_XELPRV_01", const <int, PrivateDataTag>{
     0x00330800: PrivateDataTag.k4421,
     0x00331000: PrivateDataTag.k4422,
     0x00331100: PrivateDataTag.k4423,
@@ -6409,20 +6412,20 @@ class PrivateCreatorTag extends Tag {
     0x00337100: PrivateDataTag.k4440,
     0x00337200: PrivateDataTag.k4441,
   });
-  static const PrivateCreatorTag k191 =
-      const PrivateCreatorTag._(191, "REPORT_FROM_APP", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k191 = const PrivateCreatorTag._(
+      191, "REPORT_FROM_APP", const <int, PrivateDataTag>{
     0x00399500: PrivateDataTag.k4442,
   });
-  static const PrivateCreatorTag k192 =
-      const PrivateCreatorTag._(192, "GEMS_VXTL_USERDATA_01", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k192 = const PrivateCreatorTag._(
+      192, "GEMS_VXTL_USERDATA_01", const <int, PrivateDataTag>{
     0x00471100: PrivateDataTag.k4443,
   });
-  static const PrivateCreatorTag k193 =
-      const PrivateCreatorTag._(193, "DL_INTERNAL_USE", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k193 = const PrivateCreatorTag._(
+      193, "DL_INTERNAL_USE", const <int, PrivateDataTag>{
     0x00158f00: PrivateDataTag.k4444,
   });
-  static const PrivateCreatorTag k194 =
-      const PrivateCreatorTag._(194, "GEMS_LUNAR_RAW", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k194 = const PrivateCreatorTag._(
+      194, "GEMS_LUNAR_RAW", const <int, PrivateDataTag>{
     0x70030100: PrivateDataTag.k4445,
     0x70030200: PrivateDataTag.k4446,
     0x70030300: PrivateDataTag.k4447,
@@ -6432,8 +6435,8 @@ class PrivateCreatorTag extends Tag {
       const PrivateCreatorTag._(195, "GE_GROUP", const <int, PrivateDataTag>{
     0x60051000: PrivateDataTag.k4450,
   });
-  static const PrivateCreatorTag k196 =
-      const PrivateCreatorTag._(196, "GEMS_IT_US_REPORT", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k196 = const PrivateCreatorTag._(
+      196, "GEMS_IT_US_REPORT", const <int, PrivateDataTag>{
     0x00451100: PrivateDataTag.k4453,
     0x00451200: PrivateDataTag.k4454,
     0x00451300: PrivateDataTag.k4455,
@@ -6459,8 +6462,8 @@ class PrivateCreatorTag extends Tag {
     0x3113e100: PrivateDataTag.k4480,
     0x3113e200: PrivateDataTag.k4481,
   });
-  static const PrivateCreatorTag k198 =
-      const PrivateCreatorTag._(198, "GEHC_CT_ADVAPP_001", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k198 = const PrivateCreatorTag._(
+      198, "GEHC_CT_ADVAPP_001", const <int, PrivateDataTag>{
     0x00532000: PrivateDataTag.k4462,
     0x00534000: PrivateDataTag.k4463,
     0x00534100: PrivateDataTag.k4464,
@@ -6527,16 +6530,20 @@ class PrivateCreatorTag extends Tag {
     0x00456700: PrivateDataTag.k4482,
   });
   static const PrivateCreatorTag k200 = const PrivateCreatorTag._(
-      200, "Applicare/Centricity Radiology Web/Version 1.0", const <int, PrivateDataTag>{
-    0x41090100: PrivateDataTag.k4483,
-    0x41090200: PrivateDataTag.k4484,
-    0x41090300: PrivateDataTag.k4485,
-  });
+      200,
+      "Applicare/Centricity Radiology Web/Version 1.0",
+      const <int, PrivateDataTag>{
+        0x41090100: PrivateDataTag.k4483,
+        0x41090200: PrivateDataTag.k4484,
+        0x41090300: PrivateDataTag.k4485,
+      });
   static const PrivateCreatorTag k201 = const PrivateCreatorTag._(
-      201, "Applicare/Centricity Radiology Web/Version 2.0", const <int, PrivateDataTag>{
-    0x41110100: PrivateDataTag.k4486,
-    0x41110200: PrivateDataTag.k4487,
-  });
+      201,
+      "Applicare/Centricity Radiology Web/Version 2.0",
+      const <int, PrivateDataTag>{
+        0x41110100: PrivateDataTag.k4486,
+        0x41110200: PrivateDataTag.k4487,
+      });
   static const PrivateCreatorTag k202 = const PrivateCreatorTag._(
       202, "GEMS-IT/Centricity RA600/7.0", const <int, PrivateDataTag>{
     0x41131000: PrivateDataTag.k4488,
@@ -6615,8 +6622,8 @@ class PrivateCreatorTag extends Tag {
         0x31185000: PrivateDataTag.k4544,
         0x31186000: PrivateDataTag.k4545,
       });
-  static const PrivateCreatorTag k208 =
-      const PrivateCreatorTag._(208, "AMI ImageContext_01", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k208 = const PrivateCreatorTag._(
+      208, "AMI ImageContext_01", const <int, PrivateDataTag>{
     0x31091000: PrivateDataTag.k4546,
     0x31092000: PrivateDataTag.k4547,
     0x31093000: PrivateDataTag.k4548,
@@ -6627,8 +6634,8 @@ class PrivateCreatorTag extends Tag {
     0x31098000: PrivateDataTag.k4553,
     0x31099000: PrivateDataTag.k4554,
   });
-  static const PrivateCreatorTag k209 =
-      const PrivateCreatorTag._(209, "GEMS_FUNCTOOL_01", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k209 = const PrivateCreatorTag._(
+      209, "GEMS_FUNCTOOL_01", const <int, PrivateDataTag>{
     0x00510d00: PrivateDataTag.k4556,
     0x00510200: PrivateDataTag.k4596,
     0x00510300: PrivateDataTag.k4597,
@@ -6643,8 +6650,8 @@ class PrivateCreatorTag extends Tag {
     0x00510100: PrivateDataTag.k10678,
     0x00510800: PrivateDataTag.k10679,
   });
-  static const PrivateCreatorTag k210 =
-      const PrivateCreatorTag._(210, "Harmony R1.0", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k210 = const PrivateCreatorTag._(
+      210, "Harmony R1.0", const <int, PrivateDataTag>{
     0x00190000: PrivateDataTag.k4557,
     0x00190100: PrivateDataTag.k4558,
     0x00190200: PrivateDataTag.k4559,
@@ -6761,8 +6768,8 @@ class PrivateCreatorTag extends Tag {
     0x00198200: PrivateDataTag.k4680,
     0x00198300: PrivateDataTag.k4681,
   });
-  static const PrivateCreatorTag k211 =
-      const PrivateCreatorTag._(211, "Harmony R1.0 C2", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k211 = const PrivateCreatorTag._(
+      211, "Harmony R1.0 C2", const <int, PrivateDataTag>{
     0x00190000: PrivateDataTag.k4682,
     0x00190100: PrivateDataTag.k4683,
     0x00190200: PrivateDataTag.k4684,
@@ -6790,8 +6797,8 @@ class PrivateCreatorTag extends Tag {
     0x00198400: PrivateDataTag.k4706,
     0x00199100: PrivateDataTag.k4707,
   });
-  static const PrivateCreatorTag k212 =
-      const PrivateCreatorTag._(212, "Harmony R1.0 C3", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k212 = const PrivateCreatorTag._(
+      212, "Harmony R1.0 C3", const <int, PrivateDataTag>{
     0x00190000: PrivateDataTag.k4708,
     0x00190300: PrivateDataTag.k4709,
     0x00190700: PrivateDataTag.k4710,
@@ -6835,8 +6842,8 @@ class PrivateCreatorTag extends Tag {
     0x0019f100: PrivateDataTag.k4748,
     0x0019f200: PrivateDataTag.k4749,
   });
-  static const PrivateCreatorTag k213 =
-      const PrivateCreatorTag._(213, "Harmony R2.0", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k213 = const PrivateCreatorTag._(
+      213, "Harmony R2.0", const <int, PrivateDataTag>{
     0x00197900: PrivateDataTag.k4750,
     0x00197c00: PrivateDataTag.k4751,
     0x00197d00: PrivateDataTag.k4752,
@@ -6893,8 +6900,8 @@ class PrivateCreatorTag extends Tag {
     0x00290000: PrivateDataTag.k4824,
     0x00290100: PrivateDataTag.k4826,
   });
-  static const PrivateCreatorTag k216 =
-      const PrivateCreatorTag._(216, "LODOX_STATSCAN", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k216 = const PrivateCreatorTag._(
+      216, "LODOX_STATSCAN", const <int, PrivateDataTag>{
     0x00190100: PrivateDataTag.k4792,
     0x00190200: PrivateDataTag.k4793,
     0x00190300: PrivateDataTag.k4794,
@@ -6905,27 +6912,33 @@ class PrivateCreatorTag extends Tag {
     0x00190800: PrivateDataTag.k4799,
   });
   static const PrivateCreatorTag k217 = const PrivateCreatorTag._(
-      217, "SCHICK TECHNOLOGIES - Change List Creator ID", const <int, PrivateDataTag>{
-    0x00210100: PrivateDataTag.k4800,
-    0x00210200: PrivateDataTag.k4801,
-  });
-  static const PrivateCreatorTag k218 = const PrivateCreatorTag._(
-      218, "SCHICK TECHNOLOGIES - Note List Creator ID", const <int, PrivateDataTag>{
+      217,
+      "SCHICK TECHNOLOGIES - Change List Creator ID",
+      const <int, PrivateDataTag>{
+        0x00210100: PrivateDataTag.k4800,
+        0x00210200: PrivateDataTag.k4801,
+      });
+  static const PrivateCreatorTag k218 = const PrivateCreatorTag._(218,
+      "SCHICK TECHNOLOGIES - Note List Creator ID", const <int, PrivateDataTag>{
     0x00210100: PrivateDataTag.k4802,
     0x00210200: PrivateDataTag.k4803,
   });
   static const PrivateCreatorTag k219 = const PrivateCreatorTag._(
-      219, "SCHICK TECHNOLOGIES - Change Item Creator ID", const <int, PrivateDataTag>{
-    0x00210100: PrivateDataTag.k4804,
-    0x00210200: PrivateDataTag.k4805,
-    0x00210300: PrivateDataTag.k4806,
-    0x00210400: PrivateDataTag.k4807,
-    0x00210500: PrivateDataTag.k4808,
-  });
+      219,
+      "SCHICK TECHNOLOGIES - Change Item Creator ID",
+      const <int, PrivateDataTag>{
+        0x00210100: PrivateDataTag.k4804,
+        0x00210200: PrivateDataTag.k4805,
+        0x00210300: PrivateDataTag.k4806,
+        0x00210400: PrivateDataTag.k4807,
+        0x00210500: PrivateDataTag.k4808,
+      });
   static const PrivateCreatorTag k220 = const PrivateCreatorTag._(
-      220, "SCHICK TECHNOLOGIES - Image Security Creator ID", const <int, PrivateDataTag>{
-    0x00290100: PrivateDataTag.k4827,
-  });
+      220,
+      "SCHICK TECHNOLOGIES - Image Security Creator ID",
+      const <int, PrivateDataTag>{
+        0x00290100: PrivateDataTag.k4827,
+      });
   static const PrivateCreatorTag k221 = const PrivateCreatorTag._(
       221, "2.16.840.1.114059.1.1.6.1.50.1", const <int, PrivateDataTag>{
     0x00292000: PrivateDataTag.k4828,
@@ -7342,8 +7355,8 @@ class PrivateCreatorTag extends Tag {
     0x00191f00: PrivateDataTag.k4867,
     0x00192100: PrivateDataTag.k4868,
   });
-  static const PrivateCreatorTag k225 =
-      const PrivateCreatorTag._(225, "SECTRA_Ident_01", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k225 = const PrivateCreatorTag._(
+      225, "SECTRA_Ident_01", const <int, PrivateDataTag>{
     0x00090100: PrivateDataTag.k4870,
     0x00090200: PrivateDataTag.k4871,
     0x00090400: PrivateDataTag.k4872,
@@ -7351,15 +7364,15 @@ class PrivateCreatorTag extends Tag {
     0x00090600: PrivateDataTag.k4874,
     0x00090700: PrivateDataTag.k4875,
   });
-  static const PrivateCreatorTag k226 =
-      const PrivateCreatorTag._(226, "SECTRA_ImageInfo_01", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k226 = const PrivateCreatorTag._(
+      226, "SECTRA_ImageInfo_01", const <int, PrivateDataTag>{
     0x00290100: PrivateDataTag.k4876,
     0x00290200: PrivateDataTag.k4877,
     0x00290300: PrivateDataTag.k4878,
     0x00290400: PrivateDataTag.k4879,
   });
-  static const PrivateCreatorTag k227 =
-      const PrivateCreatorTag._(227, "SECTRA_OverlayInfo_01", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k227 = const PrivateCreatorTag._(
+      227, "SECTRA_OverlayInfo_01", const <int, PrivateDataTag>{
     0x60010100: PrivateDataTag.k4880,
   });
   static const PrivateCreatorTag k228 =
@@ -7375,8 +7388,8 @@ class PrivateCreatorTag extends Tag {
     0x00090900: PrivateDataTag.k4889,
     0x00091000: PrivateDataTag.k4890,
   });
-  static const PrivateCreatorTag k229 =
-      const PrivateCreatorTag._(229, "Silhouette VRS 3.0", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k229 = const PrivateCreatorTag._(
+      229, "Silhouette VRS 3.0", const <int, PrivateDataTag>{
     0x00291300: PrivateDataTag.k4891,
     0x00291400: PrivateDataTag.k4892,
     0x00291700: PrivateDataTag.k4893,
@@ -7402,8 +7415,8 @@ class PrivateCreatorTag extends Tag {
     0x00196100: PrivateDataTag.k4902,
     0x00190200: PrivateDataTag.k10479,
   });
-  static const PrivateCreatorTag k231 =
-      const PrivateCreatorTag._(231, "Hipaa Private Creator", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k231 = const PrivateCreatorTag._(
+      231, "Hipaa Private Creator", const <int, PrivateDataTag>{
     0x00110100: PrivateDataTag.k4911,
     0x00110200: PrivateDataTag.k4912,
     0x00110300: PrivateDataTag.k4913,
@@ -7447,8 +7460,8 @@ class PrivateCreatorTag extends Tag {
     0x00114100: PrivateDataTag.k4952,
     0x00114200: PrivateDataTag.k4953,
   });
-  static const PrivateCreatorTag k232 =
-      const PrivateCreatorTag._(232, "LORAD Selenia", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k232 = const PrivateCreatorTag._(
+      232, "LORAD Selenia", const <int, PrivateDataTag>{
     0x00190600: PrivateDataTag.k4954,
     0x00190700: PrivateDataTag.k4955,
     0x00190800: PrivateDataTag.k4956,
@@ -7476,8 +7489,8 @@ class PrivateCreatorTag extends Tag {
     0x00198000: PrivateDataTag.k4978,
     0x00199000: PrivateDataTag.k4979,
   });
-  static const PrivateCreatorTag k233 =
-      const PrivateCreatorTag._(233, "HOLOGIC, Inc.", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k233 = const PrivateCreatorTag._(
+      233, "HOLOGIC, Inc.", const <int, PrivateDataTag>{
     0x00190100: PrivateDataTag.k4980,
     0x00190200: PrivateDataTag.k4981,
     0x00190300: PrivateDataTag.k4982,
@@ -7534,18 +7547,18 @@ class PrivateCreatorTag extends Tag {
     0x7f011100: PrivateDataTag.k5033,
     0x7f011200: PrivateDataTag.k5034,
   });
-  static const PrivateCreatorTag k234 =
-      const PrivateCreatorTag._(234, "1.2.840.113663.1", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k234 = const PrivateCreatorTag._(
+      234, "1.2.840.113663.1", const <int, PrivateDataTag>{
     0x00290000: PrivateDataTag.k5035,
     0x00290100: PrivateDataTag.k5036,
   });
-  static const PrivateCreatorTag k235 =
-      const PrivateCreatorTag._(235, "MeVis BreastCare", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k235 = const PrivateCreatorTag._(
+      235, "MeVis BreastCare", const <int, PrivateDataTag>{
     0x00190100: PrivateDataTag.k5256,
     0x00710100: PrivateDataTag.k5257,
   });
-  static const PrivateCreatorTag k236 =
-      const PrivateCreatorTag._(236, "Viewing Protocol", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k236 = const PrivateCreatorTag._(
+      236, "Viewing Protocol", const <int, PrivateDataTag>{
     0x00659300: PrivateDataTag.k5258,
   });
   static const PrivateCreatorTag k237 =
@@ -7561,8 +7574,8 @@ class PrivateCreatorTag extends Tag {
     0x14550800: PrivateDataTag.k5267,
     0x14551000: PrivateDataTag.k5268,
   });
-  static const PrivateCreatorTag k238 =
-      const PrivateCreatorTag._(238, "SEGAMI_HEADER", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k238 = const PrivateCreatorTag._(
+      238, "SEGAMI_HEADER", const <int, PrivateDataTag>{
     0x00293100: PrivateDataTag.k5269,
     0x00293200: PrivateDataTag.k5270,
   });
@@ -7570,18 +7583,18 @@ class PrivateCreatorTag extends Tag {
       const PrivateCreatorTag._(239, "SEGAMI MIML", const <int, PrivateDataTag>{
     0x00319800: PrivateDataTag.k5271,
   });
-  static const PrivateCreatorTag k240 =
-      const PrivateCreatorTag._(240, "SEGAMI__PAGE", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k240 = const PrivateCreatorTag._(
+      240, "SEGAMI__PAGE", const <int, PrivateDataTag>{
     0x00339700: PrivateDataTag.k5272,
     0x00339800: PrivateDataTag.k5273,
   });
-  static const PrivateCreatorTag k241 =
-      const PrivateCreatorTag._(241, "SEGAMI__MEMO", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k241 = const PrivateCreatorTag._(
+      241, "SEGAMI__MEMO", const <int, PrivateDataTag>{
     0x00359700: PrivateDataTag.k5274,
     0x00359800: PrivateDataTag.k5275,
   });
-  static const PrivateCreatorTag k242 =
-      const PrivateCreatorTag._(242, "MedIns HP Extensions", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k242 = const PrivateCreatorTag._(
+      242, "MedIns HP Extensions", const <int, PrivateDataTag>{
     0x54730300: PrivateDataTag.k5276,
   });
   static const PrivateCreatorTag k243 =
@@ -7602,28 +7615,30 @@ class PrivateCreatorTag extends Tag {
     0x80033000: PrivateDataTag.k5306,
     0x80034000: PrivateDataTag.k5307,
   });
-  static const PrivateCreatorTag k245 = const PrivateCreatorTag._(245,
-      "ObjectModel (ID, Version, Place, PlaceDescription)", const <int, PrivateDataTag>{
-    0x81010000: PrivateDataTag.k5308,
-    0x81011000: PrivateDataTag.k5309,
-  });
-  static const PrivateCreatorTag k246 =
-      const PrivateCreatorTag._(246, "INFINITT_FMX", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k245 = const PrivateCreatorTag._(
+      245,
+      "ObjectModel (ID, Version, Place, PlaceDescription)",
+      const <int, PrivateDataTag>{
+        0x81010000: PrivateDataTag.k5308,
+        0x81011000: PrivateDataTag.k5309,
+      });
+  static const PrivateCreatorTag k246 = const PrivateCreatorTag._(
+      246, "INFINITT_FMX", const <int, PrivateDataTag>{
     0x00151000: PrivateDataTag.k5310,
     0x00151100: PrivateDataTag.k5311,
   });
-  static const PrivateCreatorTag k247 =
-      const PrivateCreatorTag._(247, "BrainLAB_Conversion", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k247 = const PrivateCreatorTag._(
+      247, "BrainLAB_Conversion", const <int, PrivateDataTag>{
     0x00090100: PrivateDataTag.k5312,
     0x00090200: PrivateDataTag.k5313,
   });
-  static const PrivateCreatorTag k248 =
-      const PrivateCreatorTag._(248, "BrainLAB_PatientSetup", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k248 = const PrivateCreatorTag._(
+      248, "BrainLAB_PatientSetup", const <int, PrivateDataTag>{
     0x32730000: PrivateDataTag.k5314,
     0x32730100: PrivateDataTag.k5315,
   });
-  static const PrivateCreatorTag k249 =
-      const PrivateCreatorTag._(249, "BrainLAB_BeamProfile", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k249 = const PrivateCreatorTag._(
+      249, "BrainLAB_BeamProfile", const <int, PrivateDataTag>{
     0x34110100: PrivateDataTag.k5316,
     0x34110200: PrivateDataTag.k5317,
     0x34110300: PrivateDataTag.k5318,
@@ -7639,22 +7654,24 @@ class PrivateCreatorTag extends Tag {
     0x00110400: PrivateDataTag.k5325,
   });
   static const PrivateCreatorTag k251 = const PrivateCreatorTag._(
-      251, "Voxar 2.16.124.113543.6003.1999.12.20.12.5.0", const <int, PrivateDataTag>{
-    0x11350000: PrivateDataTag.k5326,
-    0x11350100: PrivateDataTag.k5327,
-    0x11350200: PrivateDataTag.k5328,
-    0x11350600: PrivateDataTag.k5329,
-    0x11350700: PrivateDataTag.k5330,
-    0x11350800: PrivateDataTag.k5331,
-    0x11350900: PrivateDataTag.k5332,
-    0x11351000: PrivateDataTag.k5333,
-    0x11351300: PrivateDataTag.k5334,
-    0x11351400: PrivateDataTag.k5335,
-    0x11351600: PrivateDataTag.k5336,
-    0x11351700: PrivateDataTag.k5337,
-    0x11351800: PrivateDataTag.k5338,
-    0x11352100: PrivateDataTag.k5339,
-  });
+      251,
+      "Voxar 2.16.124.113543.6003.1999.12.20.12.5.0",
+      const <int, PrivateDataTag>{
+        0x11350000: PrivateDataTag.k5326,
+        0x11350100: PrivateDataTag.k5327,
+        0x11350200: PrivateDataTag.k5328,
+        0x11350600: PrivateDataTag.k5329,
+        0x11350700: PrivateDataTag.k5330,
+        0x11350800: PrivateDataTag.k5331,
+        0x11350900: PrivateDataTag.k5332,
+        0x11351000: PrivateDataTag.k5333,
+        0x11351300: PrivateDataTag.k5334,
+        0x11351400: PrivateDataTag.k5335,
+        0x11351600: PrivateDataTag.k5336,
+        0x11351700: PrivateDataTag.k5337,
+        0x11351800: PrivateDataTag.k5338,
+        0x11352100: PrivateDataTag.k5339,
+      });
   static const PrivateCreatorTag k252 = const PrivateCreatorTag._(
       252, "Kodak Image Information", const <int, PrivateDataTag>{
     0x00291500: PrivateDataTag.k5340,
@@ -7725,15 +7742,15 @@ class PrivateCreatorTag extends Tag {
     0x01993900: PrivateDataTag.k5695,
     0x01993a00: PrivateDataTag.k5696,
   });
-  static const PrivateCreatorTag k254 =
-      const PrivateCreatorTag._(254, "MAROTECH Inc.", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k254 = const PrivateCreatorTag._(
+      254, "MAROTECH Inc.", const <int, PrivateDataTag>{
     0x00370100: PrivateDataTag.k5347,
     0x00372100: PrivateDataTag.k5348,
     0x00372200: PrivateDataTag.k5349,
     0x00372300: PrivateDataTag.k5350,
   });
-  static const PrivateCreatorTag k255 =
-      const PrivateCreatorTag._(255, "BRIT Systems, Inc.", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k255 = const PrivateCreatorTag._(
+      255, "BRIT Systems, Inc.", const <int, PrivateDataTag>{
     0x00210000: PrivateDataTag.k5351,
     0x00210100: PrivateDataTag.k5352,
     0x00210200: PrivateDataTag.k5353,
@@ -7805,8 +7822,8 @@ class PrivateCreatorTag extends Tag {
     0x43214200: PrivateDataTag.k5413,
     0x43216400: PrivateDataTag.k5414,
   });
-  static const PrivateCreatorTag k258 =
-      const PrivateCreatorTag._(258, "Sound Technologies", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k258 = const PrivateCreatorTag._(
+      258, "Sound Technologies", const <int, PrivateDataTag>{
     0xf0010000: PrivateDataTag.k5415,
     0xf0010100: PrivateDataTag.k5416,
     0xf0010200: PrivateDataTag.k5417,
@@ -7864,8 +7881,8 @@ class PrivateCreatorTag extends Tag {
     0x00110100: PrivateDataTag.k5460,
     0x00110200: PrivateDataTag.k5461,
   });
-  static const PrivateCreatorTag k262 =
-      const PrivateCreatorTag._(262, "WG12 Supplement 43", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k262 = const PrivateCreatorTag._(
+      262, "WG12 Supplement 43", const <int, PrivateDataTag>{
     0x00090100: PrivateDataTag.k5462,
     0x00090200: PrivateDataTag.k5463,
     0x00090300: PrivateDataTag.k5464,
@@ -7910,8 +7927,8 @@ class PrivateCreatorTag extends Tag {
     0x00291000: PrivateDataTag.k5504,
     0x00410100: PrivateDataTag.k5505,
   });
-  static const PrivateCreatorTag k263 =
-      const PrivateCreatorTag._(263, "HMC - CT - ID", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k263 = const PrivateCreatorTag._(
+      263, "HMC - CT - ID", const <int, PrivateDataTag>{
     0x00090000: PrivateDataTag.k5506,
     0x00090100: PrivateDataTag.k5507,
   });
@@ -7920,8 +7937,8 @@ class PrivateCreatorTag extends Tag {
     0x00190000: PrivateDataTag.k5508,
     0x00190100: PrivateDataTag.k5509,
   });
-  static const PrivateCreatorTag k265 =
-      const PrivateCreatorTag._(265, "Vital Images SW 3.4", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k265 = const PrivateCreatorTag._(
+      265, "Vital Images SW 3.4", const <int, PrivateDataTag>{
     0x56531000: PrivateDataTag.k5537,
     0x56531100: PrivateDataTag.k5538,
     0x56531200: PrivateDataTag.k5539,
@@ -7939,15 +7956,15 @@ class PrivateCreatorTag extends Tag {
     0x56532400: PrivateDataTag.k5551,
     0x56532500: PrivateDataTag.k5552,
   });
-  static const PrivateCreatorTag k266 = const PrivateCreatorTag._(
-      266, "PI Private Block (0781:3000 - 0781:30FF)", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k266 = const PrivateCreatorTag._(266,
+      "PI Private Block (0781:3000 - 0781:30FF)", const <int, PrivateDataTag>{
     0x07810100: PrivateDataTag.k5553,
     0x07810200: PrivateDataTag.k5554,
     0x07810500: PrivateDataTag.k5555,
     0x07810900: PrivateDataTag.k5556,
   });
-  static const PrivateCreatorTag k267 =
-      const PrivateCreatorTag._(267, "Riverain Medical", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k267 = const PrivateCreatorTag._(
+      267, "Riverain Medical", const <int, PrivateDataTag>{
     0x02030000: PrivateDataTag.k5557,
     0x02030100: PrivateDataTag.k5558,
     0x02030200: PrivateDataTag.k5559,
@@ -7956,8 +7973,8 @@ class PrivateCreatorTag extends Tag {
     0x0203f000: PrivateDataTag.k5562,
     0x0203f100: PrivateDataTag.k5563,
   });
-  static const PrivateCreatorTag k268 = const PrivateCreatorTag._(
-      268, "INTELERAD MEDICAL SYSTEMS INTELEVIEWER", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k268 = const PrivateCreatorTag._(268,
+      "INTELERAD MEDICAL SYSTEMS INTELEVIEWER", const <int, PrivateDataTag>{
     0x00710100: PrivateDataTag.k5566,
     0x00710200: PrivateDataTag.k5567,
     0x00710300: PrivateDataTag.k5568,
@@ -7967,8 +7984,8 @@ class PrivateCreatorTag extends Tag {
     0x00710700: PrivateDataTag.k5572,
     0x00710a00: PrivateDataTag.k5573,
   });
-  static const PrivateCreatorTag k269 =
-      const PrivateCreatorTag._(269, "DR Systems, Inc.", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k269 = const PrivateCreatorTag._(
+      269, "DR Systems, Inc.", const <int, PrivateDataTag>{
     0x44530000: PrivateDataTag.k5581,
     0x44530100: PrivateDataTag.k5582,
     0x44530200: PrivateDataTag.k5583,
@@ -7977,12 +7994,12 @@ class PrivateCreatorTag extends Tag {
     0x44530a00: PrivateDataTag.k5586,
     0x44530c00: PrivateDataTag.k5587,
   });
-  static const PrivateCreatorTag k270 =
-      const PrivateCreatorTag._(270, "ETIAM DICOMDIR", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k270 = const PrivateCreatorTag._(
+      270, "ETIAM DICOMDIR", const <int, PrivateDataTag>{
     0x08594000: PrivateDataTag.k5588,
   });
-  static const PrivateCreatorTag k271 =
-      const PrivateCreatorTag._(271, "TERARECON AQUARIUS", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k271 = const PrivateCreatorTag._(
+      271, "TERARECON AQUARIUS", const <int, PrivateDataTag>{
     0x00771000: PrivateDataTag.k5589,
     0x00771200: PrivateDataTag.k5590,
     0x00771400: PrivateDataTag.k5591,
@@ -8004,22 +8021,22 @@ class PrivateCreatorTag extends Tag {
     0x00778800: PrivateDataTag.k5607,
     0x00779000: PrivateDataTag.k5608,
   });
-  static const PrivateCreatorTag k272 =
-      const PrivateCreatorTag._(272, "EMAGEON STUDY HOME", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k272 = const PrivateCreatorTag._(
+      272, "EMAGEON STUDY HOME", const <int, PrivateDataTag>{
     0x00090000: PrivateDataTag.k5609,
     0x00090100: PrivateDataTag.k5610,
   });
-  static const PrivateCreatorTag k273 =
-      const PrivateCreatorTag._(273, "EMAGEON JPEG2K INFO", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k273 = const PrivateCreatorTag._(
+      273, "EMAGEON JPEG2K INFO", const <int, PrivateDataTag>{
     0x00090000: PrivateDataTag.k5611,
     0x00090100: PrivateDataTag.k5612,
   });
-  static const PrivateCreatorTag k274 =
-      const PrivateCreatorTag._(274, "RadWorksMarconi", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k274 = const PrivateCreatorTag._(
+      274, "RadWorksMarconi", const <int, PrivateDataTag>{
     0x00292400: PrivateDataTag.k5613,
   });
-  static const PrivateCreatorTag k275 =
-      const PrivateCreatorTag._(275, "MeVis eatDicom", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k275 = const PrivateCreatorTag._(
+      275, "MeVis eatDicom", const <int, PrivateDataTag>{
     0x00091000: PrivateDataTag.k5614,
     0x00091100: PrivateDataTag.k5615,
   });
@@ -8047,8 +8064,8 @@ class PrivateCreatorTag extends Tag {
       279, "MeVis eD: Slice Information", const <int, PrivateDataTag>{
     0x00211000: PrivateDataTag.k5627,
   });
-  static const PrivateCreatorTag k280 =
-      const PrivateCreatorTag._(280, "ShowcaseAppearance", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k280 = const PrivateCreatorTag._(
+      280, "ShowcaseAppearance", const <int, PrivateDataTag>{
     0x00291000: PrivateDataTag.k5628,
     0x00291100: PrivateDataTag.k5629,
     0x00291200: PrivateDataTag.k5630,
@@ -8127,22 +8144,22 @@ class PrivateCreatorTag extends Tag {
     0x02993900: PrivateDataTag.k5753,
     0x02993a00: PrivateDataTag.k5754,
   });
-  static const PrivateCreatorTag k283 =
-      const PrivateCreatorTag._(283, "VEPRO VIF 3.0 DATA", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k283 = const PrivateCreatorTag._(
+      283, "VEPRO VIF 3.0 DATA", const <int, PrivateDataTag>{
     0x00552000: PrivateDataTag.k5755,
     0x00553000: PrivateDataTag.k5756,
     0x00556500: PrivateDataTag.k5757,
   });
-  static const PrivateCreatorTag k284 =
-      const PrivateCreatorTag._(284, "VEPRO VIM 5.0 DATA", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k284 = const PrivateCreatorTag._(
+      284, "VEPRO VIM 5.0 DATA", const <int, PrivateDataTag>{
     0x00551000: PrivateDataTag.k5758,
     0x00552000: PrivateDataTag.k5759,
     0x00553000: PrivateDataTag.k5760,
     0x00555100: PrivateDataTag.k5761,
     0x00556500: PrivateDataTag.k5762,
   });
-  static const PrivateCreatorTag k285 =
-      const PrivateCreatorTag._(285, "VEPRO BROKER 1.0", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k285 = const PrivateCreatorTag._(
+      285, "VEPRO BROKER 1.0", const <int, PrivateDataTag>{
     0x00571000: PrivateDataTag.k5763,
   });
   static const PrivateCreatorTag k286 = const PrivateCreatorTag._(
@@ -8374,8 +8391,8 @@ class PrivateCreatorTag extends Tag {
     0x00131000: PrivateDataTag.k10426,
     0x00131400: PrivateDataTag.k10427,
   });
-  static const PrivateCreatorTag k291 =
-      const PrivateCreatorTag._(291, "dcm4che/archive", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k291 = const PrivateCreatorTag._(
+      291, "dcm4che/archive", const <int, PrivateDataTag>{
     0x00431000: PrivateDataTag.k5785,
     0x00431100: PrivateDataTag.k5786,
     0x00431200: PrivateDataTag.k5787,
@@ -8458,8 +8475,8 @@ class PrivateCreatorTag extends Tag {
     0x12718400: PrivateDataTag.k5860,
     0x12718500: PrivateDataTag.k5861,
   });
-  static const PrivateCreatorTag k294 =
-      const PrivateCreatorTag._(294, "DZDICOM 4.3.0", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k294 = const PrivateCreatorTag._(
+      294, "DZDICOM 4.3.0", const <int, PrivateDataTag>{
     0x00090100: PrivateDataTag.k6051,
     0x00090200: PrivateDataTag.k6052,
     0x00090300: PrivateDataTag.k6053,
@@ -8493,8 +8510,8 @@ class PrivateCreatorTag extends Tag {
     0x00251200: PrivateDataTag.k6078,
     0x00292000: PrivateDataTag.k6079,
   });
-  static const PrivateCreatorTag k296 =
-      const PrivateCreatorTag._(296, "Visus Change", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k296 = const PrivateCreatorTag._(
+      296, "Visus Change", const <int, PrivateDataTag>{
     0x55333300: PrivateDataTag.k6080,
     0x55333500: PrivateDataTag.k6081,
     0x55333700: PrivateDataTag.k6082,
@@ -8509,8 +8526,8 @@ class PrivateCreatorTag extends Tag {
     0x00990400: PrivateDataTag.k6088,
     0x00990500: PrivateDataTag.k6089,
   });
-  static const PrivateCreatorTag k298 =
-      const PrivateCreatorTag._(298, "PixelMed Publishing", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k298 = const PrivateCreatorTag._(
+      298, "PixelMed Publishing", const <int, PrivateDataTag>{
     0x00110200: PrivateDataTag.k6090,
     0x00110300: PrivateDataTag.k6091,
     0x00110400: PrivateDataTag.k6092,
@@ -8534,8 +8551,8 @@ class PrivateCreatorTag extends Tag {
     0x7fe10100: PrivateDataTag.k6110,
     0x7fe10200: PrivateDataTag.k6111,
   });
-  static const PrivateCreatorTag k299 =
-      const PrivateCreatorTag._(299, "METAEMOTION GINKGO", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k299 = const PrivateCreatorTag._(
+      299, "METAEMOTION GINKGO", const <int, PrivateDataTag>{
     0x00110100: PrivateDataTag.k6112,
     0x00110b00: PrivateDataTag.k6113,
   });
@@ -8559,8 +8576,8 @@ class PrivateCreatorTag extends Tag {
     0x7fe10200: PrivateDataTag.k6123,
     0x7fe10300: PrivateDataTag.k6124,
   });
-  static const PrivateCreatorTag k303 =
-      const PrivateCreatorTag._(303, "ULTRAVISUAL_TAG_SET1", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k303 = const PrivateCreatorTag._(
+      303, "ULTRAVISUAL_TAG_SET1", const <int, PrivateDataTag>{
     0x00110100: PrivateDataTag.k6125,
     0x00110200: PrivateDataTag.k6126,
     0x00110300: PrivateDataTag.k6127,
@@ -8698,8 +8715,8 @@ class PrivateCreatorTag extends Tag {
     0x1001f200: PrivateDataTag.k6242,
     0x1001f300: PrivateDataTag.k6243,
   });
-  static const PrivateCreatorTag k310 =
-      const PrivateCreatorTag._(310, "CAD Sciences", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k310 = const PrivateCreatorTag._(
+      310, "CAD Sciences", const <int, PrivateDataTag>{
     0x33350700: PrivateDataTag.k6217,
     0x33350000: PrivateDataTag.k6322,
     0x33350600: PrivateDataTag.k6323,
@@ -8869,8 +8886,8 @@ class PrivateCreatorTag extends Tag {
     0x3335b100: PrivateDataTag.k6388,
     0x3335c000: PrivateDataTag.k6389,
   });
-  static const PrivateCreatorTag k318 =
-      const PrivateCreatorTag._(318, "iCAD PK Study", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k318 = const PrivateCreatorTag._(
+      318, "iCAD PK Study", const <int, PrivateDataTag>{
     0x33350000: PrivateDataTag.k6390,
     0x33350100: PrivateDataTag.k6391,
     0x33350200: PrivateDataTag.k6392,
@@ -8941,8 +8958,8 @@ class PrivateCreatorTag extends Tag {
     0x7fe10200: PrivateDataTag.k6436,
     0x7fe10300: PrivateDataTag.k6437,
   });
-  static const PrivateCreatorTag k326 =
-      const PrivateCreatorTag._(326, "QTUltrasound", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k326 = const PrivateCreatorTag._(
+      326, "QTUltrasound", const <int, PrivateDataTag>{
     0x00990000: PrivateDataTag.k6438,
   });
   static const PrivateCreatorTag k327 = const PrivateCreatorTag._(
@@ -8990,14 +9007,14 @@ class PrivateCreatorTag extends Tag {
     0x6001aa00: PrivateDataTag.k6473,
     0x6001ab00: PrivateDataTag.k6474,
   });
-  static const PrivateCreatorTag k330 =
-      const PrivateCreatorTag._(330, "Brainlab-S9-History", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k330 = const PrivateCreatorTag._(
+      330, "Brainlab-S9-History", const <int, PrivateDataTag>{
     0x00093100: PrivateDataTag.k6475,
     0x00093200: PrivateDataTag.k6476,
     0x00093300: PrivateDataTag.k6477,
   });
-  static const PrivateCreatorTag k331 =
-      const PrivateCreatorTag._(331, "Brainlab-S32-SO", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k331 = const PrivateCreatorTag._(
+      331, "Brainlab-S32-SO", const <int, PrivateDataTag>{
     0x00630100: PrivateDataTag.k6478,
     0x00631000: PrivateDataTag.k6479,
   });
@@ -9005,16 +9022,16 @@ class PrivateCreatorTag extends Tag {
       332, "Brainlab-S23-ProjectiveFusion", const <int, PrivateDataTag>{
     0x00731000: PrivateDataTag.k6480,
   });
-  static const PrivateCreatorTag k333 =
-      const PrivateCreatorTag._(333, "PHILIPS MR/PART 12", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k333 = const PrivateCreatorTag._(
+      333, "PHILIPS MR/PART 12", const <int, PrivateDataTag>{
     0x09211000: PrivateDataTag.k6482,
   });
-  static const PrivateCreatorTag k334 =
-      const PrivateCreatorTag._(334, "PHILIPS MR/PART 7", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k334 = const PrivateCreatorTag._(
+      334, "PHILIPS MR/PART 7", const <int, PrivateDataTag>{
     0x00190000: PrivateDataTag.k6487,
   });
-  static const PrivateCreatorTag k335 =
-      const PrivateCreatorTag._(335, "SPI-P-CTBE Release 1", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k335 = const PrivateCreatorTag._(
+      335, "SPI-P-CTBE Release 1", const <int, PrivateDataTag>{
     0x00190000: PrivateDataTag.k6488,
     0x00190200: PrivateDataTag.k6494,
     0x00190300: PrivateDataTag.k6496,
@@ -9062,16 +9079,16 @@ class PrivateCreatorTag extends Tag {
     0x00293200: PrivateDataTag.k6666,
     0x00293f00: PrivateDataTag.k6667,
   });
-  static const PrivateCreatorTag k338 =
-      const PrivateCreatorTag._(338, "PHILIPS MR/PART 6", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k338 = const PrivateCreatorTag._(
+      338, "PHILIPS MR/PART 6", const <int, PrivateDataTag>{
     0x00191000: PrivateDataTag.k6501,
   });
   static const PrivateCreatorTag k339 = const PrivateCreatorTag._(
       339, "SPI-P-CTBE-Private Release 1", const <int, PrivateDataTag>{
     0x00210000: PrivateDataTag.k6634,
   });
-  static const PrivateCreatorTag k340 =
-      const PrivateCreatorTag._(340, "PMS-THORA-5.1", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k340 = const PrivateCreatorTag._(
+      340, "PMS-THORA-5.1", const <int, PrivateDataTag>{
     0x00892000: PrivateDataTag.k6721,
   });
   static const PrivateCreatorTag k341 = const PrivateCreatorTag._(
@@ -9818,8 +9835,8 @@ class PrivateCreatorTag extends Tag {
       377, "Philips NM Private Group", const <int, PrivateDataTag>{
     0x70430000: PrivateDataTag.k7852,
   });
-  static const PrivateCreatorTag k378 =
-      const PrivateCreatorTag._(378, "PHILIPS NM -Private", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k378 = const PrivateCreatorTag._(
+      378, "PHILIPS NM -Private", const <int, PrivateDataTag>{
     0x70510000: PrivateDataTag.k7853,
     0x70510100: PrivateDataTag.k7854,
     0x70510200: PrivateDataTag.k7856,
@@ -9838,8 +9855,8 @@ class PrivateCreatorTag extends Tag {
     0x70512800: PrivateDataTag.k7870,
     0x70512900: PrivateDataTag.k7871,
   });
-  static const PrivateCreatorTag k379 =
-      const PrivateCreatorTag._(379, "PHILIPS XCT -Private", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k379 = const PrivateCreatorTag._(
+      379, "PHILIPS XCT -Private", const <int, PrivateDataTag>{
     0x70510100: PrivateDataTag.k7855,
     0x70510200: PrivateDataTag.k7857,
   });
@@ -9859,8 +9876,8 @@ class PrivateCreatorTag extends Tag {
     0x00090000: PrivateDataTag.k7901,
     0x00091000: PrivateDataTag.k7902,
   });
-  static const PrivateCreatorTag k382 =
-      const PrivateCreatorTag._(382, "SIEMENS MED NM", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k382 = const PrivateCreatorTag._(
+      382, "SIEMENS MED NM", const <int, PrivateDataTag>{
     0x00098000: PrivateDataTag.k7909,
     0x00111000: PrivateDataTag.k7927,
     0x00170000: PrivateDataTag.k7944,
@@ -10072,8 +10089,8 @@ class PrivateCreatorTag extends Tag {
     0x00093000: PrivateDataTag.k7923,
     0x00095000: PrivateDataTag.k7924,
   });
-  static const PrivateCreatorTag k384 =
-      const PrivateCreatorTag._(384, "SIEMENS AX INSPACE_EP", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k384 = const PrivateCreatorTag._(
+      384, "SIEMENS AX INSPACE_EP", const <int, PrivateDataTag>{
     0x00095000: PrivateDataTag.k7925,
     0x00095100: PrivateDataTag.k7926,
   });
@@ -10266,8 +10283,8 @@ class PrivateCreatorTag extends Tag {
     0x00516500: PrivateDataTag.k8861,
     0x00550100: PrivateDataTag.k8884,
   });
-  static const PrivateCreatorTag k392 =
-      const PrivateCreatorTag._(392, "SIEMENS Selma", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k392 = const PrivateCreatorTag._(
+      392, "SIEMENS Selma", const <int, PrivateDataTag>{
     0x00190600: PrivateDataTag.k8172,
     0x00190700: PrivateDataTag.k8173,
     0x00190800: PrivateDataTag.k8174,
@@ -10280,8 +10297,8 @@ class PrivateCreatorTag extends Tag {
     0x00193400: PrivateDataTag.k8181,
     0x00193500: PrivateDataTag.k8182,
   });
-  static const PrivateCreatorTag k393 =
-      const PrivateCreatorTag._(393, "SIEMENS SIENET", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k393 = const PrivateCreatorTag._(
+      393, "SIEMENS SIENET", const <int, PrivateDataTag>{
     0x00190100: PrivateDataTag.k8198,
   });
   static const PrivateCreatorTag k394 = const PrivateCreatorTag._(
@@ -10338,8 +10355,8 @@ class PrivateCreatorTag extends Tag {
     0x00198800: PrivateDataTag.k8255,
     0x0019a000: PrivateDataTag.k8256,
   });
-  static const PrivateCreatorTag k395 =
-      const PrivateCreatorTag._(395, "SIEMENS SYNGO VOLUME", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k395 = const PrivateCreatorTag._(
+      395, "SIEMENS SYNGO VOLUME", const <int, PrivateDataTag>{
     0x00294400: PrivateDataTag.k8207,
     0x00294600: PrivateDataTag.k8260,
     0x00294700: PrivateDataTag.k8305,
@@ -10356,8 +10373,8 @@ class PrivateCreatorTag extends Tag {
       396, "Siemens Ultrasound Miscellaneous", const <int, PrivateDataTag>{
     0x00192000: PrivateDataTag.k8257,
   });
-  static const PrivateCreatorTag k397 = const PrivateCreatorTag._(
-      397, "Siemens: Thorax/Multix FD Lab Settings", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k397 = const PrivateCreatorTag._(397,
+      "Siemens: Thorax/Multix FD Lab Settings", const <int, PrivateDataTag>{
     0x00190000: PrivateDataTag.k8258,
     0x00190100: PrivateDataTag.k8259,
     0x00190200: PrivateDataTag.k8261,
@@ -10437,8 +10454,8 @@ class PrivateCreatorTag extends Tag {
     0x00210000: PrivateDataTag.k8322,
     0x00210100: PrivateDataTag.k8323,
   });
-  static const PrivateCreatorTag k400 = const PrivateCreatorTag._(
-      400, "Siemens: Thorax/Multix FD Post Processing", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k400 = const PrivateCreatorTag._(400,
+      "Siemens: Thorax/Multix FD Post Processing", const <int, PrivateDataTag>{
     0x00210000: PrivateDataTag.k8390,
     0x00210100: PrivateDataTag.k8391,
     0x00210200: PrivateDataTag.k8392,
@@ -10467,8 +10484,8 @@ class PrivateCreatorTag extends Tag {
     0x00213000: PrivateDataTag.k8415,
     0x00213100: PrivateDataTag.k8416,
   });
-  static const PrivateCreatorTag k401 =
-      const PrivateCreatorTag._(401, "KINETDX_GRAPHICS", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k401 = const PrivateCreatorTag._(
+      401, "KINETDX_GRAPHICS", const <int, PrivateDataTag>{
     0x0021a400: PrivateDataTag.k8428,
   });
   static const PrivateCreatorTag k402 =
@@ -10481,8 +10498,8 @@ class PrivateCreatorTag extends Tag {
     0x0021ac00: PrivateDataTag.k8434,
     0x0021b400: PrivateDataTag.k8435,
   });
-  static const PrivateCreatorTag k403 =
-      const PrivateCreatorTag._(403, "syngoDynamics", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k403 = const PrivateCreatorTag._(
+      403, "syngoDynamics", const <int, PrivateDataTag>{
     0x0021ae00: PrivateDataTag.k8436,
     0x0021b000: PrivateDataTag.k8437,
     0x0021b100: PrivateDataTag.k8438,
@@ -10496,46 +10513,48 @@ class PrivateCreatorTag extends Tag {
     0x00230400: PrivateDataTag.k8444,
   });
   static const PrivateCreatorTag k405 = const PrivateCreatorTag._(
-      405, "Siemens: Thorax/Multix FD Raw Image Settings", const <int, PrivateDataTag>{
-    0x00250000: PrivateDataTag.k8452,
-    0x00250100: PrivateDataTag.k8453,
-    0x00250200: PrivateDataTag.k8454,
-    0x00250300: PrivateDataTag.k8455,
-    0x00250400: PrivateDataTag.k8456,
-    0x00250500: PrivateDataTag.k8457,
-    0x00250600: PrivateDataTag.k8458,
-    0x00250700: PrivateDataTag.k8459,
-    0x00250800: PrivateDataTag.k8460,
-    0x00250900: PrivateDataTag.k8461,
-    0x00250a00: PrivateDataTag.k8462,
-    0x00250b00: PrivateDataTag.k8463,
-    0x00250c00: PrivateDataTag.k8464,
-    0x00250d00: PrivateDataTag.k8465,
-    0x00250e00: PrivateDataTag.k8466,
-    0x00250f00: PrivateDataTag.k8467,
-    0x00251000: PrivateDataTag.k8468,
-    0x00251100: PrivateDataTag.k8469,
-    0x00251200: PrivateDataTag.k8470,
-    0x00251300: PrivateDataTag.k8471,
-    0x00251400: PrivateDataTag.k8472,
-    0x00251500: PrivateDataTag.k8473,
-    0x00251600: PrivateDataTag.k8474,
-    0x00251700: PrivateDataTag.k8475,
-    0x00251800: PrivateDataTag.k8476,
-    0x00251900: PrivateDataTag.k8477,
-    0x00251a00: PrivateDataTag.k8479,
-    0x00251b00: PrivateDataTag.k8480,
-    0x00251c00: PrivateDataTag.k8481,
-    0x00251d00: PrivateDataTag.k8482,
-    0x00253000: PrivateDataTag.k8483,
-    0x00253100: PrivateDataTag.k8484,
-    0x00253200: PrivateDataTag.k8485,
-    0x00253300: PrivateDataTag.k8486,
-    0x00253400: PrivateDataTag.k8487,
-    0x00253500: PrivateDataTag.k8488,
-    0x00253600: PrivateDataTag.k8489,
-    0x00253700: PrivateDataTag.k8490,
-  });
+      405,
+      "Siemens: Thorax/Multix FD Raw Image Settings",
+      const <int, PrivateDataTag>{
+        0x00250000: PrivateDataTag.k8452,
+        0x00250100: PrivateDataTag.k8453,
+        0x00250200: PrivateDataTag.k8454,
+        0x00250300: PrivateDataTag.k8455,
+        0x00250400: PrivateDataTag.k8456,
+        0x00250500: PrivateDataTag.k8457,
+        0x00250600: PrivateDataTag.k8458,
+        0x00250700: PrivateDataTag.k8459,
+        0x00250800: PrivateDataTag.k8460,
+        0x00250900: PrivateDataTag.k8461,
+        0x00250a00: PrivateDataTag.k8462,
+        0x00250b00: PrivateDataTag.k8463,
+        0x00250c00: PrivateDataTag.k8464,
+        0x00250d00: PrivateDataTag.k8465,
+        0x00250e00: PrivateDataTag.k8466,
+        0x00250f00: PrivateDataTag.k8467,
+        0x00251000: PrivateDataTag.k8468,
+        0x00251100: PrivateDataTag.k8469,
+        0x00251200: PrivateDataTag.k8470,
+        0x00251300: PrivateDataTag.k8471,
+        0x00251400: PrivateDataTag.k8472,
+        0x00251500: PrivateDataTag.k8473,
+        0x00251600: PrivateDataTag.k8474,
+        0x00251700: PrivateDataTag.k8475,
+        0x00251800: PrivateDataTag.k8476,
+        0x00251900: PrivateDataTag.k8477,
+        0x00251a00: PrivateDataTag.k8479,
+        0x00251b00: PrivateDataTag.k8480,
+        0x00251c00: PrivateDataTag.k8481,
+        0x00251d00: PrivateDataTag.k8482,
+        0x00253000: PrivateDataTag.k8483,
+        0x00253100: PrivateDataTag.k8484,
+        0x00253200: PrivateDataTag.k8485,
+        0x00253300: PrivateDataTag.k8486,
+        0x00253400: PrivateDataTag.k8487,
+        0x00253500: PrivateDataTag.k8488,
+        0x00253600: PrivateDataTag.k8489,
+        0x00253700: PrivateDataTag.k8490,
+      });
   static const PrivateCreatorTag k406 = const PrivateCreatorTag._(
       406, "SIEMENS SYNGO ENHANCED IDATASET API", const <int, PrivateDataTag>{
     0x00270100: PrivateDataTag.k8491,
@@ -10546,13 +10565,13 @@ class PrivateCreatorTag extends Tag {
       407, "SIEMENS SYNGO FUNCTION ASSIGNMENT", const <int, PrivateDataTag>{
     0x00290100: PrivateDataTag.k8494,
   });
-  static const PrivateCreatorTag k408 =
-      const PrivateCreatorTag._(408, "SHS MagicView 300", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k408 = const PrivateCreatorTag._(
+      408, "SHS MagicView 300", const <int, PrivateDataTag>{
     0x00290200: PrivateDataTag.k8495,
     0x00290300: PrivateDataTag.k8496,
   });
-  static const PrivateCreatorTag k409 =
-      const PrivateCreatorTag._(409, "SIEMENS MED MAMMO", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k409 = const PrivateCreatorTag._(
+      409, "SIEMENS MED MAMMO", const <int, PrivateDataTag>{
     0x00295a00: PrivateDataTag.k8498,
   });
   static const PrivateCreatorTag k410 = const PrivateCreatorTag._(
@@ -10808,13 +10827,13 @@ class PrivateCreatorTag extends Tag {
     0x00317300: PrivateDataTag.k8761,
     0x00318000: PrivateDataTag.k8762,
   });
-  static const PrivateCreatorTag k419 =
-      const PrivateCreatorTag._(419, "SIEMENS CSA ENVELOPE", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k419 = const PrivateCreatorTag._(
+      419, "SIEMENS CSA ENVELOPE", const <int, PrivateDataTag>{
     0x00291100: PrivateDataTag.k8752,
     0x00291000: PrivateDataTag.k10564,
   });
-  static const PrivateCreatorTag k420 =
-      const PrivateCreatorTag._(420, "SIEMENS CSA REPORT", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k420 = const PrivateCreatorTag._(
+      420, "SIEMENS CSA REPORT", const <int, PrivateDataTag>{
     0x00290800: PrivateDataTag.k8753,
     0x00290900: PrivateDataTag.k8754,
     0x00291500: PrivateDataTag.k8755,
@@ -10859,17 +10878,17 @@ class PrivateCreatorTag extends Tag {
     0x00318200: PrivateDataTag.k8797,
     0x00318300: PrivateDataTag.k8798,
   });
-  static const PrivateCreatorTag k422 =
-      const PrivateCreatorTag._(422, "SIEMENS MI RWVM SUV", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k422 = const PrivateCreatorTag._(
+      422, "SIEMENS MI RWVM SUV", const <int, PrivateDataTag>{
     0x00410100: PrivateDataTag.k8812,
   });
-  static const PrivateCreatorTag k423 =
-      const PrivateCreatorTag._(423, "SIEMENS WH SR 1.0", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k423 = const PrivateCreatorTag._(
+      423, "SIEMENS WH SR 1.0", const <int, PrivateDataTag>{
     0x00710100: PrivateDataTag.k8910,
     0x00710200: PrivateDataTag.k8911,
   });
-  static const PrivateCreatorTag k424 =
-      const PrivateCreatorTag._(424, "SIEMENS MED PT", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k424 = const PrivateCreatorTag._(
+      424, "SIEMENS MED PT", const <int, PrivateDataTag>{
     0x00712300: PrivateDataTag.k8912,
     0x00712400: PrivateDataTag.k8913,
     0x00712100: PrivateDataTag.k8958,
@@ -11141,8 +11160,8 @@ class PrivateCreatorTag extends Tag {
       430, "syngoDynamics_Reporting", const <int, PrivateDataTag>{
     0x0021ad00: PrivateDataTag.k9214,
   });
-  static const PrivateCreatorTag k431 =
-      const PrivateCreatorTag._(431, "SIEMENS MR N3D", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k431 = const PrivateCreatorTag._(
+      431, "SIEMENS MR N3D", const <int, PrivateDataTag>{
     0x00214a00: PrivateDataTag.k9215,
     0x00213000: PrivateDataTag.k9387,
     0x00213100: PrivateDataTag.k9388,
@@ -11254,8 +11273,8 @@ class PrivateCreatorTag extends Tag {
     0x0021c100: PrivateDataTag.k9494,
     0x0021c200: PrivateDataTag.k9495,
   });
-  static const PrivateCreatorTag k432 = const PrivateCreatorTag._(
-      432, "SIEMENS SYNGO ENCAPSULATED DOCUMENT DATA", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k432 = const PrivateCreatorTag._(432,
+      "SIEMENS SYNGO ENCAPSULATED DOCUMENT DATA", const <int, PrivateDataTag>{
     0x00872000: PrivateDataTag.k9216,
     0x00873000: PrivateDataTag.k9217,
     0x00874000: PrivateDataTag.k9218,
@@ -11315,8 +11334,8 @@ class PrivateCreatorTag extends Tag {
       435, "SIEMENS SYNGO DATA PADDING", const <int, PrivateDataTag>{
     0x7fdffc00: PrivateDataTag.k9264,
   });
-  static const PrivateCreatorTag k436 =
-      const PrivateCreatorTag._(436, "SIEMENS MR HEADER", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k436 = const PrivateCreatorTag._(
+      436, "SIEMENS MR HEADER", const <int, PrivateDataTag>{
     0x00190800: PrivateDataTag.k9265,
     0x00190900: PrivateDataTag.k9266,
     0x00190a00: PrivateDataTag.k9267,
@@ -11461,8 +11480,8 @@ class PrivateCreatorTag extends Tag {
     0x00215b00: PrivateDataTag.k9384,
     0x00215e00: PrivateDataTag.k9385,
   });
-  static const PrivateCreatorTag k439 =
-      const PrivateCreatorTag._(439, "SIEMENS MR IMA", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k439 = const PrivateCreatorTag._(
+      439, "SIEMENS MR IMA", const <int, PrivateDataTag>{
     0x00210100: PrivateDataTag.k9386,
   });
   static const PrivateCreatorTag k440 = const PrivateCreatorTag._(
@@ -11472,8 +11491,8 @@ class PrivateCreatorTag extends Tag {
     0x00210300: PrivateDataTag.k9498,
     0x0021f100: PrivateDataTag.k9499,
   });
-  static const PrivateCreatorTag k441 =
-      const PrivateCreatorTag._(441, "SIEMENS MR SDS 01", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k441 = const PrivateCreatorTag._(
+      441, "SIEMENS MR SDS 01", const <int, PrivateDataTag>{
     0x0021fe00: PrivateDataTag.k9500,
     0x00210100: PrivateDataTag.k9501,
     0x00210200: PrivateDataTag.k9502,
@@ -11548,8 +11567,8 @@ class PrivateCreatorTag extends Tag {
     0x00215200: PrivateDataTag.k9571,
     0x00215300: PrivateDataTag.k9572,
   });
-  static const PrivateCreatorTag k442 =
-      const PrivateCreatorTag._(442, "SIEMENS MR MRS 05", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k442 = const PrivateCreatorTag._(
+      442, "SIEMENS MR MRS 05", const <int, PrivateDataTag>{
     0x00210100: PrivateDataTag.k9573,
     0x00210200: PrivateDataTag.k9574,
     0x00210300: PrivateDataTag.k9575,
@@ -11573,8 +11592,8 @@ class PrivateCreatorTag extends Tag {
     0x00250200: PrivateDataTag.k9590,
     0x00250300: PrivateDataTag.k9591,
   });
-  static const PrivateCreatorTag k444 =
-      const PrivateCreatorTag._(444, "SIEMENS MR SDI 02", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k444 = const PrivateCreatorTag._(
+      444, "SIEMENS MR SDI 02", const <int, PrivateDataTag>{
     0x00210100: PrivateDataTag.k9608,
     0x00210200: PrivateDataTag.k9609,
     0x00210300: PrivateDataTag.k9610,
@@ -11667,17 +11686,17 @@ class PrivateCreatorTag extends Tag {
     0x00218000: PrivateDataTag.k9697,
     0x0021fe00: PrivateDataTag.k9698,
   });
-  static const PrivateCreatorTag k445 =
-      const PrivateCreatorTag._(445, "SIEMENS MR CM 03", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k445 = const PrivateCreatorTag._(
+      445, "SIEMENS MR CM 03", const <int, PrivateDataTag>{
     0x00210100: PrivateDataTag.k9699,
     0x00210200: PrivateDataTag.k9700,
   });
-  static const PrivateCreatorTag k446 =
-      const PrivateCreatorTag._(446, "SIEMENS MR PS 04", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k446 = const PrivateCreatorTag._(
+      446, "SIEMENS MR PS 04", const <int, PrivateDataTag>{
     0x00210100: PrivateDataTag.k9701,
   });
-  static const PrivateCreatorTag k447 =
-      const PrivateCreatorTag._(447, "SIEMENS MR FOR 06", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k447 = const PrivateCreatorTag._(
+      447, "SIEMENS MR FOR 06", const <int, PrivateDataTag>{
     0x00210100: PrivateDataTag.k9702,
   });
   static const PrivateCreatorTag k448 = const PrivateCreatorTag._(
@@ -12008,8 +12027,8 @@ class PrivateCreatorTag extends Tag {
       455, "SIEMENS MED OCS BEAM DISPLAY INFO", const <int, PrivateDataTag>{
     0x00397600: PrivateDataTag.k10007,
   });
-  static const PrivateCreatorTag k456 = const PrivateCreatorTag._(
-      456, "SIEMENS MED OCS PUBLIC RT PLAN ATTRIBUTES", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k456 = const PrivateCreatorTag._(456,
+      "SIEMENS MED OCS PUBLIC RT PLAN ATTRIBUTES", const <int, PrivateDataTag>{
     0x00390100: PrivateDataTag.k10008,
   });
   static const PrivateCreatorTag k457 = const PrivateCreatorTag._(
@@ -12037,8 +12056,8 @@ class PrivateCreatorTag extends Tag {
     0x00632000: PrivateDataTag.k10026,
     0x00632100: PrivateDataTag.k10027,
   });
-  static const PrivateCreatorTag k459 = const PrivateCreatorTag._(
-      459, "PMI Private Calibration Module Version 2.0", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k459 = const PrivateCreatorTag._(459,
+      "PMI Private Calibration Module Version 2.0", const <int, PrivateDataTag>{
     0x21210100: PrivateDataTag.k10028,
     0x21210200: PrivateDataTag.k10029,
     0x21210300: PrivateDataTag.k10030,
@@ -12053,15 +12072,15 @@ class PrivateCreatorTag extends Tag {
     0x21210d00: PrivateDataTag.k10039,
     0x21210e00: PrivateDataTag.k10040,
   });
-  static const PrivateCreatorTag k460 =
-      const PrivateCreatorTag._(460, "POLYTRON-SMS 2.5", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k460 = const PrivateCreatorTag._(
+      460, "POLYTRON-SMS 2.5", const <int, PrivateDataTag>{
     0x00090200: PrivateDataTag.k10043,
     0x00090400: PrivateDataTag.k10044,
     0x00090600: PrivateDataTag.k10045,
     0x00891000: PrivateDataTag.k10046,
   });
-  static const PrivateCreatorTag k461 =
-      const PrivateCreatorTag._(461, "SIEMENS MED SYNGO RT", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k461 = const PrivateCreatorTag._(
+      461, "SIEMENS MED SYNGO RT", const <int, PrivateDataTag>{
     0x300b1000: PrivateDataTag.k10047,
     0x300b1100: PrivateDataTag.k10048,
     0x300b1200: PrivateDataTag.k10049,
@@ -12161,12 +12180,14 @@ class PrivateCreatorTag extends Tag {
     0x300bf100: PrivateDataTag.k10143,
   });
   static const PrivateCreatorTag k462 = const PrivateCreatorTag._(
-      462, "SIEMENS SYNGO ULTRA-SOUND TOYON DATA STREAMING", const <int, PrivateDataTag>{
-    0x7fd10100: PrivateDataTag.k10144,
-    0x7fd10900: PrivateDataTag.k10145,
-    0x7fd11000: PrivateDataTag.k10146,
-    0x7fd11100: PrivateDataTag.k10147,
-  });
+      462,
+      "SIEMENS SYNGO ULTRA-SOUND TOYON DATA STREAMING",
+      const <int, PrivateDataTag>{
+        0x7fd10100: PrivateDataTag.k10144,
+        0x7fd10900: PrivateDataTag.k10145,
+        0x7fd11000: PrivateDataTag.k10146,
+        0x7fd11100: PrivateDataTag.k10147,
+      });
   static const PrivateCreatorTag k463 = const PrivateCreatorTag._(
       463, "SIEMENS Ultrasound S2000", const <int, PrivateDataTag>{
     0x00210000: PrivateDataTag.k10148,
@@ -12207,18 +12228,18 @@ class PrivateCreatorTag extends Tag {
     0x007d0200: PrivateDataTag.k10174,
     0x007d0300: PrivateDataTag.k10175,
   });
-  static const PrivateCreatorTag k467 =
-      const PrivateCreatorTag._(467, "TOSHIBA_MEC_OT3", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k467 = const PrivateCreatorTag._(
+      467, "TOSHIBA_MEC_OT3", const <int, PrivateDataTag>{
     0x00090000: PrivateDataTag.k10176,
   });
-  static const PrivateCreatorTag k468 =
-      const PrivateCreatorTag._(468, "TOSHIBA MDW NON-IMAGE", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k468 = const PrivateCreatorTag._(
+      468, "TOSHIBA MDW NON-IMAGE", const <int, PrivateDataTag>{
     0x00290800: PrivateDataTag.k10177,
     0x00290900: PrivateDataTag.k10178,
     0x00292000: PrivateDataTag.k10179,
   });
-  static const PrivateCreatorTag k469 =
-      const PrivateCreatorTag._(469, "TOSHIBA MDW HEADER", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k469 = const PrivateCreatorTag._(
+      469, "TOSHIBA MDW HEADER", const <int, PrivateDataTag>{
     0x00290800: PrivateDataTag.k10180,
     0x00290900: PrivateDataTag.k10181,
     0x00291000: PrivateDataTag.k10182,
@@ -12226,8 +12247,8 @@ class PrivateCreatorTag extends Tag {
     0x00291900: PrivateDataTag.k10184,
     0x00292000: PrivateDataTag.k10185,
   });
-  static const PrivateCreatorTag k470 =
-      const PrivateCreatorTag._(470, "TOSHIBA COMAPL HEADER", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k470 = const PrivateCreatorTag._(
+      470, "TOSHIBA COMAPL HEADER", const <int, PrivateDataTag>{
     0x00290800: PrivateDataTag.k10186,
     0x00290900: PrivateDataTag.k10187,
     0x00291000: PrivateDataTag.k10188,
@@ -12235,14 +12256,14 @@ class PrivateCreatorTag extends Tag {
     0x00293100: PrivateDataTag.k10190,
     0x00293400: PrivateDataTag.k10191,
   });
-  static const PrivateCreatorTag k471 =
-      const PrivateCreatorTag._(471, "TOSHIBA COMAPL OOG", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k471 = const PrivateCreatorTag._(
+      471, "TOSHIBA COMAPL OOG", const <int, PrivateDataTag>{
     0x00290800: PrivateDataTag.k10192,
     0x00290900: PrivateDataTag.k10193,
     0x00291000: PrivateDataTag.k10195,
   });
-  static const PrivateCreatorTag k472 =
-      const PrivateCreatorTag._(472, "PMTF INFORMATION DATA", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k472 = const PrivateCreatorTag._(
+      472, "PMTF INFORMATION DATA", const <int, PrivateDataTag>{
     0x00290100: PrivateDataTag.k10196,
     0x00293100: PrivateDataTag.k10197,
     0x00293200: PrivateDataTag.k10198,
@@ -12252,8 +12273,8 @@ class PrivateCreatorTag extends Tag {
     0x00299000: PrivateDataTag.k10202,
     0x70157300: PrivateDataTag.k10216,
   });
-  static const PrivateCreatorTag k473 =
-      const PrivateCreatorTag._(473, "TOSHIBA_MEC_CT3", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k473 = const PrivateCreatorTag._(
+      473, "TOSHIBA_MEC_CT3", const <int, PrivateDataTag>{
     0x70056100: PrivateDataTag.k10203,
     0x70056200: PrivateDataTag.k10204,
     0x70056300: PrivateDataTag.k10205,
@@ -12332,8 +12353,8 @@ class PrivateCreatorTag extends Tag {
     0x70151000: PrivateDataTag.k10214,
     0x70156000: PrivateDataTag.k10215,
   });
-  static const PrivateCreatorTag k476 =
-      const PrivateCreatorTag._(476, "TOSHIBA_MEC_XA3", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k476 = const PrivateCreatorTag._(
+      476, "TOSHIBA_MEC_XA3", const <int, PrivateDataTag>{
     0x70792100: PrivateDataTag.k10217,
     0x70792200: PrivateDataTag.k10218,
     0x70792300: PrivateDataTag.k10219,
@@ -12424,8 +12445,8 @@ class PrivateCreatorTag extends Tag {
     0x70797b00: PrivateDataTag.k10304,
     0x70798000: PrivateDataTag.k10305,
   });
-  static const PrivateCreatorTag k477 =
-      const PrivateCreatorTag._(477, "GE_YMS_NJ001", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k477 = const PrivateCreatorTag._(
+      477, "GE_YMS_NJ001", const <int, PrivateDataTag>{
     0x00093100: PrivateDataTag.k10330,
     0x00190200: PrivateDataTag.k10492,
     0x00192300: PrivateDataTag.k10493,
@@ -12466,12 +12487,12 @@ class PrivateCreatorTag extends Tag {
     0x004b0200: PrivateDataTag.k10675,
     0x004b0300: PrivateDataTag.k10676,
   });
-  static const PrivateCreatorTag k478 =
-      const PrivateCreatorTag._(478, "GEMS_PATI_01", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k478 = const PrivateCreatorTag._(
+      478, "GEMS_PATI_01", const <int, PrivateDataTag>{
     0x00111000: PrivateDataTag.k10404,
   });
-  static const PrivateCreatorTag k479 =
-      const PrivateCreatorTag._(479, "Siemens MED NM", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k479 = const PrivateCreatorTag._(
+      479, "Siemens MED NM", const <int, PrivateDataTag>{
     0x00190f00: PrivateDataTag.k10507,
     0x0019a500: PrivateDataTag.k10508,
     0x0019a600: PrivateDataTag.k10509,
@@ -12483,8 +12504,8 @@ class PrivateCreatorTag extends Tag {
     0x00210100: PrivateDataTag.k10521,
     0x00230100: PrivateDataTag.k10524,
   });
-  static const PrivateCreatorTag k480 =
-      const PrivateCreatorTag._(480, "GEMS_CT_FLRO_01", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k480 = const PrivateCreatorTag._(
+      480, "GEMS_CT_FLRO_01", const <int, PrivateDataTag>{
     0x00290100: PrivateDataTag.k10531,
     0x00290200: PrivateDataTag.k10532,
   });
@@ -12492,8 +12513,8 @@ class PrivateCreatorTag extends Tag {
       const PrivateCreatorTag._(481, "GEMS_0039", const <int, PrivateDataTag>{
     0x00399500: PrivateDataTag.k10573,
   });
-  static const PrivateCreatorTag k482 =
-      const PrivateCreatorTag._(482, "GEMS_HINO_CT_01", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k482 = const PrivateCreatorTag._(
+      482, "GEMS_HINO_CT_01", const <int, PrivateDataTag>{
     0x004b0100: PrivateDataTag.k10671,
     0x004b0200: PrivateDataTag.k10672,
     0x004b0300: PrivateDataTag.k10673,
@@ -12532,8 +12553,8 @@ class PrivateCreatorTag extends Tag {
     0x2001b000: PrivateDataTag.k11005,
     0x2001c000: PrivateDataTag.k11006,
   });
-  static const PrivateCreatorTag k484 =
-      const PrivateCreatorTag._(484, "GEMS_MR_RAW_01", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k484 = const PrivateCreatorTag._(
+      484, "GEMS_MR_RAW_01", const <int, PrivateDataTag>{
     0x70010100: PrivateDataTag.k11062,
     0x70010200: PrivateDataTag.k11063,
     0x70010300: PrivateDataTag.k11064,
@@ -12546,8 +12567,8 @@ class PrivateCreatorTag extends Tag {
     0x70010a00: PrivateDataTag.k11071,
     0x70010b00: PrivateDataTag.k11072,
   });
-  static const PrivateCreatorTag k485 =
-      const PrivateCreatorTag._(485, "TOSHIBA_MEC_MR3", const <int, PrivateDataTag>{
+  static const PrivateCreatorTag k485 = const PrivateCreatorTag._(
+      485, "TOSHIBA_MEC_MR3", const <int, PrivateDataTag>{
     0x700d0000: PrivateDataTag.k11131,
     0x700d0100: PrivateDataTag.k11132,
     0x700d0200: PrivateDataTag.k11133,

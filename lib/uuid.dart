@@ -37,7 +37,8 @@ class UuidV4Generator {
 
   /// Returns a Version 4 (random) UUID.
   /// If [isSecure] is [true] it uses the [Random.secure] RNG.
-  Uint8List call({bool isSecure: false}) => _getBytes((isSecure) ? rngSecure : rngBasic);
+  Uint8List call({bool isSecure: false}) =>
+      _getBytes((isSecure) ? rngSecure : rngBasic);
 }
 
 /// A Version 4 (random) Uuid.
@@ -176,7 +177,8 @@ bool _isValidV4Uint8List(Uint8List bytes) =>
     (2 == (bytes[8] >> 6) & 0x02);
 
 Uint8List _listToBytes(List<int> list) {
-  if (list.length < 16) throw new ArgumentError('Invalid List Length: ${list.length}');
+  if (list.length < 16)
+    throw new ArgumentError('Invalid List Length: ${list.length}');
 
   Uint8List bytes =
       (list is Uint8List) ? list : new Uint8List.fromList(list.sublist(0, 16));

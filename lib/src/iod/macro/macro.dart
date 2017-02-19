@@ -15,10 +15,10 @@ abstract class MacroBase {
 
   MacroBase(this.name, this.tag, this.description);
 
-  List<MacroBase> get include  => [];
-  List<IodTag> get elements  => [];
-  Map<String, Tag> get keywords  => {};
-  Map<int, Tag> get tags  => {};
+  List<MacroBase> get include => [];
+  List<IodTag> get elements => [];
+  Map<String, Tag> get keywords => {};
+  Map<int, Tag> get tags => {};
 }
 
 abstract class MacroSequenceBase {
@@ -27,13 +27,11 @@ abstract class MacroSequenceBase {
 }
 
 class Macro extends MacroBase {
-
-
   Macro(String name, IodTag tag, String description)
-  : super(name, tag, description);
+      : super(name, tag, description);
 
- // List<MacroBase> get include => [];
- // List<IodTag> get elements => [];
- // Map<String, Tag> get keywords => {};
- // Map<int, Tag> get tags => {};
+  // List<MacroBase> get include => [];
+  // List<IodTag> get elements => [];
+  // Map<String, Tag> get keywords => {};
+  // Map<int, Tag> get tags => {};
 }

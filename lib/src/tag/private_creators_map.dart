@@ -6097,7 +6097,8 @@ const Map<String, Map<int, PrivateDataTag>> privateCreatorsMap =
     0x31091500: PrivateDataTag.k4133,
     0x31091600: PrivateDataTag.k4134
   },
-  "http://www.gemedicalsystems.com/it_solutions/rad_pacs/": const <int, PrivateDataTag>{
+  "http://www.gemedicalsystems.com/it_solutions/rad_pacs/":
+      const <int, PrivateDataTag>{
     //"@type": "PrivateDataTag",
     0x31150100: PrivateDataTag.k4135,
     0x31150200: PrivateDataTag.k4532,
@@ -6865,7 +6866,8 @@ const Map<String, Map<int, PrivateDataTag>> privateCreatorsMap =
     0x00210400: PrivateDataTag.k4807,
     0x00210500: PrivateDataTag.k4808
   },
-  "SCHICK TECHNOLOGIES - Image Security Creator ID": const <int, PrivateDataTag>{
+  "SCHICK TECHNOLOGIES - Image Security Creator ID":
+      const <int, PrivateDataTag>{
     //"@type": "PrivateDataTag",
     0x00290100: PrivateDataTag.k4827
   },
@@ -7545,7 +7547,8 @@ const Map<String, Map<int, PrivateDataTag>> privateCreatorsMap =
     0x80033000: PrivateDataTag.k5306,
     0x80034000: PrivateDataTag.k5307
   },
-  "ObjectModel (ID, Version, Place, PlaceDescription)": const <int, PrivateDataTag>{
+  "ObjectModel (ID, Version, Place, PlaceDescription)":
+      const <int, PrivateDataTag>{
     //"@type": "PrivateDataTag",
     0x81010000: PrivateDataTag.k5308,
     0x81011000: PrivateDataTag.k5309

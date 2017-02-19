@@ -10,7 +10,8 @@ part of odw.sdk.dictionary.uid;
 class SopClassUid extends WKUid {
   static const String classLink = 'TODO link';
 
-  const SopClassUid(String uid, UidType type, bool isRetired, String name, String link)
+  const SopClassUid(
+      String uid, UidType type, bool isRetired, String name, String link)
       : super._(uid, type, isRetired, name);
 
   //TODO: create UidType class
@@ -26,5 +27,9 @@ class SopClassUid extends WKUid {
   }
 
   static const SopClassUid kVerificationSOPClass = const SopClassUid(
-      "1.2.840.10008.1.1", UidType.kSOPClass, false, "Verification SOP Class", "PS3.4");
+      "1.2.840.10008.1.1",
+      UidType.kSOPClass,
+      false,
+      "Verification SOP Class",
+      "PS3.4");
 }

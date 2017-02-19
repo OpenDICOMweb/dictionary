@@ -26,7 +26,8 @@ class InvalidTagError extends Error {
   }
 }
 
-dynamic tagError(Object obj, [List values]) => throw new InvalidTagError(obj, values);
+dynamic tagError(Object obj, [List values]) =>
+    throw new InvalidTagError(obj, values);
 
 class InvalidTagCodeError extends Error {
   int code;
@@ -35,7 +36,8 @@ class InvalidTagCodeError extends Error {
   InvalidTagCodeError(this.code, [this.values]);
 
   @override
-  String toString() => 'Error: Invalid Tag Code ${Tag.toDcm(code)} with values $values';
+  String toString() =>
+      'Error: Invalid Tag Code ${Tag.toDcm(code)} with values $values';
 }
 
 dynamic tagCodeError(int code, [List values]) =>

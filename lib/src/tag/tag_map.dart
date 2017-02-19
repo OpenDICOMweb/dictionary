@@ -1484,7 +1484,8 @@ const Map<int, Tag> tagMap = const <int, Tag>{
   0x00240100: Tag.kAgeCorrectedSensitivityDeviationProbabilityValue,
   0x00240102: Tag.kGeneralizedDefectCorrectedSensitivityDeviationFlag,
   0x00240103: Tag.kGeneralizedDefectCorrectedSensitivityDeviationValue,
-  0x00240104: Tag.kGeneralizedDefectCorrectedSensitivityDeviationProbabilityValue,
+  0x00240104:
+      Tag.kGeneralizedDefectCorrectedSensitivityDeviationProbabilityValue,
   0x00240105: Tag.kMinimumSensitivityValue,
   0x00240106: Tag.kBlindSpotLocalized,
   0x00240107: Tag.kBlindSpotXCoordinate,

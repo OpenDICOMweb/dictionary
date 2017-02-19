@@ -184,9 +184,11 @@ bool _checkDcmString(String s, int maxLength) {
   return true;
 }
 */
-bool _dcmStringFilter(int c) => !(c < kSpace || c == kBackslash || c == kDelete);
+bool _dcmStringFilter(int c) =>
+    !(c < kSpace || c == kBackslash || c == kDelete);
 
-bool _isDcmString(String s, int max) => _isFilteredString(s, 0, max, _dcmStringFilter);
+bool _isDcmString(String s, int max) =>
+    _isFilteredString(s, 0, max, _dcmStringFilter);
 
 String checkDcmString(String s, int max) => (_isDcmString(s, max)) ? s : null;
 
@@ -206,7 +208,8 @@ bool _checkTextString(String s, int maxLength) {
 */
 bool _textFilter(int c) => !(c < kSpace || c == kDelete);
 
-bool _isTextString(String s, int max) => _isFilteredString(s, 0, max, _textFilter);
+bool _isTextString(String s, int max) =>
+    _isFilteredString(s, 0, max, _textFilter);
 
 // DICOM Strings
 bool isAEString(String s) => _isDcmString(s, 16);

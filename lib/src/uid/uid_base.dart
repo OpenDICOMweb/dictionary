@@ -53,7 +53,8 @@ abstract class UidBase {
 
   factory UidBase() => new UidUuid();
   @override
-  bool operator ==(Object other) => (other is UidBase) && (asString == other.asString);
+  bool operator ==(Object other) =>
+      (other is UidBase) && (asString == other.asString);
 
   /// Returns the [Uid] [String].
   String get asString;
