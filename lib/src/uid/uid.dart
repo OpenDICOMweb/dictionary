@@ -38,7 +38,7 @@ class Uid extends UidBase {
       : asString = check(root + leaf);
      //   super._();
 
-  const Uid._(this.asString);// : super._();
+  const Uid._(this.asString) : super();
 
   @override
   UidType get type => UidType.kConstructed;

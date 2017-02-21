@@ -40,7 +40,7 @@ abstract class UidBase {
   //factory Uid([String s]) => (s != null) ? new UidString(s) : new UidUuid();
 
   /// Creates a constant [UidBase].  Used to create 'Well Known' DICOM [UidBase]s.
- // const UidBase._();
+  const UidBase();
 
  // factory UidBase() => new UidUuid();
 

@@ -35,7 +35,7 @@ class Elt {
 
   static bool isValidPrivateData(int pdElt, int pcElt) {
     print('pd($pdElt), pc($pcElt)');
-    if (pdElt == null || pcElt == false) return false;
+    if (pdElt == null) return false;
     int base = pcBase(pcElt);
     int limit = pcLimit(pcElt);
     print('base($base), limit($limit)');

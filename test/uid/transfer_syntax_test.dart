@@ -16,7 +16,7 @@ void transferSyntaxTest() {
   group('Transfer Syntax Tests', () {
     
     test('String to UID', () {
-      UidBase uid = WKUid.lookup("1.2.840.10008.1.2");
+      Uid uid = WKUid.lookup("1.2.840.10008.1.2");
       expect(uid == WKUid.kImplicitVRLittleEndian, true);
       uid = WKUid.lookup("1.2.840.10008.1.2.1");
       expect(uid == WKUid.kExplicitVRLittleEndian, true);
@@ -24,7 +24,7 @@ void transferSyntaxTest() {
     });
 
     test('String to TransferSyntax', () {
-      UidBase uid = TransferSyntax.lookup("1.2.840.10008.1.2");
+      Uid uid = TransferSyntax.lookup("1.2.840.10008.1.2");
       expect(uid == TransferSyntax.kImplicitVRLittleEndian, true);
       uid = TransferSyntax.lookup("1.2.840.10008.1.2.1");
       expect(uid == TransferSyntax.kExplicitVRLittleEndian, true);

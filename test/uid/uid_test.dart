@@ -32,7 +32,7 @@ void uidTest() {
     }, skip: "TODO: fix Uid.parse to detect bad values");
 
     test('String to TransferSyntax', () {
-      UidBase uid = TransferSyntax.lookup("1.2.840.10008.1.2");
+      Uid uid = TransferSyntax.lookup("1.2.840.10008.1.2");
       expect(uid == TransferSyntax.kImplicitVRLittleEndian, true);
       uid = TransferSyntax.lookup("1.2.840.10008.1.2.1");
       expect(uid == TransferSyntax.kExplicitVRLittleEndian, true);

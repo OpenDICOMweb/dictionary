@@ -347,7 +347,7 @@ class Tag {
   static bool isValidPrivateDataTag(int pd, int pc) {
     int pdg = Group.checkPrivate(Group.fromTag(pd));
     int pcg = Group.checkPrivate(Group.fromTag(pc));
-    if (pdg == null || pcg == null || pdg != pcg) return null;
+    if (pdg == null || pcg == null || pdg != pcg) return false;
     return Elt.isValidPrivateData(Elt.fromTag(pd), Elt.fromTag(pc));
   }
 
