@@ -24,7 +24,7 @@ class VRFloat extends VR<double> {
       : super._(index, code, id, desc);
 
   // Floats
-  //                                          index, code, id, desc, eSize, maxVFLength,
+  //                  index, code, id, desc, eSize, maxVFLength,
   static const VRFloat kFD =
       const VRFloat._(11, 0x4644, "FD", "Float Double", 8, kMaxShortVF);
   static const VRFloat kFL =
@@ -33,7 +33,4 @@ class VRFloat extends VR<double> {
       const VRFloat._(13, 0x4f44, "OD", "Other Double", 8, kMaxOD);
   static const VRFloat kOF =
       const VRFloat._(14, 0x4f46, "OF", "Other Float", 4, kMaxOF);
-
-  @override
-  String toString() => 'VRFloat.k$id';
 }

@@ -6,6 +6,8 @@
 
 import 'package:common/common.dart';
 
+//TODO: are all of these needed.  This would be faster if some were private.
+
 /// Methods to use with a DICOM Elt (aka element), a 16-bit integer.
 ///
 /// The [Elt] methods expect their argument to be a 16-bit tag.code.element number.
@@ -27,11 +29,18 @@ class Elt {
 
   static int pcBase(int pcElt) => (isPrivateCreator(pcElt)) ? pcElt << 8 : null;
 
-  static int pcLimit(int pcElt) =>
-      (pcBase(pcElt) == null) ? null : pcElt + 0xFF;
+  static int pcLimit(int pcElt) => (pcElt == null) ? null : pcBase(pcElt) + 0xFF;
 
   static bool isPrivateData(int elt) => 0x1000 <= elt && elt <= 0xFFFF;
 
-  static bool isValidPrivateData(int pdElt, int pcElt) =>
-      pcBase(pcElt) <= pdElt && pdElt <= pcLimit(pcElt);
+  static bool isValidPrivateData(int pdElt, int pcElt) {
+    print('pd($pdElt), pc($pcElt)');
+    if (pdElt == null || pcElt == false) return false;
+    int base = pcBase(pcElt);
+    int limit = pcLimit(pcElt);
+    print('base($base), limit($limit)');
+    if (base == null || limit == null) return false;
+    return pcBase(pcElt) <= pdElt && pdElt <= pcLimit(pcElt);
+  }
+
 }

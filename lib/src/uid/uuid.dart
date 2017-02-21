@@ -11,8 +11,8 @@ class UidUuid extends UidBase {
   final Uuid uuid;
 
   UidUuid({bool isSecure = false})
-      : uuid = new Uuid(isSecure: isSecure),
-        super._();
+      : uuid = new Uuid(isSecure: isSecure);
+       // super._();
 
   @override
   String get asString => uidRoot + uuid.toString();
@@ -22,8 +22,4 @@ class UidUuid extends UidBase {
 
   @override
   String toString() => asString;
-
-  /// Returns a [String] containing a random UID as per the
-  /// OID Standard.  See TODO: add reference.
-  static String get random => Uuid.generator.string;
 }

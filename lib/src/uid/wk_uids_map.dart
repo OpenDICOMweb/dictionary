@@ -4,7 +4,7 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu>
 // See the AUTHORS file for other contributors.
 
-import 'uid_base.dart';
+import 'uid.dart';
 
 //TODO: doc
 //TODO: change entries to proper type

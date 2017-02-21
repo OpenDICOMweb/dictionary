@@ -53,9 +53,6 @@ class VRInt extends VR<int> {
       09, 0x4154, "AT", "Attribute Tag", 4, Uint32.min, Uint32.max);
   static const VRInt kOL = const VRInt._(
       10, 0x4f4c, "OL", "Other Long", 4, Uint32.min, Uint32.max, kMaxLongVF);
-
-  @override
-  String toString() => 'VRFloat.k$id';
 }
 
 /// This class is used by the Tag class.  It is NOT used for parsing, etc.
@@ -84,7 +81,4 @@ class VRIntSpecial extends VR {
       const VRIntSpecial._(37, 0x0003, "USOW", "US or OW");
   static const VRIntSpecial kUSOW1 =
       const VRIntSpecial._(38, 0x0003, "USOW1", "US or OW1");
-
-  @override
-  String toString() => 'VRFloat.k$id';
 }

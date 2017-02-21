@@ -12,21 +12,25 @@ import 'package:dictionary/src/vr/vr.dart';
 
 class PrivateCreatorTag extends Tag {
   final String token;
-  final Map<int, PrivateDataTag> dataTagMap;
+  final Map<int, PrivateDataTag> dataTags;
 
-  PrivateCreatorTag(int code, this.token, this.dataTagMap)
-      : super(code, VR.kLO, VM.k1) {
-    //TODO: this should be checked before the Tag is created.
-    if (!Tag.isPrivateCreatorCode(code))
-      throw new ArgumentError('Invalid Private Creator Tag Code(code)');
+  factory PrivateCreatorTag(String token, int code, VR vr) {
+    var tag = lookup(token, code, vr);
+    print('** ${Tag.toDcm(tag.code)}');
+    if (tag != null) return tag;
+    tag = new PrivateCreatorTag.unknown(token, code, vr);
+    print('** $tag');
+    return tag;
   }
 
-  const PrivateCreatorTag._(int code, this.token, this.dataTagMap)
+  const PrivateCreatorTag._(int code, this.token, this.dataTags)
       : super(code, VR.kLO, VM.k1);
 
-  PrivateCreatorTag.unknown(this.token, int code, [VR vr = VR.kUN])
-      : dataTagMap = const <int, PrivateDataTag>{},
-        super(code, VR.kLO, VM.k1);
+  PrivateCreatorTag.unknown(this.token, int code, VR vr)
+      : dataTags = <int, PrivateDataTag>{},
+        super(code, vr, VM.k1) {
+    print('token("$token") ${Tag.toDcm(code)} $vr');
+  }
 
   bool get wasUN => super.vr == VR.kUN;
 
@@ -43,12 +47,12 @@ class PrivateCreatorTag extends Tag {
   String get info => '$runtimeType($token) $dcm, $vr, $vm, $type, '
       'data ${fmtDataTagMap()}';
 
-  PrivateDataTag getKnownTag(int code) => dataTagMap[code];
+  PrivateDataTag lookupData(int code) => dataTags[code];
 
   //TODO: improve formatting
   String fmtDataTagMap() {
     String out = "  {\n";
-    dataTagMap.forEach((int code, PrivateDataTag pdTag) {
+    dataTags.forEach((int code, PrivateDataTag pdTag) {
       out += '    (${pdTag.hex}): "${pdTag.name}",\n';
     });
     return out += '  }';
@@ -58,14 +62,17 @@ class PrivateCreatorTag extends Tag {
       group == codeGroup(code) &&
       (base <= codeElt(code) && codeElt(code) <= limit);
 
+  static PrivateCreatorTag lookup(String token, int code, [VR vr = VR.kUN]) {
+    PrivateCreatorTag tag = privateCreatorTagMap[token];
+    print('**** ${Tag.toDcm(code)}');
+    if (tag != null) return tag;
+    tag = new PrivateCreatorTag.unknown(token, code, vr);
+    print('** $tag');
+    return tag;
+  }
+
   static const PrivateCreatorTag kUnknown =
       const PrivateCreatorTag._(0, "UnknownName", const {});
-
-  static PrivateCreatorTag lookup(String token, int code,
-      [VR vr = VR.kUnknown]) {
-    PrivateCreatorTag tag = privateCreatorTagMap[token];
-    return (tag != null) ? tag : new PrivateCreatorTag.unknown(token, code, vr);
-  }
 
   static const PrivateCreatorTag k0 = const PrivateCreatorTag._(
       0, "1.2.840.113681", const <int, PrivateDataTag>{
@@ -10117,10 +10124,13 @@ class PrivateCreatorTag extends Tag {
     0x00150000: PrivateDataTag.k7943,
   });
   static const PrivateCreatorTag k387 = const PrivateCreatorTag._(
-      387, "Siemens: Thorax/Multix FD Version", const <int, PrivateDataTag>{
-    0x00170000: PrivateDataTag.k7945,
-    0x00170100: PrivateDataTag.k7946,
-  });
+      387,
+      "Siemens: Thorax/Mul"
+      "tix FD Version",
+      const <int, PrivateDataTag>{
+        0x00170000: PrivateDataTag.k7945,
+        0x00170100: PrivateDataTag.k7946,
+      });
   static const PrivateCreatorTag k388 = const PrivateCreatorTag._(
       388, "SIEMENS_FLCOMPACT_VA01A_PROC", const <int, PrivateDataTag>{
     0x00170a00: PrivateDataTag.k7950,

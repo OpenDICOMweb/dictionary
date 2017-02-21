@@ -3,7 +3,20 @@
 // that can be found in the LICENSE file.
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
-part of odw.sdk.dictionary.uid;
+library odw.sdk.dictionary.uid;
+
+import 'package:common/common.dart';
+import 'package:dictionary/dictionary.dart';
+
+import 'uid_base.dart';
+import 'uid_type.dart';
+
+part 'color_palettes.dart';
+part 'sop_class.dart';
+part 'transfer_syntax.dart';
+part 'uuid.dart';
+part 'well_known_frame_of_reference.dart';
+part 'wk_uid.dart';
 
 //TODO: need stronger validation.
 //TODO: document class
@@ -19,19 +32,31 @@ class Uid extends UidBase {
   @override
   final String asString;
 
-  factory Uid(String s) => parse(s);
+  factory Uid([String s]) => (s == null) ? new UidUuid() : parse(s);
 
   Uid.withRoot(String root, String leaf)
-      : asString = check(root + leaf),
-        super._();
+      : asString = check(root + leaf);
+     //   super._();
 
-  const Uid._(this.asString) : super._();
+  const Uid._(this.asString);// : super._();
 
   @override
   UidType get type => UidType.kConstructed;
 
   //TODO: Needed?
   // String get root;
+
+  static UidBase get random => new UidUuid();
+
+  static List<String> randomList(int length) {
+    List<String> uList = new List(length);
+    for (int i = 0; i < length; i++) uList[i] = Uuid.generator.string;
+    return uList;
+  }
+
+  /// Returns a [String] containing a random UID as per the
+  /// OID Standard.  See TODO: add reference.
+  static String get uidString => uidRoot + new Uuid().asString;
 
   /// Returns [s] if it is a valid [Uid] [String]; otherwise, [null].
   static String check(String s) => isValid(s) ? s : null;

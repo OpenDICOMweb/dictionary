@@ -98,7 +98,8 @@ class TransferSyntax extends WKUid {
 
   static const TransferSyntax kJPEGBaseline_1 = const TransferSyntax(
       "1.2.840.10008.1.2.4.50",
-      "JPEG Baseline (Process 1) : Default Transfer Syntax for Lossy JPEG 8 Bit Image Compression",
+      "JPEG Baseline (Process 1) : Default Transfer Syntax for Lossy "
+          "JPEG 8 Bit Image Compression",
       "image/jpeg");
 
   static const TransferSyntax kJPEGLossy8BitDefault = kJPEGBaseline_1;

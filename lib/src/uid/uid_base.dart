@@ -3,20 +3,11 @@
 // that can be found in the LICENSE file.
 // Author: Jim Philbin <jfphilbin@gmail.edu>
 // See the AUTHORS file for other contributors.
-library odw.sdk.dictionary.uid;
 
-import 'package:common/common.dart';
 import 'package:dictionary/dictionary.dart';
 
 import 'uid_type.dart';
 
-part 'color_palettes.dart';
-part 'sop_class.dart';
-part 'transfer_syntax.dart';
-part 'uid.dart';
-part 'uuid.dart';
-part 'well_known_frame_of_reference.dart';
-part 'wk_uid.dart';
 
 //TODO: cleanup documentation
 
@@ -49,9 +40,10 @@ abstract class UidBase {
   //factory Uid([String s]) => (s != null) ? new UidString(s) : new UidUuid();
 
   /// Creates a constant [UidBase].  Used to create 'Well Known' DICOM [UidBase]s.
-  const UidBase._();
+ // const UidBase._();
 
-  factory UidBase() => new UidUuid();
+ // factory UidBase() => new UidUuid();
+
   @override
   bool operator ==(Object other) =>
       (other is UidBase) && (asString == other.asString);
@@ -68,7 +60,8 @@ abstract class UidBase {
   @override
   int get hashCode => asString.hashCode;
 
-  /// Return true is this [UidBase] identifies an encapsulated [Transfer Syntax].
+  /// Return true if this [UidBase] identifies an
+  /// encapsulated [Transfer Syntax].
   bool get isEncapsulated => false;
 
   /// Returns [true] if [this] is a [UidBase] defined by the DICOM Standard.
@@ -79,22 +72,4 @@ abstract class UidBase {
   /// Returns the [Uid] [String].
   @override
   String toString() => asString;
-
-  static String get random => Uuid.generator.string;
-
-  static List<String> randomList(int length) {
-    List<String> uList = new List(length);
-    for (int i = 0; i < length; i++) uList[i] = Uuid.generator.string;
-    return uList;
-  }
-
-  //TODO improve parser
-  static UidBase parse(String uidString) {
-    // Remove leading & trailing spaces - defensive programming
-    String s = uidString.trim();
-    if (Uid.validate(s) == null) return null;
-    WKUid uid = wellKnownUids[s];
-    if (uid != null) return uid;
-    return new Uid._(s);
-  }
 }
