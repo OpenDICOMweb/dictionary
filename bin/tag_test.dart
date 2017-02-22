@@ -15,7 +15,7 @@ void main() {
     print('Acuson data: ${tag.dataTags}');
     print('Tag is Private Data(${data.isPrivateData}) and private(${data.isPrivate})');
 
-    PrivateCreatorTag pcTag = new PrivateCreatorTag("ACUSON", 0x00090010, VR.kLO);
+    PrivateCreatorTag pcTag = PrivateCreatorTag.lookup("ACUSON", 0x00090010, VR.kLO);
     print('Tag is $pcTag (${pcTag is PrivateCreatorTag}) '
         'and is private(${pcTag.isPrivate})');
 
