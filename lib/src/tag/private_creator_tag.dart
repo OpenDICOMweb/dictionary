@@ -75,6 +75,7 @@ class PrivateCreatorTag extends Tag {
       group == codeGroup(code) &&
       (base <= codeElt(code) && codeElt(code) <= limit);
 
+  @override
   String toString() => 'PCTag($token) $vr $vm';
 
   static PrivateCreatorTag lookup(String token, [VR vr = VR.kUN]) {

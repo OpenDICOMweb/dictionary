@@ -8,14 +8,14 @@ import 'package:dictionary/dictionary.dart';
 
 void main() {
 
-    PrivateCreatorTag tag = PrivateCreatorTag.lookup("ACUSON", 0x00211001);
+    PrivateCreatorTag tag = PrivateCreatorTag.lookup("ACUSON");
     print('tag is creator(${tag.isCreator}) and private(${tag.isPrivate})');
 
     PrivateDataTag data = tag.dataTags[0x00211001];
     print('Acuson data: ${tag.dataTags}');
     print('Tag is Private Data(${data.isPrivateData}) and private(${data.isPrivate})');
 
-    PrivateCreatorTag pcTag = PrivateCreatorTag.lookup("ACUSON", 0x00090010, VR.kLO);
+    PrivateCreatorTag pcTag = PrivateCreatorTag.lookup("ACUSON", VR.kLO);
     print('Tag is $pcTag (${pcTag is PrivateCreatorTag}) '
         'and is private(${pcTag.isPrivate})');
 
