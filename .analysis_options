@@ -1,21 +1,16 @@
 analyzer:
   strong-mode: true
-  exclude:
-    - lib/src/uid/constants.dart
-    - lib/src/uid/transfer_syntax.dart
-  #  implicit-casts: true
-
 
 linter:
   error:
     constant_identifier_names: ignore
-  #  always_specify_types: ignore
-  #  avoid_return_types_on_setters: ignore
-  #  sort_unnamed_constructors_first: ignore
-  #  public_member_api_docs: ignore
-  #  only_throw_errors: ignore
-  #  prefer_final_locals: ignore
- #   overridden_fields: ignore
+    always_specify_types: ignore
+    avoid_return_types_on_setters: ignore
+    sort_unnamed_constructors_first: ignore
+    public_member_api_docs: ignore
+    only_throw_errors: ignore
+    prefer_final_locals: ignore
+
   rules:
     - always_declare_return_types
  #   - always_specify_types
