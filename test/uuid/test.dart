@@ -8,7 +8,8 @@ import 'package:dictionary/dictionary.dart';
 
 void main() {
   //UuidV4Generator generator = new UuidV4Generator();
-  checkRandomUid();
+  Uid uid = Uid.random;
+  checkRandomUid(uid);
   for (int i = 0; i < 1000; i++) {
     Uuid uuid = new Uuid();
     checkUuid(uuid);
@@ -38,7 +39,7 @@ void checkUuid(Uuid uuid) {
   }
 }
 
-void checkRandomUid() {
-  String s = Uid.uidString;
+void checkRandomUid(Uid uid) {
+  String s = uid.asString;
   print('Uid: $s');
 }

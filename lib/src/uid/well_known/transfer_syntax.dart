@@ -3,7 +3,10 @@
 // that can be found in the LICENSE file.
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
-part of odw.sdk.dictionary.uid;
+
+import 'package:dictionary/src/uid/uid.dart';
+import 'package:dictionary/src/uid/uid_type.dart';
+import 'package:dictionary/src/uid/well_known/wk_uid.dart';
 
 //TODO: document
 class TransferSyntax extends WKUid {
@@ -29,7 +32,7 @@ class TransferSyntax extends WKUid {
       [bool isRetired = false,
       this.isEncapsulated = true,
       this.mayHaveFragments = true])
-      : super._(uid, UidType.kTransferSyntax, isRetired, name);
+      : super(uid, UidType.kTransferSyntax, isRetired, name);
 
   // fix or flush
   // bool hasEmptyOffsetTable => false;
@@ -51,19 +54,19 @@ class TransferSyntax extends WKUid {
 
   bool get isValidForRS =>
       (isNotRetired) ||
-      (name != kImplicitVRLittleEndian.name &&
-          name != kExplicitVRBigEndian.name);
+      (asString != kImplicitVRLittleEndian.asString &&
+          asString != kExplicitVRBigEndian.asString);
 
   /// Returns the TransferSyntax corresponding to the [String] or [UidBase].
   static TransferSyntax lookup(dynamic ts) {
     if (ts is TransferSyntax) return ts;
-    if (ts is UidBase) return map[ts.asString];
+    if (ts is Uid) return map[ts.asString];
     if (ts is String) return map[ts];
     return null;
   }
 
   @override
-  String toString() => 'TransferSyntax($asString): $name';
+  String toString() => 'TransferSyntax($asString): $asString';
 
   //TODO we need add the keyword to the to the class.
   //*****   Constant Values   *****
@@ -288,7 +291,7 @@ class TransferSyntax extends WKUid {
   static const TransferSyntax kXMLEncoding = const TransferSyntax(
       "1.2.840.10008.1.2.6.2", "XML Encoding", "text/xml???", false);
 
-  static const Map<String, UidBase> map = const {
+  static const Map<String, Uid> map = const {
     "1.2.840.10008.1.2": kImplicitVRLittleEndian,
     "1.2.840.10008.1.2.1": kExplicitVRLittleEndian,
     "1.2.840.10008.1.2.1.99": kDeflatedExplicitVRLittleEndian,

@@ -3,14 +3,16 @@
 // that can be found in the LICENSE file.
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
-part of odw.sdk.dictionary.uid;
+
+import 'package:dictionary/src/uid/uid_type.dart';
+import 'package:dictionary/src/uid/well_known/wk_uid.dart';
 
 //TODO: Move all definitions from PS3.6 Table A-2 Well Known Frames of Reference
 
 class WellKnownFrameOfReference extends WKUid {
   const WellKnownFrameOfReference(
       String uid, UidType type, bool isRetired, String name, String link)
-      : super._(uid, type, isRetired, name);
+      : super(uid, type, isRetired, name);
 
   @override
   String toString() => '$runtimeType($asString)';

@@ -7,6 +7,9 @@
 import 'package:dictionary/dictionary.dart';
 import 'package:test/test.dart';
 
+import 'package:dictionary/src/uid/well_known/transfer_syntax.dart';
+import 'package:dictionary/src/uid/well_known/wk_uid.dart';
+
 void main() {
   uidTest();
 }

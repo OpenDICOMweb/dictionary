@@ -4,7 +4,12 @@
 
 ## Class Structure
 
-UidBase
-    Uid
-    UuidUid
+abstract Uid
+    - UidUuid
+    - UidString
+        - WKUid
+            - ColorPalette
+            - SopClass
+            - TransferSyntax
+
 
