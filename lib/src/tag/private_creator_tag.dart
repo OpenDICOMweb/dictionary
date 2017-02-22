@@ -60,7 +60,6 @@ class PrivateCreatorTag extends Tag {
     return pdTag;
   }
 
-
   //TODO: improve formatting
   String fmtDataTagMap() {
     String out = "  {\n";
