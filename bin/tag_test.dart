@@ -7,21 +7,18 @@
 import 'package:dictionary/dictionary.dart';
 
 void main() {
+  PrivateCreatorTag tag = PrivateCreatorTag.lookup("ACUSON");
+  print('tag is creator(${tag.isCreator}) and private(${tag.isPrivate})');
 
-    PrivateCreatorTag tag = PrivateCreatorTag.lookup("ACUSON");
-    print('tag is creator(${tag.isCreator}) and private(${tag.isPrivate})');
+  PrivateDataTag data = tag.dataTags[0x00090001];
+  print('Acuson data: ${tag.dataTags}');
+  print('Tag is Private Data(${data is PrivateDataTag}) '
+      'and private(${data.isPrivate})');
 
-    PrivateDataTag data = tag.dataTags[0x00090001];
-    print('Acuson data: ${tag.dataTags}');
-    print('Tag is Private Data(${data is PrivateDataTag}) '
-        'and private(${data.isPrivate})');
+  PrivateCreatorTag pcTag = PrivateCreatorTag.lookup("ACUSON", VR.kLO);
+  print('Tag is $pcTag (${pcTag is PrivateCreatorTag}) '
+      'and is private(${pcTag.isPrivate})');
 
-    PrivateCreatorTag pcTag = PrivateCreatorTag.lookup("ACUSON", VR.kLO);
-    print('Tag is $pcTag (${pcTag is PrivateCreatorTag}) '
-        'and is private(${pcTag.isPrivate})');
-
-    //TODO: Private Data
-    // PrivateData privateData = new PrivateData(0x00090000, ['123456'], )
-
-
+  //TODO: Private Data
+  // PrivateData privateData = new PrivateData(0x00090000, ['123456'], )
 }
