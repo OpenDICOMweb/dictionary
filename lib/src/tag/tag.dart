@@ -42,8 +42,8 @@ class Tag {
       [this.vr = VR.kUN,
       this.vm = VM.k1_n,
       this.type = EType.kUnknown,
-      this.keyword = "Unknown Tag Keyword",
-      this.name = "Unknown Tag Name",
+      this.keyword = "Unknown",
+      this.name = "Unknown",
       this.isRetired = false]);
 
   const Tag.public(this.keyword, this.code, this.name, this.vr, this.vm,
@@ -51,14 +51,10 @@ class Tag {
 
   const Tag.privateData(this.code, this.vr, this.vm, this.name,
       [this.type = EType.kUnknown,
-      this.keyword = "Unknown Tag Keyword",
+      this.keyword = "Unknown",
       this.isRetired = false]);
 
   bool get isWKFmi => fmiTags.contains(code);
-
-  // String get keyword => "Unknown Tag Keyword";
-  // String get name => "Unknown Tag Name";
-  // bool get isRetired => false;
 
   // **** Code Getters
   String get dcm => '(${Int.hex(group, 4, "")},${Int.hex(elt, 4, "")})';
@@ -125,10 +121,12 @@ class Tag {
   int get fmiMin => kMinFmiTag;
   int get fmiMax => kMaxFmiTag;
 
-  /// Returns [true] if Public [Tag] group [group] is in the File Meta Information group; otherwise false.
+  /// Returns [true] if the [group] is in the File Meta Information group.
   bool get isFmiGroup => group == 0x0002;
 
-  /// Returns [true] if [code] is in the range of DICOM Directory [Tag] [code]s..
+  /// Returns [true] if [code] is in the range of File Meta Information
+  /// [Tag] [code]s.
+  ///
   /// Note: Does not test tag validity.
   bool get inFmiRange => kMinFmiTag <= code && code <= kMaxFmiTag;
 
@@ -136,10 +134,13 @@ class Tag {
   int get dcmDirMax => kMaxDcmDirTag;
 
   /// Returns [true] if [code] is in the range of DICOM Directory [Tag] [code]s.
+  ///
   /// Note: Does not test tag validity.
   bool get isDcmDir => kMinDcmDirTag <= code && code <= kMaxDcmDirTag;
 
-  /// Returns [true] if [code] is in the range of DICOM Directory [Tag] [code]s..
+  /// Returns [true] if [code] is in the range of DICOM Directory
+  /// [Tag] [code]s.
+  ///
   /// Note: Does not test tag validity.
   bool get inDcmDirRange => kMinDcmDirTag <= code && code <= kMaxDcmDirTag;
 
@@ -167,15 +168,16 @@ class Tag {
   /// Note: A [length] of zero is always valid.
   ///
   /// [min]: The minimum number of values.
-  /// [max]: The maximum number of values. If -1 then max length of Value Field; otherwise, must
-  ///     be greater than or equal to [min].
-  /// [width]: The [width] of the matrix of values. If [width == 0 then singleton;
-  ///     otherwise must be greater than 0;
+  /// [max]: The maximum number of values. If -1 then max length of
+  ///     Value Field; otherwise, must be greater than or equal to [min].
+  /// [width]: The [width] of the matrix of values. If [width == 0,
+  /// then singleton; otherwise must be greater than 0;
 
   //TODO: should be modified when EType info is available.
   bool isValidValues<E>(List<E> values) {
     // Urgent: this is very slow - needs to be fixed, maybe add field to VM.
-    // Note: If VR is any of the following the length and values are valid by definition
+    // Note: If VR is any of the following the length and
+    // values are valid by definition
     if (vr != VR.kSQ ||
         vr != VR.kOB ||
         vr != VR.kOD ||
@@ -282,9 +284,7 @@ class Tag {
     return '$runtimeType: $dcm $keyword, $vr, $vm, $retired';
   }
 
-  //@override
-  //String toString() => 'Tag$dcm $vr, $vm';
-
+/*
   static Tag lookup(int code, [VR vr = VR.kUN]) {
     Tag tag = Tag.lookupCode(code);
     if (tag != null) return tag;
@@ -299,7 +299,7 @@ class Tag {
     // This should never happen
     throw 'Error: Unknown Tag Code${Tag.toDcm}';
   }
-
+*/
   static List<String> lengthChecker(
       List values, int minLength, int maxLength, int width) {
     int length = values.length;
@@ -334,16 +334,17 @@ class Tag {
 
   static bool isPrivateDataCode(int tag) =>
       Group.isPrivate(Group.fromTag(tag)) &&
-      Elt.isPrivateData(Elt.fromTag(tag));
+          Elt.isPrivateData(Elt.fromTag(tag));
 
   static int privateCreatorBase(int code) => Elt.pcBase(Elt.fromTag(code));
 
   static int privateCreatorLimit(int code) => Elt.pcLimit(Elt.fromTag(code));
 
-  /// Returns true if [pd] is a valid Private Data Code for the [pc] the Private Creator Code.
+  /// Returns true if [pd] is a valid Private Data Code for the
+  /// [pc] the Private Creator Code.
   ///
-  /// If the [PrivateCreatorTag ]is present, verifies that [pd] and [pc] have the
-  /// same [group], and that [pd] has a valid [Elt].
+  /// If the [PrivateCreatorTag ]is present, verifies that [pd] and [pc]
+  /// have the same [group], and that [pd] has a valid [Elt].
   static bool isValidPrivateDataTag(int pd, int pc) {
     int pdg = Group.checkPrivate(Group.fromTag(pd));
     int pcg = Group.checkPrivate(Group.fromTag(pc));
@@ -390,7 +391,8 @@ class Tag {
   static bool _isPDIndex(int pci, int pdi) =>
       _pdBase(pci) <= pdi && pdi <= _pdLimit(pci);
 
-  /// Returns the offset base for a Private Data Element with the Private Creator [pcIndex].
+  /// Returns the offset base for a Private Data Element with the
+  /// Private Creator [pcIndex].
   static int _pdBase(int pcIndex) => pcIndex << 8;
 
   /// Returns the limit for a [PrivateDataTag] with a base of [pdBase].
@@ -410,7 +412,8 @@ class Tag {
 
   /// Returns [code] in DICOM format '(gggg,eeee)'.
   static String toDcm(int code) =>
-      '(${Group.hex(Group.fromTag(code), "")},${Elt.hex(Elt.fromTag(code), "")})';
+      '(${Group.hex(Group.fromTag(code), "")}, '
+          '${Elt.hex(Elt.fromTag(code), "")})';
 
   /// Returns a [List] of DICOM tag codes in '(gggg,eeee)' format
   static Iterable<String> listToDcm(List<int> tags) => tags.map(toDcm);
@@ -427,12 +430,9 @@ class Tag {
   }
 
   //TODO: this should become public when fully converted to Tags.
-  static Tag lookupCode(int code, [bool shouldThrow = true]) {
+  static Tag lookupPublicCode(int code, [bool shouldThrow = true]) {
+    assert(Tag.isPublicCode(code));
     Tag tag = publicTagCodeMap[code];
-
-    // Tag tag = (isPrivateTag(v)) ? PrivateTag.lookup(v) : Tag.lookup(v);
-    // TODO handle private tags here
-
     if (tag != null) return tag;
 
     // **** Retired _special case_ codes that still must be handled
@@ -495,7 +495,8 @@ class Tag {
     // Retired _special case_ keywords that still must be handled
     /* TODO: figure out what to do with this? remove?
     // (0020,31xx)
-    if ((keyword >= 0x00283100) && (keyword <= 0x002031FF)) return Tag.kSourceImageIDs;
+    if ((keyword >= 0x00283100) && (keyword <= 0x002031FF))
+    return Tag.kSourceImageIDs;
 
     // (0028,04X0)
     if ((keyword >= 0x00280410) && (keyword <= 0x002804F0))
@@ -504,38 +505,50 @@ class Tag {
     if ((keyword >= 0x00280411) && (keyword <= 0x002804F1))
       return Tag.kColumnsForNthOrderCoefficients;
     // (0028,04X2)
-    if ((keyword >= 0x00280412) && (keyword <= 0x002804F2)) return Tag.kCoefficientCoding;
+    if ((keyword >= 0x00280412) && (keyword <= 0x002804F2))
+    return Tag.kCoefficientCoding;
     // (0028,04X3)
     if ((keyword >= 0x00280413) && (keyword <= 0x002804F3))
       return Tag.kCoefficientCodingPointers;
 
     // (0028,08x0)
-    if ((keyword >= 0x00280810) && (keyword <= 0x002808F0)) return Tag.kCodeLabel;
+    if ((keyword >= 0x00280810) && (keyword <= 0x002808F0))
+    return Tag.kCodeLabel;
     // (0028,08x2)
-    if ((keyword >= 0x00280812) && (keyword <= 0x002808F2)) return Tag.kNumberOfTables;
+    if ((keyword >= 0x00280812) && (keyword <= 0x002808F2))
+    return Tag.kNumberOfTables;
     // (0028,08x3)
-    if ((keyword >= 0x00280813) && (keyword <= 0x002808F3)) return Tag.kCodeTableLocation;
+    if ((keyword >= 0x00280813) && (keyword <= 0x002808F3))
+    return Tag.kCodeTableLocation;
     // (0028,08x4)
-    if ((keyword >= 0x00280814) && (keyword <= 0x002808F4)) return Tag.kBitsForCodeWord;
+    if ((keyword >= 0x00280814) && (keyword <= 0x002808F4))
+    return Tag.kBitsForCodeWord;
     // (0028,08x8)
-    if ((keyword >= 0x00280818) && (keyword <= 0x002808F8)) return Tag.kImageDataLocation;
+    if ((keyword >= 0x00280818) && (keyword <= 0x002808F8))
+    return Tag.kImageDataLocation;
 
     // **** (1000,xxxy ****
     // (1000,04X2)
-    if ((keyword >= 0x10000000) && (keyword <= 0x1000FFF0)) return Tag.kEscapeTriplet;
+    if ((keyword >= 0x10000000) && (keyword <= 0x1000FFF0))
+    return Tag.kEscapeTriplet;
     // (1000,04X3)
-    if ((keyword >= 0x10000001) && (keyword <= 0x1000FFF1)) return Tag.kRunLengthTriplet;
+    if ((keyword >= 0x10000001) && (keyword <= 0x1000FFF1))
+    return Tag.kRunLengthTriplet;
     // (1000,08x0)
-    if ((keyword >= 0x10000002) && (keyword <= 0x1000FFF2)) return Tag.kHuffmanTableSize;
+    if ((keyword >= 0x10000002) && (keyword <= 0x1000FFF2))
+    return Tag.kHuffmanTableSize;
     // (1000,08x2)
     if ((keyword >= 0x10000003) && (keyword <= 0x1000FFF3))
       return Tag.kHuffmanTableTriplet;
     // (1000,08x3)
-    if ((keyword >= 0x10000004) && (keyword <= 0x1000FFF4)) return Tag.kShiftTableSize;
+    if ((keyword >= 0x10000004) && (keyword <= 0x1000FFF4))
+    return Tag.kShiftTableSize;
     // (1000,08x4)
-    if ((keyword >= 0x10000005) && (keyword <= 0x1000FFF5)) return Tag.kShiftTableTriplet;
+    if ((keyword >= 0x10000005) && (keyword <= 0x1000FFF5))
+    return Tag.kShiftTableTriplet;
     // (1000,08x8)
-    if ((keyword >= 0x10100000) && (keyword <= 0x1010FFFF)) return Tag.kZonalMap;
+    if ((keyword >= 0x10100000) && (keyword <= 0x1010FFFF))
+    return Tag.kZonalMap;
 
     //TODO: 0x50xx,yyyy Elements
     //TODO: 0x60xx,yyyy Elements

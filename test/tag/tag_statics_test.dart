@@ -32,11 +32,20 @@ void testStaticMethods() {
       expect(Elt.isValidPrivateData(0x1021, 0x0010), true);
       expect(Elt.isValidPrivateData(0x0021, 0x0010), false);
     });
+
     test('isValidPrivateDataTag', () {
       expect(Tag.isValidPrivateDataTag(0x00091021, 0x00090010), true);
       expect(Tag.isValidPrivateDataTag(0x00100021, 0x00100010), false);
     });
-    
+
+
+    test('isValidPrivateDataCode', () {
+      expect(Tag.isPrivateDataCode(0x00091021), true);
+      expect(Tag.isPrivateDataCode(593921), true);
+      expect(Tag.isPrivateDataCode(0x00090010), false);
+      expect(Tag.isPrivateDataCode(0x000900FF), false);
+      expect(Tag.isPrivateDataCode(0x00100021), false);
+    });
   });
 
 }

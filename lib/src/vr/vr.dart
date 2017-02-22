@@ -146,7 +146,7 @@ class VR<T> {
   Uint8List checkBytes(Uint8List bytes) => null;
 
   @override
-  String toString() => '$runtimeType.k$id';
+  String toString() => 'VR.k$id';
 
   // **** Constant definitions for all VRs.
 

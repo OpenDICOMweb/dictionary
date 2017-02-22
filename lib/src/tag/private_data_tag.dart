@@ -36,6 +36,8 @@ class PrivateDataTag extends Tag {
   //static PrivateDataTag lookupCode(int code) {
   //  return privateDataTagList[code];
   //}
+  static const PrivateDataTag kUnknown = const PrivateDataTag._(
+      0, "Unknown", 0x00190010, VR.kUnknown, VM.kUnknown, "Unknown");
 
   static const PrivateDataTag k1 = const PrivateDataTag._(
       1, "1.2.840.113681", 0x00190010, VR.kST, VM.k1, "CRImageParamsCommon");
