@@ -11,8 +11,7 @@ import 'wk_uid.dart';
 //TODO: finish
 class ColorPalette extends WKUid {
   static const UidType uidType = UidType.kColorPalette;
-  static const String refLink =
-      'http://dicom.nema.org/medical/dicom/current'
+  static const String refLink = 'http://dicom.nema.org/medical/dicom/current'
       '/output/html/part06.html#table_B.1-1';
   //Flush
   // static const List<VR> vrs = const [VR.kSS, VR.kUS];

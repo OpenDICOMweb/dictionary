@@ -1,7 +1,7 @@
 // Copyright (c) 2016, Open DICOMweb Project. All rights reserved.
 // Use of this source code is governed by the open source license
 // that can be found in the LICENSE file.
-// Author: Jim Philbin <jfphilbin@gmail.edu> - 
+// Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
 import 'package:dictionary/dictionary.dart';
@@ -12,9 +12,7 @@ void main() {
 }
 
 void testStaticMethods() {
-  
   group('Test Tag Static Methods', () {
-
     test('Group.checkPrivate', () {
       expect(Group.checkPrivate(Group.fromTag(0x00090010)), 0x09);
       expect(Group.fromTag(0x00110010), 0x11);
@@ -38,7 +36,6 @@ void testStaticMethods() {
       expect(Tag.isValidPrivateDataTag(0x00100021, 0x00100010), false);
     });
 
-
     test('isValidPrivateDataCode', () {
       expect(Tag.isPrivateDataCode(0x00091021), true);
       expect(Tag.isPrivateDataCode(593921), true);
@@ -47,5 +44,4 @@ void testStaticMethods() {
       expect(Tag.isPrivateDataCode(0x00100021), false);
     });
   });
-
 }

@@ -334,7 +334,7 @@ class Tag {
 
   static bool isPrivateDataCode(int tag) =>
       Group.isPrivate(Group.fromTag(tag)) &&
-          Elt.isPrivateData(Elt.fromTag(tag));
+      Elt.isPrivateData(Elt.fromTag(tag));
 
   static int privateCreatorBase(int code) => Elt.pcBase(Elt.fromTag(code));
 
@@ -411,9 +411,8 @@ class Tag {
   static String toHex(int code) => Int32.hex(code);
 
   /// Returns [code] in DICOM format '(gggg,eeee)'.
-  static String toDcm(int code) =>
-      '(${Group.hex(Group.fromTag(code), "")}, '
-          '${Elt.hex(Elt.fromTag(code), "")})';
+  static String toDcm(int code) => '(${Group.hex(Group.fromTag(code), "")}, '
+      '${Elt.hex(Elt.fromTag(code), "")})';
 
   /// Returns a [List] of DICOM tag codes in '(gggg,eeee)' format
   static Iterable<String> listToDcm(List<int> tags) => tags.map(toDcm);

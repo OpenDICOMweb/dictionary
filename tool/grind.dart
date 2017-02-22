@@ -36,7 +36,7 @@ Future precommit() async {
 @Task('Analyzing Sources...')
 void analyze() {
   log('Analyzing dictionary...');
-  Analyzer.analyze(['lib', 'test', 'tool'], fatalWarnings: true);
+  Analyzer.analyze(['bin', 'lib', 'test', 'tool'], fatalWarnings: true);
 }
 
 /// Runs all the unit tests in dictionary/test

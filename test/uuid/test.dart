@@ -33,7 +33,8 @@ void checkUuid(Uuid uuid) {
   if (uuid != uuid1) throw "Uuid $uuid != $uuid1";
   if (s.length != 36) print("invalid length ${s.length} in $s");
   if (s[14] != "4") print("No 4 at Byte 6 (${s[14]} in Uuid: $uuid");
-  if (!"89AaBb".contains(s[19])) print("No 8|9|A|B at Byte 8 (${s[19]} in Uuid: $uuid");
+  if (!"89AaBb".contains(s[19]))
+    print("No 8|9|A|B at Byte 8 (${s[19]} in Uuid: $uuid");
   if (!uuid.isValid) {
     print("**** Uuid: $uuid");
   }

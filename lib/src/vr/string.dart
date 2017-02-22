@@ -42,6 +42,8 @@ class VRShortString extends VR<String> {
   @override
   String parse(String s) => (_parser != null) ? _parser(s, min, max) : check(s);
 
+  String fix(String s) => (_fixer != null) ? _fixer(s, min, max) : check(s);
+
   // String.dicom (without backslash)
   static const VR kAE = const VRShortString._(
       17, 0x4145, "AE", "AE Title", 1, 16, _isDcmString, _dcmStringError);

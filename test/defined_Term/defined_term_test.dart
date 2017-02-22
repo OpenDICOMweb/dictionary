@@ -6,9 +6,8 @@
 
 import 'package:dictionary/dictionary.dart';
 import 'package:dictionary/src/terminology/term.dart';
-import 'package:test/test.dart';
-
 import 'package:dictionary/src/uid/well_known/color_palette.dart';
+import 'package:test/test.dart';
 
 void main() {
   create();
@@ -64,14 +63,14 @@ void create() {
         UniversalEntityIDType.kDNS,
         equals(const UniversalEntityIDType(
             0, "DNS", "Domain Name System", Term.kDNS)));
-    expect(universalEntityType1.lookup("DNS"),
-        equals(UniversalEntityIDType.kDNS));
+    expect(
+        universalEntityType1.lookup("DNS"), equals(UniversalEntityIDType.kDNS));
     expect(universalEntityType1.lookup("EUI64"),
         equals(UniversalEntityIDType.kEUI64));
-    expect(universalEntityType1.lookup("ISO"),
-        equals(UniversalEntityIDType.kISO));
-    expect(universalEntityType1.lookup("URI"),
-        equals(UniversalEntityIDType.kURI));
+    expect(
+        universalEntityType1.lookup("ISO"), equals(UniversalEntityIDType.kISO));
+    expect(
+        universalEntityType1.lookup("URI"), equals(UniversalEntityIDType.kURI));
     expect(universalEntityType1.lookup("UUID"),
         equals(UniversalEntityIDType.kUUID));
     expect(universalEntityType1.lookup("X400"),

@@ -29,7 +29,8 @@ class Elt {
 
   static int pcBase(int pcElt) => (isPrivateCreator(pcElt)) ? pcElt << 8 : null;
 
-  static int pcLimit(int pcElt) => (pcElt == null) ? null : pcBase(pcElt) + 0xFF;
+  static int pcLimit(int pcElt) =>
+      (pcElt == null) ? null : pcBase(pcElt) + 0xFF;
 
   static bool isPrivateData(int elt) => 0x1000 <= elt && elt <= 0xFFFF;
 
@@ -42,5 +43,4 @@ class Elt {
     if (base == null || limit == null) return false;
     return pcBase(pcElt) <= pdElt && pdElt <= pcLimit(pcElt);
   }
-
 }

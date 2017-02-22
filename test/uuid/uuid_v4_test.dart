@@ -13,7 +13,24 @@ void main() {
       var generator = new UuidV4Generator(seed: 1);
       var u0 = generator();
       //  print('u0: $u0');
-      var u1 = [164, 98, 80, 42, 115, 175, 67, 65, 191, 196, 5, 149, 123, 112, 48, 221];
+      var u1 = [
+        164,
+        98,
+        80,
+        42,
+        115,
+        175,
+        67,
+        65,
+        191,
+        196,
+        5,
+        149,
+        123,
+        112,
+        48,
+        221
+      ];
       expect(u0, equals(u1));
       expect(u1.length, equals(16));
     });
@@ -46,7 +63,8 @@ void main() {
     });
 
     test('Make sure that really fast uuid.v4 doesn\'t produce duplicates', () {
-      var list = new List.filled(1000, null).map((something) => new Uuid()).toList();
+      var list =
+          new List.filled(1000, null).map((something) => new Uuid()).toList();
       var setList = list.toSet();
       print('setList:$setList');
       expect(list.length, equals(setList.length));

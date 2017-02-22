@@ -8,7 +8,6 @@ import 'package:dictionary/dictionary.dart';
 
 import 'uid_type.dart';
 
-
 //TODO: cleanup documentation
 
 /// A class that implements *DICOM Unique Identifiers* (UID) <*add link*>,
@@ -42,7 +41,7 @@ abstract class UidBase {
   /// Creates a constant [UidBase].  Used to create 'Well Known' DICOM [UidBase]s.
   const UidBase();
 
- // factory UidBase() => new UidUuid();
+  // factory UidBase() => new UidUuid();
 
   @override
   bool operator ==(Object other) =>

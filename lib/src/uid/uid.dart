@@ -6,8 +6,8 @@
 
 import 'package:common/common.dart';
 import 'package:dictionary/dictionary.dart';
-
 import 'package:dictionary/src/uid/well_known/wk_uid.dart';
+
 import 'uid_type.dart';
 
 //TODO: need stronger validation.
@@ -22,7 +22,7 @@ abstract class Uid {
   static const int maxRootLength = 24;
   static CharPredicate kPred = isUidChar;
   @override
- // final String _uidString;
+  // final String _uidString;
 
   factory Uid([String s]) => (s == null) ? random : parse(s);
 
@@ -34,7 +34,8 @@ abstract class Uid {
   const Uid._();
 
   @override
-  bool operator ==(Object other) => (other is Uid) && (asString == other.asString);
+  bool operator ==(Object other) =>
+      (other is Uid) && (asString == other.asString);
 
   @override
   int get hashCode => asString.hashCode;
@@ -50,7 +51,6 @@ abstract class Uid {
 
   /// Returns [true] if [this] is a [UidBase] defined by the DICOM Standard.
   bool get isWellKnown => false;
-
 
   //TODO: Needed?
   // String get root;
