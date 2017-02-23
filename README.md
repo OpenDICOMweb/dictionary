@@ -1,4 +1,5 @@
-# Dictionary
+**Open DICOM<em>web</em> Project**
+## Data Dictionary
 
 The Data *Dictionary* library is a set of useful constants, constant classes and utility 
 functions that are used in creating the other Open DICOMweb SDK libraries. The general 
@@ -12,11 +13,11 @@ The Dictionary contains two types of data definitions:
     1. Common or General definitions related to non-DICOM objects.
     2. DICOM Data Definitions
     
-## Common Data Dictionary
+### Common Data Dictionary
 
 TODO: finish
 The Common Data Dictionary contains 
 
-## DICOM Data Dictionary
+### DICOM Data Dictionary
  
  - Constant data structures containing DICOM definitions.
