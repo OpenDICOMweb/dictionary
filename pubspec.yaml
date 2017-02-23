@@ -17,7 +17,7 @@ dependencies:
  #     url: https://github.com/OpenDICOMweb/common.git
  #     ref: develop
  #     version: ^0.5.2
-    path: C:/odw/sdk/common
+    path: C:/odw/sdk/develop/common
     version: ^0.5.2
 
 dev_dependencies:
