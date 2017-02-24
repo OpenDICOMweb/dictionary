@@ -58,9 +58,8 @@ void main() {
       expect(vrCode8 == vrCode8Bit, true);
 
       int vrCode16Bit = kVR16BitCodeList[i];
-      print(
-          '$vr(16): ${Int16.hex(vrCode16)}, Vector16: '
-              '${Int16.hex(vrCode16Bit)}');
+      print('$vr(16): ${Int16.hex(vrCode16)}, Vector16: '
+          '${Int16.hex(vrCode16Bit)}');
       expect(vrCode16 == vrCode16Bit, true);
     }
   });

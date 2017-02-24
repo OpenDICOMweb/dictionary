@@ -6,32 +6,65 @@
 
 import 'package:dictionary/dictionary.dart';
 
-class Issue {
+typedef String _Msg(object);
+
+String unknownIssueTypeMsg(dynamic obj) => "Unknown Issue Type with $obj";
+
+String invalidPadCharMsg(String char) =>
+    "Invalid padding character $char in String";
+
+String privateGroupLengthPresentMsg(int code) =>
+    'Retired Private Group Length tag ${Tag.toDcm(code)} present';
+
+class IssueType {
   /// A unique number (used as an index) identifying this [issue].
   final int id;
+  final String keyword;
+  final _Msg msg;
 
-  /// The [Type] of [Object] that detects this [Issue].
-  final Type type;
-  final String name;
-  final String msg;
+  const IssueType (this.id, this.keyword, this.msg);
 
-  const Issue(this.id, this.type, this.name, this.msg);
+  // Unknown IssueType
+  static const IssueType unknown =
+  const IssueType(0, 'UnknownIssueType', unknownIssueTypeMsg);
 
-  static const Issue badPadChar = const Issue(
-      0, VR, 'invalidPaddingChar', "Invalid padding character in String");
+  // Public Elements
+  static const IssueType invalidPadChar =
+  const IssueType(0, 'invalidPaddingChar', invalidPadCharMsg);
+
+  static const IssueType publicGroupLengthPresent =
+    const IssueType(1, 'invalidPaddingChar', privateGroupLengthPresentMsg);
+
+  // **** Private Elements
+
+  static const IssueType privateGroupLengthPresent =
+      const IssueType(1000, 'PrivateGroupLengthPresent',
+          privateGroupLengthPresentMsg);
+}
+
+class Issue {
+  /// The [Type] of [Issue].
+  final IssueType type;
+  /// The [Object] with the [Issue].
+  final Object obj;
+
+  Issue(this.type, this.obj);
+
+  @override
+  String toString() => '$runtimeType: ${type.msg(obj)}';
 }
 
 class UnknownIssue extends Issue {
-  UnknownIssue(Type type, String name, String msg) : super(-1, type, name, msg);
+  UnknownIssue(String name, dynamic obj) : super(IssueType.unknown, obj);
 }
 
 class IssueExample {
   static const String rootPath = 'C:/odw/sdk/issue/example/';
-  final Issue issue;
+  final IssueType issue;
   final List<String> paths;
 
   const IssueExample(this.issue, this.paths);
 
   static const IssueExample invalidPaddingCharacter =
-      const IssueExample(Issue.badPadChar, const []);
+      const IssueExample(IssueType.invalidPadChar, const []);
 }

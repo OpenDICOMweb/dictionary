@@ -45,10 +45,19 @@ class VRShortString extends VR<String> {
   String fix(String s) => (_fixer != null) ? _fixer(s, min, max) : check(s);
 
   // String.dicom (without backslash)
-  static const VR kAE = const VRShortString._(
-      17, 0x4145, "AE", "AE Title", 1, 16, _isDcmString, _dcmStringError);
-  static const VR kCS = const VRShortString._(18, 0x4353, "CS", "Code String",
-      1, 16, _isDcmString, _dcmStringError, _checkDcmString, _csFixer);
+  static const VR kAE = const VRShortString._(17, 0x4145, "AE", "AE Title", 1,
+      16, _isDcmString, _dcmStringError, _checkDcmString);
+  static const VR kCS = const VRShortString._(
+      18,
+      0x4353,
+      "CS",
+      "Code String",
+      1,
+      16,
+      _isDcmCodeString,
+      _dcmCodeStringError,
+      _checkDcmCodeString,
+      _csFixer);
   static const VR kLO = const VRShortString._(
       19, 0x4c4f, "LO", "Long String", 1, 64, _isDcmString, _dcmStringError);
   static const VR kPN = const VRShortString._(28, 0x504e, "PN", "Person Name",

@@ -220,7 +220,7 @@ class Tag {
     return length % width == 0 && (minLength <= length && length <= maxLength);
   }
 
-  bool isValidWidth(int length) => (length % width) == 0;
+  bool isValidWidth(int length) => width == 0 || (length % width) == 0;
 
   bool isNotValidLength(int length) => !isValidLength(length);
 
@@ -328,6 +328,9 @@ class Tag {
   static bool isPublicCode(int tagCode) =>
       Group.isPublic(Group.fromTag(tagCode));
 
+  static bool isPublicGroupLengthCode(int tagCode) =>
+      Group.isPublic(Group.fromTag(tagCode)) && Elt.fromTag(tagCode) == 0;
+
   /// Returns true if [code] is a valid Private Creator Code.
   static bool isPrivateCreatorCode(int tagCode) =>
       isPrivateCode(tagCode) && Elt.isPrivateCreator(Elt.fromTag(tagCode));
@@ -339,6 +342,9 @@ class Tag {
   static int privateCreatorBase(int code) => Elt.pcBase(Elt.fromTag(code));
 
   static int privateCreatorLimit(int code) => Elt.pcLimit(Elt.fromTag(code));
+
+  static bool isPrivateGroupLengthCode(int tagCode) =>
+      Group.isPrivate(Group.fromTag(tagCode)) && Elt.fromTag(tagCode) == 0;
 
   /// Returns true if [pd] is a valid Private Data Code for the
   /// [pc] the Private Creator Code.
@@ -435,7 +441,7 @@ class Tag {
     if (tag != null) return tag;
 
     // This is fromTag Group Length Tag
-    if (Elt.fromTag(code) == 0) return new GroupLengthTag(code);
+    if (Elt.fromTag(code) == 0) return new PublicGroupLengthTag(code);
 
     // **** Retired _special case_ codes that still must be handled
     if ((code >= 0x00283100) && (code <= 0x002031FF))
@@ -16694,15 +16700,15 @@ class Tag {
 
 }
 
-class GroupLengthTag extends Tag {
+class PublicGroupLengthTag extends Tag {
   // Note: While Group Length tags are retired (See PS3.5 Section 7), they are
   // still present in some DICOM objects.  This tag is used to handle all
   // Group Length Tags
-  GroupLengthTag(int code)
+  PublicGroupLengthTag(int code)
       : super.public(
-            "k${Int.hex(code, 8, "")}GroupLength",
+            "kPublic${Int.hex(code, 8, "")}GroupLength",
             code,
-            "Group Length for ${Tag.toDcm(code)}",
+            "Public Group Length for ${Tag.toDcm(code)}",
             VR.kUL,
             VM.k1,
             true,
@@ -16715,9 +16721,9 @@ class PrivateGroupLengthTag extends Tag {
   // Group Length Tags
   PrivateGroupLengthTag(int code)
       : super.public(
-            "k${Int.hex(code, 8, "")}GroupLength",
+            "kPrivateGroup${Int.hex(Group.fromTag(code), 4, "")}Length",
             code,
-            "Group Length for ${Tag.toDcm(code)}",
+            "Private Group ${Tag.toDcm(code)} Length",
             VR.kUL,
             VM.k1,
             true,

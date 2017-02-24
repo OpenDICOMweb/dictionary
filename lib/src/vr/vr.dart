@@ -117,6 +117,7 @@ class VR<T> {
       'elementSize($elementSize)';
 
   //TODO: decide if these are needed or useful
+  /*
   bool get isUnknown => index == 0;
   bool get isSequence => index == 1;
   bool get isInteger => 2 <= index && index <= 11;
@@ -128,7 +129,7 @@ class VR<T> {
   bool get isOther => 29 <= index && index <= 32;
   bool get isStringNumber => this == kIS || this == kDS;
   bool get isNumber => isInteger || isFloat || isStringNumber;
-
+  */
   bool isValidValue(T value) => false;
 
   bool isNotValidValue(T value) => !isValidValue(value);
@@ -214,7 +215,6 @@ class VR<T> {
   /// The order of the VRs in this [List] MUST correspond to the [index]
   /// in the definitions above.  Note: the [index]es start at 1, so
   /// in this [List] the 0th dictionary ,is [null].
-  ///
   static const List<VR> vrs = const <VR>[
     kUnknown,
     // Sequence
