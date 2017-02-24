@@ -19,13 +19,13 @@ String outputDir = "C:/odw/sdk/core/lib/src/base/cid/gen/output/json";
 String csvFilePath = '$inputDir/coding_scheme.csv';
 String jsonFilePath = '$outputDir/coding_scheme.json';
 
-
 // Utilities
 bool isDigit(String s) {
   int min = "0".codeUnitAt(0);
   int max = "9".codeUnitAt(0);
-  return ((min <=s.codeUnitAt(0)) && (s.codeUnitAt(0) <= max)) ? true : false;
+  return ((min <= s.codeUnitAt(0)) && (s.codeUnitAt(0) <= max)) ? true : false;
 }
+
 // TODO move to generators.dart library
 String cleanKeyword(String s) {
   // Remove spaces and apsotrophies
