@@ -175,18 +175,9 @@ class Tag {
 
   //TODO: should be modified when EType info is available.
   bool isValidValues<E>(List<E> values) {
-    // Urgent: this is very slow - needs to be fixed, maybe add field to VM.
-    // Note: If VR is any of the following the length and
-    // values are valid by definition
-    if (vr != VR.kSQ ||
-        vr != VR.kOB ||
-        vr != VR.kOD ||
-        vr != VR.kOF ||
-        vr != VR.kOL ||
-        vr != VR.kOW ||
-        vr != VR.kUR ||
-        vr != VR.kUN) return true;
-    if (isNotValidLength(values.length)) return false;
+    // If a VR has a long Value Field, then it has [VM.k1],
+    // and its length is always valid.
+    if (vr.hasShortVF && isNotValidLength(values.length)) return false;
     for (int i = 0; i < values.length; i++)
       if (vr.isNotValidValue(values[i])) return false;
     return true;
@@ -217,10 +208,10 @@ class Tag {
     print('min($minLength), max($maxLength), width($width)');
     // These are the most common cases.
     if (length == 0 || (length == 1 && width == 0)) return true;
-    return length % width == 0 && (minLength <= length && length <= maxLength);
+    return (minLength <= length && length <= maxLength) && length % width == 0;
   }
 
-  bool isValidWidth(int length) => (length % width) == 0;
+  bool isValidWidth(int length) => width == 0 || (length % width) == 0;
 
   bool isNotValidLength(int length) => !isValidLength(length);
 

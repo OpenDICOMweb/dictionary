@@ -17,8 +17,13 @@ dependencies:
  #     url: https://github.com/OpenDICOMweb/common.git
  #     ref: develop
  #     version: ^0.5.2
-    path: C:/odw/sdk/develop/common
+    path: C:/odw/sdk/common
     version: ^0.5.2
+
+  test_tools:
+    path: C:/odw/sdk/test_tools
+    version: ^0.5.1
+  quiver: any
 
 dev_dependencies:
   benchmark_harness: ^1.0.4
