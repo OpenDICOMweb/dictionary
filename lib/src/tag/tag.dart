@@ -7030,7 +7030,7 @@ class Tag {
           "GeneralizedDefectCorrectedSensitivityDeviationProbabilityValue",
           0x00240104,
           "Generalized Defect Corrected Sensitivity "
-              "Deviation Probability Value",
+          "Deviation Probability Value",
           VR.kFL,
           VM.k1,
           false);
@@ -16700,13 +16700,13 @@ class GroupLengthTag extends Tag {
   // Group Length Tags
   GroupLengthTag(int code)
       : super.public(
-          "k${Int.hex(code, 8, "")}GroupLength",
-          code,
-          "Group Length for ${Tag.toDcm(code)}",
-          VR.kUL,
-          VM.k1,
-          true,
-          EType.k3);
+            "k${Int.hex(code, 8, "")}GroupLength",
+            code,
+            "Group Length for ${Tag.toDcm(code)}",
+            VR.kUL,
+            VM.k1,
+            true,
+            EType.k3);
 }
 
 class PrivateGroupLengthTag extends Tag {
@@ -16715,11 +16715,11 @@ class PrivateGroupLengthTag extends Tag {
   // Group Length Tags
   PrivateGroupLengthTag(int code)
       : super.public(
-      "k${Int.hex(code, 8, "")}GroupLength",
-      code,
-      "Group Length for ${Tag.toDcm(code)}",
-      VR.kUL,
-      VM.k1,
-      true,
-      EType.k3);
+            "k${Int.hex(code, 8, "")}GroupLength",
+            code,
+            "Group Length for ${Tag.toDcm(code)}",
+            VR.kUL,
+            VM.k1,
+            true,
+            EType.k3);
 }

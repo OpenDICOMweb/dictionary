@@ -22,7 +22,6 @@ class Issue {
 }
 
 class UnknownIssue extends Issue {
-
   UnknownIssue(Type type, String name, String msg) : super(-1, type, name, msg);
 }
 
