@@ -55,7 +55,7 @@ String _getFilteredError(String s, int min, int max, bool filter(int c)) {
 String _invalidChar(String s, int pos) =>
     'Invalid character(${s.codeUnitAt(pos)}) at position($pos) in: $s';
 
-// *** DICOM DCR Strings -  AE, CS, LO, SH, UC.
+// *** DICOM DCR Strings -  AE, LO, SH, UC.
 
 /// The filter for DICOM String characters.
 /// Visible ASCII characters, except Backslash.
@@ -66,8 +66,9 @@ bool _isDcmChar(int c) =>
 bool _isDcmString(String s, int min, int max) =>
     _filteredTest(s, min, max, _isDcmChar);
 
-String _checkDcmString(String s, int min, int max) =>
-    (_isDcmString(s, min, max)) ? s : null;
+//Flush
+//String _checkDcmString(String s, int min, int max) =>
+//    (_isDcmString(s, min, max)) ? s : null;
 
 /// Returns an error [String] if [s] is invalid; otherwise, "".
 String _dcmStringError(String s, int min, int max) =>
@@ -87,6 +88,25 @@ bool _isDcmText(String s, int min, int max) =>
 /// Returns an error [String] if [s] is invalid; otherwise, "".
 String _dcmTextError(String s, int min, int max) =>
     _getFilteredError(s, min, max, _isTextChar);
+
+// **** DICOM Code Strings(CS).
+
+/// The filter for DICOM Code String(CS) characters.
+/// Visible ASCII characters, except Backslash.
+bool _isDcmCodeStringChar(int c) =>
+    isUppercaseChar(c) || isDigitChar(c) || c == kSpace || c == kUnderscore;
+
+/// Returns [true] if [s] is a valid DICOM Code String.
+bool _isDcmCodeString(String s, int min, int max) =>
+    _filteredTest(s, min, max, _isDcmCodeStringChar);
+
+/// Returns [true] if [s] is a valid DICOM Code String.
+String _checkDcmCodeString(String s, int min, int max) =>
+    (_isDcmCodeString(s, min, max)) ? s : null;
+
+/// Returns an error [String] if [s] is invalid; otherwise, "".
+String _dcmCodeStringError(String s, int min, int max) =>
+    _getFilteredError(s, min, max, _isDcmCodeStringChar);
 
 // **** Date, DateTime, and Time
 

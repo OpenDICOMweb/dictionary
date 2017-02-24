@@ -20,6 +20,11 @@ dependencies:
     path: C:/odw/sdk/common
     version: ^0.5.2
 
+  test_tools:
+    path: C:/odw/sdk/test_tools
+    version: ^0.5.1
+  quiver: any
+
 dev_dependencies:
   benchmark_harness: ^1.0.4
   grinder: ^0.8.0
