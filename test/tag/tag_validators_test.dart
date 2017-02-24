@@ -18,7 +18,8 @@ void main() {
 void validateTest() {
   int code = 0x00080008;
   Tag tagCS = new Tag(code);
-  Tag tagPublicCS = new Tag.public("Image​Type", code, "Image Type", VR.kCS, VM.k2_n);
+  Tag tagPublicCS =
+      new Tag.public("Image​Type", code, "Image Type", VR.kCS, VM.k2_n);
   Tag tagPublicSQ = new Tag.public("LanguageCodeSequence", 0x00080006,
       "Language Code Sequence", VR.kSQ, VM.k1, false);
   Tag tagPublicUS = new Tag.public("NumberOfZeroFills", 0x00189066,
@@ -77,39 +78,55 @@ void validateTest() {
     });
 
     test("test for isValidVFLength", () {
-      expect(tagPublicCS.isValidVFLength(tagPublicCS.minLength * tagPublicCS.vr.minValueLength),
+      expect(
+          tagPublicCS.isValidVFLength(
+              tagPublicCS.minLength * tagPublicCS.vr.minValueLength),
           true);
       expect(
-          tagPublicCS
-              .isValidVFLength((tagPublicCS.minLength * tagPublicCS.vr.minValueLength) - 1),
+          tagPublicCS.isValidVFLength(
+              (tagPublicCS.minLength * tagPublicCS.vr.minValueLength) - 1),
           false);
-      expect(tagPublicCS.isValidVFLength(tagPublicCS.maxLength * tagPublicCS.vr.maxValueLength),
+      expect(
+          tagPublicCS.isValidVFLength(
+              tagPublicCS.maxLength * tagPublicCS.vr.maxValueLength),
           true);
       expect(
-          tagPublicCS
-              .isValidVFLength((tagPublicCS.maxLength * tagPublicCS.vr.maxValueLength) + 1),
-          false);
-
-      expect(tagPublicSQ.isValidVFLength(tagPublicSQ.maxLength * tagPublicSQ.vr.maxValueLength),
-          true);
-      expect(
-          tagPublicSQ.isValidVFLength(tagPublicSQ.maxLength * tagPublicSQ.vr.maxValueLength + 1),
-          false);
-      expect(tagPublicSQ.isValidVFLength(tagPublicSQ.minLength * tagPublicSQ.vr.minValueLength),
-          true);
-      expect(
-          tagPublicSQ.isValidVFLength(tagPublicSQ.minLength * tagPublicSQ.vr.minValueLength - 1),
+          tagPublicCS.isValidVFLength(
+              (tagPublicCS.maxLength * tagPublicCS.vr.maxValueLength) + 1),
           false);
 
-      expect(tagPublicUS.isValidVFLength(tagPublicUS.minLength * tagPublicUS.vr.minValueLength),
+      expect(
+          tagPublicSQ.isValidVFLength(
+              tagPublicSQ.maxLength * tagPublicSQ.vr.maxValueLength),
           true);
       expect(
-          tagPublicUS.isValidVFLength(tagPublicUS.minLength * tagPublicUS.vr.minValueLength - 1),
+          tagPublicSQ.isValidVFLength(
+              tagPublicSQ.maxLength * tagPublicSQ.vr.maxValueLength + 1),
           false);
-      expect(tagPublicUS.isValidVFLength(tagPublicUS.maxLength * tagPublicUS.vr.maxValueLength),
+      expect(
+          tagPublicSQ.isValidVFLength(
+              tagPublicSQ.minLength * tagPublicSQ.vr.minValueLength),
           true);
       expect(
-          tagPublicUS.isValidVFLength(tagPublicUS.maxLength * tagPublicUS.vr.maxValueLength + 1),
+          tagPublicSQ.isValidVFLength(
+              tagPublicSQ.minLength * tagPublicSQ.vr.minValueLength - 1),
+          false);
+
+      expect(
+          tagPublicUS.isValidVFLength(
+              tagPublicUS.minLength * tagPublicUS.vr.minValueLength),
+          true);
+      expect(
+          tagPublicUS.isValidVFLength(
+              tagPublicUS.minLength * tagPublicUS.vr.minValueLength - 1),
+          false);
+      expect(
+          tagPublicUS.isValidVFLength(
+              tagPublicUS.maxLength * tagPublicUS.vr.maxValueLength),
+          true);
+      expect(
+          tagPublicUS.isValidVFLength(
+              tagPublicUS.maxLength * tagPublicUS.vr.maxValueLength + 1),
           false);
     });
   });
