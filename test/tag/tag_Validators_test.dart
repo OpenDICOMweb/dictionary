@@ -16,15 +16,15 @@ void main() {
 }
 
 validateTest() {
-  int code = 0x00080008;
-  Tag tag_cs = new Tag(code);
-  Tag tP_cs = new Tag.public("Image​Type", code, "Image Type", VR.kCS, VM.k2_n);
+  Tag tag_cs = new Tag(0x00080008);
+  Tag tP_cs = new Tag.public("Image​Type", 0x00080008, "Image Type", VR.kCS, VM.k2_n);
   Tag tP_sq = new Tag.public("LanguageCodeSequence", 0x00080006,
       "Language Code Sequence", VR.kSQ, VM.k1, false);
   Tag tP_us = new Tag.public("NumberOfZeroFills", 0x00189066,
       "Number of Zero Fills", VR.kUS, VM.k1_2, false);
 
   group("Tag validators in tag", () {
+
     test("test for isvalidvalues", () {
       var listsInt = new List<int>();
       for (int i = 0; i < 10; i++) {
