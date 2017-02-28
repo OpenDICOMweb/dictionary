@@ -128,9 +128,10 @@ class VRLongString extends VR<String> {
 
   bool isValidLength(String s) => min <= s.length && s.length <= max;
 
-  //@override
+  @override
   bool isValid(String s) => _isValid(s, min, max);
 
+  @override
   bool isNotValid(String s) => !isValid(s);
 
   String getValueIssue(String s) => _getError(s, min, max);

@@ -7,7 +7,8 @@ library odw.sdk.dictionary.vr;
 
 import 'dart:typed_data';
 
-import 'package:common/common.dart';
+import 'package:common/ascii.dart';
+import 'package:common/integer.dart';
 import 'package:common/date_time.dart';
 import 'package:dictionary/src/vr/vr_index.dart';
 

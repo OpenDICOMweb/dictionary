@@ -18,6 +18,9 @@ Future main(List<String> args) => grind(args);
 /// If [true] some of the tests (notably) [unittest] run asynchronously.
 bool runAsync = false;
 
+/// The path to this project root
+String root = 'C:/odw/sdk/dictionary/';
+
 /// Default task - runs if no arguments are given to grind.
 @DefaultTask()
 @Depends(analyze, unittest, format)
@@ -36,7 +39,13 @@ Future precommit() async {
 @Task('Analyzing Sources...')
 void analyze() {
   log('Analyzing dictionary...');
-  Analyzer.analyze(['bin', 'lib', 'test', 'tool'], fatalWarnings: true);
+ Analyzer.analyze(['bin', 'lib', 'test', 'tool'], fatalWarnings: false);
+ /*
+  run(sdkBin('dartanalyzer'), arguments: <String>[
+    '--packages=$root'
+    '--options=$root.analysis_options'
+  ]);
+  */
 }
 
 /// Runs all the unit tests in dictionary/test
