@@ -6,14 +6,12 @@
 
 import 'package:test/test.dart';
 import 'package:dictionary/src/vr/vr.dart';
-import 'package:dictionary/src/vm.dart';
 
 void main() {
   validateTest();
 }
 
 void validateTest() {
-
   group("VR validators", () {
     test("Check hasShortVF", () {
       expect(VRFloat.kFD.hasShortVF, true);
@@ -29,7 +27,8 @@ void validateTest() {
       expect(VRLongString.kUC.isValidLength('sdfsdfsadf'), true);
       expect(
           VRLongString.kUC.isValidLength(
-              'sdfsdfsadfsdfsdfsadfsdfsdfsadfsdfsdfsadfsdfsdfsadfsdfsdfsadfsdfsdfsadfsdfsdfsadf'),
+              'sdfsdfsadfsdfsdfsadfsdfsdfsadfsdfsdfsadfsdfsdfsadfsdfsdfsadfsd'
+              'fsdfsadfsdfsdfsadf'),
           true);
     });
 
@@ -37,7 +36,8 @@ void validateTest() {
       expect(VRLongString.kUC.isValid('sdfsdfsadf'), true);
       expect(
           VRLongString.kUC.isValid(
-              'sdfsdfsadfsdfsdfsadfsdfsdfsadfsdfsdfsadfsdfsdfsadfsdfsdfsadfsdfsdfsadfsdfsdfsadf'),
+              'sdfsdfsadfsdfsdfsadfsdfsdfsadfsdfsdfsadfsdfsdfsadfsdfsdfsadfsd'
+              'fsdfsadfsdfsdfsadf'),
           true);
     });
 
@@ -47,10 +47,10 @@ void validateTest() {
       String str2 = "0123456789";
       String str3 = "DDD_545 ";
 
-      expect(VR.kCS.isValidValue(str), true);
-      expect(VR.kCS.isValidValue(str1), false);
-      expect(VR.kCS.isValidValue(str2), true);
-      expect(VR.kCS.isValidValue(str3), true);
+      expect(VR.kCS.isValid(str), true);
+      expect(VR.kCS.isValid(str1), false);
+      expect(VR.kCS.isValid(str2), true);
+      expect(VR.kCS.isValid(str3), true);
     });
   });
 }

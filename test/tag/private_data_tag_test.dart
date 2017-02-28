@@ -10,7 +10,8 @@ import 'package:dictionary/src/tag/private_data_tag.dart';
 void main(){
   privatedatatag();
 }
-privatedatatag(){
+
+void privatedatatag(){
   test("PrivatedataTag Test",(){
     int code=0x00190010;
     PrivateDataTag pdt=new PrivateDataTag.unknown(code);

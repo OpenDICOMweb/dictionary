@@ -107,25 +107,6 @@ String _checkDcmCodeString(String s, int min, int max) =>
 String _dcmCodeStringError(String s, int min, int max) =>
     _getFilteredError(s, min, max, _isDcmCodeStringChar);
 
-// **** Dicom Code String(CS)
-
-/// The filter for DICOM Code String(CS) characters.
-/// Visible ASCII characters, except Backslash.
-bool _isDcmCodeStringChar(int c) =>
-    isUppercaseChar(c) || isDigitChar(c) || c == kSpace || c == kUnderscore;
-
-/// Returns [true] if [s] is a valid DICOM Code String.
-bool _isDcmCodeString(String s, int min, int max) =>
-    _filteredTest(s, min, max, _isDcmCodeStringChar);
-
-/// Returns [true] if [s] is a valid DICOM Code String.
-String _checkDcmCodeString(String s, int min, int max) =>
-    (_isDcmCodeString(s, min, max)) ? s : null;
-
-/// Returns an error [String] if [s] is invalid; otherwise, "".
-String _dcmCodeStringError(String s, int min, int max) =>
-    _getFilteredError(s, min, max, _isDcmCodeStringChar);
-
 // **** Date, DateTime, and Time
 
 // **** Date

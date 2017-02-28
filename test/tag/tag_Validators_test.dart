@@ -15,12 +15,12 @@ void main() {
   validateTest();
 }
 
-validateTest() {
-  Tag tag_cs = new Tag(0x00080008);
-  Tag tP_cs = new Tag.public("Image​Type", 0x00080008, "Image Type", VR.kCS, VM.k2_n);
-  Tag tP_sq = new Tag.public("LanguageCodeSequence", 0x00080006,
+void validateTest() {
+  Tag tagCS = new Tag(0x00080008);
+  Tag tagPublicCS = new Tag.public("Image​Type", 0x00080008, "Image Type", VR.kCS, VM.k2_n);
+  Tag tagSQ = new Tag.public("LanguageCodeSequence", 0x00080006,
       "Language Code Sequence", VR.kSQ, VM.k1, false);
-  Tag tP_us = new Tag.public("NumberOfZeroFills", 0x00189066,
+  Tag tagUS = new Tag.public("NumberOfZeroFills", 0x00189066,
       "Number of Zero Fills", VR.kUS, VM.k1_2, false);
 
   group("Tag validators in tag", () {
@@ -35,81 +35,81 @@ validateTest() {
         listsStr.add(random_string.randomString(12, noLowerCase: true) +
             new String.fromCharCode([32, 95][new Random().nextInt(2)]));
       }
-      expect(tag_cs.isValidValues(listsInt), true);
-      expect(tP_cs.isValidValues(listsStr), true);
+      expect(tagCS.isValidValues(listsInt), true);
+      expect(tagPublicCS.isValidValues(listsStr), true);
     });
 
     test("test for isValidLength", () {
-      expect(tP_cs.isValidLength(tP_cs.maxLength + 1), false);
-      expect(tP_cs.isValidLength(tP_cs.maxLength), false);
-      expect(tP_cs.isValidLength(tP_cs.maxLength - 1), true);
-      expect(tP_cs.isValidLength(tP_cs.minLength - 1), false);
-      expect(tP_cs.isValidLength(tP_cs.minLength), true);
+      expect(tagPublicCS.isValidLength(tagPublicCS.maxLength + 1), false);
+      expect(tagPublicCS.isValidLength(tagPublicCS.maxLength), false);
+      expect(tagPublicCS.isValidLength(tagPublicCS.maxLength - 1), true);
+      expect(tagPublicCS.isValidLength(tagPublicCS.minLength - 1), false);
+      expect(tagPublicCS.isValidLength(tagPublicCS.minLength), true);
 
-      expect(tP_sq.isValidLength(tP_sq.minLength), true);
-      expect(tP_sq.isValidLength(tP_sq.minLength - 1), true);
-      expect(tP_sq.isValidLength(tP_sq.minLength + 1), false);
-      expect(tP_sq.isValidLength(tP_sq.maxLength), true);
-      expect(tP_sq.isValidLength(tP_sq.maxLength - 1), true);
+      expect(tagSQ.isValidLength(tagSQ.minLength), true);
+      expect(tagSQ.isValidLength(tagSQ.minLength - 1), true);
+      expect(tagSQ.isValidLength(tagSQ.minLength + 1), false);
+      expect(tagSQ.isValidLength(tagSQ.maxLength), true);
+      expect(tagSQ.isValidLength(tagSQ.maxLength - 1), true);
 
-      expect(tP_us.isValidLength(tP_us.minLength), true);
-      expect(tP_us.isValidLength(tP_us.minLength - 1), true);
-      expect(tP_us.isValidLength(tP_us.minLength + 1), true);
-      expect(tP_us.isValidLength(tP_us.maxLength), true);
-      expect(tP_us.isValidLength(tP_us.maxLength + 1), false);
+      expect(tagUS.isValidLength(tagUS.minLength), true);
+      expect(tagUS.isValidLength(tagUS.minLength - 1), true);
+      expect(tagUS.isValidLength(tagUS.minLength + 1), true);
+      expect(tagUS.isValidLength(tagUS.maxLength), true);
+      expect(tagUS.isValidLength(tagUS.maxLength + 1), false);
     });
 
     test("test for isValidWidth", () {
-      expect(tP_cs.isValidWidth(tP_cs.maxLength + 1), true);
-      expect(tP_cs.isValidWidth(tP_cs.maxLength), false);
-      expect(tP_cs.isValidWidth(tP_cs.minLength - 1), false);
-      expect(tP_cs.isValidWidth(tP_cs.minLength), true);
+      expect(tagPublicCS.isValidWidth(tagPublicCS.maxLength + 1), true);
+      expect(tagPublicCS.isValidWidth(tagPublicCS.maxLength), false);
+      expect(tagPublicCS.isValidWidth(tagPublicCS.minLength - 1), false);
+      expect(tagPublicCS.isValidWidth(tagPublicCS.minLength), true);
 
-      expect(tP_sq.isValidWidth(tP_sq.minLength), true);
-      expect(tP_sq.isValidWidth(tP_sq.minLength - 1), true);
-      expect(tP_sq.isValidWidth(tP_sq.maxLength), true);
-      expect(tP_sq.isValidWidth(tP_sq.maxLength + 1), true);
+      expect(tagSQ.isValidWidth(tagSQ.minLength), true);
+      expect(tagSQ.isValidWidth(tagSQ.minLength - 1), true);
+      expect(tagSQ.isValidWidth(tagSQ.maxLength), true);
+      expect(tagSQ.isValidWidth(tagSQ.maxLength + 1), true);
 
-      expect(tP_us.isValidWidth(tP_us.minLength), true);
-      expect(tP_us.isValidWidth(tP_us.minLength - 1), true);
-      expect(tP_us.isValidWidth(tP_us.maxLength), true);
-      expect(tP_us.isValidWidth(tP_us.maxLength + 1), true);
+      expect(tagUS.isValidWidth(tagUS.minLength), true);
+      expect(tagUS.isValidWidth(tagUS.minLength - 1), true);
+      expect(tagUS.isValidWidth(tagUS.maxLength), true);
+      expect(tagUS.isValidWidth(tagUS.maxLength + 1), true);
     });
 
     test("test for isValidVFLength", () {
-      expect(tP_cs.isValidVFLength(tP_cs.minLength * tP_cs.vr.minValueLength),
+      expect(tagPublicCS.isValidVFLength(tagPublicCS.minLength * tagPublicCS.vr.minValueLength),
           true);
       expect(
-          tP_cs
-              .isValidVFLength((tP_cs.minLength * tP_cs.vr.minValueLength) - 1),
+          tagPublicCS
+              .isValidVFLength((tagPublicCS.minLength * tagPublicCS.vr.minValueLength) - 1),
           false);
-      expect(tP_cs.isValidVFLength(tP_cs.maxLength * tP_cs.vr.maxValueLength),
+      expect(tagPublicCS.isValidVFLength(tagPublicCS.maxLength * tagPublicCS.vr.maxValueLength),
           true);
       expect(
-          tP_cs
-              .isValidVFLength((tP_cs.maxLength * tP_cs.vr.maxValueLength) + 1),
-          false);
-
-      expect(tP_sq.isValidVFLength(tP_sq.maxLength * tP_sq.vr.maxValueLength),
-          true);
-      expect(
-          tP_sq.isValidVFLength(tP_sq.maxLength * tP_sq.vr.maxValueLength + 1),
-          false);
-      expect(tP_sq.isValidVFLength(tP_sq.minLength * tP_sq.vr.minValueLength),
-          true);
-      expect(
-          tP_sq.isValidVFLength(tP_sq.minLength * tP_sq.vr.minValueLength - 1),
+          tagPublicCS
+              .isValidVFLength((tagPublicCS.maxLength * tagPublicCS.vr.maxValueLength) + 1),
           false);
 
-      expect(tP_us.isValidVFLength(tP_us.minLength * tP_us.vr.minValueLength),
+      expect(tagSQ.isValidVFLength(tagSQ.maxLength * tagSQ.vr.maxValueLength),
           true);
       expect(
-          tP_us.isValidVFLength(tP_us.minLength * tP_us.vr.minValueLength - 1),
+          tagSQ.isValidVFLength(tagSQ.maxLength * tagSQ.vr.maxValueLength + 1),
           false);
-      expect(tP_us.isValidVFLength(tP_us.maxLength * tP_us.vr.maxValueLength),
+      expect(tagSQ.isValidVFLength(tagSQ.minLength * tagSQ.vr.minValueLength),
           true);
       expect(
-          tP_us.isValidVFLength(tP_us.maxLength * tP_us.vr.maxValueLength + 1),
+          tagSQ.isValidVFLength(tagSQ.minLength * tagSQ.vr.minValueLength - 1),
+          false);
+
+      expect(tagUS.isValidVFLength(tagUS.minLength * tagUS.vr.minValueLength),
+          true);
+      expect(
+          tagUS.isValidVFLength(tagUS.minLength * tagUS.vr.minValueLength - 1),
+          false);
+      expect(tagUS.isValidVFLength(tagUS.maxLength * tagUS.vr.maxValueLength),
+          true);
+      expect(
+          tagUS.isValidVFLength(tagUS.maxLength * tagUS.vr.maxValueLength + 1),
           false);
     });
   });
