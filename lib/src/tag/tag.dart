@@ -79,6 +79,10 @@ class Tag {
   bool get hasShortVF => vr.hasShortVF;
   bool get hasLongVF => vr.hasLongVF;
 
+  /// Returns the length of a DICOM [Element] header field.
+  /// Used for encoding DICOM media types
+  int get dcmHeaderLength => (hasShortVF) ? 8 : 12;
+
   // **** VM Getters
 
   int get minLength => vm.min;
@@ -188,7 +192,7 @@ class Tag {
         vr != VR.kUN) return true;
     if (isNotValidLength(values.length)) return false;
     for (int i = 0; i < values.length; i++)
-      if (vr.isNotValidValue(values[i])) return false;
+      if (vr.isNotValid(values[i])) return false;
     return true;
   }
 
@@ -210,7 +214,7 @@ class Tag {
       checkValues<E>(List<E> values) => (isValidValues(values)) ? values : null;
 
   // Placeholder until VR is integrated into TagBase
-  List<E> checkValue<E>(dynamic value) => vr.isValidValue(value) ? value : null;
+  List<E> checkValue<E>(dynamic value) => vr.isValid(value) ? value : null;
 
   bool isValidLength(int length) {
     print('isValidLength: $length');

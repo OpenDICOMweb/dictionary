@@ -24,12 +24,12 @@ class VRInt extends VR<int> {
       : super._(index, code, id, desc);
 
   @override
-  bool isValidValue(int n) {
+  bool isValid(int n) {
     return (min <= n) && (n <= max);
   }
 
   @override
-  String getValueError(int n) => (isNotValidValue(n))
+  String getValueError(int n) => (isNotValid(n))
       ? 'Range Error: min($min) <= value($n) <= max($max)'
       : null;
 

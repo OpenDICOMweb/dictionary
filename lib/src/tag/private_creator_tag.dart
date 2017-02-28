@@ -91,7 +91,7 @@ class PrivateCreatorTag extends Tag {
   }
 
   static const PrivateCreatorTag kUnknown =
-      const PrivateCreatorTag._(0, "UnknownName", const {});
+      const PrivateCreatorTag._(-1, "Unknown", const {});
 
   static const PrivateCreatorTag k0 = const PrivateCreatorTag._(
       0, "1.2.840.113681", const <int, PrivateDataTag>{

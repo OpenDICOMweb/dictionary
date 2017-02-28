@@ -7,12 +7,14 @@ library odw.sdk.dictionary.vr;
 
 import 'dart:typed_data';
 
-import 'package:common/common.dart';
+import 'package:common/ascii.dart';
 import 'package:common/date_time.dart';
+import 'package:common/integer.dart';
 import 'package:dictionary/src/vr/vr_index.dart';
 
 part 'float.dart';
 part 'integer.dart';
+part 'parsable.dart';
 part 'string.dart';
 part 'utils.dart';
 
@@ -116,23 +118,9 @@ class VR<T> {
       '$runtimeType: $id(${Int16.hex(code)})[$index]: maxVFLength($_maxVF), '
       'elementSize($elementSize)';
 
-  //TODO: decide if these are needed or useful
-  /*
-  bool get isUnknown => index == 0;
-  bool get isSequence => index == 1;
-  bool get isInteger => 2 <= index && index <= 11;
-  bool get isFloat => 12 <= index && index <= 17;
-  bool get isBinary => 2 <= index && index <= 14;
-  bool get isString => 16 <= index && index <= 32;
-  bool get isText => 23 <= index && index <= 25;
-  bool get isDateTime => 26 <= index && index <= 28;
-  bool get isOther => 29 <= index && index <= 32;
-  bool get isStringNumber => this == kIS || this == kDS;
-  bool get isNumber => isInteger || isFloat || isStringNumber;
-  */
-  bool isValidValue(T value) => false;
+  bool isValid(T value) => false;
 
-  bool isNotValidValue(T value) => !isValidValue(value);
+  bool isNotValid(T value) => !isValid(value);
 
   T check(T value) => null;
 
@@ -174,8 +162,8 @@ class VR<T> {
   static const VR kOF = VRFloat.kOF;
 
   // String.numbers
-  static const VR kIS = VRShortString.kIS;
-  static const VR kDS = VRShortString.kDS;
+  static const VR kIS = VRParsable.kIS;
+  static const VR kDS = VRParsable.kDS;
 
   // String.dcm
   static const VR kAE = VRShortString.kAE;
@@ -188,18 +176,18 @@ class VR<T> {
   static const VR kLT = VRShortString.kLT;
 
   // String.DateTime
-  static const VR kDA = VRShortString.kDA;
-  static const VR kDT = VRShortString.kDT;
-  static const VR kTM = VRShortString.kTM;
+  static const VR kDA = VRParsable.kDA;
+  static const VR kDT = VRParsable.kDT;
+  static const VR kTM = VRParsable.kTM;
 
   // String.Other
   static const VR kPN = VRShortString.kPN;
-  static const VR kUI = VRShortString.kUI;
-  static const VR kAS = VRShortString.kAS;
+  static const VR kUI = VRParsable.kUI;
+  static const VR kAS = VRParsable.kAS;
 
   // String with long Value Field
   static const VR kUC = VRLongString.kUC;
-  static const VR kUR = VRLongString.kUR;
+  static const VR kUR = VRParsable.kUR;
   static const VR kUT = VRLongString.kUT;
 
   // Placeholder for Bulkdata Reference
