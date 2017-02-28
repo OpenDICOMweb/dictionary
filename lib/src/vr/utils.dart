@@ -107,7 +107,6 @@ String _checkDcmCodeString(String s, int min, int max) =>
 String _dcmCodeStringError(String s, int min, int max) =>
     _getFilteredError(s, min, max, _isDcmCodeStringChar);
 
-
 // **** Date, DateTime, and Time
 
 // **** Date

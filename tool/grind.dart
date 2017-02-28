@@ -39,8 +39,8 @@ Future precommit() async {
 @Task('Analyzing Sources...')
 void analyze() {
   log('Analyzing dictionary...');
- Analyzer.analyze(['bin', 'lib', 'test', 'tool'], fatalWarnings: false);
- /*
+  Analyzer.analyze(['bin', 'lib', 'test', 'tool'], fatalWarnings: false);
+  /*
   run(sdkBin('dartanalyzer'), arguments: <String>[
     '--packages=$root'
     '--options=$root.analysis_options'
