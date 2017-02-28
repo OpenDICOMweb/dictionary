@@ -55,7 +55,7 @@ String _getFilteredError(String s, int min, int max, bool filter(int c)) {
 String _invalidChar(String s, int pos) =>
     'Invalid character(${s.codeUnitAt(pos)}) at position($pos) in: $s';
 
-// *** DICOM DCR Strings -  AE, CS, LO, SH, UC.
+// *** DICOM DCR Strings -  AE, LO, SH, UC.
 
 /// The filter for DICOM String characters.
 /// Visible ASCII characters, except Backslash.
@@ -88,7 +88,7 @@ bool _isDcmText(String s, int min, int max) =>
 String _dcmTextError(String s, int min, int max) =>
     _getFilteredError(s, min, max, _isTextChar);
 
-// **** Dicom Code String(CS)
+// **** DICOM Code Strings(CS).
 
 /// The filter for DICOM Code String(CS) characters.
 /// Visible ASCII characters, except Backslash.

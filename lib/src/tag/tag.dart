@@ -179,7 +179,7 @@ class Tag {
     // and its length is always valid.
     if (vr.hasShortVF && isNotValidLength(values.length)) return false;
     for (int i = 0; i < values.length; i++)
-      if (vr.isNotValidValue(values[i])) return false;
+      if (vr.isNotValid(values[i])) return false;
     return true;
   }
 
@@ -201,7 +201,7 @@ class Tag {
       checkValues<E>(List<E> values) => (isValidValues(values)) ? values : null;
 
   // Placeholder until VR is integrated into TagBase
-  List<E> checkValue<E>(dynamic value) => vr.isValidValue(value) ? value : null;
+  List<E> checkValue<E>(dynamic value) => vr.isValid(value) ? value : null;
 
   bool isValidLength(int length) {
     print('isValidLength: $length');
@@ -319,6 +319,9 @@ class Tag {
   static bool isPublicCode(int tagCode) =>
       Group.isPublic(Group.fromTag(tagCode));
 
+  static bool isPublicGroupLengthCode(int tagCode) =>
+      Group.isPublic(Group.fromTag(tagCode)) && Elt.fromTag(tagCode) == 0;
+
   /// Returns true if [code] is a valid Private Creator Code.
   static bool isPrivateCreatorCode(int tagCode) =>
       isPrivateCode(tagCode) && Elt.isPrivateCreator(Elt.fromTag(tagCode));
@@ -330,6 +333,9 @@ class Tag {
   static int privateCreatorBase(int code) => Elt.pcBase(Elt.fromTag(code));
 
   static int privateCreatorLimit(int code) => Elt.pcLimit(Elt.fromTag(code));
+
+  static bool isPrivateGroupLengthCode(int tagCode) =>
+      Group.isPrivate(Group.fromTag(tagCode)) && Elt.fromTag(tagCode) == 0;
 
   /// Returns true if [pd] is a valid Private Data Code for the
   /// [pc] the Private Creator Code.
@@ -424,6 +430,9 @@ class Tag {
     assert(Tag.isPublicCode(code));
     Tag tag = publicTagCodeMap[code];
     if (tag != null) return tag;
+
+    // This is fromTag Group Length Tag
+    if (Elt.fromTag(code) == 0) return new PublicGroupLengthTag(code);
 
     // **** Retired _special case_ codes that still must be handled
     if ((code >= 0x00283100) && (code <= 0x002031FF))
@@ -7017,7 +7026,8 @@ class Tag {
       = const Tag.public(
           "GeneralizedDefectCorrectedSensitivityDeviationProbabilityValue",
           0x00240104,
-          "Generalized Defect Corrected Sensitivity Deviation Probability Value",
+          "Generalized Defect Corrected Sensitivity "
+          "Deviation Probability Value",
           VR.kFL,
           VM.k1,
           false);
@@ -7403,19 +7413,23 @@ class Tag {
   // *** See below ***
   //static const Tag Element kRowsForNthOrderCoefficients
   //(0028,0400)
-  //= const Element("RowsForNthOrderCoefficients", 0x00280400, "Rows For Nth Order Coefficients",
+  //= const Element("RowsForNthOrderCoefficients", 0x00280400,
+  //    "Rows For Nth Order Coefficients",
   //VR.kUS, VM.k1, true);
   // *** See below ***
   //static const Tag Element kColumnsForNthOrderCoefficients
   //(0028,0401)
-  //= const Element("ColumnsForNthOrderCoefficients", 0x00280401, "Columns For Nth Order
+  //= const Element("ColumnsForNthOrderCoefficients", 0x00280401,
+  //    "Columns For Nth Order
   //Coefficients", VR.kUS, VM.k1, true);
   //static const Tag Element kCoefficientCoding
   //(0028,0402)
-  //= const Element("CoefficientCoding", 0x00280402, "Coefficient Coding", VR.kLO, VM.k1_n, true);
+  //= const Element("CoefficientCoding", 0x00280402, "Coefficient Coding",
+  //    VR.kLO, VM.k1_n, true);
   //static const Tag Element kCoefficientCodingPointers
   //(0028,0403)
-  //= const Element("CoefficientCodingPointers", 0x00280403, "Coefficient Coding Pointers", VR
+  //= const Element("CoefficientCodingPointers", 0x00280403,
+  //    "Coefficient Coding Pointers", VR
   //    .kAT, VM.k1_n, true);
   static const Tag kDCTLabel
       //(0028,0700)
@@ -16675,4 +16689,34 @@ class Tag {
 //TODO: Move 0x60xx,yyyy elements down to here and change name
 //TODO: Move 0x7Fxx,yyyy elements down to here and change name
 
+}
+
+class PublicGroupLengthTag extends Tag {
+  // Note: While Group Length tags are retired (See PS3.5 Section 7), they are
+  // still present in some DICOM objects.  This tag is used to handle all
+  // Group Length Tags
+  PublicGroupLengthTag(int code)
+      : super.public(
+            "kPublic${Int.hex(code, 8, "")}GroupLength",
+            code,
+            "Public Group Length for ${Tag.toDcm(code)}",
+            VR.kUL,
+            VM.k1,
+            true,
+            EType.k3);
+}
+
+class PrivateGroupLengthTag extends Tag {
+  // Note: While Group Length tags are retired (See PS3.5 Section 7), they are
+  // still present in some DICOM objects.  This tag is used to handle all
+  // Group Length Tags
+  PrivateGroupLengthTag(int code)
+      : super.public(
+            "kPrivateGroup${Int.hex(Group.fromTag(code), 4, "")}Length",
+            code,
+            "Private Group ${Tag.toDcm(code)} Length",
+            VR.kUL,
+            VM.k1,
+            true,
+            EType.k3);
 }
