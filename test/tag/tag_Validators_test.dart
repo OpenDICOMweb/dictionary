@@ -5,9 +5,10 @@
 // See the AUTHORS file for other contributors.
 
 import 'dart:math';
+
 import 'package:dictionary/src/tag/tag.dart';
-import 'package:dictionary/src/vr/vr.dart';
 import 'package:dictionary/src/vm.dart';
+import 'package:dictionary/src/vr/vr.dart';
 import 'package:test/test.dart';
 import 'package:test_tools/src/random/random_string.dart' as random_string;
 
@@ -17,14 +18,14 @@ void main() {
 
 void validateTest() {
   Tag tagCS = new Tag(0x00080008);
-  Tag tagPublicCS = new Tag.public("Image​Type", 0x00080008, "Image Type", VR.kCS, VM.k2_n);
+  Tag tagPublicCS =
+      new Tag.public("Image​Type", 0x00080008, "Image Type", VR.kCS, VM.k2_n);
   Tag tagSQ = new Tag.public("LanguageCodeSequence", 0x00080006,
       "Language Code Sequence", VR.kSQ, VM.k1, false);
   Tag tagUS = new Tag.public("NumberOfZeroFills", 0x00189066,
       "Number of Zero Fills", VR.kUS, VM.k1_2, false);
 
   group("Tag validators in tag", () {
-
     test("test for isvalidvalues", () {
       var listsInt = new List<int>();
       for (int i = 0; i < 10; i++) {
@@ -77,17 +78,21 @@ void validateTest() {
     });
 
     test("test for isValidVFLength", () {
-      expect(tagPublicCS.isValidVFLength(tagPublicCS.minLength * tagPublicCS.vr.minValueLength),
+      expect(
+          tagPublicCS.isValidVFLength(
+              tagPublicCS.minLength * tagPublicCS.vr.minValueLength),
           true);
       expect(
-          tagPublicCS
-              .isValidVFLength((tagPublicCS.minLength * tagPublicCS.vr.minValueLength) - 1),
+          tagPublicCS.isValidVFLength(
+              (tagPublicCS.minLength * tagPublicCS.vr.minValueLength) - 1),
           false);
-      expect(tagPublicCS.isValidVFLength(tagPublicCS.maxLength * tagPublicCS.vr.maxValueLength),
+      expect(
+          tagPublicCS.isValidVFLength(
+              tagPublicCS.maxLength * tagPublicCS.vr.maxValueLength),
           true);
       expect(
-          tagPublicCS
-              .isValidVFLength((tagPublicCS.maxLength * tagPublicCS.vr.maxValueLength) + 1),
+          tagPublicCS.isValidVFLength(
+              (tagPublicCS.maxLength * tagPublicCS.vr.maxValueLength) + 1),
           false);
 
       expect(tagSQ.isValidVFLength(tagSQ.maxLength * tagSQ.vr.maxValueLength),

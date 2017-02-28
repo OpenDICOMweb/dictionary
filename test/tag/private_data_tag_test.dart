@@ -4,19 +4,19 @@
 // Author: Binayak Behera <binayak.b@mwebware.com> -
 // See the AUTHORS file for other contributors.
 
-import 'package:test/test.dart';
 import 'package:dictionary/src/tag/private_data_tag.dart';
+import 'package:test/test.dart';
 
-void main(){
+void main() {
   privatedatatag();
 }
 
-void privatedatatag(){
-  test("PrivatedataTag Test",(){
-    int code=0x00190010;
-    PrivateDataTag pdt=new PrivateDataTag.unknown(code);
-    expect((pdt.isPrivate),true);
-    expect((pdt.isCreator),false);
+void privatedatatag() {
+  test("PrivatedataTag Test", () {
+    int code = 0x00190010;
+    PrivateDataTag pdt = new PrivateDataTag.unknown(code);
+    expect((pdt.isPrivate), true);
+    expect((pdt.isCreator), false);
     print(pdt.toString());
   });
 }
