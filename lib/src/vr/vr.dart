@@ -110,6 +110,8 @@ class VR<T> {
 
   int get vfLength => (hasShortVF) ? 2 : 4;
 
+  int get dcmHeaderLength => (hasShortVF) ? 8 : 12;
+
   int get code16Bit => (code >> 8) + ((code & 0xFF) << 8);
 
   String get info =>
@@ -117,22 +119,10 @@ class VR<T> {
       'elementSize($elementSize)';
 
   //TODO: decide if these are needed or useful
-  /*
-  bool get isUnknown => index == 0;
-  bool get isSequence => index == 1;
-  bool get isInteger => 2 <= index && index <= 11;
-  bool get isFloat => 12 <= index && index <= 17;
-  bool get isBinary => 2 <= index && index <= 14;
-  bool get isString => 16 <= index && index <= 32;
-  bool get isText => 23 <= index && index <= 25;
-  bool get isDateTime => 26 <= index && index <= 28;
-  bool get isOther => 29 <= index && index <= 32;
-  bool get isStringNumber => this == kIS || this == kDS;
-  bool get isNumber => isInteger || isFloat || isStringNumber;
-  */
-  bool isValidValue(T value) => false;
 
-  bool isNotValidValue(T value) => !isValidValue(value);
+  bool isValid(T value) => false;
+
+  bool isNotValid(T value) => !isValid(value);
 
   T check(T value) => null;
 

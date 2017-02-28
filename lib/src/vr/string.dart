@@ -32,7 +32,7 @@ class VRShortString extends VR<String> {
   bool isValidLength(String s) => _isValidLength(s.length, min, max);
 
   @override
-  bool isValidValue(String s) => _isValid(s, min, max);
+  bool isValid(String s) => _isValid(s, min, max);
 
   @override
   String check(String s) => (_isValid(s, min, max)) ? s : null;
@@ -136,7 +136,7 @@ class VRLongString extends VR<String> {
   String getValueIssue(String s) => _getError(s, min, max);
 
   @override
-  String check(String s) => (isValidValue(s)) ? s : null;
+  String check(String s) => (isValid(s)) ? s : null;
 
   @override
   String parse(String s) => (_parser != null) ? _parser(s, min, max) : null;
