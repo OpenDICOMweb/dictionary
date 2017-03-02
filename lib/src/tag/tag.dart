@@ -19,7 +19,7 @@ import 'package:dictionary/src/tag/private_data_tag.dart';
 import 'package:dictionary/src/tag/public_tag_code_map.dart';
 import 'package:dictionary/src/tag/public_tag_keyword_map.dart';
 import 'package:dictionary/src/vm.dart';
-import 'package:dictionary/src/vr/old/vr.dart';
+import 'package:dictionary/src/vr/vr.dart';
 
 const int kGroupMask = 0xFFFF0000;
 const int kElementMask = 0x0000FFFF;
@@ -249,7 +249,7 @@ class Tag {
       (isValidVFLength(bytes.length)) ? bytes : null;
 
   //Fix or Flush
-  Uint8List checkBytes(Uint8List bytes) => vr.checkBytes(bytes);
+  //Uint8List checkBytes(Uint8List bytes) => vr.checkBytes(bytes);
 
   E parse<E>(String s) => vr.parse(s);
 
@@ -5046,7 +5046,7 @@ class Tag {
   static const Tag kNoName0
       //(0018,9445)
       = const Tag.public(
-          "NoName0", 0x00189445, "See Note 3", VR.kUnknown, VM.kNoVM, true);
+          "NoName0", 0x00189445, "See Note 3", VR.kInvalid, VM.kNoVM, true);
   static const Tag kColumnAngulationPatient
       //(0018,9447)
       = const Tag.public("ColumnAngulationPatient", 0x00189447,
@@ -7217,7 +7217,7 @@ class Tag {
   static const Tag kNoName1
       //(0028,0020)
       = const Tag.public(
-          "NoName1", 0x00280020, "See Note 3", VR.kUnknown, VM.kNoVM, true);
+          "NoName1", 0x00280020, "See Note 3", VR.kInvalid, VM.kNoVM, true);
   static const Tag kPixelSpacing
       //(0028,0030)
       = const Tag.public(
@@ -16636,15 +16636,15 @@ class Tag {
   static const Tag kItem
       //(FFFE,E000)
       = const Tag.public(
-          "Item", 0xFFFEE000, "Item", VR.kUnknown, VM.kNoVM, false);
+          "Item", 0xFFFEE000, "Item", VR.kInvalid, VM.kNoVM, false);
   static const Tag kItemDelimitationItem
       //(FFFE,E00D)
       = const Tag.public("ItemDelimitationItem", 0xFFFEE00D,
-          "Item Delimitation Item", VR.kUnknown, VM.kNoVM, false);
+          "Item Delimitation Item", VR.kInvalid, VM.kNoVM, false);
   static const Tag kSequenceDelimitationItem
       //(FFFE,E0DD)
       = const Tag.public("SequenceDelimitationItem", 0xFFFEE0DD,
-          "Sequence Delimitation Item", VR.kUnknown, VM.kNoVM, false);
+          "Sequence Delimitation Item", VR.kInvalid, VM.kNoVM, false);
 
   //**** Special Elements where multiple tags map to the same dictionary
 

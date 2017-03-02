@@ -39,11 +39,13 @@ class VR<T> {
   final int maxVFLength;
   final String keyword;
 
-  const VR(this.index, this.code, this.id, this.elementSize,
-      this.vfLengthSize, this.maxVFLength, this.keyword);
+  const VR(this.index, this.code, this.id, this.elementSize, this.vfLengthSize,
+      this.maxVFLength, this.keyword);
 
   const VR._(this.index, this.code, this.id, this.elementSize,
       this.vfLengthSize, this.maxVFLength, this.keyword);
+
+  VR operator [](int i) => vrList[i];
 
   int get minValueLength => null;
   int get maxValueLength => null;
@@ -55,7 +57,7 @@ class VR<T> {
 
   String get info =>
       '$runtimeType: $id(${Int16.hex(code)})[$index]: maxVFLength($maxVFLength), '
-          'elementSize($elementSize)';
+      'elementSize($elementSize)';
 
   String get asString => 'VR.k$id';
 
@@ -95,7 +97,7 @@ class VR<T> {
   /// Returns [true] if [bytes] contains a valid Value Field.
   //TODO: implement or flush
   Uint8List isValidBytes(Uint8List bytes) => null;
-  
+
   @override
   String toString() => asString;
 
@@ -157,7 +159,7 @@ class VR<T> {
   static const VR kUT = VRDcmText.kUT;
 
   // Placeholder for Bulkdata Reference
- // static const VR kBR = VROther.kBR;
+  // static const VR kBR = VROther.kBR;
 
   // Special values used by Tag
   static const VR kOBOW = VRIntSpecial.kOBOW;
@@ -166,7 +168,18 @@ class VR<T> {
   static const VR kUSOW = VRIntSpecial.kUSOW;
   static const VR kUSOW1 = VRIntSpecial.kUSOW1;
 
-  static const Map<int, VR> vrs = const <int, VR>{
+  static const List<VR> vrList = const <VR>[
+    kInvalid,
+    kAE, kAS, kAT, kBR, kCS,
+    kDA, kDS, kDT, kFD, kFL,
+    kIS, kLO, kLT, kOB, kOD,
+    kOF, kOL, kOW, kPN, kSH,
+    kSL, kSQ, kSS, kST, kTM,
+    kUC, kUI, kUL, kUN, kUR,
+    kUS, kUT // stop reformat
+  ];
+  static const Map<int, VR> vrMap = const <int, VR>{
+    0x0000: kInvalid,
     0x4541: kAE, 0x5341: kAS, 0x5441: kAT, 0x5242: kBR, 0x5343: kCS,
     0x4144: kDA, 0x5344: kDS, 0x5444: kDT, 0x4446: kFD, 0x4c46: kFL,
     0x5349: kIS, 0x4f4c: kLO, 0x544c: kLT, 0x424f: kOB, 0x444f: kOD,
@@ -175,8 +188,9 @@ class VR<T> {
     0x4355: kUC, 0x4955: kUI, 0x4c55: kUL, 0x4e55: kUN, 0x5255: kUR,
     0x5355: kUS, 0x5455: kUT // stop reformat
   };
-}
 
+  static VR lookup(int vrCode) => vrMap[vrCode];
+}
 
 //TODO: Add this field to VR Definition
 const Map<VR, String> dataTypes = const <VR, String>{
@@ -216,19 +230,14 @@ const Map<VR, String> dataTypes = const <VR, String>{
   VR.kOF: "float32"
 };
 
-
-
 //TODO: clean this up. remove VR.kUnknown and VR.kBR. How to handle SQ
 class VRSequence extends VR {
   final bool undefinedLengthAllowed = true;
 
   const VRSequence._(int index, int code, String id, int elementSize,
-      int vfLengthSize, int maxVFLength,
-      String keyword)
-  : super._(index, code, id, 1, 4,
-      kMaxLongVF, keyword);
+      int vfLengthSize, int maxVFLength, String keyword)
+      : super._(index, code, id, 1, 4, kMaxLongVF, keyword);
 
   //Bulkdata Reference
   static const VR kSQ = const VR._(22, 0x5153, "SQ", 0, 0, -1, "Sequence");
 }
-

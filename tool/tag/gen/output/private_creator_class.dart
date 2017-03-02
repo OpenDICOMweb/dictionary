@@ -4,7 +4,10 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
-import 'package:dictionary/dictionary.dart';
+import 'package:dictionary/src/tag/private_data_tag.dart';
+import 'package:dictionary/src/tag/tag.dart';
+import 'package:dictionary/src/vm.dart';
+import 'package:dictionary/src/vr/vr.dart';
 
 class PrivateCreatorTag extends Tag {
   final String token;

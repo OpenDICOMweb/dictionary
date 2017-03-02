@@ -32,7 +32,7 @@ class IOD {
       this.aTypeIndex,
       this.isRetired);
 
-  VR get vr => VR.vrs[vrIndex];
+  VR get vr => VR.vrMap[vrIndex];
 
   VM get vm => VM.vms[vmIndex];
 

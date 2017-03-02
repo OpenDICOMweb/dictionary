@@ -9,7 +9,7 @@ import 'package:dictionary/src/tag/private_creator_tag_map.dart';
 import 'package:dictionary/src/tag/private_data_tag.dart';
 import 'package:dictionary/src/tag/tag.dart';
 import 'package:dictionary/src/vm.dart';
-import 'package:dictionary/src/vr/old/vr.dart';
+import 'package:dictionary/src/vr/vr.dart';
 
 class PrivateTag extends Tag {
   //TODO: fix the tag code to be the standard group with 0x0010 as elt.
@@ -47,7 +47,7 @@ class PrivateCreatorTag extends PrivateTag {
     print('token("$token") $vr');
   }
 
-  static const kNotPresent = const PrivateCreatorTag._(
+  static const PrivateCreatorTag kNotPresent = const PrivateCreatorTag._(
       -1, "NoCreatorPresent", const <int, PrivateDataTag>{});
 
   @override

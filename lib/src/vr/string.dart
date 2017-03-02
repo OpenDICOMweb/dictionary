@@ -196,7 +196,8 @@ class VRCodeString extends VRString {
     // If too long truncate
     // if illegal chars replace with " "
     // if lowercase convert to with uppercase
-    return s;
+      if (!_isValidLength(s.length)) return null;
+      return s.toUpperCase();
   }
 
   /// The filter for DICOM Code String(CS) characters.

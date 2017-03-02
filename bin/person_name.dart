@@ -20,12 +20,16 @@ void main() {
   String name4 = 'a^b^c^d';
   String name5 = 'a^b^c^d^e';
 
+  List<String> names = [name0, name1,name2,name3,name4,name5];
+
   String nameX0 = 'a^b^^^e';
   String nameX1 = ' a^ b ^ ^^ e ';
 
-  var s0 = nameX1.split('^');
-  var j0 = s0.join('|');
-  print('j0: "$j0"');
+  for(String s in names) {
+    var s0 = s.split('^');
+    var j0 = s0.join('|');
+    print('j0: "$j0"');
+  }
 
   var s1 = splitTrim(nameX1, '^');
   var j1 = s1.join('|');
