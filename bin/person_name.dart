@@ -1,17 +1,15 @@
 // Copyright (c) 2016, Open DICOMweb Project. All rights reserved.
 // Use of this source code is governed by the open source license
 // that can be found in the LICENSE file.
-// Author: Jim Philbin <jfphilbin@gmail.edu> - 
+// Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
 import 'package:collection/collection.dart';
-
 import 'package:dictionary/src/person_name.dart';
 
 void main() {
-
   const ListEquality equality = const ListEquality();
-  bool v = equality.equals([1,2, 3], [1, 2, 3]);
+  bool v = equality.equals([1, 2, 3], [1, 2, 3]);
   print('equal: $v');
   String name0 = "";
   String name1 = 'a';
@@ -20,12 +18,12 @@ void main() {
   String name4 = 'a^b^c^d';
   String name5 = 'a^b^c^d^e';
 
-  List<String> names = [name0, name1,name2,name3,name4,name5];
+  List<String> names = [name0, name1, name2, name3, name4, name5];
 
   String nameX0 = 'a^b^^^e';
   String nameX1 = ' a^ b ^ ^^ e ';
 
-  for(String s in names) {
+  for (String s in names) {
     var s0 = s.split('^');
     var j0 = s0.join('|');
     print('j0: "$j0"');
@@ -35,12 +33,12 @@ void main() {
   var j1 = s1.join('|');
   print('j1: "$j1"');
 
- // print('s: $s');
- // for(String ss in s) print('"$ss"');
+  // print('s: $s');
+  // for(String ss in s) print('"$ss"');
 
-  print(nameX0.split('^').fold("", (t, e) => t  + '|"$e"'));
+  print(nameX0.split('^').fold("", (t, e) => t + '|"$e"'));
 
-  for(String s in nameX0.split('^')) print('"$s"');
+  for (String s in nameX0.split('^')) print('"$s"');
 
   Name name8 = new Name.fromString(name5);
   Name name9 = new Name.fromString(name5);
@@ -55,10 +53,6 @@ void main() {
   print('pnString: "$pnString"');
   PersonName pn = new PersonName.fromString(pnString);
   print('pn: $pn ${pn.dcm}');
-
-
-
-
 }
 
 void printName(Name name) {

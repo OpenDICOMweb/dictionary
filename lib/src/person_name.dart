@@ -5,7 +5,6 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:collection/collection.dart';
-
 import 'package:common/ascii.dart';
 import 'package:common/integer.dart';
 
@@ -54,7 +53,6 @@ class PersonName {
     print(groups);
     return new PersonName(groups.toList());
   }
-
 
   /// Checks the Equality (deep) of two [PersonName]s.
   @override
@@ -183,7 +181,7 @@ class Name {
 }
 
 Iterable<String> splitTrim(String s, String separator) =>
-  s.split(separator).map((s) => s.trim());
+    s.split(separator).map((s) => s.trim());
 
 /// The filter for DICOM String characters.
 /// Visible ASCII characters, except Backslash.

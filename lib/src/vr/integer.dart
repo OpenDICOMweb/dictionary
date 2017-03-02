@@ -20,7 +20,6 @@ const int kMaxOL = kUint32Max - 4;
 const int kMaxOW = kUint32Max - 2;
 const int kMaxUN = kUint32Max - 2;
 
-
 /// Converts [bytes] into a valid [TypedData<List<int>>] and returns it.
 /// If [bytes] is [null] or empty (`bytes.length == 0`), returns an
 /// empty [List<int>]. If the list cannot be converted returns null.
@@ -71,14 +70,12 @@ class VRInt extends VR<int> {
   @override
   int get maxValueLength => max;
 
-
   /// Returns [true] of [value] is valid for this [VRBase].
   @override
   bool isValid(int n) => (min <= n) && (n <= max);
 
   bool isValidList(List<int> list) {
-    for(int i in list)
-      if(isNotValid(i)) return false;
+    for (int i in list) if (isNotValid(i)) return false;
     return true;
   }
 
@@ -108,41 +105,32 @@ class VRInt extends VR<int> {
   Uint8List isValidBytes(Uint8List bytes) => null;
 
   // index, code, id, elementSize, vfLengthFieldSize, maxVFLength, keyword
-  static const VRInt kAT = const VRInt._(
-      3, 0x5441, "AT", 4, 2, kMaxShortVF, "Attribute Tag Code", 0, Uint32.max,
-  Uint32.fromBytes);
+  static const VRInt kAT = const VRInt._(3, 0x5441, "AT", 4, 2, kMaxShortVF,
+      "Attribute Tag Code", 0, Uint32.max, Uint32.fromBytes);
 
-  static const VRInt kOB =
-      const VRInt._(14, 0x424f, "OB", 1, 4, kMaxOB, "OtherByte", 0, Uint8.max,
-      Uint8.fromBytes, true);
+  static const VRInt kOB = const VRInt._(14, 0x424f, "OB", 1, 4, kMaxOB,
+      "OtherByte", 0, Uint8.max, Uint8.fromBytes, true);
 
-  static const VRInt kOL =
-      const VRInt._(17, 0x4c4f, "OL", 4, 4, kMaxOL, "OtherLong", 0, Uint32.max,
-      Uint32.fromBytes);
+  static const VRInt kOL = const VRInt._(17, 0x4c4f, "OL", 4, 4, kMaxOL,
+      "OtherLong", 0, Uint32.max, Uint32.fromBytes);
 
-  static const VRInt kOW =
-      const VRInt._(18, 0x574f, "OW", 2, 4, kMaxOW, "OtherWord", 0, Uint16.max,
-      Uint16.fromBytes, true);
+  static const VRInt kOW = const VRInt._(18, 0x574f, "OW", 2, 4, kMaxOW,
+      "OtherWord", 0, Uint16.max, Uint16.fromBytes, true);
 
-  static const VRInt kSL = const VRInt._(
-      21, 0x4c53, "SL", 4, 2, kMaxShortVF, "SignedLong", Int32.min, Int32.max,
-  Int32.fromBytes);
+  static const VRInt kSL = const VRInt._(21, 0x4c53, "SL", 4, 2, kMaxShortVF,
+      "SignedLong", Int32.min, Int32.max, Int32.fromBytes);
 
-  static const VRInt kSS = const VRInt._(
-      23, 0x5353, "SS", 2, 2, kMaxShortVF, "SignedShort", Int16.min, Int16.max,
-  Int16.fromBytes);
+  static const VRInt kSS = const VRInt._(23, 0x5353, "SS", 2, 2, kMaxShortVF,
+      "SignedShort", Int16.min, Int16.max, Int16.fromBytes);
 
-  static const VRInt kUL = const VRInt._(
-      28, 0x4c55, "UL", 4, 2, kMaxShortVF, "UnsignedLong", 0, Uint32.max,
-      Uint32.fromBytes);
+  static const VRInt kUL = const VRInt._(28, 0x4c55, "UL", 4, 2, kMaxShortVF,
+      "UnsignedLong", 0, Uint32.max, Uint32.fromBytes);
 
-  static const VRInt kUN =
-      const VRInt._(29, 0x4e55, "UN", 1, 4, kMaxUN, "Unknown", 0, Uint8.max,
-          Uint8.fromBytes);
+  static const VRInt kUN = const VRInt._(
+      29, 0x4e55, "UN", 1, 4, kMaxUN, "Unknown", 0, Uint8.max, Uint8.fromBytes);
 
-  static const VRInt kUS = const VRInt._(
-      31, 0x5355, "US", 2, 2, kMaxShortVF, "UnsignedShort", 0, Uint16.max,
-      Uint16.fromBytes);
+  static const VRInt kUS = const VRInt._(31, 0x5355, "US", 2, 2, kMaxShortVF,
+      "UnsignedShort", 0, Uint16.max, Uint16.fromBytes);
 }
 
 /// This class is used by the Tag class.  It is NOT used for parsing, etc.

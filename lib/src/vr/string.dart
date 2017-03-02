@@ -5,8 +5,8 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:common/ascii.dart';
-
 import 'package:dictionary/src/person_name.dart';
+
 import 'vr.dart';
 
 typedef bool Tester<String>(String value, int min, int max);
@@ -196,8 +196,8 @@ class VRCodeString extends VRString {
     // If too long truncate
     // if illegal chars replace with " "
     // if lowercase convert to with uppercase
-      if (!_isValidLength(s.length)) return null;
-      return s.toUpperCase();
+    if (!_isValidLength(s.length)) return null;
+    return s.toUpperCase();
   }
 
   /// The filter for DICOM Code String(CS) characters.

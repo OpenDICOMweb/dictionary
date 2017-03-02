@@ -22,29 +22,29 @@ class IssueType {
   final String keyword;
   final _Msg msg;
 
-  const IssueType (this.id, this.keyword, this.msg);
+  const IssueType(this.id, this.keyword, this.msg);
 
   // Unknown IssueType
   static const IssueType unknown =
-  const IssueType(0, 'UnknownIssueType', unknownIssueTypeMsg);
+      const IssueType(0, 'UnknownIssueType', unknownIssueTypeMsg);
 
   // Public Elements
   static const IssueType invalidPadChar =
-  const IssueType(0, 'invalidPaddingChar', invalidPadCharMsg);
+      const IssueType(0, 'invalidPaddingChar', invalidPadCharMsg);
 
   static const IssueType publicGroupLengthPresent =
-    const IssueType(1, 'invalidPaddingChar', privateGroupLengthPresentMsg);
+      const IssueType(1, 'invalidPaddingChar', privateGroupLengthPresentMsg);
 
   // **** Private Elements
 
-  static const IssueType privateGroupLengthPresent =
-      const IssueType(1000, 'PrivateGroupLengthPresent',
-          privateGroupLengthPresentMsg);
+  static const IssueType privateGroupLengthPresent = const IssueType(
+      1000, 'PrivateGroupLengthPresent', privateGroupLengthPresentMsg);
 }
 
 class Issue {
   /// The [Type] of [Issue].
   final IssueType type;
+
   /// The [Object] with the [Issue].
   final Object obj;
 
