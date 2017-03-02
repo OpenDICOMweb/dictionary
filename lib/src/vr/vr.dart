@@ -58,11 +58,10 @@ class VR<T> {
   bool get hasShortVF => vfLengthSize == 2;
   bool get hasLongVF => !hasShortVF;
 
-  String get info =>
-      '$runtimeType: $keyword $id(${Int16.hex(code)})[$index]: '
-          'elementSize($elementSize) vfLengthSize($vfLengthSize), '
-          'maxVFLength($maxVFLength), minValueLength($minValueLength), '
-          'maxValueLength($maxValueLength)';
+  String get info => '$runtimeType: $keyword $id(${Int16.hex(code)})[$index]: '
+      'elementSize($elementSize) vfLengthSize($vfLengthSize), '
+      'maxVFLength($maxVFLength), minValueLength($minValueLength), '
+      'maxValueLength($maxValueLength)';
 
   String get asString => 'VR.k$id';
 
@@ -244,13 +243,13 @@ class VRSequence extends VR {
   @override
   final int minValueLength = 8;
   @override
-  final int  maxValueLength = kMaxLongVF;
-
+  final int maxValueLength = kMaxLongVF;
 
   const VRSequence._(int index, int code, String id, int elementSize,
       int vfLengthSize, int maxVFLength, String keyword)
       : super._(index, code, id, 1, 4, kMaxLongVF, keyword);
 
   //index, code, id, elementSize, vfLengthSize, maxVFLength, keyword
-  static const VR kSQ = const VRSequence._(22, 0x5153, "SQ", 1, 4, kMaxLongVF, "Sequence");
+  static const VR kSQ =
+      const VRSequence._(22, 0x5153, "SQ", 1, 4, kMaxLongVF, "Sequence");
 }

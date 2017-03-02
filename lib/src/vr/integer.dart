@@ -48,11 +48,14 @@ class VRInt extends VR<int> {
   /// The minimum length of a value.
   @override
   final int minValueLength;
+
   /// The minimum length of a value.
   @override
   final int maxValueLength;
+
   /// The method that converts bytes ([Uint8List]) to values.
   final BytesToValues fromBytes;
+
   /// Is the kUndefinedLength value allowed as a Value Field Length.
   final bool undefinedLengthAllowed;
 
@@ -85,7 +88,7 @@ class VRInt extends VR<int> {
   @override
   String issue(int n) => (isNotValid(n))
       ? 'Range Error: minValueLength($minValueLength) <= '
-      'value($n) <= maxValueLength($maxValueLength)'
+          'value($n) <= maxValueLength($maxValueLength)'
       : null;
 
   /// Returns a valid, possibly coerced, value.

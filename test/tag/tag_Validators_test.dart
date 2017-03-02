@@ -7,7 +7,6 @@
 import 'dart:math';
 
 import 'package:dictionary/src/tag/tag.dart';
-import 'package:dictionary/src/vm.dart';
 import 'package:dictionary/src/vr/vr.dart';
 import 'package:test/test.dart';
 import 'package:test_tools/src/random/random_string.dart' as random_string;
@@ -19,13 +18,13 @@ void main() {
 void validateTest() {
   Tag tagCScode = Tag.kLanguageCodeSequence;
   Tag tagCS = Tag.kImageType;
-   //   new Tag.public("Image​Type", 0x00080008, "Image Type", VR.kCS, VM.k2_n);
+  //   new Tag.public("Image​Type", 0x00080008, "Image Type", VR.kCS, VM.k2_n);
   Tag tagSQ = Tag.kLanguageCodeSequence;
   //new Tag.public("LanguageCodeSequence", 0x00080005,
   //    "Language Code Sequence", VR.kSQ, VM.k1, false);
   Tag tagUS = Tag.kNumberOfZeroFills;
   //new Tag.public("NumberOfZeroFills", 0x00189066,
-   //   "Number of Zero Fills", VR.kUS, VM.k1_2, false);
+  //   "Number of Zero Fills", VR.kUS, VM.k1_2, false);
 
   group("Tag validators in tag", () {
     test("test for isvalidvalues", () {
@@ -84,22 +83,18 @@ void validateTest() {
 
     test("test for isValidVFLength", () {
       int len = tagCS.minLength * tagCS.vr.minValueLength;
-    print('isValidVF: minValueLength(${tagCS.vr.minValueLength}) $len');
-      expect(
-          tagCS.isValidVFLength(
-              tagCS.minLength * tagCS.vr.minValueLength),
+      print('isValidVF: minValueLength(${tagCS.vr.minValueLength}) $len');
+      expect(tagCS.isValidVFLength(tagCS.minLength * tagCS.vr.minValueLength),
           true);
       expect(
-          tagCS.isValidVFLength(
-              (tagCS.minLength * tagCS.vr.minValueLength) - 1),
+          tagCS
+              .isValidVFLength((tagCS.minLength * tagCS.vr.minValueLength) - 1),
           false);
-      expect(
-          tagCS.isValidVFLength(
-              tagCS.maxLength * tagCS.vr.maxValueLength),
+      expect(tagCS.isValidVFLength(tagCS.maxLength * tagCS.vr.maxValueLength),
           true);
       expect(
-          tagCS.isValidVFLength(
-              (tagCS.maxLength * tagCS.vr.maxValueLength) + 1),
+          tagCS
+              .isValidVFLength((tagCS.maxLength * tagCS.vr.maxValueLength) + 1),
           false);
 
       print('tagSQ maxLength: ${tagSQ.maxLength}');
