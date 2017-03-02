@@ -3,8 +3,11 @@
 // that can be found in the LICENSE file.
 // Original author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
-part of odw.sdk.dictionary.vr;
 
+import 'package:common/ascii.dart';
+import 'package:common/date_time.dart';
+
+//TODO: merge with common date_time and dictionary string.
 // TODO: reorganize and move predicates, errorMsg and parsers into
 // Common (Int, Float, String...)
 // TODO: these functions don't handle Escape sequences.
@@ -201,7 +204,7 @@ Time _parseDcmTime(String s, int min, int max) => Time.dcmParse(s);
 /// must have a VM of VM.k1, i.e. only one value.
 bool _isUidChar(int c) => !(isHexChar(c) || c == kDot);
 
-//TODO: fix - this isn't good enough
+//Urgent fix - this isn't good enough
 /// Returns [true] if [s] is a valid DICOM String.
 bool _isUid(String s, int min, int max) =>
     _filteredTest(s, min, max, _isUidChar);
@@ -210,7 +213,7 @@ bool _isUid(String s, int min, int max) =>
 String _uidError(String s, int min, int max) =>
     _getFilteredError(s, min, max, _isUidChar);
 
-//TODO: do something more efficient
+//Urgent do something more efficient
 //UR - Universal Resource Identifier (URI)
 bool _isUri(String s, int min, int max) {
   if (_getLengthError(s.length, min, max) == null) return false;

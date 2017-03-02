@@ -8,7 +8,6 @@ import 'package:dictionary/src/vm.dart';
 import 'package:dictionary/src/vr/vr.dart';
 
 import 'tag.dart';
-//import 'private_data_tag_list.dart';
 
 class PrivateDataTag extends Tag {
   final int id;
@@ -29,6 +28,8 @@ class PrivateDataTag extends Tag {
   @override
   bool get isCreator => false;
 
+  int get subgroup => code & 0xFF00;
+
   @override
   String toString() => '$dcm $groupHex, "$token", $eltHex $vr, $vm, "$name"';
 
@@ -37,7 +38,7 @@ class PrivateDataTag extends Tag {
   //  return privateDataTagList[code];
   //}
   static const PrivateDataTag kUnknown = const PrivateDataTag._(
-      0, "Unknown", 0x00190010, VR.kUnknown, VM.kUnknown, "Unknown");
+      0, "Unknown", 0x00190010, VR.kInvalid, VM.kUnknown, "Unknown");
 
   static const PrivateDataTag k1 = const PrivateDataTag._(
       1, "1.2.840.113681", 0x00190010, VR.kST, VM.k1, "CRImageParamsCommon");
@@ -6268,7 +6269,7 @@ class PrivateDataTag extends Tag {
   static const PrivateDataTag k2284 = const PrivateDataTag._(2284,
       "SPI-P Release 1", 0x002900cf, VR.kCS, VM.k1, "ShutterSelectStatus");
   static const PrivateDataTag k2285 = const PrivateDataTag._(
-      2285, "SPI-P Release 1", 0x7fe10010, VR.kUnknown, VM.k1, "PixelData");
+      2285, "SPI-P Release 1", 0x7fe10010, VR.kInvalid, VM.k1, "PixelData");
   static const PrivateDataTag k2286 = const PrivateDataTag._(
       2286, "SPI-P Release 1;1", 0x000900c0, VR.kLT, VM.k1, "Unknown");
   static const PrivateDataTag k2287 = const PrivateDataTag._(

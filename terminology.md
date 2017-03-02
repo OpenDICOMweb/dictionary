@@ -1,20 +1,39 @@
 ### Open DICOMweb
 # Naming Conventions
 
+### Standard Types used in the Data Dictionary
+
+
 #### Standard Identifiers and their Types
 
-Identifier | Type | Meaning
-code | int | A 32-bit Data Element Tag code.
-tag | Tag | A semantic identifier for a DICOM concept.
-keyword | String | An identifier for a constant object
-vm | VM | The Value Multiplicity of a Data Element
-vr | VR | The Value Representation of a Data Element
-e | Element | A DICOM Data Element containing a Tag and a List of values.
-values | List | A List of zero or more values of a Data Element
-value | int/double/String | The value of a single valued (i.e. VM = 1) Data Element
-id | int | A locally unique identifier, where locally means in the context of ODW SDK
-uid | Uid |
-uuid | Uuid |
+Often when only one object is involved and the Type identifier is
+short, the identifier for an object of that Type will use the Type
+identifier in lowercase.  For example:
+
+    Tag tag = new Tag(...);
+
+Table X contains common identifiers used in Open DICOM_web_ code.
+
+**<center>Table X: Common Identifiers and Their Types</center>**
+
+<center>
+
+|  Identifier |  Type  | Meaning|
+|:-----------|:------|:--------|
+code |int | A 32-bit Data Element Tag code.|
+| e | Element | A DICOM Data Element containing a Tag and a List of values.|
+|id | int | A locally unique identifier, where locally means in the context of ODW SDK.|
+|keyword | String | A field that contains a keyword for the object that contains it.|
+|'k'keyword | String | An identifier for a constant object.|
+|tag | Tag | A semantic identifier for a DICOM concept.|
+|uid | Uid | A DICOM Unique Identifier(UID).|
+|uuid | Uuid | A Universally Unique Identifier (aka GUID).|
+|values | List | A List of zero or more values of a Data Element|
+|value | V | The value of a single valued (i.e. VM = 1) Data Element.|
+|vm | VM | The Value Multiplicity of a Data Element|
+|vr | VR | The Value Representation of a Data Element|
+
+</center>
 
 #### DICOM Terms and Types
 

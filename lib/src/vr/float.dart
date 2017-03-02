@@ -3,7 +3,8 @@
 // that can be found in the LICENSE file.
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
-part of odw.sdk.dictionary.vr;
+
+import 'vr.dart';
 
 // Maximum Value Field length for different Float VRs.
 const int kMaxOD = kUint32Max - 8;
@@ -11,26 +12,40 @@ const int kMaxOF = kUint32Max - 4;
 const int kMaxOL = kUint32Max - 4;
 const int kMaxOW = kUint32Max - 2;
 
+/// Floating Point [VR]s.
 //TODO: doc
 class VRFloat extends VR<double> {
-  @override
-  final int _eSize;
-  @override
-  final int _maxVF;
+  const VRFloat._(int index, int code, String id, int elementSize,
+      int vfLengthFieldSize, int maxVFLength, String keyword)
+      : super(index, code, id, elementSize, vfLengthFieldSize, maxVFLength,
+            keyword);
 
-  /// Create a VR with a Short (16-bit) Value Field length.
-  const VRFloat._(
-      int index, int code, String id, String desc, this._eSize, this._maxVF)
-      : super._(index, code, id, desc);
+  @override
+  bool isValid(double n) => true;
 
-  // Floats
-  //                  index, code, id, desc, eSize, maxVFLength,
+  @override
+  String issue(double n) => "";
+
+  /// Fix
+  //TODO: doc
+  @override
+  double fix(double n) => n;
+
+  // *** The fields in order:
+  // index, code, id, elementSize, vfLengthFieldSize, maxVFLength, keyword
+  /// FD. A 64-bit floating point [List<double>], with a 16-bit value field.
   static const VRFloat kFD =
-      const VRFloat._(11, 0x4644, "FD", "Float Double", 8, kMaxShortVF);
+      const VRFloat._(9, 0x4446, "FD", 8, 2, kMaxShortVF, "FloatDouble");
+
+  /// FL. A 32-bit floating point [List<double>], with a 16-bit value field.
   static const VRFloat kFL =
-      const VRFloat._(12, 0x464c, "FL", "Float Single", 4, kMaxShortVF);
+      const VRFloat._(10, 0x4c46, "FL", 4, 2, kMaxShortVF, "FloatSingle");
+
+  /// OD. A 64-bit floating point [List<double>], with a 32-bit value field.
   static const VRFloat kOD =
-      const VRFloat._(13, 0x4f44, "OD", "Other Double", 8, kMaxOD);
+      const VRFloat._(15, 0x444f, "OD", 8, 4, kMaxOD, "OtherDouble");
+
+  /// OF. A 32-bit floating point [List<double>], with a 32-bit value field.
   static const VRFloat kOF =
-      const VRFloat._(14, 0x4f46, "OF", "Other Float", 4, kMaxOF);
+      const VRFloat._(16, 0x464f, "OF", 4, 4, kMaxOF, "OtherFloat");
 }

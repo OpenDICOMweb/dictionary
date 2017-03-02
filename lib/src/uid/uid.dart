@@ -97,6 +97,12 @@ abstract class Uid {
     return root;
   }
 
+  static const Map<int, String> rootNames = const <int, String>{
+    0: "ITU-T",
+    1: "ISO",
+    2: "joint-iso-itu-t"
+  };
+
   // TODO: this test is not good enough. needs to check root is [0,1,2], etc.
   static bool isValid(String s) => testString(s, kMin, kMax, kPred);
 
@@ -159,3 +165,13 @@ class UidUuid extends Uid {
   @override
   String toString() => asString;
 }
+
+const Map<String, String> oidRoots = const <String, String>{
+  "1.2.840": "United States of America",
+  "1.16.840": "United States of America",
+  "1.2.840.": "United States of America",
+  '1.2.840.10008': "DICOM Standart",
+  "1.3.6.1": "Internet",
+  "1.3.6.1.4.1": "IANA assigned company OIDs",
+  "2.25": "itu-iso UUID"
+};
