@@ -14,28 +14,28 @@ void main() {
 void validateTest() {
   group("VR validators", () {
     test("Check hasShortVF", () {
-      expect(VRFloat.kFD.hasShortVF, true);
-      expect(VRFloat.kFD.hasLongVF, false);
+      expect(VR.kFD.hasShortVF, true);
+      expect(VR.kFD.hasLongVF, false);
     });
 
     test("Check hasLongVF", () {
-      expect(VRInt.kOB.hasLongVF, true);
+      expect(VR.kOB.hasLongVF, true);
     });
 
     test("Check isValidLength", () {
-      expect(VRLongString.kUC.isValidLength(''), false);
-      expect(VRLongString.kUC.isValidLength('sdfsdfsadf'), true);
+      expect(VR.kUC.isValidLength(''), false);
+      expect(VR.kUC.isValidLength('sdfsdfsadf'), true);
       expect(
-          VRLongString.kUC.isValidLength(
+          VR.kUC.isValidLength(
               'sdfsdfsadfsdfsdfsadfsdfsdfsadfsdfsdfsadfsdfsdfsadfsdfsdfsadfsd'
               'fsdfsadfsdfsdfsadf'),
           true);
     });
 
     test("Check isValid", () {
-      expect(VRLongString.kUC.isValid('sdfsdfsadf'), true);
+      expect(VR.kUC.isValid('sdfsdfsadf'), true);
       expect(
-          VRLongString.kUC.isValid(
+          VR.kUC.isValid(
               'sdfsdfsadfsdfsdfsadfsdfsdfsadfsdfsdfsadfsdfsdfsadfsdfsdfsadfsd'
               'fsdfsadfsdfsdfsadf'),
           true);

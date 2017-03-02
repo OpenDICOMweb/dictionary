@@ -15,8 +15,8 @@ typedef E Parser<E>(String s, int min, int max);
 typedef E Fixer<E>(String s, int min, int max);
 
 abstract class VRString extends VR<String> {
-  final int min;
-  final int max;
+  final int minValueLength;
+  final int maxValueLength;
 //  final Tester tester;
 //  final ErrorMsg errorMsg;
 //  final Parser parser;
@@ -25,9 +25,7 @@ abstract class VRString extends VR<String> {
 
   /// Create an integer VR.
   const VRString._(int index, int code, String id, int vfLengthSize,
-      int maxVFLength, String keyword, this.min, this.max
-//      this.tester, this.errorMsg, this.parser, this.fixer,this.fromBytes
-      )
+      int maxVFLength, String keyword, this.minValueLength, this.maxValueLength)
       : super(index, code, id, 1, vfLengthSize, maxVFLength, keyword);
 
   bool get isAscii => true;
@@ -50,13 +48,14 @@ abstract class VRString extends VR<String> {
   @override
   String fix(String s);
 
-  /// Returns [true] if [min] <= [length] <= [max].
+  /// Returns [true] if [minValueLength] <= [length] <= [maxValueLength].
   bool isValidLength(String s) {
     assert(s != null);
     return _isValidLength(s.length);
   }
 
-  bool _isValidLength(int length) => min <= length && length <= max;
+  bool _isValidLength(int length) =>
+      minValueLength <= length && length <= maxValueLength;
 
   /// Returns [true] if length is NOT valid.
   bool isNotValidLength(String s) {
@@ -95,8 +94,8 @@ abstract class VRString extends VR<String> {
   String _getLengthError(int length) {
     if (length == null) return 'Invalid length(Null)';
     if (length == 0) return 'Invalid length(0)';
-    return (length < min || max < length)
-        ? 'Length Error: min($min) <= Value($length) <= max($max)'
+    return (length < minValueLength || maxValueLength < length)
+        ? 'Length Error: minValueLength($minValueLength) <= Value($length) <= maxValueLength($maxValueLength)'
         : null;
   }
 
@@ -108,8 +107,9 @@ abstract class VRString extends VR<String> {
 /// DICOM DCR Strings -  AE, LO, SH, UC.
 class VRDcmString extends VRString {
   const VRDcmString._(int index, int code, String id, int vfLengthSize,
-      int maxVFLength, String keyword, int min, int max)
-      : super._(index, code, id, vfLengthSize, maxVFLength, keyword, min, max);
+      int maxVFLength, String keyword, int minValueLength, int maxValueLength)
+      : super._(index, code, id, vfLengthSize, maxVFLength, keyword,
+            minValueLength, maxValueLength);
 
   @override
   bool get isAscii => (this == kAE) ? true : false;
@@ -131,19 +131,20 @@ class VRDcmString extends VRString {
 
   //index, code, id, vfLengthSize, maxVFLength, keyword, min, max
   static const VRDcmString kAE =
-      const VRDcmString._(1, 0x4541, "AE", 2, kMaxShortVF, "AETitle", 0, 16);
+      const VRDcmString._(1, 0x4541, "AE", 2, kMaxShortVF, "AETitle", 1, 16);
   static const VRDcmString kLO = const VRDcmString._(
-      12, 0x4f4c, "LO", 2, kMaxShortVF, "LongString", 0, 64);
+      12, 0x4f4c, "LO", 2, kMaxShortVF, "LongString", 1, 64);
   static const VRDcmString kSH = const VRDcmString._(
-      20, 0x4853, "SH", 2, kMaxShortVF, "ShortString", 0, 16);
+      20, 0x4853, "SH", 2, kMaxShortVF, "ShortString", 1, 16);
   static const VRDcmString kUC = const VRDcmString._(
-      26, 0x4355, "UC", 4, kMaxLongVF, "UnlimitedCharacters", 0, kMaxLongVF);
+      26, 0x4355, "UC", 4, kMaxLongVF, "UnlimitedCharacters", 1, kMaxLongVF);
 }
 
 class VRDcmText extends VRString {
   const VRDcmText._(int index, int code, String id, int vfLengthSize,
-      int maxVFLength, String keyword, int min, int max)
-      : super._(index, code, id, vfLengthSize, maxVFLength, keyword, min, max);
+      int maxVFLength, String keyword, int minValueLength, int maxValueLength)
+      : super._(index, code, id, vfLengthSize, maxVFLength, keyword,
+            minValueLength, maxValueLength);
 
   @override
   bool get isAscii => false;
@@ -170,18 +171,19 @@ class VRDcmText extends VRString {
 
   //index, code, id, vfLengthSize, maxVFLength, keyword, min, max
   static const VRDcmText kLT =
-      const VRDcmText._(13, 0x544c, "LT", 2, kMaxShortVF, "LongText", 0, 10240);
+      const VRDcmText._(13, 0x544c, "LT", 2, kMaxShortVF, "LongText", 1, 10240);
   static const VRDcmText kST =
-      const VRDcmText._(24, 0x5453, "ST", 2, kMaxShortVF, "ShortText", 0, 1024);
+      const VRDcmText._(24, 0x5453, "ST", 2, kMaxShortVF, "ShortText", 1, 1024);
   static const VRDcmText kUT = const VRDcmText._(
-      32, 0x5455, "UT", 4, kMaxLongVF, "UnlimitedText", 0, kMaxLongVF);
+      32, 0x5455, "UT", 4, kMaxLongVF, "UnlimitedText", 1, kMaxLongVF);
 }
 
 /// DICOM DCR Strings -  AE, LO, SH, UC.
 class VRCodeString extends VRString {
   const VRCodeString._(int index, int code, String id, int vfLengthSize,
-      int maxVFLength, String keyword, int min, int max)
-      : super._(index, code, id, vfLengthSize, maxVFLength, keyword, min, max);
+      int maxVFLength, String keyword, int minValueLength, int maxValueLength)
+      : super._(index, code, id, vfLengthSize, maxVFLength, keyword,
+            minValueLength, maxValueLength);
 
   @override
   bool isValid(String s) => _filteredTest(s, _isCodeStringChar);
@@ -205,15 +207,16 @@ class VRCodeString extends VRString {
   bool _isCodeStringChar(int c) =>
       isUppercaseChar(c) || isDigitChar(c) || c == kSpace || c == kUnderscore;
 
-  //index, code, id, vfLengthSize, maxVFLength, keyword, min, max
+  //index, code, id, vfLengthSize, maxVFLength, keyword, minValueLength, max
   static const VRCodeString kCS = const VRCodeString._(
-      5, 0x5343, "CS", 2, kMaxShortVF, "CodeString", 0, 16);
+      5, 0x5343, "CS", 2, kMaxShortVF, "CodeString", 1, 16);
 }
 
 class VRDcmAge extends VRString {
   const VRDcmAge._(int index, int code, String id, int vfLengthSize,
-      int maxVFLength, String keyword, int min, int max)
-      : super._(index, code, id, vfLengthSize, maxVFLength, keyword, min, max);
+      int maxVFLength, String keyword, int minValueLength, int maxValueLength)
+      : super._(index, code, id, vfLengthSize, maxVFLength, keyword,
+            minValueLength, maxValueLength);
 
   @override
 
@@ -286,8 +289,9 @@ class VRDcmAge extends VRString {
 
 class VRDcmDate extends VRString {
   const VRDcmDate._(int index, int code, String id, int vfLengthSize,
-      int maxVFLength, String keyword, int min, int max)
-      : super._(index, code, id, vfLengthSize, maxVFLength, keyword, min, max);
+      int maxVFLength, String keyword, int minValueLength, int maxValueLength)
+      : super._(index, code, id, vfLengthSize, maxVFLength, keyword,
+            minValueLength, maxValueLength);
 
   @override
   bool isValid(String s) => parse(s) != null;
@@ -323,8 +327,9 @@ class VRDcmDate extends VRString {
 
 class VRFloatString extends VRString {
   const VRFloatString._(int index, int code, String id, int vfLengthSize,
-      int maxVFLength, String keyword, int min, int max)
-      : super._(index, code, id, vfLengthSize, maxVFLength, keyword, min, max);
+      int maxVFLength, String keyword, int minValueLength, int maxValueLength)
+      : super._(index, code, id, vfLengthSize, maxVFLength, keyword,
+            minValueLength, maxValueLength);
 
   @override
   bool isValid(String s) => parse(s) != null;
@@ -348,13 +353,14 @@ class VRFloatString extends VRString {
   }
 
   static const VRFloatString kDS = const VRFloatString._(
-      7, 0x5344, "DS", 2, kMaxShortVF, "DecimalString", 0, 16);
+      7, 0x5344, "DS", 2, kMaxShortVF, "DecimalString", 1, 16);
 }
 
 class VRDcmDateTime extends VRString {
   const VRDcmDateTime._(int index, int code, String id, int vfLengthSize,
-      int maxVFLength, String keyword, int min, int max)
-      : super._(index, code, id, vfLengthSize, maxVFLength, keyword, min, max);
+      int maxVFLength, String keyword, int minValueLength, int maxValueLength)
+      : super._(index, code, id, vfLengthSize, maxVFLength, keyword,
+            minValueLength, maxValueLength);
 
   @override
   bool isValid(String dateTimeString) => parse(dateTimeString) != null;
@@ -401,8 +407,9 @@ class VRDcmDateTime extends VRString {
 
 class VRIntString extends VRString {
   const VRIntString._(int index, int code, String id, int vfLengthSize,
-      int maxVFLength, String keyword, int min, int max)
-      : super._(index, code, id, vfLengthSize, maxVFLength, keyword, min, max);
+      int maxVFLength, String keyword, int minValueLength, int maxValueLength)
+      : super._(index, code, id, vfLengthSize, maxVFLength, keyword,
+            minValueLength, maxValueLength);
 
   @override
   bool isValid(String s) => parse(s) != null;
@@ -429,15 +436,16 @@ class VRIntString extends VRString {
   }
 
   static const VRIntString kIS = const VRIntString._(
-      11, 0x5349, "IS", 2, kMaxShortVF, "IntegerString", 0, 12);
+      11, 0x5349, "IS", 2, kMaxShortVF, "IntegerString", 1, 12);
 }
 
 /// Person Name (PN).
 /// Note: Does not support
 class VRPersonName extends VRString {
   const VRPersonName._(int index, int code, String id, int vfLengthSize,
-      int maxVFLength, String keyword, int min, int max)
-      : super._(index, code, id, vfLengthSize, maxVFLength, keyword, min, max);
+      int maxVFLength, String keyword, int minValueLength, int maxValueLength)
+      : super._(index, code, id, vfLengthSize, maxVFLength, keyword,
+            minValueLength, maxValueLength);
 
   @override
   bool get isAscii => false;
@@ -473,13 +481,14 @@ class VRPersonName extends VRString {
   }
 
   static const VR kPN = const VRPersonName._(
-      19, 0x4e50, "PN", 2, kMaxShortVF, "PersonName", 0, 64 * 3);
+      19, 0x4e50, "PN", 2, kMaxShortVF, "PersonName", 1, 64 * 3);
 }
 
 class VRDcmTime extends VRString {
   const VRDcmTime._(int index, int code, String id, int vfLengthSize,
-      int maxVFLength, String keyword, int min, int max)
-      : super._(index, code, id, vfLengthSize, maxVFLength, keyword, min, max);
+      int maxVFLength, String keyword, int minValueLength, int maxValueLength)
+      : super._(index, code, id, vfLengthSize, maxVFLength, keyword,
+            minValueLength, maxValueLength);
 
   @override
   bool isValid(String timeString) => parse(timeString) != null;
@@ -533,8 +542,9 @@ class VRDcmTime extends VRString {
 /// _UI_: A DICOM UID (aka OSI OID).
 class VRUid extends VRString {
   const VRUid._(int index, int code, String id, int vfLengthSize,
-      int maxVFLength, String keyword, int min, int max)
-      : super._(index, code, id, vfLengthSize, maxVFLength, keyword, min, max);
+      int maxVFLength, String keyword, int minValueLength, int maxValueLength)
+      : super._(index, code, id, vfLengthSize, maxVFLength, keyword,
+            minValueLength, maxValueLength);
 
   //Urgent: This is not doing complete validation, e.g. it doesn't test
   //        for segments that begin with zero, but have more than 1 character.
@@ -580,14 +590,16 @@ class VRUid extends VRString {
   bool _isUidChar(int c) => !(isHexChar(c) || c == kDot);
 
   //TODO: what should the minimum length be?
+  /// Minimum length is based on '1.2.804.xx'.
   static const VRUid kUI =
-      const VRUid._(27, 0x4955, "UI", 2, kMaxShortVF, "UniqueID", 6, 64);
+      const VRUid._(27, 0x4955, "UI", 2, kMaxShortVF, "UniqueID", 10, 64);
 }
 
 class VRUri extends VRString {
   const VRUri._(int index, int code, String id, int vfLengthSize,
-      int maxVFLength, String keyword, int min, int max)
-      : super._(index, code, id, vfLengthSize, maxVFLength, keyword, min, max);
+      int maxVFLength, String keyword, int minValueLength, int maxValueLength)
+      : super._(index, code, id, vfLengthSize, maxVFLength, keyword,
+            minValueLength, maxValueLength);
 
   @override
   bool isValid(String uriString) => parse(uriString) != null;
@@ -631,5 +643,5 @@ class VRUri extends VRString {
   }
 
   static const VRUri kUR =
-      const VRUri._(30, 0x5255, "UR", 2, kMaxLongVF, "URI", 0, kMaxLongVF);
+      const VRUri._(30, 0x5255, "UR", 2, kMaxLongVF, "URI", 1, kMaxLongVF);
 }

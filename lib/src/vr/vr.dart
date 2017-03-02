@@ -47,7 +47,10 @@ class VR<T> {
 
   VR operator [](int i) => vrList[i];
 
-  int get minValueLength => null;
+  /// The minimum length of a value.
+  int get minValueLength => elementSize;
+
+  /// The maximum length of a value.
   int get maxValueLength => null;
 
   bool get undefinedAllowed => false;
@@ -56,13 +59,18 @@ class VR<T> {
   bool get hasLongVF => !hasShortVF;
 
   String get info =>
-      '$runtimeType: $id(${Int16.hex(code)})[$index]: maxVFLength($maxVFLength), '
-      'elementSize($elementSize)';
+      '$runtimeType: $keyword $id(${Int16.hex(code)})[$index]: '
+          'elementSize($elementSize) vfLengthSize($vfLengthSize), '
+          'maxVFLength($maxVFLength), minValueLength($minValueLength), '
+          'maxValueLength($maxValueLength)';
 
   String get asString => 'VR.k$id';
 
   /// Returns the length in number of elements.
   int toLength(int lengthInBytes) => lengthInBytes ~/ elementSize;
+
+  /// Returns [true] if the [value] has a valid length.
+  bool isValidLength(T value) => false;
 
   // **** Must be overridden.
   /// Returns [true] of [value] is valid for this [VRBase].
@@ -233,11 +241,16 @@ const Map<VR, String> dataTypes = const <VR, String>{
 //TODO: clean this up. remove VR.kUnknown and VR.kBR. How to handle SQ
 class VRSequence extends VR {
   final bool undefinedLengthAllowed = true;
+  @override
+  final int minValueLength = 8;
+  @override
+  final int  maxValueLength = kMaxLongVF;
+
 
   const VRSequence._(int index, int code, String id, int elementSize,
       int vfLengthSize, int maxVFLength, String keyword)
       : super._(index, code, id, 1, 4, kMaxLongVF, keyword);
 
-  //Bulkdata Reference
-  static const VR kSQ = const VR._(22, 0x5153, "SQ", 0, 0, -1, "Sequence");
+  //index, code, id, elementSize, vfLengthSize, maxVFLength, keyword
+  static const VR kSQ = const VRSequence._(22, 0x5153, "SQ", 1, 4, kMaxLongVF, "Sequence");
 }

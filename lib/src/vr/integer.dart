@@ -45,9 +45,15 @@ typedef int IntFixer(int value);
 /// Create an integer VR.
 //TODO: doc
 class VRInt extends VR<int> {
-  final int min;
-  final int max;
+  /// The minimum length of a value.
+  @override
+  final int minValueLength;
+  /// The minimum length of a value.
+  @override
+  final int maxValueLength;
+  /// The method that converts bytes ([Uint8List]) to values.
   final BytesToValues fromBytes;
+  /// Is the kUndefinedLength value allowed as a Value Field Length.
   final bool undefinedLengthAllowed;
 
   const VRInt._(
@@ -58,21 +64,16 @@ class VRInt extends VR<int> {
       int vfLengthFieldSize,
       int maxVFLength,
       String keyword,
-      this.min,
-      this.max,
+      this.minValueLength,
+      this.maxValueLength,
       this.fromBytes,
       [this.undefinedLengthAllowed = false])
       : super(index, code, id, elementSize, vfLengthFieldSize, maxVFLength,
             keyword);
 
-  @override
-  int get minValueLength => min;
-  @override
-  int get maxValueLength => max;
-
   /// Returns [true] of [value] is valid for this [VRBase].
   @override
-  bool isValid(int n) => (min <= n) && (n <= max);
+  bool isValid(int n) => (minValueLength <= n) && (n <= maxValueLength);
 
   bool isValidList(List<int> list) {
     for (int i in list) if (isNotValid(i)) return false;
@@ -83,14 +84,15 @@ class VRInt extends VR<int> {
   /// issues returns the empty string ("").
   @override
   String issue(int n) => (isNotValid(n))
-      ? 'Range Error: min($min) <= value($n) <= max($max)'
+      ? 'Range Error: minValueLength($minValueLength) <= '
+      'value($n) <= maxValueLength($maxValueLength)'
       : null;
 
   /// Returns a valid, possibly coerced, value.
   @override
   int fix(int n) {
-    if (n < min) return min;
-    if (n > max) return max;
+    if (n < minValueLength) return minValueLength;
+    if (n > maxValueLength) return maxValueLength;
     return n;
   }
 
@@ -135,8 +137,8 @@ class VRInt extends VR<int> {
 
 /// This class is used by the Tag class.  It is NOT used for parsing, etc.
 class VRIntSpecial extends VR {
-  final int min = 0;
-  final int max = 0;
+  final int minValueLength = 0;
+  final int maxValueLength = 0;
 
   const VRIntSpecial._(int index, int code, String id, String keyword)
       : super(index, code, id, 0, 0, 0, keyword);

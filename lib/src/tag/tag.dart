@@ -230,6 +230,7 @@ class Tag {
       'Invalid Length: min($minLength) <= length($length) <= max($maxLength)';
 
   bool isValidVFLength(int lengthInBytes) {
+    print('lib: $lengthInBytes');
     int min = minLength * vr.minValueLength;
     int max = maxLength * vr.maxValueLength;
     if (min <= lengthInBytes && lengthInBytes <= max) return true;

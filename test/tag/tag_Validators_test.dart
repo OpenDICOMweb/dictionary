@@ -17,17 +17,21 @@ void main() {
 }
 
 void validateTest() {
-  Tag tagCS = new Tag(0x00080008);
-  Tag tagPublicCS =
-      new Tag.public("Image​Type", 0x00080008, "Image Type", VR.kCS, VM.k2_n);
-  Tag tagSQ = new Tag.public("LanguageCodeSequence", 0x00080006,
-      "Language Code Sequence", VR.kSQ, VM.k1, false);
-  Tag tagUS = new Tag.public("NumberOfZeroFills", 0x00189066,
-      "Number of Zero Fills", VR.kUS, VM.k1_2, false);
+  Tag tagCScode = Tag.kLanguageCodeSequence;
+  Tag tagCS = Tag.kImageType;
+   //   new Tag.public("Image​Type", 0x00080008, "Image Type", VR.kCS, VM.k2_n);
+  Tag tagSQ = Tag.kLanguageCodeSequence;
+  //new Tag.public("LanguageCodeSequence", 0x00080005,
+  //    "Language Code Sequence", VR.kSQ, VM.k1, false);
+  Tag tagUS = Tag.kNumberOfZeroFills;
+  //new Tag.public("NumberOfZeroFills", 0x00189066,
+   //   "Number of Zero Fills", VR.kUS, VM.k1_2, false);
 
   group("Tag validators in tag", () {
     test("test for isvalidvalues", () {
       var listsInt = new List<int>();
+      //Urgent: Create legal and illegal String list generators for each VR
+      //Urgent: Test all VRs with both lists
       for (int i = 0; i < 10; i++) {
         listsInt.add(i);
       }
@@ -36,16 +40,17 @@ void validateTest() {
         listsStr.add(random_string.randomString(12, noLowerCase: true) +
             new String.fromCharCode([32, 95][new Random().nextInt(2)]));
       }
-      expect(tagCS.isValidValues(listsInt), true);
-      expect(tagPublicCS.isValidValues(listsStr), true);
+      expect(tagCScode.isValidValues(listsInt), false);
+      //Urgent: add test for invalid Strings
+      expect(tagCS.isValidValues(listsStr), true);
     });
 
     test("test for isValidLength", () {
-      expect(tagPublicCS.isValidLength(tagPublicCS.maxLength + 1), false);
-      expect(tagPublicCS.isValidLength(tagPublicCS.maxLength), false);
-      expect(tagPublicCS.isValidLength(tagPublicCS.maxLength - 1), true);
-      expect(tagPublicCS.isValidLength(tagPublicCS.minLength - 1), false);
-      expect(tagPublicCS.isValidLength(tagPublicCS.minLength), true);
+      expect(tagCS.isValidLength(tagCS.maxLength + 1), false);
+      expect(tagCS.isValidLength(tagCS.maxLength), false);
+      expect(tagCS.isValidLength(tagCS.maxLength - 1), true);
+      expect(tagCS.isValidLength(tagCS.minLength - 1), false);
+      expect(tagCS.isValidLength(tagCS.minLength), true);
 
       expect(tagSQ.isValidLength(tagSQ.minLength), true);
       expect(tagSQ.isValidLength(tagSQ.minLength - 1), true);
@@ -61,10 +66,10 @@ void validateTest() {
     });
 
     test("test for isValidWidth", () {
-      expect(tagPublicCS.isValidWidth(tagPublicCS.maxLength + 1), true);
-      expect(tagPublicCS.isValidWidth(tagPublicCS.maxLength), false);
-      expect(tagPublicCS.isValidWidth(tagPublicCS.minLength - 1), false);
-      expect(tagPublicCS.isValidWidth(tagPublicCS.minLength), true);
+      expect(tagCS.isValidWidth(tagCS.maxLength + 1), true);
+      expect(tagCS.isValidWidth(tagCS.maxLength), false);
+      expect(tagCS.isValidWidth(tagCS.minLength - 1), false);
+      expect(tagCS.isValidWidth(tagCS.minLength), true);
 
       expect(tagSQ.isValidWidth(tagSQ.minLength), true);
       expect(tagSQ.isValidWidth(tagSQ.minLength - 1), true);
@@ -78,23 +83,29 @@ void validateTest() {
     });
 
     test("test for isValidVFLength", () {
+      int len = tagCS.minLength * tagCS.vr.minValueLength;
+    print('isValidVF: minValueLength(${tagCS.vr.minValueLength}) $len');
       expect(
-          tagPublicCS.isValidVFLength(
-              tagPublicCS.minLength * tagPublicCS.vr.minValueLength),
+          tagCS.isValidVFLength(
+              tagCS.minLength * tagCS.vr.minValueLength),
           true);
       expect(
-          tagPublicCS.isValidVFLength(
-              (tagPublicCS.minLength * tagPublicCS.vr.minValueLength) - 1),
+          tagCS.isValidVFLength(
+              (tagCS.minLength * tagCS.vr.minValueLength) - 1),
           false);
       expect(
-          tagPublicCS.isValidVFLength(
-              tagPublicCS.maxLength * tagPublicCS.vr.maxValueLength),
+          tagCS.isValidVFLength(
+              tagCS.maxLength * tagCS.vr.maxValueLength),
           true);
       expect(
-          tagPublicCS.isValidVFLength(
-              (tagPublicCS.maxLength * tagPublicCS.vr.maxValueLength) + 1),
+          tagCS.isValidVFLength(
+              (tagCS.maxLength * tagCS.vr.maxValueLength) + 1),
           false);
 
+      print('tagSQ maxLength: ${tagSQ.maxLength}');
+      print('vr: ${tagSQ.vr}');
+      print('${VR.kSQ.info}');
+      print('tagSQ vr.maxValueLength: ${tagSQ.vr.maxValueLength}');
       expect(tagSQ.isValidVFLength(tagSQ.maxLength * tagSQ.vr.maxValueLength),
           true);
       expect(
