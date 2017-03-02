@@ -3,7 +3,9 @@
 // that can be found in the LICENSE file.
 // Original author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
-part of odw.sdk.dictionary.vr;
+
+import 'package:common/ascii.dart';
+import 'package:common/date_time.dart';
 
 // TODO: reorganize and move predicates, errorMsg and parsers into
 // Common (Int, Float, String...)

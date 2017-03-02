@@ -12,10 +12,8 @@ import 'package:dictionary/src/vm.dart';
 import 'package:dictionary/src/vr/old/vr.dart';
 
 class PrivateTag extends Tag {
-
   //TODO: fix the tag code to be the standard group with 0x0010 as elt.
-  const PrivateTag(int code, VR vr, [VM vm = VM.k1_n])
-      : super(code, vr, vm);
+  const PrivateTag(int code, VR vr, [VM vm = VM.k1_n]) : super(code, vr, vm);
 
   PrivateTag.groupLength(int code) : super(code, VR.kUL, VM.k1);
   PrivateTag.illegal(int code, VR vr) : super(code, vr, VM.k1_n);
@@ -49,11 +47,8 @@ class PrivateCreatorTag extends PrivateTag {
     print('token("$token") $vr');
   }
 
-  static const kNotPresent =
-  const PrivateCreatorTag._(
-      -1, "NoCreatorPresent", const<int, PrivateDataTag>{});
-
-//  bool get wasUN => super.vr == VR.kUN;
+  static const kNotPresent = const PrivateCreatorTag._(
+      -1, "NoCreatorPresent", const <int, PrivateDataTag>{});
 
   @override
   bool get isPublic => false;
@@ -103,9 +98,7 @@ class PrivateCreatorTag extends PrivateTag {
       print('PCT Tag: ${tag.info}');
       return tag;
     }
-    tag = new PrivateCreatorTag.unknown(token, vr);
-    print('PCT unknown Tag: $tag');
-    return tag;
+    return PrivateCreatorTag.kNotPresent;
   }
 
   static const PrivateCreatorTag kUnknown =
