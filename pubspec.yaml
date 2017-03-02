@@ -19,6 +19,7 @@ dependencies:
  #     version: ^0.5.2
     path: C:/odw/sdk/common
     version: ^0.5.2
+  collection: ^1.13.0
 
 dev_dependencies:
   benchmark_harness: ^1.0.4

@@ -19,7 +19,7 @@ import 'package:dictionary/src/tag/private_data_tag.dart';
 import 'package:dictionary/src/tag/public_tag_code_map.dart';
 import 'package:dictionary/src/tag/public_tag_keyword_map.dart';
 import 'package:dictionary/src/vm.dart';
-import 'package:dictionary/src/vr/vr.dart';
+import 'package:dictionary/src/vr/old/vr.dart';
 
 const int kGroupMask = 0xFFFF0000;
 const int kElementMask = 0x0000FFFF;
@@ -489,7 +489,7 @@ class Tag {
     // (1000,08x8)
     if ((code >= 0x10100000) && (code <= 0x1010FFFF)) return Tag.kZonalMap;
 
-    //Urgent: 0x50xx,yyyy Elements
+    //Urgent v0.5.4: 0x50xx,yyyy Elements
     //Urgent: 0x60xx,yyyy Elements
     //Urgent: 0x7Fxx,yyyy Elements
 

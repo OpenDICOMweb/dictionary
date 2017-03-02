@@ -15,7 +15,7 @@ void main() {
 
 void test8BitVR() {
   test("Regular Map Lookup (8-Bit)", () {
-    VR vr = VR.map[kAE8];
+    VR vr = VR.map[kAE];
     expect(vr == VR.kAE, true);
   });
 

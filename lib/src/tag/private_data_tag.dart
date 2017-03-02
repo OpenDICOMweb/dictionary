@@ -5,7 +5,7 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:dictionary/src/vm.dart';
-import 'package:dictionary/src/vr/vr.dart';
+import 'package:dictionary/src/vr/old/vr.dart';
 
 import 'tag.dart';
 //import 'private_data_tag_list.dart';
@@ -28,6 +28,8 @@ class PrivateDataTag extends Tag {
 
   @override
   bool get isCreator => false;
+
+  int get subgroup => code & 0xFF00;
 
   @override
   String toString() => '$dcm $groupHex, "$token", $eltHex $vr, $vm, "$name"';

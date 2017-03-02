@@ -13,6 +13,7 @@ export 'package:dictionary/src/defined_terms/defined_terms.dart';
 export 'package:dictionary/src/entity/ie_level.dart';
 export 'package:dictionary/src/enum_values/enum_values.dart';
 export 'package:dictionary/src/modality.dart';
+export 'package:dictionary/src/person_name.dart';
 export 'package:dictionary/src/string/dicom_predicates.dart';
 export 'package:dictionary/src/tag/constants.dart';
 export 'package:dictionary/src/tag/e_type.dart';
