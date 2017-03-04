@@ -1,0 +1,16 @@
+<application>
+  <component name="libraryTable">
+    <library name="Dart SDK">
+      <CLASSES>
+        <root url="file://C:/tools/dart/stable/sdk/dart-sdk-1.22.0/lib" />
+      </CLASSES>
+      <SOURCES />
+      <excluded>
+        <root url="file://C:/tools/dart/stable/sdk/dart-sdk-1.22.0/lib/_blink" />
+        <root url="file://C:/tools/dart/stable/sdk/dart-sdk-1.22.0/lib/_chrome" />
+        <root url="file://C:/tools/dart/stable/sdk/dart-sdk-1.22.0/lib/_internal" />
+        <root url="file://C:/tools/dart/stable/sdk/dart-sdk-1.22.0/lib/dev_compiler" />
+      </excluded>
+    </library>
+  </component>
+</application>

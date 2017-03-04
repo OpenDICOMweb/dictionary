@@ -1,0 +1,24 @@
+name: ****
+description: Buffer utilites for reading and writing byte arrays (Uint8Lists).
+version: 0.1.0
+authors: 
+  # Original Creator
+  - Jim Philbin <mailto:jfphilbin@gmail.com>
+  # Subsequent contributors
+  
+homepage: https://github.com/OpenDICOMweb/***
+
+environment:
+  sdk: ^1.20.0
+
+dependencies:
+  core:
+    git: 
+      url: https://github.com/OpenDICOMweb/...
+      ref: ^0.?.?
+  #  path: C:/odw/sdk/core
+
+dev_dependencies:
+  benchmark_harness: ^1.0.4
+  grinder: ^0.8.0
+  test: ^0.12.0
