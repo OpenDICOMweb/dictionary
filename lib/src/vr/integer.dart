@@ -140,7 +140,9 @@ class VRInt extends VR<int> {
 
 /// This class is used by the Tag class.  It is NOT used for parsing, etc.
 class VRIntSpecial extends VR {
+  @override
   final int minValueLength = 0;
+  @override
   final int maxValueLength = 0;
 
   const VRIntSpecial._(int index, int code, String id, String keyword)

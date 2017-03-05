@@ -15,7 +15,9 @@ typedef E Parser<E>(String s, int min, int max);
 typedef E Fixer<E>(String s, int min, int max);
 
 abstract class VRString extends VR<String> {
+  @override
   final int minValueLength;
+  @override
   final int maxValueLength;
 //  final Tester tester;
 //  final ErrorMsg errorMsg;
@@ -306,6 +308,7 @@ class VRDcmDate extends VRString {
     DateTime dt;
     try {
       dt = DateTime.parse(s);
+      print('dt: $dt');
     } on FormatException {
       return null;
     }
@@ -505,15 +508,19 @@ class VRDcmTime extends VRString {
   DateTime parse(String timeString) {
     assert(timeString != null);
     if (!_isValidLength(timeString.length)) return null;
-    String s;
     int length = timeString.length;
     if ((length.isOdd && length < 6) || !_isValidString(timeString))
       return null;
-    if (length == 2) s = timeString + '0000';
-    if (length == 4) s = timeString + '00';
+    String s = timeString;
+    if (length < 6) {
+      if (length == 2) s = timeString + '0000';
+      if (length == 4) s = timeString + '00';
+    }
     DateTime dt;
     try {
+      print('DataTime s: $s');
       dt = DateTime.parse(s);
+      print('DataTime dt: $dt');
     } on FormatException {
       return null;
     }
