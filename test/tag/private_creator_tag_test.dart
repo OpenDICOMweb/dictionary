@@ -4,7 +4,7 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
-import 'package:dictionary/src/tag/private_creator_tag.dart';
+import 'package:dictionary/src/tag/private/private_creator_tag.dart';
 import 'package:test/test.dart';
 
 void main() {

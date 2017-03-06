@@ -4,7 +4,7 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
-const List<String> creators = const [
+const List<String> knownPrivateCreators = const [
   "1.2.840.113681",
   "1.2.840.113708.794.1.1.2.0",
   "ACUSON",

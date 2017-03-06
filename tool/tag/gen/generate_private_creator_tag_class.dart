@@ -7,8 +7,8 @@
 import 'dart:io';
 
 import 'package:common/common.dart';
-import 'package:dictionary/src/tag/private_creators_map.dart';
-import 'package:dictionary/src/tag/private_data_tag.dart';
+import 'package:dictionary/src/tag/private/private_creators_map.dart';
+import 'package:dictionary/src/tag/private/private_data_tag.dart';
 
 const String outputDir = "C:/odw/sdk/dictionary/tool/tag/gen/output";
 const String classPath = outputDir + '/private_creator_tag.dart';
@@ -97,7 +97,7 @@ class PrivateCreatorTag extends Tag {
 String generateDataMap(Map<int, PrivateDataTag> map) {
   String out = "\nconst <int, PrivateDataTag>{\n";
   map.forEach((int code, PrivateDataTag tag) {
-    out += '        ${Uint32.hex(code)}: PrivateDataTag.k${tag.id},\n';
+    out += '        ${Uint32.hex(code)}: PrivateDataTag.k${tag.index},\n';
   });
   return out += '}\n';
 }

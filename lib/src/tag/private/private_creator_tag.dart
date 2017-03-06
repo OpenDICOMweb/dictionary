@@ -4,57 +4,34 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
-import 'package:common/integer.dart';
-import 'package:dictionary/src/tag/private_creator_tag_map.dart';
-import 'package:dictionary/src/tag/private_data_tag.dart';
+import 'package:dictionary/src/tag/private/private_creator_tag_map.dart';
+import 'package:dictionary/src/tag/private/private_data_tag.dart';
+import 'package:dictionary/src/tag/private/private_tag.dart';
 import 'package:dictionary/src/tag/tag.dart';
 import 'package:dictionary/src/vm.dart';
 import 'package:dictionary/src/vr/vr.dart';
 
-class PrivateTag extends Tag {
-  //TODO: fix the tag code to be the standard group with 0x0010 as elt.
-  const PrivateTag(int code, VR vr, [VM vm = VM.k1_n]) : super(code, vr, vm);
-
-  PrivateTag.groupLength(int code) : super(code, VR.kUL, VM.k1);
-  PrivateTag.illegal(int code, VR vr) : super(code, vr, VM.k1_n);
-}
+const Map<int, PrivateDataTag> emptyDataTags = const <int, PrivateDataTag>{};
 
 class PrivateCreatorTag extends PrivateTag {
-  final int index;
-  final String token;
   final Map<int, PrivateDataTag> dataTags;
 
-  /*
-  factory PrivateCreatorTag(String token, int code, VR vr) {
-    var tag = lookup(token, code, vr);
-    print('** ${Tag.toDcm(tag.code)}');
-    if (tag != null) return tag;
-    tag = new PrivateCreatorTag.unknown(token, code, vr);
-    print('** $tag');
-    return tag;
-  }
-  */
-
   //TODO: fix the tag code to be the standard group with 0x0010 as elt.
-  const PrivateCreatorTag._(this.index, this.token, this.dataTags)
-      : super(0x00000010, VR.kLO, VM.k1);
+  const PrivateCreatorTag._(int index, String token, this.dataTags)
+      : super.creator(index, token, 0x00000010, VR.kLO, VM.k1);
 
-  PrivateCreatorTag.unknown(int code, [VR vr = VR.kUN])
-      : index = -1,
-        token = 'UnknownCreator${Int32.hex(code)}',
-        dataTags = const <int, PrivateDataTag>{},
-        super(code, vr, VM.k1) {
-    print('token("$token") $vr');
-  }
+  const PrivateCreatorTag(int code, [VR vr = VR.kUN])
+      : dataTags = const <int, PrivateDataTag>{},
+        super.unknownCreator(code, vr, VM.k1);
 
-  static const PrivateCreatorTag kNotPresent = const PrivateCreatorTag._(
-      -1, "NoCreatorPresent", const <int, PrivateDataTag>{});
+  static const PrivateCreatorTag kNotPresent =
+  const PrivateCreatorTag._(PrivateTag.kUnknownIndex, "NoCreatorPresent",
+  emptyDataTags);
 
-  @override
-  bool get isPublic => false;
   @override
   bool get isCreator => true;
 
+  @override
   int get subgroup => elt & 0xFF;
 
   int get base => elt << 8;

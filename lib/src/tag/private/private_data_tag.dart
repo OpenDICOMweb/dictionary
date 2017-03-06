@@ -4,41 +4,32 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
+import 'package:dictionary/src/tag/private/private_tag.dart';
+import 'package:dictionary/src/tag/private/private_creator_tag.dart';
 import 'package:dictionary/src/vm.dart';
 import 'package:dictionary/src/vr/vr.dart';
 
-import 'tag.dart';
-
-class PrivateDataTag extends Tag {
-  final int id;
-  final String token;
-
+class PrivateDataTag extends PrivateTag {
+  /// Creates a "Known" [PrivateDataTag].
   const PrivateDataTag._(
-      this.id, this.token, int code, VR vr, VM vm, String name)
-      : super.privateData(code, vr, vm, name);
+      index, token, int code, VR vr, VM vm, String name)
+      : super.data(index, token, code, vr, vm, name);
 
-  PrivateDataTag.unknown(int code,
-      [this.token = "Unknown Creator", VR vr = VR.kUN])
-      : id = 0,
-        super.privateData(code, vr, VM.kUnknown, "UnKnown Private Data Tag");
-
-  @override
-  bool get isPrivate => true;
+  // Creates an "Unknown" [PrivateDataTag], i.e. ODWSDK has no info on it.
+  PrivateDataTag(int code, [VR vr = VR.kUN])
+      : super.unknownData(code, vr, VM.kUnknown);
 
   @override
-  bool get isCreator => false;
-
   int get subgroup => code & 0xFF00;
 
-  @override
-  String toString() => '$dcm $groupHex, "$token", $eltHex $vr, $vm, "$name"';
+  int get offset => code & 0xFF;
 
   // Urgent: figure out if this is doable or needed.
   //static PrivateDataTag lookupCode(int code) {
   //  return privateDataTagList[code];
   //}
-  static const PrivateDataTag kUnknown = const PrivateDataTag._(
-      0, "Unknown", 0x00190010, VR.kInvalid, VM.kUnknown, "Unknown");
+  //static const PrivateDataTag kUnknown = const PrivateDataTag._(
+   //   0, "Unknown", 0x00190010, VR.kInvalid, VM.kUnknown, "Unknown");
 
   static const PrivateDataTag k1 = const PrivateDataTag._(
       1, "1.2.840.113681", 0x00190010, VR.kST, VM.k1, "CRImageParamsCommon");
