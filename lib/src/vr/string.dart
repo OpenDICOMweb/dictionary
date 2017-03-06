@@ -51,6 +51,7 @@ abstract class VRString extends VR<String> {
   String fix(String s);
 
   /// Returns [true] if [minValueLength] <= [length] <= [maxValueLength].
+  @override
   bool isValidLength(String s) {
     assert(s != null);
     return _isValidLength(s.length);

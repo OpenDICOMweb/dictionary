@@ -5,8 +5,8 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:dictionary/dictionary.dart';
-import 'package:dictionary/src/tag/iod_sequence.dart';
-import 'package:dictionary/src/tag/iod_tag.dart';
+import 'package:dictionary/src/iod/iod_sequence.dart';
+import 'package:dictionary/src/iod/iod_tag.dart';
 
 abstract class MacroBase {
   final String name;

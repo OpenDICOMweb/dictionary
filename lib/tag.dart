@@ -5,7 +5,6 @@
 // See the AUTHORS file for other contributors.
 
 export 'package:dictionary/src/tag/constants.dart';
-export 'package:dictionary/src/tag/e_type.dart';
 export 'package:dictionary/src/tag/elt.dart';
 export 'package:dictionary/src/tag/errors.dart';
 export 'package:dictionary/src/tag/group.dart';

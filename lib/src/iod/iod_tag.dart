@@ -4,7 +4,7 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu>
 // See the AUTHORS file for other contributors.
 
-import 'package:dictionary/src/tag/e_type.dart';
+import 'package:dictionary/src/e_type.dart';
 import 'package:dictionary/src/tag/tag.dart';
 import 'package:dictionary/src/vm.dart';
 import 'package:dictionary/src/vr/vr.dart';

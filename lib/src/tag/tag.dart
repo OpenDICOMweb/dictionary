@@ -9,8 +9,8 @@ import 'dart:typed_data';
 
 import 'package:common/common.dart';
 import 'package:dictionary/src/constants.dart';
+import 'package:dictionary/src/e_type.dart';
 import 'package:dictionary/src/tag/constants.dart';
-import 'package:dictionary/src/tag/e_type.dart';
 import 'package:dictionary/src/tag/elt.dart';
 import 'package:dictionary/src/tag/errors.dart';
 import 'package:dictionary/src/tag/group.dart';

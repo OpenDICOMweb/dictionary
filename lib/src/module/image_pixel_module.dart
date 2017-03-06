@@ -5,6 +5,7 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:dictionary/dictionary.dart';
+import 'package:dictionary/src/e_type.dart';
 import 'package:dictionary/src/entity/ie_level.dart';
 
 class ImagePixelModule {
