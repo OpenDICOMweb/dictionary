@@ -5,7 +5,6 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:common/integer.dart';
-import 'package:dictionary/src/tag/private_creator_tag.dart';
 import 'package:dictionary/src/tag/private_creator_tag_map.dart';
 import 'package:dictionary/src/tag/private_data_tag.dart';
 import 'package:dictionary/src/tag/tag.dart';
