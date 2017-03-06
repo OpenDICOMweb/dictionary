@@ -27,16 +27,8 @@ doc/api/
 *.part.js
 *.info.json
 
-## JetBrains IDE Stuff, e.g. WebStorm
-# ==========================
-# See https://intellij-support.jetbrains.com/hc/en-us/articles/206544839 for details.
-# *** Currently all JetBrains stuff is ignored
-
 # Don’t commit files and directories dropped by other development environments. For example:
-*.iml         # IntelliJ
-*.ipr         # IntelliJ
-*.iws         # IntelliJ
-.idea/        # IntelliJ
+.idea      # IntelliJ
 .DS_Store     # Mac
 
 # JIRA plugin
