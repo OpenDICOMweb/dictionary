@@ -14,8 +14,6 @@ typedef String ErrorMsg<String>(String value, int min, int max);
 typedef E Parser<E>(String s, int min, int max);
 typedef E Fixer<E>(String s, int min, int max);
 
-
-
 abstract class VRString extends VR<String> {
   @override
   final int minValueLength;
@@ -65,7 +63,6 @@ abstract class VRString extends VR<String> {
   bool _isValidLength(int length) =>
       minValueLength <= length && length <= maxValueLength;
 
-
   /// Returns [true] if all characters pass the filter.
   bool _filteredTest(String s, bool filter(int c)) {
     if (!_isValidLength(s.length)) return false;
@@ -77,8 +74,7 @@ abstract class VRString extends VR<String> {
 
   /// The filter for DICOM String characters.
   /// Visible ASCII characters, except Backslash.
-  bool _isDcmChar(int c) =>
-      c >= kSpace && c < kDelete && c != kBackslash;
+  bool _isDcmChar(int c) => c >= kSpace && c < kDelete && c != kBackslash;
 
   //TODO: this currently returns only the first error -
   //      Should it return all errors?
@@ -471,14 +467,15 @@ class VRPersonName extends VRString {
   }
 
   @override
+
   /// Parses a PN String, but does not change it.
   List<String> parse(String s) {
     if (s == null || s == "") return null;
     var values = s.split('\\');
-    for(String pn in values) {
+    for (String pn in values) {
       var cGroups = splitTrim(pn, '=');
       if (cGroups == null) return null;
-      for(String cg in cGroups)
+      for (String cg in cGroups)
         if (cg.length > 64 || !_filteredTest(cg, _isDcmChar)) return null;
     }
     return values;

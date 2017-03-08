@@ -173,8 +173,8 @@ class Name {
   /// Returns true if the [PersonName] component is valid.
   static bool isValidList(List<String> list) {
     if (list == null || list.length < 1 || list.length > 5) return false;
-    for(String s in list)
-      if(!_filteredTest(s, _isPNComponentGroupChar)) return false;
+    for (String s in list)
+      if (!_filteredTest(s, _isPNComponentGroupChar)) return false;
     return true;
   }
 
@@ -184,16 +184,15 @@ class Name {
       c >= kSpace && c < kDelete && (c != kBackslash && c != kEqual);
 
   static bool isValidComponentGroup(String s) {
-    if(s == null || s == "" || s.length > maxGroupLength) return null;
-      var groups = s.split('=');
-      for (String group in groups) {
-        if (group.length > 64 || !_filteredTest(s, _isPNNameChar)) return
-          false;
-      }
-      return true;
+    if (s == null || s == "" || s.length > maxGroupLength) return null;
+    var groups = s.split('=');
+    for (String group in groups) {
+      if (group.length > 64 || !_filteredTest(s, _isPNNameChar)) return false;
     }
+    return true;
+  }
 
-    //TODO: these are taken from VRString
+  //TODO: these are taken from VRString
   /// Returns [true] if all characters pass the filter.
   static bool _filteredTest(String s, bool filter(int c)) {
     for (int i = 0; i < s.length; i++)
@@ -217,11 +216,10 @@ class Name {
 
   /// Parses a Component Group into a [Name]
   static Name parse(String s) {
-    if (s == null || s == "" ||
-  s.length > 64 || _filteredTest(s, _isPNChar)) return null;
+    if (s == null || s == "" || s.length > 64 || _filteredTest(s, _isPNChar))
+      return null;
     List<String> groups = splitTrim(s, '\\');
-    for(String cg in groups)
-      _isPNComponentGroup(cg);
+    for (String cg in groups) _isPNComponentGroup(cg);
     return new Name.fromString(s.trim());
   }
 

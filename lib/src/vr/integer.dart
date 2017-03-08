@@ -133,8 +133,8 @@ class VRInt extends VR<int> {
   static const VRInt kUL = const VRInt._(28, 0x4c55, "UL", 4, 2, kMaxShortVF,
       "UnsignedLong", 0, Uint32.maxValue, Uint32.fromBytes);
 
-  static const VRInt kUN = const VRInt._(
-      29, 0x4e55, "UN", 1, 4, kMaxUN, "Unknown", 0, Uint8.maxValue, Uint8.fromBytes);
+  static const VRInt kUN = const VRInt._(29, 0x4e55, "UN", 1, 4, kMaxUN,
+      "Unknown", 0, Uint8.maxValue, Uint8.fromBytes);
 
   static const VRInt kUS = const VRInt._(31, 0x5355, "US", 2, 2, kMaxShortVF,
       "UnsignedShort", 0, Uint16.maxValue, Uint16.fromBytes);
