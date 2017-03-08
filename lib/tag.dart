@@ -10,5 +10,6 @@ export 'package:dictionary/src/tag/errors.dart';
 export 'package:dictionary/src/tag/group.dart';
 export 'package:dictionary/src/tag/private/private_creator_tag.dart';
 export 'package:dictionary/src/tag/private/private_data_tag.dart';
+export 'package:dictionary/src/tag/private/private_tag.dart';
 export 'package:dictionary/src/tag/tag.dart';
 export 'package:dictionary/src/tag/tag_map.dart';

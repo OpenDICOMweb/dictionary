@@ -97,19 +97,28 @@ class PersonName {
     return isValidList(s.split("="));
   }
 
-  /// Parses a DICOM format string into a [PersonName] and, if successful,
-  /// returns it; otherwise, returns [null].
+  /// Parses a PersonName [String] composed of up to three Component Groups,
+  /// and if successful, returns it; otherwise, returns [null].
   static PersonName parse(String s) {
-    List<String> groups = s.split("=");
-    if (groups.length > 3) return null;
-    if ((groups.length == 1) && (groups[0] == "")) return null;
-    for (String group in groups)
-      if (group.length > 64 || !_hasValidPNChars(s)) return null;
-    return new PersonName(groups.map(Name.parse));
+    if (s == null || s == "") return null;
+    // Parse a PersonName
+    var cGroups = splitTrim(s, '=');
+    if (cGroups.length < 1 || cGroups.length > 3) return null;
+    var names = <Name>[];
+    for (String cg in cGroups) {
+      var name = Name.parse(cg);
+      if (name == null) return null;
+      names.add(name);
+    }
+    var pn = new PersonName(names);
+    return (pn == null) ? null : pn;
   }
 }
 
-/// A Name corresponds to a DICOM Person Name (PN) Component Group.
+/// A [Name] corresponds to a DICOM Person Name (PN) Component Group.
+/// A [Components] is a list of PN component [String]s. It may have from
+/// one to five components.  The list may not contain [null], so interior
+/// elements that have no value are represented by the empty [String] ("").
 class Name {
   static const int maxComponents = 5;
   static const int maxSeparators = 4;
@@ -129,22 +138,22 @@ class Name {
       (name is Name) && eq.equals(components, name.components);
 
   @override
-  int get hashCode => Hash.hash(components);
+  int get hashCode => Hash.list(components);
 
   /// Family name.
-  String get family => components[0];
+  String get family => _getComponent(0);
 
   /// Given or first name.
-  String get given => components[1];
+  String get given => _getComponent(1);
 
   /// Middle name(s) or initial(s)
-  String get middle => components[2];
+  String get middle => _getComponent(2);
 
   /// A [prefix] such as Ms., Mr., Mrs., Dr...
-  String get prefix => components[3];
+  String get prefix => _getComponent(3);
 
   /// A [suffix] such as Ph.D., or M.D.
-  String get suffix => components[4];
+  String get suffix => _getComponent(4);
 
   String _initial(String s) => (s == "") ? s : s[0];
   String get initials =>
@@ -160,24 +169,65 @@ class Name {
   @override
   String toString() => '$components';
 
+// Urgent 5 components
   /// Returns true if the [PersonName] component is valid.
   static bool isValidList(List<String> list) {
-    assert(list != null && list.length == 5);
-    return isValidString(list.join('^'));
+    if (list == null || list.length < 1 || list.length > 5) return false;
+    for(String s in list)
+      if(!_filteredTest(s, _isPNComponentGroupChar)) return false;
+    return true;
   }
+
+  /// The filter for DICOM PersonName characters.  Visible ASCII
+  /// characters, except Backslash(\) and Equal Sign(=).
+  static bool _isPNComponentGroupChar(int c) =>
+      c >= kSpace && c < kDelete && (c != kBackslash && c != kEqual);
+
+  static bool isValidComponentGroup(String s) {
+    if(s == null || s == "" || s.length > maxGroupLength) return null;
+      var groups = s.split('=');
+      for (String group in groups) {
+        if (group.length > 64 || !_filteredTest(s, _isPNNameChar)) return
+          false;
+      }
+      return true;
+    }
+
+    //TODO: these are taken from VRString
+  /// Returns [true] if all characters pass the filter.
+  static bool _filteredTest(String s, bool filter(int c)) {
+    for (int i = 0; i < s.length; i++)
+      if (!filter(s.codeUnitAt(i))) return false;
+    return true;
+  }
+
+  /*Flush if not used
+  /// The filter for DICOM PersonName characters.
+  /// Visible ASCII characters, except Backslash.
+  bool _isPNComponentChar(int c) =>
+      c >= kSpace && c < kDelete &&
+          (c != kBackslash && c != kEqual && c != kCircumflex);
+  */
 
   /// Returns true if the [PersonName] component is valid.
   static bool isValidString(String s) {
     assert(s != null && s != "");
-    return (s.length > maxGroupLength || _hasValidNameChars(s));
+    return (s.length <= maxGroupLength || _hasValidNameChars(s));
   }
 
   /// Parses a Component Group into a [Name]
   static Name parse(String s) {
-    assert(s != null && s != "");
-    if (!isValidString(s)) return null;
+    if (s == null || s == "" ||
+  s.length > 64 || _filteredTest(s, _isPNChar)) return null;
+    List<String> groups = splitTrim(s, '\\');
+    for(String cg in groups)
+      _isPNComponentGroup(cg);
     return new Name.fromString(s.trim());
   }
+
+  /// Return the ith component or [null] if [i] is not a valid [List] index.
+  String _getComponent(int i) =>
+      (i >= 1 && i < components.length) ? components[i] : null;
 }
 
 Iterable<String> splitTrim(String s, String separator) =>
@@ -186,10 +236,22 @@ Iterable<String> splitTrim(String s, String separator) =>
 /// The filter for DICOM String characters.
 /// Visible ASCII characters, except Backslash.
 bool _isPNChar(int c) =>
-    (c >= kSpace && c < kBackslash || c > kBackslash && c < kDelete);
+    c >= kSpace && c < kDelete && c != kBackslash && c != kEqual;
 
-bool _isPNNameChar(int c) => _isPNChar(c) && c != kEQual;
+bool _isPNComponentGroup(String s) => _filteredTest(s, _isPNNameChar);
 
+/// Returns [true] if all characters pass the filter.
+bool _filteredTest(String s, bool filter(int c)) {
+  if (1 <= s.length && s.length <= 64) return false;
+  for (int i = 0; i < s.length; i++) {
+    if (!filter(s.codeUnitAt(i))) return false;
+  }
+  return true;
+}
+
+bool _isPNNameChar(int c) => _isPNChar(c) && c != kEqual;
+
+/*
 /// Returns [true] if all characters pass the filter.
 bool _hasValidPNChars(String s) {
   for (int i = 0; i < s.length; i++) {
@@ -197,7 +259,7 @@ bool _hasValidPNChars(String s) {
   }
   return true;
 }
-
+*/
 /// Returns [true] if all characters pass the filter.
 bool _hasValidNameChars(String s) {
   for (int i = 0; i < s.length; i++) {

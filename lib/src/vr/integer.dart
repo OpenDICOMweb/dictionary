@@ -106,36 +106,38 @@ class VRInt extends VR<int> {
 
   /// Returns [true] if [bytes] contains a valid Value Field.
   //TODO: implement or flush
+  /*
   @override
   Uint8List isValidBytes(Uint8List bytes) => null;
+  */
 
   // index, code, id, elementSize, vfLengthFieldSize, maxVFLength, keyword
   static const VRInt kAT = const VRInt._(3, 0x5441, "AT", 4, 2, kMaxShortVF,
-      "Attribute Tag Code", 0, Uint32.max, Uint32.fromBytes);
+      "Attribute Tag Code", 0, Uint32.maxValue, Uint32.fromBytes);
 
   static const VRInt kOB = const VRInt._(14, 0x424f, "OB", 1, 4, kMaxOB,
-      "OtherByte", 0, Uint8.max, Uint8.fromBytes, true);
+      "OtherByte", 0, Uint8.maxValue, Uint8.fromBytes, true);
 
   static const VRInt kOL = const VRInt._(17, 0x4c4f, "OL", 4, 4, kMaxOL,
-      "OtherLong", 0, Uint32.max, Uint32.fromBytes);
+      "OtherLong", 0, Uint32.maxValue, Uint32.fromBytes);
 
   static const VRInt kOW = const VRInt._(18, 0x574f, "OW", 2, 4, kMaxOW,
-      "OtherWord", 0, Uint16.max, Uint16.fromBytes, true);
+      "OtherWord", 0, Uint16.maxValue, Uint16.fromBytes, true);
 
   static const VRInt kSL = const VRInt._(21, 0x4c53, "SL", 4, 2, kMaxShortVF,
-      "SignedLong", Int32.min, Int32.max, Int32.fromBytes);
+      "SignedLong", Int32.minValue, Int32.maxValue, Int32.fromBytes);
 
   static const VRInt kSS = const VRInt._(23, 0x5353, "SS", 2, 2, kMaxShortVF,
-      "SignedShort", Int16.min, Int16.max, Int16.fromBytes);
+      "SignedShort", Int16.minValue, Int16.maxValue, Int16.fromBytes);
 
   static const VRInt kUL = const VRInt._(28, 0x4c55, "UL", 4, 2, kMaxShortVF,
-      "UnsignedLong", 0, Uint32.max, Uint32.fromBytes);
+      "UnsignedLong", 0, Uint32.maxValue, Uint32.fromBytes);
 
   static const VRInt kUN = const VRInt._(
-      29, 0x4e55, "UN", 1, 4, kMaxUN, "Unknown", 0, Uint8.max, Uint8.fromBytes);
+      29, 0x4e55, "UN", 1, 4, kMaxUN, "Unknown", 0, Uint8.maxValue, Uint8.fromBytes);
 
   static const VRInt kUS = const VRInt._(31, 0x5355, "US", 2, 2, kMaxShortVF,
-      "UnsignedShort", 0, Uint16.max, Uint16.fromBytes);
+      "UnsignedShort", 0, Uint16.maxValue, Uint16.fromBytes);
 }
 
 /// This class is used by the Tag class.  It is NOT used for parsing, etc.

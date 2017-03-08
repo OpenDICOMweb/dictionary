@@ -14,6 +14,8 @@ typedef String ErrorMsg<String>(String value, int min, int max);
 typedef E Parser<E>(String s, int min, int max);
 typedef E Fixer<E>(String s, int min, int max);
 
+
+
 abstract class VRString extends VR<String> {
   @override
   final int minValueLength;
@@ -57,14 +59,12 @@ abstract class VRString extends VR<String> {
     return _isValidLength(s.length);
   }
 
+  /// Returns [true] if length is NOT valid.
+  bool isNotValidLength(String s) => !isValidLength(s);
+
   bool _isValidLength(int length) =>
       minValueLength <= length && length <= maxValueLength;
 
-  /// Returns [true] if length is NOT valid.
-  bool isNotValidLength(String s) {
-    assert(s != null);
-    return !_isValidLength(s.length);
-  }
 
   /// Returns [true] if all characters pass the filter.
   bool _filteredTest(String s, bool filter(int c)) {
@@ -78,7 +78,7 @@ abstract class VRString extends VR<String> {
   /// The filter for DICOM String characters.
   /// Visible ASCII characters, except Backslash.
   bool _isDcmChar(int c) =>
-      (c >= kSpace && c < kBackslash || c > kBackslash && c < kDelete);
+      c >= kSpace && c < kDelete && c != kBackslash;
 
   //TODO: this currently returns only the first error -
   //      Should it return all errors?
@@ -446,6 +446,8 @@ class VRIntString extends VRString {
 /// Person Name (PN).
 /// Note: Does not support
 class VRPersonName extends VRString {
+  static int maxComponentGroupLength = 64;
+
   const VRPersonName._(int index, int code, String id, int vfLengthSize,
       int maxVFLength, String keyword, int minValueLength, int maxValueLength)
       : super._(index, code, id, vfLengthSize, maxVFLength, keyword,
@@ -457,9 +459,8 @@ class VRPersonName extends VRString {
   @override
   bool isValid(String s) {
     var groups = s.split('=');
-    for (String group in groups) {
+    for (String group in groups)
       if (group.length > 64 || !_filteredTest(s, _isDcmChar)) return false;
-    }
     return true;
   }
 
@@ -470,22 +471,49 @@ class VRPersonName extends VRString {
   }
 
   @override
-  PersonName parse(String s) {
-    assert(s != null);
-    return PersonName.parse(s);
+  /// Parses a PN String, but does not change it.
+  List<String> parse(String s) {
+    if (s == null || s == "") return null;
+    var values = s.split('\\');
+    for(String pn in values) {
+      var cGroups = splitTrim(pn, '=');
+      if (cGroups == null) return null;
+      for(String cg in cGroups)
+        if (cg.length > 64 || !_filteredTest(cg, _isDcmChar)) return null;
+    }
+    return values;
   }
 
   /// Fix
+  /// Note: Currently only removed leading and trailing whitespace.
   @override
   String fix(String s) {
-    assert(s != null);
-    //TODO:
+    if (s == null || s == "") return null;
+    var values = s.split('\\');
+    List<String> newPN = [];
+    for (String pn in values) {
+      var cGroups = splitTrim(pn, '=');
+      if (cGroups == null) return null;
+      List<String> newCG = [];
+      for (String cg in cGroups) {
+        if (cg.length > 64 || !_filteredTest(cg, _isDcmChar)) return null;
+        newCG.add(splitTrim(cg, '^').join('^'));
+      }
+      newPN.add(newCG.join('='));
+    } //TODO:
     // how to fix? replace with no-value;
-    return s;
+    return newPN.join('\\');
   }
 
   static const VR kPN = const VRPersonName._(
       19, 0x4e50, "PN", 2, kMaxShortVF, "PersonName", 1, 64 * 3);
+
+  /*Flush if not needed.
+  /// The filter for DICOM PersonName characters.  Visible ASCII
+  /// characters, except Backslash(\) and Equal Sign(=).
+  static bool _isPNComponentGroupChar(int c) =>
+      c >= kSpace && c < kDelete && (c != kBackslash && c != kCircumflex);
+  */
 }
 
 class VRDcmTime extends VRString {

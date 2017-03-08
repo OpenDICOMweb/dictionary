@@ -24,9 +24,8 @@ class PrivateCreatorTag extends PrivateTag {
       : dataTags = const <int, PrivateDataTag>{},
         super.unknownCreator(code, vr, VM.k1);
 
-  static const PrivateCreatorTag kNotPresent =
-  const PrivateCreatorTag._(PrivateTag.kUnknownIndex, "NoCreatorPresent",
-  emptyDataTags);
+  static const PrivateCreatorTag kNotPresent = const PrivateCreatorTag._(
+      PrivateTag.kUnknownIndex, "NoCreatorPresent", emptyDataTags);
 
   @override
   bool get isCreator => true;

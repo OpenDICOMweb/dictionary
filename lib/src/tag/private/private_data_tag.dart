@@ -11,8 +11,7 @@ import 'package:dictionary/src/vr/vr.dart';
 
 class PrivateDataTag extends PrivateTag {
   /// Creates a "Known" [PrivateDataTag].
-  const PrivateDataTag._(
-      index, token, int code, VR vr, VM vm, String name)
+  const PrivateDataTag._(index, token, int code, VR vr, VM vm, String name)
       : super.data(index, token, code, vr, vm, name);
 
   // Creates an "Unknown" [PrivateDataTag], i.e. ODWSDK has no info on it.
@@ -29,7 +28,7 @@ class PrivateDataTag extends PrivateTag {
   //  return privateDataTagList[code];
   //}
   //static const PrivateDataTag kUnknown = const PrivateDataTag._(
-   //   0, "Unknown", 0x00190010, VR.kInvalid, VM.kUnknown, "Unknown");
+  //   0, "Unknown", 0x00190010, VR.kInvalid, VM.kUnknown, "Unknown");
 
   static const PrivateDataTag k1 = const PrivateDataTag._(
       1, "1.2.840.113681", 0x00190010, VR.kST, VM.k1, "CRImageParamsCommon");

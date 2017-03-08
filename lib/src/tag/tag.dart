@@ -66,6 +66,7 @@ class Tag {
   bool get isWKFmi => fmiTags.contains(code);
 
   bool get isKnown => keyword != "Unknown";
+  bool get isUnKnown => !isKnown;
 
   // **** Code Getters
   String get dcm => '(${Int.hex(group, 4, "")},${Int.hex(elt, 4, "")})';
@@ -500,6 +501,11 @@ class Tag {
     return tagCodeError(code);
   }
 
+  static int keywordToCode(String keyword) {
+    var tag = lookupKeyword(keyword);
+    return (tag == null) ? null : tag.code;
+  }
+
   //TODO: make keyword lookup work
   /// Currently can only be used to lookup Public [Tag]s as Private [Tag]s
   /// don't have [keyword]s.
@@ -678,8 +684,8 @@ class Tag {
       0x00020102, "Private Information", VR.kOB, VM.k1, false);
 
   //**** DICOM Directory Tags begin here ****
-  static const Tag kFileSetID = const Tag._(
-      "FileSetID", 0x00041130, "File-set ID", VR.kCS, VM.k1, false);
+  static const Tag kFileSetID =
+      const Tag._("FileSetID", 0x00041130, "File-set ID", VR.kCS, VM.k1, false);
 
   static const Tag kFileSetDescriptorFileID = const Tag._(
       "FileSetDescriptorFileID",
@@ -689,14 +695,13 @@ class Tag {
       VM.k1_8,
       false);
 
-  static const Tag kSpecificCharacterSetOfFileSetDescriptorFile =
-      const Tag._(
-          "SpecificCharacterSetOfFileSetDescriptorFile",
-          0x00041142,
-          "Specific Character Set of File Set Descriptor File",
-          VR.kCS,
-          VM.k1,
-          false);
+  static const Tag kSpecificCharacterSetOfFileSetDescriptorFile = const Tag._(
+      "SpecificCharacterSetOfFileSetDescriptorFile",
+      0x00041142,
+      "Specific Character Set of File Set Descriptor File",
+      VR.kCS,
+      VM.k1,
+      false);
 
   static const Tag kOffsetOfTheFirstDirectoryRecordOfTheRootDirectoryEntity =
       const Tag._(
@@ -740,25 +745,19 @@ class Tag {
       VM.k1,
       false);
 
-  static const Tag kRecordInUseFlag = const Tag._("RecordInUseFlag",
-      0x00041410, "Record In-use Flag", VR.kUS, VM.k1, false);
+  static const Tag kRecordInUseFlag = const Tag._("RecordInUseFlag", 0x00041410,
+      "Record In-use Flag", VR.kUS, VM.k1, false);
 
-  static const Tag kOffsetOfReferencedLowerLevelDirectoryEntity =
-      const Tag._(
-          "OffsetOfReferencedLowerLevelDirectoryEntity",
-          0x00041420,
-          "Offset of Referenced Lower-Level Directory Entity",
-          VR.kUL,
-          VM.k1,
-          false);
-
-  static const Tag kDirectoryRecordType = const Tag._(
-      "DirectoryRecordType",
-      0x00041430,
-      "Directory​Record​Type",
-      VR.kCS,
+  static const Tag kOffsetOfReferencedLowerLevelDirectoryEntity = const Tag._(
+      "OffsetOfReferencedLowerLevelDirectoryEntity",
+      0x00041420,
+      "Offset of Referenced Lower-Level Directory Entity",
+      VR.kUL,
       VM.k1,
       false);
+
+  static const Tag kDirectoryRecordType = const Tag._("DirectoryRecordType",
+      0x00041430, "Directory​Record​Type", VR.kCS, VM.k1, false);
 
   static const Tag kPrivateRecordUID = const Tag._("PrivateRecordUID",
       0x00041432, "Private Record UID", VR.kUI, VM.k1, false);
@@ -798,14 +797,13 @@ class Tag {
       VM.k1,
       false);
 
-  static const Tag kReferencedRelatedGeneralSOPClassUIDInFile =
-      const Tag._(
-          "ReferencedRelatedGeneralSOPClassUIDInFile",
-          0x0004151a,
-          "Referenced Related General SOP Class UID in File",
-          VR.kUI,
-          VM.k1_n,
-          false);
+  static const Tag kReferencedRelatedGeneralSOPClassUIDInFile = const Tag._(
+      "ReferencedRelatedGeneralSOPClassUIDInFile",
+      0x0004151a,
+      "Referenced Related General SOP Class UID in File",
+      VR.kUI,
+      VM.k1_n,
+      false);
 
   static const Tag kNumberOfReferences = const Tag._("NumberOfReferences",
       0x00041600, "Number of References", VR.kUL, VM.k1, true);
@@ -830,8 +828,8 @@ class Tag {
           "ImageType", 0x00080008, "Image Type", VR.kCS, VM.k2_n, false);
   static const Tag kRecognitionCode
       //(0008,0010)
-      = const Tag._("RecognitionCode", 0x00080010, "Recognition Code",
-          VR.kSH, VM.k1, true);
+      = const Tag._("RecognitionCode", 0x00080010, "Recognition Code", VR.kSH,
+          VM.k1, true);
   static const Tag kInstanceCreationDate
       //(0008,0012)
       = const Tag._("InstanceCreationDate", 0x00080012,
@@ -842,8 +840,8 @@ class Tag {
           "Instance Creation Time", VR.kTM, VM.k1, false);
   static const Tag kInstanceCreatorUID
       //(0008,0014)
-      = const Tag._("InstanceCreatorUID", 0x00080014,
-          "Instance Creator UID", VR.kUI, VM.k1, false);
+      = const Tag._("InstanceCreatorUID", 0x00080014, "Instance Creator UID",
+          VR.kUI, VM.k1, false);
   static const Tag kInstanceCoercionDateTime
       //(0008,0015)
       = const Tag._("InstanceCoercionDateTime", 0x00080015,
@@ -854,8 +852,8 @@ class Tag {
           "SOPClassUID", 0x00080016, "SOP Class UID", VR.kUI, VM.k1, false);
   static const Tag kSOPInstanceUID
       //(0008,0018)
-      = const Tag._("SOPInstanceUID", 0x00080018, "SOP Instance UID",
-          VR.kUI, VM.k1, false);
+      = const Tag._("SOPInstanceUID", 0x00080018, "SOP Instance UID", VR.kUI,
+          VM.k1, false);
   static const Tag kRelatedGeneralSOPClassUID
       //(0008,001A)
       = const Tag._("RelatedGeneralSOPClassUID", 0x0008001A,
@@ -866,16 +864,16 @@ class Tag {
           "Original Specialized SOP Class UID", VR.kUI, VM.k1, false);
   static const Tag kStudyDate
       //(0008,0020)
-      = const Tag._(
-          "StudyDate", 0x00080020, "Study Date", VR.kDA, VM.k1, false);
+      =
+      const Tag._("StudyDate", 0x00080020, "Study Date", VR.kDA, VM.k1, false);
   static const Tag kSeriesDate
       //(0008,0021)
       = const Tag._(
           "SeriesDate", 0x00080021, "Series Date", VR.kDA, VM.k1, false);
   static const Tag kAcquisitionDate
       //(0008,0022)
-      = const Tag._("AcquisitionDate", 0x00080022, "Acquisition Date",
-          VR.kDA, VM.k1, false);
+      = const Tag._("AcquisitionDate", 0x00080022, "Acquisition Date", VR.kDA,
+          VM.k1, false);
   static const Tag kContentDate
       //(0008,0023)
       = const Tag._(
@@ -886,24 +884,23 @@ class Tag {
           "OverlayDate", 0x00080024, "Overlay Date", VR.kDA, VM.k1, true);
   static const Tag kCurveDate
       //(0008,0025)
-      = const Tag._(
-          "CurveDate", 0x00080025, "Curve Date", VR.kDA, VM.k1, true);
+      = const Tag._("CurveDate", 0x00080025, "Curve Date", VR.kDA, VM.k1, true);
   static const Tag kAcquisitionDateTime
       //(0008,002A)
-      = const Tag._("AcquisitionDateTime", 0x0008002A,
-          "Acquisition DateTime", VR.kDT, VM.k1, false);
+      = const Tag._("AcquisitionDateTime", 0x0008002A, "Acquisition DateTime",
+          VR.kDT, VM.k1, false);
   static const Tag kStudyTime
       //(0008,0030)
-      = const Tag._(
-          "StudyTime", 0x00080030, "Study Time", VR.kTM, VM.k1, false);
+      =
+      const Tag._("StudyTime", 0x00080030, "Study Time", VR.kTM, VM.k1, false);
   static const Tag kSeriesTime
       //(0008,0031)
       = const Tag._(
           "SeriesTime", 0x00080031, "Series Time", VR.kTM, VM.k1, false);
   static const Tag kAcquisitionTime
       //(0008,0032)
-      = const Tag._("AcquisitionTime", 0x00080032, "Acquisition Time",
-          VR.kTM, VM.k1, false);
+      = const Tag._("AcquisitionTime", 0x00080032, "Acquisition Time", VR.kTM,
+          VM.k1, false);
   static const Tag kContentTime
       //(0008,0033)
       = const Tag._(
@@ -914,64 +911,62 @@ class Tag {
           "OverlayTime", 0x00080034, "Overlay Time", VR.kTM, VM.k1, true);
   static const Tag kCurveTime
       //(0008,0035)
-      = const Tag._(
-          "CurveTime", 0x00080035, "Curve Time", VR.kTM, VM.k1, true);
+      = const Tag._("CurveTime", 0x00080035, "Curve Time", VR.kTM, VM.k1, true);
   static const Tag kDataSetType
       //(0008,0040)
       = const Tag._(
           "DataSetType", 0x00080040, "Data Set Type", VR.kUS, VM.k1, true);
   static const Tag kDataSetSubtype
       //(0008,0041)
-      = const Tag._("DataSetSubtype", 0x00080041, "Data Set Subtype",
-          VR.kLO, VM.k1, true);
+      = const Tag._("DataSetSubtype", 0x00080041, "Data Set Subtype", VR.kLO,
+          VM.k1, true);
   static const Tag kNuclearMedicineSeriesType
       //(0008,0042)
       = const Tag._("NuclearMedicineSeriesType", 0x00080042,
           "Nuclear Medicine Series Type", VR.kCS, VM.k1, true);
   static const Tag kAccessionNumber
       //(0008,0050)
-      = const Tag._("AccessionNumber", 0x00080050, "Accession Number",
-          VR.kSH, VM.k1, false);
+      = const Tag._("AccessionNumber", 0x00080050, "Accession Number", VR.kSH,
+          VM.k1, false);
   static const Tag kIssuerOfAccessionNumberSequence
       //(0008,0051)
       = const Tag._("IssuerOfAccessionNumberSequence", 0x00080051,
           "Issuer of Accession Number Sequence", VR.kSQ, VM.k1, false);
   static const Tag kQueryRetrieveLevel
       //(0008,0052)
-      = const Tag._("QueryRetrieveLevel", 0x00080052,
-          "Query/Retrieve Level", VR.kCS, VM.k1, false);
+      = const Tag._("QueryRetrieveLevel", 0x00080052, "Query/Retrieve Level",
+          VR.kCS, VM.k1, false);
   static const Tag kQueryRetrieveView
       //(0008,0053)
       = const Tag._("QueryRetrieveView", 0x00080053, "Query/Retrieve View",
           VR.kCS, VM.k1, false);
   static const Tag kRetrieveAETitle
       //(0008,0054)
-      = const Tag._("RetrieveAETitle", 0x00080054, "Retrieve AE Title",
-          VR.kAE, VM.k1_n, false);
+      = const Tag._("RetrieveAETitle", 0x00080054, "Retrieve AE Title", VR.kAE,
+          VM.k1_n, false);
   static const Tag kInstanceAvailability
       //(0008,0056)
-      = const Tag._("InstanceAvailability", 0x00080056,
-          "Instance Availability", VR.kCS, VM.k1, false);
+      = const Tag._("InstanceAvailability", 0x00080056, "Instance Availability",
+          VR.kCS, VM.k1, false);
   static const Tag kFailedSOPInstanceUIDList
       //(0008,0058)
       = const Tag._("FailedSOPInstanceUIDList", 0x00080058,
           "Failed SOP Instance UID List", VR.kUI, VM.k1_n, false);
   static const Tag kModality
       //(0008,0060)
-      = const Tag._(
-          "Modality", 0x00080060, "Modality", VR.kCS, VM.k1, false);
+      = const Tag._("Modality", 0x00080060, "Modality", VR.kCS, VM.k1, false);
   static const Tag kModalitiesInStudy
       //(0008,0061)
       = const Tag._("ModalitiesInStudy", 0x00080061, "Modalities in Study",
           VR.kCS, VM.k1_n, false);
   static const Tag kSOPClassesInStudy
       //(0008,0062)
-      = const Tag._("SOPClassesInStudy", 0x00080062,
-          "SOP Classes in Study", VR.kUI, VM.k1_n, false);
+      = const Tag._("SOPClassesInStudy", 0x00080062, "SOP Classes in Study",
+          VR.kUI, VM.k1_n, false);
   static const Tag kConversionType
       //(0008,0064)
-      = const Tag._("ConversionType", 0x00080064, "Conversion Type",
-          VR.kCS, VM.k1, false);
+      = const Tag._("ConversionType", 0x00080064, "Conversion Type", VR.kCS,
+          VM.k1, false);
   static const Tag kPresentationIntentType
       //(0008,0068)
       = const Tag._("PresentationIntentType", 0x00080068,
@@ -982,12 +977,12 @@ class Tag {
           "Manufacturer", 0x00080070, "Manufacturer", VR.kLO, VM.k1, false);
   static const Tag kInstitutionName
       //(0008,0080)
-      = const Tag._("InstitutionName", 0x00080080, "Institution Name",
-          VR.kLO, VM.k1, false);
+      = const Tag._("InstitutionName", 0x00080080, "Institution Name", VR.kLO,
+          VM.k1, false);
   static const Tag kInstitutionAddress
       //(0008,0081)
-      = const Tag._("InstitutionAddress", 0x00080081,
-          "Institution Address", VR.kST, VM.k1, false);
+      = const Tag._("InstitutionAddress", 0x00080081, "Institution Address",
+          VR.kST, VM.k1, false);
   static const Tag kInstitutionCodeSequence
       //(0008,0082)
       = const Tag._("InstitutionCodeSequence", 0x00080082,
@@ -1010,8 +1005,8 @@ class Tag {
           "Referring Physician Identification Sequence", VR.kSQ, VM.k1, false);
   static const Tag kCodeValue
       //(0008,0100)
-      = const Tag._(
-          "CodeValue", 0x00080100, "Code Value", VR.kSH, VM.k1, false);
+      =
+      const Tag._("CodeValue", 0x00080100, "Code Value", VR.kSH, VM.k1, false);
   static const Tag kExtendedCodeValue
       //(0008,0101)
       = const Tag._("ExtendedCodeValue", 0x00080101, "Extended Code Value",
@@ -1022,36 +1017,36 @@ class Tag {
           "Coding Scheme Designator", VR.kSH, VM.k1, false);
   static const Tag kCodingSchemeVersion
       //(0008,0103)
-      = const Tag._("CodingSchemeVersion", 0x00080103,
-          "Coding Scheme Version", VR.kSH, VM.k1, false);
+      = const Tag._("CodingSchemeVersion", 0x00080103, "Coding Scheme Version",
+          VR.kSH, VM.k1, false);
   static const Tag kCodeMeaning
       //(0008,0104)
       = const Tag._(
           "CodeMeaning", 0x00080104, "Code Meaning", VR.kLO, VM.k1, false);
   static const Tag kMappingResource
       //(0008,0105)
-      = const Tag._("MappingResource", 0x00080105, "Mapping Resource",
-          VR.kCS, VM.k1, false);
+      = const Tag._("MappingResource", 0x00080105, "Mapping Resource", VR.kCS,
+          VM.k1, false);
   static const Tag kContextGroupVersion
       //(0008,0106)
-      = const Tag._("ContextGroupVersion", 0x00080106,
-          "Context Group Version", VR.kDT, VM.k1, false);
+      = const Tag._("ContextGroupVersion", 0x00080106, "Context Group Version",
+          VR.kDT, VM.k1, false);
   static const Tag kContextGroupLocalVersion
       //(0008,0107)
       = const Tag._("ContextGroupLocalVersion", 0x00080107,
           "Context Group Local Version", VR.kDT, VM.k1, false);
   static const Tag kExtendedCodeMeaning
       //(0008,0108)
-      = const Tag._("ExtendedCodeMeaning", 0x00080108,
-          "Extended Code Meaning", VR.kLT, VM.k1, false);
+      = const Tag._("ExtendedCodeMeaning", 0x00080108, "Extended Code Meaning",
+          VR.kLT, VM.k1, false);
   static const Tag kContextGroupExtensionFlag
       //(0008,010B)
       = const Tag._("ContextGroupExtensionFlag", 0x0008010B,
           "Context Group Extension Flag", VR.kCS, VM.k1, false);
   static const Tag kCodingSchemeUID
       //(0008,010C)
-      = const Tag._("CodingSchemeUID", 0x0008010C, "Coding Scheme UID",
-          VR.kUI, VM.k1, false);
+      = const Tag._("CodingSchemeUID", 0x0008010C, "Coding Scheme UID", VR.kUI,
+          VM.k1, false);
   static const Tag kContextGroupExtensionCreatorUID
       //(0008,010D)
       = const Tag._("ContextGroupExtensionCreatorUID", 0x0008010D,
@@ -1089,22 +1084,16 @@ class Tag {
       = const Tag._("TimezoneOffsetFromUTC", 0x00080201,
           "Timezone Offset From UTC", VR.kSH, VM.k1, false);
 
-  static const Tag kPrivateDataElementCharacteristicsSequence =
-      const Tag._(
-          "PrivateDataElementCharacteristicsSequence",
-          0x0080300,
-          "Private​Data​Element​Characteristics​Sequence",
-          VR.kSQ,
-          VM.k1,
-          false);
-
-  static const Tag kPrivateGroupReference = const Tag._(
-      "PrivateGroupReference",
-      0x00080301,
-      "Private Group Reference",
-      VR.kUS,
+  static const Tag kPrivateDataElementCharacteristicsSequence = const Tag._(
+      "PrivateDataElementCharacteristicsSequence",
+      0x0080300,
+      "Private​Data​Element​Characteristics​Sequence",
+      VR.kSQ,
       VM.k1,
       false);
+
+  static const Tag kPrivateGroupReference = const Tag._("PrivateGroupReference",
+      0x00080301, "Private Group Reference", VR.kUS, VM.k1, false);
 
   static const Tag kPrivateCreatorReference = const Tag._(
       "PrivateCreatorReference",
@@ -1152,16 +1141,15 @@ class Tag {
       false);
   static const Tag kNetworkID
       //(0008,1000)
-      = const Tag._(
-          "NetworkID", 0x00081000, "Network ID", VR.kAE, VM.k1, true);
+      = const Tag._("NetworkID", 0x00081000, "Network ID", VR.kAE, VM.k1, true);
   static const Tag kStationName
       //(0008,1010)
       = const Tag._(
           "StationName", 0x00081010, "Station Name", VR.kSH, VM.k1, false);
   static const Tag kStudyDescription
       //(0008,1030)
-      = const Tag._("StudyDescription", 0x00081030, "Study Description",
-          VR.kLO, VM.k1, false);
+      = const Tag._("StudyDescription", 0x00081030, "Study Description", VR.kLO,
+          VM.k1, false);
   static const Tag kProcedureCodeSequence
       //(0008,1032)
       = const Tag._("ProcedureCodeSequence", 0x00081032,
@@ -1180,8 +1168,8 @@ class Tag {
           "Institutional Department Name", VR.kLO, VM.k1, false);
   static const Tag kPhysiciansOfRecord
       //(0008,1048)
-      = const Tag._("PhysiciansOfRecord", 0x00081048,
-          "Physician(s) of Record", VR.kPN, VM.k1_n, false);
+      = const Tag._("PhysiciansOfRecord", 0x00081048, "Physician(s) of Record",
+          VR.kPN, VM.k1_n, false);
   static const Tag kPhysiciansOfRecordIdentificationSequence
       //(0008,1049)
       = const Tag._(
@@ -1197,13 +1185,8 @@ class Tag {
           "Performing Physician's Name", VR.kPN, VM.k1_n, false);
   static const Tag kPerformingPhysicianIdentificationSequence
       //(0008,1052)
-      = const Tag._(
-          "PerformingPhysicianIdentificationSequence",
-          0x00081052,
-          "Performing Physician Identification Sequence",
-          VR.kSQ,
-          VM.k1,
-          false);
+      = const Tag._("PerformingPhysicianIdentificationSequence", 0x00081052,
+          "Performing Physician Identification Sequence", VR.kSQ, VM.k1, false);
   static const Tag kNameOfPhysiciansReadingStudy
       //(0008,1060)
       = const Tag._("NameOfPhysiciansReadingStudy", 0x00081060,
@@ -1304,24 +1287,23 @@ class Tag {
           "Referenced SOP Instance UID", VR.kUI, VM.k1, false);
   static const Tag kSOPClassesSupported
       //(0008,115A)
-      = const Tag._("SOPClassesSupported", 0x0008115A,
-          "SOP Classes Supported", VR.kUI, VM.k1_n, false);
+      = const Tag._("SOPClassesSupported", 0x0008115A, "SOP Classes Supported",
+          VR.kUI, VM.k1_n, false);
   static const Tag kReferencedFrameNumber
       //(0008,1160)
       = const Tag._("ReferencedFrameNumber", 0x00081160,
           "Referenced Frame Number", VR.kIS, VM.k1_n, false);
   static const Tag kSimpleFrameList
       //(0008,1161)
-      = const Tag._("SimpleFrameList", 0x00081161, "Simple Frame List",
-          VR.kUL, VM.k1_n, false);
+      = const Tag._("SimpleFrameList", 0x00081161, "Simple Frame List", VR.kUL,
+          VM.k1_n, false);
   static const Tag kCalculatedFrameList
       //(0008,1162)
-      = const Tag._("CalculatedFrameList", 0x00081162,
-          "Calculated Frame List", VR.kUL, VM.k3_3n, false);
+      = const Tag._("CalculatedFrameList", 0x00081162, "Calculated Frame List",
+          VR.kUL, VM.k3_3n, false);
   static const Tag kTimeRange
       //(0008,1163)
-      = const Tag._(
-          "TimeRange", 0x00081163, "TimeRange", VR.kFD, VM.k2, false);
+      = const Tag._("TimeRange", 0x00081163, "TimeRange", VR.kFD, VM.k2, false);
   static const Tag kFrameExtractionSequence
       //(0008,1164)
       = const Tag._("FrameExtractionSequence", 0x00081164,
@@ -1336,8 +1318,8 @@ class Tag {
           "RetrieveURL", 0x00081190, "Retrieve URL", VR.kUT, VM.k1, false);
   static const Tag kTransactionUID
       //(0008,1195)
-      = const Tag._("TransactionUID", 0x00081195, "Transaction UID",
-          VR.kUI, VM.k1, false);
+      = const Tag._("TransactionUID", 0x00081195, "Transaction UID", VR.kUI,
+          VM.k1, false);
   static const Tag kWarningReason
       //(0008,1196)
       = const Tag._(
@@ -1377,72 +1359,70 @@ class Tag {
           "Derivation Description", VR.kST, VM.k1, false);
   static const Tag kSourceImageSequence
       //(0008,2112)
-      = const Tag._("SourceImageSequence", 0x00082112,
-          "Source Image Sequence", VR.kSQ, VM.k1, false);
+      = const Tag._("SourceImageSequence", 0x00082112, "Source Image Sequence",
+          VR.kSQ, VM.k1, false);
   static const Tag kStageName
       //(0008,2120)
-      = const Tag._(
-          "StageName", 0x00082120, "Stage Name", VR.kSH, VM.k1, false);
+      =
+      const Tag._("StageName", 0x00082120, "Stage Name", VR.kSH, VM.k1, false);
   static const Tag kStageNumber
       //(0008,2122)
       = const Tag._(
           "StageNumber", 0x00082122, "Stage Number", VR.kIS, VM.k1, false);
   static const Tag kNumberOfStages
       //(0008,2124)
-      = const Tag._("NumberOfStages", 0x00082124, "Number of Stages",
-          VR.kIS, VM.k1, false);
+      = const Tag._("NumberOfStages", 0x00082124, "Number of Stages", VR.kIS,
+          VM.k1, false);
   static const Tag kViewName
       //(0008,2127)
-      = const Tag._(
-          "ViewName", 0x00082127, "View Name", VR.kSH, VM.k1, false);
+      = const Tag._("ViewName", 0x00082127, "View Name", VR.kSH, VM.k1, false);
   static const Tag kViewNumber
       //(0008,2128)
       = const Tag._(
           "ViewNumber", 0x00082128, "View Number", VR.kIS, VM.k1, false);
   static const Tag kNumberOfEventTimers
       //(0008,2129)
-      = const Tag._("NumberOfEventTimers", 0x00082129,
-          "Number of Event Timers", VR.kIS, VM.k1, false);
+      = const Tag._("NumberOfEventTimers", 0x00082129, "Number of Event Timers",
+          VR.kIS, VM.k1, false);
   static const Tag kNumberOfViewsInStage
       //(0008,212A)
       = const Tag._("NumberOfViewsInStage", 0x0008212A,
           "Number of Views in Stage", VR.kIS, VM.k1, false);
   static const Tag kEventElapsedTimes
       //(0008,2130)
-      = const Tag._("EventElapsedTimes", 0x00082130,
-          "Event Elapsed Time(s)", VR.kDS, VM.k1_n, false);
+      = const Tag._("EventElapsedTimes", 0x00082130, "Event Elapsed Time(s)",
+          VR.kDS, VM.k1_n, false);
   static const Tag kEventTimerNames
       //(0008,2132)
       = const Tag._("EventTimerNames", 0x00082132, "Event Timer Name(s)",
           VR.kLO, VM.k1_n, false);
   static const Tag kEventTimerSequence
       //(0008,2133)
-      = const Tag._("EventTimerSequence", 0x00082133,
-          "Event Timer Sequence", VR.kSQ, VM.k1, false);
+      = const Tag._("EventTimerSequence", 0x00082133, "Event Timer Sequence",
+          VR.kSQ, VM.k1, false);
   static const Tag kEventTimeOffset
       //(0008,2134)
-      = const Tag._("EventTimeOffset", 0x00082134, "Event Time Offset",
-          VR.kFD, VM.k1, false);
+      = const Tag._("EventTimeOffset", 0x00082134, "Event Time Offset", VR.kFD,
+          VM.k1, false);
   static const Tag kEventCodeSequence
       //(0008,2135)
       = const Tag._("EventCodeSequence", 0x00082135, "Event Code Sequence",
           VR.kSQ, VM.k1, false);
   static const Tag kStartTrim
       //(0008,2142)
-      = const Tag._(
-          "StartTrim", 0x00082142, "Start Trim", VR.kIS, VM.k1, false);
+      =
+      const Tag._("StartTrim", 0x00082142, "Start Trim", VR.kIS, VM.k1, false);
   static const Tag kStopTrim
       //(0008,2143)
-      = const Tag._(
-          "StopTrim", 0x00082143, "Stop Trim", VR.kIS, VM.k1, false);
+      = const Tag._("StopTrim", 0x00082143, "Stop Trim", VR.kIS, VM.k1, false);
   static const Tag kRecommendedDisplayFrameRate
       //(0008,2144)
       = const Tag._("RecommendedDisplayFrameRate", 0x00082144,
           "Recommended Display Frame Rate", VR.kIS, VM.k1, false);
   static const Tag kTransducerPosition
       //(0008,2200)
-      = const Tag._("TransducerPosition", 0x00082200,
-          "Transducer Position", VR.kCS, VM.k1, true);
+      = const Tag._("TransducerPosition", 0x00082200, "Transducer Position",
+          VR.kCS, VM.k1, true);
   static const Tag kTransducerOrientation
       //(0008,2204)
       = const Tag._("TransducerOrientation", 0x00082204,
@@ -1564,16 +1544,16 @@ class Tag {
           "Alternate Representation Sequence", VR.kSQ, VM.k1, false);
   static const Tag kIrradiationEventUID
       //(0008,3010)
-      = const Tag._("IrradiationEventUID", 0x00083010,
-          "Irradiation Event UID", VR.kUI, VM.k1_n, false);
+      = const Tag._("IrradiationEventUID", 0x00083010, "Irradiation Event UID",
+          VR.kUI, VM.k1_n, false);
   static const Tag kIdentifyingComments
       //(0008,4000)
-      = const Tag._("IdentifyingComments", 0x00084000,
-          "Identifying Comments", VR.kLT, VM.k1, true);
+      = const Tag._("IdentifyingComments", 0x00084000, "Identifying Comments",
+          VR.kLT, VM.k1, true);
   static const Tag kFrameType
       //(0008,9007)
-      = const Tag._(
-          "FrameType", 0x00089007, "Frame Type", VR.kCS, VM.k4, false);
+      =
+      const Tag._("FrameType", 0x00089007, "Frame Type", VR.kCS, VM.k4, false);
   static const Tag kReferencedImageEvidenceSequence
       //(0008,9092)
       = const Tag._("ReferencedImageEvidenceSequence", 0x00089092,
@@ -1600,8 +1580,8 @@ class Tag {
           VR.kCS, VM.k1, false);
   static const Tag kVolumetricProperties
       //(0008,9206)
-      = const Tag._("VolumetricProperties", 0x00089206,
-          "Volumetric Properties", VR.kCS, VM.k1, false);
+      = const Tag._("VolumetricProperties", 0x00089206, "Volumetric Properties",
+          VR.kCS, VM.k1, false);
   static const Tag kVolumeBasedCalculationTechnique
       //(0008,9207)
       = const Tag._("VolumeBasedCalculationTechnique", 0x00089207,
@@ -1612,8 +1592,8 @@ class Tag {
           "Complex Image Component", VR.kCS, VM.k1, false);
   static const Tag kAcquisitionContrast
       //(0008,9209)
-      = const Tag._("AcquisitionContrast", 0x00089209,
-          "Acquisition Contrast", VR.kCS, VM.k1, false);
+      = const Tag._("AcquisitionContrast", 0x00089209, "Acquisition Contrast",
+          VR.kCS, VM.k1, false);
   static const Tag kDerivationCodeSequence
       //(0008,9215)
       = const Tag._("DerivationCodeSequence", 0x00089215,
@@ -1636,24 +1616,24 @@ class Tag {
           "Recommended Display Frame Rate in Float", VR.kFL, VM.k1, false);
   static const Tag kSkipFrameRangeFlag
       //(0008,9460)
-      = const Tag._("SkipFrameRangeFlag", 0x00089460,
-          "Skip Frame Range Flag", VR.kCS, VM.k1, false);
+      = const Tag._("SkipFrameRangeFlag", 0x00089460, "Skip Frame Range Flag",
+          VR.kCS, VM.k1, false);
   static const Tag kPatientName
       //(0010,0010)
       = const Tag._(
           "PatientName", 0x00100010, "Patient's Name", VR.kPN, VM.k1, false);
   static const Tag kPatientID
       //(0010,0020)
-      = const Tag._(
-          "PatientID", 0x00100020, "Patient ID", VR.kLO, VM.k1, false);
+      =
+      const Tag._("PatientID", 0x00100020, "Patient ID", VR.kLO, VM.k1, false);
   static const Tag kIssuerOfPatientID
       //(0010,0021)
-      = const Tag._("IssuerOfPatientID", 0x00100021,
-          "Issuer of Patient ID", VR.kLO, VM.k1, false);
+      = const Tag._("IssuerOfPatientID", 0x00100021, "Issuer of Patient ID",
+          VR.kLO, VM.k1, false);
   static const Tag kTypeOfPatientID
       //(0010,0022)
-      = const Tag._("TypeOfPatientID", 0x00100022, "Type of Patient ID",
-          VR.kCS, VM.k1, false);
+      = const Tag._("TypeOfPatientID", 0x00100022, "Type of Patient ID", VR.kCS,
+          VM.k1, false);
   static const Tag kIssuerOfPatientIDQualifiersSequence
       //(0010,0024)
       = const Tag._("IssuerOfPatientIDQualifiersSequence", 0x00100024,
@@ -1697,8 +1677,8 @@ class Tag {
           "Quality Control Subject Type Code Sequence", VR.kSQ, VM.k1, false);
   static const Tag kOtherPatientIDs
       //(0010,1000)
-      = const Tag._("OtherPatientIDs", 0x00101000, "Other Patient IDs",
-          VR.kLO, VM.k1_n, false);
+      = const Tag._("OtherPatientIDs", 0x00101000, "Other Patient IDs", VR.kLO,
+          VM.k1_n, false);
   static const Tag kOtherPatientNames
       //(0010,1001)
       = const Tag._("OtherPatientNames", 0x00101001, "Other Patient Names",
@@ -1725,12 +1705,12 @@ class Tag {
           "Patient's Size Code Sequence", VR.kSQ, VM.k1, false);
   static const Tag kPatientWeight
       //(0010,1030)
-      = const Tag._("PatientWeight", 0x00101030, "Patient's Weight",
-          VR.kDS, VM.k1, false);
+      = const Tag._("PatientWeight", 0x00101030, "Patient's Weight", VR.kDS,
+          VM.k1, false);
   static const Tag kPatientAddress
       //(0010,1040)
-      = const Tag._("PatientAddress", 0x00101040, "Patient's Address",
-          VR.kLO, VM.k1, false);
+      = const Tag._("PatientAddress", 0x00101040, "Patient's Address", VR.kLO,
+          VM.k1, false);
   static const Tag kInsurancePlanIdentification
       //(0010,1050)
       = const Tag._("InsurancePlanIdentification", 0x00101050,
@@ -1745,8 +1725,8 @@ class Tag {
           "MilitaryRank", 0x00101080, "Military Rank", VR.kLO, VM.k1, false);
   static const Tag kBranchOfService
       //(0010,1081)
-      = const Tag._("BranchOfService", 0x00101081, "Branch of Service",
-          VR.kLO, VM.k1, false);
+      = const Tag._("BranchOfService", 0x00101081, "Branch of Service", VR.kLO,
+          VM.k1, false);
   static const Tag kMedicalRecordLocator
       //(0010,1090)
       = const Tag._("MedicalRecordLocator", 0x00101090,
@@ -1765,12 +1745,12 @@ class Tag {
           VM.k1_n, false);
   static const Tag kAllergies
       //(0010,2110)
-      = const Tag._(
-          "Allergies", 0x00102110, "Allergies", VR.kLO, VM.k1_n, false);
+      =
+      const Tag._("Allergies", 0x00102110, "Allergies", VR.kLO, VM.k1_n, false);
   static const Tag kCountryOfResidence
       //(0010,2150)
-      = const Tag._("CountryOfResidence", 0x00102150,
-          "Country of Residence", VR.kLO, VM.k1, false);
+      = const Tag._("CountryOfResidence", 0x00102150, "Country of Residence",
+          VR.kLO, VM.k1, false);
   static const Tag kRegionOfResidence
       //(0010,2152)
       = const Tag._("RegionOfResidence", 0x00102152, "Region of Residence",
@@ -1785,8 +1765,8 @@ class Tag {
           "EthnicGroup", 0x00102160, "Ethnic Group", VR.kSH, VM.k1, false);
   static const Tag kOccupation
       //(0010,2180)
-      = const Tag._(
-          "Occupation", 0x00102180, "Occupation", VR.kSH, VM.k1, false);
+      =
+      const Tag._("Occupation", 0x00102180, "Occupation", VR.kSH, VM.k1, false);
   static const Tag kSmokingStatus
       //(0010,21A0)
       = const Tag._(
@@ -1797,8 +1777,8 @@ class Tag {
           "Additional Patient History", VR.kLT, VM.k1, false);
   static const Tag kPregnancyStatus
       //(0010,21C0)
-      = const Tag._("PregnancyStatus", 0x001021C0, "Pregnancy Status",
-          VR.kUS, VM.k1, false);
+      = const Tag._("PregnancyStatus", 0x001021C0, "Pregnancy Status", VR.kUS,
+          VM.k1, false);
   static const Tag kLastMenstrualDate
       //(0010,21D0)
       = const Tag._("LastMenstrualDate", 0x001021D0, "Last Menstrual Date",
@@ -1817,8 +1797,8 @@ class Tag {
           "Patient Species Code Sequence", VR.kSQ, VM.k1, false);
   static const Tag kPatientSexNeutered
       //(0010,2203)
-      = const Tag._("PatientSexNeutered", 0x00102203,
-          "Patient's Sex Neutered", VR.kCS, VM.k1, false);
+      = const Tag._("PatientSexNeutered", 0x00102203, "Patient's Sex Neutered",
+          VR.kCS, VM.k1, false);
   static const Tag kAnatomicalOrientationType
       //(0010,2210)
       = const Tag._("AnatomicalOrientationType", 0x00102210,
@@ -1857,8 +1837,8 @@ class Tag {
           "Responsible Organization", VR.kLO, VM.k1, false);
   static const Tag kPatientComments
       //(0010,4000)
-      = const Tag._("PatientComments", 0x00104000, "Patient Comments",
-          VR.kLT, VM.k1, false);
+      = const Tag._("PatientComments", 0x00104000, "Patient Comments", VR.kLT,
+          VM.k1, false);
   static const Tag kExaminedBodyThickness
       //(0010,9431)
       = const Tag._("ExaminedBodyThickness", 0x00109431,
@@ -1877,8 +1857,8 @@ class Tag {
           "Clinical Trial Protocol Name", VR.kLO, VM.k1, false);
   static const Tag kClinicalTrialSiteID
       //(0012,0030)
-      = const Tag._("ClinicalTrialSiteID", 0x00120030,
-          "Clinical Trial Site ID", VR.kLO, VM.k1, false);
+      = const Tag._("ClinicalTrialSiteID", 0x00120030, "Clinical Trial Site ID",
+          VR.kLO, VM.k1, false);
   static const Tag kClinicalTrialSiteName
       //(0012,0031)
       = const Tag._("ClinicalTrialSiteName", 0x00120031,
@@ -1947,8 +1927,8 @@ class Tag {
           "Consent for Clinical Trial Use Sequence", VR.kSQ, VM.k1, false);
   static const Tag kDistributionType
       //(0012,0084)
-      = const Tag._("DistributionType", 0x00120084, "Distribution Type",
-          VR.kCS, VM.k1, false);
+      = const Tag._("DistributionType", 0x00120084, "Distribution Type", VR.kCS,
+          VM.k1, false);
   static const Tag kConsentForDistributionFlag
       //(0012,0085)
       = const Tag._("ConsentForDistributionFlag", 0x00120085,
@@ -1999,8 +1979,8 @@ class Tag {
           "MaterialNotes", 0x00140046, "Material Notes", VR.kLT, VM.k1, false);
   static const Tag kComponentShape
       //(0014,0050)
-      = const Tag._("ComponentShape", 0x00140050, "Component Shape",
-          VR.kCS, VM.k1, false);
+      = const Tag._("ComponentShape", 0x00140050, "Component Shape", VR.kCS,
+          VM.k1, false);
   static const Tag kCurvatureType
       //(0014,0052)
       = const Tag._(
@@ -2031,8 +2011,8 @@ class Tag {
           VR.kSQ, VM.k1, false);
   static const Tag kEvaluatorNumber
       //(0014,2004)
-      = const Tag._("EvaluatorNumber", 0x00142004, "Evaluator Number",
-          VR.kIS, VM.k1, false);
+      = const Tag._("EvaluatorNumber", 0x00142004, "Evaluator Number", VR.kIS,
+          VM.k1, false);
   static const Tag kEvaluatorName
       //(0014,2006)
       = const Tag._(
@@ -2043,24 +2023,24 @@ class Tag {
           VR.kIS, VM.k1, false);
   static const Tag kIndicationSequence
       //(0014,2012)
-      = const Tag._("IndicationSequence", 0x00142012,
-          "Indication Sequence", VR.kSQ, VM.k1, false);
+      = const Tag._("IndicationSequence", 0x00142012, "Indication Sequence",
+          VR.kSQ, VM.k1, false);
   static const Tag kIndicationNumber
       //(0014,2014)
-      = const Tag._("IndicationNumber", 0x00142014, "Indication Number",
-          VR.kIS, VM.k1, false);
+      = const Tag._("IndicationNumber", 0x00142014, "Indication Number", VR.kIS,
+          VM.k1, false);
   static const Tag kIndicationLabel
       //(0014,2016)
-      = const Tag._("IndicationLabel", 0x00142016, "Indication Label",
-          VR.kSH, VM.k1, false);
+      = const Tag._("IndicationLabel", 0x00142016, "Indication Label", VR.kSH,
+          VM.k1, false);
   static const Tag kIndicationDescription
       //(0014,2018)
       = const Tag._("IndicationDescription", 0x00142018,
           "Indication Description", VR.kST, VM.k1, false);
   static const Tag kIndicationType
       //(0014,201A)
-      = const Tag._("IndicationType", 0x0014201A, "Indication Type",
-          VR.kCS, VM.k1_n, false);
+      = const Tag._("IndicationType", 0x0014201A, "Indication Type", VR.kCS,
+          VM.k1_n, false);
   static const Tag kIndicationDisposition
       //(0014,201C)
       = const Tag._("IndicationDisposition", 0x0014201C,
@@ -2115,8 +2095,8 @@ class Tag {
           "Coordinate System Transform Sequence", VR.kSQ, VM.k1, false);
   static const Tag kTransformDescription
       //(0014,2222)
-      = const Tag._("TransformDescription", 0x00142222,
-          "Transform Description", VR.kST, VM.k1, false);
+      = const Tag._("TransformDescription", 0x00142222, "Transform Description",
+          VR.kST, VM.k1, false);
   static const Tag kTransformNumberOfAxes
       //(0014,2224)
       = const Tag._("TransformNumberOfAxes", 0x00142224,
@@ -2177,8 +2157,8 @@ class Tag {
           VR.kDS, VM.k1, false);
   static const Tag kDarkCurrentSequence
       //(0014,3040)
-      = const Tag._("DarkCurrentSequence", 0x00143040,
-          "Dark Current Sequence", VR.kSQ, VM.k1, false);
+      = const Tag._("DarkCurrentSequence", 0x00143040, "Dark Current Sequence",
+          VR.kSQ, VM.k1, false);
   static const Tag kDarkCurrentCounts
       //(0014,3050)
       = const Tag._("DarkCurrentCounts", 0x00143050, "Dark Current Counts",
@@ -2225,8 +2205,8 @@ class Tag {
           "BadPixelImage", 0x00143080, "Bad Pixel Image", VR.kOB, VM.k1, false);
   static const Tag kCalibrationNotes
       //(0014,3099)
-      = const Tag._("CalibrationNotes", 0x00143099, "Calibration Notes",
-          VR.kLT, VM.k1, false);
+      = const Tag._("CalibrationNotes", 0x00143099, "Calibration Notes", VR.kLT,
+          VM.k1, false);
   static const Tag kPulserEquipmentSequence
       //(0014,4002)
       = const Tag._("PulserEquipmentSequence", 0x00144002,
@@ -2301,8 +2281,8 @@ class Tag {
           "Location of Measured Beam Diameter", VR.kDS, VM.k1, false);
   static const Tag kNominalFrequency
       //(0014,401A)
-      = const Tag._("NominalFrequency", 0x0014401A, "Nominal Frequency",
-          VR.kDS, VM.k1, false);
+      = const Tag._("NominalFrequency", 0x0014401A, "Nominal Frequency", VR.kDS,
+          VM.k1, false);
   static const Tag kMeasuredCenterFrequency
       //(0014,401B)
       = const Tag._("MeasuredCenterFrequency", 0x0014401B,
@@ -2325,16 +2305,15 @@ class Tag {
           "PulseWidth", 0x00144022, "Pulse Width", VR.kDS, VM.k1, false);
   static const Tag kExcitationFrequency
       //(0014,4024)
-      = const Tag._("ExcitationFrequency", 0x00144024,
-          "Excitation Frequency", VR.kDS, VM.k1, false);
+      = const Tag._("ExcitationFrequency", 0x00144024, "Excitation Frequency",
+          VR.kDS, VM.k1, false);
   static const Tag kModulationType
       //(0014,4026)
-      = const Tag._("ModulationType", 0x00144026, "Modulation Type",
-          VR.kCS, VM.k1, false);
+      = const Tag._("ModulationType", 0x00144026, "Modulation Type", VR.kCS,
+          VM.k1, false);
   static const Tag kDamping
       //(0014,4028)
-      =
-      const Tag._("Damping", 0x00144028, "Damping", VR.kDS, VM.k1, false);
+      = const Tag._("Damping", 0x00144028, "Damping", VR.kDS, VM.k1, false);
   static const Tag kReceiverSettingsSequence
       //(0014,4030)
       = const Tag._("ReceiverSettingsSequence", 0x00144030,
@@ -2353,16 +2332,15 @@ class Tag {
           "Acquisition Sample Size", VR.kIS, VM.k1, false);
   static const Tag kRectifierSmoothing
       //(0014,4034)
-      = const Tag._("RectifierSmoothing", 0x00144034,
-          "Rectifier Smoothing", VR.kDS, VM.k1, false);
+      = const Tag._("RectifierSmoothing", 0x00144034, "Rectifier Smoothing",
+          VR.kDS, VM.k1, false);
   static const Tag kDACSequence
       //(0014,4035)
       = const Tag._(
           "DACSequence", 0x00144035, "DAC Sequence", VR.kSQ, VM.k1, false);
   static const Tag kDACType
       //(0014,4036)
-      =
-      const Tag._("DACType", 0x00144036, "DAC Type", VR.kCS, VM.k1, false);
+      = const Tag._("DACType", 0x00144036, "DAC Type", VR.kCS, VM.k1, false);
   static const Tag kDACGainPoints
       //(0014,4038)
       = const Tag._("DACGainPoints", 0x00144038, "DAC Gain Points", VR.kDS,
@@ -2397,12 +2375,12 @@ class Tag {
           VR.kST, VM.k1, false);
   static const Tag kCouplingMedium
       //(0014,4056)
-      = const Tag._("CouplingMedium", 0x00144056, "Coupling Medium",
-          VR.kST, VM.k1, false);
+      = const Tag._("CouplingMedium", 0x00144056, "Coupling Medium", VR.kST,
+          VM.k1, false);
   static const Tag kCouplingVelocity
       //(0014,4057)
-      = const Tag._("CouplingVelocity", 0x00144057, "Coupling Velocity",
-          VR.kDS, VM.k1, false);
+      = const Tag._("CouplingVelocity", 0x00144057, "Coupling Velocity", VR.kDS,
+          VM.k1, false);
   static const Tag kProbeCenterLocationX
       //(0014,4058)
       = const Tag._("ProbeCenterLocationX", 0x00144058,
@@ -2413,12 +2391,12 @@ class Tag {
           "Probe Center Location Z", VR.kDS, VM.k1, false);
   static const Tag kSoundPathLength
       //(0014,405A)
-      = const Tag._("SoundPathLength", 0x0014405A, "Sound Path Length",
-          VR.kDS, VM.k1, false);
+      = const Tag._("SoundPathLength", 0x0014405A, "Sound Path Length", VR.kDS,
+          VM.k1, false);
   static const Tag kDelayLawIdentifier
       //(0014,405C)
-      = const Tag._("DelayLawIdentifier", 0x0014405C,
-          "Delay Law Identifier", VR.kST, VM.k1, false);
+      = const Tag._("DelayLawIdentifier", 0x0014405C, "Delay Law Identifier",
+          VR.kST, VM.k1, false);
   static const Tag kGateSettingsSequence
       //(0014,4060)
       = const Tag._("GateSettingsSequence", 0x00144060,
@@ -2429,20 +2407,20 @@ class Tag {
           "GateThreshold", 0x00144062, "Gate Threshold", VR.kDS, VM.k1, false);
   static const Tag kVelocityOfSound
       //(0014,4064)
-      = const Tag._("VelocityOfSound", 0x00144064, "Velocity of Sound",
-          VR.kDS, VM.k1, false);
+      = const Tag._("VelocityOfSound", 0x00144064, "Velocity of Sound", VR.kDS,
+          VM.k1, false);
   static const Tag kCalibrationSettingsSequence
       //(0014,4070)
       = const Tag._("CalibrationSettingsSequence", 0x00144070,
           "Calibration Settings Sequence", VR.kSQ, VM.k1, false);
   static const Tag kCalibrationProcedure
       //(0014,4072)
-      = const Tag._("CalibrationProcedure", 0x00144072,
-          "Calibration Procedure", VR.kST, VM.k1, false);
+      = const Tag._("CalibrationProcedure", 0x00144072, "Calibration Procedure",
+          VR.kST, VM.k1, false);
   static const Tag kProcedureVersion
       //(0014,4074)
-      = const Tag._("ProcedureVersion", 0x00144074, "Procedure Version",
-          VR.kSH, VM.k1, false);
+      = const Tag._("ProcedureVersion", 0x00144074, "Procedure Version", VR.kSH,
+          VM.k1, false);
   static const Tag kProcedureCreationDate
       //(0014,4076)
       = const Tag._("ProcedureCreationDate", 0x00144076,
@@ -2457,36 +2435,36 @@ class Tag {
           "Procedure Last Modified Date", VR.kDA, VM.k1, false);
   static const Tag kCalibrationTime
       //(0014,407C)
-      = const Tag._("CalibrationTime", 0x0014407C, "Calibration Time",
-          VR.kTM, VM.k1_n, false);
+      = const Tag._("CalibrationTime", 0x0014407C, "Calibration Time", VR.kTM,
+          VM.k1_n, false);
   static const Tag kCalibrationDate
       //(0014,407E)
-      = const Tag._("CalibrationDate", 0x0014407E, "Calibration Date",
-          VR.kDA, VM.k1_n, false);
+      = const Tag._("CalibrationDate", 0x0014407E, "Calibration Date", VR.kDA,
+          VM.k1_n, false);
   static const Tag kProbeDriveEquipmentSequence
       //(0014,4080)
       = const Tag._("ProbeDriveEquipmentSequence", 0x00144080,
           "Probe Drive Equipment Sequence", VR.kSQ, VM.k1, false);
   static const Tag kDriveType
       //(0014,4081)
-      = const Tag._(
-          "DriveType", 0x00144081, "Drive Type", VR.kCS, VM.k1, false);
+      =
+      const Tag._("DriveType", 0x00144081, "Drive Type", VR.kCS, VM.k1, false);
   static const Tag kProbeDriveNotes
       //(0014,4082)
-      = const Tag._("ProbeDriveNotes", 0x00144082, "Probe Drive Notes",
-          VR.kLT, VM.k1, false);
+      = const Tag._("ProbeDriveNotes", 0x00144082, "Probe Drive Notes", VR.kLT,
+          VM.k1, false);
   static const Tag kDriveProbeSequence
       //(0014,4083)
-      = const Tag._("DriveProbeSequence", 0x00144083,
-          "Drive Probe Sequence", VR.kSQ, VM.k1, false);
+      = const Tag._("DriveProbeSequence", 0x00144083, "Drive Probe Sequence",
+          VR.kSQ, VM.k1, false);
   static const Tag kProbeInductance
       //(0014,4084)
-      = const Tag._("ProbeInductance", 0x00144084, "Probe Inductance",
-          VR.kDS, VM.k1, false);
+      = const Tag._("ProbeInductance", 0x00144084, "Probe Inductance", VR.kDS,
+          VM.k1, false);
   static const Tag kProbeResistance
       //(0014,4085)
-      = const Tag._("ProbeResistance", 0x00144085, "Probe Resistance",
-          VR.kDS, VM.k1, false);
+      = const Tag._("ProbeResistance", 0x00144085, "Probe Resistance", VR.kDS,
+          VM.k1, false);
   static const Tag kReceiveProbeSequence
       //(0014,4086)
       = const Tag._("ReceiveProbeSequence", 0x00144086,
@@ -2497,36 +2475,36 @@ class Tag {
           "Probe Drive Settings Sequence", VR.kSQ, VM.k1, false);
   static const Tag kBridgeResistors
       //(0014,4088)
-      = const Tag._("BridgeResistors", 0x00144088, "Bridge Resistors",
-          VR.kDS, VM.k1, false);
+      = const Tag._("BridgeResistors", 0x00144088, "Bridge Resistors", VR.kDS,
+          VM.k1, false);
   static const Tag kProbeOrientationAngle
       //(0014,4089)
       = const Tag._("ProbeOrientationAngle", 0x00144089,
           "Probe Orientation Angle", VR.kDS, VM.k1, false);
   static const Tag kUserSelectedGainY
       //(0014,408B)
-      = const Tag._("UserSelectedGainY", 0x0014408B,
-          "User Selected Gain Y", VR.kDS, VM.k1, false);
+      = const Tag._("UserSelectedGainY", 0x0014408B, "User Selected Gain Y",
+          VR.kDS, VM.k1, false);
   static const Tag kUserSelectedPhase
       //(0014,408C)
       = const Tag._("UserSelectedPhase", 0x0014408C, "User Selected Phase",
           VR.kDS, VM.k1, false);
   static const Tag kUserSelectedOffsetX
       //(0014,408D)
-      = const Tag._("UserSelectedOffsetX", 0x0014408D,
-          "User Selected Offset X", VR.kDS, VM.k1, false);
+      = const Tag._("UserSelectedOffsetX", 0x0014408D, "User Selected Offset X",
+          VR.kDS, VM.k1, false);
   static const Tag kUserSelectedOffsetY
       //(0014,408E)
-      = const Tag._("UserSelectedOffsetY", 0x0014408E,
-          "User Selected Offset Y", VR.kDS, VM.k1, false);
+      = const Tag._("UserSelectedOffsetY", 0x0014408E, "User Selected Offset Y",
+          VR.kDS, VM.k1, false);
   static const Tag kChannelSettingsSequence
       //(0014,4091)
       = const Tag._("ChannelSettingsSequence", 0x00144091,
           "Channel Settings Sequence", VR.kSQ, VM.k1, false);
   static const Tag kChannelThreshold
       //(0014,4092)
-      = const Tag._("ChannelThreshold", 0x00144092, "Channel Threshold",
-          VR.kDS, VM.k1, false);
+      = const Tag._("ChannelThreshold", 0x00144092, "Channel Threshold", VR.kDS,
+          VM.k1, false);
   static const Tag kScannerSettingsSequence
       //(0014,409A)
       = const Tag._("ScannerSettingsSequence", 0x0014409A,
@@ -2545,8 +2523,8 @@ class Tag {
           VR.kDS, VM.k1, false);
   static const Tag kChannelOverlap
       //(0014,409F)
-      = const Tag._("ChannelOverlap", 0x0014409F, "Channel Overlap",
-          VR.kDS, VM.k1, false);
+      = const Tag._("ChannelOverlap", 0x0014409F, "Channel Overlap", VR.kDS,
+          VM.k1, false);
   static const Tag kImageQualityIndicatorType
       //(0014,40A0)
       = const Tag._("ImageQualityIndicatorType", 0x001440A0,
@@ -2569,8 +2547,8 @@ class Tag {
           "LINACOutput", 0x00145004, "LINAC Output", VR.kIS, VM.k1, false);
   static const Tag kContrastBolusAgent
       //(0018,0010)
-      = const Tag._("ContrastBolusAgent", 0x00180010,
-          "Contrast/Bolus Agent", VR.kLO, VM.k1, false);
+      = const Tag._("ContrastBolusAgent", 0x00180010, "Contrast/Bolus Agent",
+          VR.kLO, VM.k1, false);
   static const Tag kContrastBolusAgentSequence
       //(0018,0012)
       = const Tag._("ContrastBolusAgentSequence", 0x00180012,
@@ -2585,12 +2563,12 @@ class Tag {
           VR.kCS, VM.k1, false);
   static const Tag kScanningSequence
       //(0018,0020)
-      = const Tag._("ScanningSequence", 0x00180020, "Scanning Sequence",
-          VR.kCS, VM.k1_n, false);
+      = const Tag._("ScanningSequence", 0x00180020, "Scanning Sequence", VR.kCS,
+          VM.k1_n, false);
   static const Tag kSequenceVariant
       //(0018,0021)
-      = const Tag._("SequenceVariant", 0x00180021, "Sequence Variant",
-          VR.kCS, VM.k1_n, false);
+      = const Tag._("SequenceVariant", 0x00180021, "Sequence Variant", VR.kCS,
+          VM.k1_n, false);
   static const Tag kScanOptions
       //(0018,0022)
       = const Tag._(
@@ -2605,8 +2583,8 @@ class Tag {
           "SequenceName", 0x00180024, "Sequence Name", VR.kSH, VM.k1, false);
   static const Tag kAngioFlag
       //(0018,0025)
-      = const Tag._(
-          "AngioFlag", 0x00180025, "Angio Flag", VR.kCS, VM.k1, false);
+      =
+      const Tag._("AngioFlag", 0x00180025, "Angio Flag", VR.kCS, VM.k1, false);
   static const Tag kInterventionDrugInformationSequence
       //(0018,0026)
       = const Tag._("InterventionDrugInformationSequence", 0x00180026,
@@ -2633,8 +2611,8 @@ class Tag {
           "Radionuclide", 0x00180030, "Radionuclide", VR.kLO, VM.k1_n, true);
   static const Tag kRadiopharmaceutical
       //(0018,0031)
-      = const Tag._("Radiopharmaceutical", 0x00180031,
-          "Radiopharmaceutical", VR.kLO, VM.k1, false);
+      = const Tag._("Radiopharmaceutical", 0x00180031, "Radiopharmaceutical",
+          VR.kLO, VM.k1, false);
   static const Tag kEnergyWindowCenterline
       //(0018,0032)
       = const Tag._("EnergyWindowCenterline", 0x00180032,
@@ -2653,36 +2631,35 @@ class Tag {
           "Intervention Drug Start Time", VR.kTM, VM.k1, false);
   static const Tag kInterventionSequence
       //(0018,0036)
-      = const Tag._("InterventionSequence", 0x00180036,
-          "Intervention Sequence", VR.kSQ, VM.k1, false);
+      = const Tag._("InterventionSequence", 0x00180036, "Intervention Sequence",
+          VR.kSQ, VM.k1, false);
   static const Tag kTherapyType
       //(0018,0037)
       = const Tag._(
           "TherapyType", 0x00180037, "Therapy Type", VR.kCS, VM.k1, true);
   static const Tag kInterventionStatus
       //(0018,0038)
-      = const Tag._("InterventionStatus", 0x00180038,
-          "Intervention Status", VR.kCS, VM.k1, false);
+      = const Tag._("InterventionStatus", 0x00180038, "Intervention Status",
+          VR.kCS, VM.k1, false);
   static const Tag kTherapyDescription
       //(0018,0039)
-      = const Tag._("TherapyDescription", 0x00180039,
-          "Therapy Description", VR.kCS, VM.k1, true);
+      = const Tag._("TherapyDescription", 0x00180039, "Therapy Description",
+          VR.kCS, VM.k1, true);
   static const Tag kInterventionDescription
       //(0018,003A)
       = const Tag._("InterventionDescription", 0x0018003A,
           "Intervention Description", VR.kST, VM.k1, false);
   static const Tag kCineRate
       //(0018,0040)
-      = const Tag._(
-          "CineRate", 0x00180040, "Cine Rate", VR.kIS, VM.k1, false);
+      = const Tag._("CineRate", 0x00180040, "Cine Rate", VR.kIS, VM.k1, false);
   static const Tag kInitialCineRunState
       //(0018,0042)
-      = const Tag._("InitialCineRunState", 0x00180042,
-          "Initial Cine Run State", VR.kCS, VM.k1, false);
+      = const Tag._("InitialCineRunState", 0x00180042, "Initial Cine Run State",
+          VR.kCS, VM.k1, false);
   static const Tag kSliceThickness
       //(0018,0050)
-      = const Tag._("SliceThickness", 0x00180050, "Slice Thickness",
-          VR.kDS, VM.k1, false);
+      = const Tag._("SliceThickness", 0x00180050, "Slice Thickness", VR.kDS,
+          VM.k1, false);
   static const Tag kKVP
       //(0018,0060)
       = const Tag._("KVP", 0x00180060, "KVP", VR.kDS, VM.k1, false);
@@ -2712,12 +2689,11 @@ class Tag {
           "Acquisition Termination Condition Data", VR.kIS, VM.k1, false);
   static const Tag kRepetitionTime
       //(0018,0080)
-      = const Tag._("RepetitionTime", 0x00180080, "Repetition Time",
-          VR.kDS, VM.k1, false);
+      = const Tag._("RepetitionTime", 0x00180080, "Repetition Time", VR.kDS,
+          VM.k1, false);
   static const Tag kEchoTime
       //(0018,0081)
-      = const Tag._(
-          "EchoTime", 0x00180081, "Echo Time", VR.kDS, VM.k1, false);
+      = const Tag._("EchoTime", 0x00180081, "Echo Time", VR.kDS, VM.k1, false);
   static const Tag kInversionTime
       //(0018,0082)
       = const Tag._(
@@ -2728,8 +2704,8 @@ class Tag {
           VR.kDS, VM.k1, false);
   static const Tag kImagingFrequency
       //(0018,0084)
-      = const Tag._("ImagingFrequency", 0x00180084, "Imaging Frequency",
-          VR.kDS, VM.k1, false);
+      = const Tag._("ImagingFrequency", 0x00180084, "Imaging Frequency", VR.kDS,
+          VM.k1, false);
   static const Tag kImagedNucleus
       //(0018,0085)
       = const Tag._(
@@ -2756,36 +2732,34 @@ class Tag {
           "Data Collection Diameter", VR.kDS, VM.k1, false);
   static const Tag kEchoTrainLength
       //(0018,0091)
-      = const Tag._("EchoTrainLength", 0x00180091, "Echo Train Length",
-          VR.kIS, VM.k1, false);
+      = const Tag._("EchoTrainLength", 0x00180091, "Echo Train Length", VR.kIS,
+          VM.k1, false);
   static const Tag kPercentSampling
       //(0018,0093)
-      = const Tag._("PercentSampling", 0x00180093, "Percent Sampling",
-          VR.kDS, VM.k1, false);
+      = const Tag._("PercentSampling", 0x00180093, "Percent Sampling", VR.kDS,
+          VM.k1, false);
   static const Tag kPercentPhaseFieldOfView
       //(0018,0094)
       = const Tag._("PercentPhaseFieldOfView", 0x00180094,
           "Percent Phase Field of View", VR.kDS, VM.k1, false);
   static const Tag kPixelBandwidth
       //(0018,0095)
-      = const Tag._("PixelBandwidth", 0x00180095, "Pixel Bandwidth",
-          VR.kDS, VM.k1, false);
+      = const Tag._("PixelBandwidth", 0x00180095, "Pixel Bandwidth", VR.kDS,
+          VM.k1, false);
   static const Tag kDeviceSerialNumber
       //(0018,1000)
-      = const Tag._("DeviceSerialNumber", 0x00181000,
-          "Device Serial Number", VR.kLO, VM.k1, false);
+      = const Tag._("DeviceSerialNumber", 0x00181000, "Device Serial Number",
+          VR.kLO, VM.k1, false);
   static const Tag kDeviceUID
       //(0018,1002)
-      = const Tag._(
-          "DeviceUID", 0x00181002, "Device UID", VR.kUI, VM.k1, false);
+      =
+      const Tag._("DeviceUID", 0x00181002, "Device UID", VR.kUI, VM.k1, false);
   static const Tag kDeviceID
       //(0018,1003)
-      = const Tag._(
-          "DeviceID", 0x00181003, "Device ID", VR.kLO, VM.k1, false);
+      = const Tag._("DeviceID", 0x00181003, "Device ID", VR.kLO, VM.k1, false);
   static const Tag kPlateID
       //(0018,1004)
-      =
-      const Tag._("PlateID", 0x00181004, "Plate ID", VR.kLO, VM.k1, false);
+      = const Tag._("PlateID", 0x00181004, "Plate ID", VR.kLO, VM.k1, false);
   static const Tag kGeneratorID
       //(0018,1005)
       = const Tag._(
@@ -2799,8 +2773,7 @@ class Tag {
           "CassetteID", 0x00181007, "Cassette ID", VR.kLO, VM.k1, false);
   static const Tag kGantryID
       //(0018,1008)
-      = const Tag._(
-          "GantryID", 0x00181008, "Gantry ID", VR.kLO, VM.k1, false);
+      = const Tag._("GantryID", 0x00181008, "Gantry ID", VR.kLO, VM.k1, false);
   static const Tag kSecondaryCaptureDeviceID
       //(0018,1010)
       = const Tag._("SecondaryCaptureDeviceID", 0x00181010,
@@ -2864,12 +2837,12 @@ class Tag {
           "ProtocolName", 0x00181030, "Protocol Name", VR.kLO, VM.k1, false);
   static const Tag kContrastBolusRoute
       //(0018,1040)
-      = const Tag._("ContrastBolusRoute", 0x00181040,
-          "Contrast/Bolus Route", VR.kLO, VM.k1, false);
+      = const Tag._("ContrastBolusRoute", 0x00181040, "Contrast/Bolus Route",
+          VR.kLO, VM.k1, false);
   static const Tag kContrastBolusVolume
       //(0018,1041)
-      = const Tag._("ContrastBolusVolume", 0x00181041,
-          "Contrast/Bolus Volume", VR.kDS, VM.k1, false);
+      = const Tag._("ContrastBolusVolume", 0x00181041, "Contrast/Bolus Volume",
+          VR.kDS, VM.k1, false);
   static const Tag kContrastBolusStartTime
       //(0018,1042)
       = const Tag._("ContrastBolusStartTime", 0x00181042,
@@ -2912,24 +2885,24 @@ class Tag {
           "TriggerTime", 0x00181060, "Trigger Time", VR.kDS, VM.k1, false);
   static const Tag kTriggerSourceOrType
       //(0018,1061)
-      = const Tag._("TriggerSourceOrType", 0x00181061,
-          "Trigger Source or Type", VR.kLO, VM.k1, false);
+      = const Tag._("TriggerSourceOrType", 0x00181061, "Trigger Source or Type",
+          VR.kLO, VM.k1, false);
   static const Tag kNominalInterval
       //(0018,1062)
-      = const Tag._("NominalInterval", 0x00181062, "Nominal Interval",
-          VR.kIS, VM.k1, false);
+      = const Tag._("NominalInterval", 0x00181062, "Nominal Interval", VR.kIS,
+          VM.k1, false);
   static const Tag kFrameTime
       //(0018,1063)
-      = const Tag._(
-          "FrameTime", 0x00181063, "Frame Time", VR.kDS, VM.k1, false);
+      =
+      const Tag._("FrameTime", 0x00181063, "Frame Time", VR.kDS, VM.k1, false);
   static const Tag kCardiacFramingType
       //(0018,1064)
-      = const Tag._("CardiacFramingType", 0x00181064,
-          "Cardiac Framing Type", VR.kLO, VM.k1, false);
+      = const Tag._("CardiacFramingType", 0x00181064, "Cardiac Framing Type",
+          VR.kLO, VM.k1, false);
   static const Tag kFrameTimeVector
       //(0018,1065)
-      = const Tag._("FrameTimeVector", 0x00181065, "Frame Time Vector",
-          VR.kDS, VM.k1_n, false);
+      = const Tag._("FrameTimeVector", 0x00181065, "Frame Time Vector", VR.kDS,
+          VM.k1_n, false);
   static const Tag kFrameDelay
       //(0018,1066)
       = const Tag._(
@@ -3024,12 +2997,12 @@ class Tag {
           "PVCRejection", 0x00181085, "PVC Rejection", VR.kLO, VM.k1, false);
   static const Tag kSkipBeats
       //(0018,1086)
-      = const Tag._(
-          "SkipBeats", 0x00181086, "Skip Beats", VR.kIS, VM.k1, false);
+      =
+      const Tag._("SkipBeats", 0x00181086, "Skip Beats", VR.kIS, VM.k1, false);
   static const Tag kHeartRate
       //(0018,1088)
-      = const Tag._(
-          "HeartRate", 0x00181088, "Heart Rate", VR.kIS, VM.k1, false);
+      =
+      const Tag._("HeartRate", 0x00181088, "Heart Rate", VR.kIS, VM.k1, false);
   static const Tag kCardiacNumberOfImages
       //(0018,1090)
       = const Tag._("CardiacNumberOfImages", 0x00181090,
@@ -3056,12 +3029,12 @@ class Tag {
           "Estimated Radiographic Magnification Factor", VR.kDS, VM.k1, false);
   static const Tag kGantryDetectorTilt
       //(0018,1120)
-      = const Tag._("GantryDetectorTilt", 0x00181120,
-          "Gantry/Detector Tilt", VR.kDS, VM.k1, false);
+      = const Tag._("GantryDetectorTilt", 0x00181120, "Gantry/Detector Tilt",
+          VR.kDS, VM.k1, false);
   static const Tag kGantryDetectorSlew
       //(0018,1121)
-      = const Tag._("GantryDetectorSlew", 0x00181121,
-          "Gantry/Detector Slew", VR.kDS, VM.k1, false);
+      = const Tag._("GantryDetectorSlew", 0x00181121, "Gantry/Detector Slew",
+          VR.kDS, VM.k1, false);
   static const Tag kTableHeight
       //(0018,1130)
       = const Tag._(
@@ -3092,24 +3065,23 @@ class Tag {
           "TableAngle", 0x00181138, "Table Angle", VR.kDS, VM.k1, false);
   static const Tag kTableType
       //(0018,113A)
-      = const Tag._(
-          "TableType", 0x0018113A, "Table Type", VR.kCS, VM.k1, false);
+      =
+      const Tag._("TableType", 0x0018113A, "Table Type", VR.kCS, VM.k1, false);
   static const Tag kRotationDirection
       //(0018,1140)
       = const Tag._("RotationDirection", 0x00181140, "Rotation Direction",
           VR.kCS, VM.k1, false);
   static const Tag kAngularPosition
       //(0018,1141)
-      = const Tag._("AngularPosition", 0x00181141, "Angular Position",
-          VR.kDS, VM.k1, true);
+      = const Tag._("AngularPosition", 0x00181141, "Angular Position", VR.kDS,
+          VM.k1, true);
   static const Tag kRadialPosition
       //(0018,1142)
-      = const Tag._("RadialPosition", 0x00181142, "Radial Position",
-          VR.kDS, VM.k1_n, false);
+      = const Tag._("RadialPosition", 0x00181142, "Radial Position", VR.kDS,
+          VM.k1_n, false);
   static const Tag kScanArc
       //(0018,1143)
-      =
-      const Tag._("ScanArc", 0x00181143, "Scan Arc", VR.kDS, VM.k1, false);
+      = const Tag._("ScanArc", 0x00181143, "Scan Arc", VR.kDS, VM.k1, false);
   static const Tag kAngularStep
       //(0018,1144)
       = const Tag._(
@@ -3120,8 +3092,8 @@ class Tag {
           "Center of Rotation Offset", VR.kDS, VM.k1, false);
   static const Tag kRotationOffset
       //(0018,1146)
-      = const Tag._("RotationOffset", 0x00181146, "Rotation Offset",
-          VR.kDS, VM.k1_n, true);
+      = const Tag._("RotationOffset", 0x00181146, "Rotation Offset", VR.kDS,
+          VM.k1_n, true);
   static const Tag kFieldOfViewShape
       //(0018,1147)
       = const Tag._("FieldOfViewShape", 0x00181147, "Field of View Shape",
@@ -3136,12 +3108,11 @@ class Tag {
           "ExposureTime", 0x00181150, "Exposure Time", VR.kIS, VM.k1, false);
   static const Tag kXRayTubeCurrent
       //(0018,1151)
-      = const Tag._("XRayTubeCurrent", 0x00181151, "X-Ray Tube Current",
-          VR.kIS, VM.k1, false);
+      = const Tag._("XRayTubeCurrent", 0x00181151, "X-Ray Tube Current", VR.kIS,
+          VM.k1, false);
   static const Tag kExposure
       //(0018,1152)
-      = const Tag._(
-          "Exposure", 0x00181152, "Exposure", VR.kIS, VM.k1, false);
+      = const Tag._("Exposure", 0x00181152, "Exposure", VR.kIS, VM.k1, false);
   static const Tag kExposureInuAs
       //(0018,1153)
       = const Tag._(
@@ -3152,8 +3123,8 @@ class Tag {
           VR.kDS, VM.k1, false);
   static const Tag kRadiationSetting
       //(0018,1155)
-      = const Tag._("RadiationSetting", 0x00181155, "Radiation Setting",
-          VR.kCS, VM.k1, false);
+      = const Tag._("RadiationSetting", 0x00181155, "Radiation Setting", VR.kCS,
+          VM.k1, false);
   static const Tag kRectificationType
       //(0018,1156)
       = const Tag._("RectificationType", 0x00181156, "Rectification Type",
@@ -3176,27 +3147,27 @@ class Tag {
           VM.k1_n, false);
   static const Tag kIntensifierSize
       //(0018,1162)
-      = const Tag._("IntensifierSize", 0x00181162, "Intensifier Size",
-          VR.kDS, VM.k1, false);
+      = const Tag._("IntensifierSize", 0x00181162, "Intensifier Size", VR.kDS,
+          VM.k1, false);
   static const Tag kImagerPixelSpacing
       //(0018,1164)
-      = const Tag._("ImagerPixelSpacing", 0x00181164,
-          "Imager Pixel Spacing", VR.kDS, VM.k2, false);
+      = const Tag._("ImagerPixelSpacing", 0x00181164, "Imager Pixel Spacing",
+          VR.kDS, VM.k2, false);
   static const Tag kGrid
       //(0018,1166)
       = const Tag._("Grid", 0x00181166, "Grid", VR.kCS, VM.k1_n, false);
   static const Tag kGeneratorPower
       //(0018,1170)
-      = const Tag._("GeneratorPower", 0x00181170, "Generator Power",
-          VR.kIS, VM.k1, false);
+      = const Tag._("GeneratorPower", 0x00181170, "Generator Power", VR.kIS,
+          VM.k1, false);
   static const Tag kCollimatorGridName
       //(0018,1180)
-      = const Tag._("CollimatorGridName", 0x00181180,
-          "Collimator/grid Name", VR.kSH, VM.k1, false);
+      = const Tag._("CollimatorGridName", 0x00181180, "Collimator/grid Name",
+          VR.kSH, VM.k1, false);
   static const Tag kCollimatorType
       //(0018,1181)
-      = const Tag._("CollimatorType", 0x00181181, "Collimator Type",
-          VR.kCS, VM.k1, false);
+      = const Tag._("CollimatorType", 0x00181181, "Collimator Type", VR.kCS,
+          VM.k1, false);
   static const Tag kFocalDistance
       //(0018,1182)
       = const Tag._("FocalDistance", 0x00181182, "Focal Distance", VR.kIS,
@@ -3215,16 +3186,16 @@ class Tag {
           "FocalSpots", 0x00181190, "Focal Spot(s)", VR.kDS, VM.k1_n, false);
   static const Tag kAnodeTargetMaterial
       //(0018,1191)
-      = const Tag._("AnodeTargetMaterial", 0x00181191,
-          "Anode Target Material", VR.kCS, VM.k1, false);
+      = const Tag._("AnodeTargetMaterial", 0x00181191, "Anode Target Material",
+          VR.kCS, VM.k1, false);
   static const Tag kBodyPartThickness
       //(0018,11A0)
       = const Tag._("BodyPartThickness", 0x001811A0, "Body Part Thickness",
           VR.kDS, VM.k1, false);
   static const Tag kCompressionForce
       //(0018,11A2)
-      = const Tag._("CompressionForce", 0x001811A2, "Compression Force",
-          VR.kDS, VM.k1, false);
+      = const Tag._("CompressionForce", 0x001811A2, "Compression Force", VR.kDS,
+          VM.k1, false);
   static const Tag kPaddleDescription
       //(0018,11A4)
       = const Tag._("PaddleDescription", 0x001811A4, "Paddle Description",
@@ -3247,28 +3218,28 @@ class Tag {
           "Upper/Lower Pixel Values", VR.kIS, VM.k1_n, true);
   static const Tag kActualFrameDuration
       //(0018,1242)
-      = const Tag._("ActualFrameDuration", 0x00181242,
-          "Actual Frame Duration", VR.kIS, VM.k1, false);
+      = const Tag._("ActualFrameDuration", 0x00181242, "Actual Frame Duration",
+          VR.kIS, VM.k1, false);
   static const Tag kCountRate
       //(0018,1243)
-      = const Tag._(
-          "CountRate", 0x00181243, "Count Rate", VR.kIS, VM.k1, false);
+      =
+      const Tag._("CountRate", 0x00181243, "Count Rate", VR.kIS, VM.k1, false);
   static const Tag kPreferredPlaybackSequencing
       //(0018,1244)
       = const Tag._("PreferredPlaybackSequencing", 0x00181244,
           "Preferred Playback Sequencing", VR.kUS, VM.k1, false);
   static const Tag kReceiveCoilName
       //(0018,1250)
-      = const Tag._("ReceiveCoilName", 0x00181250, "Receive Coil Name",
-          VR.kSH, VM.k1, false);
+      = const Tag._("ReceiveCoilName", 0x00181250, "Receive Coil Name", VR.kSH,
+          VM.k1, false);
   static const Tag kTransmitCoilName
       //(0018,1251)
       = const Tag._("TransmitCoilName", 0x00181251, "Transmit Coil Name",
           VR.kSH, VM.k1, false);
   static const Tag kPlateType
       //(0018,1260)
-      = const Tag._(
-          "PlateType", 0x00181260, "Plate Type", VR.kSH, VM.k1, false);
+      =
+      const Tag._("PlateType", 0x00181260, "Plate Type", VR.kSH, VM.k1, false);
   static const Tag kPhosphorType
       //(0018,1261)
       = const Tag._(
@@ -3279,8 +3250,8 @@ class Tag {
           "ScanVelocity", 0x00181300, "Scan Velocity", VR.kDS, VM.k1, false);
   static const Tag kWholeBodyTechnique
       //(0018,1301)
-      = const Tag._("WholeBodyTechnique", 0x00181301,
-          "Whole Body Technique", VR.kCS, VM.k1_n, false);
+      = const Tag._("WholeBodyTechnique", 0x00181301, "Whole Body Technique",
+          VR.kCS, VM.k1_n, false);
   static const Tag kScanLength
       //(0018,1302)
       = const Tag._(
@@ -3295,8 +3266,8 @@ class Tag {
           "In-plane Phase Encoding Direction", VR.kCS, VM.k1, false);
   static const Tag kFlipAngle
       //(0018,1314)
-      = const Tag._(
-          "FlipAngle", 0x00181314, "Flip Angle", VR.kDS, VM.k1, false);
+      =
+      const Tag._("FlipAngle", 0x00181314, "Flip Angle", VR.kDS, VM.k1, false);
   static const Tag kVariableFlipAngleFlag
       //(0018,1315)
       = const Tag._("VariableFlipAngleFlag", 0x00181315,
@@ -3317,8 +3288,8 @@ class Tag {
           "Acquisition Device Processing Code", VR.kLO, VM.k1, false);
   static const Tag kCassetteOrientation
       //(0018,1402)
-      = const Tag._("CassetteOrientation", 0x00181402,
-          "Cassette Orientation", VR.kCS, VM.k1, false);
+      = const Tag._("CassetteOrientation", 0x00181402, "Cassette Orientation",
+          VR.kCS, VM.k1, false);
   static const Tag kCassetteSize
       //(0018,1403)
       = const Tag._(
@@ -3337,48 +3308,46 @@ class Tag {
           "ExposureIndex", 0x00181411, "Exposure Index", VR.kDS, VM.k1, false);
   static const Tag kTargetExposureIndex
       //(0018,1412)
-      = const Tag._("TargetExposureIndex", 0x00181412,
-          "Target Exposure Index", VR.kDS, VM.k1, false);
+      = const Tag._("TargetExposureIndex", 0x00181412, "Target Exposure Index",
+          VR.kDS, VM.k1, false);
   static const Tag kDeviationIndex
       //(0018,1413)
-      = const Tag._("DeviationIndex", 0x00181413, "Deviation Index",
-          VR.kDS, VM.k1, false);
+      = const Tag._("DeviationIndex", 0x00181413, "Deviation Index", VR.kDS,
+          VM.k1, false);
   static const Tag kColumnAngulation
       //(0018,1450)
-      = const Tag._("ColumnAngulation", 0x00181450, "Column Angulation",
-          VR.kDS, VM.k1, false);
+      = const Tag._("ColumnAngulation", 0x00181450, "Column Angulation", VR.kDS,
+          VM.k1, false);
   static const Tag kTomoLayerHeight
       //(0018,1460)
-      = const Tag._("TomoLayerHeight", 0x00181460, "Tomo Layer Height",
-          VR.kDS, VM.k1, false);
+      = const Tag._("TomoLayerHeight", 0x00181460, "Tomo Layer Height", VR.kDS,
+          VM.k1, false);
   static const Tag kTomoAngle
       //(0018,1470)
-      = const Tag._(
-          "TomoAngle", 0x00181470, "Tomo Angle", VR.kDS, VM.k1, false);
+      =
+      const Tag._("TomoAngle", 0x00181470, "Tomo Angle", VR.kDS, VM.k1, false);
   static const Tag kTomoTime
       //(0018,1480)
-      = const Tag._(
-          "TomoTime", 0x00181480, "Tomo Time", VR.kDS, VM.k1, false);
+      = const Tag._("TomoTime", 0x00181480, "Tomo Time", VR.kDS, VM.k1, false);
   static const Tag kTomoType
       //(0018,1490)
-      = const Tag._(
-          "TomoType", 0x00181490, "Tomo Type", VR.kCS, VM.k1, false);
+      = const Tag._("TomoType", 0x00181490, "Tomo Type", VR.kCS, VM.k1, false);
   static const Tag kTomoClass
       //(0018,1491)
-      = const Tag._(
-          "TomoClass", 0x00181491, "Tomo Class", VR.kCS, VM.k1, false);
+      =
+      const Tag._("TomoClass", 0x00181491, "Tomo Class", VR.kCS, VM.k1, false);
   static const Tag kNumberOfTomosynthesisSourceImages
       //(0018,1495)
       = const Tag._("NumberOfTomosynthesisSourceImages", 0x00181495,
           "Number of Tomosynthesis Source Images", VR.kIS, VM.k1, false);
   static const Tag kPositionerMotion
       //(0018,1500)
-      = const Tag._("PositionerMotion", 0x00181500, "Positioner Motion",
-          VR.kCS, VM.k1, false);
+      = const Tag._("PositionerMotion", 0x00181500, "Positioner Motion", VR.kCS,
+          VM.k1, false);
   static const Tag kPositionerType
       //(0018,1508)
-      = const Tag._("PositionerType", 0x00181508, "Positioner Type",
-          VR.kCS, VM.k1, false);
+      = const Tag._("PositionerType", 0x00181508, "Positioner Type", VR.kCS,
+          VM.k1, false);
   static const Tag kPositionerPrimaryAngle
       //(0018,1510)
       = const Tag._("PositionerPrimaryAngle", 0x00181510,
@@ -3441,16 +3410,16 @@ class Tag {
           "Shutter Presentation Value", VR.kUS, VM.k1, false);
   static const Tag kShutterOverlayGroup
       //(0018,1623)
-      = const Tag._("ShutterOverlayGroup", 0x00181623,
-          "Shutter Overlay Group", VR.kUS, VM.k1, false);
+      = const Tag._("ShutterOverlayGroup", 0x00181623, "Shutter Overlay Group",
+          VR.kUS, VM.k1, false);
   static const Tag kShutterPresentationColorCIELabValue
       //(0018,1624)
       = const Tag._("ShutterPresentationColorCIELabValue", 0x00181624,
           "Shutter Presentation Color CIELab Value", VR.kUS, VM.k3, false);
   static const Tag kCollimatorShape
       //(0018,1700)
-      = const Tag._("CollimatorShape", 0x00181700, "Collimator Shape",
-          VR.kCS, VM.k1_3, false);
+      = const Tag._("CollimatorShape", 0x00181700, "Collimator Shape", VR.kCS,
+          VM.k1_3, false);
   static const Tag kCollimatorLeftVerticalEdge
       //(0018,1702)
       = const Tag._("CollimatorLeftVerticalEdge", 0x00181702,
@@ -3513,8 +3482,8 @@ class Tag {
           "Frame Secondary Angle Vector", VR.kDS, VM.k1_n, false);
   static const Tag kSliceLocationVector
       //(0018,2005)
-      = const Tag._("SliceLocationVector", 0x00182005,
-          "Slice Location Vector", VR.kDS, VM.k1_n, false);
+      = const Tag._("SliceLocationVector", 0x00182005, "Slice Location Vector",
+          VR.kDS, VM.k1_n, false);
   static const Tag kDisplayWindowLabelVector
       //(0018,2006)
       = const Tag._("DisplayWindowLabelVector", 0x00182006,
@@ -3537,8 +3506,8 @@ class Tag {
           "Biopsy Target Sequence", VR.kSQ, VM.k1, false);
   static const Tag kTargetUID
       //(0018,2042)
-      = const Tag._(
-          "TargetUID", 0x00182042, "Target UID", VR.kUI, VM.k1, false);
+      =
+      const Tag._("TargetUID", 0x00182042, "Target UID", VR.kUI, VM.k1, false);
   static const Tag kLocalizingCursorPosition
       //(0018,2043)
       = const Tag._("LocalizingCursorPosition", 0x00182043,
@@ -3553,12 +3522,12 @@ class Tag {
           "TargetLabel", 0x00182045, "Target Label", VR.kSH, VM.k1, false);
   static const Tag kDisplayedZValue
       //(0018,2046)
-      = const Tag._("DisplayedZValue", 0x00182046, "Displayed Z Value",
-          VR.kFL, VM.k1, false);
+      = const Tag._("DisplayedZValue", 0x00182046, "Displayed Z Value", VR.kFL,
+          VM.k1, false);
   static const Tag kIVUSAcquisition
       //(0018,3100)
-      = const Tag._("IVUSAcquisition", 0x00183100, "IVUS Acquisition",
-          VR.kCS, VM.k1, false);
+      = const Tag._("IVUSAcquisition", 0x00183100, "IVUS Acquisition", VR.kCS,
+          VM.k1, false);
   static const Tag kIVUSPullbackRate
       //(0018,3101)
       = const Tag._("IVUSPullbackRate", 0x00183101, "IVUS Pullback Rate",
@@ -3581,40 +3550,40 @@ class Tag {
           "LesionNumber", 0x00183105, "Lesion Number", VR.kIS, VM.k1_n, false);
   static const Tag kAcquisitionComments
       //(0018,4000)
-      = const Tag._("AcquisitionComments", 0x00184000,
-          "Acquisition Comments", VR.kLT, VM.k1, true);
+      = const Tag._("AcquisitionComments", 0x00184000, "Acquisition Comments",
+          VR.kLT, VM.k1, true);
   static const Tag kOutputPower
       //(0018,5000)
       = const Tag._(
           "OutputPower", 0x00185000, "Output Power", VR.kSH, VM.k1_n, false);
   static const Tag kTransducerData
       //(0018,5010)
-      = const Tag._("TransducerData", 0x00185010, "Transducer Data",
-          VR.kLO, VM.k1_n, false);
+      = const Tag._("TransducerData", 0x00185010, "Transducer Data", VR.kLO,
+          VM.k1_n, false);
   static const Tag kFocusDepth
       //(0018,5012)
       = const Tag._(
           "FocusDepth", 0x00185012, "Focus Depth", VR.kDS, VM.k1, false);
   static const Tag kProcessingFunction
       //(0018,5020)
-      = const Tag._("ProcessingFunction", 0x00185020,
-          "Processing Function", VR.kLO, VM.k1, false);
+      = const Tag._("ProcessingFunction", 0x00185020, "Processing Function",
+          VR.kLO, VM.k1, false);
   static const Tag kPostprocessingFunction
       //(0018,5021)
       = const Tag._("PostprocessingFunction", 0x00185021,
           "Postprocessing Function", VR.kLO, VM.k1, true);
   static const Tag kMechanicalIndex
       //(0018,5022)
-      = const Tag._("MechanicalIndex", 0x00185022, "Mechanical Index",
-          VR.kDS, VM.k1, false);
+      = const Tag._("MechanicalIndex", 0x00185022, "Mechanical Index", VR.kDS,
+          VM.k1, false);
   static const Tag kBoneThermalIndex
       //(0018,5024)
       = const Tag._("BoneThermalIndex", 0x00185024, "Bone Thermal Index",
           VR.kDS, VM.k1, false);
   static const Tag kCranialThermalIndex
       //(0018,5026)
-      = const Tag._("CranialThermalIndex", 0x00185026,
-          "Cranial Thermal Index", VR.kDS, VM.k1, false);
+      = const Tag._("CranialThermalIndex", 0x00185026, "Cranial Thermal Index",
+          VR.kDS, VM.k1, false);
   static const Tag kSoftTissueThermalIndex
       //(0018,5027)
       = const Tag._("SoftTissueThermalIndex", 0x00185027,
@@ -3633,16 +3602,15 @@ class Tag {
           "DynamicRange", 0x00185030, "Dynamic Range", VR.kDS, VM.k1, true);
   static const Tag kTotalGain
       //(0018,5040)
-      = const Tag._(
-          "TotalGain", 0x00185040, "Total Gain", VR.kDS, VM.k1, true);
+      = const Tag._("TotalGain", 0x00185040, "Total Gain", VR.kDS, VM.k1, true);
   static const Tag kDepthOfScanField
       //(0018,5050)
       = const Tag._("DepthOfScanField", 0x00185050, "Depth of Scan Field",
           VR.kIS, VM.k1, false);
   static const Tag kPatientPosition
       //(0018,5100)
-      = const Tag._("PatientPosition", 0x00185100, "Patient Position",
-          VR.kCS, VM.k1, false);
+      = const Tag._("PatientPosition", 0x00185100, "Patient Position", VR.kCS,
+          VM.k1, false);
   static const Tag kViewPosition
       //(0018,5101)
       = const Tag._(
@@ -3669,32 +3637,32 @@ class Tag {
           "Sequence of Ultrasound Regions", VR.kSQ, VM.k1, false);
   static const Tag kRegionSpatialFormat
       //(0018,6012)
-      = const Tag._("RegionSpatialFormat", 0x00186012,
-          "Region Spatial Format", VR.kUS, VM.k1, false);
+      = const Tag._("RegionSpatialFormat", 0x00186012, "Region Spatial Format",
+          VR.kUS, VM.k1, false);
   static const Tag kRegionDataType
       //(0018,6014)
-      = const Tag._("RegionDataType", 0x00186014, "Region Data Type",
-          VR.kUS, VM.k1, false);
+      = const Tag._("RegionDataType", 0x00186014, "Region Data Type", VR.kUS,
+          VM.k1, false);
   static const Tag kRegionFlags
       //(0018,6016)
       = const Tag._(
           "RegionFlags", 0x00186016, "Region Flags", VR.kUL, VM.k1, false);
   static const Tag kRegionLocationMinX0
       //(0018,6018)
-      = const Tag._("RegionLocationMinX0", 0x00186018,
-          "Region Location Min X0", VR.kUL, VM.k1, false);
+      = const Tag._("RegionLocationMinX0", 0x00186018, "Region Location Min X0",
+          VR.kUL, VM.k1, false);
   static const Tag kRegionLocationMinY0
       //(0018,601A)
-      = const Tag._("RegionLocationMinY0", 0x0018601A,
-          "Region Location Min Y0", VR.kUL, VM.k1, false);
+      = const Tag._("RegionLocationMinY0", 0x0018601A, "Region Location Min Y0",
+          VR.kUL, VM.k1, false);
   static const Tag kRegionLocationMaxX1
       //(0018,601C)
-      = const Tag._("RegionLocationMaxX1", 0x0018601C,
-          "Region Location Max X1", VR.kUL, VM.k1, false);
+      = const Tag._("RegionLocationMaxX1", 0x0018601C, "Region Location Max X1",
+          VR.kUL, VM.k1, false);
   static const Tag kRegionLocationMaxY1
       //(0018,601E)
-      = const Tag._("RegionLocationMaxY1", 0x0018601E,
-          "Region Location Max Y1", VR.kUL, VM.k1, false);
+      = const Tag._("RegionLocationMaxY1", 0x0018601E, "Region Location Max Y1",
+          VR.kUL, VM.k1, false);
   static const Tag kReferencePixelX0
       //(0018,6020)
       = const Tag._("ReferencePixelX0", 0x00186020, "Reference Pixel X0",
@@ -3721,20 +3689,20 @@ class Tag {
           "Reference Pixel Physical Value Y", VR.kFD, VM.k1, false);
   static const Tag kPhysicalDeltaX
       //(0018,602C)
-      = const Tag._("PhysicalDeltaX", 0x0018602C, "Physical Delta X",
-          VR.kFD, VM.k1, false);
+      = const Tag._("PhysicalDeltaX", 0x0018602C, "Physical Delta X", VR.kFD,
+          VM.k1, false);
   static const Tag kPhysicalDeltaY
       //(0018,602E)
-      = const Tag._("PhysicalDeltaY", 0x0018602E, "Physical Delta Y",
-          VR.kFD, VM.k1, false);
+      = const Tag._("PhysicalDeltaY", 0x0018602E, "Physical Delta Y", VR.kFD,
+          VM.k1, false);
   static const Tag kTransducerFrequency
       //(0018,6030)
-      = const Tag._("TransducerFrequency", 0x00186030,
-          "Transducer Frequency", VR.kUL, VM.k1, false);
+      = const Tag._("TransducerFrequency", 0x00186030, "Transducer Frequency",
+          VR.kUL, VM.k1, false);
   static const Tag kTransducerType
       //(0018,6031)
-      = const Tag._("TransducerType", 0x00186031, "Transducer Type",
-          VR.kCS, VM.k1, false);
+      = const Tag._("TransducerType", 0x00186031, "Transducer Type", VR.kCS,
+          VM.k1, false);
   static const Tag kPulseRepetitionFrequency
       //(0018,6032)
       = const Tag._("PulseRepetitionFrequency", 0x00186032,
@@ -3801,8 +3769,8 @@ class Tag {
           "Pixel Component Organization", VR.kUS, VM.k1, false);
   static const Tag kPixelComponentMask
       //(0018,6046)
-      = const Tag._("PixelComponentMask", 0x00186046,
-          "Pixel Component Mask", VR.kUL, VM.k1, false);
+      = const Tag._("PixelComponentMask", 0x00186046, "Pixel Component Mask",
+          VR.kUL, VM.k1, false);
   static const Tag kPixelComponentRangeStart
       //(0018,6048)
       = const Tag._("PixelComponentRangeStart", 0x00186048,
@@ -3837,24 +3805,24 @@ class Tag {
           "Number of Table Entries", VR.kUL, VM.k1, false);
   static const Tag kTableOfPixelValues
       //(0018,6058)
-      = const Tag._("TableOfPixelValues", 0x00186058,
-          "Table of Pixel Values", VR.kUL, VM.k1_n, false);
+      = const Tag._("TableOfPixelValues", 0x00186058, "Table of Pixel Values",
+          VR.kUL, VM.k1_n, false);
   static const Tag kTableOfParameterValues
       //(0018,605A)
       = const Tag._("TableOfParameterValues", 0x0018605A,
           "Table of Parameter Values", VR.kFL, VM.k1_n, false);
   static const Tag kRWaveTimeVector
       //(0018,6060)
-      = const Tag._("RWaveTimeVector", 0x00186060, "R Wave Time Vector",
-          VR.kFL, VM.k1_n, false);
+      = const Tag._("RWaveTimeVector", 0x00186060, "R Wave Time Vector", VR.kFL,
+          VM.k1_n, false);
   static const Tag kDetectorConditionsNominalFlag
       //(0018,7000)
       = const Tag._("DetectorConditionsNominalFlag", 0x00187000,
           "Detector Conditions Nominal Flag", VR.kCS, VM.k1, false);
   static const Tag kDetectorTemperature
       //(0018,7001)
-      = const Tag._("DetectorTemperature", 0x00187001,
-          "Detector Temperature", VR.kDS, VM.k1, false);
+      = const Tag._("DetectorTemperature", 0x00187001, "Detector Temperature",
+          VR.kDS, VM.k1, false);
   static const Tag kDetectorType
       //(0018,7004)
       = const Tag._(
@@ -3865,8 +3833,8 @@ class Tag {
           "Detector Configuration", VR.kCS, VM.k1, false);
   static const Tag kDetectorDescription
       //(0018,7006)
-      = const Tag._("DetectorDescription", 0x00187006,
-          "Detector Description", VR.kLT, VM.k1, false);
+      = const Tag._("DetectorDescription", 0x00187006, "Detector Description",
+          VR.kLT, VM.k1, false);
   static const Tag kDetectorMode
       //(0018,7008)
       = const Tag._(
@@ -3897,16 +3865,16 @@ class Tag {
           "Detector Time Since Last Exposure", VR.kDS, VM.k1, false);
   static const Tag kDetectorActiveTime
       //(0018,7014)
-      = const Tag._("DetectorActiveTime", 0x00187014,
-          "Detector Active Time", VR.kDS, VM.k1, false);
+      = const Tag._("DetectorActiveTime", 0x00187014, "Detector Active Time",
+          VR.kDS, VM.k1, false);
   static const Tag kDetectorActivationOffsetFromExposure
       //(0018,7016)
       = const Tag._("DetectorActivationOffsetFromExposure", 0x00187016,
           "Detector Activation Offset From Exposure", VR.kDS, VM.k1, false);
   static const Tag kDetectorBinning
       //(0018,701A)
-      = const Tag._("DetectorBinning", 0x0018701A, "Detector Binning",
-          VR.kDS, VM.k2, false);
+      = const Tag._("DetectorBinning", 0x0018701A, "Detector Binning", VR.kDS,
+          VM.k2, false);
   static const Tag kDetectorElementPhysicalSize
       //(0018,7020)
       = const Tag._("DetectorElementPhysicalSize", 0x00187020,
@@ -3917,8 +3885,8 @@ class Tag {
           "Detector Element Spacing", VR.kDS, VM.k2, false);
   static const Tag kDetectorActiveShape
       //(0018,7024)
-      = const Tag._("DetectorActiveShape", 0x00187024,
-          "Detector Active Shape", VR.kCS, VM.k1, false);
+      = const Tag._("DetectorActiveShape", 0x00187024, "Detector Active Shape",
+          VR.kCS, VM.k1, false);
   static const Tag kDetectorActiveDimensions
       //(0018,7026)
       = const Tag._("DetectorActiveDimensions", 0x00187026,
@@ -3937,12 +3905,12 @@ class Tag {
           "Detector Manufacturer's Model Name", VR.kLO, VM.k1, false);
   static const Tag kFieldOfViewOrigin
       //(0018,7030)
-      = const Tag._("FieldOfViewOrigin", 0x00187030,
-          "Field of View Origin", VR.kDS, VM.k2, false);
+      = const Tag._("FieldOfViewOrigin", 0x00187030, "Field of View Origin",
+          VR.kDS, VM.k2, false);
   static const Tag kFieldOfViewRotation
       //(0018,7032)
-      = const Tag._("FieldOfViewRotation", 0x00187032,
-          "Field of View Rotation", VR.kDS, VM.k1, false);
+      = const Tag._("FieldOfViewRotation", 0x00187032, "Field of View Rotation",
+          VR.kDS, VM.k1, false);
   static const Tag kFieldOfViewHorizontalFlip
       //(0018,7034)
       = const Tag._("FieldOfViewHorizontalFlip", 0x00187034,
@@ -3966,20 +3934,20 @@ class Tag {
           "Grid Absorbing Material", VR.kLT, VM.k1, false);
   static const Tag kGridSpacingMaterial
       //(0018,7041)
-      = const Tag._("GridSpacingMaterial", 0x00187041,
-          "Grid Spacing Material", VR.kLT, VM.k1, false);
+      = const Tag._("GridSpacingMaterial", 0x00187041, "Grid Spacing Material",
+          VR.kLT, VM.k1, false);
   static const Tag kGridThickness
       //(0018,7042)
       = const Tag._(
           "GridThickness", 0x00187042, "Grid Thickness", VR.kDS, VM.k1, false);
   static const Tag kGridPitch
       //(0018,7044)
-      = const Tag._(
-          "GridPitch", 0x00187044, "Grid Pitch", VR.kDS, VM.k1, false);
+      =
+      const Tag._("GridPitch", 0x00187044, "Grid Pitch", VR.kDS, VM.k1, false);
   static const Tag kGridAspectRatio
       //(0018,7046)
-      = const Tag._("GridAspectRatio", 0x00187046, "Grid Aspect Ratio",
-          VR.kIS, VM.k2, false);
+      = const Tag._("GridAspectRatio", 0x00187046, "Grid Aspect Ratio", VR.kIS,
+          VM.k2, false);
   static const Tag kGridPeriod
       //(0018,7048)
       = const Tag._(
@@ -3990,8 +3958,8 @@ class Tag {
           VR.kDS, VM.k1, false);
   static const Tag kFilterMaterial
       //(0018,7050)
-      = const Tag._("FilterMaterial", 0x00187050, "Filter Material",
-          VR.kCS, VM.k1_n, false);
+      = const Tag._("FilterMaterial", 0x00187050, "Filter Material", VR.kCS,
+          VM.k1_n, false);
   static const Tag kFilterThicknessMinimum
       //(0018,7052)
       = const Tag._("FilterThicknessMinimum", 0x00187052,
@@ -4010,16 +3978,16 @@ class Tag {
           "Filter Beam Path Length Maximum", VR.kFL, VM.k1_n, false);
   static const Tag kExposureControlMode
       //(0018,7060)
-      = const Tag._("ExposureControlMode", 0x00187060,
-          "Exposure Control Mode", VR.kCS, VM.k1, false);
+      = const Tag._("ExposureControlMode", 0x00187060, "Exposure Control Mode",
+          VR.kCS, VM.k1, false);
   static const Tag kExposureControlModeDescription
       //(0018,7062)
       = const Tag._("ExposureControlModeDescription", 0x00187062,
           "Exposure Control Mode Description", VR.kLT, VM.k1, false);
   static const Tag kExposureStatus
       //(0018,7064)
-      = const Tag._("ExposureStatus", 0x00187064, "Exposure Status",
-          VR.kCS, VM.k1, false);
+      = const Tag._("ExposureStatus", 0x00187064, "Exposure Status", VR.kCS,
+          VM.k1, false);
   static const Tag kPhototimerSetting
       //(0018,7065)
       = const Tag._("PhototimerSetting", 0x00187065, "Phototimer Setting",
@@ -4034,8 +4002,8 @@ class Tag {
           "X-Ray Tube Current in µA", VR.kDS, VM.k1, false);
   static const Tag kContentQualification
       //(0018,9004)
-      = const Tag._("ContentQualification", 0x00189004,
-          "Content Qualification", VR.kCS, VM.k1, false);
+      = const Tag._("ContentQualification", 0x00189004, "Content Qualification",
+          VR.kCS, VM.k1, false);
   static const Tag kPulseSequenceName
       //(0018,9005)
       = const Tag._("PulseSequenceName", 0x00189005, "Pulse Sequence Name",
@@ -4054,8 +4022,8 @@ class Tag {
           VR.kCS, VM.k1, false);
   static const Tag kFlowCompensation
       //(0018,9010)
-      = const Tag._("FlowCompensation", 0x00189010, "Flow Compensation",
-          VR.kCS, VM.k1, false);
+      = const Tag._("FlowCompensation", 0x00189010, "Flow Compensation", VR.kCS,
+          VM.k1, false);
   static const Tag kMultipleSpinEcho
       //(0018,9011)
       = const Tag._("MultipleSpinEcho", 0x00189011, "Multiple Spin Echo",
@@ -4074,8 +4042,7 @@ class Tag {
           "Time of Flight Contrast", VR.kCS, VM.k1, false);
   static const Tag kSpoiling
       //(0018,9016)
-      = const Tag._(
-          "Spoiling", 0x00189016, "Spoiling", VR.kCS, VM.k1, false);
+      = const Tag._("Spoiling", 0x00189016, "Spoiling", VR.kCS, VM.k1, false);
   static const Tag kSteadyStatePulseSequence
       //(0018,9017)
       = const Tag._("SteadyStatePulseSequence", 0x00189017,
@@ -4086,8 +4053,8 @@ class Tag {
           "Echo Planar Pulse Sequence", VR.kCS, VM.k1, false);
   static const Tag kTagAngleFirstAxis
       //(0018,9019)
-      = const Tag._("TagAngleFirstAxis", 0x00189019,
-          "Tag Angle First Axis", VR.kFD, VM.k1, false);
+      = const Tag._("TagAngleFirstAxis", 0x00189019, "Tag Angle First Axis",
+          VR.kFD, VM.k1, false);
   static const Tag kMagnetizationTransfer
       //(0018,9020)
       = const Tag._("MagnetizationTransfer", 0x00189020,
@@ -4098,12 +4065,12 @@ class Tag {
           "T2Preparation", 0x00189021, "T2 Preparation", VR.kCS, VM.k1, false);
   static const Tag kBloodSignalNulling
       //(0018,9022)
-      = const Tag._("BloodSignalNulling", 0x00189022,
-          "Blood Signal Nulling", VR.kCS, VM.k1, false);
+      = const Tag._("BloodSignalNulling", 0x00189022, "Blood Signal Nulling",
+          VR.kCS, VM.k1, false);
   static const Tag kSaturationRecovery
       //(0018,9024)
-      = const Tag._("SaturationRecovery", 0x00189024,
-          "Saturation Recovery", VR.kCS, VM.k1, false);
+      = const Tag._("SaturationRecovery", 0x00189024, "Saturation Recovery",
+          VR.kCS, VM.k1, false);
   static const Tag kSpectrallySelectedSuppression
       //(0018,9025)
       = const Tag._("SpectrallySelectedSuppression", 0x00189025,
@@ -4118,8 +4085,7 @@ class Tag {
           "Spatial Pre-saturation", VR.kCS, VM.k1, false);
   static const Tag kTagging
       //(0018,9028)
-      =
-      const Tag._("Tagging", 0x00189028, "Tagging", VR.kCS, VM.k1, false);
+      = const Tag._("Tagging", 0x00189028, "Tagging", VR.kCS, VM.k1, false);
   static const Tag kOversamplingPhase
       //(0018,9029)
       = const Tag._("OversamplingPhase", 0x00189029, "Oversampling Phase",
@@ -4162,8 +4128,8 @@ class Tag {
           "MR Receive Coil Sequence", VR.kSQ, VM.k1, false);
   static const Tag kReceiveCoilType
       //(0018,9043)
-      = const Tag._("ReceiveCoilType", 0x00189043, "Receive Coil Type",
-          VR.kCS, VM.k1, false);
+      = const Tag._("ReceiveCoilType", 0x00189043, "Receive Coil Type", VR.kCS,
+          VM.k1, false);
   static const Tag kQuadratureReceiveCoil
       //(0018,9044)
       = const Tag._("QuadratureReceiveCoil", 0x00189044,
@@ -4222,8 +4188,8 @@ class Tag {
           VR.kCS, VM.k1_2, false);
   static const Tag kDecouplingFrequency
       //(0018,9061)
-      = const Tag._("DecouplingFrequency", 0x00189061,
-          "De-coupling Frequency", VR.kFD, VM.k1_2, false);
+      = const Tag._("DecouplingFrequency", 0x00189061, "De-coupling Frequency",
+          VR.kFD, VM.k1_2, false);
   static const Tag kDecouplingMethod
       //(0018,9062)
       = const Tag._("DecouplingMethod", 0x00189062, "De-coupling Method",
@@ -4234,20 +4200,20 @@ class Tag {
           "De-coupling Chemical Shift Reference", VR.kFD, VM.k1_2, false);
   static const Tag kKSpaceFiltering
       //(0018,9064)
-      = const Tag._("KSpaceFiltering", 0x00189064, "k-space Filtering",
-          VR.kCS, VM.k1, false);
+      = const Tag._("KSpaceFiltering", 0x00189064, "k-space Filtering", VR.kCS,
+          VM.k1, false);
   static const Tag kTimeDomainFiltering
       //(0018,9065)
-      = const Tag._("TimeDomainFiltering", 0x00189065,
-          "Time Domain Filtering", VR.kCS, VM.k1_2, false);
+      = const Tag._("TimeDomainFiltering", 0x00189065, "Time Domain Filtering",
+          VR.kCS, VM.k1_2, false);
   static const Tag kNumberOfZeroFills
       //(0018,9066)
-      = const Tag._("NumberOfZeroFills", 0x00189066,
-          "Number of Zero Fills", VR.kUS, VM.k1_2, false);
+      = const Tag._("NumberOfZeroFills", 0x00189066, "Number of Zero Fills",
+          VR.kUS, VM.k1_2, false);
   static const Tag kBaselineCorrection
       //(0018,9067)
-      = const Tag._("BaselineCorrection", 0x00189067,
-          "Baseline Correction", VR.kCS, VM.k1, false);
+      = const Tag._("BaselineCorrection", 0x00189067, "Baseline Correction",
+          VR.kCS, VM.k1, false);
   static const Tag kParallelReductionFactorInPlane
       //(0018,9069)
       = const Tag._("ParallelReductionFactorInPlane", 0x00189069,
@@ -4258,8 +4224,8 @@ class Tag {
           "Cardiac R-R Interval Specified", VR.kFD, VM.k1, false);
   static const Tag kAcquisitionDuration
       //(0018,9073)
-      = const Tag._("AcquisitionDuration", 0x00189073,
-          "Acquisition Duration", VR.kFD, VM.k1, false);
+      = const Tag._("AcquisitionDuration", 0x00189073, "Acquisition Duration",
+          VR.kFD, VM.k1, false);
   static const Tag kFrameAcquisitionDateTime
       //(0018,9074)
       = const Tag._("FrameAcquisitionDateTime", 0x00189074,
@@ -4274,24 +4240,24 @@ class Tag {
           "Diffusion Gradient Direction Sequence", VR.kSQ, VM.k1, false);
   static const Tag kParallelAcquisition
       //(0018,9077)
-      = const Tag._("ParallelAcquisition", 0x00189077,
-          "Parallel Acquisition", VR.kCS, VM.k1, false);
+      = const Tag._("ParallelAcquisition", 0x00189077, "Parallel Acquisition",
+          VR.kCS, VM.k1, false);
   static const Tag kParallelAcquisitionTechnique
       //(0018,9078)
       = const Tag._("ParallelAcquisitionTechnique", 0x00189078,
           "Parallel Acquisition Technique", VR.kCS, VM.k1, false);
   static const Tag kInversionTimes
       //(0018,9079)
-      = const Tag._("InversionTimes", 0x00189079, "Inversion Times",
-          VR.kFD, VM.k1_n, false);
+      = const Tag._("InversionTimes", 0x00189079, "Inversion Times", VR.kFD,
+          VM.k1_n, false);
   static const Tag kMetaboliteMapDescription
       //(0018,9080)
       = const Tag._("MetaboliteMapDescription", 0x00189080,
           "Metabolite Map Description", VR.kST, VM.k1, false);
   static const Tag kPartialFourier
       //(0018,9081)
-      = const Tag._("PartialFourier", 0x00189081, "Partial Fourier",
-          VR.kCS, VM.k1, false);
+      = const Tag._("PartialFourier", 0x00189081, "Partial Fourier", VR.kCS,
+          VM.k1, false);
   static const Tag kEffectiveEchoTime
       //(0018,9082)
       = const Tag._("EffectiveEchoTime", 0x00189082, "Effective Echo Time",
@@ -4306,12 +4272,12 @@ class Tag {
           "Chemical Shift Sequence", VR.kSQ, VM.k1, false);
   static const Tag kCardiacSignalSource
       //(0018,9085)
-      = const Tag._("CardiacSignalSource", 0x00189085,
-          "Cardiac Signal Source", VR.kCS, VM.k1, false);
+      = const Tag._("CardiacSignalSource", 0x00189085, "Cardiac Signal Source",
+          VR.kCS, VM.k1, false);
   static const Tag kDiffusionBValue
       //(0018,9087)
-      = const Tag._("DiffusionBValue", 0x00189087, "Diffusion b-value",
-          VR.kFD, VM.k1, false);
+      = const Tag._("DiffusionBValue", 0x00189087, "Diffusion b-value", VR.kFD,
+          VM.k1, false);
   static const Tag kDiffusionGradientOrientation
       //(0018,9089)
       = const Tag._("DiffusionGradientOrientation", 0x00189089,
@@ -4346,16 +4312,16 @@ class Tag {
           "Parallel Reduction Factor In-plane (Retired)", VR.kFD, VM.k1, true);
   static const Tag kTransmitterFrequency
       //(0018,9098)
-      = const Tag._("TransmitterFrequency", 0x00189098,
-          "Transmitter Frequency", VR.kFD, VM.k1_2, false);
+      = const Tag._("TransmitterFrequency", 0x00189098, "Transmitter Frequency",
+          VR.kFD, VM.k1_2, false);
   static const Tag kResonantNucleus
       //(0018,9100)
-      = const Tag._("ResonantNucleus", 0x00189100, "Resonant Nucleus",
-          VR.kCS, VM.k1_2, false);
+      = const Tag._("ResonantNucleus", 0x00189100, "Resonant Nucleus", VR.kCS,
+          VM.k1_2, false);
   static const Tag kFrequencyCorrection
       //(0018,9101)
-      = const Tag._("FrequencyCorrection", 0x00189101,
-          "Frequency Correction", VR.kCS, VM.k1, false);
+      = const Tag._("FrequencyCorrection", 0x00189101, "Frequency Correction",
+          VR.kCS, VM.k1, false);
   static const Tag kMRSpectroscopyFOVGeometrySequence
       //(0018,9103)
       = const Tag._("MRSpectroscopyFOVGeometrySequence", 0x00189103,
@@ -4366,12 +4332,12 @@ class Tag {
           "SlabThickness", 0x00189104, "Slab Thickness", VR.kFD, VM.k1, false);
   static const Tag kSlabOrientation
       //(0018,9105)
-      = const Tag._("SlabOrientation", 0x00189105, "Slab Orientation",
-          VR.kFD, VM.k3, false);
+      = const Tag._("SlabOrientation", 0x00189105, "Slab Orientation", VR.kFD,
+          VM.k3, false);
   static const Tag kMidSlabPosition
       //(0018,9106)
-      = const Tag._("MidSlabPosition", 0x00189106, "Mid Slab Position",
-          VR.kFD, VM.k3, false);
+      = const Tag._("MidSlabPosition", 0x00189106, "Mid Slab Position", VR.kFD,
+          VM.k3, false);
   static const Tag kMRSpatialSaturationSequence
       //(0018,9107)
       = const Tag._("MRSpatialSaturationSequence", 0x00189107,
@@ -4382,24 +4348,24 @@ class Tag {
           "MR Timing and Related Parameters Sequence", VR.kSQ, VM.k1, false);
   static const Tag kMREchoSequence
       //(0018,9114)
-      = const Tag._("MREchoSequence", 0x00189114, "MR Echo Sequence",
-          VR.kSQ, VM.k1, false);
+      = const Tag._("MREchoSequence", 0x00189114, "MR Echo Sequence", VR.kSQ,
+          VM.k1, false);
   static const Tag kMRModifierSequence
       //(0018,9115)
-      = const Tag._("MRModifierSequence", 0x00189115,
-          "MR Modifier Sequence", VR.kSQ, VM.k1, false);
+      = const Tag._("MRModifierSequence", 0x00189115, "MR Modifier Sequence",
+          VR.kSQ, VM.k1, false);
   static const Tag kMRDiffusionSequence
       //(0018,9117)
-      = const Tag._("MRDiffusionSequence", 0x00189117,
-          "MR Diffusion Sequence", VR.kSQ, VM.k1, false);
+      = const Tag._("MRDiffusionSequence", 0x00189117, "MR Diffusion Sequence",
+          VR.kSQ, VM.k1, false);
   static const Tag kCardiacSynchronizationSequence
       //(0018,9118)
       = const Tag._("CardiacSynchronizationSequence", 0x00189118,
           "Cardiac Synchronization Sequence", VR.kSQ, VM.k1, false);
   static const Tag kMRAveragesSequence
       //(0018,9119)
-      = const Tag._("MRAveragesSequence", 0x00189119,
-          "MR Averages Sequence", VR.kSQ, VM.k1, false);
+      = const Tag._("MRAveragesSequence", 0x00189119, "MR Averages Sequence",
+          VR.kSQ, VM.k1, false);
   static const Tag kMRFOVGeometrySequence
       //(0018,9125)
       = const Tag._("MRFOVGeometrySequence", 0x00189125,
@@ -4491,16 +4457,16 @@ class Tag {
           "Specific Absorption Rate Definition", VR.kCS, VM.k1, false);
   static const Tag kGradientOutputType
       //(0018,9180)
-      = const Tag._("GradientOutputType", 0x00189180,
-          "Gradient Output Type", VR.kCS, VM.k1, false);
+      = const Tag._("GradientOutputType", 0x00189180, "Gradient Output Type",
+          VR.kCS, VM.k1, false);
   static const Tag kSpecificAbsorptionRateValue
       //(0018,9181)
       = const Tag._("SpecificAbsorptionRateValue", 0x00189181,
           "Specific Absorption Rate Value", VR.kFD, VM.k1, false);
   static const Tag kGradientOutput
       //(0018,9182)
-      = const Tag._("GradientOutput", 0x00189182, "Gradient Output",
-          VR.kFD, VM.k1, false);
+      = const Tag._("GradientOutput", 0x00189182, "Gradient Output", VR.kFD,
+          VM.k1, false);
   static const Tag kFlowCompensationDirection
       //(0018,9183)
       = const Tag._("FlowCompensationDirection", 0x00189183,
@@ -4570,8 +4536,8 @@ class Tag {
           "Tag Spacing Second Dimension", VR.kFD, VM.k1, false);
   static const Tag kTagAngleSecondAxis
       //(0018,9219)
-      = const Tag._("TagAngleSecondAxis", 0x00189219,
-          "Tag Angle Second Axis", VR.kSS, VM.k1, false);
+      = const Tag._("TagAngleSecondAxis", 0x00189219, "Tag Angle Second Axis",
+          VR.kSS, VM.k1, false);
   static const Tag kFrameAcquisitionDuration
       //(0018,9220)
       = const Tag._("FrameAcquisitionDuration", 0x00189220,
@@ -4611,8 +4577,8 @@ class Tag {
           "Specific Absorption Rate Sequence", VR.kSQ, VM.k1, false);
   static const Tag kRFEchoTrainLength
       //(0018,9240)
-      = const Tag._("RFEchoTrainLength", 0x00189240,
-          "RF Echo Train Length", VR.kUS, VM.k1, false);
+      = const Tag._("RFEchoTrainLength", 0x00189240, "RF Echo Train Length",
+          VR.kUS, VM.k1, false);
   static const Tag kGradientEchoTrainLength
       //(0018,9241)
       = const Tag._("GradientEchoTrainLength", 0x00189241,
@@ -4639,12 +4605,12 @@ class Tag {
           VR.kFD, VM.k1, false);
   static const Tag kASLSlabOrientation
       //(0018,9255)
-      = const Tag._("ASLSlabOrientation", 0x00189255,
-          "ASL Slab Orientation", VR.kFD, VM.k3, false);
+      = const Tag._("ASLSlabOrientation", 0x00189255, "ASL Slab Orientation",
+          VR.kFD, VM.k3, false);
   static const Tag kASLMidSlabPosition
       //(0018,9256)
-      = const Tag._("ASLMidSlabPosition", 0x00189256,
-          "ASL Mid Slab Position", VR.kFD, VM.k3, false);
+      = const Tag._("ASLMidSlabPosition", 0x00189256, "ASL Mid Slab Position",
+          VR.kFD, VM.k3, false);
   static const Tag kASLContext
       //(0018,9257)
       = const Tag._(
@@ -4655,20 +4621,20 @@ class Tag {
           "ASL Pulse Train Duration", VR.kUL, VM.k1, false);
   static const Tag kASLCrusherFlag
       //(0018,9259)
-      = const Tag._("ASLCrusherFlag", 0x00189259, "ASL Crusher Flag",
-          VR.kCS, VM.k1, false);
+      = const Tag._("ASLCrusherFlag", 0x00189259, "ASL Crusher Flag", VR.kCS,
+          VM.k1, false);
   static const Tag kASLCrusherFlowLimit
       //(0018,925A)
-      = const Tag._("ASLCrusherFlowLimit", 0x0018925A,
-          "ASL Crusher Flow Limit", VR.kFD, VM.k1, false);
+      = const Tag._("ASLCrusherFlowLimit", 0x0018925A, "ASL Crusher Flow Limit",
+          VR.kFD, VM.k1, false);
   static const Tag kASLCrusherDescription
       //(0018,925B)
       = const Tag._("ASLCrusherDescription", 0x0018925B,
           "ASL Crusher Description", VR.kLO, VM.k1, false);
   static const Tag kASLBolusCutoffFlag
       //(0018,925C)
-      = const Tag._("ASLBolusCutoffFlag", 0x0018925C,
-          "ASL Bolus Cut-off Flag", VR.kCS, VM.k1, false);
+      = const Tag._("ASLBolusCutoffFlag", 0x0018925C, "ASL Bolus Cut-off Flag",
+          VR.kCS, VM.k1, false);
   static const Tag kASLBolusCutoffTimingSequence
       //(0018,925D)
       = const Tag._("ASLBolusCutoffTimingSequence", 0x0018925D,
@@ -4683,8 +4649,8 @@ class Tag {
           "ASL Bolus Cut-off Delay Time", VR.kUL, VM.k1, false);
   static const Tag kASLSlabSequence
       //(0018,9260)
-      = const Tag._("ASLSlabSequence", 0x00189260, "ASL Slab Sequence",
-          VR.kSQ, VM.k1, false);
+      = const Tag._("ASLSlabSequence", 0x00189260, "ASL Slab Sequence", VR.kSQ,
+          VM.k1, false);
   static const Tag kChemicalShiftMinimumIntegrationLimitInppm
       //(0018,9295)
       = const Tag._(
@@ -4709,20 +4675,20 @@ class Tag {
           "CT Acquisition Type Sequence", VR.kSQ, VM.k1, false);
   static const Tag kAcquisitionType
       //(0018,9302)
-      = const Tag._("AcquisitionType", 0x00189302, "Acquisition Type",
-          VR.kCS, VM.k1, false);
+      = const Tag._("AcquisitionType", 0x00189302, "Acquisition Type", VR.kCS,
+          VM.k1, false);
   static const Tag kTubeAngle
       //(0018,9303)
-      = const Tag._(
-          "TubeAngle", 0x00189303, "Tube Angle", VR.kFD, VM.k1, false);
+      =
+      const Tag._("TubeAngle", 0x00189303, "Tube Angle", VR.kFD, VM.k1, false);
   static const Tag kCTAcquisitionDetailsSequence
       //(0018,9304)
       = const Tag._("CTAcquisitionDetailsSequence", 0x00189304,
           "CT Acquisition Details Sequence", VR.kSQ, VM.k1, false);
   static const Tag kRevolutionTime
       //(0018,9305)
-      = const Tag._("RevolutionTime", 0x00189305, "Revolution Time",
-          VR.kFD, VM.k1, false);
+      = const Tag._("RevolutionTime", 0x00189305, "Revolution Time", VR.kFD,
+          VM.k1, false);
   static const Tag kSingleCollimationWidth
       //(0018,9306)
       = const Tag._("SingleCollimationWidth", 0x00189306,
@@ -4749,8 +4715,8 @@ class Tag {
           VR.kFD, VM.k1, false);
   static const Tag kCTGeometrySequence
       //(0018,9312)
-      = const Tag._("CTGeometrySequence", 0x00189312,
-          "CT Geometry Sequence", VR.kSQ, VM.k1, false);
+      = const Tag._("CTGeometrySequence", 0x00189312, "CT Geometry Sequence",
+          VR.kSQ, VM.k1, false);
   static const Tag kDataCollectionCenterPatient
       //(0018,9313)
       = const Tag._("DataCollectionCenterPatient", 0x00189313,
@@ -4777,16 +4743,16 @@ class Tag {
           "Reconstruction Target Center (Patient)", VR.kFD, VM.k3, false);
   static const Tag kReconstructionAngle
       //(0018,9319)
-      = const Tag._("ReconstructionAngle", 0x00189319,
-          "Reconstruction Angle", VR.kFD, VM.k1, false);
+      = const Tag._("ReconstructionAngle", 0x00189319, "Reconstruction Angle",
+          VR.kFD, VM.k1, false);
   static const Tag kImageFilter
       //(0018,9320)
       = const Tag._(
           "ImageFilter", 0x00189320, "Image Filter", VR.kSH, VM.k1, false);
   static const Tag kCTExposureSequence
       //(0018,9321)
-      = const Tag._("CTExposureSequence", 0x00189321,
-          "CT Exposure Sequence", VR.kSQ, VM.k1, false);
+      = const Tag._("CTExposureSequence", 0x00189321, "CT Exposure Sequence",
+          VR.kSQ, VM.k1, false);
   static const Tag kReconstructionPixelSpacing
       //(0018,9322)
       = const Tag._("ReconstructionPixelSpacing", 0x00189322,
@@ -4797,16 +4763,16 @@ class Tag {
           "Exposure Modulation Type", VR.kCS, VM.k1, false);
   static const Tag kEstimatedDoseSaving
       //(0018,9324)
-      = const Tag._("EstimatedDoseSaving", 0x00189324,
-          "Estimated Dose Saving", VR.kFD, VM.k1, false);
+      = const Tag._("EstimatedDoseSaving", 0x00189324, "Estimated Dose Saving",
+          VR.kFD, VM.k1, false);
   static const Tag kCTXRayDetailsSequence
       //(0018,9325)
       = const Tag._("CTXRayDetailsSequence", 0x00189325,
           "CT X-Ray Details Sequence", VR.kSQ, VM.k1, false);
   static const Tag kCTPositionSequence
       //(0018,9326)
-      = const Tag._("CTPositionSequence", 0x00189326,
-          "CT Position Sequence", VR.kSQ, VM.k1, false);
+      = const Tag._("CTPositionSequence", 0x00189326, "CT Position Sequence",
+          VR.kSQ, VM.k1, false);
   static const Tag kTablePosition
       //(0018,9327)
       = const Tag._(
@@ -4829,12 +4795,12 @@ class Tag {
           "ExposureInmAs", 0x00189332, "Exposure in mAs", VR.kFD, VM.k1, false);
   static const Tag kConstantVolumeFlag
       //(0018,9333)
-      = const Tag._("ConstantVolumeFlag", 0x00189333,
-          "Constant Volume Flag", VR.kCS, VM.k1, false);
+      = const Tag._("ConstantVolumeFlag", 0x00189333, "Constant Volume Flag",
+          VR.kCS, VM.k1, false);
   static const Tag kFluoroscopyFlag
       //(0018,9334)
-      = const Tag._("FluoroscopyFlag", 0x00189334, "Fluoroscopy Flag",
-          VR.kCS, VM.k1, false);
+      = const Tag._("FluoroscopyFlag", 0x00189334, "Fluoroscopy Flag", VR.kCS,
+          VM.k1, false);
   static const Tag kDistanceSourceToDataCollectionCenter
       //(0018,9335)
       = const Tag._("DistanceSourceToDataCollectionCenter", 0x00189335,
@@ -4869,8 +4835,7 @@ class Tag {
           "Contrast/Bolus Agent Phase", VR.kCS, VM.k1, false);
   static const Tag kCTDIvol
       //(0018,9345)
-      =
-      const Tag._("CTDIvol", 0x00189345, "CTDIvol", VR.kFD, VM.k1, false);
+      = const Tag._("CTDIvol", 0x00189345, "CTDIvol", VR.kFD, VM.k1, false);
   static const Tag kCTDIPhantomTypeCodeSequence
       //(0018,9346)
       = const Tag._("CTDIPhantomTypeCodeSequence", 0x00189346,
@@ -4921,8 +4886,8 @@ class Tag {
           "Collimator Shape Sequence", VR.kSQ, VM.k1, false);
   static const Tag kPlanesInAcquisition
       //(0018,9410)
-      = const Tag._("PlanesInAcquisition", 0x00189410,
-          "Planes in Acquisition", VR.kCS, VM.k1, false);
+      = const Tag._("PlanesInAcquisition", 0x00189410, "Planes in Acquisition",
+          VR.kCS, VM.k1, false);
   static const Tag kXAXRFFrameCharacteristicsSequence
       //(0018,9412)
       = const Tag._("XAXRFFrameCharacteristicsSequence", 0x00189412,
@@ -4969,8 +4934,8 @@ class Tag {
           "Position of Isocenter Projection", VR.kFL, VM.k2, false);
   static const Tag kFieldOfViewSequence
       //(0018,9432)
-      = const Tag._("FieldOfViewSequence", 0x00189432,
-          "Field of View Sequence", VR.kSQ, VM.k1, false);
+      = const Tag._("FieldOfViewSequence", 0x00189432, "Field of View Sequence",
+          VR.kSQ, VM.k1, false);
   static const Tag kFieldOfViewDescription
       //(0018,9433)
       = const Tag._("FieldOfViewDescription", 0x00189433,
@@ -5056,8 +5021,8 @@ class Tag {
           "Column Angulation (Patient)", VR.kFL, VM.k1, false);
   static const Tag kBeamAngle
       //(0018,9449)
-      = const Tag._(
-          "BeamAngle", 0x00189449, "Beam Angle", VR.kFL, VM.k1, false);
+      =
+      const Tag._("BeamAngle", 0x00189449, "Beam Angle", VR.kFL, VM.k1, false);
   static const Tag kFrameDetectorParametersSequence
       //(0018,9451)
       = const Tag._("FrameDetectorParametersSequence", 0x00189451,
@@ -5068,16 +5033,16 @@ class Tag {
           "Calculated Anatomy Thickness", VR.kFL, VM.k1, false);
   static const Tag kCalibrationSequence
       //(0018,9455)
-      = const Tag._("CalibrationSequence", 0x00189455,
-          "Calibration Sequence", VR.kSQ, VM.k1, false);
+      = const Tag._("CalibrationSequence", 0x00189455, "Calibration Sequence",
+          VR.kSQ, VM.k1, false);
   static const Tag kObjectThicknessSequence
       //(0018,9456)
       = const Tag._("ObjectThicknessSequence", 0x00189456,
           "Object Thickness Sequence", VR.kSQ, VM.k1, false);
   static const Tag kPlaneIdentification
       //(0018,9457)
-      = const Tag._("PlaneIdentification", 0x00189457,
-          "Plane Identification", VR.kCS, VM.k1, false);
+      = const Tag._("PlaneIdentification", 0x00189457, "Plane Identification",
+          VR.kCS, VM.k1, false);
   static const Tag kFieldOfViewDimensionsInFloat
       //(0018,9461)
       = const Tag._("FieldOfViewDimensionsInFloat", 0x00189461,
@@ -5116,8 +5081,8 @@ class Tag {
           "Table Horizontal Rotation Angle", VR.kFL, VM.k1, false);
   static const Tag kTableHeadTiltAngle
       //(0018,9470)
-      = const Tag._("TableHeadTiltAngle", 0x00189470,
-          "Table Head Tilt Angle", VR.kFL, VM.k1, false);
+      = const Tag._("TableHeadTiltAngle", 0x00189470, "Table Head Tilt Angle",
+          VR.kFL, VM.k1, false);
   static const Tag kTableCradleTiltAngle
       //(0018,9471)
       = const Tag._("TableCradleTiltAngle", 0x00189471,
@@ -5188,12 +5153,12 @@ class Tag {
           "End Acquisition DateTime", VR.kDT, VM.k1, false);
   static const Tag kApplicationName
       //(0018,9524)
-      = const Tag._("ApplicationName", 0x00189524, "Application Name",
-          VR.kLO, VM.k1, false);
+      = const Tag._("ApplicationName", 0x00189524, "Application Name", VR.kLO,
+          VM.k1, false);
   static const Tag kApplicationVersion
       //(0018,9525)
-      = const Tag._("ApplicationVersion", 0x00189525,
-          "Application Version", VR.kLO, VM.k1, false);
+      = const Tag._("ApplicationVersion", 0x00189525, "Application Version",
+          VR.kLO, VM.k1, false);
   static const Tag kApplicationManufacturer
       //(0018,9526)
       = const Tag._("ApplicationManufacturer", 0x00189526,
@@ -5204,8 +5169,8 @@ class Tag {
           "AlgorithmType", 0x00189527, "Algorithm Type", VR.kCS, VM.k1, false);
   static const Tag kAlgorithmDescription
       //(0018,9528)
-      = const Tag._("AlgorithmDescription", 0x00189528,
-          "Algorithm Description", VR.kLO, VM.k1, false);
+      = const Tag._("AlgorithmDescription", 0x00189528, "Algorithm Description",
+          VR.kLO, VM.k1, false);
   static const Tag kXRay3DReconstructionSequence
       //(0018,9530)
       = const Tag._("XRay3DReconstructionSequence", 0x00189530,
@@ -5224,28 +5189,28 @@ class Tag {
           "Diffusion b-matrix Sequence", VR.kSQ, VM.k1, false);
   static const Tag kDiffusionBValueXX
       //(0018,9602)
-      = const Tag._("DiffusionBValueXX", 0x00189602,
-          "Diffusion b-value XX", VR.kFD, VM.k1, false);
+      = const Tag._("DiffusionBValueXX", 0x00189602, "Diffusion b-value XX",
+          VR.kFD, VM.k1, false);
   static const Tag kDiffusionBValueXY
       //(0018,9603)
-      = const Tag._("DiffusionBValueXY", 0x00189603,
-          "Diffusion b-value XY", VR.kFD, VM.k1, false);
+      = const Tag._("DiffusionBValueXY", 0x00189603, "Diffusion b-value XY",
+          VR.kFD, VM.k1, false);
   static const Tag kDiffusionBValueXZ
       //(0018,9604)
-      = const Tag._("DiffusionBValueXZ", 0x00189604,
-          "Diffusion b-value XZ", VR.kFD, VM.k1, false);
+      = const Tag._("DiffusionBValueXZ", 0x00189604, "Diffusion b-value XZ",
+          VR.kFD, VM.k1, false);
   static const Tag kDiffusionBValueYY
       //(0018,9605)
-      = const Tag._("DiffusionBValueYY", 0x00189605,
-          "Diffusion b-value YY", VR.kFD, VM.k1, false);
+      = const Tag._("DiffusionBValueYY", 0x00189605, "Diffusion b-value YY",
+          VR.kFD, VM.k1, false);
   static const Tag kDiffusionBValueYZ
       //(0018,9606)
-      = const Tag._("DiffusionBValueYZ", 0x00189606,
-          "Diffusion b-value YZ", VR.kFD, VM.k1, false);
+      = const Tag._("DiffusionBValueYZ", 0x00189606, "Diffusion b-value YZ",
+          VR.kFD, VM.k1, false);
   static const Tag kDiffusionBValueZZ
       //(0018,9607)
-      = const Tag._("DiffusionBValueZZ", 0x00189607,
-          "Diffusion b-value ZZ", VR.kFD, VM.k1, false);
+      = const Tag._("DiffusionBValueZZ", 0x00189607, "Diffusion b-value ZZ",
+          VR.kFD, VM.k1, false);
   static const Tag kDecayCorrectionDateTime
       //(0018,9701)
       = const Tag._("DecayCorrectionDateTime", 0x00189701,
@@ -5297,8 +5262,8 @@ class Tag {
           false);
   static const Tag kDetectorGeometry
       //(0018,9725)
-      = const Tag._("DetectorGeometry", 0x00189725, "Detector Geometry",
-          VR.kCS, VM.k1, false);
+      = const Tag._("DetectorGeometry", 0x00189725, "Detector Geometry", VR.kCS,
+          VM.k1, false);
   static const Tag kTransverseDetectorSeparation
       //(0018,9726)
       = const Tag._("TransverseDetectorSeparation", 0x00189726,
@@ -5325,8 +5290,8 @@ class Tag {
           "PET Table Dynamics Sequence", VR.kSQ, VM.k1, false);
   static const Tag kPETPositionSequence
       //(0018,9735)
-      = const Tag._("PETPositionSequence", 0x00189735,
-          "PET Position Sequence", VR.kSQ, VM.k1, false);
+      = const Tag._("PETPositionSequence", 0x00189735, "PET Position Sequence",
+          VR.kSQ, VM.k1, false);
   static const Tag kPETFrameCorrectionFactorsSequence
       //(0018,9736)
       = const Tag._("PETFrameCorrectionFactorsSequence", 0x00189736,
@@ -5341,12 +5306,12 @@ class Tag {
           "Attenuation Correction Source", VR.kCS, VM.k1, false);
   static const Tag kNumberOfIterations
       //(0018,9739)
-      = const Tag._("NumberOfIterations", 0x00189739,
-          "Number of Iterations", VR.kUS, VM.k1, false);
+      = const Tag._("NumberOfIterations", 0x00189739, "Number of Iterations",
+          VR.kUS, VM.k1, false);
   static const Tag kNumberOfSubsets
       //(0018,9740)
-      = const Tag._("NumberOfSubsets", 0x00189740, "Number of Subsets",
-          VR.kUS, VM.k1, false);
+      = const Tag._("NumberOfSubsets", 0x00189740, "Number of Subsets", VR.kUS,
+          VM.k1, false);
   static const Tag kPETReconstructionSequence
       //(0018,9749)
       = const Tag._("PETReconstructionSequence", 0x00189749,
@@ -5361,20 +5326,20 @@ class Tag {
           "Time of Flight Information Used", VR.kCS, VM.k1, false);
   static const Tag kReconstructionType
       //(0018,9756)
-      = const Tag._("ReconstructionType", 0x00189756,
-          "Reconstruction Type", VR.kCS, VM.k1, false);
+      = const Tag._("ReconstructionType", 0x00189756, "Reconstruction Type",
+          VR.kCS, VM.k1, false);
   static const Tag kDecayCorrected
       //(0018,9758)
-      = const Tag._("DecayCorrected", 0x00189758, "Decay Corrected",
-          VR.kCS, VM.k1, false);
+      = const Tag._("DecayCorrected", 0x00189758, "Decay Corrected", VR.kCS,
+          VM.k1, false);
   static const Tag kAttenuationCorrected
       //(0018,9759)
-      = const Tag._("AttenuationCorrected", 0x00189759,
-          "Attenuation Corrected", VR.kCS, VM.k1, false);
+      = const Tag._("AttenuationCorrected", 0x00189759, "Attenuation Corrected",
+          VR.kCS, VM.k1, false);
   static const Tag kScatterCorrected
       //(0018,9760)
-      = const Tag._("ScatterCorrected", 0x00189760, "Scatter Corrected",
-          VR.kCS, VM.k1, false);
+      = const Tag._("ScatterCorrected", 0x00189760, "Scatter Corrected", VR.kCS,
+          VM.k1, false);
   static const Tag kDeadTimeCorrected
       //(0018,9761)
       = const Tag._("DeadTimeCorrected", 0x00189761, "Dead Time Corrected",
@@ -5393,8 +5358,8 @@ class Tag {
           "Count Loss Normalization Corrected", VR.kCS, VM.k1, false);
   static const Tag kRandomsCorrected
       //(0018,9765)
-      = const Tag._("RandomsCorrected", 0x00189765, "Randoms Corrected",
-          VR.kCS, VM.k1, false);
+      = const Tag._("RandomsCorrected", 0x00189765, "Randoms Corrected", VR.kCS,
+          VM.k1, false);
   static const Tag kNonUniformRadialSamplingCorrected
       //(0018,9766)
       = const Tag._("NonUniformRadialSamplingCorrected", 0x00189766,
@@ -5413,13 +5378,8 @@ class Tag {
           "Iterative Reconstruction Method", VR.kCS, VM.k1, false);
   static const Tag kAttenuationCorrectionTemporalRelationship
       //(0018,9770)
-      = const Tag._(
-          "AttenuationCorrectionTemporalRelationship",
-          0x00189770,
-          "Attenuation Correction Temporal Relationship",
-          VR.kCS,
-          VM.k1,
-          false);
+      = const Tag._("AttenuationCorrectionTemporalRelationship", 0x00189770,
+          "Attenuation Correction Temporal Relationship", VR.kCS, VM.k1, false);
   static const Tag kPatientPhysiologicalStateSequence
       //(0018,9771)
       = const Tag._("PatientPhysiologicalStateSequence", 0x00189771,
@@ -5430,8 +5390,8 @@ class Tag {
           "Patient Physiological State Code Sequence", VR.kSQ, VM.k1, false);
   static const Tag kDepthsOfFocus
       //(0018,9801)
-      = const Tag._("DepthsOfFocus", 0x00189801, "Depth(s) of Focus",
-          VR.kFD, VM.k1_n, false);
+      = const Tag._("DepthsOfFocus", 0x00189801, "Depth(s) of Focus", VR.kFD,
+          VM.k1_n, false);
   static const Tag kExcludedIntervalsSequence
       //(0018,9803)
       = const Tag._("ExcludedIntervalsSequence", 0x00189803,
@@ -5454,16 +5414,15 @@ class Tag {
           "Image Data Type Sequence", VR.kSQ, VM.k1, false);
   static const Tag kDataType
       //(0018,9808)
-      = const Tag._(
-          "DataType", 0x00189808, "Data Type", VR.kCS, VM.k1, false);
+      = const Tag._("DataType", 0x00189808, "Data Type", VR.kCS, VM.k1, false);
   static const Tag kTransducerScanPatternCodeSequence
       //(0018,9809)
       = const Tag._("TransducerScanPatternCodeSequence", 0x00189809,
           "Transducer Scan Pattern Code Sequence", VR.kSQ, VM.k1, false);
   static const Tag kAliasedDataType
       //(0018,980B)
-      = const Tag._("AliasedDataType", 0x0018980B, "Aliased Data Type",
-          VR.kCS, VM.k1, false);
+      = const Tag._("AliasedDataType", 0x0018980B, "Aliased Data Type", VR.kCS,
+          VM.k1, false);
   static const Tag kPositionMeasuringDeviceUsed
       //(0018,980C)
       = const Tag._("PositionMeasuringDeviceUsed", 0x0018980C,
@@ -5490,8 +5449,8 @@ class Tag {
           "Contributing Equipment Sequence", VR.kSQ, VM.k1, false);
   static const Tag kContributionDateTime
       //(0018,A002)
-      = const Tag._("ContributionDateTime", 0x0018A002,
-          "Contribution DateTime", VR.kDT, VM.k1, false);
+      = const Tag._("ContributionDateTime", 0x0018A002, "Contribution DateTime",
+          VR.kDT, VM.k1, false);
   static const Tag kContributionDescription
       //(0018,A003)
       = const Tag._("ContributionDescription", 0x0018A003,
@@ -5506,8 +5465,7 @@ class Tag {
           VR.kUI, VM.k1, false);
   static const Tag kStudyID
       //(0020,0010)
-      =
-      const Tag._("StudyID", 0x00200010, "Study ID", VR.kSH, VM.k1, false);
+      = const Tag._("StudyID", 0x00200010, "Study ID", VR.kSH, VM.k1, false);
   static const Tag kSeriesNumber
       //(0020,0011)
       = const Tag._(
@@ -5518,8 +5476,8 @@ class Tag {
           VR.kIS, VM.k1, false);
   static const Tag kInstanceNumber
       //(0020,0013)
-      = const Tag._("InstanceNumber", 0x00200013, "Instance Number",
-          VR.kIS, VM.k1, false);
+      = const Tag._("InstanceNumber", 0x00200013, "Instance Number", VR.kIS,
+          VM.k1, false);
   static const Tag kIsotopeNumber
       //(0020,0014)
       = const Tag._(
@@ -5534,8 +5492,8 @@ class Tag {
           "IntervalNumber", 0x00200016, "Interval Number", VR.kIS, VM.k1, true);
   static const Tag kTimeSlotNumber
       //(0020,0017)
-      = const Tag._("TimeSlotNumber", 0x00200017, "Time Slot Number",
-          VR.kIS, VM.k1, true);
+      = const Tag._("TimeSlotNumber", 0x00200017, "Time Slot Number", VR.kIS,
+          VM.k1, true);
   static const Tag kAngleNumber
       //(0020,0018)
       = const Tag._(
@@ -5546,8 +5504,8 @@ class Tag {
           "ItemNumber", 0x00200019, "Item Number", VR.kIS, VM.k1, false);
   static const Tag kPatientOrientation
       //(0020,0020)
-      = const Tag._("PatientOrientation", 0x00200020,
-          "Patient Orientation", VR.kCS, VM.k2, false);
+      = const Tag._("PatientOrientation", 0x00200020, "Patient Orientation",
+          VR.kCS, VM.k2, false);
   static const Tag kOverlayNumber
       //(0020,0022)
       = const Tag._(
@@ -5558,8 +5516,7 @@ class Tag {
           "CurveNumber", 0x00200024, "Curve Number", VR.kIS, VM.k1, true);
   static const Tag kLUTNumber
       //(0020,0026)
-      = const Tag._(
-          "LUTNumber", 0x00200026, "LUT Number", VR.kIS, VM.k1, true);
+      = const Tag._("LUTNumber", 0x00200026, "LUT Number", VR.kIS, VM.k1, true);
   static const Tag kImagePosition
       //(0020,0030)
       = const Tag._(
@@ -5570,28 +5527,27 @@ class Tag {
           "Image Position (Patient)", VR.kDS, VM.k3, false);
   static const Tag kImageOrientation
       //(0020,0035)
-      = const Tag._("ImageOrientation", 0x00200035, "Image Orientation",
-          VR.kDS, VM.k6, true);
+      = const Tag._("ImageOrientation", 0x00200035, "Image Orientation", VR.kDS,
+          VM.k6, true);
   static const Tag kImageOrientationPatient
       //(0020,0037)
       = const Tag._("ImageOrientationPatient", 0x00200037,
           "Image Orientation (Patient)", VR.kDS, VM.k6, false);
   static const Tag kLocation
       //(0020,0050)
-      =
-      const Tag._("Location", 0x00200050, "Location", VR.kDS, VM.k1, true);
+      = const Tag._("Location", 0x00200050, "Location", VR.kDS, VM.k1, true);
   static const Tag kFrameOfReferenceUID
       //(0020,0052)
-      = const Tag._("FrameOfReferenceUID", 0x00200052,
-          "Frame of Reference UID", VR.kUI, VM.k1, false);
+      = const Tag._("FrameOfReferenceUID", 0x00200052, "Frame of Reference UID",
+          VR.kUI, VM.k1, false);
   static const Tag kLaterality
       //(0020,0060)
-      = const Tag._(
-          "Laterality", 0x00200060, "Laterality", VR.kCS, VM.k1, false);
+      =
+      const Tag._("Laterality", 0x00200060, "Laterality", VR.kCS, VM.k1, false);
   static const Tag kImageLaterality
       //(0020,0062)
-      = const Tag._("ImageLaterality", 0x00200062, "Image Laterality",
-          VR.kCS, VM.k1, false);
+      = const Tag._("ImageLaterality", 0x00200062, "Image Laterality", VR.kCS,
+          VM.k1, false);
   static const Tag kImageGeometryType
       //(0020,0070)
       = const Tag._("ImageGeometryType", 0x00200070, "Image Geometry Type",
@@ -5614,8 +5570,8 @@ class Tag {
           "Number of Temporal Positions", VR.kIS, VM.k1, false);
   static const Tag kTemporalResolution
       //(0020,0110)
-      = const Tag._("TemporalResolution", 0x00200110,
-          "Temporal Resolution", VR.kDS, VM.k1, false);
+      = const Tag._("TemporalResolution", 0x00200110, "Temporal Resolution",
+          VR.kDS, VM.k1, false);
   static const Tag kSynchronizationFrameOfReferenceUID
       //(0020,0200)
       = const Tag._("SynchronizationFrameOfReferenceUID", 0x00200200,
@@ -5634,24 +5590,24 @@ class Tag {
           "Acquisitions in Series", VR.kIS, VM.k1, true);
   static const Tag kImagesInAcquisition
       //(0020,1002)
-      = const Tag._("ImagesInAcquisition", 0x00201002,
-          "Images in Acquisition", VR.kIS, VM.k1, false);
+      = const Tag._("ImagesInAcquisition", 0x00201002, "Images in Acquisition",
+          VR.kIS, VM.k1, false);
   static const Tag kImagesInSeries
       //(0020,1003)
-      = const Tag._("ImagesInSeries", 0x00201003, "Images in Series",
-          VR.kIS, VM.k1, true);
+      = const Tag._("ImagesInSeries", 0x00201003, "Images in Series", VR.kIS,
+          VM.k1, true);
   static const Tag kAcquisitionsInStudy
       //(0020,1004)
-      = const Tag._("AcquisitionsInStudy", 0x00201004,
-          "Acquisitions in Study", VR.kIS, VM.k1, true);
+      = const Tag._("AcquisitionsInStudy", 0x00201004, "Acquisitions in Study",
+          VR.kIS, VM.k1, true);
   static const Tag kImagesInStudy
       //(0020,1005)
       = const Tag._(
           "ImagesInStudy", 0x00201005, "Images in Study", VR.kIS, VM.k1, true);
   static const Tag kReference
       //(0020,1020)
-      = const Tag._(
-          "Reference", 0x00201020, "Reference", VR.kLO, VM.k1_n, true);
+      =
+      const Tag._("Reference", 0x00201020, "Reference", VR.kLO, VM.k1_n, true);
   static const Tag kPositionReferenceIndicator
       //(0020,1040)
       = const Tag._("PositionReferenceIndicator", 0x00201040,
@@ -5690,16 +5646,16 @@ class Tag {
           "Number of Series Related Instances", VR.kIS, VM.k1, false);
   static const Tag kSourceImageIDs
       //(0020,3100)
-      = const Tag._("SourceImageIDs", 0x00203100, "Source Image IDs",
-          VR.kCS, VM.k1_n, true);
+      = const Tag._("SourceImageIDs", 0x00203100, "Source Image IDs", VR.kCS,
+          VM.k1_n, true);
   static const Tag kModifyingDeviceID
       //(0020,3401)
       = const Tag._("ModifyingDeviceID", 0x00203401, "Modifying Device ID",
           VR.kCS, VM.k1, true);
   static const Tag kModifiedImageID
       //(0020,3402)
-      = const Tag._("ModifiedImageID", 0x00203402, "Modified Image ID",
-          VR.kCS, VM.k1, true);
+      = const Tag._("ModifiedImageID", 0x00203402, "Modified Image ID", VR.kCS,
+          VM.k1, true);
   static const Tag kModifiedImageDate
       //(0020,3403)
       = const Tag._("ModifiedImageDate", 0x00203403, "Modified Image Date",
@@ -5730,8 +5686,7 @@ class Tag {
           "Original Image Identification Nomenclature", VR.kLO, VM.k1_n, true);
   static const Tag kStackID
       //(0020,9056)
-      =
-      const Tag._("StackID", 0x00209056, "Stack ID", VR.kSH, VM.k1, false);
+      = const Tag._("StackID", 0x00209056, "Stack ID", VR.kSH, VM.k1, false);
   static const Tag kInStackPositionNumber
       //(0020,9057)
       = const Tag._("InStackPositionNumber", 0x00209057,
@@ -5742,8 +5697,8 @@ class Tag {
           "Frame Anatomy Sequence", VR.kSQ, VM.k1, false);
   static const Tag kFrameLaterality
       //(0020,9072)
-      = const Tag._("FrameLaterality", 0x00209072, "Frame Laterality",
-          VR.kCS, VM.k1, false);
+      = const Tag._("FrameLaterality", 0x00209072, "Frame Laterality", VR.kCS,
+          VM.k1, false);
   static const Tag kFrameContentSequence
       //(0020,9111)
       = const Tag._("FrameContentSequence", 0x00209111,
@@ -5786,8 +5741,8 @@ class Tag {
           "FrameComments", 0x00209158, "Frame Comments", VR.kLT, VM.k1, false);
   static const Tag kConcatenationUID
       //(0020,9161)
-      = const Tag._("ConcatenationUID", 0x00209161, "Concatenation UID",
-          VR.kUI, VM.k1, false);
+      = const Tag._("ConcatenationUID", 0x00209161, "Concatenation UID", VR.kUI,
+          VM.k1, false);
   static const Tag kInConcatenationNumber
       //(0020,9162)
       = const Tag._("InConcatenationNumber", 0x00209162,
@@ -5976,8 +5931,8 @@ class Tag {
           "FrameLabel", 0x00209453, "Frame Label", VR.kLO, VM.k1, false);
   static const Tag kAcquisitionIndex
       //(0020,9518)
-      = const Tag._("AcquisitionIndex", 0x00209518, "Acquisition Index",
-          VR.kUS, VM.k1_n, false);
+      = const Tag._("AcquisitionIndex", 0x00209518, "Acquisition Index", VR.kUS,
+          VM.k1_n, false);
   static const Tag kContributingSOPInstancesReferenceSequence
       //(0020,9529)
       = const Tag._(
@@ -5989,8 +5944,8 @@ class Tag {
           false);
   static const Tag kReconstructionIndex
       //(0020,9536)
-      = const Tag._("ReconstructionIndex", 0x00209536,
-          "Reconstruction Index", VR.kUS, VM.k1, false);
+      = const Tag._("ReconstructionIndex", 0x00209536, "Reconstruction Index",
+          VR.kUS, VM.k1, false);
   static const Tag kLightPathFilterPassThroughWavelength
       //(0022,0001)
       = const Tag._("LightPathFilterPassThroughWavelength", 0x00220001,
@@ -6017,8 +5972,8 @@ class Tag {
           "Patient Eye Movement Command Code Sequence", VR.kSQ, VM.k1, false);
   static const Tag kSphericalLensPower
       //(0022,0007)
-      = const Tag._("SphericalLensPower", 0x00220007,
-          "Spherical Lens Power", VR.kFL, VM.k1, false);
+      = const Tag._("SphericalLensPower", 0x00220007, "Spherical Lens Power",
+          VR.kFL, VM.k1, false);
   static const Tag kCylinderLensPower
       //(0022,0008)
       = const Tag._("CylinderLensPower", 0x00220008, "Cylinder Lens Power",
@@ -6033,8 +5988,8 @@ class Tag {
           "Emmetropic Magnification", VR.kFL, VM.k1, false);
   static const Tag kIntraOcularPressure
       //(0022,000B)
-      = const Tag._("IntraOcularPressure", 0x0022000B,
-          "Intra Ocular Pressure", VR.kFL, VM.k1, false);
+      = const Tag._("IntraOcularPressure", 0x0022000B, "Intra Ocular Pressure",
+          VR.kFL, VM.k1, false);
   static const Tag kHorizontalFieldOfView
       //(0022,000C)
       = const Tag._("HorizontalFieldOfView", 0x0022000C,
@@ -6049,8 +6004,8 @@ class Tag {
           VR.kFL, VM.k1, false);
   static const Tag kStereoBaselineAngle
       //(0022,0010)
-      = const Tag._("StereoBaselineAngle", 0x00220010,
-          "Stereo Baseline Angle", VR.kFL, VM.k1, false);
+      = const Tag._("StereoBaselineAngle", 0x00220010, "Stereo Baseline Angle",
+          VR.kFL, VM.k1, false);
   static const Tag kStereoBaselineDisplacement
       //(0022,0011)
       = const Tag._("StereoBaselineDisplacement", 0x00220011,
@@ -6065,8 +6020,8 @@ class Tag {
           "Stereo Vertical Pixel Offset", VR.kFL, VM.k1, false);
   static const Tag kStereoRotation
       //(0022,0014)
-      = const Tag._("StereoRotation", 0x00220014, "Stereo Rotation",
-          VR.kFL, VM.k1, false);
+      = const Tag._("StereoRotation", 0x00220014, "Stereo Rotation", VR.kFL,
+          VM.k1, false);
   static const Tag kAcquisitionDeviceTypeCodeSequence
       //(0022,0015)
       = const Tag._("AcquisitionDeviceTypeCodeSequence", 0x00220015,
@@ -6085,8 +6040,8 @@ class Tag {
           "Image Path Filter Type Stack Code Sequence", VR.kSQ, VM.k1, false);
   static const Tag kLensesCodeSequence
       //(0022,0019)
-      = const Tag._("LensesCodeSequence", 0x00220019,
-          "Lenses Code Sequence", VR.kSQ, VM.k1, false);
+      = const Tag._("LensesCodeSequence", 0x00220019, "Lenses Code Sequence",
+          VR.kSQ, VM.k1, false);
   static const Tag kChannelDescriptionCodeSequence
       //(0022,001A)
       = const Tag._("ChannelDescriptionCodeSequence", 0x0022001A,
@@ -6105,20 +6060,20 @@ class Tag {
           "Relative Image Position Code Sequence", VR.kSQ, VM.k1, false);
   static const Tag kCameraAngleOfView
       //(0022,001E)
-      = const Tag._("CameraAngleOfView", 0x0022001E,
-          "Camera Angle of View", VR.kFL, VM.k1, false);
+      = const Tag._("CameraAngleOfView", 0x0022001E, "Camera Angle of View",
+          VR.kFL, VM.k1, false);
   static const Tag kStereoPairsSequence
       //(0022,0020)
-      = const Tag._("StereoPairsSequence", 0x00220020,
-          "Stereo Pairs Sequence", VR.kSQ, VM.k1, false);
+      = const Tag._("StereoPairsSequence", 0x00220020, "Stereo Pairs Sequence",
+          VR.kSQ, VM.k1, false);
   static const Tag kLeftImageSequence
       //(0022,0021)
       = const Tag._("LeftImageSequence", 0x00220021, "Left Image Sequence",
           VR.kSQ, VM.k1, false);
   static const Tag kRightImageSequence
       //(0022,0022)
-      = const Tag._("RightImageSequence", 0x00220022,
-          "Right Image Sequence", VR.kSQ, VM.k1, false);
+      = const Tag._("RightImageSequence", 0x00220022, "Right Image Sequence",
+          VR.kSQ, VM.k1, false);
   static const Tag kAxialLengthOfTheEye
       //(0022,0030)
       = const Tag._("AxialLengthOfTheEye", 0x00220030,
@@ -6129,8 +6084,8 @@ class Tag {
           "Ophthalmic Frame Location Sequence", VR.kSQ, VM.k1, false);
   static const Tag kReferenceCoordinates
       //(0022,0032)
-      = const Tag._("ReferenceCoordinates", 0x00220032,
-          "Reference Coordinates", VR.kFL, VM.k2_2n, false);
+      = const Tag._("ReferenceCoordinates", 0x00220032, "Reference Coordinates",
+          VR.kFL, VM.k2_2n, false);
   static const Tag kDepthSpatialResolution
       //(0022,0035)
       = const Tag._("DepthSpatialResolution", 0x00220035,
@@ -6239,8 +6194,8 @@ class Tag {
           VR.kLO, VM.k1, false);
   static const Tag kKeratometerIndex
       //(0022,1033)
-      = const Tag._("KeratometerIndex", 0x00221033, "Keratometer Index",
-          VR.kFL, VM.k1, false);
+      = const Tag._("KeratometerIndex", 0x00221033, "Keratometer Index", VR.kFL,
+          VM.k1, false);
   static const Tag kSourceOfOphthalmicAxialLengthCodeSequence
       //(0022,1035)
       = const Tag._(
@@ -6252,8 +6207,8 @@ class Tag {
           false);
   static const Tag kTargetRefraction
       //(0022,1037)
-      = const Tag._("TargetRefraction", 0x00221037, "Target Refraction",
-          VR.kFL, VM.k1, false);
+      = const Tag._("TargetRefraction", 0x00221037, "Target Refraction", VR.kFL,
+          VM.k1, false);
   static const Tag kRefractiveProcedureOccurred
       //(0022,1039)
       = const Tag._("RefractiveProcedureOccurred", 0x00221039,
@@ -6277,8 +6232,7 @@ class Tag {
           false);
   static const Tag kIOLPower
       //(0022,1053)
-      = const Tag._(
-          "IOLPower", 0x00221053, "IOL Power", VR.kFL, VM.k1, false);
+      = const Tag._("IOLPower", 0x00221053, "IOL Power", VR.kFL, VM.k1, false);
   static const Tag kPredictedRefractiveError
       //(0022,1054)
       = const Tag._("PredictedRefractiveError", 0x00221054,
@@ -6305,8 +6259,8 @@ class Tag {
           "Lens Constant Sequence", VR.kSQ, VM.k1, false);
   static const Tag kIOLManufacturer
       //(0022,1093)
-      = const Tag._("IOLManufacturer", 0x00221093, "IOL Manufacturer",
-          VR.kLO, VM.k1, false);
+      = const Tag._("IOLManufacturer", 0x00221093, "IOL Manufacturer", VR.kLO,
+          VM.k1, false);
   static const Tag kLensConstantDescription
       //(0022,1094)
       = const Tag._("LensConstantDescription", 0x00221094,
@@ -6433,8 +6387,8 @@ class Tag {
           true);
   static const Tag kSignalToNoiseRatio
       //(0022,1155)
-      = const Tag._("SignalToNoiseRatio", 0x00221155,
-          "Signal to Noise Ratio", VR.kFL, VM.k1, false);
+      = const Tag._("SignalToNoiseRatio", 0x00221155, "Signal to Noise Ratio",
+          VR.kFL, VM.k1, false);
   static const Tag kOphthalmicAxialLengthDataSourceDescription
       //(0022,1159)
       = const Tag._(
@@ -6712,8 +6666,8 @@ class Tag {
           "Maximum Stimulus Luminance", VR.kFL, VM.k1, false);
   static const Tag kBackgroundLuminance
       //(0024,0020)
-      = const Tag._("BackgroundLuminance", 0x00240020,
-          "Background Luminance", VR.kFL, VM.k1, false);
+      = const Tag._("BackgroundLuminance", 0x00240020, "Background Luminance",
+          VR.kFL, VM.k1, false);
   static const Tag kStimulusColorCodeSequence
       //(0024,0021)
       = const Tag._("StimulusColorCodeSequence", 0x00240021,
@@ -6732,8 +6686,8 @@ class Tag {
           "Stimulus Presentation Time", VR.kFL, VM.k1, false);
   static const Tag kFixationSequence
       //(0024,0032)
-      = const Tag._("FixationSequence", 0x00240032, "Fixation Sequence",
-          VR.kSQ, VM.k1, false);
+      = const Tag._("FixationSequence", 0x00240032, "Fixation Sequence", VR.kSQ,
+          VM.k1, false);
   static const Tag kFixationMonitoringCodeSequence
       //(0024,0033)
       = const Tag._("FixationMonitoringCodeSequence", 0x00240033,
@@ -6813,8 +6767,8 @@ class Tag {
           "False Positives Estimate", VR.kFL, VM.k1, false);
   static const Tag kCatchTrialsDataFlag
       //(0024,0055)
-      = const Tag._("CatchTrialsDataFlag", 0x00240055,
-          "Catch Trials Data Flag", VR.kCS, VM.k1, false);
+      = const Tag._("CatchTrialsDataFlag", 0x00240055, "Catch Trials Data Flag",
+          VR.kCS, VM.k1, false);
   static const Tag kPositiveCatchTrialsQuantity
       //(0024,0056)
       = const Tag._("PositiveCatchTrialsQuantity", 0x00240056,
@@ -6987,16 +6941,16 @@ class Tag {
           "Age Corrected Sensitivity Deviation Value", VR.kFL, VM.k1, false);
   static const Tag kStimulusResults
       //(0024,0093)
-      = const Tag._("StimulusResults", 0x00240093, "Stimulus Results",
-          VR.kCS, VM.k1, false);
+      = const Tag._("StimulusResults", 0x00240093, "Stimulus Results", VR.kCS,
+          VM.k1, false);
   static const Tag kSensitivityValue
       //(0024,0094)
-      = const Tag._("SensitivityValue", 0x00240094, "Sensitivity Value",
-          VR.kFL, VM.k1, false);
+      = const Tag._("SensitivityValue", 0x00240094, "Sensitivity Value", VR.kFL,
+          VM.k1, false);
   static const Tag kRetestStimulusSeen
       //(0024,0095)
-      = const Tag._("RetestStimulusSeen", 0x00240095,
-          "Retest Stimulus Seen", VR.kCS, VM.k1, false);
+      = const Tag._("RetestStimulusSeen", 0x00240095, "Retest Stimulus Seen",
+          VR.kCS, VM.k1, false);
   static const Tag kRetestSensitivityValue
       //(0024,0096)
       = const Tag._("RetestSensitivityValue", 0x00240096,
@@ -7007,8 +6961,8 @@ class Tag {
           "Visual Field Test Point Normals Sequence", VR.kSQ, VM.k1, false);
   static const Tag kQuantifiedDefect
       //(0024,0098)
-      = const Tag._("QuantifiedDefect", 0x00240098, "Quantified Defect",
-          VR.kFL, VM.k1, false);
+      = const Tag._("QuantifiedDefect", 0x00240098, "Quantified Defect", VR.kFL,
+          VM.k1, false);
   static const Tag kAgeCorrectedSensitivityDeviationProbabilityValue
       //(0024,0100)
       = const Tag._(
@@ -7053,8 +7007,8 @@ class Tag {
           "Minimum Sensitivity Value", VR.kFL, VM.k1, false);
   static const Tag kBlindSpotLocalized
       //(0024,0106)
-      = const Tag._("BlindSpotLocalized", 0x00240106,
-          "Blind Spot Localized", VR.kCS, VM.k1, false);
+      = const Tag._("BlindSpotLocalized", 0x00240106, "Blind Spot Localized",
+          VR.kCS, VM.k1, false);
   static const Tag kBlindSpotXCoordinate
       //(0024,0107)
       = const Tag._("BlindSpotXCoordinate", 0x00240107,
@@ -7124,24 +7078,24 @@ class Tag {
           "Screening Baseline Value", VR.kFL, VM.k1, false);
   static const Tag kAlgorithmSource
       //(0024,0202)
-      = const Tag._("AlgorithmSource", 0x00240202, "Algorithm Source",
-          VR.kLO, VM.k1, false);
+      = const Tag._("AlgorithmSource", 0x00240202, "Algorithm Source", VR.kLO,
+          VM.k1, false);
   static const Tag kDataSetName
       //(0024,0306)
       = const Tag._(
           "DataSetName", 0x00240306, "Data Set Name", VR.kLO, VM.k1, false);
   static const Tag kDataSetVersion
       //(0024,0307)
-      = const Tag._("DataSetVersion", 0x00240307, "Data Set Version",
-          VR.kLO, VM.k1, false);
+      = const Tag._("DataSetVersion", 0x00240307, "Data Set Version", VR.kLO,
+          VM.k1, false);
   static const Tag kDataSetSource
       //(0024,0308)
       = const Tag._(
           "DataSetSource", 0x00240308, "Data Set Source", VR.kLO, VM.k1, false);
   static const Tag kDataSetDescription
       //(0024,0309)
-      = const Tag._("DataSetDescription", 0x00240309,
-          "Data Set Description", VR.kLO, VM.k1, false);
+      = const Tag._("DataSetDescription", 0x00240309, "Data Set Description",
+          VR.kLO, VM.k1, false);
   static const Tag kVisualFieldTestReliabilityGlobalIndexSequence
       //(0024,0317)
       = const Tag._(
@@ -7165,36 +7119,36 @@ class Tag {
           VR.kCS, VM.k1, false);
   static const Tag kIndexProbability
       //(0024,0341)
-      = const Tag._("IndexProbability", 0x00240341, "Index Probability",
-          VR.kFL, VM.k1, false);
+      = const Tag._("IndexProbability", 0x00240341, "Index Probability", VR.kFL,
+          VM.k1, false);
   static const Tag kIndexProbabilitySequence
       //(0024,0344)
       = const Tag._("IndexProbabilitySequence", 0x00240344,
           "Index Probability Sequence", VR.kSQ, VM.k1, false);
   static const Tag kSamplesPerPixel
       //(0028,0002)
-      = const Tag._("SamplesPerPixel", 0x00280002, "Samples per Pixel",
-          VR.kUS, VM.k1, false);
+      = const Tag._("SamplesPerPixel", 0x00280002, "Samples per Pixel", VR.kUS,
+          VM.k1, false);
   static const Tag kSamplesPerPixelUsed
       //(0028,0003)
-      = const Tag._("SamplesPerPixelUsed", 0x00280003,
-          "Samples per Pixel Used", VR.kUS, VM.k1, false);
+      = const Tag._("SamplesPerPixelUsed", 0x00280003, "Samples per Pixel Used",
+          VR.kUS, VM.k1, false);
   static const Tag kPhotometricInterpretation
       //(0028,0004)
       = const Tag._("PhotometricInterpretation", 0x00280004,
           "Photometric Interpretation", VR.kCS, VM.k1, false);
   static const Tag kImageDimensions
       //(0028,0005)
-      = const Tag._("ImageDimensions", 0x00280005, "Image Dimensions",
-          VR.kUS, VM.k1, true);
+      = const Tag._("ImageDimensions", 0x00280005, "Image Dimensions", VR.kUS,
+          VM.k1, true);
   static const Tag kPlanarConfiguration
       //(0028,0006)
-      = const Tag._("PlanarConfiguration", 0x00280006,
-          "Planar Configuration", VR.kUS, VM.k1, false);
+      = const Tag._("PlanarConfiguration", 0x00280006, "Planar Configuration",
+          VR.kUS, VM.k1, false);
   static const Tag kNumberOfFrames
       //(0028,0008)
-      = const Tag._("NumberOfFrames", 0x00280008, "Number of Frames",
-          VR.kIS, VM.k1, false);
+      = const Tag._("NumberOfFrames", 0x00280008, "Number of Frames", VR.kIS,
+          VM.k1, false);
   static const Tag kFrameIncrementPointer
       //(0028,0009)
       = const Tag._("FrameIncrementPointer", 0x00280009,
@@ -7208,8 +7162,7 @@ class Tag {
       = const Tag._("Rows", 0x00280010, "Rows", VR.kUS, VM.k1, false);
   static const Tag kColumns
       //(0028,0011)
-      =
-      const Tag._("Columns", 0x00280011, "Columns", VR.kUS, VM.k1, false);
+      = const Tag._("Columns", 0x00280011, "Columns", VR.kUS, VM.k1, false);
   static const Tag kPlanes
       //(0028,0012)
       = const Tag._("Planes", 0x00280012, "Planes", VR.kUS, VM.k1, true);
@@ -7243,36 +7196,36 @@ class Tag {
           "ImageFormat", 0x00280040, "Image Format", VR.kCS, VM.k1, true);
   static const Tag kManipulatedImage
       //(0028,0050)
-      = const Tag._("ManipulatedImage", 0x00280050, "Manipulated Image",
-          VR.kLO, VM.k1_n, true);
+      = const Tag._("ManipulatedImage", 0x00280050, "Manipulated Image", VR.kLO,
+          VM.k1_n, true);
   static const Tag kCorrectedImage
       //(0028,0051)
-      = const Tag._("CorrectedImage", 0x00280051, "Corrected Image",
-          VR.kCS, VM.k1_n, false);
+      = const Tag._("CorrectedImage", 0x00280051, "Corrected Image", VR.kCS,
+          VM.k1_n, false);
   static const Tag kCompressionRecognitionCode
       //(0028,005F)
       = const Tag._("CompressionRecognitionCode", 0x0028005F,
           "Compression Recognition Code", VR.kLO, VM.k1, true);
   static const Tag kCompressionCode
       //(0028,0060)
-      = const Tag._("CompressionCode", 0x00280060, "Compression Code",
-          VR.kCS, VM.k1, true);
+      = const Tag._("CompressionCode", 0x00280060, "Compression Code", VR.kCS,
+          VM.k1, true);
   static const Tag kCompressionOriginator
       //(0028,0061)
       = const Tag._("CompressionOriginator", 0x00280061,
           "Compression Originator", VR.kSH, VM.k1, true);
   static const Tag kCompressionLabel
       //(0028,0062)
-      = const Tag._("CompressionLabel", 0x00280062, "Compression Label",
-          VR.kLO, VM.k1, true);
+      = const Tag._("CompressionLabel", 0x00280062, "Compression Label", VR.kLO,
+          VM.k1, true);
   static const Tag kCompressionDescription
       //(0028,0063)
       = const Tag._("CompressionDescription", 0x00280063,
           "Compression Description", VR.kSH, VM.k1, true);
   static const Tag kCompressionSequence
       //(0028,0065)
-      = const Tag._("CompressionSequence", 0x00280065,
-          "Compression Sequence", VR.kCS, VM.k1_n, true);
+      = const Tag._("CompressionSequence", 0x00280065, "Compression Sequence",
+          VR.kCS, VM.k1_n, true);
   static const Tag kCompressionStepPointers
       //(0028,0066)
       = const Tag._("CompressionStepPointers", 0x00280066,
@@ -7287,40 +7240,39 @@ class Tag {
           "BitsGrouped", 0x00280069, "Bits Grouped", VR.kUS, VM.k1, true);
   static const Tag kPerimeterTable
       //(0028,0070)
-      = const Tag._("PerimeterTable", 0x00280070, "Perimeter Table",
-          VR.kUS, VM.k1_n, true);
+      = const Tag._("PerimeterTable", 0x00280070, "Perimeter Table", VR.kUS,
+          VM.k1_n, true);
   static const Tag kPerimeterValue
       //(0028,0071)
-      = const Tag._("PerimeterValue", 0x00280071, "Perimeter Value",
-          VR.kUSSS, VM.k1, true);
+      = const Tag._("PerimeterValue", 0x00280071, "Perimeter Value", VR.kUSSS,
+          VM.k1, true);
   static const Tag kPredictorRows
       //(0028,0080)
       = const Tag._(
           "PredictorRows", 0x00280080, "Predictor Rows", VR.kUS, VM.k1, true);
   static const Tag kPredictorColumns
       //(0028,0081)
-      = const Tag._("PredictorColumns", 0x00280081, "Predictor Columns",
-          VR.kUS, VM.k1, true);
+      = const Tag._("PredictorColumns", 0x00280081, "Predictor Columns", VR.kUS,
+          VM.k1, true);
   static const Tag kPredictorConstants
       //(0028,0082)
-      = const Tag._("PredictorConstants", 0x00280082,
-          "Predictor Constants", VR.kUS, VM.k1_n, true);
+      = const Tag._("PredictorConstants", 0x00280082, "Predictor Constants",
+          VR.kUS, VM.k1_n, true);
   static const Tag kBlockedPixels
       //(0028,0090)
       = const Tag._(
           "BlockedPixels", 0x00280090, "Blocked Pixels", VR.kCS, VM.k1, true);
   static const Tag kBlockRows
       //(0028,0091)
-      = const Tag._(
-          "BlockRows", 0x00280091, "Block Rows", VR.kUS, VM.k1, true);
+      = const Tag._("BlockRows", 0x00280091, "Block Rows", VR.kUS, VM.k1, true);
   static const Tag kBlockColumns
       //(0028,0092)
       = const Tag._(
           "BlockColumns", 0x00280092, "Block Columns", VR.kUS, VM.k1, true);
   static const Tag kRowOverlap
       //(0028,0093)
-      = const Tag._(
-          "RowOverlap", 0x00280093, "Row Overlap", VR.kUS, VM.k1, true);
+      =
+      const Tag._("RowOverlap", 0x00280093, "Row Overlap", VR.kUS, VM.k1, true);
   static const Tag kColumnOverlap
       //(0028,0094)
       = const Tag._(
@@ -7335,12 +7287,11 @@ class Tag {
           "BitsStored", 0x00280101, "Bits Stored", VR.kUS, VM.k1, false);
   static const Tag kHighBit
       //(0028,0102)
-      =
-      const Tag._("HighBit", 0x00280102, "High Bit", VR.kUS, VM.k1, false);
+      = const Tag._("HighBit", 0x00280102, "High Bit", VR.kUS, VM.k1, false);
   static const Tag kPixelRepresentation
       //(0028,0103)
-      = const Tag._("PixelRepresentation", 0x00280103,
-          "Pixel Representation", VR.kUS, VM.k1, false);
+      = const Tag._("PixelRepresentation", 0x00280103, "Pixel Representation",
+          VR.kUS, VM.k1, false);
   static const Tag kSmallestValidPixelValue
       //(0028,0104)
       = const Tag._("SmallestValidPixelValue", 0x00280104,
@@ -7387,12 +7338,12 @@ class Tag {
           "ImageLocation", 0x00280200, "Image Location", VR.kUS, VM.k1, true);
   static const Tag kQualityControlImage
       //(0028,0300)
-      = const Tag._("QualityControlImage", 0x00280300,
-          "Quality Control Image", VR.kCS, VM.k1, false);
+      = const Tag._("QualityControlImage", 0x00280300, "Quality Control Image",
+          VR.kCS, VM.k1, false);
   static const Tag kBurnedInAnnotation
       //(0028,0301)
-      = const Tag._("BurnedInAnnotation", 0x00280301,
-          "Burned In Annotation", VR.kCS, VM.k1, false);
+      = const Tag._("BurnedInAnnotation", 0x00280301, "Burned In Annotation",
+          VR.kCS, VM.k1, false);
   static const Tag kRecognizableVisualFeatures
       //(0028,0302)
       = const Tag._("RecognizableVisualFeatures", 0x00280302,
@@ -7449,16 +7400,15 @@ class Tag {
   //    .kAT, VM.k1_n, true);
   static const Tag kDCTLabel
       //(0028,0700)
-      = const Tag._(
-          "DCTLabel", 0x00280700, "DCT Label", VR.kLO, VM.k1, true);
+      = const Tag._("DCTLabel", 0x00280700, "DCT Label", VR.kLO, VM.k1, true);
   static const Tag kDataBlockDescription
       //(0028,0701)
       = const Tag._("DataBlockDescription", 0x00280701,
           "Data Block Description", VR.kCS, VM.k1_n, true);
   static const Tag kDataBlock
       //(0028,0702)
-      = const Tag._(
-          "DataBlock", 0x00280702, "Data Block", VR.kAT, VM.k1_n, true);
+      =
+      const Tag._("DataBlock", 0x00280702, "Data Block", VR.kAT, VM.k1_n, true);
   static const Tag kNormalizationFactorFormat
       //(0028,0710)
       = const Tag._("NormalizationFactorFormat", 0x00280710,
@@ -7473,8 +7423,8 @@ class Tag {
           VR.kAT, VM.k1_n, true);
   static const Tag kZonalMapFormat
       //(0028,0722)
-      = const Tag._("ZonalMapFormat", 0x00280722, "Zonal Map Format",
-          VR.kUS, VM.k1, true);
+      = const Tag._("ZonalMapFormat", 0x00280722, "Zonal Map Format", VR.kUS,
+          VM.k1, true);
   static const Tag kAdaptiveMapFormat
       //(0028,0730)
       = const Tag._("AdaptiveMapFormat", 0x00280730, "Adaptive Map Format",
@@ -7485,20 +7435,20 @@ class Tag {
           VR.kUS, VM.k1, true);
   static const Tag kCodeLabel
       //(0028,0800)
-      = const Tag._(
-          "CodeLabel", 0x00280800, "Code Label", VR.kCS, VM.k1_n, true);
+      =
+      const Tag._("CodeLabel", 0x00280800, "Code Label", VR.kCS, VM.k1_n, true);
   static const Tag kNumberOfTables
       //(0028,0802)
-      = const Tag._("NumberOfTables", 0x00280802, "Number of Tables",
-          VR.kUS, VM.k1, true);
+      = const Tag._("NumberOfTables", 0x00280802, "Number of Tables", VR.kUS,
+          VM.k1, true);
   static const Tag kCodeTableLocation
       //(0028,0803)
       = const Tag._("CodeTableLocation", 0x00280803, "Code Table Location",
           VR.kAT, VM.k1_n, true);
   static const Tag kBitsForCodeWord
       //(0028,0804)
-      = const Tag._("BitsForCodeWord", 0x00280804, "Bits For Code Word",
-          VR.kUS, VM.k1, true);
+      = const Tag._("BitsForCodeWord", 0x00280804, "Bits For Code Word", VR.kUS,
+          VM.k1, true);
   static const Tag kImageDataLocation
       //(0028,0808)
       = const Tag._("ImageDataLocation", 0x00280808, "Image Data Location",
@@ -7529,8 +7479,8 @@ class Tag {
           "WindowWidth", 0x00281051, "Window Width", VR.kDS, VM.k1_n, false);
   static const Tag kRescaleIntercept
       //(0028,1052)
-      = const Tag._("RescaleIntercept", 0x00281052, "Rescale Intercept",
-          VR.kDS, VM.k1, false);
+      = const Tag._("RescaleIntercept", 0x00281052, "Rescale Intercept", VR.kDS,
+          VM.k1, false);
   static const Tag kRescaleSlope
       //(0028,1053)
       = const Tag._(
@@ -7545,12 +7495,11 @@ class Tag {
           "Window Center & Width Explanation", VR.kLO, VM.k1_n, false);
   static const Tag kVOILUTFunction
       //(0028,1056)
-      = const Tag._("VOILUTFunction", 0x00281056, "VOI LUT Function",
-          VR.kCS, VM.k1, false);
+      = const Tag._("VOILUTFunction", 0x00281056, "VOI LUT Function", VR.kCS,
+          VM.k1, false);
   static const Tag kGrayScale
       //(0028,1080)
-      = const Tag._(
-          "GrayScale", 0x00281080, "Gray Scale", VR.kCS, VM.k1, true);
+      = const Tag._("GrayScale", 0x00281080, "Gray Scale", VR.kCS, VM.k1, true);
   static const Tag kRecommendedViewingMode
       //(0028,1090)
       = const Tag._("RecommendedViewingMode", 0x00281090,
@@ -7613,8 +7562,8 @@ class Tag {
           "Palette Color Lookup Table UID", VR.kUI, VM.k1, false);
   static const Tag kGrayLookupTableData
       //(0028,1200)
-      = const Tag._("GrayLookupTableData", 0x00281200,
-          "Gray Lookup Table Data", VR.kUSSSOW, VM.k1_n, true);
+      = const Tag._("GrayLookupTableData", 0x00281200, "Gray Lookup Table Data",
+          VR.kUSSSOW, VM.k1_n, true);
   static const Tag kRedPaletteColorLookupTableData
       //(0028,1201)
       = const Tag._("RedPaletteColorLookupTableData", 0x00281201,
@@ -7700,8 +7649,8 @@ class Tag {
           "Data Frame Assignment Sequence", VR.kSQ, VM.k1, false);
   static const Tag kDataPathAssignment
       //(0028,1402)
-      = const Tag._("DataPathAssignment", 0x00281402,
-          "Data Path Assignment", VR.kCS, VM.k1, false);
+      = const Tag._("DataPathAssignment", 0x00281402, "Data Path Assignment",
+          VR.kCS, VM.k1, false);
   static const Tag kBitsMappedToColorLookupTable
       //(0028,1403)
       = const Tag._("BitsMappedToColorLookupTable", 0x00281403,
@@ -7768,28 +7717,28 @@ class Tag {
           "Lossy Image Compression Method", VR.kCS, VM.k1_n, false);
   static const Tag kModalityLUTSequence
       //(0028,3000)
-      = const Tag._("ModalityLUTSequence", 0x00283000,
-          "Modality LUT Sequence", VR.kSQ, VM.k1, false);
+      = const Tag._("ModalityLUTSequence", 0x00283000, "Modality LUT Sequence",
+          VR.kSQ, VM.k1, false);
   static const Tag kLUTDescriptor
       //(0028,3002)
-      = const Tag._("LUTDescriptor", 0x00283002, "LUT Descriptor",
-          VR.kUSSS, VM.k3, false);
+      = const Tag._("LUTDescriptor", 0x00283002, "LUT Descriptor", VR.kUSSS,
+          VM.k3, false);
   static const Tag kLUTExplanation
       //(0028,3003)
-      = const Tag._("LUTExplanation", 0x00283003, "LUT Explanation",
-          VR.kLO, VM.k1, false);
+      = const Tag._("LUTExplanation", 0x00283003, "LUT Explanation", VR.kLO,
+          VM.k1, false);
   static const Tag kModalityLUTType
       //(0028,3004)
-      = const Tag._("ModalityLUTType", 0x00283004, "Modality LUT Type",
-          VR.kLO, VM.k1, false);
+      = const Tag._("ModalityLUTType", 0x00283004, "Modality LUT Type", VR.kLO,
+          VM.k1, false);
   static const Tag kLUTData
       //(0028,3006)
-      = const Tag._(
-          "LUTData", 0x00283006, "LUT Data", VR.kUSOW, VM.k1_n, false);
+      =
+      const Tag._("LUTData", 0x00283006, "LUT Data", VR.kUSOW, VM.k1_n, false);
   static const Tag kVOILUTSequence
       //(0028,3010)
-      = const Tag._("VOILUTSequence", 0x00283010, "VOI LUT Sequence",
-          VR.kSQ, VM.k1, false);
+      = const Tag._("VOILUTSequence", 0x00283010, "VOI LUT Sequence", VR.kSQ,
+          VM.k1, false);
   static const Tag kSoftcopyVOILUTSequence
       //(0028,3110)
       = const Tag._("SoftcopyVOILUTSequence", 0x00283110,
@@ -7816,8 +7765,8 @@ class Tag {
           "Frame of Interest Description", VR.kLO, VM.k1_n, false);
   static const Tag kFrameOfInterestType
       //(0028,6023)
-      = const Tag._("FrameOfInterestType", 0x00286023,
-          "Frame of Interest Type", VR.kCS, VM.k1_n, false);
+      = const Tag._("FrameOfInterestType", 0x00286023, "Frame of Interest Type",
+          VR.kCS, VM.k1_n, false);
   static const Tag kMaskPointers
       //(0028,6030)
       = const Tag._(
@@ -7848,12 +7797,12 @@ class Tag {
           "Contrast Frame Averaging", VR.kUS, VM.k1, false);
   static const Tag kMaskSubPixelShift
       //(0028,6114)
-      = const Tag._("MaskSubPixelShift", 0x00286114,
-          "Mask Sub-pixel Shift", VR.kFL, VM.k2, false);
+      = const Tag._("MaskSubPixelShift", 0x00286114, "Mask Sub-pixel Shift",
+          VR.kFL, VM.k2, false);
   static const Tag kTIDOffset
       //(0028,6120)
-      = const Tag._(
-          "TIDOffset", 0x00286120, "TID Offset", VR.kSS, VM.k1, false);
+      =
+      const Tag._("TIDOffset", 0x00286120, "TID Offset", VR.kSS, VM.k1, false);
   static const Tag kMaskOperationExplanation
       //(0028,6190)
       = const Tag._("MaskOperationExplanation", 0x00286190,
@@ -7872,24 +7821,24 @@ class Tag {
           VR.kUL, VM.k1, false);
   static const Tag kSignalDomainColumns
       //(0028,9003)
-      = const Tag._("SignalDomainColumns", 0x00289003,
-          "Signal Domain Columns", VR.kCS, VM.k1, false);
+      = const Tag._("SignalDomainColumns", 0x00289003, "Signal Domain Columns",
+          VR.kCS, VM.k1, false);
   static const Tag kLargestMonochromePixelValue
       //(0028,9099)
       = const Tag._("LargestMonochromePixelValue", 0x00289099,
           "Largest Monochrome Pixel Value", VR.kUS, VM.k1, true);
   static const Tag kDataRepresentation
       //(0028,9108)
-      = const Tag._("DataRepresentation", 0x00289108,
-          "Data Representation", VR.kCS, VM.k1, false);
+      = const Tag._("DataRepresentation", 0x00289108, "Data Representation",
+          VR.kCS, VM.k1, false);
   static const Tag kPixelMeasuresSequence
       //(0028,9110)
       = const Tag._("PixelMeasuresSequence", 0x00289110,
           "Pixel Measures Sequence", VR.kSQ, VM.k1, false);
   static const Tag kFrameVOILUTSequence
       //(0028,9132)
-      = const Tag._("FrameVOILUTSequence", 0x00289132,
-          "Frame VOI LUT Sequence", VR.kSQ, VM.k1, false);
+      = const Tag._("FrameVOILUTSequence", 0x00289132, "Frame VOI LUT Sequence",
+          VR.kSQ, VM.k1, false);
   static const Tag kPixelValueTransformationSequence
       //(0028,9145)
       = const Tag._("PixelValueTransformationSequence", 0x00289145,
@@ -7944,16 +7893,16 @@ class Tag {
           "Mask Visibility Percentage", VR.kFL, VM.k1, false);
   static const Tag kPixelShiftSequence
       //(0028,9501)
-      = const Tag._("PixelShiftSequence", 0x00289501,
-          "Pixel Shift Sequence", VR.kSQ, VM.k1, false);
+      = const Tag._("PixelShiftSequence", 0x00289501, "Pixel Shift Sequence",
+          VR.kSQ, VM.k1, false);
   static const Tag kRegionPixelShiftSequence
       //(0028,9502)
       = const Tag._("RegionPixelShiftSequence", 0x00289502,
           "Region Pixel Shift Sequence", VR.kSQ, VM.k1, false);
   static const Tag kVerticesOfTheRegion
       //(0028,9503)
-      = const Tag._("VerticesOfTheRegion", 0x00289503,
-          "Vertices of the Region", VR.kSS, VM.k2_2n, false);
+      = const Tag._("VerticesOfTheRegion", 0x00289503, "Vertices of the Region",
+          VR.kSS, VM.k2_2n, false);
   static const Tag kMultiFramePresentationSequence
       //(0028,9505)
       = const Tag._("MultiFramePresentationSequence", 0x00289505,
@@ -7980,8 +7929,8 @@ class Tag {
           "StudyStatusID", 0x0032000A, "Study Status ID", VR.kCS, VM.k1, true);
   static const Tag kStudyPriorityID
       //(0032,000C)
-      = const Tag._("StudyPriorityID", 0x0032000C, "Study Priority ID",
-          VR.kCS, VM.k1, true);
+      = const Tag._("StudyPriorityID", 0x0032000C, "Study Priority ID", VR.kCS,
+          VM.k1, true);
   static const Tag kStudyIDIssuer
       //(0032,0012)
       = const Tag._(
@@ -8028,21 +7977,16 @@ class Tag {
           "Scheduled Study Location AE Title", VR.kAE, VM.k1_n, true);
   static const Tag kReasonForStudy
       //(0032,1030)
-      = const Tag._("ReasonForStudy", 0x00321030, "Reason for Study",
-          VR.kLO, VM.k1, true);
+      = const Tag._("ReasonForStudy", 0x00321030, "Reason for Study", VR.kLO,
+          VM.k1, true);
   static const Tag kRequestingPhysicianIdentificationSequence
       //(0032,1031)
-      = const Tag._(
-          "RequestingPhysicianIdentificationSequence",
-          0x00321031,
-          "Requesting Physician Identification Sequence",
-          VR.kSQ,
-          VM.k1,
-          false);
+      = const Tag._("RequestingPhysicianIdentificationSequence", 0x00321031,
+          "Requesting Physician Identification Sequence", VR.kSQ, VM.k1, false);
   static const Tag kRequestingPhysician
       //(0032,1032)
-      = const Tag._("RequestingPhysician", 0x00321032,
-          "Requesting Physician", VR.kPN, VM.k1, false);
+      = const Tag._("RequestingPhysician", 0x00321032, "Requesting Physician",
+          VR.kPN, VM.k1, false);
   static const Tag kRequestingService
       //(0032,1033)
       = const Tag._("RequestingService", 0x00321033, "Requesting Service",
@@ -8061,12 +8005,12 @@ class Tag {
           VR.kTM, VM.k1, true);
   static const Tag kStudyCompletionDate
       //(0032,1050)
-      = const Tag._("StudyCompletionDate", 0x00321050,
-          "Study Completion Date", VR.kDA, VM.k1, true);
+      = const Tag._("StudyCompletionDate", 0x00321050, "Study Completion Date",
+          VR.kDA, VM.k1, true);
   static const Tag kStudyCompletionTime
       //(0032,1051)
-      = const Tag._("StudyCompletionTime", 0x00321051,
-          "Study Completion Time", VR.kTM, VM.k1, true);
+      = const Tag._("StudyCompletionTime", 0x00321051, "Study Completion Time",
+          VR.kTM, VM.k1, true);
   static const Tag kStudyComponentStatusID
       //(0032,1055)
       = const Tag._("StudyComponentStatusID", 0x00321055,
@@ -8101,8 +8045,8 @@ class Tag {
           "AdmissionID", 0x00380010, "Admission ID", VR.kLO, VM.k1, false);
   static const Tag kIssuerOfAdmissionID
       //(0038,0011)
-      = const Tag._("IssuerOfAdmissionID", 0x00380011,
-          "Issuer of Admission ID", VR.kLO, VM.k1, true);
+      = const Tag._("IssuerOfAdmissionID", 0x00380011, "Issuer of Admission ID",
+          VR.kLO, VM.k1, true);
   static const Tag kIssuerOfAdmissionIDSequence
       //(0038,0014)
       = const Tag._("IssuerOfAdmissionIDSequence", 0x00380014,
@@ -8206,8 +8150,8 @@ class Tag {
           "VisitComments", 0x00384000, "Visit Comments", VR.kLT, VM.k1, false);
   static const Tag kWaveformOriginality
       //(003A,0004)
-      = const Tag._("WaveformOriginality", 0x003A0004,
-          "Waveform Originality", VR.kCS, VM.k1, false);
+      = const Tag._("WaveformOriginality", 0x003A0004, "Waveform Originality",
+          VR.kCS, VM.k1, false);
   static const Tag kNumberOfWaveformChannels
       //(003A,0005)
       = const Tag._("NumberOfWaveformChannels", 0x003A0005,
@@ -8222,8 +8166,8 @@ class Tag {
           VR.kDS, VM.k1, false);
   static const Tag kMultiplexGroupLabel
       //(003A,0020)
-      = const Tag._("MultiplexGroupLabel", 0x003A0020,
-          "Multiplex Group Label", VR.kSH, VM.k1, false);
+      = const Tag._("MultiplexGroupLabel", 0x003A0020, "Multiplex Group Label",
+          VR.kSH, VM.k1, false);
   static const Tag kChannelDefinitionSequence
       //(003A,0200)
       = const Tag._("ChannelDefinitionSequence", 0x003A0200,
@@ -8258,8 +8202,8 @@ class Tag {
           "Channel Derivation Description", VR.kLO, VM.k1, false);
   static const Tag kChannelSensitivity
       //(003A,0210)
-      = const Tag._("ChannelSensitivity", 0x003A0210,
-          "Channel Sensitivity", VR.kDS, VM.k1, false);
+      = const Tag._("ChannelSensitivity", 0x003A0210, "Channel Sensitivity",
+          VR.kDS, VM.k1, false);
   static const Tag kChannelSensitivityUnitsSequence
       //(003A,0211)
       = const Tag._("ChannelSensitivityUnitsSequence", 0x003A0211,
@@ -8270,12 +8214,12 @@ class Tag {
           "Channel Sensitivity Correction Factor", VR.kDS, VM.k1, false);
   static const Tag kChannelBaseline
       //(003A,0213)
-      = const Tag._("ChannelBaseline", 0x003A0213, "Channel Baseline",
-          VR.kDS, VM.k1, false);
+      = const Tag._("ChannelBaseline", 0x003A0213, "Channel Baseline", VR.kDS,
+          VM.k1, false);
   static const Tag kChannelTimeSkew
       //(003A,0214)
-      = const Tag._("ChannelTimeSkew", 0x003A0214, "Channel Time Skew",
-          VR.kDS, VM.k1, false);
+      = const Tag._("ChannelTimeSkew", 0x003A0214, "Channel Time Skew", VR.kDS,
+          VM.k1, false);
   static const Tag kChannelSampleSkew
       //(003A,0215)
       = const Tag._("ChannelSampleSkew", 0x003A0215, "Channel Sample Skew",
@@ -8286,16 +8230,16 @@ class Tag {
           "ChannelOffset", 0x003A0218, "Channel Offset", VR.kDS, VM.k1, false);
   static const Tag kWaveformBitsStored
       //(003A,021A)
-      = const Tag._("WaveformBitsStored", 0x003A021A,
-          "Waveform Bits Stored", VR.kUS, VM.k1, false);
+      = const Tag._("WaveformBitsStored", 0x003A021A, "Waveform Bits Stored",
+          VR.kUS, VM.k1, false);
   static const Tag kFilterLowFrequency
       //(003A,0220)
-      = const Tag._("FilterLowFrequency", 0x003A0220,
-          "Filter Low Frequency", VR.kDS, VM.k1, false);
+      = const Tag._("FilterLowFrequency", 0x003A0220, "Filter Low Frequency",
+          VR.kDS, VM.k1, false);
   static const Tag kFilterHighFrequency
       //(003A,0221)
-      = const Tag._("FilterHighFrequency", 0x003A0221,
-          "Filter High Frequency", VR.kDS, VM.k1, false);
+      = const Tag._("FilterHighFrequency", 0x003A0221, "Filter High Frequency",
+          VR.kDS, VM.k1, false);
   static const Tag kNotchFilterFrequency
       //(003A,0222)
       = const Tag._("NotchFilterFrequency", 0x003A0222,
@@ -8330,12 +8274,12 @@ class Tag {
           "Channel Recommended Display CIELab Value", VR.kUS, VM.k3, false);
   static const Tag kChannelPosition
       //(003A,0245)
-      = const Tag._("ChannelPosition", 0x003A0245, "Channel Position",
-          VR.kFL, VM.k1, false);
+      = const Tag._("ChannelPosition", 0x003A0245, "Channel Position", VR.kFL,
+          VM.k1, false);
   static const Tag kDisplayShadingFlag
       //(003A,0246)
-      = const Tag._("DisplayShadingFlag", 0x003A0246,
-          "Display Shading Flag", VR.kCS, VM.k1, false);
+      = const Tag._("DisplayShadingFlag", 0x003A0246, "Display Shading Flag",
+          VR.kCS, VM.k1, false);
   static const Tag kFractionalChannelDisplayScale
       //(003A,0247)
       = const Tag._("FractionalChannelDisplayScale", 0x003A0247,
@@ -8448,8 +8392,8 @@ class Tag {
           "Universal Entity ID Type", VR.kCS, VM.k1, false);
   static const Tag kIdentifierTypeCode
       //(0040,0035)
-      = const Tag._("IdentifierTypeCode", 0x00400035,
-          "Identifier Type Code", VR.kCS, VM.k1, false);
+      = const Tag._("IdentifierTypeCode", 0x00400035, "Identifier Type Code",
+          VR.kCS, VM.k1, false);
   static const Tag kAssigningFacilitySequence
       //(0040,0036)
       = const Tag._("AssigningFacilitySequence", 0x00400036,
@@ -8550,20 +8494,19 @@ class Tag {
           false);
   static const Tag kQuantitySequence
       //(0040,0293)
-      = const Tag._("QuantitySequence", 0x00400293, "Quantity Sequence",
-          VR.kSQ, VM.k1, false);
+      = const Tag._("QuantitySequence", 0x00400293, "Quantity Sequence", VR.kSQ,
+          VM.k1, false);
   static const Tag kQuantity
       //(0040,0294)
-      = const Tag._(
-          "Quantity", 0x00400294, "Quantity", VR.kDS, VM.k1, false);
+      = const Tag._("Quantity", 0x00400294, "Quantity", VR.kDS, VM.k1, false);
   static const Tag kMeasuringUnitsSequence
       //(0040,0295)
       = const Tag._("MeasuringUnitsSequence", 0x00400295,
           "Measuring Units Sequence", VR.kSQ, VM.k1, false);
   static const Tag kBillingItemSequence
       //(0040,0296)
-      = const Tag._("BillingItemSequence", 0x00400296,
-          "Billing Item Sequence", VR.kSQ, VM.k1, false);
+      = const Tag._("BillingItemSequence", 0x00400296, "Billing Item Sequence",
+          VR.kSQ, VM.k1, false);
   static const Tag kTotalTimeOfFluoroscopy
       //(0040,0300)
       = const Tag._("TotalTimeOfFluoroscopy", 0x00400300,
@@ -8602,12 +8545,12 @@ class Tag {
           "XRayOutput", 0x00400312, "X-Ray Output", VR.kDS, VM.k1, false);
   static const Tag kHalfValueLayer
       //(0040,0314)
-      = const Tag._("HalfValueLayer", 0x00400314, "Half Value Layer",
-          VR.kDS, VM.k1, false);
+      = const Tag._("HalfValueLayer", 0x00400314, "Half Value Layer", VR.kDS,
+          VM.k1, false);
   static const Tag kOrganDose
       //(0040,0316)
-      = const Tag._(
-          "OrganDose", 0x00400316, "Organ Dose", VR.kDS, VM.k1, false);
+      =
+      const Tag._("OrganDose", 0x00400316, "Organ Dose", VR.kDS, VM.k1, false);
   static const Tag kOrganExposed
       //(0040,0318)
       = const Tag._(
@@ -8654,8 +8597,8 @@ class Tag {
           "Specimen Accession Number", VR.kLO, VM.k1, true);
   static const Tag kContainerIdentifier
       //(0040,0512)
-      = const Tag._("ContainerIdentifier", 0x00400512,
-          "Container Identifier", VR.kLO, VM.k1, false);
+      = const Tag._("ContainerIdentifier", 0x00400512, "Container Identifier",
+          VR.kLO, VM.k1, false);
   static const Tag kIssuerOfTheContainerIdentifierSequence
       //(0040,0513)
       = const Tag._("IssuerOfTheContainerIdentifierSequence", 0x00400513,
@@ -8670,20 +8613,20 @@ class Tag {
           "Container Type Code Sequence", VR.kSQ, VM.k1, false);
   static const Tag kContainerDescription
       //(0040,051A)
-      = const Tag._("ContainerDescription", 0x0040051A,
-          "Container Description", VR.kLO, VM.k1, false);
+      = const Tag._("ContainerDescription", 0x0040051A, "Container Description",
+          VR.kLO, VM.k1, false);
   static const Tag kContainerComponentSequence
       //(0040,0520)
       = const Tag._("ContainerComponentSequence", 0x00400520,
           "Container Component Sequence", VR.kSQ, VM.k1, false);
   static const Tag kSpecimenSequence
       //(0040,0550)
-      = const Tag._("SpecimenSequence", 0x00400550, "Specimen Sequence",
-          VR.kSQ, VM.k1, true);
+      = const Tag._("SpecimenSequence", 0x00400550, "Specimen Sequence", VR.kSQ,
+          VM.k1, true);
   static const Tag kSpecimenIdentifier
       //(0040,0551)
-      = const Tag._("SpecimenIdentifier", 0x00400551,
-          "Specimen Identifier", VR.kLO, VM.k1, false);
+      = const Tag._("SpecimenIdentifier", 0x00400551, "Specimen Identifier",
+          VR.kLO, VM.k1, false);
   static const Tag kSpecimenDescriptionSequenceTrial
       //(0040,0552)
       = const Tag._("SpecimenDescriptionSequenceTrial", 0x00400552,
@@ -8743,8 +8686,8 @@ class Tag {
           "Specimen Localization Content Item Sequence", VR.kSQ, VM.k1, false);
   static const Tag kSlideIdentifier
       //(0040,06FA)
-      = const Tag._("SlideIdentifier", 0x004006FA, "Slide Identifier",
-          VR.kLO, VM.k1, true);
+      = const Tag._("SlideIdentifier", 0x004006FA, "Slide Identifier", VR.kLO,
+          VM.k1, true);
   static const Tag kImageCenterPointCoordinatesSequence
       //(0040,071A)
       = const Tag._("ImageCenterPointCoordinatesSequence", 0x0040071A,
@@ -8807,8 +8750,8 @@ class Tag {
           "Filler Order Number / Procedure", VR.kSH, VM.k1, true);
   static const Tag kConfidentialityCode
       //(0040,1008)
-      = const Tag._("ConfidentialityCode", 0x00401008,
-          "Confidentiality Code", VR.kLO, VM.k1, false);
+      = const Tag._("ConfidentialityCode", 0x00401008, "Confidentiality Code",
+          VR.kLO, VM.k1, false);
   static const Tag kReportingPriority
       //(0040,1009)
       = const Tag._("ReportingPriority", 0x00401009, "Reporting Priority",
@@ -8844,8 +8787,8 @@ class Tag {
           "Person Identification Code Sequence", VR.kSQ, VM.k1, false);
   static const Tag kPersonAddress
       //(0040,1102)
-      = const Tag._("PersonAddress", 0x00401102, "Person's Address",
-          VR.kST, VM.k1, false);
+      = const Tag._("PersonAddress", 0x00401102, "Person's Address", VR.kST,
+          VM.k1, false);
   static const Tag kPersonTelephoneNumbers
       //(0040,1103)
       = const Tag._("PersonTelephoneNumbers", 0x00401103,
@@ -8886,8 +8829,8 @@ class Tag {
           true);
   static const Tag kOrderEnteredBy
       //(0040,2008)
-      = const Tag._("OrderEnteredBy", 0x00402008, "Order Entered By",
-          VR.kPN, VM.k1, false);
+      = const Tag._("OrderEnteredBy", 0x00402008, "Order Entered By", VR.kPN,
+          VM.k1, false);
   static const Tag kOrderEntererLocation
       //(0040,2009)
       = const Tag._("OrderEntererLocation", 0x00402009,
@@ -8969,8 +8912,8 @@ class Tag {
           "Scheduled Procedure Step Start DateTime", VR.kDT, VM.k1, true);
   static const Tag kMultipleCopiesFlag
       //(0040,4006)
-      = const Tag._("MultipleCopiesFlag", 0x00404006,
-          "Multiple Copies Flag", VR.kCS, VM.k1, true);
+      = const Tag._("MultipleCopiesFlag", 0x00404006, "Multiple Copies Flag",
+          VR.kCS, VM.k1, true);
   static const Tag kPerformedProcessingApplicationsCodeSequence
       //(0040,4007)
       = const Tag._(
@@ -9104,16 +9047,16 @@ class Tag {
           "Human Performer's Organization", VR.kLO, VM.k1, false);
   static const Tag kHumanPerformerName
       //(0040,4037)
-      = const Tag._("HumanPerformerName", 0x00404037,
-          "Human Performer's Name", VR.kPN, VM.k1, false);
+      = const Tag._("HumanPerformerName", 0x00404037, "Human Performer's Name",
+          VR.kPN, VM.k1, false);
   static const Tag kRawDataHandling
       //(0040,4040)
-      = const Tag._("RawDataHandling", 0x00404040, "Raw Data Handling",
-          VR.kCS, VM.k1, false);
+      = const Tag._("RawDataHandling", 0x00404040, "Raw Data Handling", VR.kCS,
+          VM.k1, false);
   static const Tag kInputReadinessState
       //(0040,4041)
-      = const Tag._("InputReadinessState", 0x00404041,
-          "Input Readiness State", VR.kCS, VM.k1, false);
+      = const Tag._("InputReadinessState", 0x00404041, "Input Readiness State",
+          VR.kCS, VM.k1, false);
   static const Tag kPerformedProcedureStepStartDateTime
       //(0040,4050)
       = const Tag._("PerformedProcedureStepStartDateTime", 0x00404050,
@@ -9128,8 +9071,8 @@ class Tag {
           "Procedure Step Cancellation DateTime", VR.kDT, VM.k1, false);
   static const Tag kEntranceDoseInmGy
       //(0040,8302)
-      = const Tag._("EntranceDoseInmGy", 0x00408302,
-          "Entrance Dose in mGy", VR.kDS, VM.k1, false);
+      = const Tag._("EntranceDoseInmGy", 0x00408302, "Entrance Dose in mGy",
+          VR.kDS, VM.k1, false);
   static const Tag kReferencedImageRealWorldValueMappingSequence
       //(0040,9094)
       = const Tag._(
@@ -9149,8 +9092,7 @@ class Tag {
           "Pixel Value Mapping Code Sequence", VR.kSQ, VM.k1, false);
   static const Tag kLUTLabel
       //(0040,9210)
-      = const Tag._(
-          "LUTLabel", 0x00409210, "LUT Label", VR.kSH, VM.k1, false);
+      = const Tag._("LUTLabel", 0x00409210, "LUT Label", VR.kSH, VM.k1, false);
   static const Tag kRealWorldValueLastValueMapped
       //(0040,9211)
       = const Tag._("RealWorldValueLastValueMapped", 0x00409211,
@@ -9169,16 +9111,16 @@ class Tag {
           "Real World Value Intercept", VR.kFD, VM.k1, false);
   static const Tag kRealWorldValueSlope
       //(0040,9225)
-      = const Tag._("RealWorldValueSlope", 0x00409225,
-          "Real World Value Slope", VR.kFD, VM.k1, false);
+      = const Tag._("RealWorldValueSlope", 0x00409225, "Real World Value Slope",
+          VR.kFD, VM.k1, false);
   static const Tag kFindingsFlagTrial
       //(0040,A007)
-      = const Tag._("FindingsFlagTrial", 0x0040A007,
-          "Findings Flag (Trial)", VR.kCS, VM.k1, true);
+      = const Tag._("FindingsFlagTrial", 0x0040A007, "Findings Flag (Trial)",
+          VR.kCS, VM.k1, true);
   static const Tag kRelationshipType
       //(0040,A010)
-      = const Tag._("RelationshipType", 0x0040A010, "Relationship Type",
-          VR.kCS, VM.k1, false);
+      = const Tag._("RelationshipType", 0x0040A010, "Relationship Type", VR.kCS,
+          VM.k1, false);
   static const Tag kFindingsSequenceTrial
       //(0040,A020)
       = const Tag._("FindingsSequenceTrial", 0x0040A020,
@@ -9223,16 +9165,16 @@ class Tag {
           true);
   static const Tag kVerificationDateTime
       //(0040,A030)
-      = const Tag._("VerificationDateTime", 0x0040A030,
-          "Verification DateTime", VR.kDT, VM.k1, false);
+      = const Tag._("VerificationDateTime", 0x0040A030, "Verification DateTime",
+          VR.kDT, VM.k1, false);
   static const Tag kObservationDateTime
       //(0040,A032)
-      = const Tag._("ObservationDateTime", 0x0040A032,
-          "Observation DateTime", VR.kDT, VM.k1, false);
+      = const Tag._("ObservationDateTime", 0x0040A032, "Observation DateTime",
+          VR.kDT, VM.k1, false);
   static const Tag kValueType
       //(0040,A040)
-      = const Tag._(
-          "ValueType", 0x0040A040, "Value Type", VR.kCS, VM.k1, false);
+      =
+      const Tag._("ValueType", 0x0040A040, "Value Type", VR.kCS, VM.k1, false);
   static const Tag kConceptNameCodeSequence
       //(0040,A043)
       = const Tag._("ConceptNameCodeSequence", 0x0040A043,
@@ -9243,8 +9185,8 @@ class Tag {
           "Measurement Precision Description (Trial)", VR.kLO, VM.k1, true);
   static const Tag kContinuityOfContent
       //(0040,A050)
-      = const Tag._("ContinuityOfContent", 0x0040A050,
-          "Continuity Of Content", VR.kCS, VM.k1, false);
+      = const Tag._("ContinuityOfContent", 0x0040A050, "Continuity Of Content",
+          VR.kCS, VM.k1, false);
   static const Tag kUrgencyOrPriorityAlertsTrial
       //(0040,A057)
       = const Tag._("UrgencyOrPriorityAlertsTrial", 0x0040A057,
@@ -9301,8 +9243,8 @@ class Tag {
           "Author Observer Sequence", VR.kSQ, VM.k1, false);
   static const Tag kParticipantSequence
       //(0040,A07A)
-      = const Tag._("ParticipantSequence", 0x0040A07A,
-          "Participant Sequence", VR.kSQ, VM.k1, false);
+      = const Tag._("ParticipantSequence", 0x0040A07A, "Participant Sequence",
+          VR.kSQ, VM.k1, false);
   static const Tag kCustodialOrganizationSequence
       //(0040,A07C)
       = const Tag._("CustodialOrganizationSequence", 0x0040A07C,
@@ -9364,8 +9306,7 @@ class Tag {
           true);
   static const Tag kDateTime
       //(0040,A120)
-      = const Tag._(
-          "DateTime", 0x0040A120, "DateTime", VR.kDT, VM.k1, false);
+      = const Tag._("DateTime", 0x0040A120, "DateTime", VR.kDT, VM.k1, false);
   static const Tag kDate
       //(0040,A121)
       = const Tag._("Date", 0x0040A121, "Date", VR.kDA, VM.k1, false);
@@ -9401,16 +9342,16 @@ class Tag {
           "Referenced Time Offsets", VR.kDS, VM.k1_n, false);
   static const Tag kReferencedDateTime
       //(0040,A13A)
-      = const Tag._("ReferencedDateTime", 0x0040A13A,
-          "Referenced DateTime", VR.kDT, VM.k1_n, false);
+      = const Tag._("ReferencedDateTime", 0x0040A13A, "Referenced DateTime",
+          VR.kDT, VM.k1_n, false);
   static const Tag kTextValue
       //(0040,A160)
-      = const Tag._(
-          "TextValue", 0x0040A160, "Text Value", VR.kUT, VM.k1, false);
+      =
+      const Tag._("TextValue", 0x0040A160, "Text Value", VR.kUT, VM.k1, false);
   static const Tag kFloatingPointValue
       //(0040,A161)
-      = const Tag._("FloatingPointValue", 0x0040A161,
-          "Floating Point Value", VR.kFD, VM.k1_n, false);
+      = const Tag._("FloatingPointValue", 0x0040A161, "Floating Point Value",
+          VR.kFD, VM.k1_n, false);
   static const Tag kRationalNumeratorValue
       //(0040,A162)
       = const Tag._("RationalNumeratorValue", 0x0040A162,
@@ -9425,8 +9366,8 @@ class Tag {
           "Observation Category Code Sequence (Trial)", VR.kSQ, VM.k1, true);
   static const Tag kConceptCodeSequence
       //(0040,A168)
-      = const Tag._("ConceptCodeSequence", 0x0040A168,
-          "Concept Code Sequence", VR.kSQ, VM.k1, false);
+      = const Tag._("ConceptCodeSequence", 0x0040A168, "Concept Code Sequence",
+          VR.kSQ, VM.k1, false);
   static const Tag kBibliographicCitationTrial
       //(0040,A16A)
       = const Tag._("BibliographicCitationTrial", 0x0040A16A,
@@ -9437,8 +9378,8 @@ class Tag {
           "Purpose of Reference Code Sequence", VR.kSQ, VM.k1, false);
   static const Tag kObservationUID
       //(0040,A171)
-      = const Tag._("ObservationUID", 0x0040A171, "Observation UID",
-          VR.kUI, VM.k1, false);
+      = const Tag._("ObservationUID", 0x0040A171, "Observation UID", VR.kUI,
+          VM.k1, false);
   static const Tag kReferencedObservationUIDTrial
       //(0040,A172)
       = const Tag._("ReferencedObservationUIDTrial", 0x0040A172,
@@ -9521,8 +9462,8 @@ class Tag {
           "Procedure Context Sequence (Trial)", VR.kSQ, VM.k1, true);
   static const Tag kVerbalSourceTrial
       //(0040,A352)
-      = const Tag._("VerbalSourceTrial", 0x0040A352,
-          "Verbal Source (Trial)", VR.kPN, VM.k1, true);
+      = const Tag._("VerbalSourceTrial", 0x0040A352, "Verbal Source (Trial)",
+          VR.kPN, VM.k1, true);
   static const Tag kAddressTrial
       //(0040,A353)
       = const Tag._(
@@ -9592,24 +9533,24 @@ class Tag {
           true);
   static const Tag kCompletionFlag
       //(0040,A491)
-      = const Tag._("CompletionFlag", 0x0040A491, "Completion Flag",
-          VR.kCS, VM.k1, false);
+      = const Tag._("CompletionFlag", 0x0040A491, "Completion Flag", VR.kCS,
+          VM.k1, false);
   static const Tag kCompletionFlagDescription
       //(0040,A492)
       = const Tag._("CompletionFlagDescription", 0x0040A492,
           "Completion Flag Description", VR.kLO, VM.k1, false);
   static const Tag kVerificationFlag
       //(0040,A493)
-      = const Tag._("VerificationFlag", 0x0040A493, "Verification Flag",
-          VR.kCS, VM.k1, false);
+      = const Tag._("VerificationFlag", 0x0040A493, "Verification Flag", VR.kCS,
+          VM.k1, false);
   static const Tag kArchiveRequested
       //(0040,A494)
-      = const Tag._("ArchiveRequested", 0x0040A494, "Archive Requested",
-          VR.kCS, VM.k1, false);
+      = const Tag._("ArchiveRequested", 0x0040A494, "Archive Requested", VR.kCS,
+          VM.k1, false);
   static const Tag kPreliminaryFlag
       //(0040,A496)
-      = const Tag._("PreliminaryFlag", 0x0040A496, "Preliminary Flag",
-          VR.kCS, VM.k1, false);
+      = const Tag._("PreliminaryFlag", 0x0040A496, "Preliminary Flag", VR.kCS,
+          VM.k1, false);
   static const Tag kContentTemplateSequence
       //(0040,A504)
       = const Tag._("ContentTemplateSequence", 0x0040A504,
@@ -9632,8 +9573,8 @@ class Tag {
           "Procedure Context Flag (Trial)", VR.kCS, VM.k1, true);
   static const Tag kContentSequence
       //(0040,A730)
-      = const Tag._("ContentSequence", 0x0040A730, "Content Sequence",
-          VR.kSQ, VM.k1, false);
+      = const Tag._("ContentSequence", 0x0040A730, "Content Sequence", VR.kSQ,
+          VM.k1, false);
   static const Tag kRelationshipSequenceTrial
       //(0040,A731)
       = const Tag._("RelationshipSequenceTrial", 0x0040A731,
@@ -9656,12 +9597,12 @@ class Tag {
           "Waveform Annotation Sequence", VR.kSQ, VM.k1, false);
   static const Tag kTemplateIdentifier
       //(0040,DB00)
-      = const Tag._("TemplateIdentifier", 0x0040DB00,
-          "Template Identifier", VR.kCS, VM.k1, false);
+      = const Tag._("TemplateIdentifier", 0x0040DB00, "Template Identifier",
+          VR.kCS, VM.k1, false);
   static const Tag kTemplateVersion
       //(0040,DB06)
-      = const Tag._("TemplateVersion", 0x0040DB06, "Template Version",
-          VR.kDT, VM.k1, true);
+      = const Tag._("TemplateVersion", 0x0040DB06, "Template Version", VR.kDT,
+          VM.k1, true);
   static const Tag kTemplateLocalVersion
       //(0040,DB07)
       = const Tag._("TemplateLocalVersion", 0x0040DB07,
@@ -9704,12 +9645,12 @@ class Tag {
           "RetrieveURI", 0x0040E010, "Retrieve URI", VR.kUT, VM.k1, false);
   static const Tag kRetrieveLocationUID
       //(0040,E011)
-      = const Tag._("RetrieveLocationUID", 0x0040E011,
-          "Retrieve Location UID", VR.kUI, VM.k1, false);
+      = const Tag._("RetrieveLocationUID", 0x0040E011, "Retrieve Location UID",
+          VR.kUI, VM.k1, false);
   static const Tag kTypeOfInstances
       //(0040,E020)
-      = const Tag._("TypeOfInstances", 0x0040E020, "Type of Instances",
-          VR.kCS, VM.k1, false);
+      = const Tag._("TypeOfInstances", 0x0040E020, "Type of Instances", VR.kCS,
+          VM.k1, false);
   static const Tag kDICOMRetrievalSequence
       //(0040,E021)
       = const Tag._("DICOMRetrievalSequence", 0x0040E021,
@@ -9728,20 +9669,20 @@ class Tag {
           "XDS Retrieval Sequence", VR.kSQ, VM.k1, false);
   static const Tag kRepositoryUniqueID
       //(0040,E030)
-      = const Tag._("RepositoryUniqueID", 0x0040E030,
-          "Repository Unique ID", VR.kUI, VM.k1, false);
+      = const Tag._("RepositoryUniqueID", 0x0040E030, "Repository Unique ID",
+          VR.kUI, VM.k1, false);
   static const Tag kHomeCommunityID
       //(0040,E031)
-      = const Tag._("HomeCommunityID", 0x0040E031, "Home Community ID",
-          VR.kUI, VM.k1, false);
+      = const Tag._("HomeCommunityID", 0x0040E031, "Home Community ID", VR.kUI,
+          VM.k1, false);
   static const Tag kDocumentTitle
       //(0042,0010)
       = const Tag._(
           "DocumentTitle", 0x00420010, "Document Title", VR.kST, VM.k1, false);
   static const Tag kEncapsulatedDocument
       //(0042,0011)
-      = const Tag._("EncapsulatedDocument", 0x00420011,
-          "Encapsulated Document", VR.kOB, VM.k1, false);
+      = const Tag._("EncapsulatedDocument", 0x00420011, "Encapsulated Document",
+          VR.kOB, VM.k1, false);
   static const Tag kMIMETypeOfEncapsulatedDocument
       //(0042,0012)
       = const Tag._("MIMETypeOfEncapsulatedDocument", 0x00420012,
@@ -9752,8 +9693,8 @@ class Tag {
           "Source Instance Sequence", VR.kSQ, VM.k1, false);
   static const Tag kListOfMIMETypes
       //(0042,0014)
-      = const Tag._("ListOfMIMETypes", 0x00420014, "List of MIME Types",
-          VR.kLO, VM.k1_n, false);
+      = const Tag._("ListOfMIMETypes", 0x00420014, "List of MIME Types", VR.kLO,
+          VM.k1_n, false);
   static const Tag kProductPackageIdentifier
       //(0044,0001)
       = const Tag._("ProductPackageIdentifier", 0x00440001,
@@ -9780,8 +9721,8 @@ class Tag {
           "ProductName", 0x00440008, "Product Name", VR.kLO, VM.k1_n, false);
   static const Tag kProductDescription
       //(0044,0009)
-      = const Tag._("ProductDescription", 0x00440009,
-          "Product Description", VR.kLT, VM.k1, false);
+      = const Tag._("ProductDescription", 0x00440009, "Product Description",
+          VR.kLT, VM.k1, false);
   static const Tag kProductLotIdentifier
       //(0044,000A)
       = const Tag._("ProductLotIdentifier", 0x0044000A,
@@ -9812,8 +9753,8 @@ class Tag {
           "Substance Administration Parameter Sequence", VR.kSQ, VM.k1, false);
   static const Tag kLensDescription
       //(0046,0012)
-      = const Tag._("LensDescription", 0x00460012, "Lens Description",
-          VR.kLO, VM.k1, false);
+      = const Tag._("LensDescription", 0x00460012, "Lens Description", VR.kLO,
+          VM.k1, false);
   static const Tag kRightLensSequence
       //(0046,0014)
       = const Tag._("RightLensSequence", 0x00460014, "Right Lens Sequence",
@@ -9828,8 +9769,8 @@ class Tag {
           "Unspecified Laterality Lens Sequence", VR.kSQ, VM.k1, false);
   static const Tag kCylinderSequence
       //(0046,0018)
-      = const Tag._("CylinderSequence", 0x00460018, "Cylinder Sequence",
-          VR.kSQ, VM.k1, false);
+      = const Tag._("CylinderSequence", 0x00460018, "Cylinder Sequence", VR.kSQ,
+          VM.k1, false);
   static const Tag kPrismSequence
       //(0046,0028)
       = const Tag._(
@@ -9840,32 +9781,32 @@ class Tag {
           "Horizontal Prism Power", VR.kFD, VM.k1, false);
   static const Tag kHorizontalPrismBase
       //(0046,0032)
-      = const Tag._("HorizontalPrismBase", 0x00460032,
-          "Horizontal Prism Base", VR.kCS, VM.k1, false);
+      = const Tag._("HorizontalPrismBase", 0x00460032, "Horizontal Prism Base",
+          VR.kCS, VM.k1, false);
   static const Tag kVerticalPrismPower
       //(0046,0034)
-      = const Tag._("VerticalPrismPower", 0x00460034,
-          "Vertical Prism Power", VR.kFD, VM.k1, false);
+      = const Tag._("VerticalPrismPower", 0x00460034, "Vertical Prism Power",
+          VR.kFD, VM.k1, false);
   static const Tag kVerticalPrismBase
       //(0046,0036)
       = const Tag._("VerticalPrismBase", 0x00460036, "Vertical Prism Base",
           VR.kCS, VM.k1, false);
   static const Tag kLensSegmentType
       //(0046,0038)
-      = const Tag._("LensSegmentType", 0x00460038, "Lens Segment Type",
-          VR.kCS, VM.k1, false);
+      = const Tag._("LensSegmentType", 0x00460038, "Lens Segment Type", VR.kCS,
+          VM.k1, false);
   static const Tag kOpticalTransmittance
       //(0046,0040)
-      = const Tag._("OpticalTransmittance", 0x00460040,
-          "Optical Transmittance", VR.kFD, VM.k1, false);
+      = const Tag._("OpticalTransmittance", 0x00460040, "Optical Transmittance",
+          VR.kFD, VM.k1, false);
   static const Tag kChannelWidth
       //(0046,0042)
       = const Tag._(
           "ChannelWidth", 0x00460042, "Channel Width", VR.kFD, VM.k1, false);
   static const Tag kPupilSize
       //(0046,0044)
-      = const Tag._(
-          "PupilSize", 0x00460044, "Pupil Size", VR.kFD, VM.k1, false);
+      =
+      const Tag._("PupilSize", 0x00460044, "Pupil Size", VR.kFD, VM.k1, false);
   static const Tag kCornealSize
       //(0046,0046)
       = const Tag._(
@@ -9916,24 +9857,23 @@ class Tag {
           VR.kFD, VM.k1, false);
   static const Tag kKeratometricAxis
       //(0046,0077)
-      = const Tag._("KeratometricAxis", 0x00460077, "Keratometric Axis",
-          VR.kFD, VM.k1, false);
+      = const Tag._("KeratometricAxis", 0x00460077, "Keratometric Axis", VR.kFD,
+          VM.k1, false);
   static const Tag kFlatKeratometricAxisSequence
       //(0046,0080)
       = const Tag._("FlatKeratometricAxisSequence", 0x00460080,
           "Flat Keratometric Axis Sequence", VR.kSQ, VM.k1, false);
   static const Tag kBackgroundColor
       //(0046,0092)
-      = const Tag._("BackgroundColor", 0x00460092, "Background Color",
-          VR.kCS, VM.k1, false);
+      = const Tag._("BackgroundColor", 0x00460092, "Background Color", VR.kCS,
+          VM.k1, false);
   static const Tag kOptotype
       //(0046,0094)
-      = const Tag._(
-          "Optotype", 0x00460094, "Optotype", VR.kCS, VM.k1, false);
+      = const Tag._("Optotype", 0x00460094, "Optotype", VR.kCS, VM.k1, false);
   static const Tag kOptotypePresentation
       //(0046,0095)
-      = const Tag._("OptotypePresentation", 0x00460095,
-          "Optotype Presentation", VR.kCS, VM.k1, false);
+      = const Tag._("OptotypePresentation", 0x00460095, "Optotype Presentation",
+          VR.kCS, VM.k1, false);
   static const Tag kSubjectiveRefractionRightEyeSequence
       //(0046,0097)
       = const Tag._("SubjectiveRefractionRightEyeSequence", 0x00460097,
@@ -9944,8 +9884,8 @@ class Tag {
           "Subjective Refraction Left Eye Sequence", VR.kSQ, VM.k1, false);
   static const Tag kAddNearSequence
       //(0046,0100)
-      = const Tag._("AddNearSequence", 0x00460100, "Add Near Sequence",
-          VR.kSQ, VM.k1, false);
+      = const Tag._("AddNearSequence", 0x00460100, "Add Near Sequence", VR.kSQ,
+          VM.k1, false);
   static const Tag kAddIntermediateSequence
       //(0046,0101)
       = const Tag._("AddIntermediateSequence", 0x00460101,
@@ -9956,12 +9896,11 @@ class Tag {
           VR.kSQ, VM.k1, false);
   static const Tag kAddPower
       //(0046,0104)
-      = const Tag._(
-          "AddPower", 0x00460104, "Add Power", VR.kFD, VM.k1, false);
+      = const Tag._("AddPower", 0x00460104, "Add Power", VR.kFD, VM.k1, false);
   static const Tag kViewingDistance
       //(0046,0106)
-      = const Tag._("ViewingDistance", 0x00460106, "Viewing Distance",
-          VR.kFD, VM.k1, false);
+      = const Tag._("ViewingDistance", 0x00460106, "Viewing Distance", VR.kFD,
+          VM.k1, false);
   static const Tag kVisualAcuityTypeCodeSequence
       //(0046,0121)
       = const Tag._("VisualAcuityTypeCodeSequence", 0x00460121,
@@ -9980,16 +9919,16 @@ class Tag {
           "Visual Acuity Both Eyes Open Sequence", VR.kSQ, VM.k1, false);
   static const Tag kViewingDistanceType
       //(0046,0125)
-      = const Tag._("ViewingDistanceType", 0x00460125,
-          "Viewing Distance Type", VR.kCS, VM.k1, false);
+      = const Tag._("ViewingDistanceType", 0x00460125, "Viewing Distance Type",
+          VR.kCS, VM.k1, false);
   static const Tag kVisualAcuityModifiers
       //(0046,0135)
       = const Tag._("VisualAcuityModifiers", 0x00460135,
           "Visual Acuity Modifiers", VR.kSS, VM.k2, false);
   static const Tag kDecimalVisualAcuity
       //(0046,0137)
-      = const Tag._("DecimalVisualAcuity", 0x00460137,
-          "Decimal Visual Acuity", VR.kFD, VM.k1, false);
+      = const Tag._("DecimalVisualAcuity", 0x00460137, "Decimal Visual Acuity",
+          VR.kFD, VM.k1, false);
   static const Tag kOptotypeDetailedDefinition
       //(0046,0139)
       = const Tag._("OptotypeDetailedDefinition", 0x00460139,
@@ -10060,12 +9999,12 @@ class Tag {
           "Simulated Keratometric Cylinder Sequence", VR.kSQ, VM.k1, false);
   static const Tag kAverageCornealPower
       //(0046,0220)
-      = const Tag._("AverageCornealPower", 0x00460220,
-          "Average Corneal Power", VR.kFL, VM.k1, false);
+      = const Tag._("AverageCornealPower", 0x00460220, "Average Corneal Power",
+          VR.kFL, VM.k1, false);
   static const Tag kCornealISValue
       //(0046,0224)
-      = const Tag._("CornealISValue", 0x00460224, "Corneal I-S Value",
-          VR.kFL, VM.k1, false);
+      = const Tag._("CornealISValue", 0x00460224, "Corneal I-S Value", VR.kFL,
+          VM.k1, false);
   static const Tag kAnalyzedArea
       //(0046,0227)
       = const Tag._(
@@ -10112,28 +10051,28 @@ class Tag {
           "AxialPower", 0x00460249, "Axial Power", VR.kFL, VM.k1, false);
   static const Tag kTangentialPower
       //(0046,0250)
-      = const Tag._("TangentialPower", 0x00460250, "Tangential Power",
-          VR.kFL, VM.k1, false);
+      = const Tag._("TangentialPower", 0x00460250, "Tangential Power", VR.kFL,
+          VM.k1, false);
   static const Tag kRefractivePower
       //(0046,0251)
-      = const Tag._("RefractivePower", 0x00460251, "Refractive Power",
-          VR.kFL, VM.k1, false);
+      = const Tag._("RefractivePower", 0x00460251, "Refractive Power", VR.kFL,
+          VM.k1, false);
   static const Tag kRelativeElevation
       //(0046,0252)
       = const Tag._("RelativeElevation", 0x00460252, "Relative Elevation",
           VR.kFL, VM.k1, false);
   static const Tag kCornealWavefront
       //(0046,0253)
-      = const Tag._("CornealWavefront", 0x00460253, "Corneal Wavefront",
-          VR.kFL, VM.k1, false);
+      = const Tag._("CornealWavefront", 0x00460253, "Corneal Wavefront", VR.kFL,
+          VM.k1, false);
   static const Tag kImagedVolumeWidth
       //(0048,0001)
       = const Tag._("ImagedVolumeWidth", 0x00480001, "Imaged Volume Width",
           VR.kFL, VM.k1, false);
   static const Tag kImagedVolumeHeight
       //(0048,0002)
-      = const Tag._("ImagedVolumeHeight", 0x00480002,
-          "Imaged Volume Height", VR.kFL, VM.k1, false);
+      = const Tag._("ImagedVolumeHeight", 0x00480002, "Imaged Volume Height",
+          VR.kFL, VM.k1, false);
   static const Tag kImagedVolumeDepth
       //(0048,0003)
       = const Tag._("ImagedVolumeDepth", 0x00480003, "Imaged Volume Depth",
@@ -10164,8 +10103,8 @@ class Tag {
           "Extended Depth of Field", VR.kCS, VM.k1, false);
   static const Tag kNumberOfFocalPlanes
       //(0048,0013)
-      = const Tag._("NumberOfFocalPlanes", 0x00480013,
-          "Number of Focal Planes", VR.kUS, VM.k1, false);
+      = const Tag._("NumberOfFocalPlanes", 0x00480013, "Number of Focal Planes",
+          VR.kUS, VM.k1, false);
   static const Tag kDistanceBetweenFocalPlanes
       //(0048,0014)
       = const Tag._("DistanceBetweenFocalPlanes", 0x00480014,
@@ -10184,8 +10123,8 @@ class Tag {
           "Image Orientation (Slide)", VR.kDS, VM.k6, false);
   static const Tag kOpticalPathSequence
       //(0048,0105)
-      = const Tag._("OpticalPathSequence", 0x00480105,
-          "Optical Path Sequence", VR.kSQ, VM.k1, false);
+      = const Tag._("OpticalPathSequence", 0x00480105, "Optical Path Sequence",
+          VR.kSQ, VM.k1, false);
   static const Tag kOpticalPathIdentifier
       //(0048,0106)
       = const Tag._("OpticalPathIdentifier", 0x00480106,
@@ -10204,12 +10143,12 @@ class Tag {
           "Specimen Reference Sequence", VR.kSQ, VM.k1, false);
   static const Tag kCondenserLensPower
       //(0048,0111)
-      = const Tag._("CondenserLensPower", 0x00480111,
-          "Condenser Lens Power", VR.kDS, VM.k1, false);
+      = const Tag._("CondenserLensPower", 0x00480111, "Condenser Lens Power",
+          VR.kDS, VM.k1, false);
   static const Tag kObjectiveLensPower
       //(0048,0112)
-      = const Tag._("ObjectiveLensPower", 0x00480112,
-          "Objective Lens Power", VR.kDS, VM.k1, false);
+      = const Tag._("ObjectiveLensPower", 0x00480112, "Objective Lens Power",
+          VR.kDS, VM.k1, false);
   static const Tag kObjectiveLensNumericalAperture
       //(0048,0113)
       = const Tag._("ObjectiveLensNumericalAperture", 0x00480113,
@@ -10252,12 +10191,12 @@ class Tag {
           "Pixel Origin Interpretation", VR.kCS, VM.k1, false);
   static const Tag kCalibrationImage
       //(0050,0004)
-      = const Tag._("CalibrationImage", 0x00500004, "Calibration Image",
-          VR.kCS, VM.k1, false);
+      = const Tag._("CalibrationImage", 0x00500004, "Calibration Image", VR.kCS,
+          VM.k1, false);
   static const Tag kDeviceSequence
       //(0050,0010)
-      = const Tag._("DeviceSequence", 0x00500010, "Device Sequence",
-          VR.kSQ, VM.k1, false);
+      = const Tag._("DeviceSequence", 0x00500010, "Device Sequence", VR.kSQ,
+          VM.k1, false);
   static const Tag kContainerComponentTypeCodeSequence
       //(0050,0012)
       = const Tag._("ContainerComponentTypeCodeSequence", 0x00500012,
@@ -10276,20 +10215,20 @@ class Tag {
           "Container Component Width", VR.kFD, VM.k1, false);
   static const Tag kDeviceDiameter
       //(0050,0016)
-      = const Tag._("DeviceDiameter", 0x00500016, "Device Diameter",
-          VR.kDS, VM.k1, false);
+      = const Tag._("DeviceDiameter", 0x00500016, "Device Diameter", VR.kDS,
+          VM.k1, false);
   static const Tag kDeviceDiameterUnits
       //(0050,0017)
-      = const Tag._("DeviceDiameterUnits", 0x00500017,
-          "Device Diameter Units", VR.kCS, VM.k1, false);
+      = const Tag._("DeviceDiameterUnits", 0x00500017, "Device Diameter Units",
+          VR.kCS, VM.k1, false);
   static const Tag kDeviceVolume
       //(0050,0018)
       = const Tag._(
           "DeviceVolume", 0x00500018, "Device Volume", VR.kDS, VM.k1, false);
   static const Tag kInterMarkerDistance
       //(0050,0019)
-      = const Tag._("InterMarkerDistance", 0x00500019,
-          "Inter-Marker Distance", VR.kDS, VM.k1, false);
+      = const Tag._("InterMarkerDistance", 0x00500019, "Inter-Marker Distance",
+          VR.kDS, VM.k1, false);
   static const Tag kContainerComponentMaterial
       //(0050,001A)
       = const Tag._("ContainerComponentMaterial", 0x0050001A,
@@ -10340,28 +10279,28 @@ class Tag {
           "OCT Optical Center Wavelength", VR.kFD, VM.k1, false);
   static const Tag kAxialResolution
       //(0052,0008)
-      = const Tag._("AxialResolution", 0x00520008, "Axial Resolution",
-          VR.kFD, VM.k1, false);
+      = const Tag._("AxialResolution", 0x00520008, "Axial Resolution", VR.kFD,
+          VM.k1, false);
   static const Tag kRangingDepth
       //(0052,0009)
       = const Tag._(
           "RangingDepth", 0x00520009, "Ranging Depth", VR.kFD, VM.k1, false);
   static const Tag kALineRate
       //(0052,0011)
-      = const Tag._(
-          "ALineRate", 0x00520011, "A-line Rate", VR.kFD, VM.k1, false);
+      =
+      const Tag._("ALineRate", 0x00520011, "A-line Rate", VR.kFD, VM.k1, false);
   static const Tag kALinesPerFrame
       //(0052,0012)
-      = const Tag._("ALinesPerFrame", 0x00520012, "A-lines Per Frame",
-          VR.kUS, VM.k1, false);
+      = const Tag._("ALinesPerFrame", 0x00520012, "A-lines Per Frame", VR.kUS,
+          VM.k1, false);
   static const Tag kCatheterRotationalRate
       //(0052,0013)
       = const Tag._("CatheterRotationalRate", 0x00520013,
           "Catheter Rotational Rate", VR.kFD, VM.k1, false);
   static const Tag kALinePixelSpacing
       //(0052,0014)
-      = const Tag._("ALinePixelSpacing", 0x00520014,
-          "A-line Pixel Spacing", VR.kFD, VM.k1, false);
+      = const Tag._("ALinePixelSpacing", 0x00520014, "A-line Pixel Spacing",
+          VR.kFD, VM.k1, false);
   static const Tag kModeOfPercutaneousAccessSequence
       //(0052,0016)
       = const Tag._("ModeOfPercutaneousAccessSequence", 0x00520016,
@@ -10372,8 +10311,8 @@ class Tag {
           "Intravascular OCT Frame Type Sequence", VR.kSQ, VM.k1, false);
   static const Tag kOCTZOffsetApplied
       //(0052,0026)
-      = const Tag._("OCTZOffsetApplied", 0x00520026,
-          "OCT Z Offset Applied", VR.kCS, VM.k1, false);
+      = const Tag._("OCTZOffsetApplied", 0x00520026, "OCT Z Offset Applied",
+          VR.kCS, VM.k1, false);
   static const Tag kIntravascularFrameContentSequence
       //(0052,0027)
       = const Tag._("IntravascularFrameContentSequence", 0x00520027,
@@ -10400,8 +10339,8 @@ class Tag {
           VR.kFD, VM.k1, false);
   static const Tag kFirstALineLocation
       //(0052,0034)
-      = const Tag._("FirstALineLocation", 0x00520034,
-          "First A-line Location", VR.kFD, VM.k1, false);
+      = const Tag._("FirstALineLocation", 0x00520034, "First A-line Location",
+          VR.kFD, VM.k1, false);
   static const Tag kSeamLineIndex
       //(0052,0036)
       = const Tag._(
@@ -10420,8 +10359,8 @@ class Tag {
           "Refractive Index Applied", VR.kCS, VM.k1, false);
   static const Tag kEnergyWindowVector
       //(0054,0010)
-      = const Tag._("EnergyWindowVector", 0x00540010,
-          "Energy Window Vector", VR.kUS, VM.k1_n, false);
+      = const Tag._("EnergyWindowVector", 0x00540010, "Energy Window Vector",
+          VR.kUS, VM.k1_n, false);
   static const Tag kNumberOfEnergyWindows
       //(0054,0011)
       = const Tag._("NumberOfEnergyWindows", 0x00540011,
@@ -10456,8 +10395,8 @@ class Tag {
           VR.kSH, VM.k1, false);
   static const Tag kDetectorVector
       //(0054,0020)
-      = const Tag._("DetectorVector", 0x00540020, "Detector Vector",
-          VR.kUS, VM.k1_n, false);
+      = const Tag._("DetectorVector", 0x00540020, "Detector Vector", VR.kUS,
+          VM.k1_n, false);
   static const Tag kNumberOfDetectors
       //(0054,0021)
       = const Tag._("NumberOfDetectors", 0x00540021, "Number of Detectors",
@@ -10472,8 +10411,8 @@ class Tag {
           "PhaseVector", 0x00540030, "Phase Vector", VR.kUS, VM.k1_n, false);
   static const Tag kNumberOfPhases
       //(0054,0031)
-      = const Tag._("NumberOfPhases", 0x00540031, "Number of Phases",
-          VR.kUS, VM.k1, false);
+      = const Tag._("NumberOfPhases", 0x00540031, "Number of Phases", VR.kUS,
+          VM.k1, false);
   static const Tag kPhaseInformationSequence
       //(0054,0032)
       = const Tag._("PhaseInformationSequence", 0x00540032,
@@ -10488,16 +10427,16 @@ class Tag {
           "PhaseDelay", 0x00540036, "Phase Delay", VR.kIS, VM.k1, false);
   static const Tag kPauseBetweenFrames
       //(0054,0038)
-      = const Tag._("PauseBetweenFrames", 0x00540038,
-          "Pause Between Frames", VR.kIS, VM.k1, false);
+      = const Tag._("PauseBetweenFrames", 0x00540038, "Pause Between Frames",
+          VR.kIS, VM.k1, false);
   static const Tag kPhaseDescription
       //(0054,0039)
-      = const Tag._("PhaseDescription", 0x00540039, "Phase Description",
-          VR.kCS, VM.k1, false);
+      = const Tag._("PhaseDescription", 0x00540039, "Phase Description", VR.kCS,
+          VM.k1, false);
   static const Tag kRotationVector
       //(0054,0050)
-      = const Tag._("RotationVector", 0x00540050, "Rotation Vector",
-          VR.kUS, VM.k1_n, false);
+      = const Tag._("RotationVector", 0x00540050, "Rotation Vector", VR.kUS,
+          VM.k1_n, false);
   static const Tag kNumberOfRotations
       //(0054,0051)
       = const Tag._("NumberOfRotations", 0x00540051, "Number of Rotations",
@@ -10528,12 +10467,12 @@ class Tag {
           "Data Information Sequence", VR.kSQ, VM.k1, false);
   static const Tag kTimeSlotVector
       //(0054,0070)
-      = const Tag._("TimeSlotVector", 0x00540070, "Time Slot Vector",
-          VR.kUS, VM.k1_n, false);
+      = const Tag._("TimeSlotVector", 0x00540070, "Time Slot Vector", VR.kUS,
+          VM.k1_n, false);
   static const Tag kNumberOfTimeSlots
       //(0054,0071)
-      = const Tag._("NumberOfTimeSlots", 0x00540071,
-          "Number of Time Slots", VR.kUS, VM.k1, false);
+      = const Tag._("NumberOfTimeSlots", 0x00540071, "Number of Time Slots",
+          VR.kUS, VM.k1, false);
   static const Tag kTimeSlotInformationSequence
       //(0054,0072)
       = const Tag._("TimeSlotInformationSequence", 0x00540072,
@@ -10548,20 +10487,20 @@ class Tag {
           "SliceVector", 0x00540080, "Slice Vector", VR.kUS, VM.k1_n, false);
   static const Tag kNumberOfSlices
       //(0054,0081)
-      = const Tag._("NumberOfSlices", 0x00540081, "Number of Slices",
-          VR.kUS, VM.k1, false);
+      = const Tag._("NumberOfSlices", 0x00540081, "Number of Slices", VR.kUS,
+          VM.k1, false);
   static const Tag kAngularViewVector
       //(0054,0090)
       = const Tag._("AngularViewVector", 0x00540090, "Angular View Vector",
           VR.kUS, VM.k1_n, false);
   static const Tag kTimeSliceVector
       //(0054,0100)
-      = const Tag._("TimeSliceVector", 0x00540100, "Time Slice Vector",
-          VR.kUS, VM.k1_n, false);
+      = const Tag._("TimeSliceVector", 0x00540100, "Time Slice Vector", VR.kUS,
+          VM.k1_n, false);
   static const Tag kNumberOfTimeSlices
       //(0054,0101)
-      = const Tag._("NumberOfTimeSlices", 0x00540101,
-          "Number of Time Slices", VR.kUS, VM.k1, false);
+      = const Tag._("NumberOfTimeSlices", 0x00540101, "Number of Time Slices",
+          VR.kUS, VM.k1, false);
   static const Tag kStartAngle
       //(0054,0200)
       = const Tag._(
@@ -10604,12 +10543,11 @@ class Tag {
           "Calibration Data Sequence", VR.kSQ, VM.k1, false);
   static const Tag kEnergyWindowNumber
       //(0054,0308)
-      = const Tag._("EnergyWindowNumber", 0x00540308,
-          "Energy Window Number", VR.kUS, VM.k1, false);
+      = const Tag._("EnergyWindowNumber", 0x00540308, "Energy Window Number",
+          VR.kUS, VM.k1, false);
   static const Tag kImageID
       //(0054,0400)
-      =
-      const Tag._("ImageID", 0x00540400, "Image ID", VR.kSH, VM.k1, false);
+      = const Tag._("ImageID", 0x00540400, "Image ID", VR.kSH, VM.k1, false);
   static const Tag kPatientOrientationCodeSequence
       //(0054,0410)
       = const Tag._("PatientOrientationCodeSequence", 0x00540410,
@@ -10639,12 +10577,11 @@ class Tag {
           "CountsSource", 0x00541002, "Counts Source", VR.kCS, VM.k1, false);
   static const Tag kReprojectionMethod
       //(0054,1004)
-      = const Tag._("ReprojectionMethod", 0x00541004,
-          "Reprojection Method", VR.kCS, VM.k1, false);
+      = const Tag._("ReprojectionMethod", 0x00541004, "Reprojection Method",
+          VR.kCS, VM.k1, false);
   static const Tag kSUVType
       //(0054,1006)
-      =
-      const Tag._("SUVType", 0x00541006, "SUV Type", VR.kCS, VM.k1, false);
+      = const Tag._("SUVType", 0x00541006, "SUV Type", VR.kCS, VM.k1, false);
   static const Tag kRandomsCorrectionMethod
       //(0054,1100)
       = const Tag._("RandomsCorrectionMethod", 0x00541100,
@@ -10655,12 +10592,12 @@ class Tag {
           "Attenuation Correction Method", VR.kLO, VM.k1, false);
   static const Tag kDecayCorrection
       //(0054,1102)
-      = const Tag._("DecayCorrection", 0x00541102, "Decay Correction",
-          VR.kCS, VM.k1, false);
+      = const Tag._("DecayCorrection", 0x00541102, "Decay Correction", VR.kCS,
+          VM.k1, false);
   static const Tag kReconstructionMethod
       //(0054,1103)
-      = const Tag._("ReconstructionMethod", 0x00541103,
-          "Reconstruction Method", VR.kLO, VM.k1, false);
+      = const Tag._("ReconstructionMethod", 0x00541103, "Reconstruction Method",
+          VR.kLO, VM.k1, false);
   static const Tag kDetectorLinesOfResponseUsed
       //(0054,1104)
       = const Tag._("DetectorLinesOfResponseUsed", 0x00541104,
@@ -10671,32 +10608,32 @@ class Tag {
           "Scatter Correction Method", VR.kLO, VM.k1, false);
   static const Tag kAxialAcceptance
       //(0054,1200)
-      = const Tag._("AxialAcceptance", 0x00541200, "Axial Acceptance",
-          VR.kDS, VM.k1, false);
+      = const Tag._("AxialAcceptance", 0x00541200, "Axial Acceptance", VR.kDS,
+          VM.k1, false);
   static const Tag kAxialMash
       //(0054,1201)
-      = const Tag._(
-          "AxialMash", 0x00541201, "Axial Mash", VR.kIS, VM.k2, false);
+      =
+      const Tag._("AxialMash", 0x00541201, "Axial Mash", VR.kIS, VM.k2, false);
   static const Tag kTransverseMash
       //(0054,1202)
-      = const Tag._("TransverseMash", 0x00541202, "Transverse Mash",
-          VR.kIS, VM.k1, false);
+      = const Tag._("TransverseMash", 0x00541202, "Transverse Mash", VR.kIS,
+          VM.k1, false);
   static const Tag kDetectorElementSize
       //(0054,1203)
-      = const Tag._("DetectorElementSize", 0x00541203,
-          "Detector Element Size", VR.kDS, VM.k2, false);
+      = const Tag._("DetectorElementSize", 0x00541203, "Detector Element Size",
+          VR.kDS, VM.k2, false);
   static const Tag kCoincidenceWindowWidth
       //(0054,1210)
       = const Tag._("CoincidenceWindowWidth", 0x00541210,
           "Coincidence Window Width", VR.kDS, VM.k1, false);
   static const Tag kSecondaryCountsType
       //(0054,1220)
-      = const Tag._("SecondaryCountsType", 0x00541220,
-          "Secondary Counts Type", VR.kCS, VM.k1_n, false);
+      = const Tag._("SecondaryCountsType", 0x00541220, "Secondary Counts Type",
+          VR.kCS, VM.k1_n, false);
   static const Tag kFrameReferenceTime
       //(0054,1300)
-      = const Tag._("FrameReferenceTime", 0x00541300,
-          "Frame Reference Time", VR.kDS, VM.k1, false);
+      = const Tag._("FrameReferenceTime", 0x00541300, "Frame Reference Time",
+          VR.kDS, VM.k1, false);
   static const Tag kPrimaryPromptsCountsAccumulated
       //(0054,1310)
       = const Tag._("PrimaryPromptsCountsAccumulated", 0x00541310,
@@ -10723,16 +10660,16 @@ class Tag {
           "Scatter Fraction Factor", VR.kDS, VM.k1, false);
   static const Tag kDeadTimeFactor
       //(0054,1324)
-      = const Tag._("DeadTimeFactor", 0x00541324, "Dead Time Factor",
-          VR.kDS, VM.k1, false);
+      = const Tag._("DeadTimeFactor", 0x00541324, "Dead Time Factor", VR.kDS,
+          VM.k1, false);
   static const Tag kImageIndex
       //(0054,1330)
       = const Tag._(
           "ImageIndex", 0x00541330, "Image Index", VR.kUS, VM.k1, false);
   static const Tag kCountsIncluded
       //(0054,1400)
-      = const Tag._("CountsIncluded", 0x00541400, "Counts Included",
-          VR.kCS, VM.k1_n, true);
+      = const Tag._("CountsIncluded", 0x00541400, "Counts Included", VR.kCS,
+          VM.k1_n, true);
   static const Tag kDeadTimeCorrectionFlag
       //(0054,1401)
       = const Tag._("DeadTimeCorrectionFlag", 0x00541401,
@@ -10759,20 +10696,20 @@ class Tag {
           VR.kUS, VM.k1, false);
   static const Tag kHistogramExplanation
       //(0060,3010)
-      = const Tag._("HistogramExplanation", 0x00603010,
-          "Histogram Explanation", VR.kLO, VM.k1, false);
+      = const Tag._("HistogramExplanation", 0x00603010, "Histogram Explanation",
+          VR.kLO, VM.k1, false);
   static const Tag kHistogramData
       //(0060,3020)
       = const Tag._("HistogramData", 0x00603020, "Histogram Data", VR.kUL,
           VM.k1_n, false);
   static const Tag kSegmentationType
       //(0062,0001)
-      = const Tag._("SegmentationType", 0x00620001, "Segmentation Type",
-          VR.kCS, VM.k1, false);
+      = const Tag._("SegmentationType", 0x00620001, "Segmentation Type", VR.kCS,
+          VM.k1, false);
   static const Tag kSegmentSequence
       //(0062,0002)
-      = const Tag._("SegmentSequence", 0x00620002, "Segment Sequence",
-          VR.kSQ, VM.k1, false);
+      = const Tag._("SegmentSequence", 0x00620002, "Segment Sequence", VR.kSQ,
+          VM.k1, false);
   static const Tag kSegmentedPropertyCategoryCodeSequence
       //(0062,0003)
       = const Tag._("SegmentedPropertyCategoryCodeSequence", 0x00620003,
@@ -10787,8 +10724,8 @@ class Tag {
           "SegmentLabel", 0x00620005, "Segment Label", VR.kLO, VM.k1, false);
   static const Tag kSegmentDescription
       //(0062,0006)
-      = const Tag._("SegmentDescription", 0x00620006,
-          "Segment Description", VR.kST, VM.k1, false);
+      = const Tag._("SegmentDescription", 0x00620006, "Segment Description",
+          VR.kST, VM.k1, false);
   static const Tag kSegmentAlgorithmType
       //(0062,0008)
       = const Tag._("SegmentAlgorithmType", 0x00620008,
@@ -10852,16 +10789,16 @@ class Tag {
           "Deformable Registration Grid Sequence", VR.kSQ, VM.k1, false);
   static const Tag kGridDimensions
       //(0064,0007)
-      = const Tag._("GridDimensions", 0x00640007, "Grid Dimensions",
-          VR.kUL, VM.k3, false);
+      = const Tag._("GridDimensions", 0x00640007, "Grid Dimensions", VR.kUL,
+          VM.k3, false);
   static const Tag kGridResolution
       //(0064,0008)
-      = const Tag._("GridResolution", 0x00640008, "Grid Resolution",
-          VR.kFD, VM.k3, false);
+      = const Tag._("GridResolution", 0x00640008, "Grid Resolution", VR.kFD,
+          VM.k3, false);
   static const Tag kVectorGridData
       //(0064,0009)
-      = const Tag._("VectorGridData", 0x00640009, "Vector Grid Data",
-          VR.kOF, VM.k1, false);
+      = const Tag._("VectorGridData", 0x00640009, "Vector Grid Data", VR.kOF,
+          VM.k1, false);
   static const Tag kPreDeformationMatrixRegistrationSequence
       //(0064,000F)
       = const Tag._("PreDeformationMatrixRegistrationSequence", 0x0064000F,
@@ -10881,16 +10818,16 @@ class Tag {
           VR.kUL, VM.k1, false);
   static const Tag kSurfaceSequence
       //(0066,0002)
-      = const Tag._("SurfaceSequence", 0x00660002, "Surface Sequence",
-          VR.kSQ, VM.k1, false);
+      = const Tag._("SurfaceSequence", 0x00660002, "Surface Sequence", VR.kSQ,
+          VM.k1, false);
   static const Tag kSurfaceNumber
       //(0066,0003)
       = const Tag._(
           "SurfaceNumber", 0x00660003, "Surface Number", VR.kUL, VM.k1, false);
   static const Tag kSurfaceComments
       //(0066,0004)
-      = const Tag._("SurfaceComments", 0x00660004, "Surface Comments",
-          VR.kLT, VM.k1, false);
+      = const Tag._("SurfaceComments", 0x00660004, "Surface Comments", VR.kLT,
+          VM.k1, false);
   static const Tag kSurfaceProcessing
       //(0066,0009)
       = const Tag._("SurfaceProcessing", 0x00660009, "Surface Processing",
@@ -10917,8 +10854,7 @@ class Tag {
           "FiniteVolume", 0x0066000E, "Finite Volume", VR.kCS, VM.k1, false);
   static const Tag kManifold
       //(0066,0010)
-      = const Tag._(
-          "Manifold", 0x00660010, "Manifold", VR.kCS, VM.k1, false);
+      = const Tag._("Manifold", 0x00660010, "Manifold", VR.kCS, VM.k1, false);
   static const Tag kSurfacePointsSequence
       //(0066,0011)
       = const Tag._("SurfacePointsSequence", 0x00660011,
@@ -10957,24 +10893,24 @@ class Tag {
           "Points Bounding Box Coordinates", VR.kFL, VM.k6, false);
   static const Tag kAxisOfRotation
       //(0066,001B)
-      = const Tag._("AxisOfRotation", 0x0066001B, "Axis of Rotation",
-          VR.kFL, VM.k3, false);
+      = const Tag._("AxisOfRotation", 0x0066001B, "Axis of Rotation", VR.kFL,
+          VM.k3, false);
   static const Tag kCenterOfRotation
       //(0066,001C)
       = const Tag._("CenterOfRotation", 0x0066001C, "Center of Rotation",
           VR.kFL, VM.k3, false);
   static const Tag kNumberOfVectors
       //(0066,001E)
-      = const Tag._("NumberOfVectors", 0x0066001E, "Number of Vectors",
-          VR.kUL, VM.k1, false);
+      = const Tag._("NumberOfVectors", 0x0066001E, "Number of Vectors", VR.kUL,
+          VM.k1, false);
   static const Tag kVectorDimensionality
       //(0066,001F)
-      = const Tag._("VectorDimensionality", 0x0066001F,
-          "Vector Dimensionality", VR.kUS, VM.k1, false);
+      = const Tag._("VectorDimensionality", 0x0066001F, "Vector Dimensionality",
+          VR.kUS, VM.k1, false);
   static const Tag kVectorAccuracy
       //(0066,0020)
-      = const Tag._("VectorAccuracy", 0x00660020, "Vector Accuracy",
-          VR.kFL, VM.k1_n, false);
+      = const Tag._("VectorAccuracy", 0x00660020, "Vector Accuracy", VR.kFL,
+          VM.k1_n, false);
   static const Tag kVectorCoordinateData
       //(0066,0021)
       = const Tag._("VectorCoordinateData", 0x00660021,
@@ -10985,8 +10921,8 @@ class Tag {
           "Triangle Point Index List", VR.kOW, VM.k1, false);
   static const Tag kEdgePointIndexList
       //(0066,0024)
-      = const Tag._("EdgePointIndexList", 0x00660024,
-          "Edge Point Index List", VR.kOW, VM.k1, false);
+      = const Tag._("EdgePointIndexList", 0x00660024, "Edge Point Index List",
+          VR.kOW, VM.k1, false);
   static const Tag kVertexPointIndexList
       //(0066,0025)
       = const Tag._("VertexPointIndexList", 0x00660025,
@@ -10997,8 +10933,8 @@ class Tag {
           "Triangle Strip Sequence", VR.kSQ, VM.k1, false);
   static const Tag kTriangleFanSequence
       //(0066,0027)
-      = const Tag._("TriangleFanSequence", 0x00660027,
-          "Triangle Fan Sequence", VR.kSQ, VM.k1, false);
+      = const Tag._("TriangleFanSequence", 0x00660027, "Triangle Fan Sequence",
+          VR.kSQ, VM.k1, false);
   static const Tag kLineSequence
       //(0066,0028)
       = const Tag._(
@@ -11042,12 +10978,12 @@ class Tag {
           "Algorithm Name Code Sequence", VR.kSQ, VM.k1, false);
   static const Tag kAlgorithmVersion
       //(0066,0031)
-      = const Tag._("AlgorithmVersion", 0x00660031, "Algorithm Version",
-          VR.kLO, VM.k1, false);
+      = const Tag._("AlgorithmVersion", 0x00660031, "Algorithm Version", VR.kLO,
+          VM.k1, false);
   static const Tag kAlgorithmParameters
       //(0066,0032)
-      = const Tag._("AlgorithmParameters", 0x00660032,
-          "Algorithm Parameters", VR.kLT, VM.k1, false);
+      = const Tag._("AlgorithmParameters", 0x00660032, "Algorithm Parameters",
+          VR.kLT, VM.k1, false);
   static const Tag kFacetSequence
       //(0066,0034)
       = const Tag._(
@@ -11119,8 +11055,8 @@ class Tag {
           "Information Issue DateTime", VR.kDT, VM.k1, false);
   static const Tag kInformationSummary
       //(0068,6280)
-      = const Tag._("InformationSummary", 0x00686280,
-          "Information Summary", VR.kST, VM.k1, false);
+      = const Tag._("InformationSummary", 0x00686280, "Information Summary",
+          VR.kST, VM.k1, false);
   static const Tag kImplantRegulatoryDisapprovalCodeSequence
       //(0068,62A0)
       = const Tag._("ImplantRegulatoryDisapprovalCodeSequence", 0x006862A0,
@@ -11135,8 +11071,8 @@ class Tag {
           "HPGL Document Sequence", VR.kSQ, VM.k1, false);
   static const Tag kHPGLDocumentID
       //(0068,62D0)
-      = const Tag._("HPGLDocumentID", 0x006862D0, "HPGL Document ID",
-          VR.kUS, VM.k1, false);
+      = const Tag._("HPGLDocumentID", 0x006862D0, "HPGL Document ID", VR.kUS,
+          VM.k1, false);
   static const Tag kHPGLDocumentLabel
       //(0068,62D5)
       = const Tag._("HPGLDocumentLabel", 0x006862D5, "HPGL Document Label",
@@ -11151,8 +11087,8 @@ class Tag {
           "View Orientation Modifier", VR.kFD, VM.k9, false);
   static const Tag kHPGLDocumentScaling
       //(0068,62F2)
-      = const Tag._("HPGLDocumentScaling", 0x006862F2,
-          "HPGL Document Scaling", VR.kFD, VM.k1, false);
+      = const Tag._("HPGLDocumentScaling", 0x006862F2, "HPGL Document Scaling",
+          VR.kFD, VM.k1, false);
   static const Tag kHPGLDocument
       //(0068,6300)
       = const Tag._(
@@ -11163,8 +11099,8 @@ class Tag {
           "HPGL Contour Pen Number", VR.kUS, VM.k1, false);
   static const Tag kHPGLPenSequence
       //(0068,6320)
-      = const Tag._("HPGLPenSequence", 0x00686320, "HPGL Pen Sequence",
-          VR.kSQ, VM.k1, false);
+      = const Tag._("HPGLPenSequence", 0x00686320, "HPGL Pen Sequence", VR.kSQ,
+          VM.k1, false);
   static const Tag kHPGLPenNumber
       //(0068,6330)
       = const Tag._(
@@ -11175,8 +11111,8 @@ class Tag {
           "HPGLPenLabel", 0x00686340, "HPGL Pen Label", VR.kLO, VM.k1, false);
   static const Tag kHPGLPenDescription
       //(0068,6345)
-      = const Tag._("HPGLPenDescription", 0x00686345,
-          "HPGL Pen Description", VR.kST, VM.k1, false);
+      = const Tag._("HPGLPenDescription", 0x00686345, "HPGL Pen Description",
+          VR.kST, VM.k1, false);
   static const Tag kRecommendedRotationPoint
       //(0068,6346)
       = const Tag._("RecommendedRotationPoint", 0x00686346,
@@ -11223,8 +11159,8 @@ class Tag {
           "Mating Feature Sets Sequence", VR.kSQ, VM.k1, false);
   static const Tag kMatingFeatureSetID
       //(0068,63C0)
-      = const Tag._("MatingFeatureSetID", 0x006863C0,
-          "Mating Feature Set ID", VR.kUS, VM.k1, false);
+      = const Tag._("MatingFeatureSetID", 0x006863C0, "Mating Feature Set ID",
+          VR.kUS, VM.k1, false);
   static const Tag kMatingFeatureSetLabel
       //(0068,63D0)
       = const Tag._("MatingFeatureSetLabel", 0x006863D0,
@@ -11235,20 +11171,20 @@ class Tag {
           "Mating Feature Sequence", VR.kSQ, VM.k1, false);
   static const Tag kMatingFeatureID
       //(0068,63F0)
-      = const Tag._("MatingFeatureID", 0x006863F0, "Mating Feature ID",
-          VR.kUS, VM.k1, false);
+      = const Tag._("MatingFeatureID", 0x006863F0, "Mating Feature ID", VR.kUS,
+          VM.k1, false);
   static const Tag kMatingFeatureDegreeOfFreedomSequence
       //(0068,6400)
       = const Tag._("MatingFeatureDegreeOfFreedomSequence", 0x00686400,
           "Mating Feature Degree of Freedom Sequence", VR.kSQ, VM.k1, false);
   static const Tag kDegreeOfFreedomID
       //(0068,6410)
-      = const Tag._("DegreeOfFreedomID", 0x00686410,
-          "Degree of Freedom ID", VR.kUS, VM.k1, false);
+      = const Tag._("DegreeOfFreedomID", 0x00686410, "Degree of Freedom ID",
+          VR.kUS, VM.k1, false);
   static const Tag kDegreeOfFreedomType
       //(0068,6420)
-      = const Tag._("DegreeOfFreedomType", 0x00686420,
-          "Degree of Freedom Type", VR.kCS, VM.k1, false);
+      = const Tag._("DegreeOfFreedomType", 0x00686420, "Degree of Freedom Type",
+          VR.kCS, VM.k1, false);
   static const Tag kTwoDMatingFeatureCoordinatesSequence
       //(0068,6430)
       = const Tag._("TwoDMatingFeatureCoordinatesSequence", 0x00686430,
@@ -11259,8 +11195,8 @@ class Tag {
           "Referenced HPGL Document ID", VR.kUS, VM.k1, false);
   static const Tag kTwoDMatingPoint
       //(0068,6450)
-      = const Tag._("TwoDMatingPoint", 0x00686450, "2D Mating Point",
-          VR.kFD, VM.k2, false);
+      = const Tag._("TwoDMatingPoint", 0x00686450, "2D Mating Point", VR.kFD,
+          VM.k2, false);
   static const Tag kTwoDMatingAxes
       //(0068,6460)
       = const Tag._(
@@ -11275,16 +11211,16 @@ class Tag {
           "3D Degree of Freedom Axis", VR.kFD, VM.k3, false);
   static const Tag kRangeOfFreedom
       //(0068,64A0)
-      = const Tag._("RangeOfFreedom", 0x006864A0, "Range of Freedom",
-          VR.kFD, VM.k2, false);
+      = const Tag._("RangeOfFreedom", 0x006864A0, "Range of Freedom", VR.kFD,
+          VM.k2, false);
   static const Tag kThreeDMatingPoint
       //(0068,64C0)
-      = const Tag._("ThreeDMatingPoint", 0x006864C0, "3D Mating Point",
-          VR.kFD, VM.k3, false);
+      = const Tag._("ThreeDMatingPoint", 0x006864C0, "3D Mating Point", VR.kFD,
+          VM.k3, false);
   static const Tag kThreeDMatingAxes
       //(0068,64D0)
-      = const Tag._("ThreeDMatingAxes", 0x006864D0, "3D Mating Axes",
-          VR.kFD, VM.k9, false);
+      = const Tag._("ThreeDMatingAxes", 0x006864D0, "3D Mating Axes", VR.kFD,
+          VM.k9, false);
   static const Tag kTwoDDegreeOfFreedomAxis
       //(0068,64F0)
       = const Tag._("TwoDDegreeOfFreedomAxis", 0x006864F0,
@@ -11303,8 +11239,8 @@ class Tag {
           "Planning Landmark Plane Sequence", VR.kSQ, VM.k1, false);
   static const Tag kPlanningLandmarkID
       //(0068,6530)
-      = const Tag._("PlanningLandmarkID", 0x00686530,
-          "Planning Landmark ID", VR.kUS, VM.k1, false);
+      = const Tag._("PlanningLandmarkID", 0x00686530, "Planning Landmark ID",
+          VR.kUS, VM.k1, false);
   static const Tag kPlanningLandmarkDescription
       //(0068,6540)
       = const Tag._("PlanningLandmarkDescription", 0x00686540,
@@ -11324,8 +11260,8 @@ class Tag {
           "2D Point Coordinates Sequence", VR.kSQ, VM.k1, false);
   static const Tag kTwoDPointCoordinates
       //(0068,6560)
-      = const Tag._("TwoDPointCoordinates", 0x00686560,
-          "2D Point Coordinates", VR.kFD, VM.k2, false);
+      = const Tag._("TwoDPointCoordinates", 0x00686560, "2D Point Coordinates",
+          VR.kFD, VM.k2, false);
   static const Tag kThreeDPointCoordinates
       //(0068,6590)
       = const Tag._("ThreeDPointCoordinates", 0x00686590,
@@ -11336,12 +11272,12 @@ class Tag {
           "2D Line Coordinates Sequence", VR.kSQ, VM.k1, false);
   static const Tag kTwoDLineCoordinates
       //(0068,65B0)
-      = const Tag._("TwoDLineCoordinates", 0x006865B0,
-          "2D Line Coordinates", VR.kFD, VM.k4, false);
+      = const Tag._("TwoDLineCoordinates", 0x006865B0, "2D Line Coordinates",
+          VR.kFD, VM.k4, false);
   static const Tag kThreeDLineCoordinates
       //(0068,65D0)
-      = const Tag._("ThreeDLineCoordinates", 0x006865D0,
-          "3D Line Coordinates", VR.kFD, VM.k6, false);
+      = const Tag._("ThreeDLineCoordinates", 0x006865D0, "3D Line Coordinates",
+          VR.kFD, VM.k6, false);
   static const Tag kTwoDPlaneCoordinatesSequence
       //(0068,65E0)
       = const Tag._("TwoDPlaneCoordinatesSequence", 0x006865E0,
@@ -11352,12 +11288,12 @@ class Tag {
           "2D Plane Intersection", VR.kFD, VM.k4, false);
   static const Tag kThreeDPlaneOrigin
       //(0068,6610)
-      = const Tag._("ThreeDPlaneOrigin", 0x00686610, "3D Plane Origin",
-          VR.kFD, VM.k3, false);
+      = const Tag._("ThreeDPlaneOrigin", 0x00686610, "3D Plane Origin", VR.kFD,
+          VM.k3, false);
   static const Tag kThreeDPlaneNormal
       //(0068,6620)
-      = const Tag._("ThreeDPlaneNormal", 0x00686620, "3D Plane Normal",
-          VR.kFD, VM.k3, false);
+      = const Tag._("ThreeDPlaneNormal", 0x00686620, "3D Plane Normal", VR.kFD,
+          VM.k3, false);
   static const Tag kGraphicAnnotationSequence
       //(0070,0001)
       = const Tag._("GraphicAnnotationSequence", 0x00700001,
@@ -11384,8 +11320,8 @@ class Tag {
           "Unformatted Text Value", VR.kST, VM.k1, false);
   static const Tag kTextObjectSequence
       //(0070,0008)
-      = const Tag._("TextObjectSequence", 0x00700008,
-          "Text Object Sequence", VR.kSQ, VM.k1, false);
+      = const Tag._("TextObjectSequence", 0x00700008, "Text Object Sequence",
+          VR.kSQ, VM.k1, false);
   static const Tag kGraphicObjectSequence
       //(0070,0009)
       = const Tag._("GraphicObjectSequence", 0x00700009,
@@ -11436,8 +11372,8 @@ class Tag {
           "Image Rotation (Retired)", VR.kIS, VM.k1, true);
   static const Tag kImageHorizontalFlip
       //(0070,0041)
-      = const Tag._("ImageHorizontalFlip", 0x00700041,
-          "Image Horizontal Flip", VR.kCS, VM.k1, false);
+      = const Tag._("ImageHorizontalFlip", 0x00700041, "Image Horizontal Flip",
+          VR.kCS, VM.k1, false);
   static const Tag kImageRotation
       //(0070,0042)
       = const Tag._(
@@ -11498,8 +11434,8 @@ class Tag {
           "ContentLabel", 0x00700080, "Content Label", VR.kCS, VM.k1, false);
   static const Tag kContentDescription
       //(0070,0081)
-      = const Tag._("ContentDescription", 0x00700081,
-          "Content Description", VR.kLO, VM.k1, false);
+      = const Tag._("ContentDescription", 0x00700081, "Content Description",
+          VR.kLO, VM.k1, false);
   static const Tag kPresentationCreationDate
       //(0070,0082)
       = const Tag._("PresentationCreationDate", 0x00700082,
@@ -11510,8 +11446,8 @@ class Tag {
           "Presentation Creation Time", VR.kTM, VM.k1, false);
   static const Tag kContentCreatorName
       //(0070,0084)
-      = const Tag._("ContentCreatorName", 0x00700084,
-          "Content Creator's Name", VR.kPN, VM.k1, false);
+      = const Tag._("ContentCreatorName", 0x00700084, "Content Creator's Name",
+          VR.kPN, VM.k1, false);
   static const Tag kContentCreatorIdentificationCodeSequence
       //(0070,0086)
       = const Tag._(
@@ -11559,8 +11495,7 @@ class Tag {
           "Compound Graphic Instance ID", VR.kUL, VM.k1, false);
   static const Tag kFontName
       //(0070,0227)
-      = const Tag._(
-          "FontName", 0x00700227, "Font Name", VR.kLO, VM.k1, false);
+      = const Tag._("FontName", 0x00700227, "Font Name", VR.kLO, VM.k1, false);
   static const Tag kFontNameType
       //(0070,0228)
       = const Tag._(
@@ -11595,8 +11530,8 @@ class Tag {
           "Text Color CIELab Value", VR.kUS, VM.k3, false);
   static const Tag kHorizontalAlignment
       //(0070,0242)
-      = const Tag._("HorizontalAlignment", 0x00700242,
-          "Horizontal Alignment", VR.kCS, VM.k1, false);
+      = const Tag._("HorizontalAlignment", 0x00700242, "Horizontal Alignment",
+          VR.kCS, VM.k1, false);
   static const Tag kVerticalAlignment
       //(0070,0243)
       = const Tag._("VerticalAlignment", 0x00700243, "Vertical Alignment",
@@ -11619,8 +11554,8 @@ class Tag {
           "Shadow Color CIELab Value", VR.kUS, VM.k3, false);
   static const Tag kUnderlined
       //(0070,0248)
-      = const Tag._(
-          "Underlined", 0x00700248, "Underlined", VR.kCS, VM.k1, false);
+      =
+      const Tag._("Underlined", 0x00700248, "Underlined", VR.kCS, VM.k1, false);
   static const Tag kBold
       //(0070,0249)
       = const Tag._("Bold", 0x00700249, "Bold", VR.kCS, VM.k1, false);
@@ -11653,16 +11588,15 @@ class Tag {
           "FillPattern", 0x00700256, "Fill Pattern", VR.kOB, VM.k1, false);
   static const Tag kFillMode
       //(0070,0257)
-      = const Tag._(
-          "FillMode", 0x00700257, "Fill Mode", VR.kCS, VM.k1, false);
+      = const Tag._("FillMode", 0x00700257, "Fill Mode", VR.kCS, VM.k1, false);
   static const Tag kShadowOpacity
       //(0070,0258)
       = const Tag._(
           "ShadowOpacity", 0x00700258, "Shadow Opacity", VR.kFL, VM.k1, false);
   static const Tag kGapLength
       //(0070,0261)
-      = const Tag._(
-          "GapLength", 0x00700261, "Gap Length", VR.kFL, VM.k1, false);
+      =
+      const Tag._("GapLength", 0x00700261, "Gap Length", VR.kFL, VM.k1, false);
   static const Tag kDiameterOfVisibility
       //(0070,0262)
       = const Tag._("DiameterOfVisibility", 0x00700262,
@@ -11681,8 +11615,8 @@ class Tag {
           "ShowTickLabel", 0x00700278, "Show Tick Label", VR.kCS, VM.k1, false);
   static const Tag kTickLabelAlignment
       //(0070,0279)
-      = const Tag._("TickLabelAlignment", 0x00700279,
-          "Tick Label Alignment", VR.kCS, VM.k1, false);
+      = const Tag._("TickLabelAlignment", 0x00700279, "Tick Label Alignment",
+          VR.kCS, VM.k1, false);
   static const Tag kCompoundGraphicUnits
       //(0070,0282)
       = const Tag._("CompoundGraphicUnits", 0x00700282,
@@ -11697,40 +11631,40 @@ class Tag {
           VR.kFL, VM.k1, false);
   static const Tag kMajorTicksSequence
       //(0070,0287)
-      = const Tag._("MajorTicksSequence", 0x00700287,
-          "Major Ticks Sequence", VR.kSQ, VM.k1, false);
+      = const Tag._("MajorTicksSequence", 0x00700287, "Major Ticks Sequence",
+          VR.kSQ, VM.k1, false);
   static const Tag kTickPosition
       //(0070,0288)
       = const Tag._(
           "TickPosition", 0x00700288, "Tick Position", VR.kFL, VM.k1, false);
   static const Tag kTickLabel
       //(0070,0289)
-      = const Tag._(
-          "TickLabel", 0x00700289, "Tick Label", VR.kSH, VM.k1, false);
+      =
+      const Tag._("TickLabel", 0x00700289, "Tick Label", VR.kSH, VM.k1, false);
   static const Tag kCompoundGraphicType
       //(0070,0294)
-      = const Tag._("CompoundGraphicType", 0x00700294,
-          "Compound Graphic Type", VR.kCS, VM.k1, false);
+      = const Tag._("CompoundGraphicType", 0x00700294, "Compound Graphic Type",
+          VR.kCS, VM.k1, false);
   static const Tag kGraphicGroupID
       //(0070,0295)
-      = const Tag._("GraphicGroupID", 0x00700295, "Graphic Group ID",
-          VR.kUL, VM.k1, false);
+      = const Tag._("GraphicGroupID", 0x00700295, "Graphic Group ID", VR.kUL,
+          VM.k1, false);
   static const Tag kShapeType
       //(0070,0306)
-      = const Tag._(
-          "ShapeType", 0x00700306, "Shape Type", VR.kCS, VM.k1, false);
+      =
+      const Tag._("ShapeType", 0x00700306, "Shape Type", VR.kCS, VM.k1, false);
   static const Tag kRegistrationSequence
       //(0070,0308)
-      = const Tag._("RegistrationSequence", 0x00700308,
-          "Registration Sequence", VR.kSQ, VM.k1, false);
+      = const Tag._("RegistrationSequence", 0x00700308, "Registration Sequence",
+          VR.kSQ, VM.k1, false);
   static const Tag kMatrixRegistrationSequence
       //(0070,0309)
       = const Tag._("MatrixRegistrationSequence", 0x00700309,
           "Matrix Registration Sequence", VR.kSQ, VM.k1, false);
   static const Tag kMatrixSequence
       //(0070,030A)
-      = const Tag._("MatrixSequence", 0x0070030A, "Matrix Sequence",
-          VR.kSQ, VM.k1, false);
+      = const Tag._("MatrixSequence", 0x0070030A, "Matrix Sequence", VR.kSQ,
+          VM.k1, false);
   static const Tag kFrameOfReferenceTransformationMatrixType
       //(0070,030C)
       = const Tag._(
@@ -11746,12 +11680,12 @@ class Tag {
           "Registration Type Code Sequence", VR.kSQ, VM.k1, false);
   static const Tag kFiducialDescription
       //(0070,030F)
-      = const Tag._("FiducialDescription", 0x0070030F,
-          "Fiducial Description", VR.kST, VM.k1, false);
+      = const Tag._("FiducialDescription", 0x0070030F, "Fiducial Description",
+          VR.kST, VM.k1, false);
   static const Tag kFiducialIdentifier
       //(0070,0310)
-      = const Tag._("FiducialIdentifier", 0x00700310,
-          "Fiducial Identifier", VR.kSH, VM.k1, false);
+      = const Tag._("FiducialIdentifier", 0x00700310, "Fiducial Identifier",
+          VR.kSH, VM.k1, false);
   static const Tag kFiducialIdentifierCodeSequence
       //(0070,0311)
       = const Tag._("FiducialIdentifierCodeSequence", 0x00700311,
@@ -11774,12 +11708,12 @@ class Tag {
           "FiducialUID", 0x0070031A, "Fiducial UID", VR.kUI, VM.k1, false);
   static const Tag kFiducialSetSequence
       //(0070,031C)
-      = const Tag._("FiducialSetSequence", 0x0070031C,
-          "Fiducial Set Sequence", VR.kSQ, VM.k1, false);
+      = const Tag._("FiducialSetSequence", 0x0070031C, "Fiducial Set Sequence",
+          VR.kSQ, VM.k1, false);
   static const Tag kFiducialSequence
       //(0070,031E)
-      = const Tag._("FiducialSequence", 0x0070031E, "Fiducial Sequence",
-          VR.kSQ, VM.k1, false);
+      = const Tag._("FiducialSequence", 0x0070031E, "Fiducial Sequence", VR.kSQ,
+          VM.k1, false);
   static const Tag kGraphicLayerRecommendedDisplayCIELabValue
       //(0070,0401)
       = const Tag._(
@@ -11791,24 +11725,24 @@ class Tag {
           false);
   static const Tag kBlendingSequence
       //(0070,0402)
-      = const Tag._("BlendingSequence", 0x00700402, "Blending Sequence",
-          VR.kSQ, VM.k1, false);
+      = const Tag._("BlendingSequence", 0x00700402, "Blending Sequence", VR.kSQ,
+          VM.k1, false);
   static const Tag kRelativeOpacity
       //(0070,0403)
-      = const Tag._("RelativeOpacity", 0x00700403, "Relative Opacity",
-          VR.kFL, VM.k1, false);
+      = const Tag._("RelativeOpacity", 0x00700403, "Relative Opacity", VR.kFL,
+          VM.k1, false);
   static const Tag kReferencedSpatialRegistrationSequence
       //(0070,0404)
       = const Tag._("ReferencedSpatialRegistrationSequence", 0x00700404,
           "Referenced Spatial Registration Sequence", VR.kSQ, VM.k1, false);
   static const Tag kBlendingPosition
       //(0070,0405)
-      = const Tag._("BlendingPosition", 0x00700405, "Blending Position",
-          VR.kCS, VM.k1, false);
+      = const Tag._("BlendingPosition", 0x00700405, "Blending Position", VR.kCS,
+          VM.k1, false);
   static const Tag kHangingProtocolName
       //(0072,0002)
-      = const Tag._("HangingProtocolName", 0x00720002,
-          "Hanging Protocol Name", VR.kSH, VM.k1, false);
+      = const Tag._("HangingProtocolName", 0x00720002, "Hanging Protocol Name",
+          VR.kSH, VM.k1, false);
   static const Tag kHangingProtocolDescription
       //(0072,0004)
       = const Tag._("HangingProtocolDescription", 0x00720004,
@@ -11868,16 +11802,16 @@ class Tag {
           VR.kAT, VM.k1, false);
   static const Tag kSelectorValueNumber
       //(0072,0028)
-      = const Tag._("SelectorValueNumber", 0x00720028,
-          "Selector Value Number", VR.kUS, VM.k1, false);
+      = const Tag._("SelectorValueNumber", 0x00720028, "Selector Value Number",
+          VR.kUS, VM.k1, false);
   static const Tag kTimeBasedImageSetsSequence
       //(0072,0030)
       = const Tag._("TimeBasedImageSetsSequence", 0x00720030,
           "Time Based Image Sets Sequence", VR.kSQ, VM.k1, false);
   static const Tag kImageSetNumber
       //(0072,0032)
-      = const Tag._("ImageSetNumber", 0x00720032, "Image Set Number",
-          VR.kUS, VM.k1, false);
+      = const Tag._("ImageSetNumber", 0x00720032, "Image Set Number", VR.kUS,
+          VM.k1, false);
   static const Tag kImageSetSelectorCategory
       //(0072,0034)
       = const Tag._("ImageSetSelectorCategory", 0x00720034,
@@ -11892,8 +11826,8 @@ class Tag {
           VR.kCS, VM.k1, false);
   static const Tag kAbstractPriorValue
       //(0072,003C)
-      = const Tag._("AbstractPriorValue", 0x0072003C,
-          "Abstract Prior Value", VR.kSS, VM.k2, false);
+      = const Tag._("AbstractPriorValue", 0x0072003C, "Abstract Prior Value",
+          VR.kSS, VM.k2, false);
   static const Tag kAbstractPriorCodeSequence
       //(0072,003E)
       = const Tag._("AbstractPriorCodeSequence", 0x0072003E,
@@ -11904,8 +11838,8 @@ class Tag {
           "ImageSetLabel", 0x00720040, "Image Set Label", VR.kLO, VM.k1, false);
   static const Tag kSelectorAttributeVR
       //(0072,0050)
-      = const Tag._("SelectorAttributeVR", 0x00720050,
-          "Selector Attribute VR", VR.kCS, VM.k1, false);
+      = const Tag._("SelectorAttributeVR", 0x00720050, "Selector Attribute VR",
+          VR.kCS, VM.k1, false);
   static const Tag kSelectorSequencePointer
       //(0072,0052)
       = const Tag._("SelectorSequencePointer", 0x00720052,
@@ -11920,80 +11854,80 @@ class Tag {
           "Selector Attribute Private Creator", VR.kLO, VM.k1, false);
   static const Tag kSelectorATValue
       //(0072,0060)
-      = const Tag._("SelectorATValue", 0x00720060, "Selector AT Value",
-          VR.kAT, VM.k1_n, false);
+      = const Tag._("SelectorATValue", 0x00720060, "Selector AT Value", VR.kAT,
+          VM.k1_n, false);
   static const Tag kSelectorCSValue
       //(0072,0062)
-      = const Tag._("SelectorCSValue", 0x00720062, "Selector CS Value",
-          VR.kCS, VM.k1_n, false);
+      = const Tag._("SelectorCSValue", 0x00720062, "Selector CS Value", VR.kCS,
+          VM.k1_n, false);
   static const Tag kSelectorISValue
       //(0072,0064)
-      = const Tag._("SelectorISValue", 0x00720064, "Selector IS Value",
-          VR.kIS, VM.k1_n, false);
+      = const Tag._("SelectorISValue", 0x00720064, "Selector IS Value", VR.kIS,
+          VM.k1_n, false);
   static const Tag kSelectorLOValue
       //(0072,0066)
-      = const Tag._("SelectorLOValue", 0x00720066, "Selector LO Value",
-          VR.kLO, VM.k1_n, false);
+      = const Tag._("SelectorLOValue", 0x00720066, "Selector LO Value", VR.kLO,
+          VM.k1_n, false);
   static const Tag kSelectorLTValue
       //(0072,0068)
-      = const Tag._("SelectorLTValue", 0x00720068, "Selector LT Value",
-          VR.kLT, VM.k1, false);
+      = const Tag._("SelectorLTValue", 0x00720068, "Selector LT Value", VR.kLT,
+          VM.k1, false);
   static const Tag kSelectorPNValue
       //(0072,006A)
-      = const Tag._("SelectorPNValue", 0x0072006A, "Selector PN Value",
-          VR.kPN, VM.k1_n, false);
+      = const Tag._("SelectorPNValue", 0x0072006A, "Selector PN Value", VR.kPN,
+          VM.k1_n, false);
   static const Tag kSelectorSHValue
       //(0072,006C)
-      = const Tag._("SelectorSHValue", 0x0072006C, "Selector SH Value",
-          VR.kSH, VM.k1_n, false);
+      = const Tag._("SelectorSHValue", 0x0072006C, "Selector SH Value", VR.kSH,
+          VM.k1_n, false);
   static const Tag kSelectorSTValue
       //(0072,006E)
-      = const Tag._("SelectorSTValue", 0x0072006E, "Selector ST Value",
-          VR.kST, VM.k1, false);
+      = const Tag._("SelectorSTValue", 0x0072006E, "Selector ST Value", VR.kST,
+          VM.k1, false);
   static const Tag kSelectorUTValue
       //(0072,0070)
-      = const Tag._("SelectorUTValue", 0x00720070, "Selector UT Value",
-          VR.kUT, VM.k1, false);
+      = const Tag._("SelectorUTValue", 0x00720070, "Selector UT Value", VR.kUT,
+          VM.k1, false);
   static const Tag kSelectorDSValue
       //(0072,0072)
-      = const Tag._("SelectorDSValue", 0x00720072, "Selector DS Value",
-          VR.kDS, VM.k1_n, false);
+      = const Tag._("SelectorDSValue", 0x00720072, "Selector DS Value", VR.kDS,
+          VM.k1_n, false);
   static const Tag kSelectorODValue
       //(0072,0073)
-      = const Tag._("SelectorODValue", 0x00720073, "Selector OD Value",
-          VR.kOD, VM.k1, false);
+      = const Tag._("SelectorODValue", 0x00720073, "Selector OD Value", VR.kOD,
+          VM.k1, false);
   static const Tag kSelectorFDValue
       //(0072,0074)
-      = const Tag._("SelectorFDValue", 0x00720074, "Selector FD Value",
-          VR.kFD, VM.k1_n, false);
+      = const Tag._("SelectorFDValue", 0x00720074, "Selector FD Value", VR.kFD,
+          VM.k1_n, false);
   static const Tag kSelectorFLValue
       //(0072,0076)
-      = const Tag._("SelectorFLValue", 0x00720076, "Selector FL Value",
-          VR.kFL, VM.k1_n, false);
+      = const Tag._("SelectorFLValue", 0x00720076, "Selector FL Value", VR.kFL,
+          VM.k1_n, false);
   static const Tag kSelectorULValue
       //(0072,0078)
-      = const Tag._("SelectorULValue", 0x00720078, "Selector UL Value",
-          VR.kUL, VM.k1_n, false);
+      = const Tag._("SelectorULValue", 0x00720078, "Selector UL Value", VR.kUL,
+          VM.k1_n, false);
   static const Tag kSelectorUSValue
       //(0072,007A)
-      = const Tag._("SelectorUSValue", 0x0072007A, "Selector US Value",
-          VR.kUS, VM.k1_n, false);
+      = const Tag._("SelectorUSValue", 0x0072007A, "Selector US Value", VR.kUS,
+          VM.k1_n, false);
   static const Tag kSelectorSLValue
       //(0072,007C)
-      = const Tag._("SelectorSLValue", 0x0072007C, "Selector SL Value",
-          VR.kSL, VM.k1_n, false);
+      = const Tag._("SelectorSLValue", 0x0072007C, "Selector SL Value", VR.kSL,
+          VM.k1_n, false);
   static const Tag kSelectorSSValue
       //(0072,007E)
-      = const Tag._("SelectorSSValue", 0x0072007E, "Selector SS Value",
-          VR.kSS, VM.k1_n, false);
+      = const Tag._("SelectorSSValue", 0x0072007E, "Selector SS Value", VR.kSS,
+          VM.k1_n, false);
   static const Tag kSelectorCodeSequenceValue
       //(0072,0080)
       = const Tag._("SelectorCodeSequenceValue", 0x00720080,
           "Selector Code Sequence Value", VR.kSQ, VM.k1, false);
   static const Tag kNumberOfScreens
       //(0072,0100)
-      = const Tag._("NumberOfScreens", 0x00720100, "Number of Screens",
-          VR.kUS, VM.k1, false);
+      = const Tag._("NumberOfScreens", 0x00720100, "Number of Screens", VR.kUS,
+          VM.k1, false);
   static const Tag kNominalScreenDefinitionSequence
       //(0072,0102)
       = const Tag._("NominalScreenDefinitionSequence", 0x00720102,
@@ -12024,16 +11958,16 @@ class Tag {
           "Application Maximum Repaint Time", VR.kUS, VM.k1, false);
   static const Tag kDisplaySetsSequence
       //(0072,0200)
-      = const Tag._("DisplaySetsSequence", 0x00720200,
-          "Display Sets Sequence", VR.kSQ, VM.k1, false);
+      = const Tag._("DisplaySetsSequence", 0x00720200, "Display Sets Sequence",
+          VR.kSQ, VM.k1, false);
   static const Tag kDisplaySetNumber
       //(0072,0202)
       = const Tag._("DisplaySetNumber", 0x00720202, "Display Set Number",
           VR.kUS, VM.k1, false);
   static const Tag kDisplaySetLabel
       //(0072,0203)
-      = const Tag._("DisplaySetLabel", 0x00720203, "Display Set Label",
-          VR.kLO, VM.k1, false);
+      = const Tag._("DisplaySetLabel", 0x00720203, "Display Set Label", VR.kLO,
+          VM.k1, false);
   static const Tag kDisplaySetPresentationGroup
       //(0072,0204)
       = const Tag._("DisplaySetPresentationGroup", 0x00720204,
@@ -12068,16 +12002,16 @@ class Tag {
           "Reference Display Sets", VR.kUS, VM.k1_n, false);
   static const Tag kImageBoxesSequence
       //(0072,0300)
-      = const Tag._("ImageBoxesSequence", 0x00720300,
-          "Image Boxes Sequence", VR.kSQ, VM.k1, false);
+      = const Tag._("ImageBoxesSequence", 0x00720300, "Image Boxes Sequence",
+          VR.kSQ, VM.k1, false);
   static const Tag kImageBoxNumber
       //(0072,0302)
-      = const Tag._("ImageBoxNumber", 0x00720302, "Image Box Number",
-          VR.kUS, VM.k1, false);
+      = const Tag._("ImageBoxNumber", 0x00720302, "Image Box Number", VR.kUS,
+          VM.k1, false);
   static const Tag kImageBoxLayoutType
       //(0072,0304)
-      = const Tag._("ImageBoxLayoutType", 0x00720304,
-          "Image Box Layout Type", VR.kCS, VM.k1, false);
+      = const Tag._("ImageBoxLayoutType", 0x00720304, "Image Box Layout Type",
+          VR.kCS, VM.k1, false);
   static const Tag kImageBoxTileHorizontalDimension
       //(0072,0306)
       = const Tag._("ImageBoxTileHorizontalDimension", 0x00720306,
@@ -12176,8 +12110,8 @@ class Tag {
           "Reformatting Thickness", VR.kFD, VM.k1, false);
   static const Tag kReformattingInterval
       //(0072,0514)
-      = const Tag._("ReformattingInterval", 0x00720514,
-          "Reformatting Interval", VR.kFD, VM.k1, false);
+      = const Tag._("ReformattingInterval", 0x00720514, "Reformatting Interval",
+          VR.kFD, VM.k1, false);
   static const Tag kReformattingOperationInitialViewDirection
       //(0072,0516)
       = const Tag._(
@@ -12197,24 +12131,23 @@ class Tag {
           "Sorting Operations Sequence", VR.kSQ, VM.k1, false);
   static const Tag kSortByCategory
       //(0072,0602)
-      = const Tag._("SortByCategory", 0x00720602, "Sort-by Category",
-          VR.kCS, VM.k1, false);
+      = const Tag._("SortByCategory", 0x00720602, "Sort-by Category", VR.kCS,
+          VM.k1, false);
   static const Tag kSortingDirection
       //(0072,0604)
-      = const Tag._("SortingDirection", 0x00720604, "Sorting Direction",
-          VR.kCS, VM.k1, false);
+      = const Tag._("SortingDirection", 0x00720604, "Sorting Direction", VR.kCS,
+          VM.k1, false);
   static const Tag kDisplaySetPatientOrientation
       //(0072,0700)
       = const Tag._("DisplaySetPatientOrientation", 0x00720700,
           "Display Set Patient Orientation", VR.kCS, VM.k2, false);
   static const Tag kVOIType
       //(0072,0702)
-      =
-      const Tag._("VOIType", 0x00720702, "VOI Type", VR.kCS, VM.k1, false);
+      = const Tag._("VOIType", 0x00720702, "VOI Type", VR.kCS, VM.k1, false);
   static const Tag kPseudoColorType
       //(0072,0704)
-      = const Tag._("PseudoColorType", 0x00720704, "Pseudo-Color Type",
-          VR.kCS, VM.k1, false);
+      = const Tag._("PseudoColorType", 0x00720704, "Pseudo-Color Type", VR.kCS,
+          VM.k1, false);
   static const Tag kPseudoColorPaletteInstanceReferenceSequence
       //(0072,0705)
       = const Tag._(
@@ -12262,8 +12195,8 @@ class Tag {
           "Continuation End Meterset", VR.kFD, VM.k1, false);
   static const Tag kProcedureStepState
       //(0074,1000)
-      = const Tag._("ProcedureStepState", 0x00741000,
-          "Procedure Step State", VR.kCS, VM.k1, false);
+      = const Tag._("ProcedureStepState", 0x00741000, "Procedure Step State",
+          VR.kCS, VM.k1, false);
   static const Tag kProcedureStepProgressInformationSequence
       //(0074,1002)
       = const Tag._("ProcedureStepProgressInformationSequence", 0x00741002,
@@ -12286,8 +12219,8 @@ class Tag {
           "ContactURI", 0x0074100a, "Contact URI", VR.kST, VM.k1, false);
   static const Tag kContactDisplayName
       //(0074,100c)
-      = const Tag._("ContactDisplayName", 0x0074100c,
-          "Contact Display Name", VR.kLO, VM.k1, false);
+      = const Tag._("ContactDisplayName", 0x0074100c, "Contact Display Name",
+          VR.kLO, VM.k1, false);
   static const Tag kProcedureStepDiscontinuationReasonCodeSequence
       //(0074,100e)
       = const Tag._(
@@ -12311,8 +12244,8 @@ class Tag {
           "Beam Order Index (Trial)", VR.kIS, VM.k1, true);
   static const Tag kAutosequenceFlag
       //(0074,1025)
-      = const Tag._("AutosequenceFlag", 0x00741025, "Autosequence Flag",
-          VR.kCS, VM.k1, false);
+      = const Tag._("AutosequenceFlag", 0x00741025, "Autosequence Flag", VR.kCS,
+          VM.k1, false);
   static const Tag kTableTopVerticalAdjustedPosition
       //(0074,1026)
       = const Tag._("TableTopVerticalAdjustedPosition", 0x00741026,
@@ -12351,8 +12284,8 @@ class Tag {
           "Verification Image Timing", VR.kCS, VM.k1, false);
   static const Tag kDoubleExposureFlag
       //(0074,1034)
-      = const Tag._("DoubleExposureFlag", 0x00741034,
-          "Double Exposure Flag", VR.kCS, VM.k1, false);
+      = const Tag._("DoubleExposureFlag", 0x00741034, "Double Exposure Flag",
+          VR.kCS, VM.k1, false);
   static const Tag kDoubleExposureOrdering
       //(0074,1036)
       = const Tag._("DoubleExposureOrdering", 0x00741036,
@@ -12432,8 +12365,8 @@ class Tag {
           "WorklistLabel", 0x00741202, "Worklist Label", VR.kLO, VM.k1, false);
   static const Tag kProcedureStepLabel
       //(0074,1204)
-      = const Tag._("ProcedureStepLabel", 0x00741204,
-          "Procedure Step Label", VR.kLO, VM.k1, false);
+      = const Tag._("ProcedureStepLabel", 0x00741204, "Procedure Step Label",
+          VR.kLO, VM.k1, false);
   static const Tag kScheduledProcessingParametersSequence
       //(0074,1210)
       = const Tag._("ScheduledProcessingParametersSequence", 0x00741210,
@@ -12481,8 +12414,8 @@ class Tag {
           "Reason for Cancellation", VR.kLT, VM.k1, false);
   static const Tag kSCPStatus
       //(0074,1242)
-      = const Tag._(
-          "SCPStatus", 0x00741242, "SCP Status", VR.kCS, VM.k1, false);
+      =
+      const Tag._("SCPStatus", 0x00741242, "SCP Status", VR.kCS, VM.k1, false);
   static const Tag kSubscriptionListStatus
       //(0074,1244)
       = const Tag._("SubscriptionListStatus", 0x00741244,
@@ -12493,8 +12426,8 @@ class Tag {
           "Unified Procedure StepList Status", VR.kCS, VM.k1, false);
   static const Tag kBeamOrderIndex
       //(0074,1324)
-      = const Tag._("BeamOrderIndex", 0x00741324, "Beam Order Index",
-          VR.kUL, VM.k1, false);
+      = const Tag._("BeamOrderIndex", 0x00741324, "Beam Order Index", VR.kUL,
+          VM.k1, false);
   static const Tag kDoubleExposureMeterset
       //(0074,1338)
       = const Tag._("DoubleExposureMeterset", 0x00741338,
@@ -12745,8 +12678,8 @@ class Tag {
           VR.kFD, VM.k1, false);
   static const Tag kShotOffsetTime
       //(0080,0005)
-      = const Tag._("ShotOffsetTime", 0x00800005, "Shot Offset Time",
-          VR.kFD, VM.k1, false);
+      = const Tag._("ShotOffsetTime", 0x00800005, "Shot Offset Time", VR.kFD,
+          VM.k1, false);
   static const Tag kSurfacePointPresentationValueData
       //(0080,0006)
       = const Tag._("SurfacePointPresentationValueData", 0x00800006,
@@ -12793,8 +12726,8 @@ class Tag {
           VR.kSQ, VM.k1, false);
   static const Tag kTopicTitle
       //(0088,0904)
-      = const Tag._(
-          "TopicTitle", 0x00880904, "Topic Title", VR.kLO, VM.k1, true);
+      =
+      const Tag._("TopicTitle", 0x00880904, "Topic Title", VR.kLO, VM.k1, true);
   static const Tag kTopicSubject
       //(0088,0906)
       = const Tag._(
@@ -12821,13 +12754,8 @@ class Tag {
           "SOP Authorization Comment", VR.kLT, VM.k1, false);
   static const Tag kAuthorizationEquipmentCertificationNumber
       //(0100,0426)
-      = const Tag._(
-          "AuthorizationEquipmentCertificationNumber",
-          0x01000426,
-          "Authorization Equipment Certification Number",
-          VR.kLO,
-          VM.k1,
-          false);
+      = const Tag._("AuthorizationEquipmentCertificationNumber", 0x01000426,
+          "Authorization Equipment Certification Number", VR.kLO, VM.k1, false);
   static const Tag kMACIDNumber
       //(0400,0005)
       = const Tag._(
@@ -12842,36 +12770,35 @@ class Tag {
           "MACAlgorithm", 0x04000015, "MAC Algorithm", VR.kCS, VM.k1, false);
   static const Tag kDataElementsSigned
       //(0400,0020)
-      = const Tag._("DataElementsSigned", 0x04000020,
-          "Data Elements Signed", VR.kAT, VM.k1_n, false);
+      = const Tag._("DataElementsSigned", 0x04000020, "Data Elements Signed",
+          VR.kAT, VM.k1_n, false);
   static const Tag kDigitalSignatureUID
       //(0400,0100)
-      = const Tag._("DigitalSignatureUID", 0x04000100,
-          "Digital Signature UID", VR.kUI, VM.k1, false);
+      = const Tag._("DigitalSignatureUID", 0x04000100, "Digital Signature UID",
+          VR.kUI, VM.k1, false);
   static const Tag kDigitalSignatureDateTime
       //(0400,0105)
       = const Tag._("DigitalSignatureDateTime", 0x04000105,
           "Digital Signature DateTime", VR.kDT, VM.k1, false);
   static const Tag kCertificateType
       //(0400,0110)
-      = const Tag._("CertificateType", 0x04000110, "Certificate Type",
-          VR.kCS, VM.k1, false);
+      = const Tag._("CertificateType", 0x04000110, "Certificate Type", VR.kCS,
+          VM.k1, false);
   static const Tag kCertificateOfSigner
       //(0400,0115)
-      = const Tag._("CertificateOfSigner", 0x04000115,
-          "Certificate of Signer", VR.kOB, VM.k1, false);
+      = const Tag._("CertificateOfSigner", 0x04000115, "Certificate of Signer",
+          VR.kOB, VM.k1, false);
   static const Tag kSignature
       //(0400,0120)
-      = const Tag._(
-          "Signature", 0x04000120, "Signature", VR.kOB, VM.k1, false);
+      = const Tag._("Signature", 0x04000120, "Signature", VR.kOB, VM.k1, false);
   static const Tag kCertifiedTimestampType
       //(0400,0305)
       = const Tag._("CertifiedTimestampType", 0x04000305,
           "Certified Timestamp Type", VR.kCS, VM.k1, false);
   static const Tag kCertifiedTimestamp
       //(0400,0310)
-      = const Tag._("CertifiedTimestamp", 0x04000310,
-          "Certified Timestamp", VR.kOB, VM.k1, false);
+      = const Tag._("CertifiedTimestamp", 0x04000310, "Certified Timestamp",
+          VR.kOB, VM.k1, false);
   static const Tag kDigitalSignaturePurposeCodeSequence
       //(0400,0401)
       = const Tag._("DigitalSignaturePurposeCodeSequence", 0x04000401,
@@ -12897,8 +12824,8 @@ class Tag {
           "Encrypted Content Transfer Syntax UID", VR.kUI, VM.k1, false);
   static const Tag kEncryptedContent
       //(0400,0520)
-      = const Tag._("EncryptedContent", 0x04000520, "Encrypted Content",
-          VR.kOB, VM.k1, false);
+      = const Tag._("EncryptedContent", 0x04000520, "Encrypted Content", VR.kOB,
+          VM.k1, false);
   static const Tag kModifiedAttributesSequence
       //(0400,0550)
       = const Tag._("ModifiedAttributesSequence", 0x04000550,
@@ -12913,8 +12840,8 @@ class Tag {
           "Attribute Modification DateTime", VR.kDT, VM.k1, false);
   static const Tag kModifyingSystem
       //(0400,0563)
-      = const Tag._("ModifyingSystem", 0x04000563, "Modifying System",
-          VR.kLO, VM.k1, false);
+      = const Tag._("ModifyingSystem", 0x04000563, "Modifying System", VR.kLO,
+          VM.k1, false);
   static const Tag kSourceOfPreviousValues
       //(0400,0564)
       = const Tag._("SourceOfPreviousValues", 0x04000564,
@@ -12937,24 +12864,23 @@ class Tag {
           VR.kUS, VM.k1, true);
   static const Tag kHuffmanTableTriplet
       //(1000,0003)
-      = const Tag._("HuffmanTableTriplet", 0x10000003,
-          "Huffman Table Triplet", VR.kUS, VM.k3, true);
+      = const Tag._("HuffmanTableTriplet", 0x10000003, "Huffman Table Triplet",
+          VR.kUS, VM.k3, true);
   static const Tag kShiftTableSize
       //(1000,0004)
-      = const Tag._("ShiftTableSize", 0x10000004, "Shift Table Size",
-          VR.kUS, VM.k1, true);
+      = const Tag._("ShiftTableSize", 0x10000004, "Shift Table Size", VR.kUS,
+          VM.k1, true);
   static const Tag kShiftTableTriplet
       //(1000,0005)
       = const Tag._("ShiftTableTriplet", 0x10000005, "Shift Table Triplet",
           VR.kUS, VM.k3, true);
   static const Tag kZonalMap
       //(1010,0000)
-      = const Tag._(
-          "ZonalMap", 0x10100000, "Zonal Map", VR.kUS, VM.k1_n, true);
+      = const Tag._("ZonalMap", 0x10100000, "Zonal Map", VR.kUS, VM.k1_n, true);
   static const Tag kNumberOfCopies
       //(2000,0010)
-      = const Tag._("NumberOfCopies", 0x20000010, "Number of Copies",
-          VR.kIS, VM.k1, false);
+      = const Tag._("NumberOfCopies", 0x20000010, "Number of Copies", VR.kIS,
+          VM.k1, false);
   static const Tag kPrinterConfigurationSequence
       //(2000,001E)
       = const Tag._("PrinterConfigurationSequence", 0x2000001E,
@@ -12969,16 +12895,16 @@ class Tag {
           "MediumType", 0x20000030, "Medium Type", VR.kCS, VM.k1, false);
   static const Tag kFilmDestination
       //(2000,0040)
-      = const Tag._("FilmDestination", 0x20000040, "Film Destination",
-          VR.kCS, VM.k1, false);
+      = const Tag._("FilmDestination", 0x20000040, "Film Destination", VR.kCS,
+          VM.k1, false);
   static const Tag kFilmSessionLabel
       //(2000,0050)
       = const Tag._("FilmSessionLabel", 0x20000050, "Film Session Label",
           VR.kLO, VM.k1, false);
   static const Tag kMemoryAllocation
       //(2000,0060)
-      = const Tag._("MemoryAllocation", 0x20000060, "Memory Allocation",
-          VR.kIS, VM.k1, false);
+      = const Tag._("MemoryAllocation", 0x20000060, "Memory Allocation", VR.kIS,
+          VM.k1, false);
   static const Tag kMaximumMemoryAllocation
       //(2000,0061)
       = const Tag._("MaximumMemoryAllocation", 0x20000061,
@@ -13001,16 +12927,16 @@ class Tag {
           VR.kCS, VM.k1, true);
   static const Tag kPresentationLUTFlag
       //(2000,0069)
-      = const Tag._("PresentationLUTFlag", 0x20000069,
-          "Presentation LUT Flag", VR.kCS, VM.k1, true);
+      = const Tag._("PresentationLUTFlag", 0x20000069, "Presentation LUT Flag",
+          VR.kCS, VM.k1, true);
   static const Tag kImageBoxPresentationLUTFlag
       //(2000,006A)
       = const Tag._("ImageBoxPresentationLUTFlag", 0x2000006A,
           "Image Box Presentation LUT Flag", VR.kCS, VM.k1, true);
   static const Tag kMemoryBitDepth
       //(2000,00A0)
-      = const Tag._("MemoryBitDepth", 0x200000A0, "Memory Bit Depth",
-          VR.kUS, VM.k1, false);
+      = const Tag._("MemoryBitDepth", 0x200000A0, "Memory Bit Depth", VR.kUS,
+          VM.k1, false);
   static const Tag kPrintingBitDepth
       //(2000,00A1)
       = const Tag._("PrintingBitDepth", 0x200000A1, "Printing Bit Depth",
@@ -13037,24 +12963,24 @@ class Tag {
           "Referenced Stored Print Sequence", VR.kSQ, VM.k1, true);
   static const Tag kImageDisplayFormat
       //(2010,0010)
-      = const Tag._("ImageDisplayFormat", 0x20100010,
-          "Image Display Format", VR.kST, VM.k1, false);
+      = const Tag._("ImageDisplayFormat", 0x20100010, "Image Display Format",
+          VR.kST, VM.k1, false);
   static const Tag kAnnotationDisplayFormatID
       //(2010,0030)
       = const Tag._("AnnotationDisplayFormatID", 0x20100030,
           "Annotation Display Format ID", VR.kCS, VM.k1, false);
   static const Tag kFilmOrientation
       //(2010,0040)
-      = const Tag._("FilmOrientation", 0x20100040, "Film Orientation",
-          VR.kCS, VM.k1, false);
+      = const Tag._("FilmOrientation", 0x20100040, "Film Orientation", VR.kCS,
+          VM.k1, false);
   static const Tag kFilmSizeID
       //(2010,0050)
       = const Tag._(
           "FilmSizeID", 0x20100050, "Film Size ID", VR.kCS, VM.k1, false);
   static const Tag kPrinterResolutionID
       //(2010,0052)
-      = const Tag._("PrinterResolutionID", 0x20100052,
-          "Printer Resolution ID", VR.kCS, VM.k1, false);
+      = const Tag._("PrinterResolutionID", 0x20100052, "Printer Resolution ID",
+          VR.kCS, VM.k1, false);
   static const Tag kDefaultPrinterResolutionID
       //(2010,0054)
       = const Tag._("DefaultPrinterResolutionID", 0x20100054,
@@ -13124,8 +13050,8 @@ class Tag {
           "Reflected Ambient Light", VR.kUS, VM.k1, false);
   static const Tag kPrinterPixelSpacing
       //(2010,0376)
-      = const Tag._("PrinterPixelSpacing", 0x20100376,
-          "Printer Pixel Spacing", VR.kDS, VM.k2, false);
+      = const Tag._("PrinterPixelSpacing", 0x20100376, "Printer Pixel Spacing",
+          VR.kDS, VM.k2, false);
   static const Tag kReferencedFilmSessionSequence
       //(2010,0500)
       = const Tag._("ReferencedFilmSessionSequence", 0x20100500,
@@ -13144,12 +13070,11 @@ class Tag {
           VR.kUS, VM.k1, false);
   static const Tag kPolarity
       //(2020,0020)
-      = const Tag._(
-          "Polarity", 0x20200020, "Polarity", VR.kCS, VM.k1, false);
+      = const Tag._("Polarity", 0x20200020, "Polarity", VR.kCS, VM.k1, false);
   static const Tag kRequestedImageSize
       //(2020,0030)
-      = const Tag._("RequestedImageSize", 0x20200030,
-          "Requested Image Size", VR.kDS, VM.k1, false);
+      = const Tag._("RequestedImageSize", 0x20200030, "Requested Image Size",
+          VR.kDS, VM.k1, false);
   static const Tag kRequestedDecimateCropBehavior
       //(2020,0040)
       = const Tag._("RequestedDecimateCropBehavior", 0x20200040,
@@ -13164,8 +13089,8 @@ class Tag {
           "Requested Image Size Flag", VR.kCS, VM.k1, false);
   static const Tag kDecimateCropResult
       //(2020,00A2)
-      = const Tag._("DecimateCropResult", 0x202000A2,
-          "Decimate/Crop Result", VR.kCS, VM.k1, false);
+      = const Tag._("DecimateCropResult", 0x202000A2, "Decimate/Crop Result",
+          VR.kCS, VM.k1, false);
   static const Tag kBasicGrayscaleImageSequence
       //(2020,0110)
       = const Tag._("BasicGrayscaleImageSequence", 0x20200110,
@@ -13184,8 +13109,8 @@ class Tag {
           "Referenced VOI LUT Box Sequence", VR.kSQ, VM.k1, true);
   static const Tag kAnnotationPosition
       //(2030,0010)
-      = const Tag._("AnnotationPosition", 0x20300010,
-          "Annotation Position", VR.kUS, VM.k1, false);
+      = const Tag._("AnnotationPosition", 0x20300010, "Annotation Position",
+          VR.kUS, VM.k1, false);
   static const Tag kTextString
       //(2030,0020)
       = const Tag._(
@@ -13232,8 +13157,8 @@ class Tag {
           "OverlayMode", 0x20400090, "Overlay Mode", VR.kCS, VM.k1, true);
   static const Tag kThresholdDensity
       //(2040,0100)
-      = const Tag._("ThresholdDensity", 0x20400100, "Threshold Density",
-          VR.kCS, VM.k1, true);
+      = const Tag._("ThresholdDensity", 0x20400100, "Threshold Density", VR.kCS,
+          VM.k1, true);
   static const Tag kReferencedImageBoxSequenceRetired
       //(2040,0500)
       = const Tag._("ReferencedImageBoxSequenceRetired", 0x20400500,
@@ -13256,12 +13181,12 @@ class Tag {
           "PrintJobID", 0x21000010, "Print Job ID", VR.kSH, VM.k1, true);
   static const Tag kExecutionStatus
       //(2100,0020)
-      = const Tag._("ExecutionStatus", 0x21000020, "Execution Status",
-          VR.kCS, VM.k1, false);
+      = const Tag._("ExecutionStatus", 0x21000020, "Execution Status", VR.kCS,
+          VM.k1, false);
   static const Tag kExecutionStatusInfo
       //(2100,0030)
-      = const Tag._("ExecutionStatusInfo", 0x21000030,
-          "Execution Status Info", VR.kCS, VM.k1, false);
+      = const Tag._("ExecutionStatusInfo", 0x21000030, "Execution Status Info",
+          VR.kCS, VM.k1, false);
   static const Tag kCreationDate
       //(2100,0040)
       = const Tag._(
@@ -13272,16 +13197,15 @@ class Tag {
           "CreationTime", 0x21000050, "Creation Time", VR.kTM, VM.k1, false);
   static const Tag kOriginator
       //(2100,0070)
-      = const Tag._(
-          "Originator", 0x21000070, "Originator", VR.kAE, VM.k1, false);
+      =
+      const Tag._("Originator", 0x21000070, "Originator", VR.kAE, VM.k1, false);
   static const Tag kDestinationAE
       //(2100,0140)
       = const Tag._(
           "DestinationAE", 0x21000140, "Destination AE", VR.kAE, VM.k1, true);
   static const Tag kOwnerID
       //(2100,0160)
-      =
-      const Tag._("OwnerID", 0x21000160, "Owner ID", VR.kSH, VM.k1, false);
+      = const Tag._("OwnerID", 0x21000160, "Owner ID", VR.kSH, VM.k1, false);
   static const Tag kNumberOfFilms
       //(2100,0170)
       = const Tag._(
@@ -13370,28 +13294,28 @@ class Tag {
           false);
   static const Tag kLabelText
       //(2200,0002)
-      = const Tag._(
-          "LabelText", 0x22000002, "Label Text", VR.kUT, VM.k1, false);
+      =
+      const Tag._("LabelText", 0x22000002, "Label Text", VR.kUT, VM.k1, false);
   static const Tag kLabelStyleSelection
       //(2200,0003)
-      = const Tag._("LabelStyleSelection", 0x22000003,
-          "Label Style Selection", VR.kCS, VM.k1, false);
+      = const Tag._("LabelStyleSelection", 0x22000003, "Label Style Selection",
+          VR.kCS, VM.k1, false);
   static const Tag kMediaDisposition
       //(2200,0004)
-      = const Tag._("MediaDisposition", 0x22000004, "Media Disposition",
-          VR.kLT, VM.k1, false);
+      = const Tag._("MediaDisposition", 0x22000004, "Media Disposition", VR.kLT,
+          VM.k1, false);
   static const Tag kBarcodeValue
       //(2200,0005)
       = const Tag._(
           "BarcodeValue", 0x22000005, "Barcode Value", VR.kLT, VM.k1, false);
   static const Tag kBarcodeSymbology
       //(2200,0006)
-      = const Tag._("BarcodeSymbology", 0x22000006, "Barcode Symbology",
-          VR.kCS, VM.k1, false);
+      = const Tag._("BarcodeSymbology", 0x22000006, "Barcode Symbology", VR.kCS,
+          VM.k1, false);
   static const Tag kAllowMediaSplitting
       //(2200,0007)
-      = const Tag._("AllowMediaSplitting", 0x22000007,
-          "Allow Media Splitting", VR.kCS, VM.k1, false);
+      = const Tag._("AllowMediaSplitting", 0x22000007, "Allow Media Splitting",
+          VR.kCS, VM.k1, false);
   static const Tag kIncludeNonDICOMObjects
       //(2200,0008)
       = const Tag._("IncludeNonDICOMObjects", 0x22000008,
@@ -13431,8 +13355,8 @@ class Tag {
           "Allow Lossy Compression", VR.kCS, VM.k1, false);
   static const Tag kRequestPriority
       //(2200,0020)
-      = const Tag._("RequestPriority", 0x22000020, "Request Priority",
-          VR.kCS, VM.k1, false);
+      = const Tag._("RequestPriority", 0x22000020, "Request Priority", VR.kCS,
+          VM.k1, false);
   static const Tag kRTImageLabel
       //(3002,0002)
       = const Tag._(
@@ -13443,8 +13367,8 @@ class Tag {
           "RTImageName", 0x30020003, "RT Image Name", VR.kLO, VM.k1, false);
   static const Tag kRTImageDescription
       //(3002,0004)
-      = const Tag._("RTImageDescription", 0x30020004,
-          "RT Image Description", VR.kST, VM.k1, false);
+      = const Tag._("RTImageDescription", 0x30020004, "RT Image Description",
+          VR.kST, VM.k1, false);
   static const Tag kReportedValuesOrigin
       //(3002,000A)
       = const Tag._("ReportedValuesOrigin", 0x3002000A,
@@ -13463,28 +13387,28 @@ class Tag {
           "X-Ray Image Receptor Angle", VR.kDS, VM.k1, false);
   static const Tag kRTImageOrientation
       //(3002,0010)
-      = const Tag._("RTImageOrientation", 0x30020010,
-          "RT Image Orientation", VR.kDS, VM.k6, false);
+      = const Tag._("RTImageOrientation", 0x30020010, "RT Image Orientation",
+          VR.kDS, VM.k6, false);
   static const Tag kImagePlanePixelSpacing
       //(3002,0011)
       = const Tag._("ImagePlanePixelSpacing", 0x30020011,
           "Image Plane Pixel Spacing", VR.kDS, VM.k2, false);
   static const Tag kRTImagePosition
       //(3002,0012)
-      = const Tag._("RTImagePosition", 0x30020012, "RT Image Position",
-          VR.kDS, VM.k2, false);
+      = const Tag._("RTImagePosition", 0x30020012, "RT Image Position", VR.kDS,
+          VM.k2, false);
   static const Tag kRadiationMachineName
       //(3002,0020)
       = const Tag._("RadiationMachineName", 0x30020020,
           "Radiation Machine Name", VR.kSH, VM.k1, false);
   static const Tag kRadiationMachineSAD
       //(3002,0022)
-      = const Tag._("RadiationMachineSAD", 0x30020022,
-          "Radiation Machine SAD", VR.kDS, VM.k1, false);
+      = const Tag._("RadiationMachineSAD", 0x30020022, "Radiation Machine SAD",
+          VR.kDS, VM.k1, false);
   static const Tag kRadiationMachineSSD
       //(3002,0024)
-      = const Tag._("RadiationMachineSSD", 0x30020024,
-          "Radiation Machine SSD", VR.kDS, VM.k1, false);
+      = const Tag._("RadiationMachineSSD", 0x30020024, "Radiation Machine SSD",
+          VR.kDS, VM.k1, false);
   static const Tag kRTImageSID
       //(3002,0026)
       = const Tag._(
@@ -13495,24 +13419,24 @@ class Tag {
           "Source to Reference Object Distance", VR.kDS, VM.k1, false);
   static const Tag kFractionNumber
       //(3002,0029)
-      = const Tag._("FractionNumber", 0x30020029, "Fraction Number",
-          VR.kIS, VM.k1, false);
+      = const Tag._("FractionNumber", 0x30020029, "Fraction Number", VR.kIS,
+          VM.k1, false);
   static const Tag kExposureSequence
       //(3002,0030)
-      = const Tag._("ExposureSequence", 0x30020030, "Exposure Sequence",
-          VR.kSQ, VM.k1, false);
+      = const Tag._("ExposureSequence", 0x30020030, "Exposure Sequence", VR.kSQ,
+          VM.k1, false);
   static const Tag kMetersetExposure
       //(3002,0032)
-      = const Tag._("MetersetExposure", 0x30020032, "Meterset Exposure",
-          VR.kDS, VM.k1, false);
+      = const Tag._("MetersetExposure", 0x30020032, "Meterset Exposure", VR.kDS,
+          VM.k1, false);
   static const Tag kDiaphragmPosition
       //(3002,0034)
       = const Tag._("DiaphragmPosition", 0x30020034, "Diaphragm Position",
           VR.kDS, VM.k4, false);
   static const Tag kFluenceMapSequence
       //(3002,0040)
-      = const Tag._("FluenceMapSequence", 0x30020040,
-          "Fluence Map Sequence", VR.kSQ, VM.k1, false);
+      = const Tag._("FluenceMapSequence", 0x30020040, "Fluence Map Sequence",
+          VR.kSQ, VM.k1, false);
   static const Tag kFluenceDataSource
       //(3002,0041)
       = const Tag._("FluenceDataSource", 0x30020041, "Fluence Data Source",
@@ -13535,16 +13459,14 @@ class Tag {
           "FluenceModeID", 0x30020052, "Fluence Mode ID", VR.kSH, VM.k1, false);
   static const Tag kDVHType
       //(3004,0001)
-      =
-      const Tag._("DVHType", 0x30040001, "DVH Type", VR.kCS, VM.k1, false);
+      = const Tag._("DVHType", 0x30040001, "DVH Type", VR.kCS, VM.k1, false);
   static const Tag kDoseUnits
       //(3004,0002)
-      = const Tag._(
-          "DoseUnits", 0x30040002, "Dose Units", VR.kCS, VM.k1, false);
+      =
+      const Tag._("DoseUnits", 0x30040002, "Dose Units", VR.kCS, VM.k1, false);
   static const Tag kDoseType
       //(3004,0004)
-      = const Tag._(
-          "DoseType", 0x30040004, "Dose Type", VR.kCS, VM.k1, false);
+      = const Tag._("DoseType", 0x30040004, "Dose Type", VR.kCS, VM.k1, false);
   static const Tag kSpatialTransformOfDose
       //(3004,0005)
       = const Tag._("SpatialTransformOfDose", 0x30040005,
@@ -13555,8 +13477,8 @@ class Tag {
           "DoseComment", 0x30040006, "Dose Comment", VR.kLO, VM.k1, false);
   static const Tag kNormalizationPoint
       //(3004,0008)
-      = const Tag._("NormalizationPoint", 0x30040008,
-          "Normalization Point", VR.kDS, VM.k3, false);
+      = const Tag._("NormalizationPoint", 0x30040008, "Normalization Point",
+          VR.kDS, VM.k3, false);
   static const Tag kDoseSummationType
       //(3004,000A)
       = const Tag._("DoseSummationType", 0x3004000A, "Dose Summation Type",
@@ -13567,16 +13489,16 @@ class Tag {
           "Grid Frame Offset Vector", VR.kDS, VM.k2_n, false);
   static const Tag kDoseGridScaling
       //(3004,000E)
-      = const Tag._("DoseGridScaling", 0x3004000E, "Dose Grid Scaling",
-          VR.kDS, VM.k1, false);
+      = const Tag._("DoseGridScaling", 0x3004000E, "Dose Grid Scaling", VR.kDS,
+          VM.k1, false);
   static const Tag kRTDoseROISequence
       //(3004,0010)
-      = const Tag._("RTDoseROISequence", 0x30040010,
-          "RT Dose ROI Sequence", VR.kSQ, VM.k1, false);
+      = const Tag._("RTDoseROISequence", 0x30040010, "RT Dose ROI Sequence",
+          VR.kSQ, VM.k1, false);
   static const Tag kDoseValue
       //(3004,0012)
-      = const Tag._(
-          "DoseValue", 0x30040012, "Dose Value", VR.kDS, VM.k1, false);
+      =
+      const Tag._("DoseValue", 0x30040012, "Dose Value", VR.kDS, VM.k1, false);
   static const Tag kTissueHeterogeneityCorrection
       //(3004,0014)
       = const Tag._("TissueHeterogeneityCorrection", 0x30040014,
@@ -13595,20 +13517,19 @@ class Tag {
           "DVHSequence", 0x30040050, "DVH Sequence", VR.kSQ, VM.k1, false);
   static const Tag kDVHDoseScaling
       //(3004,0052)
-      = const Tag._("DVHDoseScaling", 0x30040052, "DVH Dose Scaling",
-          VR.kDS, VM.k1, false);
+      = const Tag._("DVHDoseScaling", 0x30040052, "DVH Dose Scaling", VR.kDS,
+          VM.k1, false);
   static const Tag kDVHVolumeUnits
       //(3004,0054)
-      = const Tag._("DVHVolumeUnits", 0x30040054, "DVH Volume Units",
-          VR.kCS, VM.k1, false);
+      = const Tag._("DVHVolumeUnits", 0x30040054, "DVH Volume Units", VR.kCS,
+          VM.k1, false);
   static const Tag kDVHNumberOfBins
       //(3004,0056)
-      = const Tag._("DVHNumberOfBins", 0x30040056, "DVH Number of Bins",
-          VR.kIS, VM.k1, false);
+      = const Tag._("DVHNumberOfBins", 0x30040056, "DVH Number of Bins", VR.kIS,
+          VM.k1, false);
   static const Tag kDVHData
       //(3004,0058)
-      = const Tag._(
-          "DVHData", 0x30040058, "DVH Data", VR.kDS, VM.k2_2n, false);
+      = const Tag._("DVHData", 0x30040058, "DVH Data", VR.kDS, VM.k2_2n, false);
   static const Tag kDVHReferencedROISequence
       //(3004,0060)
       = const Tag._("DVHReferencedROISequence", 0x30040060,
@@ -13619,12 +13540,12 @@ class Tag {
           "DVH ROI Contribution Type", VR.kCS, VM.k1, false);
   static const Tag kDVHMinimumDose
       //(3004,0070)
-      = const Tag._("DVHMinimumDose", 0x30040070, "DVH Minimum Dose",
-          VR.kDS, VM.k1, false);
+      = const Tag._("DVHMinimumDose", 0x30040070, "DVH Minimum Dose", VR.kDS,
+          VM.k1, false);
   static const Tag kDVHMaximumDose
       //(3004,0072)
-      = const Tag._("DVHMaximumDose", 0x30040072, "DVH Maximum Dose",
-          VR.kDS, VM.k1, false);
+      = const Tag._("DVHMaximumDose", 0x30040072, "DVH Maximum Dose", VR.kDS,
+          VM.k1, false);
   static const Tag kDVHMeanDose
       //(3004,0074)
       = const Tag._(
@@ -13675,28 +13596,27 @@ class Tag {
           "Structure Set ROI Sequence", VR.kSQ, VM.k1, false);
   static const Tag kROINumber
       //(3006,0022)
-      = const Tag._(
-          "ROINumber", 0x30060022, "ROI Number", VR.kIS, VM.k1, false);
+      =
+      const Tag._("ROINumber", 0x30060022, "ROI Number", VR.kIS, VM.k1, false);
   static const Tag kReferencedFrameOfReferenceUID
       //(3006,0024)
       = const Tag._("ReferencedFrameOfReferenceUID", 0x30060024,
           "Referenced Frame of Reference UID", VR.kUI, VM.k1, false);
   static const Tag kROIName
       //(3006,0026)
-      =
-      const Tag._("ROIName", 0x30060026, "ROI Name", VR.kLO, VM.k1, false);
+      = const Tag._("ROIName", 0x30060026, "ROI Name", VR.kLO, VM.k1, false);
   static const Tag kROIDescription
       //(3006,0028)
-      = const Tag._("ROIDescription", 0x30060028, "ROI Description",
-          VR.kST, VM.k1, false);
+      = const Tag._("ROIDescription", 0x30060028, "ROI Description", VR.kST,
+          VM.k1, false);
   static const Tag kROIDisplayColor
       //(3006,002A)
-      = const Tag._("ROIDisplayColor", 0x3006002A, "ROI Display Color",
-          VR.kIS, VM.k3, false);
+      = const Tag._("ROIDisplayColor", 0x3006002A, "ROI Display Color", VR.kIS,
+          VM.k3, false);
   static const Tag kROIVolume
       //(3006,002C)
-      = const Tag._(
-          "ROIVolume", 0x3006002C, "ROI Volume", VR.kDS, VM.k1, false);
+      =
+      const Tag._("ROIVolume", 0x3006002C, "ROI Volume", VR.kDS, VM.k1, false);
   static const Tag kRTRelatedROISequence
       //(3006,0030)
       = const Tag._("RTRelatedROISequence", 0x30060030,
@@ -13715,12 +13635,12 @@ class Tag {
           "ROI Generation Description", VR.kLO, VM.k1, false);
   static const Tag kROIContourSequence
       //(3006,0039)
-      = const Tag._("ROIContourSequence", 0x30060039,
-          "ROI Contour Sequence", VR.kSQ, VM.k1, false);
+      = const Tag._("ROIContourSequence", 0x30060039, "ROI Contour Sequence",
+          VR.kSQ, VM.k1, false);
   static const Tag kContourSequence
       //(3006,0040)
-      = const Tag._("ContourSequence", 0x30060040, "Contour Sequence",
-          VR.kSQ, VM.k1, false);
+      = const Tag._("ContourSequence", 0x30060040, "Contour Sequence", VR.kSQ,
+          VM.k1, false);
   static const Tag kContourGeometricType
       //(3006,0042)
       = const Tag._("ContourGeometricType", 0x30060042,
@@ -13731,8 +13651,8 @@ class Tag {
           "Contour Slab Thickness", VR.kDS, VM.k1, false);
   static const Tag kContourOffsetVector
       //(3006,0045)
-      = const Tag._("ContourOffsetVector", 0x30060045,
-          "Contour Offset Vector", VR.kDS, VM.k3, false);
+      = const Tag._("ContourOffsetVector", 0x30060045, "Contour Offset Vector",
+          VR.kDS, VM.k3, false);
   static const Tag kNumberOfContourPoints
       //(3006,0046)
       = const Tag._("NumberOfContourPoints", 0x30060046,
@@ -13743,8 +13663,8 @@ class Tag {
           "ContourNumber", 0x30060048, "Contour Number", VR.kIS, VM.k1, false);
   static const Tag kAttachedContours
       //(3006,0049)
-      = const Tag._("AttachedContours", 0x30060049, "Attached Contours",
-          VR.kIS, VM.k1_n, false);
+      = const Tag._("AttachedContours", 0x30060049, "Attached Contours", VR.kIS,
+          VM.k1_n, false);
   static const Tag kContourData
       //(3006,0050)
       = const Tag._(
@@ -13759,12 +13679,12 @@ class Tag {
           VR.kIS, VM.k1, false);
   static const Tag kReferencedROINumber
       //(3006,0084)
-      = const Tag._("ReferencedROINumber", 0x30060084,
-          "Referenced ROI Number", VR.kIS, VM.k1, false);
+      = const Tag._("ReferencedROINumber", 0x30060084, "Referenced ROI Number",
+          VR.kIS, VM.k1, false);
   static const Tag kROIObservationLabel
       //(3006,0085)
-      = const Tag._("ROIObservationLabel", 0x30060085,
-          "ROI Observation Label", VR.kSH, VM.k1, false);
+      = const Tag._("ROIObservationLabel", 0x30060085, "ROI Observation Label",
+          VR.kSH, VM.k1, false);
   static const Tag kRTROIIdentificationCodeSequence
       //(3006,0086)
       = const Tag._("RTROIIdentificationCodeSequence", 0x30060086,
@@ -13783,16 +13703,16 @@ class Tag {
           "RT ROI Interpreted Type", VR.kCS, VM.k1, false);
   static const Tag kROIInterpreter
       //(3006,00A6)
-      = const Tag._("ROIInterpreter", 0x300600A6, "ROI Interpreter",
-          VR.kPN, VM.k1, false);
+      = const Tag._("ROIInterpreter", 0x300600A6, "ROI Interpreter", VR.kPN,
+          VM.k1, false);
   static const Tag kROIPhysicalPropertiesSequence
       //(3006,00B0)
       = const Tag._("ROIPhysicalPropertiesSequence", 0x300600B0,
           "ROI Physical Properties Sequence", VR.kSQ, VM.k1, false);
   static const Tag kROIPhysicalProperty
       //(3006,00B2)
-      = const Tag._("ROIPhysicalProperty", 0x300600B2,
-          "ROI Physical Property", VR.kCS, VM.k1, false);
+      = const Tag._("ROIPhysicalProperty", 0x300600B2, "ROI Physical Property",
+          VR.kCS, VM.k1, false);
   static const Tag kROIPhysicalPropertyValue
       //(3006,00B4)
       = const Tag._("ROIPhysicalPropertyValue", 0x300600B4,
@@ -13928,8 +13848,8 @@ class Tag {
           VR.kDS, VM.k1, false);
   static const Tag kMetersetRateSet
       //(3008,0045)
-      = const Tag._("MetersetRateSet", 0x30080045, "Meterset Rate Set",
-          VR.kFL, VM.k1, false);
+      = const Tag._("MetersetRateSet", 0x30080045, "Meterset Rate Set", VR.kFL,
+          VM.k1, false);
   static const Tag kMetersetRateDelivered
       //(3008,0046)
       = const Tag._("MetersetRateDelivered", 0x30080046,
@@ -13957,8 +13877,8 @@ class Tag {
           "Cumulative Dose to Dose Reference", VR.kDS, VM.k1, false);
   static const Tag kFirstTreatmentDate
       //(3008,0054)
-      = const Tag._("FirstTreatmentDate", 0x30080054,
-          "First Treatment Date", VR.kDA, VM.k1, false);
+      = const Tag._("FirstTreatmentDate", 0x30080054, "First Treatment Date",
+          VR.kDA, VM.k1, false);
   static const Tag kMostRecentTreatmentDate
       //(3008,0056)
       = const Tag._("MostRecentTreatmentDate", 0x30080056,
@@ -13969,8 +13889,8 @@ class Tag {
           "Number of Fractions Delivered", VR.kIS, VM.k1, false);
   static const Tag kOverrideSequence
       //(3008,0060)
-      = const Tag._("OverrideSequence", 0x30080060, "Override Sequence",
-          VR.kSQ, VM.k1, false);
+      = const Tag._("OverrideSequence", 0x30080060, "Override Sequence", VR.kSQ,
+          VM.k1, false);
   static const Tag kParameterSequencePointer
       //(3008,0061)
       = const Tag._("ParameterSequencePointer", 0x30080061,
@@ -13981,28 +13901,28 @@ class Tag {
           "Override Parameter Pointer", VR.kAT, VM.k1, false);
   static const Tag kParameterItemIndex
       //(3008,0063)
-      = const Tag._("ParameterItemIndex", 0x30080063,
-          "Parameter Item Index", VR.kIS, VM.k1, false);
+      = const Tag._("ParameterItemIndex", 0x30080063, "Parameter Item Index",
+          VR.kIS, VM.k1, false);
   static const Tag kMeasuredDoseReferenceNumber
       //(3008,0064)
       = const Tag._("MeasuredDoseReferenceNumber", 0x30080064,
           "Measured Dose Reference Number", VR.kIS, VM.k1, false);
   static const Tag kParameterPointer
       //(3008,0065)
-      = const Tag._("ParameterPointer", 0x30080065, "Parameter Pointer",
-          VR.kAT, VM.k1, false);
+      = const Tag._("ParameterPointer", 0x30080065, "Parameter Pointer", VR.kAT,
+          VM.k1, false);
   static const Tag kOverrideReason
       //(3008,0066)
-      = const Tag._("OverrideReason", 0x30080066, "Override Reason",
-          VR.kST, VM.k1, false);
+      = const Tag._("OverrideReason", 0x30080066, "Override Reason", VR.kST,
+          VM.k1, false);
   static const Tag kCorrectedParameterSequence
       //(3008,0068)
       = const Tag._("CorrectedParameterSequence", 0x30080068,
           "Corrected Parameter Sequence", VR.kSQ, VM.k1, false);
   static const Tag kCorrectionValue
       //(3008,006A)
-      = const Tag._("CorrectionValue", 0x3008006A, "Correction Value",
-          VR.kFL, VM.k1, false);
+      = const Tag._("CorrectionValue", 0x3008006A, "Correction Value", VR.kFL,
+          VM.k1, false);
   static const Tag kCalculatedDoseReferenceSequence
       //(3008,0070)
       = const Tag._("CalculatedDoseReferenceSequence", 0x30080070,
@@ -14095,8 +14015,8 @@ class Tag {
           "Recorded Source Sequence", VR.kSQ, VM.k1, false);
   static const Tag kSourceSerialNumber
       //(3008,0105)
-      = const Tag._("SourceSerialNumber", 0x30080105,
-          "Source Serial Number", VR.kLO, VM.k1, false);
+      = const Tag._("SourceSerialNumber", 0x30080105, "Source Serial Number",
+          VR.kLO, VM.k1, false);
   static const Tag kTreatmentSessionApplicationSetupSequence
       //(3008,0110)
       = const Tag._("TreatmentSessionApplicationSetupSequence", 0x30080110,
@@ -14199,8 +14119,8 @@ class Tag {
           VR.kCS, VM.k1, false);
   static const Tag kBeamStopperPosition
       //(3008,0230)
-      = const Tag._("BeamStopperPosition", 0x30080230,
-          "Beam Stopper Position", VR.kCS, VM.k1, false);
+      = const Tag._("BeamStopperPosition", 0x30080230, "Beam Stopper Position",
+          VR.kCS, VM.k1, false);
   static const Tag kFractionStatusSummarySequence
       //(3008,0240)
       = const Tag._("FractionStatusSummarySequence", 0x30080240,
@@ -14235,20 +14155,20 @@ class Tag {
           "RTPlanTime", 0x300A0007, "RT Plan Time", VR.kTM, VM.k1, false);
   static const Tag kTreatmentProtocols
       //(300A,0009)
-      = const Tag._("TreatmentProtocols", 0x300A0009,
-          "Treatment Protocols", VR.kLO, VM.k1_n, false);
+      = const Tag._("TreatmentProtocols", 0x300A0009, "Treatment Protocols",
+          VR.kLO, VM.k1_n, false);
   static const Tag kPlanIntent
       //(300A,000A)
       = const Tag._(
           "PlanIntent", 0x300A000A, "Plan Intent", VR.kCS, VM.k1, false);
   static const Tag kTreatmentSites
       //(300A,000B)
-      = const Tag._("TreatmentSites", 0x300A000B, "Treatment Sites",
-          VR.kLO, VM.k1_n, false);
+      = const Tag._("TreatmentSites", 0x300A000B, "Treatment Sites", VR.kLO,
+          VM.k1_n, false);
   static const Tag kRTPlanGeometry
       //(300A,000C)
-      = const Tag._("RTPlanGeometry", 0x300A000C, "RT Plan Geometry",
-          VR.kCS, VM.k1, false);
+      = const Tag._("RTPlanGeometry", 0x300A000C, "RT Plan Geometry", VR.kCS,
+          VM.k1, false);
   static const Tag kPrescriptionDescription
       //(300A,000E)
       = const Tag._("PrescriptionDescription", 0x300A000E,
@@ -14259,8 +14179,8 @@ class Tag {
           "Dose Reference Sequence", VR.kSQ, VM.k1, false);
   static const Tag kDoseReferenceNumber
       //(300A,0012)
-      = const Tag._("DoseReferenceNumber", 0x300A0012,
-          "Dose Reference Number", VR.kIS, VM.k1, false);
+      = const Tag._("DoseReferenceNumber", 0x300A0012, "Dose Reference Number",
+          VR.kIS, VM.k1, false);
   static const Tag kDoseReferenceUID
       //(300A,0013)
       = const Tag._("DoseReferenceUID", 0x300A0013, "Dose Reference UID",
@@ -14291,16 +14211,16 @@ class Tag {
           VR.kCS, VM.k1, false);
   static const Tag kConstraintWeight
       //(300A,0021)
-      = const Tag._("ConstraintWeight", 0x300A0021, "Constraint Weight",
-          VR.kDS, VM.k1, false);
+      = const Tag._("ConstraintWeight", 0x300A0021, "Constraint Weight", VR.kDS,
+          VM.k1, false);
   static const Tag kDeliveryWarningDose
       //(300A,0022)
-      = const Tag._("DeliveryWarningDose", 0x300A0022,
-          "Delivery Warning Dose", VR.kDS, VM.k1, false);
+      = const Tag._("DeliveryWarningDose", 0x300A0022, "Delivery Warning Dose",
+          VR.kDS, VM.k1, false);
   static const Tag kDeliveryMaximumDose
       //(300A,0023)
-      = const Tag._("DeliveryMaximumDose", 0x300A0023,
-          "Delivery Maximum Dose", VR.kDS, VM.k1, false);
+      = const Tag._("DeliveryMaximumDose", 0x300A0023, "Delivery Maximum Dose",
+          VR.kDS, VM.k1, false);
   static const Tag kTargetMinimumDose
       //(300A,0025)
       = const Tag._("TargetMinimumDose", 0x300A0025, "Target Minimum Dose",
@@ -14343,8 +14263,8 @@ class Tag {
           "Tolerance Table Number", VR.kIS, VM.k1, false);
   static const Tag kToleranceTableLabel
       //(300A,0043)
-      = const Tag._("ToleranceTableLabel", 0x300A0043,
-          "Tolerance Table Label", VR.kSH, VM.k1, false);
+      = const Tag._("ToleranceTableLabel", 0x300A0043, "Tolerance Table Label",
+          VR.kSH, VM.k1, false);
   static const Tag kGantryAngleTolerance
       //(300A,0044)
       = const Tag._("GantryAngleTolerance", 0x300A0044,
@@ -14395,16 +14315,16 @@ class Tag {
           "Table Top Lateral Position Tolerance", VR.kDS, VM.k1, false);
   static const Tag kRTPlanRelationship
       //(300A,0055)
-      = const Tag._("RTPlanRelationship", 0x300A0055,
-          "RT Plan Relationship", VR.kCS, VM.k1, false);
+      = const Tag._("RTPlanRelationship", 0x300A0055, "RT Plan Relationship",
+          VR.kCS, VM.k1, false);
   static const Tag kFractionGroupSequence
       //(300A,0070)
       = const Tag._("FractionGroupSequence", 0x300A0070,
           "Fraction Group Sequence", VR.kSQ, VM.k1, false);
   static const Tag kFractionGroupNumber
       //(300A,0071)
-      = const Tag._("FractionGroupNumber", 0x300A0071,
-          "Fraction Group Number", VR.kIS, VM.k1, false);
+      = const Tag._("FractionGroupNumber", 0x300A0071, "Fraction Group Number",
+          VR.kIS, VM.k1, false);
   static const Tag kFractionGroupDescription
       //(300A,0072)
       = const Tag._("FractionGroupDescription", 0x300A0072,
@@ -14423,8 +14343,8 @@ class Tag {
           "Repeat Fraction Cycle Length", VR.kIS, VM.k1, false);
   static const Tag kFractionPattern
       //(300A,007B)
-      = const Tag._("FractionPattern", 0x300A007B, "Fraction Pattern",
-          VR.kLT, VM.k1, false);
+      = const Tag._("FractionPattern", 0x300A007B, "Fraction Pattern", VR.kLT,
+          VM.k1, false);
   static const Tag kNumberOfBeams
       //(300A,0080)
       = const Tag._(
@@ -14435,16 +14355,15 @@ class Tag {
           "Beam Dose Specification Point", VR.kDS, VM.k3, false);
   static const Tag kBeamDose
       //(300A,0084)
-      = const Tag._(
-          "BeamDose", 0x300A0084, "Beam Dose", VR.kDS, VM.k1, false);
+      = const Tag._("BeamDose", 0x300A0084, "Beam Dose", VR.kDS, VM.k1, false);
   static const Tag kBeamMeterset
       //(300A,0086)
       = const Tag._(
           "BeamMeterset", 0x300A0086, "Beam Meterset", VR.kDS, VM.k1, false);
   static const Tag kBeamDosePointDepth
       //(300A,0088)
-      = const Tag._("BeamDosePointDepth", 0x300A0088,
-          "Beam Dose Point Depth", VR.kFL, VM.k1, true);
+      = const Tag._("BeamDosePointDepth", 0x300A0088, "Beam Dose Point Depth",
+          VR.kFL, VM.k1, true);
   static const Tag kBeamDosePointEquivalentDepth
       //(300A,0089)
       = const Tag._("BeamDosePointEquivalentDepth", 0x300A0089,
@@ -14455,8 +14374,8 @@ class Tag {
           VR.kFL, VM.k1, true);
   static const Tag kBeamDoseMeaning
       //(300A,008B)
-      = const Tag._("BeamDoseMeaning", 0x300A008B, "Beam Dose Meaning",
-          VR.kCS, VM.k1, false);
+      = const Tag._("BeamDoseMeaning", 0x300A008B, "Beam Dose Meaning", VR.kCS,
+          VM.k1, false);
   static const Tag kBeamDoseVerificationControlPointSequence
       //(300A,008C)
       = const Tag._(
@@ -14509,8 +14428,8 @@ class Tag {
           "Primary Dosimeter Unit", VR.kCS, VM.k1, false);
   static const Tag kSourceAxisDistance
       //(300A,00B4)
-      = const Tag._("SourceAxisDistance", 0x300A00B4,
-          "Source-Axis Distance", VR.kDS, VM.k1, false);
+      = const Tag._("SourceAxisDistance", 0x300A00B4, "Source-Axis Distance",
+          VR.kDS, VM.k1, false);
   static const Tag kBeamLimitingDeviceSequence
       //(300A,00B6)
       = const Tag._("BeamLimitingDeviceSequence", 0x300A00B6,
@@ -14541,16 +14460,14 @@ class Tag {
           "BeamNumber", 0x300A00C0, "Beam Number", VR.kIS, VM.k1, false);
   static const Tag kBeamName
       //(300A,00C2)
-      = const Tag._(
-          "BeamName", 0x300A00C2, "Beam Name", VR.kLO, VM.k1, false);
+      = const Tag._("BeamName", 0x300A00C2, "Beam Name", VR.kLO, VM.k1, false);
   static const Tag kBeamDescription
       //(300A,00C3)
-      = const Tag._("BeamDescription", 0x300A00C3, "Beam Description",
-          VR.kST, VM.k1, false);
+      = const Tag._("BeamDescription", 0x300A00C3, "Beam Description", VR.kST,
+          VM.k1, false);
   static const Tag kBeamType
       //(300A,00C4)
-      = const Tag._(
-          "BeamType", 0x300A00C4, "Beam Type", VR.kCS, VM.k1, false);
+      = const Tag._("BeamType", 0x300A00C4, "Beam Type", VR.kCS, VM.k1, false);
   static const Tag kRadiationType
       //(300A,00C6)
       = const Tag._(
@@ -14582,8 +14499,8 @@ class Tag {
           "Treatment Delivery Type", VR.kCS, VM.k1, false);
   static const Tag kNumberOfWedges
       //(300A,00D0)
-      = const Tag._("NumberOfWedges", 0x300A00D0, "Number of Wedges",
-          VR.kIS, VM.k1, false);
+      = const Tag._("NumberOfWedges", 0x300A00D0, "Number of Wedges", VR.kIS,
+          VM.k1, false);
   static const Tag kWedgeSequence
       //(300A,00D1)
       = const Tag._(
@@ -14594,12 +14511,11 @@ class Tag {
           "WedgeNumber", 0x300A00D2, "Wedge Number", VR.kIS, VM.k1, false);
   static const Tag kWedgeType
       //(300A,00D3)
-      = const Tag._(
-          "WedgeType", 0x300A00D3, "Wedge Type", VR.kCS, VM.k1, false);
+      =
+      const Tag._("WedgeType", 0x300A00D3, "Wedge Type", VR.kCS, VM.k1, false);
   static const Tag kWedgeID
       //(300A,00D4)
-      =
-      const Tag._("WedgeID", 0x300A00D4, "Wedge ID", VR.kSH, VM.k1, false);
+      = const Tag._("WedgeID", 0x300A00D4, "Wedge ID", VR.kSH, VM.k1, false);
   static const Tag kWedgeAngle
       //(300A,00D5)
       = const Tag._(
@@ -14614,8 +14530,8 @@ class Tag {
           "Total Wedge Tray Water-Equivalent Thickness", VR.kFL, VM.k1, false);
   static const Tag kWedgeOrientation
       //(300A,00D8)
-      = const Tag._("WedgeOrientation", 0x300A00D8, "Wedge Orientation",
-          VR.kDS, VM.k1, false);
+      = const Tag._("WedgeOrientation", 0x300A00D8, "Wedge Orientation", VR.kDS,
+          VM.k1, false);
   static const Tag kIsocenterToWedgeTrayDistance
       //(300A,00D9)
       = const Tag._("IsocenterToWedgeTrayDistance", 0x300A00D9,
@@ -14630,12 +14546,11 @@ class Tag {
           "Wedge Thin Edge Position", VR.kFL, VM.k1, false);
   static const Tag kBolusID
       //(300A,00DC)
-      =
-      const Tag._("BolusID", 0x300A00DC, "Bolus ID", VR.kSH, VM.k1, false);
+      = const Tag._("BolusID", 0x300A00DC, "Bolus ID", VR.kSH, VM.k1, false);
   static const Tag kBolusDescription
       //(300A,00DD)
-      = const Tag._("BolusDescription", 0x300A00DD, "Bolus Description",
-          VR.kST, VM.k1, false);
+      = const Tag._("BolusDescription", 0x300A00DD, "Bolus Description", VR.kST,
+          VM.k1, false);
   static const Tag kNumberOfCompensators
       //(300A,00E0)
       = const Tag._("NumberOfCompensators", 0x300A00E0,
@@ -14650,8 +14565,8 @@ class Tag {
           "Total Compensator Tray Factor", VR.kDS, VM.k1, false);
   static const Tag kCompensatorSequence
       //(300A,00E3)
-      = const Tag._("CompensatorSequence", 0x300A00E3,
-          "Compensator Sequence", VR.kSQ, VM.k1, false);
+      = const Tag._("CompensatorSequence", 0x300A00E3, "Compensator Sequence",
+          VR.kSQ, VM.k1, false);
   static const Tag kCompensatorNumber
       //(300A,00E4)
       = const Tag._("CompensatorNumber", 0x300A00E4, "Compensator Number",
@@ -14666,20 +14581,20 @@ class Tag {
           "Source to Compensator Tray Distance", VR.kDS, VM.k1, false);
   static const Tag kCompensatorRows
       //(300A,00E7)
-      = const Tag._("CompensatorRows", 0x300A00E7, "Compensator Rows",
-          VR.kIS, VM.k1, false);
+      = const Tag._("CompensatorRows", 0x300A00E7, "Compensator Rows", VR.kIS,
+          VM.k1, false);
   static const Tag kCompensatorColumns
       //(300A,00E8)
-      = const Tag._("CompensatorColumns", 0x300A00E8,
-          "Compensator Columns", VR.kIS, VM.k1, false);
+      = const Tag._("CompensatorColumns", 0x300A00E8, "Compensator Columns",
+          VR.kIS, VM.k1, false);
   static const Tag kCompensatorPixelSpacing
       //(300A,00E9)
       = const Tag._("CompensatorPixelSpacing", 0x300A00E9,
           "Compensator Pixel Spacing", VR.kDS, VM.k2, false);
   static const Tag kCompensatorPosition
       //(300A,00EA)
-      = const Tag._("CompensatorPosition", 0x300A00EA,
-          "Compensator Position", VR.kDS, VM.k2, false);
+      = const Tag._("CompensatorPosition", 0x300A00EA, "Compensator Position",
+          VR.kDS, VM.k2, false);
   static const Tag kCompensatorTransmissionData
       //(300A,00EB)
       = const Tag._("CompensatorTransmissionData", 0x300A00EB,
@@ -14694,16 +14609,16 @@ class Tag {
           "NumberOfBoli", 0x300A00ED, "Number of Boli", VR.kIS, VM.k1, false);
   static const Tag kCompensatorType
       //(300A,00EE)
-      = const Tag._("CompensatorType", 0x300A00EE, "Compensator Type",
-          VR.kCS, VM.k1, false);
+      = const Tag._("CompensatorType", 0x300A00EE, "Compensator Type", VR.kCS,
+          VM.k1, false);
   static const Tag kCompensatorTrayID
       //(300A,00EF)
       = const Tag._("CompensatorTrayID", 0x300A00EF, "Compensator Tray ID",
           VR.kSH, VM.k1, false);
   static const Tag kNumberOfBlocks
       //(300A,00F0)
-      = const Tag._("NumberOfBlocks", 0x300A00F0, "Number of Blocks",
-          VR.kIS, VM.k1, false);
+      = const Tag._("NumberOfBlocks", 0x300A00F0, "Number of Blocks", VR.kIS,
+          VM.k1, false);
   static const Tag kTotalBlockTrayFactor
       //(300A,00F2)
       = const Tag._("TotalBlockTrayFactor", 0x300A00F2,
@@ -14730,16 +14645,16 @@ class Tag {
           "Isocenter to Block Tray Distance", VR.kFL, VM.k1, false);
   static const Tag kBlockType
       //(300A,00F8)
-      = const Tag._(
-          "BlockType", 0x300A00F8, "Block Type", VR.kCS, VM.k1, false);
+      =
+      const Tag._("BlockType", 0x300A00F8, "Block Type", VR.kCS, VM.k1, false);
   static const Tag kAccessoryCode
       //(300A,00F9)
       = const Tag._(
           "AccessoryCode", 0x300A00F9, "Accessory Code", VR.kLO, VM.k1, false);
   static const Tag kBlockDivergence
       //(300A,00FA)
-      = const Tag._("BlockDivergence", 0x300A00FA, "Block Divergence",
-          VR.kCS, VM.k1, false);
+      = const Tag._("BlockDivergence", 0x300A00FA, "Block Divergence", VR.kCS,
+          VM.k1, false);
   static const Tag kBlockMountingPosition
       //(300A,00FB)
       = const Tag._("BlockMountingPosition", 0x300A00FB,
@@ -14750,36 +14665,36 @@ class Tag {
           "BlockNumber", 0x300A00FC, "Block Number", VR.kIS, VM.k1, false);
   static const Tag kBlockName
       //(300A,00FE)
-      = const Tag._(
-          "BlockName", 0x300A00FE, "Block Name", VR.kLO, VM.k1, false);
+      =
+      const Tag._("BlockName", 0x300A00FE, "Block Name", VR.kLO, VM.k1, false);
   static const Tag kBlockThickness
       //(300A,0100)
-      = const Tag._("BlockThickness", 0x300A0100, "Block Thickness",
-          VR.kDS, VM.k1, false);
+      = const Tag._("BlockThickness", 0x300A0100, "Block Thickness", VR.kDS,
+          VM.k1, false);
   static const Tag kBlockTransmission
       //(300A,0102)
       = const Tag._("BlockTransmission", 0x300A0102, "Block Transmission",
           VR.kDS, VM.k1, false);
   static const Tag kBlockNumberOfPoints
       //(300A,0104)
-      = const Tag._("BlockNumberOfPoints", 0x300A0104,
-          "Block Number of Points", VR.kIS, VM.k1, false);
+      = const Tag._("BlockNumberOfPoints", 0x300A0104, "Block Number of Points",
+          VR.kIS, VM.k1, false);
   static const Tag kBlockData
       //(300A,0106)
       = const Tag._(
           "BlockData", 0x300A0106, "Block Data", VR.kDS, VM.k2_2n, false);
   static const Tag kApplicatorSequence
       //(300A,0107)
-      = const Tag._("ApplicatorSequence", 0x300A0107,
-          "Applicator Sequence", VR.kSQ, VM.k1, false);
+      = const Tag._("ApplicatorSequence", 0x300A0107, "Applicator Sequence",
+          VR.kSQ, VM.k1, false);
   static const Tag kApplicatorID
       //(300A,0108)
       = const Tag._(
           "ApplicatorID", 0x300A0108, "Applicator ID", VR.kSH, VM.k1, false);
   static const Tag kApplicatorType
       //(300A,0109)
-      = const Tag._("ApplicatorType", 0x300A0109, "Applicator Type",
-          VR.kCS, VM.k1, false);
+      = const Tag._("ApplicatorType", 0x300A0109, "Applicator Type", VR.kCS,
+          VM.k1, false);
   static const Tag kApplicatorDescription
       //(300A,010A)
       = const Tag._("ApplicatorDescription", 0x300A010A,
@@ -14846,8 +14761,8 @@ class Tag {
           "Beam Limiting Device Rotation Direction", VR.kCS, VM.k1, false);
   static const Tag kPatientSupportAngle
       //(300A,0122)
-      = const Tag._("PatientSupportAngle", 0x300A0122,
-          "Patient Support Angle", VR.kDS, VM.k1, false);
+      = const Tag._("PatientSupportAngle", 0x300A0122, "Patient Support Angle",
+          VR.kDS, VM.k1, false);
   static const Tag kPatientSupportRotationDirection
       //(300A,0123)
       = const Tag._("PatientSupportRotationDirection", 0x300A0123,
@@ -14894,16 +14809,16 @@ class Tag {
           "Cumulative Meterset Weight", VR.kDS, VM.k1, false);
   static const Tag kTableTopPitchAngle
       //(300A,0140)
-      = const Tag._("TableTopPitchAngle", 0x300A0140,
-          "Table Top Pitch Angle", VR.kFL, VM.k1, false);
+      = const Tag._("TableTopPitchAngle", 0x300A0140, "Table Top Pitch Angle",
+          VR.kFL, VM.k1, false);
   static const Tag kTableTopPitchRotationDirection
       //(300A,0142)
       = const Tag._("TableTopPitchRotationDirection", 0x300A0142,
           "Table Top Pitch Rotation Direction", VR.kCS, VM.k1, false);
   static const Tag kTableTopRollAngle
       //(300A,0144)
-      = const Tag._("TableTopRollAngle", 0x300A0144,
-          "Table Top Roll Angle", VR.kFL, VM.k1, false);
+      = const Tag._("TableTopRollAngle", 0x300A0144, "Table Top Roll Angle",
+          VR.kFL, VM.k1, false);
   static const Tag kTableTopRollRotationDirection
       //(300A,0146)
       = const Tag._("TableTopRollRotationDirection", 0x300A0146,
@@ -14930,8 +14845,8 @@ class Tag {
           "Patient Setup Sequence", VR.kSQ, VM.k1, false);
   static const Tag kPatientSetupNumber
       //(300A,0182)
-      = const Tag._("PatientSetupNumber", 0x300A0182,
-          "Patient Setup Number", VR.kIS, VM.k1, false);
+      = const Tag._("PatientSetupNumber", 0x300A0182, "Patient Setup Number",
+          VR.kIS, VM.k1, false);
   static const Tag kPatientSetupLabel
       //(300A,0183)
       = const Tag._("PatientSetupLabel", 0x300A0183, "Patient Setup Label",
@@ -14946,12 +14861,12 @@ class Tag {
           "Fixation Device Sequence", VR.kSQ, VM.k1, false);
   static const Tag kFixationDeviceType
       //(300A,0192)
-      = const Tag._("FixationDeviceType", 0x300A0192,
-          "Fixation Device Type", VR.kCS, VM.k1, false);
+      = const Tag._("FixationDeviceType", 0x300A0192, "Fixation Device Type",
+          VR.kCS, VM.k1, false);
   static const Tag kFixationDeviceLabel
       //(300A,0194)
-      = const Tag._("FixationDeviceLabel", 0x300A0194,
-          "Fixation Device Label", VR.kSH, VM.k1, false);
+      = const Tag._("FixationDeviceLabel", 0x300A0194, "Fixation Device Label",
+          VR.kSH, VM.k1, false);
   static const Tag kFixationDeviceDescription
       //(300A,0196)
       = const Tag._("FixationDeviceDescription", 0x300A0196,
@@ -14974,8 +14889,8 @@ class Tag {
           "Shielding Device Sequence", VR.kSQ, VM.k1, false);
   static const Tag kShieldingDeviceType
       //(300A,01A2)
-      = const Tag._("ShieldingDeviceType", 0x300A01A2,
-          "Shielding Device Type", VR.kCS, VM.k1, false);
+      = const Tag._("ShieldingDeviceType", 0x300A01A2, "Shielding Device Type",
+          VR.kCS, VM.k1, false);
   static const Tag kShieldingDeviceLabel
       //(300A,01A4)
       = const Tag._("ShieldingDeviceLabel", 0x300A01A4,
@@ -14990,20 +14905,20 @@ class Tag {
           "Shielding Device Position", VR.kSH, VM.k1, false);
   static const Tag kSetupTechnique
       //(300A,01B0)
-      = const Tag._("SetupTechnique", 0x300A01B0, "Setup Technique",
-          VR.kCS, VM.k1, false);
+      = const Tag._("SetupTechnique", 0x300A01B0, "Setup Technique", VR.kCS,
+          VM.k1, false);
   static const Tag kSetupTechniqueDescription
       //(300A,01B2)
       = const Tag._("SetupTechniqueDescription", 0x300A01B2,
           "Setup Technique Description", VR.kST, VM.k1, false);
   static const Tag kSetupDeviceSequence
       //(300A,01B4)
-      = const Tag._("SetupDeviceSequence", 0x300A01B4,
-          "Setup Device Sequence", VR.kSQ, VM.k1, false);
+      = const Tag._("SetupDeviceSequence", 0x300A01B4, "Setup Device Sequence",
+          VR.kSQ, VM.k1, false);
   static const Tag kSetupDeviceType
       //(300A,01B6)
-      = const Tag._("SetupDeviceType", 0x300A01B6, "Setup Device Type",
-          VR.kCS, VM.k1, false);
+      = const Tag._("SetupDeviceType", 0x300A01B6, "Setup Device Type", VR.kCS,
+          VM.k1, false);
   static const Tag kSetupDeviceLabel
       //(300A,01B8)
       = const Tag._("SetupDeviceLabel", 0x300A01B8, "Setup Device Label",
@@ -15038,16 +14953,16 @@ class Tag {
           "Brachy Treatment Technique", VR.kCS, VM.k1, false);
   static const Tag kBrachyTreatmentType
       //(300A,0202)
-      = const Tag._("BrachyTreatmentType", 0x300A0202,
-          "Brachy Treatment Type", VR.kCS, VM.k1, false);
+      = const Tag._("BrachyTreatmentType", 0x300A0202, "Brachy Treatment Type",
+          VR.kCS, VM.k1, false);
   static const Tag kTreatmentMachineSequence
       //(300A,0206)
       = const Tag._("TreatmentMachineSequence", 0x300A0206,
           "Treatment Machine Sequence", VR.kSQ, VM.k1, false);
   static const Tag kSourceSequence
       //(300A,0210)
-      = const Tag._("SourceSequence", 0x300A0210, "Source Sequence",
-          VR.kSQ, VM.k1, false);
+      = const Tag._("SourceSequence", 0x300A0210, "Source Sequence", VR.kSQ,
+          VM.k1, false);
   static const Tag kSourceNumber
       //(300A,0212)
       = const Tag._(
@@ -15058,16 +14973,16 @@ class Tag {
           "SourceType", 0x300A0214, "Source Type", VR.kCS, VM.k1, false);
   static const Tag kSourceManufacturer
       //(300A,0216)
-      = const Tag._("SourceManufacturer", 0x300A0216,
-          "Source Manufacturer", VR.kLO, VM.k1, false);
+      = const Tag._("SourceManufacturer", 0x300A0216, "Source Manufacturer",
+          VR.kLO, VM.k1, false);
   static const Tag kActiveSourceDiameter
       //(300A,0218)
       = const Tag._("ActiveSourceDiameter", 0x300A0218,
           "Active Source Diameter", VR.kDS, VM.k1, false);
   static const Tag kActiveSourceLength
       //(300A,021A)
-      = const Tag._("ActiveSourceLength", 0x300A021A,
-          "Active Source Length", VR.kDS, VM.k1, false);
+      = const Tag._("ActiveSourceLength", 0x300A021A, "Active Source Length",
+          VR.kDS, VM.k1, false);
   static const Tag kSourceModelID
       //(300A,021B)
       = const Tag._(
@@ -15094,16 +15009,16 @@ class Tag {
           "Source Isotope Half Life", VR.kDS, VM.k1, false);
   static const Tag kSourceStrengthUnits
       //(300A,0229)
-      = const Tag._("SourceStrengthUnits", 0x300A0229,
-          "Source Strength Units", VR.kCS, VM.k1, false);
+      = const Tag._("SourceStrengthUnits", 0x300A0229, "Source Strength Units",
+          VR.kCS, VM.k1, false);
   static const Tag kReferenceAirKermaRate
       //(300A,022A)
       = const Tag._("ReferenceAirKermaRate", 0x300A022A,
           "Reference Air Kerma Rate", VR.kDS, VM.k1, false);
   static const Tag kSourceStrength
       //(300A,022B)
-      = const Tag._("SourceStrength", 0x300A022B, "Source Strength",
-          VR.kDS, VM.k1, false);
+      = const Tag._("SourceStrength", 0x300A022B, "Source Strength", VR.kDS,
+          VM.k1, false);
   static const Tag kSourceStrengthReferenceDate
       //(300A,022C)
       = const Tag._("SourceStrengthReferenceDate", 0x300A022C,
@@ -15134,8 +15049,8 @@ class Tag {
           "Application Setup Manufacturer", VR.kLO, VM.k1, false);
   static const Tag kTemplateNumber
       //(300A,0240)
-      = const Tag._("TemplateNumber", 0x300A0240, "Template Number",
-          VR.kIS, VM.k1, false);
+      = const Tag._("TemplateNumber", 0x300A0240, "Template Number", VR.kIS,
+          VM.k1, false);
   static const Tag kTemplateType
       //(300A,0242)
       = const Tag._(
@@ -15178,8 +15093,8 @@ class Tag {
           "Brachy Accessory Device Nominal Transmission", VR.kDS, VM.k1, false);
   static const Tag kChannelSequence
       //(300A,0280)
-      = const Tag._("ChannelSequence", 0x300A0280, "Channel Sequence",
-          VR.kSQ, VM.k1, false);
+      = const Tag._("ChannelSequence", 0x300A0280, "Channel Sequence", VR.kSQ,
+          VM.k1, false);
   static const Tag kChannelNumber
       //(300A,0282)
       = const Tag._(
@@ -15194,12 +15109,12 @@ class Tag {
           VR.kDS, VM.k1, false);
   static const Tag kSourceMovementType
       //(300A,0288)
-      = const Tag._("SourceMovementType", 0x300A0288,
-          "Source Movement Type", VR.kCS, VM.k1, false);
+      = const Tag._("SourceMovementType", 0x300A0288, "Source Movement Type",
+          VR.kCS, VM.k1, false);
   static const Tag kNumberOfPulses
       //(300A,028A)
-      = const Tag._("NumberOfPulses", 0x300A028A, "Number of Pulses",
-          VR.kIS, VM.k1, false);
+      = const Tag._("NumberOfPulses", 0x300A028A, "Number of Pulses", VR.kIS,
+          VM.k1, false);
   static const Tag kPulseRepetitionInterval
       //(300A,028C)
       = const Tag._("PulseRepetitionInterval", 0x300A028C,
@@ -15210,8 +15125,8 @@ class Tag {
           "Source Applicator Number", VR.kIS, VM.k1, false);
   static const Tag kSourceApplicatorID
       //(300A,0291)
-      = const Tag._("SourceApplicatorID", 0x300A0291,
-          "Source Applicator ID", VR.kSH, VM.k1, false);
+      = const Tag._("SourceApplicatorID", 0x300A0291, "Source Applicator ID",
+          VR.kSH, VM.k1, false);
   static const Tag kSourceApplicatorType
       //(300A,0292)
       = const Tag._("SourceApplicatorType", 0x300A0292,
@@ -15242,24 +15157,24 @@ class Tag {
           "Source Applicator Step Size", VR.kDS, VM.k1, false);
   static const Tag kTransferTubeNumber
       //(300A,02A2)
-      = const Tag._("TransferTubeNumber", 0x300A02A2,
-          "Transfer Tube Number", VR.kIS, VM.k1, false);
+      = const Tag._("TransferTubeNumber", 0x300A02A2, "Transfer Tube Number",
+          VR.kIS, VM.k1, false);
   static const Tag kTransferTubeLength
       //(300A,02A4)
-      = const Tag._("TransferTubeLength", 0x300A02A4,
-          "Transfer Tube Length", VR.kDS, VM.k1, false);
+      = const Tag._("TransferTubeLength", 0x300A02A4, "Transfer Tube Length",
+          VR.kDS, VM.k1, false);
   static const Tag kChannelShieldSequence
       //(300A,02B0)
       = const Tag._("ChannelShieldSequence", 0x300A02B0,
           "Channel Shield Sequence", VR.kSQ, VM.k1, false);
   static const Tag kChannelShieldNumber
       //(300A,02B2)
-      = const Tag._("ChannelShieldNumber", 0x300A02B2,
-          "Channel Shield Number", VR.kIS, VM.k1, false);
+      = const Tag._("ChannelShieldNumber", 0x300A02B2, "Channel Shield Number",
+          VR.kIS, VM.k1, false);
   static const Tag kChannelShieldID
       //(300A,02B3)
-      = const Tag._("ChannelShieldID", 0x300A02B3, "Channel Shield ID",
-          VR.kSH, VM.k1, false);
+      = const Tag._("ChannelShieldID", 0x300A02B3, "Channel Shield ID", VR.kSH,
+          VM.k1, false);
   static const Tag kChannelShieldName
       //(300A,02B4)
       = const Tag._("ChannelShieldName", 0x300A02B4, "Channel Shield Name",
@@ -15343,8 +15258,8 @@ class Tag {
           "Compensator Description", VR.kLT, VM.k1, false);
   static const Tag kRadiationMassNumber
       //(300A,0302)
-      = const Tag._("RadiationMassNumber", 0x300A0302,
-          "Radiation Mass Number", VR.kIS, VM.k1, false);
+      = const Tag._("RadiationMassNumber", 0x300A0302, "Radiation Mass Number",
+          VR.kIS, VM.k1, false);
   static const Tag kRadiationAtomicNumber
       //(300A,0304)
       = const Tag._("RadiationAtomicNumber", 0x300A0304,
@@ -15355,8 +15270,7 @@ class Tag {
           "Radiation Charge State", VR.kSS, VM.k1, false);
   static const Tag kScanMode
       //(300A,0308)
-      = const Tag._(
-          "ScanMode", 0x300A0308, "Scan Mode", VR.kCS, VM.k1, false);
+      = const Tag._("ScanMode", 0x300A0308, "Scan Mode", VR.kCS, VM.k1, false);
   static const Tag kVirtualSourceAxisDistances
       //(300A,030A)
       = const Tag._("VirtualSourceAxisDistances", 0x300A030A,
@@ -15371,8 +15285,7 @@ class Tag {
           "SnoutPosition", 0x300A030D, "Snout Position", VR.kFL, VM.k1, false);
   static const Tag kSnoutID
       //(300A,030F)
-      =
-      const Tag._("SnoutID", 0x300A030F, "Snout ID", VR.kSH, VM.k1, false);
+      = const Tag._("SnoutID", 0x300A030F, "Snout ID", VR.kSH, VM.k1, false);
   static const Tag kNumberOfRangeShifters
       //(300A,0312)
       = const Tag._("NumberOfRangeShifters", 0x300A0312,
@@ -15383,12 +15296,12 @@ class Tag {
           "Range Shifter Sequence", VR.kSQ, VM.k1, false);
   static const Tag kRangeShifterNumber
       //(300A,0316)
-      = const Tag._("RangeShifterNumber", 0x300A0316,
-          "Range Shifter Number", VR.kIS, VM.k1, false);
+      = const Tag._("RangeShifterNumber", 0x300A0316, "Range Shifter Number",
+          VR.kIS, VM.k1, false);
   static const Tag kRangeShifterID
       //(300A,0318)
-      = const Tag._("RangeShifterID", 0x300A0318, "Range Shifter ID",
-          VR.kSH, VM.k1, false);
+      = const Tag._("RangeShifterID", 0x300A0318, "Range Shifter ID", VR.kSH,
+          VM.k1, false);
   static const Tag kRangeShifterType
       //(300A,0320)
       = const Tag._("RangeShifterType", 0x300A0320, "Range Shifter Type",
@@ -15448,8 +15361,8 @@ class Tag {
           VR.kSH, VM.k1, false);
   static const Tag kRangeModulatorType
       //(300A,0348)
-      = const Tag._("RangeModulatorType", 0x300A0348,
-          "Range Modulator Type", VR.kCS, VM.k1, false);
+      = const Tag._("RangeModulatorType", 0x300A0348, "Range Modulator Type",
+          VR.kCS, VM.k1, false);
   static const Tag kRangeModulatorDescription
       //(300A,034A)
       = const Tag._("RangeModulatorDescription", 0x300A034A,
@@ -15460,8 +15373,8 @@ class Tag {
           "Beam Current Modulation ID", VR.kSH, VM.k1, false);
   static const Tag kPatientSupportType
       //(300A,0350)
-      = const Tag._("PatientSupportType", 0x300A0350,
-          "Patient Support Type", VR.kCS, VM.k1, false);
+      = const Tag._("PatientSupportType", 0x300A0350, "Patient Support Type",
+          VR.kCS, VM.k1, false);
   static const Tag kPatientSupportID
       //(300A,0352)
       = const Tag._("PatientSupportID", 0x300A0352, "Patient Support ID",
@@ -15488,8 +15401,8 @@ class Tag {
           "Range Shifter Settings Sequence", VR.kSQ, VM.k1, false);
   static const Tag kRangeShifterSetting
       //(300A,0362)
-      = const Tag._("RangeShifterSetting", 0x300A0362,
-          "Range Shifter Setting", VR.kLO, VM.k1, false);
+      = const Tag._("RangeShifterSetting", 0x300A0362, "Range Shifter Setting",
+          VR.kLO, VM.k1, false);
   static const Tag kIsocenterToRangeShifterDistance
       //(300A,0364)
       = const Tag._("IsocenterToRangeShifterDistance", 0x300A0364,
@@ -15551,16 +15464,16 @@ class Tag {
           "Isocenter to Range Modulator Distance", VR.kFL, VM.k1, false);
   static const Tag kScanSpotTuneID
       //(300A,0390)
-      = const Tag._("ScanSpotTuneID", 0x300A0390, "Scan Spot Tune ID",
-          VR.kSH, VM.k1, false);
+      = const Tag._("ScanSpotTuneID", 0x300A0390, "Scan Spot Tune ID", VR.kSH,
+          VM.k1, false);
   static const Tag kNumberOfScanSpotPositions
       //(300A,0392)
       = const Tag._("NumberOfScanSpotPositions", 0x300A0392,
           "Number of Scan Spot Positions", VR.kIS, VM.k1, false);
   static const Tag kScanSpotPositionMap
       //(300A,0394)
-      = const Tag._("ScanSpotPositionMap", 0x300A0394,
-          "Scan Spot Position Map", VR.kFL, VM.k1_n, false);
+      = const Tag._("ScanSpotPositionMap", 0x300A0394, "Scan Spot Position Map",
+          VR.kFL, VM.k1_n, false);
   static const Tag kScanSpotMetersetWeights
       //(300A,0396)
       = const Tag._("ScanSpotMetersetWeights", 0x300A0396,
@@ -15579,8 +15492,8 @@ class Tag {
           "Ion Tolerance Table Sequence", VR.kSQ, VM.k1, false);
   static const Tag kIonBeamSequence
       //(300A,03A2)
-      = const Tag._("IonBeamSequence", 0x300A03A2, "Ion Beam Sequence",
-          VR.kSQ, VM.k1, false);
+      = const Tag._("IonBeamSequence", 0x300A03A2, "Ion Beam Sequence", VR.kSQ,
+          VM.k1, false);
   static const Tag kIonBeamLimitingDeviceSequence
       //(300A,03A4)
       = const Tag._("IonBeamLimitingDeviceSequence", 0x300A03A4,
@@ -15623,8 +15536,8 @@ class Tag {
           "General Accessory Sequence", VR.kSQ, VM.k1, false);
   static const Tag kGeneralAccessoryID
       //(300A,0421)
-      = const Tag._("GeneralAccessoryID", 0x300A0421,
-          "General Accessory ID", VR.kSH, VM.k1, false);
+      = const Tag._("GeneralAccessoryID", 0x300A0421, "General Accessory ID",
+          VR.kSH, VM.k1, false);
   static const Tag kGeneralAccessoryDescription
       //(300A,0422)
       = const Tag._("GeneralAccessoryDescription", 0x300A0422,
@@ -15655,12 +15568,12 @@ class Tag {
           VR.kFL, VM.k1, false);
   static const Tag kApplicatorOpeningX
       //(300A,0434)
-      = const Tag._("ApplicatorOpeningX", 0x300A0434,
-          "Applicator Opening X", VR.kFL, VM.k1, false);
+      = const Tag._("ApplicatorOpeningX", 0x300A0434, "Applicator Opening X",
+          VR.kFL, VM.k1, false);
   static const Tag kApplicatorOpeningY
       //(300A,0435)
-      = const Tag._("ApplicatorOpeningY", 0x300A0435,
-          "Applicator Opening Y", VR.kFL, VM.k1, false);
+      = const Tag._("ApplicatorOpeningY", 0x300A0435, "Applicator Opening Y",
+          VR.kFL, VM.k1, false);
   static const Tag kSourceToApplicatorMountingPositionDistance
       //(300A,0436)
       = const Tag._(
@@ -15796,8 +15709,8 @@ class Tag {
           "Referenced Range Modulator Number", VR.kIS, VM.k1, false);
   static const Tag kApprovalStatus
       //(300E,0002)
-      = const Tag._("ApprovalStatus", 0x300E0002, "Approval Status",
-          VR.kCS, VM.k1, false);
+      = const Tag._("ApprovalStatus", 0x300E0002, "Approval Status", VR.kCS,
+          VM.k1, false);
   static const Tag kReviewDate
       //(300E,0004)
       = const Tag._(
@@ -15812,20 +15725,18 @@ class Tag {
           "ReviewerName", 0x300E0008, "Reviewer Name", VR.kPN, VM.k1, false);
   static const Tag kArbitrary
       //(4000,0010)
-      = const Tag._(
-          "Arbitrary", 0x40000010, "Arbitrary", VR.kLT, VM.k1, true);
+      = const Tag._("Arbitrary", 0x40000010, "Arbitrary", VR.kLT, VM.k1, true);
   static const Tag kTextComments
       //(4000,4000)
       = const Tag._(
           "TextComments", 0x40004000, "Text Comments", VR.kLT, VM.k1, true);
   static const Tag kResultsID
       //(4008,0040)
-      = const Tag._(
-          "ResultsID", 0x40080040, "Results ID", VR.kSH, VM.k1, true);
+      = const Tag._("ResultsID", 0x40080040, "Results ID", VR.kSH, VM.k1, true);
   static const Tag kResultsIDIssuer
       //(4008,0042)
-      = const Tag._("ResultsIDIssuer", 0x40080042, "Results ID Issuer",
-          VR.kLO, VM.k1, true);
+      = const Tag._("ResultsIDIssuer", 0x40080042, "Results ID Issuer", VR.kLO,
+          VM.k1, true);
   static const Tag kReferencedInterpretationSequence
       //(4008,0050)
       = const Tag._("ReferencedInterpretationSequence", 0x40080050,
@@ -15864,12 +15775,12 @@ class Tag {
           "Interpretation Transcriber", VR.kPN, VM.k1, true);
   static const Tag kInterpretationText
       //(4008,010B)
-      = const Tag._("InterpretationText", 0x4008010B,
-          "Interpretation Text", VR.kST, VM.k1, true);
+      = const Tag._("InterpretationText", 0x4008010B, "Interpretation Text",
+          VR.kST, VM.k1, true);
   static const Tag kInterpretationAuthor
       //(4008,010C)
-      = const Tag._("InterpretationAuthor", 0x4008010C,
-          "Interpretation Author", VR.kPN, VM.k1, true);
+      = const Tag._("InterpretationAuthor", 0x4008010C, "Interpretation Author",
+          VR.kPN, VM.k1, true);
   static const Tag kInterpretationApproverSequence
       //(4008,0111)
       = const Tag._("InterpretationApproverSequence", 0x40080111,
@@ -15900,16 +15811,16 @@ class Tag {
           "Results Distribution List Sequence", VR.kSQ, VM.k1, true);
   static const Tag kDistributionName
       //(4008,0119)
-      = const Tag._("DistributionName", 0x40080119, "Distribution Name",
-          VR.kPN, VM.k1, true);
+      = const Tag._("DistributionName", 0x40080119, "Distribution Name", VR.kPN,
+          VM.k1, true);
   static const Tag kDistributionAddress
       //(4008,011A)
-      = const Tag._("DistributionAddress", 0x4008011A,
-          "Distribution Address", VR.kLO, VM.k1, true);
+      = const Tag._("DistributionAddress", 0x4008011A, "Distribution Address",
+          VR.kLO, VM.k1, true);
   static const Tag kInterpretationID
       //(4008,0200)
-      = const Tag._("InterpretationID", 0x40080200, "Interpretation ID",
-          VR.kSH, VM.k1, true);
+      = const Tag._("InterpretationID", 0x40080200, "Interpretation ID", VR.kSH,
+          VM.k1, true);
   static const Tag kInterpretationIDIssuer
       //(4008,0202)
       = const Tag._("InterpretationIDIssuer", 0x40080202,
@@ -15928,16 +15839,16 @@ class Tag {
           "Impressions", 0x40080300, "Impressions", VR.kST, VM.k1, true);
   static const Tag kResultsComments
       //(4008,4000)
-      = const Tag._("ResultsComments", 0x40084000, "Results Comments",
-          VR.kST, VM.k1, true);
+      = const Tag._("ResultsComments", 0x40084000, "Results Comments", VR.kST,
+          VM.k1, true);
   static const Tag kLowEnergyDetectors
       //(4010,0001)
-      = const Tag._("LowEnergyDetectors", 0x40100001,
-          "Low Energy Detectors", VR.kCS, VM.k1, false);
+      = const Tag._("LowEnergyDetectors", 0x40100001, "Low Energy Detectors",
+          VR.kCS, VM.k1, false);
   static const Tag kHighEnergyDetectors
       //(4010,0002)
-      = const Tag._("HighEnergyDetectors", 0x40100002,
-          "High Energy Detectors", VR.kCS, VM.k1, false);
+      = const Tag._("HighEnergyDetectors", 0x40100002, "High Energy Detectors",
+          VR.kCS, VM.k1, false);
   static const Tag kDetectorGeometrySequence
       //(4010,0004)
       = const Tag._("DetectorGeometrySequence", 0x40100004,
@@ -15956,12 +15867,12 @@ class Tag {
           VR.kFL, VM.k3, false);
   static const Tag kThreatROIBitmap
       //(4010,1006)
-      = const Tag._("ThreatROIBitmap", 0x40101006, "Threat ROI Bitmap",
-          VR.kOB, VM.k1, false);
+      = const Tag._("ThreatROIBitmap", 0x40101006, "Threat ROI Bitmap", VR.kOB,
+          VM.k1, false);
   static const Tag kRouteSegmentID
       //(4010,1007)
-      = const Tag._("RouteSegmentID", 0x40101007, "Route Segment ID",
-          VR.kSH, VM.k1, false);
+      = const Tag._("RouteSegmentID", 0x40101007, "Route Segment ID", VR.kSH,
+          VM.k1, false);
   static const Tag kGantryType
       //(4010,1008)
       = const Tag._(
@@ -15980,12 +15891,12 @@ class Tag {
           "Potential Threat Object ID", VR.kUS, VM.k1, false);
   static const Tag kThreatSequence
       //(4010,1011)
-      = const Tag._("ThreatSequence", 0x40101011, "Threat Sequence",
-          VR.kSQ, VM.k1, false);
+      = const Tag._("ThreatSequence", 0x40101011, "Threat Sequence", VR.kSQ,
+          VM.k1, false);
   static const Tag kThreatCategory
       //(4010,1012)
-      = const Tag._("ThreatCategory", 0x40101012, "Threat Category",
-          VR.kCS, VM.k1, false);
+      = const Tag._("ThreatCategory", 0x40101012, "Threat Category", VR.kCS,
+          VM.k1, false);
   static const Tag kThreatCategoryDescription
       //(4010,1013)
       = const Tag._("ThreatCategoryDescription", 0x40101013,
@@ -16007,16 +15918,15 @@ class Tag {
       = const Tag._("Mass", 0x40101017, "Mass", VR.kFL, VM.k1, false);
   static const Tag kDensity
       //(4010,1018)
-      =
-      const Tag._("Density", 0x40101018, "Density", VR.kFL, VM.k1, false);
+      = const Tag._("Density", 0x40101018, "Density", VR.kFL, VM.k1, false);
   static const Tag kZEffective
       //(4010,1019)
       = const Tag._(
           "ZEffective", 0x40101019, "Z Effective", VR.kFL, VM.k1, false);
   static const Tag kBoardingPassID
       //(4010,101A)
-      = const Tag._("BoardingPassID", 0x4010101A, "Boarding Pass ID",
-          VR.kSH, VM.k1, false);
+      = const Tag._("BoardingPassID", 0x4010101A, "Boarding Pass ID", VR.kSH,
+          VM.k1, false);
   static const Tag kCenterOfMass
       //(4010,101B)
       = const Tag._(
@@ -16027,8 +15937,8 @@ class Tag {
           "CenterOfPTO", 0x4010101C, "Center of PTO", VR.kFL, VM.k3, false);
   static const Tag kBoundingPolygon
       //(4010,101D)
-      = const Tag._("BoundingPolygon", 0x4010101D, "Bounding Polygon",
-          VR.kFL, VM.k6_n, false);
+      = const Tag._("BoundingPolygon", 0x4010101D, "Bounding Polygon", VR.kFL,
+          VM.k6_n, false);
   static const Tag kRouteSegmentStartLocationID
       //(4010,101E)
       = const Tag._("RouteSegmentStartLocationID", 0x4010101E,
@@ -16051,20 +15961,19 @@ class Tag {
           "VolumeOfPTO", 0x40101023, "Volume of PTO", VR.kFL, VM.k1, false);
   static const Tag kAbortFlag
       //(4010,1024)
-      = const Tag._(
-          "AbortFlag", 0x40101024, "Abort Flag", VR.kCS, VM.k1, false);
+      =
+      const Tag._("AbortFlag", 0x40101024, "Abort Flag", VR.kCS, VM.k1, false);
   static const Tag kRouteSegmentStartTime
       //(4010,1025)
       = const Tag._("RouteSegmentStartTime", 0x40101025,
           "Route Segment Start Time", VR.kDT, VM.k1, false);
   static const Tag kRouteSegmentEndTime
       //(4010,1026)
-      = const Tag._("RouteSegmentEndTime", 0x40101026,
-          "Route Segment End Time", VR.kDT, VM.k1, false);
+      = const Tag._("RouteSegmentEndTime", 0x40101026, "Route Segment End Time",
+          VR.kDT, VM.k1, false);
   static const Tag kTDRType
       //(4010,1027)
-      =
-      const Tag._("TDRType", 0x40101027, "TDR Type", VR.kCS, VM.k1, false);
+      = const Tag._("TDRType", 0x40101027, "TDR Type", VR.kCS, VM.k1, false);
   static const Tag kInternationalRouteSegment
       //(4010,1028)
       = const Tag._("InternationalRouteSegment", 0x40101028,
@@ -16075,8 +15984,8 @@ class Tag {
           "Threat Detection Algorithm and Version", VR.kLO, VM.k1_n, false);
   static const Tag kAssignedLocation
       //(4010,102A)
-      = const Tag._("AssignedLocation", 0x4010102A, "Assigned Location",
-          VR.kSH, VM.k1, false);
+      = const Tag._("AssignedLocation", 0x4010102A, "Assigned Location", VR.kSH,
+          VM.k1, false);
   static const Tag kAlarmDecisionTime
       //(4010,102B)
       = const Tag._("AlarmDecisionTime", 0x4010102B, "Alarm Decision Time",
@@ -16103,8 +16012,7 @@ class Tag {
           "ATD Assessment Sequence", VR.kSQ, VM.k1, false);
   static const Tag kTIPType
       //(4010,1039)
-      =
-      const Tag._("TIPType", 0x40101039, "TIP Type", VR.kCS, VM.k1, false);
+      = const Tag._("TIPType", 0x40101039, "TIP Type", VR.kCS, VM.k1, false);
   static const Tag kDICOSVersion
       //(4010,103A)
       = const Tag._(
@@ -16115,12 +16023,10 @@ class Tag {
           "OOI Owner Creation Time", VR.kDT, VM.k1, false);
   static const Tag kOOIType
       //(4010,1042)
-      =
-      const Tag._("OOIType", 0x40101042, "OOI Type", VR.kCS, VM.k1, false);
+      = const Tag._("OOIType", 0x40101042, "OOI Type", VR.kCS, VM.k1, false);
   static const Tag kOOISize
       //(4010,1043)
-      =
-      const Tag._("OOISize", 0x40101043, "OOI Size", VR.kFL, VM.k3, false);
+      = const Tag._("OOISize", 0x40101043, "OOI Size", VR.kFL, VM.k3, false);
   static const Tag kAcquisitionStatus
       //(4010,1044)
       = const Tag._("AcquisitionStatus", 0x40101044, "Acquisition Status",
@@ -16139,36 +16045,34 @@ class Tag {
           VR.kSQ, VM.k1, false);
   static const Tag kScanType
       //(4010,1048)
-      = const Tag._(
-          "ScanType", 0x40101048, "Scan Type", VR.kCS, VM.k1, false);
+      = const Tag._("ScanType", 0x40101048, "Scan Type", VR.kCS, VM.k1, false);
   static const Tag kItineraryID
       //(4010,1051)
       = const Tag._(
           "ItineraryID", 0x40101051, "Itinerary ID", VR.kLO, VM.k1, false);
   static const Tag kItineraryIDType
       //(4010,1052)
-      = const Tag._("ItineraryIDType", 0x40101052, "Itinerary ID Type",
-          VR.kSH, VM.k1, false);
+      = const Tag._("ItineraryIDType", 0x40101052, "Itinerary ID Type", VR.kSH,
+          VM.k1, false);
   static const Tag kItineraryIDAssigningAuthority
       //(4010,1053)
       = const Tag._("ItineraryIDAssigningAuthority", 0x40101053,
           "Itinerary ID Assigning Authority", VR.kLO, VM.k1, false);
   static const Tag kRouteID
       //(4010,1054)
-      =
-      const Tag._("RouteID", 0x40101054, "Route ID", VR.kSH, VM.k1, false);
+      = const Tag._("RouteID", 0x40101054, "Route ID", VR.kSH, VM.k1, false);
   static const Tag kRouteIDAssigningAuthority
       //(4010,1055)
       = const Tag._("RouteIDAssigningAuthority", 0x40101055,
           "Route ID Assigning Authority", VR.kSH, VM.k1, false);
   static const Tag kInboundArrivalType
       //(4010,1056)
-      = const Tag._("InboundArrivalType", 0x40101056,
-          "Inbound Arrival Type", VR.kCS, VM.k1, false);
+      = const Tag._("InboundArrivalType", 0x40101056, "Inbound Arrival Type",
+          VR.kCS, VM.k1, false);
   static const Tag kCarrierID
       //(4010,1058)
-      = const Tag._(
-          "CarrierID", 0x40101058, "Carrier ID", VR.kSH, VM.k1, false);
+      =
+      const Tag._("CarrierID", 0x40101058, "Carrier ID", VR.kSH, VM.k1, false);
   static const Tag kCarrierIDAssigningAuthority
       //(4010,1059)
       = const Tag._("CarrierIDAssigningAuthority", 0x40101059,
@@ -16179,8 +16083,8 @@ class Tag {
           VR.kFL, VM.k3, false);
   static const Tag kSourcePosition
       //(4010,1061)
-      = const Tag._("SourcePosition", 0x40101061, "Source Position",
-          VR.kFL, VM.k3, false);
+      = const Tag._("SourcePosition", 0x40101061, "Source Position", VR.kFL,
+          VM.k3, false);
   static const Tag kBeltHeight
       //(4010,1062)
       = const Tag._(
@@ -16199,8 +16103,8 @@ class Tag {
           VR.kLT, VM.k1, false);
   static const Tag kTotalProcessingTime
       //(4010,1069)
-      = const Tag._("TotalProcessingTime", 0x40101069,
-          "Total Processing Time", VR.kFL, VM.k1, false);
+      = const Tag._("TotalProcessingTime", 0x40101069, "Total Processing Time",
+          VR.kFL, VM.k1, false);
   static const Tag kDetectorCalibrationData
       //(4010,106C)
       = const Tag._("DetectorCalibrationData", 0x4010106C,
@@ -16279,24 +16183,24 @@ class Tag {
           "MAC Parameters Sequence", VR.kSQ, VM.k1, false);
   static const Tag kCurveDimensions
       //(5000,0005)
-      = const Tag._("CurveDimensions", 0x50000005, "Curve Dimensions",
-          VR.kUS, VM.k1, true);
+      = const Tag._("CurveDimensions", 0x50000005, "Curve Dimensions", VR.kUS,
+          VM.k1, true);
   static const Tag kNumberOfPoints
       //(5000,0010)
-      = const Tag._("NumberOfPoints", 0x50000010, "Number of Points",
-          VR.kUS, VM.k1, true);
+      = const Tag._("NumberOfPoints", 0x50000010, "Number of Points", VR.kUS,
+          VM.k1, true);
   static const Tag kTypeOfData
       //(5000,0020)
       = const Tag._(
           "TypeOfData", 0x50000020, "Type of Data", VR.kCS, VM.k1, true);
   static const Tag kCurveDescription
       //(5000,0022)
-      = const Tag._("CurveDescription", 0x50000022, "Curve Description",
-          VR.kLO, VM.k1, true);
+      = const Tag._("CurveDescription", 0x50000022, "Curve Description", VR.kLO,
+          VM.k1, true);
   static const Tag kAxisUnits
       //(5000,0030)
-      = const Tag._(
-          "AxisUnits", 0x50000030, "Axis Units", VR.kSH, VM.k1_n, true);
+      =
+      const Tag._("AxisUnits", 0x50000030, "Axis Units", VR.kSH, VM.k1_n, true);
   static const Tag kAxisLabels
       //(5000,0040)
       = const Tag._(
@@ -16319,24 +16223,23 @@ class Tag {
           "CurveRange", 0x50000106, "Curve Range", VR.kSH, VM.k1_n, true);
   static const Tag kCurveDataDescriptor
       //(5000,0110)
-      = const Tag._("CurveDataDescriptor", 0x50000110,
-          "Curve Data Descriptor", VR.kUS, VM.k1_n, true);
+      = const Tag._("CurveDataDescriptor", 0x50000110, "Curve Data Descriptor",
+          VR.kUS, VM.k1_n, true);
   static const Tag kCoordinateStartValue
       //(5000,0112)
       = const Tag._("CoordinateStartValue", 0x50000112,
           "Coordinate Start Value", VR.kUS, VM.k1_n, true);
   static const Tag kCoordinateStepValue
       //(5000,0114)
-      = const Tag._("CoordinateStepValue", 0x50000114,
-          "Coordinate Step Value", VR.kUS, VM.k1_n, true);
+      = const Tag._("CoordinateStepValue", 0x50000114, "Coordinate Step Value",
+          VR.kUS, VM.k1_n, true);
   static const Tag kCurveActivationLayer
       //(5000,1001)
       = const Tag._("CurveActivationLayer", 0x50001001,
           "Curve Activation Layer", VR.kCS, VM.k1, true);
   static const Tag kAudioType
       //(5000,2000)
-      = const Tag._(
-          "AudioType", 0x50002000, "Audio Type", VR.kUS, VM.k1, true);
+      = const Tag._("AudioType", 0x50002000, "Audio Type", VR.kUS, VM.k1, true);
   static const Tag kAudioSampleFormat
       //(5000,2002)
       = const Tag._("AudioSampleFormat", 0x50002002, "Audio Sample Format",
@@ -16347,16 +16250,15 @@ class Tag {
           VR.kUS, VM.k1, true);
   static const Tag kNumberOfSamples
       //(5000,2006)
-      = const Tag._("NumberOfSamples", 0x50002006, "Number of Samples",
-          VR.kUL, VM.k1, true);
+      = const Tag._("NumberOfSamples", 0x50002006, "Number of Samples", VR.kUL,
+          VM.k1, true);
   static const Tag kSampleRate
       //(5000,2008)
-      = const Tag._(
-          "SampleRate", 0x50002008, "Sample Rate", VR.kUL, VM.k1, true);
+      =
+      const Tag._("SampleRate", 0x50002008, "Sample Rate", VR.kUL, VM.k1, true);
   static const Tag kTotalTime
       //(5000,200A)
-      = const Tag._(
-          "TotalTime", 0x5000200A, "Total Time", VR.kUL, VM.k1, true);
+      = const Tag._("TotalTime", 0x5000200A, "Total Time", VR.kUL, VM.k1, true);
   static const Tag kAudioSampleData
       //(5000,200C)
       = const Tag._("AudioSampleData", 0x5000200C, "Audio Sample Data",
@@ -16367,8 +16269,8 @@ class Tag {
           "AudioComments", 0x5000200E, "Audio Comments", VR.kLT, VM.k1, true);
   static const Tag kCurveLabel
       //(5000,2500)
-      = const Tag._(
-          "CurveLabel", 0x50002500, "Curve Label", VR.kLO, VM.k1, true);
+      =
+      const Tag._("CurveLabel", 0x50002500, "Curve Label", VR.kLO, VM.k1, true);
   static const Tag kCurveReferencedOverlaySequence
       //(5000,2600)
       = const Tag._("CurveReferencedOverlaySequence", 0x50002600,
@@ -16379,8 +16281,8 @@ class Tag {
           "Curve Referenced Overlay Group", VR.kUS, VM.k1, true);
   static const Tag kCurveData
       //(5000,3000)
-      = const Tag._(
-          "CurveData", 0x50003000, "Curve Data", VR.kOBOW, VM.k1, true);
+      =
+      const Tag._("CurveData", 0x50003000, "Curve Data", VR.kOBOW, VM.k1, true);
   static const Tag kSharedFunctionalGroupsSequence
       //(5200,9229)
       = const Tag._("SharedFunctionalGroupsSequence", 0x52009229,
@@ -16391,16 +16293,16 @@ class Tag {
           "Per-frame Functional Groups Sequence", VR.kSQ, VM.k1, false);
   static const Tag kWaveformSequence
       //(5400,0100)
-      = const Tag._("WaveformSequence", 0x54000100, "Waveform Sequence",
-          VR.kSQ, VM.k1, false);
+      = const Tag._("WaveformSequence", 0x54000100, "Waveform Sequence", VR.kSQ,
+          VM.k1, false);
   static const Tag kChannelMinimumValue
       //(5400,0110)
-      = const Tag._("ChannelMinimumValue", 0x54000110,
-          "Channel Minimum Value", VR.kOBOW, VM.k1, false);
+      = const Tag._("ChannelMinimumValue", 0x54000110, "Channel Minimum Value",
+          VR.kOBOW, VM.k1, false);
   static const Tag kChannelMaximumValue
       //(5400,0112)
-      = const Tag._("ChannelMaximumValue", 0x54000112,
-          "Channel Maximum Value", VR.kOBOW, VM.k1, false);
+      = const Tag._("ChannelMaximumValue", 0x54000112, "Channel Maximum Value",
+          VR.kOBOW, VM.k1, false);
   static const Tag kWaveformBitsAllocated
       //(5400,1004)
       = const Tag._("WaveformBitsAllocated", 0x54001004,
@@ -16423,16 +16325,16 @@ class Tag {
           "First Order Phase Correction Angle", VR.kOF, VM.k1, false);
   static const Tag kSpectroscopyData
       //(5600,0020)
-      = const Tag._("SpectroscopyData", 0x56000020, "Spectroscopy Data",
-          VR.kOF, VM.k1, false);
+      = const Tag._("SpectroscopyData", 0x56000020, "Spectroscopy Data", VR.kOF,
+          VM.k1, false);
   static const Tag kOverlayRows
       //(6000,0010)
       = const Tag._(
           "OverlayRows", 0x60000010, "Overlay Rows", VR.kUS, VM.k1, false);
   static const Tag kOverlayColumns
       //(6000,0011)
-      = const Tag._("OverlayColumns", 0x60000011, "Overlay Columns",
-          VR.kUS, VM.k1, false);
+      = const Tag._("OverlayColumns", 0x60000011, "Overlay Columns", VR.kUS,
+          VM.k1, false);
   static const Tag kOverlayPlanes
       //(6000,0012)
       = const Tag._(
@@ -16443,16 +16345,16 @@ class Tag {
           "Number of Frames in Overlay", VR.kIS, VM.k1, false);
   static const Tag kOverlayDescription
       //(6000,0022)
-      = const Tag._("OverlayDescription", 0x60000022,
-          "Overlay Description", VR.kLO, VM.k1, false);
+      = const Tag._("OverlayDescription", 0x60000022, "Overlay Description",
+          VR.kLO, VM.k1, false);
   static const Tag kOverlayType
       //(6000,0040)
       = const Tag._(
           "OverlayType", 0x60000040, "Overlay Type", VR.kCS, VM.k1, false);
   static const Tag kOverlaySubtype
       //(6000,0045)
-      = const Tag._("OverlaySubtype", 0x60000045, "Overlay Subtype",
-          VR.kLO, VM.k1, false);
+      = const Tag._("OverlaySubtype", 0x60000045, "Overlay Subtype", VR.kLO,
+          VM.k1, false);
   static const Tag kOverlayOrigin
       //(6000,0050)
       = const Tag._(
@@ -16463,8 +16365,8 @@ class Tag {
           VR.kUS, VM.k1, false);
   static const Tag kOverlayPlaneOrigin
       //(6000,0052)
-      = const Tag._("OverlayPlaneOrigin", 0x60000052,
-          "Overlay Plane Origin", VR.kUS, VM.k1, true);
+      = const Tag._("OverlayPlaneOrigin", 0x60000052, "Overlay Plane Origin",
+          VR.kUS, VM.k1, true);
   static const Tag kOverlayCompressionCode
       //(6000,0060)
       = const Tag._("OverlayCompressionCode", 0x60000060,
@@ -16491,24 +16393,24 @@ class Tag {
           "Overlay Repeat Interval", VR.kUS, VM.k1, true);
   static const Tag kOverlayBitsGrouped
       //(6000,0069)
-      = const Tag._("OverlayBitsGrouped", 0x60000069,
-          "Overlay Bits Grouped", VR.kUS, VM.k1, true);
+      = const Tag._("OverlayBitsGrouped", 0x60000069, "Overlay Bits Grouped",
+          VR.kUS, VM.k1, true);
   static const Tag kOverlayBitsAllocated
       //(6000,0100)
       = const Tag._("OverlayBitsAllocated", 0x60000100,
           "Overlay Bits Allocated", VR.kUS, VM.k1, false);
   static const Tag kOverlayBitPosition
       //(6000,0102)
-      = const Tag._("OverlayBitPosition", 0x60000102,
-          "Overlay Bit Position", VR.kUS, VM.k1, false);
+      = const Tag._("OverlayBitPosition", 0x60000102, "Overlay Bit Position",
+          VR.kUS, VM.k1, false);
   static const Tag kOverlayFormat
       //(6000,0110)
       = const Tag._(
           "OverlayFormat", 0x60000110, "Overlay Format", VR.kCS, VM.k1, true);
   static const Tag kOverlayLocation
       //(6000,0200)
-      = const Tag._("OverlayLocation", 0x60000200, "Overlay Location",
-          VR.kUS, VM.k1, true);
+      = const Tag._("OverlayLocation", 0x60000200, "Overlay Location", VR.kUS,
+          VM.k1, true);
   static const Tag kOverlayCodeLabel
       //(6000,0800)
       = const Tag._("OverlayCodeLabel", 0x60000800, "Overlay Code Label",
@@ -16555,20 +16457,18 @@ class Tag {
           "OverlaysRed", 0x60001201, "Overlays - Red", VR.kUS, VM.k1_n, true);
   static const Tag kOverlaysGreen
       //(6000,1202)
-      = const Tag._("OverlaysGreen", 0x60001202, "Overlays - Green",
-          VR.kUS, VM.k1_n, true);
+      = const Tag._("OverlaysGreen", 0x60001202, "Overlays - Green", VR.kUS,
+          VM.k1_n, true);
   static const Tag kOverlaysBlue
       //(6000,1203)
       = const Tag._(
           "OverlaysBlue", 0x60001203, "Overlays - Blue", VR.kUS, VM.k1_n, true);
   static const Tag kROIArea
       //(6000,1301)
-      =
-      const Tag._("ROIArea", 0x60001301, "ROI Area", VR.kIS, VM.k1, false);
+      = const Tag._("ROIArea", 0x60001301, "ROI Area", VR.kIS, VM.k1, false);
   static const Tag kROIMean
       //(6000,1302)
-      =
-      const Tag._("ROIMean", 0x60001302, "ROI Mean", VR.kDS, VM.k1, false);
+      = const Tag._("ROIMean", 0x60001302, "ROI Mean", VR.kDS, VM.k1, false);
   static const Tag kROIStandardDeviation
       //(6000,1303)
       = const Tag._("ROIStandardDeviation", 0x60001303,
@@ -16583,31 +16483,26 @@ class Tag {
           "OverlayData", 0x60003000, "Overlay Data", VR.kOBOW, VM.k1, false);
   static const Tag kOverlayComments
       //(6000,4000)
-      = const Tag._("OverlayComments", 0x60004000, "Overlay Comments",
-          VR.kLT, VM.k1, true);
+      = const Tag._("OverlayComments", 0x60004000, "Overlay Comments", VR.kLT,
+          VM.k1, true);
   static const Tag kFloatPixelData = const Tag._(
       "FloatPixelData", 0x7FE00008, "Float Pixel Data", VR.kOF, VM.k1, false);
-  static const Tag kDoubleFloatPixelData = const Tag._(
-      "DoubleFloatPixelData",
-      0x7FE00009,
-      "Double Float Pixel Data",
-      VR.kOD,
-      VM.k1,
-      false);
+  static const Tag kDoubleFloatPixelData = const Tag._("DoubleFloatPixelData",
+      0x7FE00009, "Double Float Pixel Data", VR.kOD, VM.k1, false);
   static const Tag kPixelData = const Tag._(
       "PixelData", 0x7FE00010, "Pixel Data", VR.kOBOW, VM.k1, false);
   static const Tag kCoefficientsSDVN
       //(7FE0,0020)
-      = const Tag._("CoefficientsSDVN", 0x7FE00020, "Coefficients SDVN",
-          VR.kOW, VM.k1, true);
+      = const Tag._("CoefficientsSDVN", 0x7FE00020, "Coefficients SDVN", VR.kOW,
+          VM.k1, true);
   static const Tag kCoefficientsSDHN
       //(7FE0,0030)
-      = const Tag._("CoefficientsSDHN", 0x7FE00030, "Coefficients SDHN",
-          VR.kOW, VM.k1, true);
+      = const Tag._("CoefficientsSDHN", 0x7FE00030, "Coefficients SDHN", VR.kOW,
+          VM.k1, true);
   static const Tag kCoefficientsSDDN
       //(7FE0,0040)
-      = const Tag._("CoefficientsSDDN", 0x7FE00040, "Coefficients SDDN",
-          VR.kOW, VM.k1, true);
+      = const Tag._("CoefficientsSDDN", 0x7FE00040, "Coefficients SDDN", VR.kOW,
+          VM.k1, true);
   static const Tag kVariablePixelData
       //(7F00,0010)
       = const Tag._("VariablePixelData", 0x7F000010, "Variable Pixel Data",
@@ -16638,8 +16533,7 @@ class Tag {
           "Data Set Trailing Padding", VR.kOB, VM.k1, false);
   static const Tag kItem
       //(FFFE,E000)
-      = const Tag._(
-          "Item", 0xFFFEE000, "Item", VR.kInvalid, VM.kNoVM, false);
+      = const Tag._("Item", 0xFFFEE000, "Item", VR.kInvalid, VM.kNoVM, false);
   static const Tag kItemDelimitationItem
       //(FFFE,E00D)
       = const Tag._("ItemDelimitationItem", 0xFFFEE00D,
@@ -16728,15 +16622,14 @@ class UnknownPublicTag extends Tag {
   // Group Length Tags
   UnknownPublicTag(int code)
       : super._(
-      "kUnknownPublic${Int.hex(Group.fromTag(code), 4, "")}",
-      code,
-      "Unknown DICOM Tag ${Tag.toDcm(code)}",
-      VR.kUN,
-      VM.k1_n,
-      false,
-      EType.k3);
+            "kUnknownPublic${Int.hex(Group.fromTag(code), 4, "")}",
+            code,
+            "Unknown DICOM Tag ${Tag.toDcm(code)}",
+            VR.kUN,
+            VM.k1_n,
+            false,
+            EType.k3);
 
   @override
   bool get isKnown => false;
 }
-
