@@ -119,6 +119,14 @@ class PersonName {
 /// A [Components] is a list of PN component [String]s. It may have from
 /// one to five components.  The list may not contain [null], so interior
 /// elements that have no value are represented by the empty [String] ("").
+///
+/// For Example the following are valid:
+/// ["Philbin", "Jim", "F", "Dr.", "II"]
+/// ["Philbin", "Jim", "F"]
+/// ["Philbin", "", "F"]
+/// But these are not valid:
+/// /// ["Philbin", null, "F", "Dr.", "II"]
+///  ["Philbin", "Jim", "F", null]
 class Name {
   static const int maxComponents = 5;
   static const int maxSeparators = 4;
@@ -169,7 +177,6 @@ class Name {
   @override
   String toString() => '$components';
 
-// Urgent 5 components
   /// Returns true if the [PersonName] component is valid.
   static bool isValidList(List<String> list) {
     if (list == null || list.length < 1 || list.length > 5) return false;
