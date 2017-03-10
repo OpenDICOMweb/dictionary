@@ -5,14 +5,14 @@
 //    and Sharath chandra <sharath.ch@mwebware.com>
 // See the AUTHORS file for other contributors.
 
-import 'package:test/test.dart';
 import 'package:dictionary/src/person_name.dart';
+import 'package:test/test.dart';
 
 void main() {
-  person_name_test();
+  personNameTest();
 }
 
-void person_name_test() {
+void personNameTest() {
   var pnstr1 =
       "abcde^fhgij^klmno^pqrst^uvwxy=zabcd^efghi^jklmn^opqrs^tuvwx=yzabc^defgh^ijklm^nopqr^stuvw";
   var pnstr2 =

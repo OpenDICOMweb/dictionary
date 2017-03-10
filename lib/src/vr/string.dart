@@ -6,6 +6,8 @@
 
 import 'package:common/ascii.dart';
 import 'package:dictionary/src/person_name.dart';
+import 'package:dictionary/src/uid/uid.dart';
+import 'package:dictionary/src/uid/uid_utils.dart' as uid;
 
 import 'vr.dart';
 
@@ -513,7 +515,12 @@ class VRPersonName extends VRString {
   */
 }
 
+const String baseYear = '19700101';
+const String prefix = '19700101T';
+
 class VRDcmTime extends VRString {
+  static final DateTime baseDate = new DateTime(1970, 01, 01);
+
   const VRDcmTime._(int index, int code, String id, int vfLengthSize,
       int maxVFLength, String keyword, int minValueLength, int maxValueLength)
       : super._(index, code, id, vfLengthSize, maxVFLength, keyword,
@@ -523,41 +530,38 @@ class VRDcmTime extends VRString {
   bool isValid(String timeString) => parse(timeString) != null;
 
   @override
-  String issue(String timeString) {
-    String s = _getFilteredError(timeString, _isDcmTimeChar);
-    if (s != "") return s;
-    return (isNotValid(timeString)) ? 'Invalid DateTime: $timeString' : "";
-  }
+  String issue(String timeString) =>
+      (isNotValid(timeString)) ? 'Invalid DateTime: $timeString' : "";
 
-  // Parse DICOM Time.
+
+  /// Parse DICOM Time and if valid return a [Duration]; otherwise, [null].
   @override
-  DateTime parse(String timeString) {
-    assert(timeString != null);
-    if (!_isValidLength(timeString.length)) return null;
-    int length = timeString.length;
-    if ((length.isOdd && length < 6) || !_isValidString(timeString))
-      return null;
-    String s = timeString;
+  Duration parse(String timeString) {
+    String t = timeString;
+    var length = t.length;
     if (length < 6) {
-      if (length == 2) s = timeString + '0000';
-      if (length == 4) s = timeString + '00';
+      if (length == 0 || length.isOdd) return null;
+      if (length == 2) t += '0000';
+      if (length == 4) t += '00';
     }
+    var dts = prefix + t;
     DateTime dt;
+    Duration time;
     try {
-      print('DataTime s: $s');
-      dt = DateTime.parse(s);
-      print('DataTime dt: $dt');
-    } on FormatException {
+      dt = DateTime.parse(dts);
+    } on FormatException catch (e) {
+      print('Format Error($dts): $e');
       return null;
     }
-    return dt;
+    time = dt.difference(baseDate);
+    return time;
   }
 
   /// Fix
   @override
   String fix(String s) {
     //TODO:
-    // trucate on error
+    // truncate on error
     // what other fixes?
     // if separator (:) present - remove.
     // if time zone marker present??
@@ -579,48 +583,24 @@ class VRUid extends VRString {
       : super._(index, code, id, vfLengthSize, maxVFLength, keyword,
             minValueLength, maxValueLength);
 
-  //Urgent: This is not doing complete validation, e.g. it doesn't test
-  //        for segments that begin with zero, but have more than 1 character.
-  //        There are probably other errors to check.
+
   @override
-  bool isValid(String uidString) => (uidString == null ||
-          !isValidLength(uidString) ||
-          !hasValidRoot(uidString) ||
-          !_filteredTest(uidString, _isUidChar))
-      ? false
-      : true;
+  bool isValid(String uidString) => uid.isValidUidString(uidString);
 
-  static const List<int> uidRoots = const [k1, k2, k3];
-  //TODO: should be able to check 2nd component
-  bool hasValidRoot(String uidString) =>
-      (uidRoots.contains(uidString.codeUnitAt(0)) &&
-              uidString.codeUnitAt(1) == kDot)
-          ? true
-          : false;
-
-  static const String dicomRoot = '1.2.840.10008';
-  bool hasDicomRoot(String uidString) => uidString.startsWith(dicomRoot);
+  /// Returns [true] if [uidString] starts with the DICOM UID root.
+  bool hasDicomRoot(String uidString) => uidString.startsWith(Uid.dicomRoot);
 
   //TODO: this need to return beter messages
   @override
-  String issue(String uidString) {
-    String s = _getFilteredError(uidString, _isUidChar);
-    if (s != "") return s;
-    return (isNotValid(uidString)) ? 'Invalid DateTime: $uidString' : "";
-  }
+  String issue(String uidString) =>
+      (isValid(uidString)) ? "" : 'Invalid Uid: $uidString';
 
   /// Fix
   @override
   String fix(String s) {
-    //TODO:
-    // truncate on error
-    // what other fixes?
-    // if separator (:) present - remove.
-    // if time zone marker present??
-    return s;
+    //TODO: truncate on error, what other fixes?
+    return "";
   }
-
-  bool _isUidChar(int c) => !(isHexChar(c) || c == kDot);
 
   //TODO: what should the minimum length be?
   /// Minimum length is based on '1.2.804.xx'.
@@ -653,7 +633,7 @@ class VRUri extends VRString {
   // Parse DICOM Time.
   @override
   Uri parse(String uriString) {
-    assert(uriString != null);
+    assert(uriString != null && uriString != "");
     if (!_isValidLength(uriString.length)) return null;
     Uri uri;
     try {

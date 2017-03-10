@@ -21,7 +21,7 @@ class UidType {
   static const UidType kUnknown = const UidType._(-1, "Unknown");
 
   // Random 2.25. + V4 Uuid
-  static const UidType kRandomUuid = const UidType._(0, "RandomUuid");
+  static const UidType kUidRandom = const UidType._(0, "RandomUuid");
 
   // Constructed from Root + leaf
   static const UidType kConstructed = const UidType._(1, "Constructed");

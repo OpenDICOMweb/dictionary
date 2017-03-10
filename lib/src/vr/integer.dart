@@ -34,10 +34,10 @@ typedef List<int> BytesToValues(Uint8List bytes,
 typedef List<int> IntViewer(Uint8List bytes);
 
 /// Returns a [String] specifying any issues with [value]. If [value]
-/// [isValid] returns [null].
+/// [isValidString] returns [null].
 typedef String IntIssuer(int value);
 
-/// Returns a valid [int]. Iff [value] [isValid] it is returned unmodified.
+/// Returns a valid [int]. Iff [value] [isValidString] it is returned unmodified.
 /// If [value] has one or more issues that can be fixed, returns a modified
 /// value. If [value] [isNotValid] and cannot be fixed returns [null].
 typedef int IntFixer(int value);

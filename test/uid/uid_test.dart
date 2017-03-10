@@ -5,10 +5,9 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:dictionary/dictionary.dart';
-import 'package:test/test.dart';
-
 import 'package:dictionary/src/uid/well_known/transfer_syntax.dart';
 import 'package:dictionary/src/uid/well_known/wk_uid.dart';
+import 'package:test/test.dart';
 
 void main() {
   uidTest();
@@ -32,7 +31,7 @@ void uidTest() {
       uid = Uid.parse("4.2.840.10008.1.2");
       print('uid: $uid');
       expect(uid == null, true);
-    }, skip: "TODO: fix Uid.parse to detect bad values");
+    });
 
     test('String to TransferSyntax', () {
       Uid uid = TransferSyntax.lookup("1.2.840.10008.1.2");

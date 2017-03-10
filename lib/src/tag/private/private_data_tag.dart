@@ -5,7 +5,6 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:dictionary/src/tag/private/private_tag.dart';
-import 'package:dictionary/src/tag/private/private_creator_tag.dart';
 import 'package:dictionary/src/vm.dart';
 import 'package:dictionary/src/vr/vr.dart';
 

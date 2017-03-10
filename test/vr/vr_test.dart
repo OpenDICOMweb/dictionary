@@ -13,11 +13,11 @@ import 'dart:typed_data';
 
 void main() {
   //printCode();
-  check_vrMap_vrList();
-  all_vrs_test();
+  vrMapAndListTest();
+  allVRsTest();
 }
 
-void check_vrMap_vrList() {
+void vrMapAndListTest() {
   test("Check vrMap and vrList have equal Lengths", () {
     int mapLength = VR.vrMap.length;
     int listLength = VR.vrList.length;
@@ -34,7 +34,7 @@ void check_vrMap_vrList() {
   });
 }
 
-void all_vrs_test() {
+void allVRsTest() {
   RNG rng = new RNG(0);
   group("Integer VRs", () {
     test("isValid", () {
