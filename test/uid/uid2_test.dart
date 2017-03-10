@@ -25,7 +25,7 @@ void uidTest2() {
     test('Good UID', () {
       for (String s in goodUids) {
         var v = isValidUidString(s);
-       print('$v: $s');
+        print('$v: $s');
         expect(isValidUidString(s), true);
       }
     });

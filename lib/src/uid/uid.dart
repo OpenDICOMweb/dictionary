@@ -80,8 +80,8 @@ abstract class Uid {
   static bool isValidString(String uidString) =>
       util.isValidUidString(uidString);
 
- // static bool _isValidLength(int length) =>
- //     kMinLength <= length && length <= kMaxLength;
+  // static bool _isValidLength(int length) =>
+  //     kMinLength <= length && length <= kMaxLength;
 
   /// ASCII constants for '0', '1', and '2'. No other roots are valid.
   static const List<int> uidRoots = util.uidRoots;

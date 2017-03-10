@@ -533,7 +533,6 @@ class VRDcmTime extends VRString {
   String issue(String timeString) =>
       (isNotValid(timeString)) ? 'Invalid DateTime: $timeString' : "";
 
-
   /// Parse DICOM Time and if valid return a [Duration]; otherwise, [null].
   @override
   Duration parse(String timeString) {
@@ -582,7 +581,6 @@ class VRUid extends VRString {
       int maxVFLength, String keyword, int minValueLength, int maxValueLength)
       : super._(index, code, id, vfLengthSize, maxVFLength, keyword,
             minValueLength, maxValueLength);
-
 
   @override
   bool isValid(String uidString) => uid.isValidUidString(uidString);
