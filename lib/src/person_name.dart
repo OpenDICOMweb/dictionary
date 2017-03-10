@@ -88,7 +88,7 @@ class PersonName {
   /// Returns true if the [PersonName] component is valid.
   static bool isValidList(List<String> list) {
     assert(list != null && list.length == 3);
-    return list.fold(false, (t, e) => t && Name.isValidString(e));
+    return list.fold(true, (t, e) => t && Name.isValidString(e));
   }
 
   /// Returns true if the [PersonName] component is valid.
@@ -223,9 +223,9 @@ class Name {
 
   /// Parses a Component Group into a [Name]
   static Name parse(String s) {
-    if (s == null || s == "" || s.length > 64 || _filteredTest(s, _isPNChar))
+    if (s == null || s == "" || s.length > 64 || !_filteredTest(s, _isPNChar))
       return null;
-    List<String> groups = splitTrim(s, '\\');
+    Iterable<String> groups = splitTrim(s, '^');
     for (String cg in groups) _isPNComponentGroup(cg);
     return new Name.fromString(s.trim());
   }
