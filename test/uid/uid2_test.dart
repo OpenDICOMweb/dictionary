@@ -25,7 +25,7 @@ void uidTest2() {
     test('Good UID', () {
       for (String s in goodUids) {
         var v = isValidUidString(s);
-        print('$v: $s');
+   //     print('$v: $s');
         expect(isValidUidString(s), true);
       }
     });
@@ -53,9 +53,9 @@ void uidTest2() {
   group('Bad Uids Test', () {
     test('Bad UID', () {
       for (String s in badUids) {
-        print('"$s":');
+  //      print('"$s":');
         var v = isValidUidString(s);
-        print('"$s": $v');
+  //      print('"$s": $v');
         expect(isValidUidString(s), false);
       }
     });

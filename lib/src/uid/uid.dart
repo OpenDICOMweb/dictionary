@@ -40,6 +40,7 @@ abstract class Uid {
   /// Returns the [Uid] [String].
   String get asString;
 
+  /// Returns the [UidType].
   UidType get type => UidType.kConstructed;
 
   /// Return true if this [UidBase] identifies an
