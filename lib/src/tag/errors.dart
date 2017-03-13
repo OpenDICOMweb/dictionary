@@ -8,49 +8,38 @@ import 'tag.dart';
 
 class InvalidTagError extends Error {
   Object tag;
-  List values;
 
-  InvalidTagError(this.tag, [this.values]);
+  InvalidTagError(this.tag);
 
   @override
-  String toString() {
-    String msg;
-    if (tag is int) {
-      msg = 'Code ${Tag.toDcm(tag)}';
-    } else if (tag is String) {
-      msg = 'Keyword "$tag"';
-    } else {
-      msg = '${tag.runtimeType}: $tag';
-    }
-    return 'Error: Invalid Tag $msg with values $values';
-  }
+  String toString() => Tag.toMsg(tag);
 }
 
-dynamic tagError(Object obj, [List values]) =>
-    throw new InvalidTagError(obj, values);
+dynamic tagError(Object obj) => throw new InvalidTagError(obj);
 
 class InvalidTagCodeError extends Error {
   int code;
-  List values;
 
-  InvalidTagCodeError(this.code, [this.values]);
+  InvalidTagCodeError(this.code);
+
+  String get _value => (code == null) ? 'null' : Tag.toDcm(code);
 
   @override
   String toString() =>
-      'Error: Invalid Tag Code ${Tag.toDcm(code)} with values $values';
+      'Error: Invalid Tag Code "$_value"';
 }
 
-dynamic tagCodeError(int code, [List values]) =>
-    throw new InvalidTagCodeError(code, values);
+dynamic tagCodeError(int code) => throw new InvalidTagCodeError(code);
 
 class InvalidTagKeywordError extends Error {
   String keyword;
-  List values;
-  InvalidTagKeywordError(this.keyword, [this.values]);
+
+  InvalidTagKeywordError(this.keyword);
 
   @override
   String toString() => 'Error: Invalid Tag Keyword: "$keyword"';
 }
 
-dynamic tagKeywordError(String keyword, [List values]) =>
-    throw new InvalidTagKeywordError(keyword, values);
+dynamic tagKeywordError(String keyword) =>
+    throw new InvalidTagKeywordError(keyword);
+

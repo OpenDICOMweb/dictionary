@@ -200,13 +200,13 @@ class Tag {
   }
 
   List<E> parseList<E>(List<String> sList) {
-    print('parseList: $sList');
+    //print('parseList: $sList');
     if (isNotValidLength(sList.length)) return null;
     List<E> values = new List<E>(sList.length);
     for (int i = 0; i < values.length; i++) {
-      print('sList[$i]: ${sList[i]}');
+      //print('sList[$i]: ${sList[i]}');
       E v = vr.parse(sList[i]);
-      print('v: $v');
+      //print('v: $v');
       if (v == null) return null;
       values[i] = v;
     }
@@ -220,8 +220,8 @@ class Tag {
   List<E> checkValue<E>(dynamic value) => vr.isValid(value) ? value : null;
 
   bool isValidLength(int length) {
-    print('isValidLength: $length');
-    print('min($minLength), max($maxLength), width($width)');
+    // print('isValidLength: $length');
+    // print('min($minLength), max($maxLength), width($width)');
     // These are the most common cases.
     if (length == 0 || (length == 1 && width == 0)) return true;
     return (minLength <= length && length <= maxLength) && length % width == 0;
@@ -242,7 +242,7 @@ class Tag {
       'Invalid Length: min($minLength) <= length($length) <= max($maxLength)';
 
   bool isValidVFLength(int lengthInBytes) {
-    print('lib: $lengthInBytes');
+    // print('lib: $lengthInBytes');
     int min = minLength * vr.minValueLength;
     int max = maxLength * vr.maxValueLength;
     if (min <= lengthInBytes && lengthInBytes <= max) return true;
@@ -308,6 +308,21 @@ class Tag {
     throw 'Error: Unknown Tag Code${Tag.toDcm}';
   }
 */
+
+  /// Returns a [String] corresponding to [tag], which might be an
+  /// [int], [String], or [Tag].
+  static String toMsg(dynamic tag) {
+    String msg;
+    if (tag is int) {
+      msg = 'Code ${Tag.toDcm(tag)}';
+    } else if (tag is String) {
+      msg = 'Keyword "$tag"';
+    } else {
+      msg = '${tag.runtimeType}: $tag';
+    }
+    return '$msg';
+  }
+
   static List<String> lengthChecker(
       List values, int minLength, int maxLength, int width) {
     int length = values.length;
@@ -425,8 +440,11 @@ class Tag {
   static String toHex(int code) => Int32.hex(code);
 
   /// Returns [code] in DICOM format '(gggg,eeee)'.
-  static String toDcm(int code) => '(${Group.hex(Group.fromTag(code), "")}, '
-      '${Elt.hex(Elt.fromTag(code), "")})';
+  static String toDcm(int code) {
+    if (code == null) return '"null"';
+    return '(${Group.hex(Group.fromTag(code), "")}, '
+        '${Elt.hex(Elt.fromTag(code), "")})';
+  }
 
   /// Returns a [List] of DICOM tag codes in '(gggg,eeee)' format
   static Iterable<String> listToDcm(List<int> tags) => tags.map(toDcm);

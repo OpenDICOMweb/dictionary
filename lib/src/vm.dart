@@ -1,33 +1,28 @@
 // Copyright (c) 2016, Open DICOMweb Project. All rights reserved.
 // Use of this source code is governed by the open source license
 // that can be found in the LICENSE file.
-// See the AUTHORS file for other contributors.
+// See the AUTHORS file for contributors.
 
 /// A class that defined Value Multiplicities and their validators.
 ///
-/// The Value Multiplicity (VM) of an Attribute defines the minimum, maximum and width
-/// of an array of values in an Attribute's Value Field.
+/// The Value Multiplicity (VM) of an Attribute defines the minimum,
+/// maximum and width of an array of values in an Attribute's Value Field.
 class VM {
-  static const int nColumns = 4;
-  //TODO: why can't this be constant
-  static final int nRows = vms.length;
-  //Used to write in gen_table_format
-  //TODO: add index to constant values.
-  final int index = 0;
-
   /// The name of this [VM].
   final String name;
 
-  /// THe minimum number of values that must be present, if any values are present.
-  /// [min] [%] [width] must equal 0.
+  /// THe minimum number of values that must be present, if any values
+  /// are present. [min] [%] [width] must equal 0.
   final int min;
 
-  /// The maximum number of values that are allowed. [max] [%] [width] must equal 0.
-  /// If [max] is -1 than as many values as will fit in the Value Field are allowed.
+  /// The maximum number of values that are allowed. [max] [%] [width]
+  /// must equal 0. If [max] is -1 than as many values as will fit in the
+  /// Value Field are allowed.
   final int max;
 
-  // The [width] of the array of values. Both [min] and [max] must be evenly divisible
-  // by [width]. That is [min] [%] [width] == [man] [%] [width] == 0 must be [true].
+  /// The [width] of the array of values. Both [min] and [max] must be
+  /// evenly divisible by [width]. That is [min] [%] [width] == [man] [%]
+  /// [width] == 0 must be [true].
   final int width;
 
   // Constructor
@@ -170,19 +165,18 @@ class VM {
 
   /// lookup VM using name
   static VM lookup(String name) => map[name];
-
-  //TODO: move to vm_generate
-
-  //TODO add the other VM definitions
-  // Write the class out in gen_table_format
-  // static void writeToFile(String filename) {
-  //   int nRows = _map.length;
-  //   int nCols = VM.nCols;
-  // }
+/*
+  static const int nColumns = 4;
+  //TODO: why can't this be constant
+  static const int nRows = vms.length;
+  //Used to write in gen_table_format
+  //TODO: add index to constant values.
+  final int index = 0;
 
   String tableEntry() => 'className=VM, nRows=$nRows, nCols=$nColumns';
   String fieldNames() => 'index, id, name, min, max, width, fixed';
   String fieldTypes() => 'int, String, String, int, int, int, bool';
-  String toLogEntry() =>
-      'VM: $index: $id, name=$name, min=$min, max=$max, width=$width, fixed=$isFixed';
+  String toLogEntry() => 'VM: $index: $id, name=$name, min=$min, '
+      'max=$max, width=$width, fixed=$isFixed';
+ */
 }
