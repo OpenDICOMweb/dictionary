@@ -4,9 +4,11 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
+import 'package:common/logger.dart';
 import 'package:dictionary/src/uid/uid_utils.dart';
 import 'package:test/test.dart';
 
+final Logger log = new Logger('Uid2_Test', watermark: Severity.debug);
 void main() {
   uidTest2();
 }
@@ -25,7 +27,7 @@ void uidTest2() {
     test('Good UID', () {
       for (String s in goodUids) {
         var v = isValidUidString(s);
-   //     print('$v: $s');
+        log.debug('$v: $s');
         expect(isValidUidString(s), true);
       }
     });
@@ -53,9 +55,9 @@ void uidTest2() {
   group('Bad Uids Test', () {
     test('Bad UID', () {
       for (String s in badUids) {
-  //      print('"$s":');
+        log.debug('"$s":');
         var v = isValidUidString(s);
-  //      print('"$s": $v');
+        log.debug('"$s": $v');
         expect(isValidUidString(s), false);
       }
     });

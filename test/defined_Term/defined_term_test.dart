@@ -82,17 +82,17 @@ void create() {
 
 void show1() {
   test("s", () {
-    var modalityclass = const ModalityType(
-        "AR", "Autorefraction", MClass.kACQUISITION, false, null);
+    var modalityclass = const Modality(
+        "AR", "Autorefraction", ModalityType.kACQUISITION, false, null);
 
     expect(
         modalityclass,
-        equals(const ModalityType(
-            "AR", "Autorefraction", MClass.kACQUISITION, false, null)));
+        equals(const Modality(
+            "AR", "Autorefraction", ModalityType.kACQUISITION, false, null)));
     expect(
         modalityclass,
-        isNot(const ModalityType(
-            "AU", "Audio", MClass.kACQUISITION, false, null)));
+        isNot(const Modality(
+            "AU", "Audio", ModalityType.kACQUISITION, false, null)));
 //    expect(ModalityType.lookup("AR"),equals(ModalityType.AR));
 //    expect(ModalityType.lookup("AU"),equals(ModalityType.AU));
   });
@@ -101,15 +101,15 @@ void show1() {
 void show() {
   test("d", () {
 //   var modalitytypes=const ModalityType(23,"binayak",const MClass(34),true,));
-    var modelclass = const MClass(0);
-    expect(modelclass, equals(const MClass(0)));
-    expect(modelclass, isNot(const MClass(1)));
-    expect(modelclass, isNot(MClass.kDERIVED));
-    expect(modelclass, isNot(MClass.kDOCUMENT));
-    expect(modelclass, isNot(MClass.kMEASUREMENT));
-    expect(modelclass, isNot(MClass.kPLANNING));
-    expect(modelclass, isNot(MClass.kPOST_PROCESSING));
-    expect(modelclass, isNot(MClass.kOTHER));
+    var modelclass = const ModalityType(0);
+    expect(modelclass, equals(const ModalityType(0)));
+    expect(modelclass, isNot(const ModalityType(1)));
+    expect(modelclass, isNot(ModalityType.kDERIVED));
+    expect(modelclass, isNot(ModalityType.kDOCUMENT));
+    expect(modelclass, isNot(ModalityType.kMEASUREMENT));
+    expect(modelclass, isNot(ModalityType.kPLANNING));
+    expect(modelclass, isNot(ModalityType.kPOST_PROCESSING));
+    expect(modelclass, isNot(ModalityType.kOTHER));
   });
   test("ascii", () {
     var asciis = const Ascii(

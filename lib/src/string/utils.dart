@@ -5,7 +5,9 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:common/ascii.dart';
-import 'package:common/date_time.dart';
+//import 'package:common/date_time.dart';
+
+//TODO: move these procedures into a utility file.
 
 //TODO: merge with common date_time and dictionary string.
 // TODO: reorganize and move predicates, errorMsg and parsers into
@@ -13,7 +15,7 @@ import 'package:common/date_time.dart';
 // TODO: these functions don't handle Escape sequences.
 
 // *** Length Utilities
-
+/*
 /// Returns [true] if [min] <= [length] <= [max].
 bool _isValidLength(int length, int min, int max) {
   if (length == null || length == 0) return null;
@@ -57,9 +59,47 @@ String _getFilteredError(String s, int min, int max, bool filter(int c)) {
 /// Returns a [String] containing an invalid character error message.
 String _invalidChar(String s, int pos) =>
     'Invalid character(${s.codeUnitAt(pos)}) at position($pos) in: $s';
+*/
+
+int readUint(String s, [int offset = 0, int min = 0, int max]) {
+  if (s == null || s == "") return null;
+  int limit = _getLimit(offset, min, max, s.length);
+  if (limit == null || limit < min) return null;
+  return _readUint(s, offset, limit);
+}
+
+// *** Unsigned Integer
+/// Return the limit, which is [max] or [end].
+int _getLimit(int offset, int min, int max, int end) {
+  int limit = offset + max;
+  if (limit > end) {
+    if (offset + min > end) {
+      return null;
+    } else {
+      return end - offset;
+    }
+  } else {
+    return limit;
+  }
+}
+
+
+/// Parses a base 10 [int] from [offset] to [limit], and returns its corresponding value.
+/// If an error is encountered returns [null].
+int _readUint(String s, int offset, int limit) {
+  print('_readUint s: $s');
+  int n = 0;
+  for (int i = offset; i < limit; i++) {
+    int c = s.codeUnitAt(i);
+    if (c < k0 || c > k9) return null;
+    int v = c - k0;
+    n = (n * 10) + v;
+  }
+  return n;
+}
 
 // *** DICOM DCR Strings -  AE, LO, SH, UC.
-
+/*
 /// The filter for DICOM String characters.
 /// Visible ASCII characters, except Backslash.
 bool _isDcmChar(int c) =>
@@ -90,9 +130,9 @@ bool _isDcmText(String s, int min, int max) =>
 /// Returns an error [String] if [s] is invalid; otherwise, "".
 String _dcmTextError(String s, int min, int max) =>
     _getFilteredError(s, min, max, _isTextChar);
-
+*/
 // **** DICOM Code Strings(CS).
-
+/*
 /// The filter for DICOM Code String(CS) characters.
 /// Visible ASCII characters, except Backslash.
 bool _isDcmCodeStringChar(int c) =>
@@ -109,11 +149,11 @@ String _checkDcmCodeString(String s, int min, int max) =>
 /// Returns an error [String] if [s] is invalid; otherwise, "".
 String _dcmCodeStringError(String s, int min, int max) =>
     _getFilteredError(s, min, max, _isDcmCodeStringChar);
-
+*/
 // **** Date, DateTime, and Time
 
 // **** Date
-
+/*
 bool _isDcmDateString(String s, int min, int max) {
   int start = 0;
   if (s.length < 8) return false;
@@ -143,6 +183,7 @@ Date _parseDcmDate(String s, int min, int max) => Date.dcmParse(s);
 
 // **** DateTime
 //TODO: fix
+
 bool _isDcmDateTimeString(String s, int min, int max) {
   if (_isNotValidLength(s.length, min, max)) return false;
 
@@ -309,41 +350,6 @@ num _parseDecimalString(String s, int min, int max) {
   return num.parse(s, (String s) => null);
 }
 
-// *** Unsigned Integer
-/// Return the limit, which is [max] or [end].
-int _getLimit(int offset, int min, int max, int end) {
-  int limit = offset + max;
-  if (limit > end) {
-    if (offset + min > end) {
-      return null;
-    } else {
-      return end - offset;
-    }
-  } else {
-    return limit;
-  }
-}
-
-int readUint(String s, [int offset = 0, int min = 0, int max]) {
-  if (s == null || s == "") return null;
-  int limit = _getLimit(offset, min, max, s.length);
-  if (limit == null || limit < min) return null;
-  return _readUint(s, offset, limit);
-}
-
-/// Parses a base 10 [int] from [offset] to [limit], and returns its corresponding value.
-/// If an error is encountered returns [null].
-int _readUint(String s, int offset, int limit) {
-  print('_readUint s: $s');
-  int n = 0;
-  for (int i = offset; i < limit; i++) {
-    int c = s.codeUnitAt(i);
-    if (c < k0 || c > k9) return null;
-    int v = c - k0;
-    n = (n * 10) + v;
-  }
-  return n;
-}
 
 /*
 
@@ -411,3 +417,4 @@ String _csFixer(String value, int min, int max) {
   if (_isNotValidLength(value.length, min, max)) return null;
   return value.toUpperCase();
 }
+*/

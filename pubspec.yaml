@@ -1,6 +1,6 @@
 name: dictionary
 description: The ODW DICOM Data Dictionary Library
-version: 0.5.2
+version: 0.5.3
 authors:
   # original creator
   - Jim Philbin <jfphilbin@gmail.com>
@@ -9,7 +9,7 @@ authors:
 homepage: https://github.com/OpenDICOMweb/dictionary.git
 
 environment:
-  sdk: ^1.21.0
+  sdk: ^1.22.0
 
 dependencies:
   common:
@@ -18,12 +18,12 @@ dependencies:
  #     ref: develop
  #     version: ^0.5.2
     path: C:/odw/sdk/common
-    version: ^0.5.2
+    version: ^0.5.3
   collection: ^1.13.0
 
   test_tools:
     path: C:/odw/sdk/test_tools
-    version: ^0.5.1
+    version: ^0.5.3
   quiver: any
 
 dev_dependencies:

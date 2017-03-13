@@ -197,9 +197,24 @@ class VR<T> {
   };
 
   static VR lookup(int vrCode) => vrMap[vrCode];
+
+  static const Map<String, VR> _idMap = const <String, VR>{
+    "AE": VR.kAE, "AS": kAS, "BR": kBR, "CS": kCS,
+    "DA": kDA, "DS": kDS, "DT": kDT, "IS": kIS,
+    "LO": kLO, "LT": kLT, "PN": kPN, "SH": kSH,
+    "ST": kST, "TM": kTM, "UC": kUC, "UI": kUI,
+    "UR": kUR, "UT": kUT, "AT": kAT, "OB": kOB,
+    "OW": kOW, "SL": kSL, "SS": kSS, "UL": kUL,
+    "US": kUS, "FD": kFD, "FL": kFL, "OD": kOD,
+    "OF": VR.kOF // prevent reformat
+  };
+
+  static VR lookupId(String id) => _idMap[id];
 }
 
-//TODO: Add this field to VR Definition
+
+//TODO: Add this field to VR Definition, then remove.
+/* or just remove.
 const Map<VR, String> dataTypes = const <VR, String>{
   // String VRBs
   VR.kAE: "AE Title",
@@ -222,8 +237,8 @@ const Map<VR, String> dataTypes = const <VR, String>{
   VR.kUT: "Text",
 
   // Integers
-  VR.kAT: "uint32",
-  VR.kOB: "uint8",
+  VR.kAT: "AE Title",
+  VR.kOB: "Other Byte",
   VR.kOW: "uint16",
   VR.kSL: "int32",
   VR.kSS: "int16",
@@ -236,6 +251,7 @@ const Map<VR, String> dataTypes = const <VR, String>{
   VR.kOD: "float64",
   VR.kOF: "float32"
 };
+*/
 
 //TODO: clean this up. remove VR.kUnknown and VR.kBR. How to handle SQ
 class VRSequence extends VR {
