@@ -212,7 +212,6 @@ class VR<T> {
   static VR lookupId(String id) => _idMap[id];
 }
 
-
 //TODO: Add this field to VR Definition, then remove.
 /* or just remove.
 const Map<VR, String> dataTypes = const <VR, String>{

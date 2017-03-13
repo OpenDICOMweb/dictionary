@@ -83,7 +83,6 @@ int _getLimit(int offset, int min, int max, int end) {
   }
 }
 
-
 /// Parses a base 10 [int] from [offset] to [limit], and returns its corresponding value.
 /// If an error is encountered returns [null].
 int _readUint(String s, int offset, int limit) {
