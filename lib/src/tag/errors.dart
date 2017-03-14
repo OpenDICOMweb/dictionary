@@ -25,8 +25,7 @@ class InvalidTagCodeError extends Error {
   String get _value => (code == null) ? 'null' : Tag.toDcm(code);
 
   @override
-  String toString() =>
-      'Error: Invalid Tag Code "$_value"';
+  String toString() => 'Error: Invalid Tag Code "$_value"';
 }
 
 dynamic tagCodeError(int code) => throw new InvalidTagCodeError(code);
@@ -42,4 +41,3 @@ class InvalidTagKeywordError extends Error {
 
 dynamic tagKeywordError(String keyword) =>
     throw new InvalidTagKeywordError(keyword);
-
