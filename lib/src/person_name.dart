@@ -218,7 +218,7 @@ class Name {
   /// Returns true if the [PersonName] component is valid.
   static bool isValidString(String s) {
     assert(s != null && s != "");
-    return (s.length <= maxGroupLength || _hasValidNameChars(s));
+    return (s.length <= maxGroupLength && _hasValidNameChars(s));
   }
 
   /// Parses a Component Group into a [Name]
