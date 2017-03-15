@@ -67,7 +67,7 @@ abstract class VRString extends VR<String> {
 
   /// Returns [true] if all characters pass the filter.
   bool _filteredTest(String s, bool filter(int c)) {
-    if (!_isValidLength(s.length)) return false;
+    if (s == null || !_isValidLength(s.length)) return false;
     for (int i = 0; i < s.length; i++) {
       if (!filter(s.codeUnitAt(i))) return false;
     }
@@ -458,7 +458,7 @@ class VRPersonName extends VRString {
   bool isValid(String s) {
     var groups = s.split('=');
     for (String group in groups)
-      if (group.length > 64 || !_filteredTest(s, _isDcmChar)) return false;
+      if (group.length > 64 || !_filteredTest(group, _isDcmChar)) return false;
     return true;
   }
 
@@ -504,7 +504,7 @@ class VRPersonName extends VRString {
     return newPN.join('\\');
   }
 
-  static const VR kPN = const VRPersonName._(
+  static const VRPersonName kPN = const VRPersonName._(
       19, 0x4e50, "PN", 2, kMaxShortVF, "PersonName", 1, 64 * 3);
 
   /*Flush if not needed.
