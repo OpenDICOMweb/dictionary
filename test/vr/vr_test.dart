@@ -4,15 +4,16 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> and Binyak Behera <binayak.b@mwebware.com>
 // See the AUTHORS file for other contributors.
 
-import 'package:dictionary/src/vr/vr.dart';
-import 'package:test/test.dart';
+import 'dart:typed_data';
+
+import 'package:common/integer.dart';
+import 'package:common/logger.dart';
+import 'package:common/src/random/rng.dart';
 import 'package:dictionary/src/vr/integer.dart';
 import 'package:dictionary/src/vr/string.dart';
-import 'package:common/src/random/rng.dart';
-import 'package:common/integer.dart';
-import 'dart:typed_data';
-import 'package:test_tools/src/random/random_string.dart' as randomString;
-import 'package:common/logger.dart';
+import 'package:dictionary/src/vr/vr.dart';
+import 'package:test/test.dart';
+import 'package:test_tools/src/random/random_string.dart' as rsg;
 
 void main() {
   //printCode();
@@ -20,6 +21,7 @@ void main() {
   integerVRsTest();
   stringVRsTest();
 }
+
 Logger log = new Logger('test', watermark: Severity.debug);
 void vrMapAndListTest() {
   test("Check vrMap and vrList have equal Lengths", () {
@@ -287,39 +289,45 @@ void stringVRsTest() {
   group("VRDcmString", () {
     test("isValid", () {
       //kAE
-      for(int i=0; i<10; i++) {
-        String strValidkAE = randomString.generateDcmChar(VRDcmString.kAE.maxValueLength);
+      for (int i = 0; i < 10; i++) {
+        String strValidkAE =
+            rsg.generateDcmChar(VRDcmString.kAE.maxValue);
         expect(VRDcmString.kAE.isValid(strValidkAE), true);
       }
 
-      String strInValidkAE = randomString.generateDcmChar(VRDcmString.kAE.maxValueLength + 1);
+      String strInValidkAE =
+          rsg.generateDcmChar(VRDcmString.kAE.maxValue + 1);
       expect(VRDcmString.kAE.isValid(strInValidkAE), false);
       expect(VRDcmString.kAE.isValid(""), false);
       expect(VRDcmString.kAE.isValid(null), false);
 
       //kLO
-      for(int i=0; i<10; i++) {
-        String strValidkLO = randomString.generateDcmChar(VRDcmString.kLO.maxValueLength);
+      for (int i = 0; i < 10; i++) {
+        String strValidkLO =
+            rsg.generateDcmChar(VRDcmString.kLO.maxValue);
         expect(VRDcmString.kLO.isValid(strValidkLO), true);
       }
 
-      String strInValidkLO = randomString.generateDcmChar(VRDcmString.kLO.maxValueLength + 1);
+      String strInValidkLO =
+          rsg.generateDcmChar(VRDcmString.kLO.maxValue + 1);
       expect(VRDcmString.kLO.isValid(strInValidkLO), false);
       expect(VRDcmString.kLO.isValid(""), false);
 
       //kSH
-      for(int i=0; i<10; i++) {
-        String strValidkSH = randomString.generateDcmChar(VRDcmString.kSH.maxValueLength);
+      for (int i = 0; i < 10; i++) {
+        String strValidkSH =
+            rsg.generateDcmChar(VRDcmString.kSH.maxValue);
         expect(VRDcmString.kSH.isValid(strValidkSH), true);
       }
 
-      String strInValidkSH = randomString.generateDcmChar(VRDcmString.kSH.maxValueLength + 1);
+      String strInValidkSH =
+          rsg.generateDcmChar(VRDcmString.kSH.maxValue + 1);
       expect(VRDcmString.kSH.isValid(strInValidkSH), false);
       expect(VRDcmString.kSH.isValid(""), false);
 
       //kUC
-      for(int i=0; i<10; i++) {
-        String strValidkUC = randomString.generateDcmChar(1024);
+      for (int i = 0; i < 10; i++) {
+        String strValidkUC = rsg.generateDcmChar(1024);
         expect(VRDcmString.kUC.isValid(strValidkUC), true);
       }
 
@@ -329,28 +337,32 @@ void stringVRsTest() {
   group("VRDcmString", () {
     test("isValid", () {
       //kLT
-      for(int i=0; i<10; i++) {
-        String strValidkLT = randomString.generateTextChar(VRDcmText.kLT.maxValueLength);
+      for (int i = 0; i < 10; i++) {
+        String strValidkLT =
+            rsg.generateTextChar(VRDcmText.kLT.maxValue);
         expect(VRDcmText.kLT.isValid(strValidkLT), true);
       }
 
-      String strInValidkLT = randomString.generateTextChar(VRDcmText.kLT.maxValueLength + 1);
+      String strInValidkLT =
+          rsg.generateTextChar(VRDcmText.kLT.maxValue + 1);
       expect(VRDcmText.kLT.isValid(strInValidkLT), false);
       expect(VRDcmText.kLT.isValid(""), false);
 
       //kST
-      for(int i=0; i<10; i++) {
-        String strValidkST = randomString.generateTextChar(VRDcmText.kST.maxValueLength);
+      for (int i = 0; i < 10; i++) {
+        String strValidkST =
+            rsg.generateTextChar(VRDcmText.kST.maxValue);
         expect(VRDcmText.kST.isValid(strValidkST), true);
       }
 
-      String strInValidkST = randomString.generateTextChar(VRDcmText.kST.maxValueLength + 1);
+      String strInValidkST =
+          rsg.generateTextChar(VRDcmText.kST.maxValue + 1);
       expect(VRDcmText.kST.isValid(strInValidkST), false);
       expect(VRDcmText.kST.isValid(""), false);
 
       //kUT
-      for(int i=0; i<10; i++) {
-        String strValidkUT = randomString.generateTextChar(1024);
+      for (int i = 0; i < 10; i++) {
+        String strValidkUT = rsg.generateTextChar(1024);
         expect(VRDcmText.kUT.isValid(strValidkUT), true);
       }
 
@@ -360,12 +372,14 @@ void stringVRsTest() {
   group("VRCodeString", () {
     test("isValid", () {
       //kCS
-      for(int i=0; i<10; i++) {
-        String strValid = randomString.generateCodeStringChar(VRCodeString.kCS.maxValueLength);
+      for (int i = 0; i < 10; i++) {
+        String strValid =
+            rsg.generateCodeStringChar(VRCodeString.kCS.maxValue);
         expect(VRCodeString.kCS.isValid(strValid), true);
       }
 
-      String strInValid = randomString.generateDcmChar(VRCodeString.kCS.maxValueLength + 1);
+      String strInValid =
+          rsg.generateDcmChar(VRCodeString.kCS.maxValue + 1);
       expect(VRCodeString.kCS.isValid(strInValid), false);
       expect(VRCodeString.kCS.isValid(""), false);
     });
@@ -385,13 +399,12 @@ void stringVRsTest() {
 
       strValidInvalid = "102m";
       expect(VRDcmAge.kAS.isValid(strValidInvalid), false);
-
     });
   });
   group("VRDcmDate", () {
     test("isValid", () {
-      expect(VRDcmDate.kDA.isValid("19680518"),true);
-      expect(VRDcmDate.kDA.isValid("20161231"),true);
+      expect(VRDcmDate.kDA.isValid("19680518"), true);
+      expect(VRDcmDate.kDA.isValid("20161231"), true);
       //expect(VRDcmDate.kDA.isValid("18051988"),true);//verify:PLEASE CHECK
       expect(VRDcmDate.kDA.isValid("18-05-1988"), false);
       expect(VRDcmDate.kDA.isValid("18/05/1968"), false);
@@ -425,19 +438,19 @@ void stringVRsTest() {
   group("VRPersonName", () {
     test("isValid VRPersonName", () {
       //noOfgroups=3, noOfomponents=5, componentLength=8
-      String strValid = randomString.generatePersonName(3,5,8);
+      String strValid = rsg.generatePersonName(3, 5, 8);
       expect(VRPersonName.kPN.isValid(strValid), true);
 
       //noOfgroups=3, noOfomponents=5, componentLength=11
-      String strInValid = randomString.generatePersonName(3,5,11);
+      String strInValid = rsg.generatePersonName(3, 5, 11);
       expect(VRPersonName.kPN.isValid(strInValid), true);
 
       //noOfgroups=3, noOfomponents=5, componentLength=13
-      strInValid = randomString.generatePersonName(3,5,13);
+      strInValid = rsg.generatePersonName(3, 5, 13);
       expect(VRPersonName.kPN.isValid(strInValid), false);
 
       //noOfgroups=2, noOfomponents=5, componentLength=13
-      strInValid = randomString.generatePersonName(2,5,13);
+      strInValid = rsg.generatePersonName(2, 5, 13);
       expect(VRPersonName.kPN.isValid(strInValid), false);
     });
   });
@@ -454,7 +467,10 @@ void stringVRsTest() {
   group("VRUid", () {
     test("isValid VRUid", () {
       expect(VRUid.kUI.isValid("1.2.840.444.3.152.235.2.12.187636473"), true);
-      expect(VRUid.kUI.isValid("1.2.840.444.3.152.235.2.12.187636473.435345.345435435.435435435435.3"), false);
+      expect(
+          VRUid.kUI.isValid(
+              "1.2.840.444.3.152.235.2.12.187636473.435345.345435435.435435435435.3"),
+          false);
     });
   });
 }

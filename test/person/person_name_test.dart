@@ -5,10 +5,10 @@
 //    and Sharath chandra <sharath.ch@mwebware.com>
 // See the AUTHORS file for other contributors.
 
+import 'package:common/logger.dart';
 import 'package:dictionary/src/person_name.dart';
 import 'package:test/test.dart';
-import 'package:test_tools/src/random/random_string.dart' as randomString;
-import 'package:common/logger.dart';
+import 'package:test_tools/src/random/random_string.dart' as rsg;
 
 void main() {
   personNameTest();
@@ -18,9 +18,9 @@ void personNameTest() {
   Logger log = new Logger('test', watermark: Severity.debug);
 
   //noOfgroups=3, noOfomponents=5, componentLength=8
-  String strValid = randomString.generatePersonName(3, 5, 6);
+  String strValid = rsg.generatePersonName(3, 5, 6);
   //noOfgroups=3, noOfomponents=5, componentLength=8
-  String strValid1 = randomString.generatePersonName(3, 5, 15);
+  String strValid1 = rsg.generatePersonName(3, 5, 15);
 
   group("person_name", () {
     test("test for isValidString and isValidList", () {
@@ -42,7 +42,7 @@ void personNameTest() {
 
     test("test for parse", () {
       //noOfgroups=3, noOfomponents=5, componentLength=8
-      String strInValid = randomString.generatePersonName(4, 5, 8);
+      String strInValid = rsg.generatePersonName(4, 5, 8);
 
       PersonName pn = PersonName.parse(strValid);
       log.debug("alphabetic: ${pn.alphabetic}");
