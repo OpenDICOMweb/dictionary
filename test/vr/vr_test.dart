@@ -7,16 +7,20 @@
 import 'package:dictionary/src/vr/vr.dart';
 import 'package:test/test.dart';
 import 'package:dictionary/src/vr/integer.dart';
+import 'package:dictionary/src/vr/string.dart';
 import 'package:common/src/random/rng.dart';
 import 'package:common/integer.dart';
 import 'dart:typed_data';
+import 'package:test_tools/src/random/random_string.dart' as randomString;
+import 'package:common/logger.dart';
 
 void main() {
   //printCode();
   vrMapAndListTest();
-  allVRsTest();
+  integerVRsTest();
+  stringVRsTest();
 }
-
+Logger log = new Logger('test', watermark: Severity.debug);
 void vrMapAndListTest() {
   test("Check vrMap and vrList have equal Lengths", () {
     int mapLength = VR.vrMap.length;
@@ -34,7 +38,7 @@ void vrMapAndListTest() {
   });
 }
 
-void allVRsTest() {
+void integerVRsTest() {
   RNG rng = new RNG(0);
   group("Integer VRs", () {
     test("isValid", () {
@@ -235,26 +239,26 @@ void allVRsTest() {
       expect(VRInt.kUS.isValidList(u16ListkUSN), false);
     });
 
-    test("issue", () {
+    test("issue  ee", () {
       expect(VRInt.kAT.issue(Uint32.minValue), null);
       expect(VRInt.kAT.issue(Uint32.maxValue), null);
-      print(VRInt.kAT.issue(Uint32.maxValue + 1));
-      print(VRInt.kAT.issue(Uint32.minValue - 1));
+      log.debug(VRInt.kAT.issue(Uint32.maxValue + 1));
+      log.debug(VRInt.kAT.issue(Uint32.minValue - 1));
 
       expect(VRInt.kUS.issue(Uint16.minValue), null);
       expect(VRInt.kUS.issue(Uint16.maxValue), null);
-      print(VRInt.kUS.issue(Uint16.maxValue + 1));
-      print(VRInt.kUS.issue(Uint16.minValue - 1));
+      log.debug(VRInt.kUS.issue(Uint16.maxValue + 1));
+      log.debug(VRInt.kUS.issue(Uint16.minValue - 1));
 
       expect(VRInt.kSL.issue(Int32.minValue), null);
       expect(VRInt.kSL.issue(Int32.maxValue), null);
-      print(VRInt.kSL.issue(Int32.maxValue + 1));
-      print(VRInt.kSL.issue(Int32.minValue - 1));
+      log.debug(VRInt.kSL.issue(Int32.maxValue + 1));
+      log.debug(VRInt.kSL.issue(Int32.minValue - 1));
 
       expect(VRInt.kUN.issue(Uint8.minValue), null);
       expect(VRInt.kUN.issue(Uint8.maxValue), null);
-      print(VRInt.kUN.issue(Uint8.maxValue + 1));
-      print(VRInt.kUN.issue(Uint8.minValue - 1));
+      log.debug(VRInt.kUN.issue(Uint8.maxValue + 1));
+      log.debug(VRInt.kUN.issue(Uint8.minValue - 1));
     });
 
     test("fix", () {
@@ -276,5 +280,181 @@ void allVRsTest() {
       Uint8List u8List = rng.uint8List(10, 20);
       print(VRInt.kAT.view(u8List));
     });*/
+  });
+}
+
+void stringVRsTest() {
+  group("VRDcmString", () {
+    test("isValid", () {
+      //kAE
+      for(int i=0; i<10; i++) {
+        String strValidkAE = randomString.generateDcmChar(VRDcmString.kAE.maxValueLength);
+        expect(VRDcmString.kAE.isValid(strValidkAE), true);
+      }
+
+      String strInValidkAE = randomString.generateDcmChar(VRDcmString.kAE.maxValueLength + 1);
+      expect(VRDcmString.kAE.isValid(strInValidkAE), false);
+      expect(VRDcmString.kAE.isValid(""), false);
+      expect(VRDcmString.kAE.isValid(null), false);
+
+      //kLO
+      for(int i=0; i<10; i++) {
+        String strValidkLO = randomString.generateDcmChar(VRDcmString.kLO.maxValueLength);
+        expect(VRDcmString.kLO.isValid(strValidkLO), true);
+      }
+
+      String strInValidkLO = randomString.generateDcmChar(VRDcmString.kLO.maxValueLength + 1);
+      expect(VRDcmString.kLO.isValid(strInValidkLO), false);
+      expect(VRDcmString.kLO.isValid(""), false);
+
+      //kSH
+      for(int i=0; i<10; i++) {
+        String strValidkSH = randomString.generateDcmChar(VRDcmString.kSH.maxValueLength);
+        expect(VRDcmString.kSH.isValid(strValidkSH), true);
+      }
+
+      String strInValidkSH = randomString.generateDcmChar(VRDcmString.kSH.maxValueLength + 1);
+      expect(VRDcmString.kSH.isValid(strInValidkSH), false);
+      expect(VRDcmString.kSH.isValid(""), false);
+
+      //kUC
+      for(int i=0; i<10; i++) {
+        String strValidkUC = randomString.generateDcmChar(1024);
+        expect(VRDcmString.kUC.isValid(strValidkUC), true);
+      }
+
+      expect(VRDcmString.kUC.isValid(""), false);
+    });
+  });
+  group("VRDcmString", () {
+    test("isValid", () {
+      //kLT
+      for(int i=0; i<10; i++) {
+        String strValidkLT = randomString.generateTextChar(VRDcmText.kLT.maxValueLength);
+        expect(VRDcmText.kLT.isValid(strValidkLT), true);
+      }
+
+      String strInValidkLT = randomString.generateTextChar(VRDcmText.kLT.maxValueLength + 1);
+      expect(VRDcmText.kLT.isValid(strInValidkLT), false);
+      expect(VRDcmText.kLT.isValid(""), false);
+
+      //kST
+      for(int i=0; i<10; i++) {
+        String strValidkST = randomString.generateTextChar(VRDcmText.kST.maxValueLength);
+        expect(VRDcmText.kST.isValid(strValidkST), true);
+      }
+
+      String strInValidkST = randomString.generateTextChar(VRDcmText.kST.maxValueLength + 1);
+      expect(VRDcmText.kST.isValid(strInValidkST), false);
+      expect(VRDcmText.kST.isValid(""), false);
+
+      //kUT
+      for(int i=0; i<10; i++) {
+        String strValidkUT = randomString.generateTextChar(1024);
+        expect(VRDcmText.kUT.isValid(strValidkUT), true);
+      }
+
+      expect(VRDcmText.kUT.isValid(""), false);
+    });
+  });
+  group("VRCodeString", () {
+    test("isValid", () {
+      //kCS
+      for(int i=0; i<10; i++) {
+        String strValid = randomString.generateCodeStringChar(VRCodeString.kCS.maxValueLength);
+        expect(VRCodeString.kCS.isValid(strValid), true);
+      }
+
+      String strInValid = randomString.generateDcmChar(VRCodeString.kCS.maxValueLength + 1);
+      expect(VRCodeString.kCS.isValid(strInValid), false);
+      expect(VRCodeString.kCS.isValid(""), false);
+    });
+  });
+
+  group("VRDcmAge", () {
+    test("isValid", () {
+      //kAS
+      String strValid = "125M";
+      expect(VRDcmAge.kAS.isValid(strValid), true);
+
+      String strValidInvalid = "1025M";
+      expect(VRDcmAge.kAS.isValid(strValidInvalid), false);
+
+      strValidInvalid = "102K";
+      expect(VRDcmAge.kAS.isValid(strValidInvalid), false);
+
+      strValidInvalid = "102m";
+      expect(VRDcmAge.kAS.isValid(strValidInvalid), false);
+
+    });
+  });
+  group("VRDcmDate", () {
+    test("isValid", () {
+      expect(VRDcmDate.kDA.isValid("19680518"),true);
+      expect(VRDcmDate.kDA.isValid("20161231"),true);
+      //expect(VRDcmDate.kDA.isValid("18051988"),true);//verify:PLEASE CHECK
+      expect(VRDcmDate.kDA.isValid("18-05-1988"), false);
+      expect(VRDcmDate.kDA.isValid("18/05/1968"), false);
+    });
+  });
+  group("VRFloatString", () {
+    test("isValid", () {
+      expect(VRFloatString.kDS.isValid("18443232.42"), true);
+      expect(VRFloatString.kDS.isValid("18443232.4243423"), true);
+      expect(VRFloatString.kDS.isValid("1844323233.4243423"), false);
+      expect(VRFloatString.kDS.isValid("18443232.42M"), false);
+    });
+  });
+
+  /*group("VRDcmDateTime", () {
+    test("isValid", () {
+      print(VRDcmDateTime.kDT.isValid("20170314 124603.424306"));//verify: space btwn data and time?
+      print(VRDcmDateTime.kDT.isValid("20170314124603.424306"));//verify
+    });
+  });*/
+
+  group("VRIntString", () {
+    test("isValid VRIntString", () {
+      expect(VRIntString.kIS.isValid("567891234567"), true);
+      expect(VRIntString.kIS.isValid("5678912345671"), false);
+      expect(VRIntString.kIS.isValid("567891234.67"), false);
+      expect(VRIntString.kIS.isValid(""), false);
+    });
+  });
+
+  group("VRPersonName", () {
+    test("isValid VRPersonName", () {
+      //noOfgroups=3, noOfomponents=5, componentLength=8
+      String strValid = randomString.generatePersonName(3,5,8);
+      expect(VRPersonName.kPN.isValid(strValid), true);
+
+      //noOfgroups=3, noOfomponents=5, componentLength=11
+      String strInValid = randomString.generatePersonName(3,5,11);
+      expect(VRPersonName.kPN.isValid(strInValid), true);
+
+      //noOfgroups=3, noOfomponents=5, componentLength=13
+      strInValid = randomString.generatePersonName(3,5,13);
+      expect(VRPersonName.kPN.isValid(strInValid), false);
+
+      //noOfgroups=2, noOfomponents=5, componentLength=13
+      strInValid = randomString.generatePersonName(2,5,13);
+      expect(VRPersonName.kPN.isValid(strInValid), false);
+    });
+  });
+
+  group("VRDcmTime", () {
+    test("isValid VRDcmTime", () {
+      expect(VRDcmTime.kTM.isValid("070907.0705"), true);
+      expect(VRDcmTime.kTM.isValid("070907.070590"), true);
+      expect(VRDcmTime.kTM.isValid("070907.07059099"), false);
+      expect(VRDcmTime.kTM.isValid("070907.07059U"), false);
+    });
+  });
+
+  group("VRUid", () {
+    test("isValid VRUid", () {
+      expect(VRUid.kUI.isValid("1.2.840.444.3.152.235.2.12.187636473"), true);
+      expect(VRUid.kUI.isValid("1.2.840.444.3.152.235.2.12.187636473.435345.345435435.435435435435.3"), false);
+    });
   });
 }
