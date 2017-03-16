@@ -1,34 +1,34 @@
 // Copyright (c) 2016, Open DICOMweb Project. All rights reserved.
 // Use of this source code is governed by the open source license
 // that can be found in the LICENSE file.
-// Author: Jim Philbin <jfphilbin@gmail.edu> - 
+// Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
 import 'package:common/date_time.dart';
 
 bool isDcmDateString(String s) {
-    int start = 0;
-    if (s.length != 8) return false;
-    int y = parseYear(s, start);
-    if (y == null) return false;
-    int m = parseMonth(s, start + 4);
-    if (m == null) return false;
-    int d = parseDay(y, m, s, start + 6);
-    return (d == null) ? false : true;
+  int start = 0;
+  if (s.length != 8) return false;
+  int y = parseYear(s, start);
+  if (y == null) return false;
+  int m = parseMonth(s, start + 4);
+  if (m == null) return false;
+  int d = parseDay(y, m, s, start + 6);
+  return (d == null) ? false : true;
 }
 
 /// Returns an error [String] if [s] is not a valid DICOM date; otherwise, "".
 String dcmDateError(String s, int min, int max) {
-    String msg = _getLengthError(s.length, min, max);
-    if (msg == null) return msg;
-    int start = 0;
-    int y = parseYear(s, start);
-    if (y == null) return 'Invalid year(${s.substring(start, start + 4)})';
-    int m = parseMonth(s, start + 4);
-    if (m == null) return 'Invalid month(${s.substring(start + 4, start + 6)})';
-    int d = parseDay(y, m, s, start + 6);
-    if (d == null) return 'Invalid day(${s.substring(start + 6, start + 8)})';
-    return "";
+  String msg = _getLengthError(s.length, min, max);
+  if (msg == null) return msg;
+  int start = 0;
+  int y = parseYear(s, start);
+  if (y == null) return 'Invalid year(${s.substring(start, start + 4)})';
+  int m = parseMonth(s, start + 4);
+  if (m == null) return 'Invalid month(${s.substring(start + 4, start + 6)})';
+  int d = parseDay(y, m, s, start + 6);
+  if (d == null) return 'Invalid day(${s.substring(start + 6, start + 8)})';
+  return "";
 }
 
 /// Returns a [String] containing an invalid length error message,
@@ -78,7 +78,6 @@ bool _isValidLength(int length, int min, int max) {
 /// Returns [true] if length is NOT valid.
 bool _isNotValidLength(int length, int min, int max) =>
     !_isValidLength(length, min, max);
-
 
 String _dcmDateTimeError(String s, int min, int max) {
   String msg = _getLengthError(s.length, min, max);

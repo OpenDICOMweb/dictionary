@@ -11,7 +11,6 @@ import 'package:test/test.dart';
 final Logger log = new Logger('uint_test.dart', watermark: Severity.debug);
 
 void main() {
-
   group('Date Tests', () {
     test('Good Dates', () {
       List<String> goodDcmDateList = ['19500718', '00000101', '19700101'];

@@ -17,7 +17,7 @@ int parseUint(String s, int start, int end) {
     int value = _parseUint(s, start, end);
     log.debug2('Uint: $value');
     return value;
-  } on ParseError catch(e) {
+  } on ParseError catch (e) {
     log.debug('parseUint Error: $e');
     return null;
   }

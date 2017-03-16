@@ -5,7 +5,6 @@
 // See the AUTHORS file for other contributors.
 part of odw.sdk.dictionary.string.parse;
 
-
 // ********* private functions after this line **********
 
 /// Checks that [start], [end], [min], and [max] are all valid for
@@ -58,8 +57,6 @@ String _checkArgs(String s, int start, int end, int min, int max,
   log.debug2('_checkArgs issues: $issues');
   return issues;
 }
-
-
 
 int _checkYear(int y) => _checkRange(y, 0, 9999);
 int _checkMonth(int m) => _checkRange(m, 1, 12);

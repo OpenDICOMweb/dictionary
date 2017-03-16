@@ -62,8 +62,7 @@ abstract class VRString extends VR<String> {
   /// Returns [true] if length is NOT valid.
   bool isNotValidLength(String s) => !isValidLength(s);
 
-  bool _isValidLength(int length) =>
-      minValue <= length && length <= maxValue;
+  bool _isValidLength(int length) => minValue <= length && length <= maxValue;
 
   /// Returns [true] if all characters pass the filter.
   bool _filteredTest(String s, bool filter(int c)) {
@@ -558,7 +557,7 @@ class VRDcmTime extends VRString {
     try {
       dt = DateTime.parse(dts);
     } on FormatException catch (e) {
-        print('Format Error($dts): $e');
+      print('Format Error($dts): $e');
       return null;
     }
     time = dt.difference(baseDate);

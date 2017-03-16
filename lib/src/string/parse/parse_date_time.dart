@@ -1,10 +1,9 @@
 // Copyright (c) 2016, Open DICOMweb Project. All rights reserved.
 // Use of this source code is governed by the open source license
 // that can be found in the LICENSE file.
-// Original author: Jim Philbin <jfphilbin@gmail.edu> - 
+// Original author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 part of odw.sdk.dictionary.string.parse;
-
 
 // *** Note: end isn't strictly necessary, but makes all
 // data/time parsers have the same interface.
@@ -54,12 +53,11 @@ String getDcmDateIssues(String s, int start, int end) {
 /// if [s] is a valid DICOM time [String] (DA), returns a new
 /// Dart [Duration]; otherwise, null.
 Duration parseDcmTimeString(String s, [int start = 0, int end]) =>
-    _parseDcmTimeString(s, start,  end, false);
-
+    _parseDcmTimeString(s, start, end, false);
 
 /// Returns [true] if [s] is a valid DICOM time [String] (DA).
 bool isValidDcmTimeString(String s, [int start = 0, int end]) =>
-    _parseDcmTimeString(s, start,  end, false);
+    _parseDcmTimeString(s, start, end, false);
 
 // valid lengths: 2 4 6 8-13
 dynamic _parseDcmTimeString(String s,
@@ -93,11 +91,11 @@ dynamic _parseDcmTimeString(String s,
     return (isValidOnly)
         ? true
         : new Duration(
-        hours: h,
-        minutes: m,
-        seconds: ss,
-        milliseconds: f ~/ 1000,
-        microseconds: f % 1000);
+            hours: h,
+            minutes: m,
+            seconds: ss,
+            milliseconds: f ~/ 1000,
+            microseconds: f % 1000);
   } on ParseError catch (e) {
     log.debug1('parseDcmTimeString caught:\n $e');
     return (isValidOnly) ? false : null;
@@ -148,11 +146,11 @@ String getDcmTimeStringIssues(String s,
 /// if [s] is a valid DICOM date/time [String] (DT), returns a new
 /// corresponding Dart [DateTime]; otherwise, null.
 DateTime parseDcmDateTimeString(String dt, int start, int end) =>
-    _parseDcmDateTimeString( dt,  start,  end,  false);
+    _parseDcmDateTimeString(dt, start, end, false);
 
 /// Returns [true] if [s] is a valid DICOM date/time [String] (DA).
 bool isValidDcmDateTimeString(String dt, int start, int end) =>
-    _parseDcmDateTimeString( dt,  start,  end,  false);
+    _parseDcmDateTimeString(dt, start, end, false);
 //               y  m  d  h   m   s     f    tz
 // Legal lengths 4, 6, 8, 10, 12, 14  16-21, 26
 dynamic _parseDcmDateTimeString(
@@ -187,7 +185,7 @@ dynamic _parseDcmDateTimeString(
                 log.debug1('    fraction: $index');
                 f = parseFraction(dt, index, end);
                 log.debug1('    f: $f');
-                for(; index < end; index++) {
+                for (; index < end; index++) {
                   int c = dt.codeUnitAt(index);
                   if (c == kMinusSign || c == kPlusSign) break;
                 }
@@ -230,4 +228,3 @@ String getDcmDateTimeIssues(String s, int start, int end) {
     msg += 'Invalid Second Fraction(${s.substring(start + 6, start + 13)})';
   return msg;
 }
-

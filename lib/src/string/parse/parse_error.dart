@@ -4,12 +4,12 @@
 // See the AUTHORS file for contributors.
 
 class ParseError extends Error {
-    String issues;
+  String issues;
 
-    ParseError(this.issues) {
-        print('"$issues"');
-    }
+  ParseError(this.issues) {
+    print('"$issues"');
+  }
 
-    @override
-    String toString() => 'ParseError: $issues';
+  @override
+  String toString() => 'ParseError: $issues';
 }

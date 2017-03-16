@@ -3,7 +3,6 @@
 // that can be found in the LICENSE file.
 // See the AUTHORS file for contributors.
 
-
 import 'package:dictionary/src/string/dcm_parse.dart';
 
 import 'dcm_date_time.dart';
@@ -40,7 +39,7 @@ class Date {
   String toString() => '$y-$m-$d';
 
   static bool isValidDateString(String dateString) =>
-    isValidDcmDateString(dateString, 0, dateString.length);
+      isValidDcmDateString(dateString, 0, dateString.length);
 
   static Date parse(String dateString) {
     DateTime dt = parseDcmDateString(dateString, 0, dateString.length);
