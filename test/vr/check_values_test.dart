@@ -4,7 +4,7 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
-import 'package:dictionary/src/string/utils.dart';
+import 'package:dictionary/src/string/other/utils_old.dart';
 import 'package:test/test.dart';
 
 void main() {

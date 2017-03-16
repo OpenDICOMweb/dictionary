@@ -24,8 +24,6 @@ import 'package:dictionary/src/vr/vr.dart';
 const int kGroupMask = 0xFFFF0000;
 const int kElementMask = 0x0000FFFF;
 
-bool throwOnError = true;
-
 //TODO: is hashCode needed?
 class Tag {
   final int code;
@@ -113,13 +111,16 @@ class Tag {
 
   int get width => vm.width;
 
+  /* TODO: remove when sure they are not used.
   int codeGroup(int code) => code >> 16;
+
   int codeElt(int code) => code & 0xFFFF;
+
   bool codeGroupIsPrivate(int code) {
     int g = codeGroup(code);
     return g.isOdd && (g > 0x0008 && g < 0xFFFE);
   }
-
+  */
   int get hashcode => code;
 
   /// Returns true if the Tag is defined by DICOM, false otherwise.
@@ -213,6 +214,20 @@ class Tag {
     return values;
   }
 
+  List<String> issues<E>(List<E> values) {
+    List<String> sList = [];
+    // If a VR has a long Value Field, then it has [VM.k1],
+    // and its length is always valid.
+    if (vr.hasShortVF && isNotValidLength(values.length))
+      sList.add('Invalid Length: min($minLength) <= value(${values.length}) '
+          '<= max($maxLength)');
+    for (int i = 0; i < values.length; i++) {
+      var s = vr.issue(values[i]);
+      if (s != null) sList.add('$i: $s');
+    }
+    return sList;
+  }
+
   List<E>
       checkValues<E>(List<E> values) => (isValidValues(values)) ? values : null;
 
@@ -243,8 +258,8 @@ class Tag {
 
   bool isValidVFLength(int lengthInBytes) {
     // print('lib: $lengthInBytes');
-    int min = minLength * vr.minValueLength;
-    int max = maxLength * vr.maxValueLength;
+    int min = minLength * vr.minValue;
+    int max = maxLength * vr.maxValue;
     if (min <= lengthInBytes && lengthInBytes <= max) return true;
     return false;
   }

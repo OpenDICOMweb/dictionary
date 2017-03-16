@@ -47,11 +47,11 @@ typedef int IntFixer(int value);
 class VRInt extends VR<int> {
   /// The minimum length of a value.
   @override
-  final int minValueLength;
+  final int minValue;
 
   /// The minimum length of a value.
   @override
-  final int maxValueLength;
+  final int maxValue;
 
   /// The method that converts bytes ([Uint8List]) to values.
   final BytesToValues fromBytes;
@@ -67,8 +67,8 @@ class VRInt extends VR<int> {
       int vfLengthFieldSize,
       int maxVFLength,
       String keyword,
-      this.minValueLength,
-      this.maxValueLength,
+      this.minValue,
+      this.maxValue,
       this.fromBytes,
       [this.undefinedLengthAllowed = false])
       : super(index, code, id, elementSize, vfLengthFieldSize, maxVFLength,
@@ -76,7 +76,7 @@ class VRInt extends VR<int> {
 
   /// Returns [true] of [value] is valid for this [VRBase].
   @override
-  bool isValid(int n) => (minValueLength <= n) && (n <= maxValueLength);
+  bool isValid(int n) => (minValue <= n) && (n <= maxValue);
 
   bool isValidList(List<int> list) {
     for (int i in list) if (isNotValid(i)) return false;
@@ -87,15 +87,14 @@ class VRInt extends VR<int> {
   /// issues returns the empty string ("").
   @override
   String issue(int n) => (isNotValid(n))
-      ? 'Range Error: minValueLength($minValueLength) <= '
-          'value($n) <= maxValueLength($maxValueLength)'
+      ? 'Invalid value: min($minValue) <= value($n) <= max($maxValue)'
       : null;
 
   /// Returns a valid, possibly coerced, value.
   @override
   int fix(int n) {
-    if (n < minValueLength) return minValueLength;
-    if (n > maxValueLength) return maxValueLength;
+    if (n < minValue) return minValue;
+    if (n > maxValue) return maxValue;
     return n;
   }
 
@@ -143,9 +142,9 @@ class VRInt extends VR<int> {
 /// This class is used by the Tag class.  It is NOT used for parsing, etc.
 class VRIntSpecial extends VR {
   @override
-  final int minValueLength = 0;
+  final int minValue = 0;
   @override
-  final int maxValueLength = 0;
+  final int maxValue = 0;
 
   const VRIntSpecial._(int index, int code, String id, String keyword)
       : super(index, code, id, 0, 0, 0, keyword);

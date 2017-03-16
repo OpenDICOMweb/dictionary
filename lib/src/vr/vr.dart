@@ -48,10 +48,10 @@ class VR<T> {
   VR operator [](int i) => vrList[i];
 
   /// The minimum length of a value.
-  int get minValueLength => elementSize;
+  int get minValue => elementSize;
 
   /// The maximum length of a value.
-  int get maxValueLength => null;
+  int get maxValue => null;
 
   bool get undefinedAllowed => false;
 
@@ -60,8 +60,8 @@ class VR<T> {
 
   String get info => '$runtimeType: $keyword $id(${Int16.hex(code)})[$index]: '
       'elementSize($elementSize) vfLengthSize($vfLengthSize), '
-      'maxVFLength($maxVFLength), minValueLength($minValueLength), '
-      'maxValueLength($maxValueLength)';
+      'maxVFLength($maxVFLength), minValueLength($minValue), '
+      'maxValueLength($maxValue)';
 
   String get asString => 'VR.k$id';
 
@@ -256,9 +256,9 @@ const Map<VR, String> dataTypes = const <VR, String>{
 class VRSequence extends VR {
   final bool undefinedLengthAllowed = true;
   @override
-  final int minValueLength = 8;
+  final int minValue = 8;
   @override
-  final int maxValueLength = kMaxLongVF;
+  final int maxValue = kMaxLongVF;
 
   const VRSequence._(int index, int code, String id, int elementSize,
       int vfLengthSize, int maxVFLength, String keyword)

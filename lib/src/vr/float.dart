@@ -21,15 +21,15 @@ class VRFloat extends VR<double> {
             keyword);
 
   @override
-  int get minValueLength => elementSize;
+  int get minValue => elementSize;
   @override
-  int get maxValueLength => elementSize;
+  int get maxValue => elementSize;
 
   @override
   bool isValid(double n) => true;
 
   @override
-  String issue(double n) => "";
+  String issue(double n) => null;
 
   /// Fix
   //TODO: doc

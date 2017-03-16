@@ -18,9 +18,9 @@ typedef E Fixer<E>(String s, int min, int max);
 
 abstract class VRString extends VR<String> {
   @override
-  final int minValueLength;
+  final int minValue;
   @override
-  final int maxValueLength;
+  final int maxValue;
 //  final Tester tester;
 //  final ErrorMsg errorMsg;
 //  final Parser parser;
@@ -29,7 +29,7 @@ abstract class VRString extends VR<String> {
 
   /// Create an integer VR.
   const VRString._(int index, int code, String id, int vfLengthSize,
-      int maxVFLength, String keyword, this.minValueLength, this.maxValueLength)
+      int maxVFLength, String keyword, this.minValue, this.maxValue)
       : super(index, code, id, 1, vfLengthSize, maxVFLength, keyword);
 
   bool get isAscii => true;
@@ -52,7 +52,7 @@ abstract class VRString extends VR<String> {
   @override
   String fix(String s);
 
-  /// Returns [true] if [minValueLength] <= [length] <= [maxValueLength].
+  /// Returns [true] if [minValue] <= [length] <= [maxValue].
   @override
   bool isValidLength(String s) {
     assert(s != null);
@@ -63,7 +63,7 @@ abstract class VRString extends VR<String> {
   bool isNotValidLength(String s) => !isValidLength(s);
 
   bool _isValidLength(int length) =>
-      minValueLength <= length && length <= maxValueLength;
+      minValue <= length && length <= maxValue;
 
   /// Returns [true] if all characters pass the filter.
   bool _filteredTest(String s, bool filter(int c)) {
@@ -83,11 +83,10 @@ abstract class VRString extends VR<String> {
   /// Returns an error [String] if some character in [s] does not pass
   /// the filter; otherwise, returns the empty [String]("").
   String _getFilteredError(String s, bool filter(int c)) {
-    String msg = _getLengthError(s.length);
-    if (msg == null) return msg;
+    var issues = _getLengthError(s.length);
     for (int i = 0; i < s.length; i++)
-      if (filter(s.codeUnitAt(i))) _invalidChar(s, i);
-    return "";
+      if (!filter(s.codeUnitAt(i))) issues += '${_invalidChar(s, i)}\n';
+    return issues;
   }
 
   /// Returns a [String] containing an invalid length error message,
@@ -95,9 +94,9 @@ abstract class VRString extends VR<String> {
   String _getLengthError(int length) {
     if (length == null) return 'Invalid length(Null)';
     if (length == 0) return 'Invalid length(0)';
-    return (length < minValueLength || maxValueLength < length)
-        ? 'Length Error: minValueLength($minValueLength) <= Value($length) <= maxValueLength($maxValueLength)'
-        : null;
+    return (length < minValue || maxValue < length)
+        ? 'Length Error: min($minValue) <= value($length) <= max($maxValue)\n'
+        : "";
   }
 
   /// Returns a [String] containing an invalid character error message.
@@ -233,11 +232,11 @@ class VRDcmAge extends VRString {
   @override
   String issue(String s) {
     assert(s != null);
-    String error = _getLengthError(s.length);
-    if (error != null) return error;
+    var issues = _getLengthError(s.length);
     for (int i = 0; i < 3; i++)
-      if (!isDigitChar(s.codeUnitAt(i))) _invalidChar(s, i);
-    return (!_isAgeMarker(s.codeUnitAt(3))) ? _invalidChar(s, 3) : "";
+      if (!isDigitChar(s.codeUnitAt(i))) issues += '${_invalidChar(s, i)}\n';
+    if (!_isAgeMarker(s.codeUnitAt(3))) issues += '${_invalidChar(s, 3)}\n';
+    return issues;
   }
 
   @override
@@ -465,12 +464,22 @@ class VRPersonName extends VRString {
   @override
   String issue(String s) {
     assert(s != null);
-    return (isNotValid(s)) ? 'Invalid Integer String (IS) value: $s' : "";
+    var issues = '';
+    var groups = s.split('=');
+    if (groups.length < 1 || groups.length > 3)
+      issues += 'Invalid number of ComponentGroups: min(1) '
+          '<= value(${groups.length}) <= max(3)\n';
+    for (String group in groups) {
+      if (group.length > 64)
+        issues += 'Invalid Component Group Length: min(1) '
+            '<= value(${group.length} <= max(64)\n';
+      issues += '{_getFilteredError(s, _isDcmChar)}';
+    }
+    return issues;
   }
 
-  @override
-
   /// Parses a PN String, but does not change it.
+  @override
   List<String> parse(String s) {
     if (s == null || s == "") return null;
     var values = s.split('\\');
@@ -549,7 +558,7 @@ class VRDcmTime extends VRString {
     try {
       dt = DateTime.parse(dts);
     } on FormatException catch (e) {
-      print('Format Error($dts): $e');
+        print('Format Error($dts): $e');
       return null;
     }
     time = dt.difference(baseDate);
@@ -618,14 +627,13 @@ class VRUri extends VRString {
   @override
   String issue(String uriString) {
     assert(uriString != null);
-    var err = _getLengthError(uriString.length);
-    if (err != null) return err;
+    var issues = _getLengthError(uriString.length);
     try {
       Uri.parse(uriString);
     } on FormatException catch (e) {
-      return e.toString();
+      issues += e.toString();
     }
-    return "";
+    return issues;
   }
 
   // Parse DICOM Time.

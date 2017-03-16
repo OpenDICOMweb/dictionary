@@ -60,8 +60,8 @@ class PrivateCreatorTag extends PrivateTag {
   }
 
   bool isValidDataCode(int code) =>
-      group == codeGroup(code) &&
-      (base <= codeElt(code) && codeElt(code) <= limit);
+      (group == code >> 16) &&
+      (base <= code & 0xFFFF && code & 0xFFFF <= limit);
 
   @override
   String toString() => 'PCTag($token) $vr $vm';
