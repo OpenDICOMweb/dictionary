@@ -41,11 +41,15 @@ class PrivateCreatorTag extends PrivateTag {
   String get info => '$runtimeType($token) index:$index, '
       'data ${fmtDataTagMap()}';
 
+  /// Returns a[PrivateDataTag]. If this creator has a known [PrivateDataTag]
+  /// matching [code] it returns that; otherwise, a new [PrivateDataTag]
+  /// is created.
   PrivateDataTag lookupData(int code) {
     int pdTagCode = code & 0xFFFF00FF;
     print('pdTagCode: ${Tag.toHex(pdTagCode)}');
     PrivateDataTag pdTag = dataTags[pdTagCode];
     print('***** PrivateDataTag: $pdTag');
+    if (pdTag == null) pdTag = new PrivateDataTag(code);
     return pdTag;
   }
 

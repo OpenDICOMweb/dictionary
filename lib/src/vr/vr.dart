@@ -199,7 +199,7 @@ class VR<T> {
   static VR lookup(int vrCode) => vrMap[vrCode];
 
   static const Map<String, VR> _idMap = const <String, VR>{
-    "AE": VR.kAE, "AS": kAS, "BR": kBR, "CS": kCS,
+    "AE": kAE, "AS": kAS, "BR": kBR, "CS": kCS,
     "DA": kDA, "DS": kDS, "DT": kDT, "IS": kIS,
     "LO": kLO, "LT": kLT, "PN": kPN, "SH": kSH,
     "ST": kST, "TM": kTM, "UC": kUC, "UI": kUI,

@@ -19,7 +19,7 @@ class PrivateTag extends Tag {
       : super(code, vr, vm);
 
   const PrivateTag.unknownCreator(int code, VR vr, [VM vm = VM.k1_n])
-      : index = kUnknownIndex,
+      : index = Elt.fromTag(code),
         token = "Unknown Creator",
         super(code, vr, vm);
 
@@ -27,7 +27,7 @@ class PrivateTag extends Tag {
       this.index, this.token, int code, VR vr, VM vm, String name)
       : super.privateData(code, vr, vm, name);
 
-  PrivateTag.unknownData(int code, VR vr, [VM vm = VM.k1_n])
+  PrivateTag.unknownData(int code, [VR vr = VR.kUN, VM vm = VM.k1_n])
       : index = kUnknownIndex,
         token = "Unknown Data",
         super(code, vr, vm);
@@ -37,7 +37,7 @@ class PrivateTag extends Tag {
         token = "Private Group Length",
         super(code, VR.kUL, VM.k1);
 
-  PrivateTag.illegal(int code, VR vr)
+  PrivateTag.illegal(int code, [VR vr = VR.kUN])
       : index = kUnknownIndex,
         token = "Illegal Private Tag",
         super(code, vr, VM.k1_n);

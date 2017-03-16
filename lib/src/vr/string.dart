@@ -304,9 +304,12 @@ class VRDcmDate extends VRString {
     if (!_isValidLength(s.length)) return null;
     DateTime dt;
     try {
+      print('DATE.parse: "$s:');
       dt = DateTime.parse(s);
       print('dt: $dt');
     } on FormatException {
+      return null;
+    } on ArgumentError {
       return null;
     }
     return dt;
@@ -381,8 +384,12 @@ class VRDcmDateTime extends VRString {
     if (length == 6) s = dateTimeString + '00';
     DateTime dt;
     try {
+      print('DATE.parse: "$s:');
       dt = DateTime.parse(s);
+      print('dt: $dt');
     } on FormatException {
+      return null;
+    } on ArgumentError {
       return null;
     }
     return dt;
