@@ -19,7 +19,7 @@ class PrivateTag extends Tag {
       : super(code, vr, vm);
 
   const PrivateTag.unknownCreator(int code, VR vr, [VM vm = VM.k1_n])
-      : index = Elt.fromTag(code),
+      : index = kUnknownIndex,
         token = "Unknown Creator",
         super(code, vr, vm);
 
