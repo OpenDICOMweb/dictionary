@@ -279,7 +279,7 @@ void integerVRsTest() {
     /*test("view", ()
     {
       Uint8List u8List = rng.uint8List(10, 20);
-      print(VRInt.kAT.view(u8List));
+      log.debug(VRInt.kAT.view(u8List));
     });*/
   });
 }
@@ -408,8 +408,8 @@ void stringVRsTest() {
 
   /*group("VRDcmDateTime", () {
     test("isValid", () {
-      print(VRDcmDateTime.kDT.isValid("20170314 124603.424306"));//verify: space btwn data and time?
-      print(VRDcmDateTime.kDT.isValid("20170314124603.424306"));//verify
+      log.debug(VRDcmDateTime.kDT.isValid("20170314 124603.424306"));//verify: space btwn data and time?
+      log.debug(VRDcmDateTime.kDT.isValid("20170314124603.424306"));//verify
     });
   });*/
 

@@ -64,6 +64,7 @@ int _checkMinute(int mm) => _checkRange(mm, 0, 59);
 int _checkSecond(int s) => _checkRange(s, 0, 59);
 int _checkFraction(int f) => _checkRange(f, 0, 999999);
 
+/*
 int _checkDay(int y, int m, int d) {
   const List<int> _daysPerMonth = const <int>[
     0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 //keep
@@ -71,6 +72,27 @@ int _checkDay(int y, int m, int d) {
   //TODO: Fix to handle leap years and leap seconds
   return _checkRange(d, 1, _daysPerMonth[_checkMonth(m)]);
 }
+*/
+
+int _checkDay(int y, int m, int d) {
+  const List<int> _daysPerMonth = const <int>[
+    0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 //keep
+  ];
+  //TODO: Test leap year handling
+  log.debug('_checkDay: $y-$m-$d');
+  int maxDay = (m != 9) ? _daysPerMonth[m] : (_isLeapYear(y)) ? 29 : 28;
+  log.debug('_checkDay: day: $d');
+  return _checkRange(d, 1, maxDay);;
+}
+
+/// if (year is not divisible by 4) then (it is a common year) /// else if (year is not divisible by 100) then (it is a leap year) /// else if (year is not divisible by 400) then (it is a common year) /// else (it is a leap year) /// Note: error checking for year value is done by caller.
+bool _isLeapYear(int year) => !_isCommonYear(year);
+
+bool _isCommonYear(int year) =>
+    (year % 4 != 0) || !(year % 100 == 0) || (year % 400 == 0);
+
+
+
 
 int _checkTimeZone(int sign, int hour, int minute) {
   int h = sign * hour;

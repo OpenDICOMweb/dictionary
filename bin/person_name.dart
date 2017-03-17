@@ -5,12 +5,15 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:collection/collection.dart';
+import 'package:common/logger.dart';
 import 'package:dictionary/src/person_name.dart';
+
+final Logger log = new Logger('DateTimeTests', watermark: Severity.info);
 
 void main() {
   const ListEquality equality = const ListEquality();
   bool v = equality.equals([1, 2, 3], [1, 2, 3]);
-  print('equal: $v');
+  log.debug('equal: $v');
   String name0 = "";
   String name1 = 'a';
   String name2 = 'a^b';
@@ -26,39 +29,39 @@ void main() {
   for (String s in names) {
     var s0 = s.split('^');
     var j0 = s0.join('|');
-    print('j0: "$j0"');
+    log.debug('j0: "$j0"');
   }
 
   var s1 = splitTrim(nameX1, '^');
   var j1 = s1.join('|');
-  print('j1: "$j1"');
+  log.debug('j1: "$j1"');
 
-  // print('s: $s');
-  // for(String ss in s) print('"$ss"');
+  // log.debug('s: $s');
+  // for(String ss in s) log.debug('"$ss"');
 
-  print(nameX0.split('^').fold("", (t, e) => t + '|"$e"'));
+  log.debug(nameX0.split('^').fold("", (t, e) => t + '|"$e"'));
 
-  for (String s in nameX0.split('^')) print('"$s"');
+  for (String s in nameX0.split('^')) log.debug('"$s"');
 
   Name name8 = new Name.fromString(name5);
   Name name9 = new Name.fromString(name5);
-  print('name8 == name9: ${name8 == name9}');
+  log.debug('name8 == name9: ${name8 == name9}');
   printName(name8);
 
   name8 = new Name.fromString(nameX0);
-  print('Name.fromString: $name8');
+  log.debug('Name.fromString: $name8');
   printName(name8);
 
   var pnString = [name5, name4, name3].join('=');
-  print('pnString: "$pnString"');
+  log.debug('pnString: "$pnString"');
   PersonName pn = new PersonName.fromString(pnString);
-  print('pn: $pn ${pn.dcm}');
+  log.debug('pn: $pn ${pn.dcm}');
 }
 
 void printName(Name name) {
-  print('name: $name');
-  print('       dcm: ${name.dcm}');
-  print('   isValid: ${Name.isValidString(name.dcm)}');
-  print('  initials: ${name.initials}');
-  print('      info: ${name.info}');
+  log.debug('name: $name');
+  log.debug('       dcm: ${name.dcm}');
+  log.debug('   isValid: ${Name.isValidString(name.dcm)}');
+  log.debug('  initials: ${name.initials}');
+  log.debug('      info: ${name.info}');
 }

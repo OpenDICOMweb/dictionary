@@ -22,7 +22,7 @@ bool isValidDcmDateString(String s, int start, int end) =>
 /// Note: end isn't strictly necessary, but makes all data/time parsers
 /// have the same interface.
 dynamic _parseDcmDateString(String s, int start, int end, bool isValidOnly) {
-  _checkArgs(s, start, end,  8,  8, true);
+  _checkArgs(s, start, end, 8, 8, true);
   int y, m, d;
   if (s == null || end - start != 8 || (s.length - start < 8)) return null;
   try {

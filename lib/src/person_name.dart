@@ -159,7 +159,7 @@ class Name {
   /// A [suffix] such as Ph.D., or M.D.
   String get suffix => _getComponent(4);
 
-  String _initial(String s) => (s == "") ? s : s[0];
+  String _initial(String s) => (s == null || s == "") ? "" : s[0];
   String get initials =>
       '${_initial(given)}${_initial(middle)}${_initial(family)}'.toUpperCase();
 
