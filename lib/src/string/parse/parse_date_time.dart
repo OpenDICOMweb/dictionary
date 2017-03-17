@@ -57,7 +57,7 @@ Duration parseDcmTimeString(String s, [int start = 0, int end]) =>
 
 /// Returns [true] if [s] is a valid DICOM time [String] (DA).
 bool isValidDcmTimeString(String s, [int start = 0, int end]) =>
-    _parseDcmTimeString(s, start, end, false);
+    _parseDcmTimeString(s, start, end, true);
 
 // valid lengths: 2 4 6 8-13
 dynamic _parseDcmTimeString(String s,
