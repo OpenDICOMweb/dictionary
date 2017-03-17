@@ -4,8 +4,11 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
+import 'package:common/logger.dart';
 import 'package:dictionary/src/tag/private/private_creator_tag.dart';
 import 'package:test/test.dart';
+
+final Logger log = new Logger('uint_test.dart', watermark: Severity.info);
 
 void main() {
   privateCreatorTagTest();
@@ -15,15 +18,15 @@ void main() {
 void privateCreatorTagTest() {
   test("PrivateCreatorTag Test", () {
     PrivateCreatorTag pTag = PrivateCreatorTag.lookup("ACUSON");
-    print(pTag.info);
-    //print('${pTag.token}: ${pTag.dataTagMap}');
+    log.debug(pTag.info);
+    log.debug('${pTag.token}: ${pTag.dataTags}');
   });
 }
 
 void unknownPrivateCreatorTagTest() {
   test("PrivateCreatorTag.unknown Test", () {
     PrivateCreatorTag pTag = PrivateCreatorTag.lookup("foo");
-    print(pTag.info);
-    //print('${pTag.token}: ${pTag.dataTagMap}');
+    log.debug(pTag.info);
+    log.debug('${pTag.token}: ${pTag.dataTags}');
   });
 }

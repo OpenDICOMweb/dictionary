@@ -37,7 +37,6 @@ String _checkArgs(String s, int start, int end, int min, int max,
   } else {
     if (s.length < end) {
       issues += 'end($end)is greater than the length of s(${s.length})"$s".\n';
-      print('issues3: "$issues"');
       log.debug2('issues 3: "$issues"');
       if (doThrow) throw new ParseError(issues);
     }

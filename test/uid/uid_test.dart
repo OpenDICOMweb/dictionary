@@ -9,6 +9,8 @@ import 'package:dictionary/src/uid/well_known/transfer_syntax.dart';
 import 'package:dictionary/src/uid/well_known/wk_uid.dart';
 import 'package:test/test.dart';
 
+final Logger log = new Logger('Uid2_Test', watermark: Severity.info);
+
 void main() {
   uidTest();
 }
@@ -29,7 +31,7 @@ void uidTest() {
       expect(uid == null, true);
       //TODO: this should return null or
       uid = Uid.parse("4.2.840.10008.1.2");
-      print('uid: $uid');
+      log.debug('uid: $uid');
       expect(uid == null, true);
     });
 

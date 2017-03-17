@@ -6,10 +6,7 @@
 
 import 'package:collection/collection.dart';
 import 'package:common/ascii.dart';
-import 'package:common/integer.dart';
-
-//TODO: create unit test
-//TODO: maybe merge Name into PersonName
+import 'package:common/number.dart';
 
 /// The DICOM PersonName Types
 enum PersonNameType { alphabetic, ideographic, phonetic }
@@ -50,7 +47,6 @@ class PersonName {
   factory PersonName.fromString(String s) {
     var list = splitTrim(s, '=');
     Iterable<Name> groups = list.map((e) => new Name.fromString(e));
-    print(groups);
     return new PersonName(groups.toList());
   }
 

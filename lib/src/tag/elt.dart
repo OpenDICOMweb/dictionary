@@ -35,11 +35,11 @@ class Elt {
   static bool isPrivateData(int elt) => 0x1000 <= elt && elt <= 0xFFFF;
 
   static bool isValidPrivateData(int pdElt, int pcElt) {
-    print('pd($pdElt), pc($pcElt)');
+  //  print('pd($pdElt), pc($pcElt)');
     if (pdElt == null) return false;
     int base = pcBase(pcElt);
     int limit = pcLimit(pcElt);
-    print('base($base), limit($limit)');
+  //  print('base($base), limit($limit)');
     if (base == null || limit == null) return false;
     return pcBase(pcElt) <= pdElt && pdElt <= pcLimit(pcElt);
   }

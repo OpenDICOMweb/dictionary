@@ -9,7 +9,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:collection/collection.dart';
-import 'package:common/integer.dart';
+import 'package:common/number.dart';
 
 /// A generator of Version 4 (random) UUIDs.
 ///

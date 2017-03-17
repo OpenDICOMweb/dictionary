@@ -15,4 +15,4 @@ part 'package:dictionary/src/string/parse/parse_utils.dart';
 
 // TODO: remove logging before version 0.9.0
 final Logger log =
-    new Logger('date_time/utils_old.dart', watermark: Severity.debug);
+    new Logger('date_time/utils_old.dart', watermark: Severity.info);

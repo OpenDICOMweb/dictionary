@@ -6,7 +6,7 @@
 
 import 'dart:typed_data';
 
-import 'package:common/integer.dart';
+import 'package:common/number.dart';
 
 import 'vr.dart';
 

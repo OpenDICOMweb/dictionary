@@ -8,12 +8,10 @@ import 'package:common/logger.dart';
 import 'package:dictionary/src/string/dcm_parse.dart';
 import 'package:test/test.dart';
 
-final Logger log = new Logger('check_values_test', watermark: Severity.debug);
+final Logger log = new Logger('check_values_test', watermark: Severity.info);
+
 void main() {
-
-
 // TODO: create good and bad data generators for these tests
-
 
   List<String> uintStrings = ["9", "09", "990", "0999", "9099099909"];
   List<int> uintValues = [9, 09, 990, 0999, 9099099909];

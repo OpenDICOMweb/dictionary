@@ -9,7 +9,7 @@ import 'package:dictionary/src/date_time/time.dart';
 import 'package:dictionary/src/string/dcm_parse.dart';
 import 'package:test/test.dart';
 
-final Logger log = new Logger('time_test.dart', watermark: Severity.debug);
+final Logger log = new Logger('time_test.dart', watermark: Severity.info);
 
 void main() {
   group('Time Tests', () {

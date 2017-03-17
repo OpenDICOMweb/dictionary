@@ -6,9 +6,7 @@
 class ParseError extends Error {
   String issues;
 
-  ParseError(this.issues) {
-    print('"$issues"');
-  }
+  ParseError(this.issues);
 
   @override
   String toString() => 'ParseError: $issues';

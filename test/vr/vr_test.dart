@@ -6,14 +6,14 @@
 
 import 'dart:typed_data';
 
-import 'package:common/integer.dart';
-import 'package:common/logger.dart';
-import 'package:common/src/random/rng.dart';
+import 'package:common/common.dart';
 import 'package:dictionary/src/vr/integer.dart';
 import 'package:dictionary/src/vr/string.dart';
 import 'package:dictionary/src/vr/vr.dart';
 import 'package:test/test.dart';
-import 'package:test_tools/src/random/random_string.dart' as rsg;
+import 'package:test_tools/random_string.dart' as rsg;
+
+final Logger log = new Logger('uint_test.dart', watermark: Severity.info);
 
 void main() {
   //printCode();
@@ -22,7 +22,6 @@ void main() {
   stringVRsTest();
 }
 
-Logger log = new Logger('test', watermark: Severity.debug);
 void vrMapAndListTest() {
   test("Check vrMap and vrList have equal Lengths", () {
     int mapLength = VR.vrMap.length;
@@ -30,7 +29,7 @@ void vrMapAndListTest() {
     expect(mapLength == listLength, true);
   });
   test("Check vrList vs vrMap", () {
-    print('Check vr16itCodeList');
+    log.debug('Check vr16itCodeList');
     for (int i = 1; i < VR.vrList.length; i++) {
       VR vr0 = VR.vrList[i];
       int code = vr0.code;

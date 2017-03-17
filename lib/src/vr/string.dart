@@ -272,7 +272,6 @@ class VRDcmAge extends VRString {
     //TODO
     // If count is not valid replace with ""
     // If marker is lowercase make uppercase
-
     return s;
   }
 
@@ -304,9 +303,9 @@ class VRDcmDate extends VRString {
     if (!_isValidLength(s.length)) return null;
     DateTime dt;
     try {
-      print('DATE.parse: "$s:');
+      //  print('DATE.parse: "$s:');
       dt = DateTime.parse(s);
-      print('dt: $dt');
+      //  print('dt: $dt');
     } on FormatException {
       return null;
     } on ArgumentError {
@@ -384,9 +383,9 @@ class VRDcmDateTime extends VRString {
     if (length == 6) s = dateTimeString + '00';
     DateTime dt;
     try {
-      print('DATE.parse: "$s:');
+      //  print('DATE.parse: "$s:');
       dt = DateTime.parse(s);
-      print('dt: $dt');
+      //  print('dt: $dt');
     } on FormatException {
       return null;
     } on ArgumentError {
@@ -563,8 +562,7 @@ class VRDcmTime extends VRString {
     Duration time;
     try {
       dt = DateTime.parse(dts);
-    } on FormatException catch (e) {
-      print('Format Error($dts): $e');
+    } on FormatException {
       return null;
     }
     time = dt.difference(baseDate);

@@ -9,7 +9,9 @@ part of odw.sdk.dictionary.string.parse;
 /// [InvalidCharacterError].
 ///
 /// Note: we're using this because Dart doesn't provide a Uint parser.
-int parseUint(String s, int start, int end, int minLength, int maxLength) {
+int parseUint(String s, int start, int end,
+    [int minLength = 0, int maxLength]) {
+  if (maxLength == null) maxLength = s.length;
   _checkArgs(s, start, end, minLength, maxLength);
   if (s == null || s == "") return null;
   log.debug2('_parseUint: s($s), start($start), end($end)');
@@ -19,7 +21,7 @@ int parseUint(String s, int start, int end, int minLength, int maxLength) {
     log.debug2('Uint: $value');
     return value;
   } on ParseError catch (e) {
-    log.debug('parseUint Error: $e');
+    log.debug(e);
     return null;
   }
 }
@@ -36,7 +38,8 @@ int _parseUint(String s, int start, int end) {
     value *= 10;
     log.debug2('    i: $i, _pUint: $value');
     int c = s.codeUnitAt(i);
-    if (c < k0 || c > k9) throw new ParseError('Invalid char $c');
+    if (c < k0 || c > k9)
+      throw new ParseError('Invalid char $c in String(${s.length}): "$s"');
     int v = c - k0;
     value += v;
     log.debug2('    v: $v, value: $value');
@@ -76,7 +79,7 @@ int _parseRadix(String s, int start, int limit, [int radix = 16]) {
       int maxChar = kA + radix - 1;
       for (int i = start; i < limit; i++) {
         value *= radix;
-        print('  $i:  _pUint: $value');
+        log.debug2('  $i:  _pUint: $value');
         int c = s.codeUnitAt(i);
         c = (c >= ka) ? kA : c;
         if (c >= kA && c < maxChar) {
@@ -86,9 +89,9 @@ int _parseRadix(String s, int start, int limit, [int radix = 16]) {
         } else {
           throw 'Invalid char $c';
         }
-        print('  value: $value');
+        log.debug2('  value: $value');
       }
-      print('Uint: $value');
+      log.debug2('Uint: $value');
       return value;
     }
   } catch (e) {

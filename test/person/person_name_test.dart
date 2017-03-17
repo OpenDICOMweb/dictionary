@@ -1,21 +1,19 @@
 // Copyright (c) 2016, Open DICOMweb Project. All rights reserved.
 // Use of this source code is governed by the open source license
 // that can be found in the LICENSE file.
-// Original author: Binyak Behera <binayak.b@mwebware.com>
-//    and Sharath chandra <sharath.ch@mwebware.com>
-// See the AUTHORS file for other contributors.
+// See the AUTHORS file for contributors.
 
 import 'package:common/logger.dart';
 import 'package:dictionary/src/person_name.dart';
 import 'package:test/test.dart';
-import 'package:test_tools/src/random/random_string.dart' as rsg;
+import 'package:test_tools/random_string.dart' as rsg;
 
 void main() {
   personNameTest();
 }
 
 void personNameTest() {
-  Logger log = new Logger('test', watermark: Severity.debug);
+  Logger log = new Logger('test', watermark: Severity.info);
 
   //noOfgroups=3, noOfomponents=5, componentLength=8
   String strValid = rsg.generatePersonName(3, 5, 6);

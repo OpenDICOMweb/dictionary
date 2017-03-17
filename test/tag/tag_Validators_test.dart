@@ -1,22 +1,25 @@
 // Copyright (c) 2016, Open DICOMweb Project. All rights reserved.
 // Use of this source code is governed by the open source license
 // that can be found in the LICENSE file.
-// Author: Binayak Behera <binayak.b@mwebware.com> -
-// See the AUTHORS file for other contributors.
+// See the AUTHORS file for contributors.
 
 import 'dart:math';
 
+import 'package:common/logger.dart';
+import 'package:test/test.dart';
+import 'package:test_tools/random_string.dart' as rsg;
+
 import 'package:dictionary/src/tag/tag.dart';
 import 'package:dictionary/src/vr/vr.dart';
-import 'package:test/test.dart';
-import 'package:test_tools/src/random/random_string.dart' as random_string;
+
+final Logger log = new Logger('uint_test.dart', watermark: Severity.info);
 
 void main() {
   validateTest();
 }
 
 void validateTest() {
-  Tag tagCScode = Tag.kLanguageCodeSequence;
+  Tag tagCSCode = Tag.kLanguageCodeSequence;
   Tag tagCS = Tag.kImageType;
   //   new Tag.public("Image​Type", 0x00080008, "Image Type", VR.kCS, VM.k2_n);
   Tag tagSQ = Tag.kLanguageCodeSequence;
@@ -36,10 +39,10 @@ void validateTest() {
       }
       var listsStr = new List<String>();
       for (int i = 0; i < 10; i++) {
-        listsStr.add(random_string.randomString(12, noLowerCase: true) +
+        listsStr.add(rsg.randomString(12, noLowerCase: true) +
             new String.fromCharCode([32, 95][new Random().nextInt(2)]));
       }
-      expect(tagCScode.isValidValues(listsInt), false);
+      expect(tagCSCode.isValidValues(listsInt), false);
       //Urgent: add test for invalid Strings
       expect(tagCS.isValidValues(listsStr), true);
     });
@@ -83,7 +86,7 @@ void validateTest() {
 
     test("test for isValidVFLength", () {
       int len = tagCS.minLength * tagCS.vr.minValue;
-      print('isValidVF: minValueLength(${tagCS.vr.minValue}) $len');
+      log.debug('isValidVF: minValueLength(${tagCS.vr.minValue}) $len');
       expect(tagCS.isValidVFLength(tagCS.minLength * tagCS.vr.minValue), true);
       expect(tagCS.isValidVFLength((tagCS.minLength * tagCS.vr.minValue) - 1),
           false);
@@ -91,10 +94,10 @@ void validateTest() {
       expect(tagCS.isValidVFLength((tagCS.maxLength * tagCS.vr.maxValue) + 1),
           false);
 
-      print('tagSQ maxLength: ${tagSQ.maxLength}');
-      print('vr: ${tagSQ.vr}');
-      print('${VR.kSQ.info}');
-      print('tagSQ vr.maxValueLength: ${tagSQ.vr.maxValue}');
+      log.debug('tagSQ maxLength: ${tagSQ.maxLength}');
+      log.debug('vr: ${tagSQ.vr}');
+      log.debug('${VR.kSQ.info}');
+      log.debug('tagSQ vr.maxValueLength: ${tagSQ.vr.maxValue}');
       expect(tagSQ.isValidVFLength(tagSQ.maxLength * tagSQ.vr.maxValue), true);
       expect(tagSQ.isValidVFLength(tagSQ.maxLength * tagSQ.vr.maxValue + 1),
           false);

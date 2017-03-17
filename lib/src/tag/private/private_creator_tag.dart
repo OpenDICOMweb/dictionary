@@ -7,7 +7,6 @@
 import 'package:dictionary/src/tag/private/private_creator_tag_map.dart';
 import 'package:dictionary/src/tag/private/private_data_tag.dart';
 import 'package:dictionary/src/tag/private/private_tag.dart';
-import 'package:dictionary/src/tag/tag.dart';
 import 'package:dictionary/src/vm.dart';
 import 'package:dictionary/src/vr/vr.dart';
 
@@ -46,9 +45,9 @@ class PrivateCreatorTag extends PrivateTag {
   /// is created.
   PrivateDataTag lookupData(int code) {
     int pdTagCode = code & 0xFFFF00FF;
-    print('pdTagCode: ${Tag.toHex(pdTagCode)}');
+    //  print('pdTagCode: ${Tag.toHex(pdTagCode)}');
     PrivateDataTag pdTag = dataTags[pdTagCode];
-    print('***** PrivateDataTag: $pdTag');
+    //  print('***** PrivateDataTag: $pdTag');
     if (pdTag == null) pdTag = new PrivateDataTag(code);
     return pdTag;
   }
@@ -71,11 +70,11 @@ class PrivateCreatorTag extends PrivateTag {
   String toString() => 'PCTag($token) $vr $vm';
 
   static PrivateCreatorTag lookup(String token, [VR vr = VR.kUN]) {
-    print('PCT token $token');
+    //  print('PCT token $token');
     PrivateCreatorTag tag = privateCreatorTagMap[token];
     if (tag != null) {
-      print('PCT Lookup $tag');
-      print('PCT Tag: ${tag.info}');
+      //  print('PCT Lookup $tag');
+      //  print('PCT Tag: ${tag.info}');
       return tag;
     }
     return PrivateCreatorTag.kNotPresent;

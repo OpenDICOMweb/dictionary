@@ -7,12 +7,14 @@
 import 'package:dictionary/dictionary.dart';
 import "package:test/test.dart";
 
+final Logger log = new Logger('Uid2_Test', watermark: Severity.info);
+
 void main() {
   group('[Version 4 Tests]', () {
     test('Check if V4 is consistent using a static seed', () {
       var generator = new UuidV4Generator(seed: 1);
       var u0 = generator();
-      //  print('u0: $u0');
+      //  log.debug('u0: $u0');
       var u1 = [
         164,
         98,
@@ -54,11 +56,11 @@ void main() {
         0x58,
         0x36
       ];
-      print('bytes: $bytes');
+      log.debug('bytes: $bytes');
       Uuid u0 = new Uuid.fromList(bytes);
       var u1 = "109156be-c4fb-41ea-b1b4-efe1671c5836";
-      print('u0: $u0');
-      print('u1: $u1');
+      log.debug('u0: $u0');
+      log.debug('u1: $u1');
       expect(u0.toString(), equals(u1));
     });
 
@@ -66,7 +68,7 @@ void main() {
       var list =
           new List.filled(1000, null).map((something) => new Uuid()).toList();
       var setList = list.toSet();
-      print('setList:$setList');
+      log.debug('setList:$setList');
       expect(list.length, equals(setList.length));
     });
   });
@@ -75,8 +77,8 @@ void main() {
     test('Parsing a UUID', () {
       var id = '00112233-4455-6677-8899-aabbccddeeff';
       var uuid = Uuid.parse(id);
-      print('id:   $id');
-      print('uuid: $uuid');
+      log.debug('id:   $id');
+      log.debug('uuid: $uuid');
       expect(uuid.toString(), equals('00112233-4455-6677-8899-aabbccddeeff'));
     });
   });
