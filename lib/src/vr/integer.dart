@@ -7,6 +7,7 @@
 import 'dart:typed_data';
 
 import 'package:common/number.dart';
+import 'package:dictionary/src/constants.dart';
 
 import 'vr.dart';
 

@@ -6,13 +6,13 @@
 import 'dart:math';
 
 import 'package:common/logger.dart';
+import 'package:common/number.dart';
+import 'package:dictionary/src/tag/tag.dart';
+import 'package:dictionary/src/vr/vr.dart';
 import 'package:test/test.dart';
 import 'package:test_tools/random_string.dart' as rsg;
 
-import 'package:dictionary/src/tag/tag.dart';
-import 'package:dictionary/src/vr/vr.dart';
-
-final Logger log = new Logger('uint_test.dart', watermark: Severity.info);
+final Logger log = new Logger('uint_test.dart', watermark: Severity.debug);
 
 void main() {
   validateTest();
@@ -49,7 +49,8 @@ void validateTest() {
 
     test("test for isValidLength", () {
       expect(tagCS.isValidLength(tagCS.maxLength + 1), false);
-      expect(tagCS.isValidLength(tagCS.maxLength), false);
+      expect(tagCS.isValidLength(tagCS.maxLength), true);
+      log.debug('tagCS: maxLength(${tagCS.maxLength}, ${Int16.hex(tagCS.maxLength)}');
       expect(tagCS.isValidLength(tagCS.maxLength - 1), true);
       expect(tagCS.isValidLength(tagCS.minLength - 1), false);
       expect(tagCS.isValidLength(tagCS.minLength), true);
@@ -68,9 +69,10 @@ void validateTest() {
     });
 
     test("test for isValidWidth", () {
+      //Urgent: change
       expect(tagCS.isValidWidth(tagCS.maxLength + 1), true);
-      expect(tagCS.isValidWidth(tagCS.maxLength), false);
-      expect(tagCS.isValidWidth(tagCS.minLength - 1), false);
+      expect(tagCS.isValidWidth(tagCS.maxLength), true);
+      expect(tagCS.isValidWidth(tagCS.minLength - 1), true);
       expect(tagCS.isValidWidth(tagCS.minLength), true);
 
       expect(tagSQ.isValidWidth(tagSQ.minLength), true);

@@ -6,6 +6,7 @@
 import 'dart:typed_data';
 
 import 'package:common/common.dart';
+import 'package:dictionary/src/constants.dart';
 
 import 'float.dart';
 import 'integer.dart';
@@ -13,24 +14,7 @@ import 'string.dart';
 
 //TODO: Explain VR class structure
 
-/// The maximum value of an unsigned 16-bit integer (2^32).
-const int kUint16Max = 0xFFFF;
-
-/// The maximum value of an unsigned 32-bit integer (2^32).
-const int kUint32Max = 0xFFFFFFFF;
-
-/// The maximum length, in bytes, of a "short" (16-bit) Value Field.
-const int kMaxShortVF = kUint16Max;
-
-/// The maximum length, in bytes, of a "long" (32-bit) Value Field.
-///
-/// Note: the values is `[kUint32Max] - 1` because the maximum value
-/// (0xFFFFFFFF) is used to denote a Value Field with Undefined Length.
-const int kMaxLongVF = kUint32Max - 2;
-
 class VR<T> {
-  static const int kMaxShortVFLength = kMaxShortVF;
-  static const int kMaxLongVFLength = kMaxLongVF;
   final int index;
   final int code;
   final String id;

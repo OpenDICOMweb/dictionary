@@ -6,37 +6,39 @@
 
 import 'package:common/common.dart';
 
+/// The maximum value of an unsigned 16-bit integer (2^32).
+const int kUint16Max = 0xFFFF;
+
+/// The maximum value of an unsigned 32-bit integer (2^32).
+const int kUint32Max = 0xFFFFFFFF;
+
 //**** DICOM Constants ****
+
+/// The maximum length, in bytes, of a "short" (16-bit) Value Field.
+///
+/// Notes:
+///     1. Short Value Fields may not have an Undefined Length
+///     2. All Value Fields must contain an even number of bytes.  Thus, while the
+///       Value Field is 16-bits, the maximum length is 1 less then 2^16, which is an
+///       odd number.
+const int kMaxShortVF = kUint16Max - 1;
+
+/// The maximum length, in bytes, of a "long" (32-bit) Value Field.
+///
+/// Note: the values is `[kUint32Max] - 1` because the maximum value
+/// (0xFFFFFFFF) is used to denote a Value Field with Undefined Length.
+const int kMaxLongVF = kUint32Max - 1;
+
+/// This is the value of a DICOM Undefined Length from a 32-bit Value Field Length.
+const int kUndefinedLength = 0xFFFFFFFF;
+
+bool hasUndefinedLength(int i) => i == kUndefinedLength;
 
 /// Used to pad string value fields to an even length.
 const int kStringPaddingChar = kSpace;
 
 /// Used to pad Uid value fields to an even length.
 const int kUidPaddingChar = 0;
-
-/// _Deprecated:_ Use [kMaxShortVFLength].
-@deprecated
-const int kMaxShortLengthInBytes = 0xFFFF;
-
-/// The maximum length, in bytes, of a "short" (16-bit) Value Field.
-///
-/// Note: Short Value Fields may not have an Undefined Length
-const int kMaxShortVFLength = 0xFFFF;
-
-/// _Deprecated:_ Use [kMaxLongVFLength].
-@deprecated
-const int kMaxLongLengthInBytes = (1 << 32) - 2;
-
-/// The maximum length, in bytes, of a "long" (32-bit) Value Field.
-///
-/// Note: The length must be even (for binary DICOM) and the Undefine
-/// Length value (0xFFFFFFFF) uses one value.
-const int kMaxLongVFLength = (1 << 32) - 2;
-
-/// This is the value of a DICOM Undefined Length from a 32-bit Value Field Length.
-const int kUndefinedLength = 0xFFFFFFFF;
-
-bool hasUndefinedLength(int i) => i == kUndefinedLength;
 
 // Transfer Syntax
 const int transferSyntaxTag = 0x00020010;

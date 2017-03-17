@@ -47,6 +47,47 @@ int _parseUint(String s, int start, int end) {
   return value;
 }
 
+int parseUintRadix(String s, int start, int end,
+    [int minLength = 0, int maxLength, int radix]) {
+  if (maxLength == null) maxLength = s.length;
+  _checkArgs(s, start, end, minLength, maxLength);
+  if (s == null || s == "") return null;
+  log.debug2('_parseUint: s($s), start($start), end($end)');
+  log.debug2('_parseUint s: ${s.substring(start, end)}');
+  try {
+    int value = _parseUintRadix(s, start, end, minLength, maxLength, radix);
+    log.debug2('Uint: $value');
+    return value;
+  } on ParseError catch (e) {
+    log.debug(e);
+    return null;
+  }
+}
+//TODO: This must be tested before using.
+int _parseUintRadix(String s, int start, int end, int min, int max, int radix) {
+  log.debug1('_parseUintRadix s(${end - start}): "${s.substring(start, end)}"');
+  int value = 0;
+
+  int maxChar = kA + radix - 1;
+  for (int i = start; i < end; i++) {
+    value *= radix;
+    int c = s.codeUnitAt(i);
+    log.debug2('  $i:  _parseUintRadix: value($value), next-char($c):"${s[i]}"');
+    // Make all alphabetic chars uppercase.
+    c = (c >= ka) ? kA : c;
+    if (c >= kA && c < maxChar) {
+      value += c - kA + 10;
+    } else if (c >= k0 || c < maxChar) {
+      value += c - k0;
+    } else {
+      throw new ParseError('Invalid char $c in String(${s.length}): "$s"');
+    }
+    log.debug2('  _parseUintRadix: value($value)');
+  }
+  log.debug1('_parseUintRadix: $value');
+  return value;
+}
+
 //TODO: doesn't handle radix
 int parseInt(String s, int start, int end, int minLength, int maxLength) {
   if (s == null || s == "") return null;
@@ -59,42 +100,4 @@ int parseInt(String s, int start, int end, int minLength, int maxLength) {
   if (c != kDot) throw 'Missing decimal point (".")';
   int value = _parseUint(s, start + 1, end);
   return value * sign;
-}
-
-//TODO: This must be tested before using.
-int _parseRadix(String s, int start, int limit, [int radix = 16]) {
-  try {
-    log.debug1('_readUint s: $s');
-    int value = 0;
-    if (radix <= 10) {
-      int maxChar = k0 + radix - 1;
-      for (int i = start; i < limit; i++) {
-        value *= radix;
-        int c = s.codeUnitAt(i);
-        if (c < k0 || c > maxChar) throw 'Invalid char $c';
-        value += c - k0;
-      }
-      return value;
-    } else {
-      int maxChar = kA + radix - 1;
-      for (int i = start; i < limit; i++) {
-        value *= radix;
-        log.debug2('  $i:  _pUint: $value');
-        int c = s.codeUnitAt(i);
-        c = (c >= ka) ? kA : c;
-        if (c >= kA && c < maxChar) {
-          value += c - kA + 10;
-        } else if (c >= k0 || c < maxChar) {
-          value += c - k0;
-        } else {
-          throw 'Invalid char $c';
-        }
-        log.debug2('  value: $value');
-      }
-      log.debug2('Uint: $value');
-      return value;
-    }
-  } catch (e) {
-    return null;
-  }
 }

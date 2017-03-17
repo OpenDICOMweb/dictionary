@@ -4,6 +4,8 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
+import 'package:dictionary/src/constants.dart';
+
 import 'vr.dart';
 
 // Maximum Value Field length for different Float VRs.

@@ -5,6 +5,7 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:common/ascii.dart';
+import 'package:dictionary/src/constants.dart';
 import 'package:dictionary/src/person_name.dart';
 import 'package:dictionary/src/uid/uid.dart';
 import 'package:dictionary/src/uid/uid_utils.dart' as uid;

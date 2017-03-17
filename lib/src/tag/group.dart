@@ -15,12 +15,8 @@ class Group {
 
   /// Groups numbers that shall not be used in [PrivateTag]s.
   static const List<int> invalidPrivateGroups = const <int>[
-    0x0001,
-    0x0003,
-    0x0005,
-    0x0007,
-    0xFFFF
-  ]; // invalid groups
+    0x0001, 0x0003, 0x0005, 0x0007, 0xFFFF // Don't reformat
+  ];
 
   /// Returns the most significant 16 bits of the tag.code.
   static int fromTag(int tagCode) => tagCode >> shiftCount;

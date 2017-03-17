@@ -41,6 +41,7 @@ class VM {
 
   // Members
   // Special case optimization [k1] [width == 0]
+  //                           name min max width
   static const VM k1 = const VM("1", 1, 1, 0);
   static const VM k1_2 = const VM("1_2", 1, 2, 1);
   static const VM k1_3 = const VM("1-3", 1, 3, 1);
@@ -58,7 +59,7 @@ class VM {
   // Note: added for Private Tags
   static const VM k2_3 = const VM("2-3", 2, 6, 1);
   static const VM k2_2n = const VM("2-2n", 2, -1, 2);
-  static const VM k2_n = const VM("2-n", 2, -1, 2);
+  static const VM k2_n = const VM("2-n", 2, -1, 1);
   static const VM k3 = const VM("3", 3, 3, 1);
   static const VM k3_3n = const VM("3-3n", 3, -1, 3);
   static const VM k3_n = const VM("3-n", 3, -1, 1);

@@ -103,7 +103,7 @@ class Tag {
   /// Returns the maximum number of values allowed for this [Tag].
   int get maxLength {
     if (vm.max == -1) {
-      int max = (vr.hasShortVF) ? kMaxShortVFLength : kMaxLongVFLength;
+      int max = (vr.hasShortVF) ? kMaxShortVF : kMaxLongVF;
       return max ~/ vr.elementSize;
     }
     return vm.max;
@@ -235,8 +235,8 @@ class Tag {
   List<E> checkValue<E>(dynamic value) => vr.isValid(value) ? value : null;
 
   bool isValidLength(int length) {
-    // print('isValidLength: $length');
-    // print('min($minLength), max($maxLength), width($width)');
+     print('isValidLength: $length');
+     print('min($minLength), max($maxLength), width($width)');
     // These are the most common cases.
     if (length == 0 || (length == 1 && width == 0)) return true;
     return (minLength <= length && length <= maxLength) && length % width == 0;
