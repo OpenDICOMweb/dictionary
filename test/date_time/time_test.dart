@@ -136,6 +136,26 @@ void main() {
         log.debug('  Time: $s: $t');
       }
     });
+
+    test('Good and Bad Time for isValidTimeString', () {
+      for (String s in goodDcmTimes) {
+        expect(Time.isValidTimeString(s), true);
+      }
+      for (String s in badDcmTimes) {
+        expect(Time.isValidTimeString(s), false);
+      }
+    });
+
+    test('Good and Bad Time for isValid', () {
+      String s = '235959.1';
+      Time t = new Time.fromDuration(parseDcmTimeString(s, 0, s.length));
+      for (String s in goodDcmTimes) {
+        expect(t.isValid(s), true);
+      }
+      for (String s in badDcmTimes) {
+        expect(t.isValid(s), false);
+      }
+    });
   });
 
   group('Other Time Tests', () {
