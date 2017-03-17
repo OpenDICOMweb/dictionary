@@ -36,6 +36,7 @@ void tagTest() {
     Tag tag = Tag.lookupPublicCode(tags[i]);
     log.debug('${tag.info}');
     log.debug('isShort: ${tag.hasShortVF}, sizeInBytes: ${tag.vr.elementSize}');
-    log.debug('min: ${tag.minLength}, max: ${tag.maxLength}, width: ${tag.width}');
+    log.debug(
+        'min: ${tag.minLength}, max: ${tag.maxLength}, width: ${tag.width}');
   }
 }
