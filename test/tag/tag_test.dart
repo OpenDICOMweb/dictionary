@@ -4,8 +4,11 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
+import 'package:common/logger.dart';
 import 'package:dictionary/src/tag/constants.dart';
 import 'package:dictionary/src/tag/tag.dart';
+
+final Logger log = new Logger('DateTimeTests', watermark: Severity.debug);
 
 List<int> tags = const [
   kSpecificCharacterSet,
@@ -31,8 +34,9 @@ void main() {
 void tagTest() {
   for (int i = 0; i < tags.length; i++) {
     Tag tag = Tag.lookupPublicCode(tags[i]);
-    print('${tag.info}');
-    print('isShort: ${tag.hasShortVF}, sizeInBytes: ${tag.vr.elementSize}');
-    print('min: ${tag.minLength}, max: ${tag.maxLength}, width: ${tag.width}');
+    log.debug('${tag.info}');
+    log.debug('isShort: ${tag.hasShortVF}, sizeInBytes: ${tag.vr.elementSize}');
+    log.debug(
+        'min: ${tag.minLength}, max: ${tag.maxLength}, width: ${tag.width}');
   }
 }

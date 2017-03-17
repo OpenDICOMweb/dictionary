@@ -3,8 +3,11 @@
 // that can be found in the LICENSE file.
 // See the AUTHORS file for other contributors.
 
+import 'package:common/logger.dart';
 import 'package:dictionary/src/tag/private/private_data_tag.dart';
 import 'package:test/test.dart';
+
+final Logger log = new Logger('DateTimeTests', watermark: Severity.debug);
 
 void main() {
   privateDataTag();
@@ -16,6 +19,6 @@ void privateDataTag() {
     PrivateDataTag pdt = new PrivateDataTag(code);
     expect((pdt.isPrivate), true);
     expect((pdt.isCreator), false);
-    print(pdt.toString());
+    log.debug(pdt.toString());
   });
 }

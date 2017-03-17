@@ -10,6 +10,7 @@ import 'package:dictionary/src/date_time/time.dart';
 import 'package:dictionary/src/string/dcm_parse.dart';
 
 final Logger log = new Logger('DateTimeTests', watermark: Severity.debug);
+
 void main() {
   goodDcmTimes();
   badDcmTimes();
@@ -20,10 +21,10 @@ void main() {
   badDcmDates();
   badDcmTimes();
 
-  print('Test Dates');
+  log.debug('Test Dates');
   var s = "230718.1234";
   Time t = parseDcmTimeString(s, 0, s.length);
-  print('  Time "$s": $t');
+  log.debug('  Time "$s": $t');
   */
 }
 
@@ -34,7 +35,7 @@ void parseFractionTest() {
     ".012345", ".199990" // Don't reformat.
   ];
 
-  print('Good Fractions');
+  log.debug('Good Fractions');
   for (String s in goodFractions) {
     int f = parseFraction(s, 0, s.length);
     log.debug('    $s: $f');
@@ -44,10 +45,10 @@ void parseFractionTest() {
 void goodDcmDates() {
   List<String> goodDcmDateList = ['19500718', '00000101', '19700101'];
 
-  print('Good Dates');
+  log.debug('Good Dates');
   for (String s in goodDcmDateList) {
     Date d = Date.parse(s);
-    print('  Date $s: $d');
+    log.debug('  Date $s: $d');
   }
 }
 
@@ -67,10 +68,10 @@ void badDcmDates() {
     '1970011a', // bad character in day
   ];
 
-  print('Bad Dates');
+  log.debug('Bad Dates');
   for (String s in badDcmDateList) {
     Date d = Date.parse(s);
-    print('  Date: $s: $d');
+    log.debug('  Date: $s: $d');
   }
 }
 
@@ -130,16 +131,16 @@ void goodDcmTimes() {
     '235959.111111',
   ];
 
-  print('Good Times');
+  log.debug('Good Times');
   for (String s in goodDcmTimeList) {
-    print('Time: $s');
+    log.debug('Time: $s');
     Time t = Time.parse(s);
-    print('  Time $s: $t');
-    print('  Milliseconds: ${t.milliseconds}');
-    print('  Microseconds: ${t.microseconds}');
-    print('  Fraction: ${t.fraction}');
-    print('  ms: ${t.f}');
-    print('  us: ${t.f}');
+    log.debug('  Time $s: $t');
+    log.debug('  Milliseconds: ${t.milliseconds}');
+    log.debug('  Microseconds: ${t.microseconds}');
+    log.debug('  Fraction: ${t.fraction}');
+    log.debug('  ms: ${t.f}');
+    log.debug('  us: ${t.f}');
   }
 }
 
@@ -159,9 +160,9 @@ void badDcmTimes() {
     '19011a', // bad character in second
   ];
 
-  print('Bad Dates');
+  log.debug('Bad Dates');
   for (String s in badDcmTimeList) {
     Time t = Time.parse(s);
-    print('  Date: $s: $t');
+    log.debug('  Date: $s: $t');
   }
 }
