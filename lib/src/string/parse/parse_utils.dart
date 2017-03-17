@@ -36,21 +36,21 @@ String _checkArgs(String s, int start, int end, int min, int max,
     end = s.length;
   } else {
     if (s.length < end) {
-      issues += 'end($end)is greater than the length of s(${s.length}).\n';
+      issues += 'end($end)is greater than the length of s(${s.length})"$s".\n';
       print('issues3: "$issues"');
       log.debug2('issues 3: "$issues"');
       if (doThrow) throw new ParseError(issues);
     }
   }
   if (end < start + min) {
-    issues += 'The argument "end($end)" is less than start($start) plus'
-        'the minimum length($min)';
+    issues += 'The argument "end($end)" is less than start($start) plus '
+        'the minimum length($min) of s(${s.length})"$s"';
     log.debug2('issues 4: "$issues"');
     if (doThrow) throw new ParseError(issues);
   }
   if (end > start + max) {
-    issues += 'The argument "end($end)" is less than start($start) plus'
-        'the maximum length($max)';
+    issues += 'The argument "end($end)" is less than start($start) plus '
+        'the maximum length($max) of s(${s.length})"$s"';
     log.debug2('issues 5: "$issues"');
     if (doThrow) throw new ParseError(issues);
   }

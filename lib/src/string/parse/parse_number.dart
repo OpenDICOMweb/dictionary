@@ -9,7 +9,8 @@ part of odw.sdk.dictionary.string.parse;
 /// [InvalidCharacterError].
 ///
 /// Note: we're using this because Dart doesn't provide a Uint parser.
-int parseUint(String s, int start, int end) {
+int parseUint(String s, int start, int end, int minLength, int maxLength) {
+  _checkArgs(s, start, end, minLength, maxLength);
   if (s == null || s == "") return null;
   log.debug2('_parseUint: s($s), start($start), end($end)');
   log.debug2('_parseUint s: ${s.substring(start, end)}');

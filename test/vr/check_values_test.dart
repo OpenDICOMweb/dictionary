@@ -4,20 +4,17 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
-import 'package:dictionary/src/string/other/utils_old.dart';
+import 'package:common/logger.dart';
+import 'package:dictionary/src/string/dcm_parse.dart';
 import 'package:test/test.dart';
 
+final Logger log = new Logger('check_values_test', watermark: Severity.debug);
 void main() {
-  //List<String> uints = ["9", "99", "999", "9999", "9999999999"];
 
-  //int v = readUint(uints[0], 0, 1, 1);
-  // print('v = $v');
-  uintTest();
-}
 
 // TODO: create good and bad data generators for these tests
 
-void uintTest() {
+
   List<String> uintStrings = ["9", "09", "990", "0999", "9099099909"];
   List<int> uintValues = [9, 09, 990, 0999, 9099099909];
   List<int> uintLength1Values = [0, 0, 99, 099, 909909990];
@@ -25,14 +22,12 @@ void uintTest() {
   List<String> badUintStrings = ["", "X", "9X", "99S", "999S", "99999999X"];
   List<int> badUintValues = [null, null, null, null, null, null];
 
-  group("readUint Good Tests", () {
-    test("readUint Good Good Fixed Length: min = 0, max = s.length", () {
+  group("parseUint Good Tests", () {
+    test("parseUint Good Good Fixed Length: min = 0, max = s.length", () {
       for (int i = 0; i < uintStrings.length; i++) {
         var s = uintStrings[i];
-        int offset = 0;
-        int min = 0;
-        int max = s.length;
-        int v = readUint(uintStrings[i], offset, min, max);
+        log.debug('s(${s.length}): "$s"');
+        int v = parseUint(s, 0, s.length, 0, s.length);
         expect(v, equals(uintValues[i]));
       }
     });
@@ -40,10 +35,8 @@ void uintTest() {
     test("Uint Good Fixed Length: min = 0, max = s.length - 1", () {
       for (int i = 1; i < uintStrings.length; i++) {
         var s = uintStrings[i];
-        int offset = 0;
-        int min = 0;
-        int max = s.length - 1;
-        int v = readUint(uintStrings[i], offset, min, max);
+        log.debug('s(${s.length}): "$s"');
+        int v = parseUint(s, 0, s.length - 1, 0, s.length - 1);
         expect(v, equals(uintLength1Values[i]));
       }
     });
@@ -51,21 +44,17 @@ void uintTest() {
     test("Uint Good Variable with min = 1, max = length", () {
       for (int i = 1; i < uintStrings.length; i++) {
         var s = uintStrings[i];
-        int offset = 0;
-        int min = 1;
-        int max = s.length;
-        int v = readUint(uintStrings[i], offset, min, max);
+        log.debug('s(${s.length}): "$s"');
+        int v = parseUint(s, 0, s.length, 1, s.length);
         expect(v, equals(uintValues[i]));
       }
     });
 
-    test("readUint Good Variable with min = 2, max = s.length", () {
+    test("parseUint Good Variable with min = 2, max = s.length", () {
       for (int i = 2; i < uintStrings.length; i++) {
         var s = uintStrings[i];
-        int offset = 0;
-        int min = 2;
-        int max = s.length;
-        int v = readUint(uintStrings[i], offset, min, max);
+        log.debug('s(${s.length}): "$s"');
+        int v = parseUint(s, 0, s.length, 2, s.length);
         expect(v, equals(uintValues[i]));
       }
     });
@@ -73,14 +62,12 @@ void uintTest() {
     test("Good Uint ", () {});
   });
 
-  group("readUint Bad Tests", () {
-    test("readUint Bad Fixed Length: min = 0, max = s.length", () {
+  group("parseUint Bad Tests", () {
+    test("parseUint Bad Fixed Length: min = 0, max = s.length", () {
       for (int i = 0; i < uintStrings.length; i++) {
-        var s = uintStrings[i];
-        int offset = 0;
-        int min = 0;
-        int max = s.length;
-        int v = readUint(badUintStrings[i], offset, min, max);
+        var s = badUintStrings[i];
+        log.debug('s(${s.length}): "$s"');
+        int v = parseUint(s, 0, s.length, 0, s.length);
         expect(v, equals(badUintValues[i]));
       }
     });
@@ -88,21 +75,17 @@ void uintTest() {
     test("Uint Bad Variable with min = 1, max = length", () {
       for (int i = 1; i < badUintStrings.length; i++) {
         var s = badUintStrings[i];
-        int offset = 0;
-        int min = 1;
-        int max = s.length;
-        int v = readUint(badUintStrings[i], offset, min, max);
+        log.debug('s(${s.length}): "$s"');
+        int v = parseUint(s, 0, s.length, 0, s.length);
         expect(v, equals(badUintValues[i]));
       }
     });
 
-    test("readUint Bad Variable with min = 2, max = s.length", () {
+    test("parseUint Bad Variable with min = 2, max = s.length", () {
       for (int i = 2; i < badUintStrings.length; i++) {
         var s = badUintStrings[i];
-        int offset = 0;
-        int min = 2;
-        int max = s.length;
-        int v = readUint(badUintStrings[i], offset, min, max);
+        log.debug('s(${s.length}): "$s"');
+        int v = parseUint(s, 0, s.length, 0, s.length);
         expect(v, equals(badUintValues[i]));
       }
     });
