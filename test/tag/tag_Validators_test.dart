@@ -50,7 +50,8 @@ void validateTest() {
     test("test for isValidLength", () {
       expect(tagCS.isValidLength(tagCS.maxLength + 1), false);
       expect(tagCS.isValidLength(tagCS.maxLength), true);
-      log.debug('tagCS: maxLength(${tagCS.maxLength}, ${Int16.hex(tagCS.maxLength)}');
+      log.debug(
+          'tagCS: maxLength(${tagCS.maxLength}, ${Int16.hex(tagCS.maxLength)}');
       expect(tagCS.isValidLength(tagCS.maxLength - 1), true);
       expect(tagCS.isValidLength(tagCS.minLength - 1), false);
       expect(tagCS.isValidLength(tagCS.minLength), true);

@@ -63,6 +63,7 @@ int parseUintRadix(String s, int start, int end,
     return null;
   }
 }
+
 //TODO: This must be tested before using.
 int _parseUintRadix(String s, int start, int end, int min, int max, int radix) {
   log.debug1('_parseUintRadix s(${end - start}): "${s.substring(start, end)}"');
@@ -72,7 +73,8 @@ int _parseUintRadix(String s, int start, int end, int min, int max, int radix) {
   for (int i = start; i < end; i++) {
     value *= radix;
     int c = s.codeUnitAt(i);
-    log.debug2('  $i:  _parseUintRadix: value($value), next-char($c):"${s[i]}"');
+    log.debug2(
+        '  $i:  _parseUintRadix: value($value), next-char($c):"${s[i]}"');
     // Make all alphabetic chars uppercase.
     c = (c >= ka) ? kA : c;
     if (c >= kA && c < maxChar) {

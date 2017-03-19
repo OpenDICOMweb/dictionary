@@ -47,11 +47,10 @@ bool _isDcmString(String s, int max) {
   return _isFilteredString(s, 0, max, isDcmStringChar);
 }
 
-
 String checkDcmString(String s, int max) => (_isDcmString(s, max)) ? s : null;
 
-bool _isDcmText(String s, int max) => _isFilteredString(s, 0, max,
-    isDcmTextChar);
+bool _isDcmText(String s, int max) =>
+    _isFilteredString(s, 0, max, isDcmTextChar);
 
 String checkDcmText(String s, int max) => (_isDcmText(s, max)) ? s : null;
 
@@ -64,10 +63,10 @@ bool isLOString(String s) => _isDcmString(s, 64);
 bool isUCString(String s) => _isDcmString(s, kMaxLongVF);
 
 const _StringChecker checkAEString = checkDcmString;
-const _StringChecker  checkPNString = checkDcmString;
-const _StringChecker  checkSHString = checkDcmString;
-const _StringChecker  checkLOString = checkDcmString;
-const _StringChecker  checkUCString = checkDcmString;
+const _StringChecker checkPNString = checkDcmString;
+const _StringChecker checkSHString = checkDcmString;
+const _StringChecker checkLOString = checkDcmString;
+const _StringChecker checkUCString = checkDcmString;
 
 String checkCSString(String s) => (isCSString(s)) ? s : null;
 // DICOM Texts
@@ -191,4 +190,3 @@ bool isURString(String s, [int index = 0, int end]) {
   }
   return true;
 }
-
