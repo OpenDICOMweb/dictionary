@@ -4,13 +4,14 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu>
 // See the AUTHORS file for other contributors.
 
-import 'package:common/common.dart';
+import 'package:common/ascii.dart';
+import 'package:common/number.dart';
 import 'package:dictionary/src/constants.dart';
 
 import 'char_predicates.dart';
 
-typedef bool StringPredicate(String s, int max);
-typedef String StringChecker(String s, int max);
+//typedef bool _StringPredicate(String s, int max);
+typedef String _StringChecker(String s, int max);
 
 /// Naming
 ///   bool isSomething(x)
@@ -43,7 +44,7 @@ bool _isFilteredString(String s, int min, int max, bool filter(int c)) {
 
 bool _isDcmString(String s, int max) {
   max = (max > s.length) ? s.length : max;
-  _isFilteredString(s, 0, max, isDcmStringChar);
+  return _isFilteredString(s, 0, max, isDcmStringChar);
 }
 
 
@@ -62,11 +63,11 @@ bool isSHString(String s) => _isDcmString(s, 16);
 bool isLOString(String s) => _isDcmString(s, 64);
 bool isUCString(String s) => _isDcmString(s, kMaxLongVF);
 
-const StringChecker checkAEString = checkDcmString;
-const StringChecker  checkPNString = checkDcmString;
-const StringChecker  checkSHString = checkDcmString;
-const StringChecker  checkLOString = checkDcmString;
-const StringChecker  checkUCString = checkDcmString;
+const _StringChecker checkAEString = checkDcmString;
+const _StringChecker  checkPNString = checkDcmString;
+const _StringChecker  checkSHString = checkDcmString;
+const _StringChecker  checkLOString = checkDcmString;
+const _StringChecker  checkUCString = checkDcmString;
 
 String checkCSString(String s) => (isCSString(s)) ? s : null;
 // DICOM Texts
