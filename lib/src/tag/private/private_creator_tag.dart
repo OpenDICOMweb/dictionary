@@ -17,7 +17,8 @@ class PrivateCreatorTag extends PrivateTag {
 
   //TODO: fix the tag code to be the standard group with 0x0010 as elt.
   const PrivateCreatorTag._(int index, String token, this.dataTags)
-      : super.creator(index, token, 0x00000010, VR.kLO, VM.k1);
+  //Urgent: Replace [nill] [tag] [vofr] below with default
+      : super.creator(index, token, null, VR.kLO, VM.k1);
 
   const PrivateCreatorTag(int code, [VR vr = VR.kUN])
       : dataTags = const <int, PrivateDataTag>{},

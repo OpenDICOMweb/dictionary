@@ -4,6 +4,7 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
+import 'package:common/ascii.dart';
 import 'package:dictionary/dictionary.dart';
 import 'package:dictionary/src/terminology/term.dart';
 import 'package:dictionary/src/uid/well_known/color_palette.dart';

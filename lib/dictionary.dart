@@ -7,7 +7,6 @@
 // DICOM Dictionary libraries
 // These are all constant classes, etc. defined by the DICOM Standard
 
-export 'package:common/common.dart';
 export 'package:dictionary/src/constants.dart';
 export 'package:dictionary/src/defined_terms/defined_terms.dart';
 export 'package:dictionary/src/e_type.dart';
@@ -16,9 +15,9 @@ export 'package:dictionary/src/enum_values/enum_values.dart';
 export 'package:dictionary/src/modality.dart';
 export 'package:dictionary/src/person_name.dart';
 export 'package:dictionary/src/sex.dart';
-export 'package:dictionary/src/string/string_predicates.dart';
 export 'package:dictionary/src/vm.dart';
 export 'package:dictionary/src/vr/vr.dart';
+export 'package:dictionary/string.dart';
 export 'package:dictionary/tag.dart';
 export 'package:dictionary/uid.dart';
 export 'package:dictionary/uuid.dart';
