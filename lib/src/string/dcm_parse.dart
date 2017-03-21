@@ -7,7 +7,7 @@ library odw.sdk.dictionary.string.parse;
 
 import 'package:common/ascii.dart';
 import 'package:common/logger.dart';
-import 'package:dictionary/src/string/parse/parse_error.dart';
+import 'package:dictionary/src/errors.dart';
 
 part 'package:dictionary/src/string/parse/parse_date_time.dart';
 part 'package:dictionary/src/string/parse/parse_number.dart';

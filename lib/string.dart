@@ -4,7 +4,9 @@
 // Original author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
-export 'package:dictionary/src/string/dcm_parse.dart';
+export 'package:dictionary/src/errors.dart';
 export 'package:dictionary/src/string/char_predicates.dart';
-export 'package:dictionary/src/string/string_predicates.dart';
+export 'package:dictionary/src/string/dcm_parse.dart';
 export 'package:dictionary/src/string/dcm_regex.dart';
+export 'package:dictionary/src/string/string_predicates.dart';
+

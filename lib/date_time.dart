@@ -7,3 +7,4 @@
 export 'package:dictionary/src/date_time/date.dart';
 export 'package:dictionary/src/date_time/dcm_date_time.dart';
 export 'package:dictionary/src/date_time/time.dart';
+export 'package:dictionary/src/errors.dart';

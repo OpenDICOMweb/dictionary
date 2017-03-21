@@ -5,6 +5,7 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:common/ascii.dart';
+import 'package:dictionary/date_time.dart';
 import 'package:dictionary/src/constants.dart';
 import 'package:dictionary/src/person_name.dart';
 import 'package:dictionary/src/uid/uid.dart';
@@ -299,20 +300,14 @@ class VRDcmDate extends VRString {
   String issue(String s) => (isNotValid(s)) ? 'Invalid Date $s' : "";
 
   @override
-  DateTime parse(String s) {
+  Date parse(String s) {
     assert(s != null);
     if (!_isValidLength(s.length)) return null;
-    DateTime dt;
     try {
-      //  print('DATE.parse: "$s:');
-      dt = DateTime.parse(s);
-      //  print('dt: $dt');
-    } on FormatException {
-      return null;
-    } on ArgumentError {
+      return Date.parse(s);
+    } on ParseError {
       return null;
     }
-    return dt;
   }
 
   /// Fix
@@ -373,26 +368,20 @@ class VRDcmDateTime extends VRString {
       (isNotValid(dateTimeString)) ? 'Invalid DateTime: $dateTimeString' : "";
 
   @override
-  DateTime parse(String dateTimeString) {
+  DcmDateTime parse(String dateTimeString) {
     assert(dateTimeString != null);
-    if (!_isValidLength(dateTimeString.length) ||
+    /*if (!_isValidLength(dateTimeString.length) ||
         !_isValidString(dateTimeString)) return null;
     String s;
     int length = dateTimeString.length;
     if (length.isOdd && length < 6) return null;
     if (length == 4) s = dateTimeString + '0000';
-    if (length == 6) s = dateTimeString + '00';
-    DateTime dt;
+    if (length == 6) s = dateTimeString + '00';*/
     try {
-      //  print('DATE.parse: "$s:');
-      dt = DateTime.parse(s);
-      //  print('dt: $dt');
-    } on FormatException {
-      return null;
-    } on ArgumentError {
+      return DcmDateTime.parse(dateTimeString);
+    } on ParseError {
       return null;
     }
-    return dt;
   }
 
   /// Fix
@@ -550,24 +539,13 @@ class VRDcmTime extends VRString {
 
   /// Parse DICOM Time and if valid return a [Duration]; otherwise, [null].
   @override
-  Duration parse(String timeString) {
-    String t = timeString;
-    var length = t.length;
-    if (length < 6) {
-      if (length == 0 || length.isOdd) return null;
-      if (length == 2) t += '0000';
-      if (length == 4) t += '00';
-    }
-    var dts = prefix + t;
-    DateTime dt;
-    Duration time;
+  Time parse(String timeString) {
+    assert(timeString != null);
     try {
-      dt = DateTime.parse(dts);
-    } on FormatException {
+      return Time.parse(timeString);
+    } on ParseError {
       return null;
     }
-    time = dt.difference(baseDate);
-    return time;
   }
 
   /// Fix

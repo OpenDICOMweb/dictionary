@@ -327,7 +327,7 @@ void stringVRsTest() {
       expect(VRDcmString.kUC.isValid(""), false);
     });
   });
-  group("VRDcmString", () {
+  group("VRDcmText", () {
     test("isValid", () {
       //kLT
       for (int i = 0; i < 10; i++) {
@@ -392,7 +392,8 @@ void stringVRsTest() {
     test("isValid", () {
       expect(VRDcmDate.kDA.isValid("19680518"), true);
       expect(VRDcmDate.kDA.isValid("20161231"), true);
-      //expect(VRDcmDate.kDA.isValid("18051988"),true);//verify:PLEASE CHECK
+      expect(VRDcmDate.kDA.isValid("201612"), false);
+      expect(VRDcmDate.kDA.isValid("18051988"), false);
       expect(VRDcmDate.kDA.isValid("18-05-1988"), false);
       expect(VRDcmDate.kDA.isValid("18/05/1968"), false);
     });
@@ -400,22 +401,26 @@ void stringVRsTest() {
   group("VRFloatString", () {
     test("isValid", () {
       expect(VRFloatString.kDS.isValid("18443232.42"), true);
+      expect(VRFloatString.kDS.isValid(" 18443232.42 "), true);
       expect(VRFloatString.kDS.isValid("18443232.4243423"), true);
       expect(VRFloatString.kDS.isValid("1844323233.4243423"), false);
       expect(VRFloatString.kDS.isValid("18443232.42M"), false);
+      expect(VRFloatString.kDS.isValid("184432 32.42"), false);
     });
   });
 
-  /*group("VRDcmDateTime", () {
+  group("VRDcmDateTime", () {
     test("isValid", () {
-      log.debug(VRDcmDateTime.kDT.isValid("20170314 124603.424306"));//verify: space btwn data and time?
-      log.debug(VRDcmDateTime.kDT.isValid("20170314124603.424306"));//verify
+      expect(VRDcmDateTime.kDT.isValid("20170314 124603.424306"), false);
+      expect(VRDcmDateTime.kDT.isValid("20170314124603.424306"), true);
+      expect(VRDcmDateTime.kDT.isValid("20170314124603.424306 "), true);//verify: trailing spaces
     });
-  });*/
+  });
 
   group("VRIntString", () {
     test("isValid VRIntString", () {
       expect(VRIntString.kIS.isValid("567891234567"), true);
+      expect(VRIntString.kIS.isValid(" 567891234567 "), true);//verify: check for leading & trailing spaces
       expect(VRIntString.kIS.isValid("5678912345671"), false);
       expect(VRIntString.kIS.isValid("567891234.67"), false);
       expect(VRIntString.kIS.isValid(""), false);
@@ -426,6 +431,10 @@ void stringVRsTest() {
     test("isValid VRPersonName", () {
       //noOfgroups=3, noOfomponents=5, componentLength=8
       String strValid = rsg.generatePersonName(3, 5, 8);
+      expect(VRPersonName.kPN.isValid(strValid), true);
+
+      strValid = rsg.generatePersonName(3, 5, 8);
+      strValid = strValid + ' '; // PersonName with trailing space
       expect(VRPersonName.kPN.isValid(strValid), true);
 
       //noOfgroups=3, noOfomponents=5, componentLength=11
@@ -445,6 +454,7 @@ void stringVRsTest() {
   group("VRDcmTime", () {
     test("isValid VRDcmTime", () {
       expect(VRDcmTime.kTM.isValid("070907.0705"), true);
+      expect(VRDcmTime.kTM.isValid("070907.0705 "), true); //verify for trailing spaces
       expect(VRDcmTime.kTM.isValid("070907.070590"), true);
       expect(VRDcmTime.kTM.isValid("070907.07059099"), false);
       expect(VRDcmTime.kTM.isValid("070907.07059U"), false);

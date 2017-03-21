@@ -3,11 +3,4 @@
 // that can be found in the LICENSE file.
 // See the AUTHORS file for contributors.
 
-class ParseError extends Error {
-  String issues;
 
-  ParseError(this.issues);
-
-  @override
-  String toString() => 'ParseError: $issues';
-}

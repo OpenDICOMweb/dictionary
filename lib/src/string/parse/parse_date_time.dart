@@ -151,12 +151,13 @@ DateTime parseDcmDateTimeString(String dt, int start, int end) =>
 
 /// Returns [true] if [s] is a valid DICOM date/time [String] (DA).
 bool isValidDcmDateTimeString(String dt, int start, int end) =>
-    _parseDcmDateTimeString(dt, start, end, false);
+    _parseDcmDateTimeString(dt, start, end, true);
 //               y  m  d  h   m   s     f    tz
 // Legal lengths 4, 6, 8, 10, 12, 14  16-21, 26
 dynamic _parseDcmDateTimeString(
     String dt, int start, int end, bool isValidOnly) {
   int y, m = 0, d = 0, h = 0, mm = 0, s = 0, f = 0, tz = 0;
+  dt = dt.trimRight();
   if (dt == null) return null;
   int length = end - start;
   if (length == 0 || (length < 16 && length.isOdd)) return null;
@@ -171,7 +172,7 @@ dynamic _parseDcmDateTimeString(
       m = _parseMonth(dt, index);
       log.debug1('    m: $m');
       if ((index += 2) < end) {
-        d = _parseDay(y, m, dt, index += 2);
+        d = _parseDay(y, m, dt, index);
         log.debug1('    d: $d');
         if ((index += 2) < end) {
           h = _parseHour(dt, index);
