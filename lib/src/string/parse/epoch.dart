@@ -61,3 +61,7 @@ List<int> epochFromDays(int dfe) {
   int y = (m <= 2) ? year - 2 : year;
   return [y, m, d];
 }
+
+int microsecondsSinceEpoch(int y, int m, int d) {
+
+}

@@ -136,6 +136,7 @@ String _dtError(String s, int start, int end, String msg, String type) {
   return (msg == null) ? s0 : msg += '\n' + s0;
 }
 
+/* fix or flush
 String _yearError(String s, int start, int end, [String msg]) =>
     _dtError(s, start, end, msg, 'year');
 
@@ -156,6 +157,7 @@ String _secondError(String s, int start, int end, [String msg]) =>
 
 String _fractionError(String s, int start, int end, [String msg]) =>
     _dtError(s, start, end, msg, 'fraction');
+*/
 
 /// Returns an [issues] [String] if [s] is not a valid DICOM [Time];
 /// otherwise, "".
