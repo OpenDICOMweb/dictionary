@@ -30,7 +30,7 @@ void main() {
   */
 }
 
-int parseGoodYears() {
+void parseGoodYears() {
   List<int> nList = [0000, 1950, 2000, 0009, 0099, 0999, 9999];
   List<String> sList = ["0000", "1950", "2000", "0009", "0099", "0999", "9999"];
 
@@ -48,7 +48,7 @@ int parseGoodYears() {
 // What can be wrong with a bad year?
 // 1. Invalid length
 // 2. Invalid Character
-int parseBadYears() {
+void parseBadYears() {
   List<String> sList = ["0", "1950", "2000", "0009", "0099", "0999", "9999"];
 
   log.debug('Good Years');

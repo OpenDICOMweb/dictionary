@@ -28,7 +28,7 @@ void main() {
     test('isValidDcmDateString: good full date', () {
       for(String s in goodDcmDateList) {
         log.debug('string: "$s"');
-        DateTime value = DateTime.parse(s);
+    //    DateTime value = DateTime.parse(s);
         bool date = isValidDcmDateString(s, 0, s.length);
         log.debug('  valid: $date');
         expect(date, true);
@@ -38,8 +38,8 @@ void main() {
     test('getDcmDateIssues: good full date', () {
       for(String s in goodDcmDateList) {
         log.debug('string: "$s"');
-        DateTime value = DateTime.parse(s);
-        String issues = getDcmDateIssues(s, 0, s.length);
+    //    DateTime value = DateTime.parse(s);
+        ParseIssues issues = dateIssues(s, 0, s.length);
         log.debug('  issues: "$issues"');
         expect(issues, equals(""));
       }
@@ -92,7 +92,7 @@ void main() {
     test('getDcmDateIssues: Bad full date', () {
       for(String s in badDcmDateList) {
         log.debug('string: "$s"');
-        String issues = getDcmDateIssues(s, 0, s.length);
+        ParseIssues issues = dateIssues(s, 0, s.length);
         log.debug('  issues: "$issues"');
         expect(issues, equals(""));
       }

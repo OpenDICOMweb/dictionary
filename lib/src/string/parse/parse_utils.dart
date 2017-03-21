@@ -154,11 +154,11 @@ int parseMinute(String s, int start, bool throwOnError) =>
     _checkMinute(_parseUint(s, start, start + 2));
 
 /// Returns a valid [hour] or [null].  The [hour] must be 2 characters.
-parseSecond(String s, int start, bool throwOnError) =>
+int parseSecond(String s, int start, bool throwOnError) =>
     _checkSecond(_parseUint(s, start, start + 2));
 
 /// Returns a valid [hour] or [null].  The [hour] must be 2 characters.
-parseFraction(String s, int start, int end, bool throwOnError) {
+int parseFraction(String s, int start, int end, bool throwOnError) {
   log.debug2('s: ${s.substring(start, end)}');
   log.debug2('    end: $end');
   int c = s.codeUnitAt(start);

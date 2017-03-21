@@ -3,7 +3,7 @@
 // that can be found in the LICENSE file.
 // See the AUTHORS file for contributors.
 
-import 'package:dictionary/src/string/dcm_parse.dart';
+import 'package:dictionary/string.dart';
 
 import 'dcm_date_time.dart';
 import 'time.dart';
@@ -33,7 +33,7 @@ class Date {
 
   bool isValid(String s) => isValidDcmDateString(s, 0, s.length);
 
-  String issues(String s) => getDcmDateIssues(s, 0, s.length);
+  ParseIssues issues(String s) => dateIssues(s, 0, s.length);
 
   @override
   String toString() => '$y-$m-$d';

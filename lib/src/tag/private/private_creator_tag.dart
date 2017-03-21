@@ -29,6 +29,7 @@ class PrivateCreatorTag extends PrivateTag {
   @override
   bool get isCreator => true;
 
+  @override
   bool get isKnown => creator != PrivateCreatorDefinition.kUnknown;
 
   @override
@@ -74,6 +75,7 @@ class PrivateCreatorTag extends PrivateTag {
   static PrivateCreatorDefinition lookup(String token) =>
       privateCreatorMap[token];
 
-  static const PrivateCreatorTag kUnknown =
-      const PrivateCreatorTag(-1, "Unknown", VR.kLO, VM.k1);
+  // Flush ???
+ // static const PrivateCreatorTag kUnknown =
+ //     const PrivateCreatorTag(-1, "Unknown", VR.kLO, VM.k1);
 }

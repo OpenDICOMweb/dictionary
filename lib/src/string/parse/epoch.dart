@@ -4,6 +4,7 @@
 // Original author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
+import 'package:dictionary/date_time.dart';
 // Civil Month 0 = January
 // Internal Month 0 = March, this making February last month of year.
 
@@ -63,5 +64,9 @@ List<int> epochFromDays(int dfe) {
 }
 
 int microsecondsSinceEpoch(int y, int m, int d) {
+
+}
+
+Date dateFromMicrosecondsSinceEpoch(int us) {
 
 }

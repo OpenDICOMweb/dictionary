@@ -17,7 +17,7 @@ void main() {
 
 void privateCreatorTagTest() {
   test("PrivateCreatorTag Test", () {
-    PrivateCreatorTag pTag = PrivateCreatorTag.lookup("ACUSON");
+    PrivateCreatorTag pTag = new PrivateCreatorTag("ACUSON", 0x00090010);
     log.debug(pTag.info);
     log.debug('${pTag.creatorToken}: ${pTag.dataTags}');
   });
@@ -25,7 +25,7 @@ void privateCreatorTagTest() {
 
 void unknownPrivateCreatorTagTest() {
   test("PrivateCreatorTag.unknown Test", () {
-    PrivateCreatorTag pTag = PrivateCreatorTag.lookup("foo");
+    PrivateCreatorTag pTag = new PrivateCreatorTag("foo", 0x00090010);
     log.debug(pTag.info);
     log.debug('${pTag.creatorToken}: ${pTag.dataTags}');
   });

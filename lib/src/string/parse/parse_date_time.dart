@@ -89,44 +89,43 @@ dynamic _parseDcmTimePart(String s, int start, int end, [bool isValidOnly]) {
 }
 
 final dtVector = new List<int>(8);
+
 ///
 /// TODO: doc
 /// Note: end isn't strictly necessary, but makes all data/time parsers
 /// have the same interface.
 dynamic _parseDcmDateTimePart(String dt, int start, int end,
     [bool isValidOnly = false]) {
-  int y, m, d, tzOffset;
-  int microsecondsSinceEpoch;
-  int timeInMicroseconds;
+  int date, time, tzOffset;
   try {
     _checkArgs(dt, start, end, 4, 26);
     int index = start;
 
     ///
-    int microsecondsSinceEpoch = _parseDcmDatePart(dt, index, end, 4, 8, true);
+    int date = _parseDcmDatePart(dt, index, end, 4, 8, true);
     if ((index += 8) < end) {
-      timeInMicroseconds = _parseDcmTimePart(dt, index, end, true);
+      time = _parseDcmTimePart(dt, index, end, true);
       index = _charAt(dt, index, end, "-+");
-      if (index < end)
-        tzOffset = parseTimeZone(dt, index, true);
+      if (index < end) tzOffset = parseTimeZone(dt, index, true);
     }
-    log.debug('date: $microsecondsSinceEpoch, time: $timeInMicroseconds, tz: $tzOffset');
+    log.debug(
+        'date: $date, time: $time, tz: $tzOffset');
   } catch (e) {
     log.debug('Caught: $e');
     return (isValidOnly) ? false : null;
   }
-
-  return (isValidOnly) ? true : new DateTime.fromMicrosecondsSinceEpoch(y, m, d);
+  return (isValidOnly)
+      ? true
+      : new DateTime.fromMicrosecondsSinceEpoch(date + time + tzOffset);
 }
 
 // **** Functions below this line should become private at Version 0.8.0 for
 // **** performance reasons.
 
 int _charAt(String s, int start, int end, String target) {
-  for(int i = 0; i < end; i++) {
+  for (int i = 0; i < end; i++) {
     int c = s.codeUnitAt(i);
-    for (int j = 0; j < s.length; j++)
-      if (target.codeUnitAt(j) == c) return i;
+    for (int j = 0; j < s.length; j++) if (target.codeUnitAt(j) == c) return i;
   }
 }
 
@@ -206,9 +205,9 @@ DateTime parseDcmDateTimeString(String dt, int start, int end) =>
     parseDcmDateTimePart(dt, start, end, true, false);
 
 /// Returns [true] if [s] is a valid DICOM date/time [String] (DA).
-bool isValidDcmDateTimeString(String dt, int start, int end) {
-  bool date = parseDcmDateTimePart(dt, start, end, true, true);
-}
+bool isValidDcmDateTimeString(String dt, int start, int end) =>
+ parseDcmDateTimePart(dt, start, end, true, true);
+
 
 /// Returns [true] if [s] is a valid DICOM date/time [String] (DA).
 String getDcmDateTimeIssues(String dt, int start, int end) =>
