@@ -41,13 +41,16 @@ dynamic _parseDcmDateString(String s, int start, int end, bool isValidOnly) {
 
 /// Returns an error [String] if [s] is not a valid DICOM date; otherwise, "".
 String getDcmDateIssues(String s, int start, int end) {
-  String msg = _getLengthError(s.length, 8, 8);
+  String msg = "";
+  msg = _getLengthError(s.length, 8, 8);
+  if(msg != null) return msg;
+
   int y = _parseYear(s, start);
   if (y == null) msg += 'Invalid year(${s.substring(start, start + 4)})\n';
   int m = _parseMonth(s, start + 4);
-  if (m == null) return 'Invalid month(${s.substring(start + 4, start + 6)})\n';
+  if (m == null) msg += 'Invalid month(${s.substring(start + 4, start + 6)})\n';
   int d = _parseDay(y, m, s, start + 6);
-  if (d == null) return 'Invalid day(${s.substring(start + 6, start + 8)})\n';
+  if (d == null) msg += 'Invalid day(${s.substring(start + 6, start + 8)})\n';
   return msg;
 }
 
@@ -151,7 +154,7 @@ DateTime parseDcmDateTimeString(String dt, int start, int end) =>
 
 /// Returns [true] if [s] is a valid DICOM date/time [String] (DA).
 bool isValidDcmDateTimeString(String dt, int start, int end) =>
-    _parseDcmDateTimeString(dt, start, end, false);
+    _parseDcmDateTimeString(dt, start, end, true);
 //               y  m  d  h   m   s     f    tz
 // Legal lengths 4, 6, 8, 10, 12, 14  16-21, 26
 dynamic _parseDcmDateTimeString(
@@ -171,7 +174,7 @@ dynamic _parseDcmDateTimeString(
       m = _parseMonth(dt, index);
       log.debug1('    m: $m');
       if ((index += 2) < end) {
-        d = _parseDay(y, m, dt, index += 2);
+        d = _parseDay(y, m, dt, index);
         log.debug1('    d: $d');
         if ((index += 2) < end) {
           h = _parseHour(dt, index);
@@ -218,14 +221,24 @@ String getDcmDateTimeIssues(String s, int start, int end) {
   const int max = 26;
   String msg = _getLengthError(s.length, min, max);
   int start = 0;
-  int y = _parseHour(s, start);
-  if (y == null) msg += 'Invalid Hour(${s.substring(start, start + 2)})\n';
-  int m = _parseMinute(s, start + 2);
-  if (m == null) msg += 'Invalid Minute(${s.substring(start + 2, start + 4)})';
-  int d = _parseSecond(s, start + 6);
-  if (d == null) msg += 'Invalid Second(${s.substring(start + 4, start + 6)})';
-  int f = _parseSecond(s, start + 6);
+
+  if(msg != null) return msg;
+
+  int y = _parseYear(s, start);
+  if (y == null) msg += 'Invalid year(${s.substring(start, start + 4)})\n';
+  int m = _parseMonth(s, start + 4);
+  if (m == null) msg += 'Invalid month(${s.substring(start + 4, start + 6)})\n';
+  int d = _parseDay(y, m, s, start + 6);
+  if (d == null) msg += 'Invalid day(${s.substring(start + 6, start + 8)})\n';
+
+  int h = _parseHour(s, start + 8);
+  if (h == null) msg += 'Invalid Hour(${s.substring(start + 8, start + 10)})\n';
+  int mm = _parseMinute(s, start + 10);
+  if (mm == null) msg += 'Invalid Minute(${s.substring(start + 10, start + 12)})';
+  int ss = _parseSecond(s, start + 12);
+  if (ss == null) msg += 'Invalid Second(${s.substring(start + 12, start + 14)})';
+  int f = parseFraction(s, start + 14, end);
   if (f == null)
-    msg += 'Invalid Second Fraction(${s.substring(start + 6, start + 13)})';
+    msg += 'Invalid Second Fraction(${s.substring(start + 14, end)})';
   return msg;
 }

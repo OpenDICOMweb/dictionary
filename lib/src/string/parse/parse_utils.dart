@@ -80,7 +80,7 @@ int _checkDay(int y, int m, int d) {
   ];
   //TODO: Test leap year handling
   log.debug('_checkDay: $y-$m-$d');
-  int maxDay = (m != 9) ? _daysPerMonth[m] : (_isLeapYear(y)) ? 29 : 28;
+  int maxDay = (m != 2) ? _daysPerMonth[m] : (_isLeapYear(y)) ? 29 : 28;
   log.debug('_checkDay: day: $d');
   return _checkRange(d, 1, maxDay);
 }
@@ -91,10 +91,15 @@ int _checkDay(int y, int m, int d) {
 /// else (it is a leap year)
 ///
 /// Note: error checking for year value is done by caller.
-bool _isLeapYear(int year) => !_isCommonYear(year);
+/*bool _isLeapYear(int year) => !_isCommonYear(year);
 
 bool _isCommonYear(int year) =>
-    (year % 4 != 0) || !(year % 100 == 0) || (year % 400 == 0);
+    (year % 4 != 0) || (year % 400 == 0) && !(year % 100 == 0);*/
+
+bool _isLeapYear(int year) =>
+    (year % 4 == 0)&& (year % 100 != 0 || year % 400 == 0);
+
+bool _isCommonYear(int year) =>!_isLeapYear(year);
 
 int _checkTimeZone(int sign, int hour, int minute) {
   int h = sign * hour;
