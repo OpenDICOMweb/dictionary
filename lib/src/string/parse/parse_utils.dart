@@ -8,7 +8,7 @@ part of odw.sdk.dictionary.string.parse;
 // ********* private functions after this line **********
 
 /// Checks that [start], [end], [min], and [max] are all valid for
-/// the [String] [s].  If any of the values are not valid and [doThrow]
+/// the [String] [s].  If any of the values are not valid and [throwOnError]
 /// is [true] it throws an error message; otherwise, is returns
 /// a [String] describing any errors encountered.
 ///
@@ -22,13 +22,13 @@ part of odw.sdk.dictionary.string.parse;
 ///
 /// Assumption: non of the arguments are null.
 String _checkArgs(String s, int start, int end, int min, int max,
-    [doThrow = true]) {
-  log.debug1('_checkArgs($doThrow): (${s.length})"$s"\n'
+    [throwOnError = true]) {
+  log.debug1('_checkArgs($throwOnError): (${s.length})"$s"\n'
       '    start: $start, end: $end, min: $min, max: $max');
   String issues = "";
   if (s == null) {
     issues += 'Invalid null String';
-    if (doThrow) throw new ParseError(issues);
+    if (throwOnError) throw new ParseError(issues);
     log.debug2('issues 2: "$issues"');
     return issues;
   }
@@ -38,43 +38,39 @@ String _checkArgs(String s, int start, int end, int min, int max,
     if (s.length < end) {
       issues += 'end($end)is greater than the length of s(${s.length})"$s".\n';
       log.debug2('issues 3: "$issues"');
-      if (doThrow) throw new ParseError(issues);
+      if (throwOnError) throw new ParseError(issues);
     }
   }
   if (end < start + min) {
     issues += 'The argument "end($end)" is less than start($start) plus '
         'the minimum length($min) of s(${s.length})"$s"';
     log.debug2('issues 4: "$issues"');
-    if (doThrow) throw new ParseError(issues);
+    if (throwOnError) throw new ParseError(issues);
   }
   if (end > start + max) {
     issues += 'The argument "end($end)" is less than start($start) plus '
         'the maximum length($max) of s(${s.length})"$s"';
     log.debug2('issues 5: "$issues"');
-    if (doThrow) throw new ParseError(issues);
+    if (throwOnError) throw new ParseError(issues);
   }
   log.debug2('_checkArgs issues: $issues');
   return issues;
 }
 
-int _checkYear(int y) => _checkRange(y, 0, 9999);
-int _checkMonth(int m) => _checkRange(m, 1, 12);
-int _checkHour(int h) => _checkRange(h, 0, 23);
-int _checkMinute(int mm) => _checkRange(mm, 0, 59);
-int _checkSecond(int s) => _checkRange(s, 0, 59);
-int _checkFraction(int f) => _checkRange(f, 0, 999999);
+int _checkYear(int y, [bool throwOnError = true]) =>
+    _checkRange(y, 0, 9999, throwOnError);
+int _checkMonth(int m, [bool throwOnError = true]) =>
+    _checkRange(m, 1, 12, throwOnError);
+int _checkHour(int h, [bool throwOnError = true]) =>
+    _checkRange(h, 0, 23, throwOnError);
+int _checkMinute(int mm, [bool throwOnError = true]) =>
+    _checkRange(mm, 0, 59, throwOnError);
+int _checkSecond(int s, [bool throwOnError = true]) =>
+    _checkRange(s, 0, 59, throwOnError);
+int _checkFraction(int f, [bool throwOnError = true]) =>
+    _checkRange(f, 0, 999999, throwOnError);
 
-/*
-int _checkDay(int y, int m, int d) {
-  const List<int> _daysPerMonth = const <int>[
-    0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 //keep
-  ];
-  //TODO: Fix to handle leap years and leap seconds
-  return _checkRange(d, 1, _daysPerMonth[_checkMonth(m)]);
-}
-*/
-
-int _checkDay(int y, int m, int d) {
+int _checkDay(int y, int m, int d, [bool throwOnError = true]) {
   const List<int> _daysPerMonth = const <int>[
     0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 //keep
   ];
@@ -82,7 +78,7 @@ int _checkDay(int y, int m, int d) {
   log.debug('_checkDay: $y-$m-$d');
   int maxDay = (m != 9) ? _daysPerMonth[m] : (_isLeapYear(y)) ? 29 : 28;
   log.debug('_checkDay: day: $d');
-  return _checkRange(d, 1, maxDay);
+  return _checkRange(d, 1, maxDay, throwOnError);
 }
 
 /// if (year is not divisible by 4) then (it is a common year)
@@ -96,17 +92,27 @@ bool _isLeapYear(int year) => !_isCommonYear(year);
 bool _isCommonYear(int year) =>
     (year % 4 != 0) || !(year % 100 == 0) || (year % 400 == 0);
 
-int _checkTimeZone(int sign, int hour, int minute) {
+int _checkTimeZone(int sign, int hour, int minute, [bool throwOnError = true]) {
   int h = sign * hour;
-  _checkRange(h, -12, 14);
-  if (minute % 15 != 0)
-    throw new ParseError('Invalid Time Zone minute offset($minute)');
+  _checkRange(h, -12, 14, throwOnError);
+  if (minute % 15 != 0) {
+    var msg = 'Invalid Time Zone minute offset($minute)';
+    if (throwOnError) {
+      throw new ParseError(msg);
+    } else {
+      return null;
+    }
+  }
   return ((hour * 60) + minute) * sign;
 }
 
 // Note: _checkRange throws so all the other _check* might also throw.
-int _checkRange(int v, int min, int max) {
-  if (v < min || v > max) throw new ParseError('Invalid value($v)');
+int _checkRange(int v, int min, int max, [bool throwOnError = true]) {
+  if (v < min || v > max) {
+    var msg = 'Invalid value: min($min) <= value($v) <= max($max)';
+    if (throwOnError) throw new ParseError(msg);
+    return null;
+  }
   return v;
 }
 
@@ -127,31 +133,32 @@ String _getLengthError(int length, int min, int max) {
 /// Note: Assumes [offset] and [limit] are valid values.
 /// Note: all the parsers might throw so callers should use try catch.
 /// Returns a valid [year] or [null].  The [year] must be 4 characters.
-int _parseYear(String s, [int start = 0]) =>
-    _checkYear(_parseUint(s, start, start + 4));
+int parseYear(String s, int start, bool throwOnError) =>
+    _checkYear(_parseUint(s, start, start + 4, throwOnError), throwOnError);
+
 
 /// Returns a valid [month] or [null].  The [month] must be 2 characters.
-int _parseMonth(String s, [int start = 0]) =>
+int parseMonth(String s, int start, bool throwOnError) =>
     _checkMonth(_parseUint(s, start, start + 2));
 
 /// Returns a valid [day] or [null].  The [day] must be 2 characters.
-int _parseDay(int year, int month, String s, [int start = 0]) =>
+int parseDay(int year, int month, String s, int start, bool throwOnError) =>
     _checkDay(year, month, _parseUint(s, start, start + 2));
 
 /// Returns a valid [hour] or [null].  The [hour] must be 2 characters.
-int _parseHour(String s, [int start = 0]) =>
+int parseHour(String s, int start, bool throwOnError) =>
     _checkHour(_parseUint(s, start, start + 2));
 
 /// Returns a valid [hour] or [null].  The [hour] must be 2 characters.
-int _parseMinute(String s, [int start = 0]) =>
+int parseMinute(String s, int start, bool throwOnError) =>
     _checkMinute(_parseUint(s, start, start + 2));
 
 /// Returns a valid [hour] or [null].  The [hour] must be 2 characters.
-int _parseSecond(String s, [int start = 0]) =>
+parseSecond(String s, int start, bool throwOnError) =>
     _checkSecond(_parseUint(s, start, start + 2));
 
 /// Returns a valid [hour] or [null].  The [hour] must be 2 characters.
-int parseFraction(String s, int start, int end) {
+parseFraction(String s, int start, int end, bool throwOnError) {
   log.debug2('s: ${s.substring(start, end)}');
   log.debug2('    end: $end');
   int c = s.codeUnitAt(start);
@@ -164,8 +171,10 @@ int parseFraction(String s, int start, int end) {
   return _checkFraction(f);
 }
 
-/// Returns a valid [hour] or [null].  The [hour] must be 2 characters.
-int parseTimeZone(String s, int start) {
+/// Returns a valid Time Zone Offset in Minutes.  The [String] must have the
+/// format [-+]hhmm', where 'hh' is a valid hour and 'mm' is a valid Time Zone
+/// Offset minutes value.
+int parseTimeZone(String s, int start, bool throwOnError) {
   int sign = 1;
   log.debug2('s: ${s.substring(start, start + 5)}');
   log.debug2('    end: $start + 5');
@@ -175,9 +184,9 @@ int parseTimeZone(String s, int start) {
   } else if (c != kPlusSign) {
     throw new ParseError('No Time Zone present at index($start) in "$s"');
   }
-  int h = _parseHour(s, start + 1);
+  int h = parseHour(s, start + 1, true);
   log.debug2('    tz hour: $h');
-  int m = _parseMinute(s, start + 3);
+  int m = parseMinute(s, start + 3, true);
   log.debug2('    tz minute: $m');
   return _checkTimeZone(sign, h, m);
 }

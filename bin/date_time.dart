@@ -37,7 +37,7 @@ void parseFractionTest() {
 
   log.debug('Good Fractions');
   for (String s in goodFractions) {
-    int f = parseFraction(s, 0, s.length);
+    int f = parseFraction(s, 0, s.length, true);
     log.debug('    $s: $f');
   }
 }

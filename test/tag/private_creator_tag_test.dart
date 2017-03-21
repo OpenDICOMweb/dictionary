@@ -19,7 +19,7 @@ void privateCreatorTagTest() {
   test("PrivateCreatorTag Test", () {
     PrivateCreatorTag pTag = PrivateCreatorTag.lookup("ACUSON");
     log.debug(pTag.info);
-    log.debug('${pTag.token}: ${pTag.dataTags}');
+    log.debug('${pTag.creatorToken}: ${pTag.dataTags}');
   });
 }
 
@@ -27,6 +27,6 @@ void unknownPrivateCreatorTagTest() {
   test("PrivateCreatorTag.unknown Test", () {
     PrivateCreatorTag pTag = PrivateCreatorTag.lookup("foo");
     log.debug(pTag.info);
-    log.debug('${pTag.token}: ${pTag.dataTags}');
+    log.debug('${pTag.creatorToken}: ${pTag.dataTags}');
   });
 }

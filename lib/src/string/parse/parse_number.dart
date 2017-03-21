@@ -32,14 +32,19 @@ int parseUint(String s, int start, int end,
 /// [InvalidCharacterError].
 ///
 /// Note: we're using this because Dart doesn't provide a Uint parser.
-int _parseUint(String s, int start, int end) {
+int _parseUint(String s, int start, int end, [bool throwOnError = true]) {
   int value = 0;
   for (int i = start; i < end; i++) {
     value *= 10;
     log.debug2('    i: $i, _pUint: $value');
     int c = s.codeUnitAt(i);
-    if (c < k0 || c > k9)
-      throw new ParseError('Invalid char $c in String(${s.length}): "$s"');
+    if (c < k0 || c > k9) {
+      if (throwOnError) {
+        throw new ParseError('Invalid char $c in String(${s.length}): "$s"');
+      } else {
+        return null;
+      }
+    }
     int v = c - k0;
     value += v;
     log.debug2('    v: $v, value: $value');
@@ -65,7 +70,8 @@ int parseUintRadix(String s, int start, int end,
 }
 
 //TODO: This must be tested before using.
-int _parseUintRadix(String s, int start, int end, int min, int max, int radix) {
+int _parseUintRadix(String s, int start, int end, int min, int max, int radix,
+    [bool throwOnError = true]) {
   log.debug1('_parseUintRadix s(${end - start}): "${s.substring(start, end)}"');
   int value = 0;
 
@@ -82,7 +88,10 @@ int _parseUintRadix(String s, int start, int end, int min, int max, int radix) {
     } else if (c >= k0 || c < maxChar) {
       value += c - k0;
     } else {
-      throw new ParseError('Invalid char $c in String(${s.length}): "$s"');
+      if (throwOnError) {
+        throw new ParseError('Invalid char $c in String(${s.length}): "$s"');
+      }
+      return null;
     }
     log.debug2('  _parseUintRadix: value($value)');
   }

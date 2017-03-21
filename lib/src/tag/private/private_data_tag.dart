@@ -9,13 +9,16 @@ import 'package:dictionary/src/vm.dart';
 import 'package:dictionary/src/vr/vr.dart';
 
 class PrivateDataTag extends PrivateTag {
+  final int index;
   /// Creates a "Known" [PrivateDataTag].
-  const PrivateDataTag._(index, token, int code, VR vr, VM vm, String name)
-      : super.data(index, token, code, vr, vm, name);
+  const PrivateDataTag._(this.index, token, int code, VR vr, VM vm, String
+  name)
+      : super.data(token, code, vr, vm, name);
 
   // Creates an "Unknown" [PrivateDataTag], i.e. ODWSDK has no info on it.
   PrivateDataTag(int code, [VR vr = VR.kUN])
-      : super.unknownData(code, vr, VM.kUnknown);
+      : index = -1,
+        super.unknownData(code, vr, VM.kUnknown);
 
   @override
   int get subgroup => code & 0xFF00;

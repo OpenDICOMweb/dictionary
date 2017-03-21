@@ -34,11 +34,30 @@ const int kUndefinedLength = 0xFFFFFFFF;
 
 bool hasUndefinedLength(int i) => i == kUndefinedLength;
 
-/// Used to pad string value fields to an even length.
+// Special Tag Related constants
+
+/// This corresponds to the first 16-bits of [kSequenceDelimitationItem],
+/// [kItem], and [kItemDelimitationItem] which are the same value.
+const int kDelimiterFirst16Bits = 0xFFFE;
+
+/// This corresponds to the last 16-bits of [kSequenceDelimitationItem].
+const int kSequenceDelimiterLast16Bits = 0xE0DD;
+
+/// This corresponds to the last 16-bits of [kItemDelimitationItem].
+const int kItemLast16bits = 0xE000;
+
+/// This corresponds to the last 16-bits of [kItemDelimitationItem].
+const int kItemDelimiterLast16bits = 0xE00D;
+
+/// The value appended to odd length UID Value Fields to make them even length.
+const int kUidPaddingChar = kNull;
+
+/// The value appended to odd length [String] Value Fields to make them
+/// even length.
 const int kStringPaddingChar = kSpace;
 
-/// Used to pad Uid value fields to an even length.
-const int kUidPaddingChar = 0;
+/// The value appended to odd length Uint8 Value Fields (OB, UN) to make
+/// them even length.
+const int kUint8PaddingValue = 0;
 
-// Transfer Syntax
-const int transferSyntaxTag = 0x00020010;
+
