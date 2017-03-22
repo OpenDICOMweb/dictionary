@@ -160,6 +160,7 @@ bool isValidDcmDateTimeString(String dt, int start, int end) =>
 dynamic _parseDcmDateTimeString(
     String dt, int start, int end, bool isValidOnly) {
   int y, m = 0, d = 0, h = 0, mm = 0, s = 0, f = 0, tz = 0;
+  dt = dt.trimRight();
   if (dt == null) return null;
   int length = end - start;
   if (length == 0 || (length < 16 && length.isOdd)) return null;
