@@ -23,7 +23,6 @@ import 'uid_utils.dart' as util;
 ///   3. generated from random [Uuid]s. See <http://www.oid-info.com/get/2.25>
 ///
 
-
 /// A UID constructed from a [String] or from a root and leaf.  This
 /// class is the super class for all Well Known UIDs.
 abstract class Uid {

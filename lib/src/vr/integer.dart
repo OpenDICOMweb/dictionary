@@ -77,7 +77,7 @@ class VRInt extends VR<int> {
       : super(index, code, id, elementSize, vfLengthFieldSize, maxVFLength,
             keyword);
 
-  /// Returns [true] of [value] is valid for this [VRBase].
+  /// Returns [true] if [value] is valid for this [VRInt].
   @override
   bool isValid(int n) => (minValue <= n) && (n <= maxValue);
 
