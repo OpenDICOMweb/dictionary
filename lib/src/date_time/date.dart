@@ -3,9 +3,9 @@
 // that can be found in the LICENSE file.
 // See the AUTHORS file for contributors.
 
+import 'package:dictionary/src/string/parse.dart';
 import 'package:dictionary/src/string/parse_error.dart';
 import 'package:dictionary/src/string/parse_issues.dart';
-import 'package:dictionary/src/string/utils.dart';
 
 import 'dcm_date_time.dart';
 import 'parse.dart';

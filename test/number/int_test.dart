@@ -4,7 +4,7 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
-//import 'package:dictionary/src/string/dcm_parse.dart';
+import 'package:dictionary/src/string/parse.dart';
 import 'package:test/test.dart';
 
 void main() {

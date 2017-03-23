@@ -4,11 +4,10 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
+import 'package:dictionary/src/string/parse.dart';
 import 'package:dictionary/src/string/parse_issues.dart';
-import 'package:dictionary/src/string/utils.dart';
 
 import 'parse.dart';
-//import 'time_utils.dart';
 
 //TODO: add implements Comparable
 class Time {
@@ -134,9 +133,8 @@ class Time {
   static fix(String s, [int start = 0, int end]) {
     var s0 = s.substring(start, end);
     s0 = s.trimRight();
-    //TODO:
-    // truncate on error, what other fixes? if separator (:) present - remove.
-    // if time zone marker present??
+    //TODO: truncate on error, what other fixes? if separator (:) present -
+    // remove. if time zone marker present??
     return s0;
   }
 

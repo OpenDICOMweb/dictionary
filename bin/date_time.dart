@@ -5,9 +5,7 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:common/logger.dart';
-import 'package:dictionary/src/date_time/date.dart';
-import 'package:dictionary/src/date_time/time.dart';
-import 'package:dictionary/src/string/dcm_parse.dart';
+import 'package:dictionary/date_time.dart';
 
 final Logger log = new Logger('DateTimeTests', watermark: Severity.debug);
 
@@ -37,7 +35,7 @@ void parseFractionTest() {
 
   log.debug('Good Fractions');
   for (String s in goodFractions) {
-    int f = parseFraction(s, 0, s.length, true);
+    int f = parseFraction(s, 0, s.length, null);
     log.debug('    $s: $f');
   }
 }
