@@ -11,4 +11,3 @@ export 'package:dictionary/src/date_time/parse.dart';
 export 'package:dictionary/src/date_time/time.dart' hide fromMicroseconds;
 export 'package:dictionary/src/string/parse_error.dart';
 export 'package:dictionary/src/string/parse_issues.dart';
-

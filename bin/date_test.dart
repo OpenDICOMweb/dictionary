@@ -32,7 +32,7 @@ void main() {
   leapYearTest();
   weekDayFromEpochDay();
 
- // int startYear = -1000000;
+  // int startYear = -1000000;
   dateUnitTest(-100000);
 }
 
@@ -87,10 +87,10 @@ void dateUnitTest([int startYear = -10000, int endYear]) {
     if (y % 10000 == 0) log.info('    Year: $y: ${watch.elapsed}');
     for (int m = 1; m <= 12; m++) {
       int e = lastDayOfMonth(y, m);
-  //    log.debug2('Month: $m, lastDay: $e');
+      //    log.debug2('Month: $m, lastDay: $e');
       for (int d = 1; d <= e; d++) {
         int z = epochDay(y, m, d, minYear: startYear, maxYear: endYear);
-  //      log.debug2('Day: $d z: $z');
+        //      log.debug2('Day: $d z: $z');
         assert(previousEpochDay < z);
         assert(z == previousEpochDay + 1);
 
@@ -105,9 +105,9 @@ void dateUnitTest([int startYear = -10000, int endYear]) {
         assert(wd == nwd, '$wd, $previousWeekDay: $nwd');
         assert(previousWeekDay == previousWeekday(wd));
         previousEpochDay = z;
-   //     log.debug2('  previousEDay: $z');
+        //     log.debug2('  previousEDay: $z');
         previousWeekDay = wd;
-   //     log.debug2('  previousWeekDay: $wd');
+        //     log.debug2('  previousWeekDay: $wd');
       }
     }
   }
@@ -130,11 +130,11 @@ void leapYearTest() {
     int m = date[1];
     int d = date[2];
     int n = epochDay(y, m, d);
-   // log.debug2('$i, $n, ${i == n}');
+    // log.debug2('$i, $n, ${i == n}');
     if (isLeapYear(y) && m == 2 && d == 29) {
       int last = lastDayOfMonth(y, m);
       assert(last == 29);
-  //    log.debug2('$y-$m-$d');
+      //    log.debug2('$y-$m-$d');
     }
     assert(i == n);
   }
@@ -153,7 +153,7 @@ void weekDayFromEpochDay() {
     int day = (zeroWeekDay + i) % 7;
     int wd = weekdayFromEpochDay(i);
 
-  //  log.debug('    $i: day: $day, wd: $wd');
+    //  log.debug('    $i: day: $day, wd: $wd');
     assert(day == wd);
   }
   log.info('    Elapesd: ${watch.elapsed}');
@@ -162,7 +162,7 @@ void weekDayFromEpochDay() {
   for (int i = 0; i > -100000; i--) {
     int wd = weekdayFromEpochDay(i);
     int day = (zeroWeekDay + i) % 7;
-  //  log.debug('    $i: day: $day, wd: $wd');
+    //  log.debug('    $i: day: $day, wd: $wd');
     assert(day == wd);
   }
   watch.stop();

@@ -18,12 +18,12 @@ class DcmDateTime {
 
   DcmDateTime(int year,
       [int month = 0,
-        int day = 0,
-        int hour = 0,
-        int minute = 0,
-        int second = 0,
-        int millisecond = 0,
-        int microsecond = 0])
+      int day = 0,
+      int hour = 0,
+      int minute = 0,
+      int second = 0,
+      int millisecond = 0,
+      int microsecond = 0])
       : date = new Date(year, month, day),
         time = new Time(hour, minute, second, millisecond, microsecond);
 
@@ -76,7 +76,7 @@ class DcmDateTime {
     DateTime dt = new DateTime.now();
     Date date = new Date(dt.year, dt.month, dt.day);
     Time time =
-    new Time(dt.hour, dt.minute, dt.second, dt.millisecond, dt.microsecond);
+        new Time(dt.hour, dt.minute, dt.second, dt.millisecond, dt.microsecond);
     return new DcmDateTime.fromDateAndTime(date, time);
   }
 

@@ -60,7 +60,7 @@ class VR<T> {
   /// Returns [true] of [value] is valid for this VRBase.
   bool isValid(T value) => false;
 
-  /// Returns [true] of [value] is not valid for this VRBase.
+  /// Returns [true] of [value] is not valid for this VRBasegirt.
   bool isNotValid(T value) => !isValid(value);
 
   T check(T value) => (isValid(value)) ? value : null;

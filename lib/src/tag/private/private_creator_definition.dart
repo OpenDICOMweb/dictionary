@@ -23,8 +23,8 @@ class PrivateCreatorDefinition {
   }
 
   static const PrivateCreatorDefinition kUnknown = const
-  //Fix: renumber index
-  PrivateCreatorDefinition._(-1, "Unknown", const <int, PrivateDataTag>{});
+      //Fix: renumber index
+      PrivateCreatorDefinition._(-1, "Unknown", const <int, PrivateDataTag>{});
 
   static const PrivateCreatorDefinition k0 = const PrivateCreatorDefinition._(
       0, "1.2.840.113681", const <int, PrivateDataTag>{

@@ -10,5 +10,3 @@ export 'package:dictionary/src/string/parse.dart';
 export 'package:dictionary/src/string/parse_error.dart';
 export 'package:dictionary/src/string/parse_issues.dart';
 export 'package:dictionary/src/string/string_predicates.dart';
-
-

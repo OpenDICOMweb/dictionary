@@ -88,9 +88,9 @@ void testGoodDateIssues() {
 
 void testBadDateIssues() {
   List<String> dates = <String>[
-    '1950071', '190001010',  //bad length
+    '1950071', '190001010', //bad length
     '2a0b1212', '1900Z1010', // good length bad char
-    '2a0b121', '1900Z10100'  // bad length and bad char
+    '2a0b121', '1900Z10100' // bad length and bad char
   ];
 
   for (int i = 0; i < dates.length; i++) {

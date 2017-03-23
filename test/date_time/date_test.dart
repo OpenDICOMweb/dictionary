@@ -90,7 +90,7 @@ void main() {
       String s = '19500718';
       var dt = Date.parse(s, 0, s.length);
       log.debug(dt);
-  /*Fix
+      /*Fix
       DcmDateTime ddt1 = dt.add(new Time(hours: 4, minutes: 20, seconds: 56));
       log.debug(ddt1.hour);
       log.debug(ddt1.minute);

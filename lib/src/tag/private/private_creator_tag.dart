@@ -76,6 +76,6 @@ class PrivateCreatorTag extends PrivateTag {
       privateCreatorMap[token];
 
   // Flush ???
- // static const PrivateCreatorTag kUnknown =
- //     const PrivateCreatorTag(-1, "Unknown", VR.kLO, VM.k1);
+  // static const PrivateCreatorTag kUnknown =
+  //     const PrivateCreatorTag(-1, "Unknown", VR.kLO, VM.k1);
 }

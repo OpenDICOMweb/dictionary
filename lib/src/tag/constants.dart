@@ -6,7 +6,6 @@
 
 /// A library for handling DICOM tags.
 
-
 // Standard DICOM Public Element  definitions
 
 const int kAffectedSOPInstanceUID = 0x00001000;
