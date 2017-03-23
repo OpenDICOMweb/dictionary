@@ -14,7 +14,7 @@ import 'package:common/common.dart';
 class Elt {
   static const int kElementMask = 0x0000FFFF;
 
-  /// Returns the least significant 16 bits of the [tag.code].
+  /// Returns the least significant 16 bits of the [tagCode].
   static int fromTag(int tagCode) => tagCode & kElementMask;
 
   /// Returns the [Elt] [int] as a hex [String].

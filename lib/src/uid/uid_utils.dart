@@ -15,21 +15,21 @@ const List<int> uidRoots = const [k0, k1, k2];
 final RegExp uidRegex = new RegExp(r"[012]((\.0)|(\.[1-9]+\d*))+");
 
 /// Returns [s] if it is a valid [Uid] [String]; otherwise, [null].
-bool isValidUidString(String uidString) {
-  if (uidString == null ||
-      !_isValidLength(uidString.length) ||
-      !uidRoots.contains(uidString.codeUnitAt(0))) return false;
-  for (int i = 1; i < uidString.length - 1; i++) {
+bool isValidUidString(String s) {
+  if (s == null ||
+      !_isValidLength(s.length) ||
+      !uidRoots.contains(s.codeUnitAt(0))) return false;
+  for (int i = 1; i < s.length - 1; i++) {
     //  print('  $i: ${uidString[i]}, ${i+1}: ${uidString[i+1]}');
-    int char0 = uidString.codeUnitAt(i);
+    int char0 = s.codeUnitAt(i);
     if (char0 == kDot) {
-      if (uidString.codeUnitAt(i + 1) == k0 &&
-          uidString.codeUnitAt(i + 2) != kDot) return false;
+      if (s.codeUnitAt(i + 1) == k0 &&
+          s.codeUnitAt(i + 2) != kDot) return false;
     } else {
       if (!isDigitChar(char0)) return false;
     }
   }
-  if (!isHexChar(uidString.codeUnitAt(uidString.length - 1))) return false;
+  if (!isHexChar(s.codeUnitAt(s.length - 1))) return false;
   return true;
 }
 

@@ -13,7 +13,7 @@ class Group {
   static const int kGroupMask = 0xFFFF0000;
   static const int shiftCount = 16;
 
-  /// Groups numbers that shall not be used in [PrivateTag]s.
+  /// Groups numbers that shall not be used in PrivateTags.
   static const List<int> invalidPrivateGroups = const <int>[
     0x0001, 0x0003, 0x0005, 0x0007, 0xFFFF // Don't reformat
   ];
@@ -21,7 +21,7 @@ class Group {
   /// Returns the most significant 16 bits of the tag.code.
   static int fromTag(int tagCode) => tagCode >> shiftCount;
 
-  /// Returns the [tagGroup] number as a hex [String].
+  /// Returns the tag Group number as a hex [String].
   static String hex(int g, [String prefix = "0x"]) => Int.hex(g, 4, prefix);
 
   /// Returns [true] if [g] is Public Group (even), or a valid Private Group.

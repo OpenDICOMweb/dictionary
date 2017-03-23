@@ -17,9 +17,9 @@ import 'package:common/common.dart';
 ///
 /// *Backslash as Value Field Separator*
 ///
-/// The _backslash_ '\' [$backslash] ($reverseSolidus)] character is used as a Value Field (VF)
-/// separator for all [String] based VRs, except  LT, ST, UR, and UT.
-
+/// The _backslash_ '\' $backslash ($reverseSolidus)] character is used
+/// as a Value Field (VF) separator for all [String] based VRs, except
+/// LT, ST, UR, and UT.
 ///
 /// Returns [true] is [c] is a visible (printable) ASCII character code.
 bool _isDcrChar(int c) => ((c >= kSpace) && (c < kDelete));
@@ -49,11 +49,13 @@ bool isDcmTextChar(int c) =>
 
 int checkDcmTextChar(int c) => (isDcmTextChar(c)) ? c : null;
 
+/*
+//Flush if not needed after escape sequences are implemented.
 /// The four legal DICOM control characters.
 /// Returns [true] if [c] is a DICOM Control character; otherwise [false].
-//Flush if not needed after escape sequences are implemented.
-//bool _isDcmCtrlChar(int c) =>
-//    (c == kLinefeed) || (c == kCr) || (c == kHTab) || (c == kFormfeed);
+bool _isDcmCtrlChar(int c) =>
+    (c == kLinefeed) || (c == kCr) || (c == kHTab) || (c == kFormfeed);
+*/
 
 /// Returns [true] if [c] is legal in an AE Title; otherwise, [false],
 const CharPredicate isAEChar = isDcmStringChar;

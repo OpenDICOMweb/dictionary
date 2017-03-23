@@ -16,7 +16,7 @@ final Logger _log =
 
 /// Parses an [int] from [start] to [end], and returns
 /// its corresponding value. The If an error is encountered throws an
-/// [InvalidCharacterError].
+/// [ParseError].
 ///
 /// Note: we're using this because Dart doesn't provide a Uint parser.
 int parseUint(String s, int start, int end,
@@ -49,8 +49,8 @@ int uintParser(String s, int start, int end, ParseIssues issues,
 
 //TODO: rewrite doc
 /// Parses an [int] from [start] to [end], and returns
-/// its corresponding value. The If an error is encountered throws an
-/// [InvalidCharacterError].
+/// its corresponding value. If an error is encountered throws an
+/// [ParseError].
 ///
 /// Note: we're using this because Dart doesn't provide a Uint parser.
 int _parseUint(String s, int start, int end, ParseIssues issues) {

@@ -9,7 +9,7 @@ import 'package:dictionary/src/tag/tag.dart';
 import 'package:dictionary/src/vm.dart';
 import 'package:dictionary/src/vr/vr.dart';
 
-/// A [class] for defining the elements of an [IOD].
+/// A [class] for defining the elements of an IOD.
 class IodTag {
   final Tag tag;
   final EType _type;

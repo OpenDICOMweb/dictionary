@@ -18,9 +18,9 @@ const int kUint32Max = 0xFFFFFFFF;
 ///
 /// Notes:
 ///     1. Short Value Fields may not have an Undefined Length
-///     2. All Value Fields must contain an even number of bytes.  Thus, while the
-///       Value Field is 16-bits, the maximum length is 1 less then 2^16, which is an
-///       odd number.
+///     2. All Value Fields must contain an even number of bytes.
+///     Thus, while the Value Field is 16-bits, the maximum length
+///     is 1 less then 2^16, which is an odd number.
 const int kMaxShortVF = kUint16Max - 1;
 
 /// The maximum length, in bytes, of a "long" (32-bit) Value Field.
@@ -29,24 +29,25 @@ const int kMaxShortVF = kUint16Max - 1;
 /// (0xFFFFFFFF) is used to denote a Value Field with Undefined Length.
 const int kMaxLongVF = kUint32Max - 1;
 
-/// This is the value of a DICOM Undefined Length from a 32-bit Value Field Length.
+/// This is the value of a DICOM Undefined Length from a 32-bit
+/// Value Field Length.
 const int kUndefinedLength = 0xFFFFFFFF;
 
 bool hasUndefinedLength(int i) => i == kUndefinedLength;
 
 // Special Tag Related constants
 
-/// This corresponds to the first 16-bits of [kSequenceDelimitationItem],
-/// [kItem], and [kItemDelimitationItem] which are the same value.
+/// This corresponds to the first 16-bits of kSequenceDelimitationItem,
+/// kItem, and kItemDelimitationItem which are the same value.
 const int kDelimiterFirst16Bits = 0xFFFE;
 
-/// This corresponds to the last 16-bits of [kSequenceDelimitationItem].
+/// This corresponds to the last 16-bits of kSequenceDelimitationItem.
 const int kSequenceDelimiterLast16Bits = 0xE0DD;
 
-/// This corresponds to the last 16-bits of [kItemDelimitationItem].
+/// This corresponds to the last 16-bits of kItemDelimitationItem.
 const int kItemLast16bits = 0xE000;
 
-/// This corresponds to the last 16-bits of [kItemDelimitationItem].
+/// This corresponds to the last 16-bits of kItemDelimitationItem.
 const int kItemDelimiterLast16bits = 0xE00D;
 
 /// The value appended to odd length UID Value Fields to make them even length.

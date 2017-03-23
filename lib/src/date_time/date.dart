@@ -97,7 +97,7 @@ bool _isValidDate(int y, int m, int d,
     if (_inRange(y, minYear, maxYear, throwOnError) &&
         _inRange(m, 1, 12, throwOnError) &&
         _inRange(d, 1, _lastDayOfMonth(y, m), throwOnError)) return true;
-  } on ParseError catch (e) {
+  } on ParseError {
     return false;
   }
   return true;

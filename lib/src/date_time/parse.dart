@@ -116,38 +116,40 @@ dynamic getDcmTimeIssues(
   return issues;
 }
 
-/// Parses a base 10 [int] from [offset] to [limit], and returns
-/// its corresponding value. If an error is encountered throws an
-/// [InvalidCharacterError].
+/// Parses a base 10 [int] of the specified size, starting from [start],
+/// and returns its corresponding value. If an error is encountered
+/// a [ParseError] is thrown.
 ///
-/// Note: Assumes [offset] and [limit] are valid values.
-/// Note: all the parsers might throw so callers should use try catch.
-/// Returns a valid [year] or [null].  The [year] must be 4 characters.
+/// Note: all the parsers might throw so callers should use try/catch.
+
+/// Returns a valid year or [null].  The year must be 4 characters.
 int parseYear(String s, [int start = 0, ParseIssues issues]) =>
     _checkYear(uintParser(s, start, start + 4, issues), issues);
 
-/// Returns a valid [month] or [null].  The [month] must be 2 characters.
+/// Returns a valid month or [null].  The month must be 2 characters.
 int parseMonth(String s, [int start = 0, ParseIssues issues]) =>
     _checkMonth(uintParser(s, start, start + 2, issues), issues);
 
-/// Returns a valid [day] or [null].  The [day] must be 2 characters.
+/// Returns a valid day or [null].  The day must be 2 characters.
 int parseDay(int year, int month, String s, [int start = 0, ParseIssues
 issues]) =>
     _checkDay(year, month, uintParser(s, start, start + 2, issues), issues);
 
-/// Returns a valid [hour] or [null].  The [hour] must be 2 characters.
+/// Returns a valid hour or [null].  The hour must be 2 characters.
 int parseHour(String s, [int start = 0, ParseIssues issues]) =>
     checkHour(uintParser(s, start, start + 2, issues), issues);
 
-/// Returns a valid [hour] or [null].  The [hour] must be 2 characters.
+/// Returns a valid minute or [null].  The minute must be 2 characters.
 int parseMinute(String s, [int start = 0, ParseIssues issues]) =>
     checkMinute(uintParser(s, start, start + 2, issues), issues);
 
-/// Returns a valid [hour] or [null].  The [hour] must be 2 characters.
+/// Returns a valid second or [null].  The second must be 2 characters.
 int parseSecond(String s, [int start = 0, ParseIssues issues]) =>
     checkSecond(uintParser(s, start, start + 2, issues), issues);
 
-/// Returns a valid [hour] or [null].  The [hour] must be 2 characters.
+/// Returns a valid fraction of a second or [null].  The fractoin must be
+/// at least 2 characters (a decimal point, followed by a digit, and can be
+/// no more than 7 characters.
 int parseFraction(String s, [int start = 0, int end, ParseIssues issues]) {
   if (end == null) end = s.length;
   _log.debug2('s: ${s.substring(start, end)}, start: $start, end: $end');
@@ -256,7 +258,7 @@ int _checkTimeZone(int sign, int hour, int minute, ParseIssues issues) {
   int h = sign * hour;
   _checkRange(h, -12, 14, issues);
   if (minute % 15 != 0) {
-    var msg = 'Invalid Time Zone minute offset($minute)';
+    var msg = 'Invalid Time Zone Offset minute($minute)';
     if (issues != null) {
       throw new ParseError(msg);
     } else {

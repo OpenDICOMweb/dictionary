@@ -4,6 +4,7 @@
 // Original author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
+//TODO: most of this file is not used. remove unused.
 const int kUnknown = 0;
 const int kAE8 = 0x4145;
 const int kAS8 = 0x4153;
@@ -38,9 +39,9 @@ const int kUR8 = 0x5552;
 const int kUS8 = 0x5553;
 const int kUT8 = 0x5554;
 
-/// A [List] of valid [VR]s as 16-bit values.  Since the target architectures
-/// are all [LittleEndian], the byte order is reversed. The [VR]s are in the
-/// order of [VR.vrMap]
+/// A [List] of valid VRs as 16-bit values.  Since the target architectures
+/// are all LittleEndian, the byte order is reversed. The [VR]s are in the
+/// order of VR.vrMap.
 const List<int> kVR8BitCodeList = const [
   kUnknown, kSQ8, kSS8, kSL8, kOB8, kUN8, kOW8, kUS8, kUL8, kAT8,
   kOL8, kFD8, kFL8, kOD8, kOF8, kIS8, kDS8, kAE8, kCS8, kLO8,
@@ -48,7 +49,7 @@ const List<int> kVR8BitCodeList = const [
   kUR8, kAS8, kBR8 // preserve formatting
 ];
 
-/// Returns the [_index] of [vrCode] in kVR8List.
+/// Returns the index of [vrCode] in kVR8List.
 int vrCodeToIndex(int vrCode) => kVR8BitCodeList.indexOf(vrCode);
 
 // Constant definitions for 16-bit VR Codes. Since the
@@ -86,9 +87,9 @@ const int kUR16 = 0x5255;
 const int kUS16 = 0x5355;
 const int kUT16 = 0x5455;
 
-/// A [List] of valid [VR]s as 16-bit values.  Since the target architectures
-/// are all [LittleEndian], the byte order is reversed. The [VR]s are in the
-/// order of [VR.vrMap]
+/// A [List] of valid VRs as 16-bit values.  Since the target architectures
+/// are all littleEndian, the byte order is reversed. The [VR]s are in the
+/// order of VR.vrMap
 const List<int> kVR16BitCodeList = const [
   kUnknown, kSQ16, kSS16, kSL16, kOB16, kUN16, kOW16, kUS16, kUL16, kAT16,
   kOL16, kFD16, kFL16, kOD16, kOF16, kIS16, kDS16, kAE16, kCS16, kLO16,
@@ -96,5 +97,5 @@ const List<int> kVR16BitCodeList = const [
   kUR16, kAS16, kBR16 // preserve formatting
 ];
 
-/// Returns the [_index] of [vrCode] in kVR16List.
+/// Returns the index of [vrCode] in kVR16List.
 int vr16CodeToIndex(int vrCode) => kVR16BitCodeList.indexOf(vrCode);

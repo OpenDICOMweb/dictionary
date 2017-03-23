@@ -89,7 +89,7 @@ class Tag {
   bool get hasShortVF => vr.hasShortVF;
   bool get hasLongVF => vr.hasLongVF;
 
-  /// Returns the length of a DICOM [Element] header field.
+  /// Returns the length of a DICOM Element header field.
   /// Used for encoding DICOM media types
   int get dcmHeaderLength => (hasShortVF) ? 8 : 12;
 
@@ -442,7 +442,7 @@ class Tag {
   /// Returns the limit for a [PrivateDataTag] with a base of [pdBase].
   static int _pdLimit(int pdBase) => pdBase + 0x00FF;
 
-  /// Returns [true] if [tag] is in the range of DICOM [Dataset] Tags.
+  /// Returns [true] if [tag] is in the range of DICOM Dataset Tags.
   /// Note: Does not test tag validity.
   static bool inDatasetRange(int tag) =>
       (kMinDatasetTag <= tag) && (tag <= kMaxDatasetTag);

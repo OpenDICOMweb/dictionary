@@ -8,7 +8,7 @@ import 'package:dictionary/dictionary.dart';
 
 /// A library of compile time constants for handling DICOM Directory data
 
-/// A [Map<int, String>] of [tag]:[keyword] pairs.
+/// A [Map<int, String>] of [tag]:keyword pairs.
 const Map<int, String> dcmDirTagToKeyword = const {
   0x00041130: "FileSetID",
   0x00041141: "FileSetDescriptorFileID",
@@ -100,7 +100,7 @@ const List<int> dcmDirTags = const [
 /// Returns true if [dcmDirTags] contains [tag].
 bool isValidDcmDirTag(int tag) => dcmDirTags.contains(tag);
 
-/// A [tag] ordered list of DICOM Directory Keywords.
+/// A tag code ordered list of DICOM Directory Keywords.
 const List<String> dcmDirKeywords = const [
   "FileSetID",
   "FileSetDescriptorFileID",

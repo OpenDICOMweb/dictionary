@@ -13,6 +13,7 @@ class TransferSyntax extends WKUid {
   static const UidType uidType = UidType.kTransferSyntax;
   final String mediaType;
 
+  /*
   //fix or flash:
   ///  Specifies the size of the Pixel Cell. kBitsAllocated (0028,0100)
   // final int bitAllocated;
@@ -22,6 +23,7 @@ class TransferSyntax extends WKUid {
   /// is to be placed with respect to the [bitsAllocated] (kBitsAllocated (0028,0100))
   /// specification.  High kHighBit (0028,0102)
 //  final int highBit;
+*/
   @override
   final bool isEncapsulated;
 

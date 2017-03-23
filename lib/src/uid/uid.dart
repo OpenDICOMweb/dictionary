@@ -13,7 +13,7 @@ import 'uid_utils.dart' as util;
 //TODO: document class
 //TODO: test for performance
 
-/// A UID constructed from a [String] or from a [root] and [leaf].  This
+/// A UID constructed from a [String] or from a root and leaf.  This
 /// class is the super class for all Well Known UIDs.
 abstract class Uid {
   static const int kMinLength = 6;

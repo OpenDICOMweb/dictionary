@@ -112,7 +112,7 @@ class PersonName {
 }
 
 /// A [Name] corresponds to a DICOM Person Name (PN) Component Group.
-/// A [Components] is a list of PN component [String]s. It may have from
+/// A Components is a list of PN component [String]s. It may have from
 /// one to five components.  The list may not contain [null], so interior
 /// elements that have no value are represented by the empty [String] ("").
 ///

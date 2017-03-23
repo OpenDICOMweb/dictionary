@@ -130,7 +130,7 @@ class Time {
       getDcmTimeIssues(s, start, end, 2, 14, new ParseIssues('Time', s));
 
   // Fix
-  static fix(String s, [int start = 0, int end]) {
+  static String fix(String s, [int start = 0, int end]) {
     var s0 = s.substring(start, end);
     s0 = s.trimRight();
     //TODO: truncate on error, what other fixes? if separator (:) present -
