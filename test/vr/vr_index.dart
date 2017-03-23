@@ -5,6 +5,7 @@
 // See the AUTHORS file for other contributors.
 
 //TODO: most of this file is not used. remove unused.
+/*
 const int kUnknown = 0;
 const int kAE8 = 0x4145;
 const int kAS8 = 0x4153;
@@ -40,7 +41,7 @@ const int kUS8 = 0x5553;
 const int kUT8 = 0x5554;
 
 /// A [List] of valid VRs as 16-bit values.  Since the target architectures
-/// are all LittleEndian, the byte order is reversed. The [VR]s are in the
+/// are all LittleEndian, the byte order is reversed. The VRs are in the
 /// order of VR.vrMap.
 const List<int> kVR8BitCodeList = const [
   kUnknown, kSQ8, kSS8, kSL8, kOB8, kUN8, kOW8, kUS8, kUL8, kAT8,
@@ -51,7 +52,9 @@ const List<int> kVR8BitCodeList = const [
 
 /// Returns the index of [vrCode] in kVR8List.
 int vrCodeToIndex(int vrCode) => kVR8BitCodeList.indexOf(vrCode);
+*/
 
+/*
 // Constant definitions for 16-bit VR Codes. Since the
 // target architectures are all [LittleEndian], the byte order is reversed.
 const int kAE16 = 0x4541;
@@ -87,8 +90,9 @@ const int kUR16 = 0x5255;
 const int kUS16 = 0x5355;
 const int kUT16 = 0x5455;
 
+
 /// A [List] of valid VRs as 16-bit values.  Since the target architectures
-/// are all littleEndian, the byte order is reversed. The [VR]s are in the
+/// are all littleEndian, the byte order is reversed. The VRs are in the
 /// order of VR.vrMap
 const List<int> kVR16BitCodeList = const [
   kUnknown, kSQ16, kSS16, kSL16, kOB16, kUN16, kOW16, kUS16, kUL16, kAT16,
@@ -99,3 +103,4 @@ const List<int> kVR16BitCodeList = const [
 
 /// Returns the index of [vrCode] in kVR16List.
 int vr16CodeToIndex(int vrCode) => kVR16BitCodeList.indexOf(vrCode);
+*/

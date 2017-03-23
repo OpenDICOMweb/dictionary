@@ -58,7 +58,7 @@ bool _isDcmCtrlChar(int c) =>
 */
 
 /// Returns [true] if [c] is legal in an AE Title; otherwise, [false],
-const CharPredicate isAEChar = isDcmStringChar;
+bool isAEChar(int c) => isUppercaseChar(c) || isDigit(c) || c == kDot;
 const CharChecker checkAEChar = checkDcmStringChar;
 
 /// Returns [true] if [c] is legal in Code String; otherwise, [false],

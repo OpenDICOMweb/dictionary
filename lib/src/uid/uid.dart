@@ -10,8 +10,19 @@ import 'package:dictionary/src/uid/well_known/wk_uid.dart';
 import 'uid_type.dart';
 import 'uid_utils.dart' as util;
 
-//TODO: document class
 //TODO: test for performance
+//TODO: cleanup documentation
+
+/// A class that implements *DICOM Unique Identifiers* (UID) <*add link*>,
+/// also known as OSI *Object Identifiers* (OID), in accordance with
+/// Rec. ITU-T X.667 | ISO/IEC 9834-8. See <http://www.oid-info.com/get/2.25>
+///
+/// [Uid]s are immutable.  They can be created as:
+///   1. as compile time constants,
+///   2. from Strings, or
+///   3. generated from random [Uuid]s. See <http://www.oid-info.com/get/2.25>
+///
+
 
 /// A UID constructed from a [String] or from a root and leaf.  This
 /// class is the super class for all Well Known UIDs.
@@ -43,11 +54,11 @@ abstract class Uid {
   /// Returns the [UidType].
   UidType get type => UidType.kConstructed;
 
-  /// Return true if this [UidBase] identifies an
+  /// Return true if this UidBase] identifies an
   /// encapsulated [Transfer Syntax].
   bool get isEncapsulated => false;
 
-  /// Returns [true] if [this] is a [UidBase] defined by the DICOM Standard.
+  /// Returns [true] if [this] is a [Uid] defined by the DICOM Standard.
   bool get isWellKnown => false;
 
   /// Returns a [String] containing a random UID as per the

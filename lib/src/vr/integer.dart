@@ -41,7 +41,7 @@ typedef String IntIssuer(int value);
 
 /// Returns a valid [int]. Iff [value] is a valid string].  It is returned
 /// unmodified. If [value] has one or more issues that can be fixed, returns
-/// a modified value. If [value] [isNotValid] and cannot be fixed returns
+/// a modified value. If [value] is not valid and cannot be fixed returns
 /// [null].
 typedef int IntFixer(int value);
 

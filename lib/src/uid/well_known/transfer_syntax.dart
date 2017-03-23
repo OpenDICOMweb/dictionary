@@ -59,7 +59,7 @@ class TransferSyntax extends WKUid {
       (asString != kImplicitVRLittleEndian.asString &&
           asString != kExplicitVRBigEndian.asString);
 
-  /// Returns the TransferSyntax corresponding to the [String] or [UidBase].
+  /// Returns the TransferSyntax corresponding to the [String] or [Uid].
   static TransferSyntax lookup(dynamic ts) {
     if (ts is TransferSyntax) return ts;
     if (ts is Uid) return map[ts.asString];
