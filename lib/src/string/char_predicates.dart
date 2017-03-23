@@ -4,7 +4,8 @@
 // Original author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
-import 'package:common/common.dart';
+import 'package:common/ascii.dart';
+import 'package:common/string.dart';
 
 //TODO: cleanup and remove unnecessary functions
 
