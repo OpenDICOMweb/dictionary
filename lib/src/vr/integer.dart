@@ -96,6 +96,7 @@ class VRInt extends VR<int> {
     }
     return null;
   }
+
   /// Returns a valid, possibly coerced, value.
   @override
   int fix(int n) {

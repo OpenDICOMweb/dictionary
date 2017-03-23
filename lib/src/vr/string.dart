@@ -94,7 +94,7 @@ abstract class VRString extends VR<String> {
     if (length == 0) issues += 'Invalid length(0)';
     if (length < minValue || maxValue < length)
       issues +=
-      'Length Error: min($minValue) <= value($length) <= max($maxValue)\n';
+          'Length Error: min($minValue) <= value($length) <= max($maxValue)\n';
   }
 
   /// Returns a [String] containing an invalid character error message.
@@ -234,7 +234,7 @@ class VRDcmAge extends VRString {
   ParseIssues issues(String s) {
     assert(s != null);
     var issues = new ParseIssues("VR.kAS", s);
-     _getLengthIssues(s.length, issues);
+    _getLengthIssues(s.length, issues);
     for (int i = 0; i < 3; i++)
       if (!isDigitChar(s.codeUnitAt(i))) issues += '${_invalidChar(s, i)}\n';
     if (!_isAgeMarker(s.codeUnitAt(3))) issues += '${_invalidChar(s, 3)}\n';
@@ -344,11 +344,10 @@ class VRDcmDateTime extends VRString {
 
 //TODO: doc
 class VRDcmTime extends VRString {
-
   const VRDcmTime._(int index, int code, String id, int vfLengthSize,
       int maxVFLength, String keyword, int minValueLength, int maxValueLength)
       : super._(index, code, id, vfLengthSize, maxVFLength, keyword,
-      minValueLength, maxValueLength);
+            minValueLength, maxValueLength);
 
   @override
   bool isValid(String s) => Time.isValidString(s);
@@ -363,15 +362,14 @@ class VRDcmTime extends VRString {
   String fix(String s) => Time.fix(s);
 
   static const VRDcmTime kTM =
-  const VRDcmTime._(25, 0x4d54, "TM", 2, kMaxShortVF, "TimeString", 2, 14);
+      const VRDcmTime._(25, 0x4d54, "TM", 2, kMaxShortVF, "TimeString", 2, 14);
 }
-
 
 class VRFloatString extends VRString {
   const VRFloatString._(int index, int code, String id, int vfLengthSize,
       int maxVFLength, String keyword, int minValueLength, int maxValueLength)
       : super._(index, code, id, vfLengthSize, maxVFLength, keyword,
-      minValueLength, maxValueLength);
+            minValueLength, maxValueLength);
 
   @override
   bool isValid(String s) => parse(s) != null;

@@ -60,5 +60,3 @@ const int kStringPaddingChar = kSpace;
 /// The value appended to odd length Uint8 Value Fields (OB, UN) to make
 /// them even length.
 const int kUint8PaddingValue = 0;
-
-

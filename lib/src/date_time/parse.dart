@@ -131,8 +131,8 @@ int parseMonth(String s, [int start = 0, ParseIssues issues]) =>
     _checkMonth(uintParser(s, start, start + 2, issues), issues);
 
 /// Returns a valid day or [null].  The day must be 2 characters.
-int parseDay(int year, int month, String s, [int start = 0, ParseIssues
-issues]) =>
+int parseDay(int year, int month, String s,
+        [int start = 0, ParseIssues issues]) =>
     _checkDay(year, month, uintParser(s, start, start + 2, issues), issues);
 
 /// Returns a valid hour or [null].  The hour must be 2 characters.

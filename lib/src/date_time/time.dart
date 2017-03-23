@@ -16,22 +16,23 @@ class Time {
 
   Time(int hour,
       [int minute = 0,
-        int second = 0,
-        int millisecond = 0,
-        int microsecond = 0])
+      int second = 0,
+      int millisecond = 0,
+      int microsecond = 0])
       : _microseconds =
-  toMicroseconds(hour, minute, second, millisecond, microsecond);
+            toMicroseconds(hour, minute, second, millisecond, microsecond);
 
   //Internal constructor - hidden when exported:
   const Time.fromMicroseconds(this._microseconds);
 
-  Time.fromInt({int hours = 0,
-    int minutes = 0,
-    int seconds = 0,
-    int milliseconds = 0,
-    int microseconds = 0})
+  Time.fromInt(
+      {int hours = 0,
+      int minutes = 0,
+      int seconds = 0,
+      int milliseconds = 0,
+      int microseconds = 0})
       : _microseconds =
-  toMicroseconds(hours, minutes, seconds, milliseconds, microseconds);
+            toMicroseconds(hours, minutes, seconds, milliseconds, microseconds);
 
   /// Returns `true` if this Duration is the same object as [other].
   @override
@@ -113,10 +114,10 @@ class Time {
 
   static int toMicroseconds(int h, int m, int s, int ms, int us) =>
       microsecondsPerHour * checkHour(h, null) +
-          microsecondsPerMinute * checkMinute(m, null) +
-          microsecondsPerSecond * checkSecond(s, null) +
-          microsecondsPerMillisecond * checkMilliSecond(ms, null) +
-          us;
+      microsecondsPerMinute * checkMinute(m, null) +
+      microsecondsPerSecond * checkSecond(s, null) +
+      microsecondsPerMillisecond * checkMilliSecond(ms, null) +
+      us;
 
   static bool isValidString(String s, [int start = 0, int end]) =>
       parseDcmTime(s, start, end, 2, 14, true);
@@ -137,7 +138,4 @@ class Time {
     // remove. if time zone marker present??
     return s0;
   }
-
 }
-
-
