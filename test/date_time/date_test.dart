@@ -70,9 +70,8 @@ void main() {
         Date date = Date.parse(s, 0, s.length);
         expect(date, isNotNull);
       }
-
       for (String s in badDcmDateList) {
-        int date = parseDcmDate(s, 0, s.length, 8, 8, null, false);
+        int date = parseDcmDate(s, 0, s.length, 8, 8, false);
         expect(date, isNull);
       }
     });

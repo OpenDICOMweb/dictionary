@@ -6,9 +6,8 @@
 import 'package:dictionary/src/string/parse_issues.dart';
 import 'package:dictionary/src/string/utils.dart';
 
-import 'parse.dart';
-
 import 'date.dart';
+import 'parse.dart';
 import 'time.dart';
 
 class DcmDateTime {
@@ -19,12 +18,12 @@ class DcmDateTime {
 
   DcmDateTime(int year,
       [int month = 0,
-      int day = 0,
-      int hour = 0,
-      int minute = 0,
-      int second = 0,
-      int millisecond = 0,
-      int microsecond = 0])
+        int day = 0,
+        int hour = 0,
+        int minute = 0,
+        int second = 0,
+        int millisecond = 0,
+        int microsecond = 0])
       : date = new Date(year, month, day),
         time = new Time(hour, minute, second, millisecond, microsecond);
 
@@ -38,32 +37,46 @@ class DcmDateTime {
         time = time;
 
   int get year => date.year;
+
   int get month => date.month;
+
   int get day => date.day;
 
   int get hour => time.hour;
+
   int get minute => time.minute;
+
   int get second => time.second;
+
   int get millisecond => time.millisecond;
+
   int get microsecond => time.microsecond;
+
   int get fraction => (time.millisecond * 1000) + time.microsecond;
 
   String get y => digits4(year);
+
   String get m => digits2(month);
+
   String get d => digits2(day);
 
   String get h => digits2(hour);
+
   String get mm => digits2(minute);
+
   String get s => digits2(second);
+
   String get ms => digits3(millisecond);
+
   String get us => digits3(microsecond);
+
   String get f => digits6(millisecond * 1000 + microsecond);
 
   DcmDateTime get now {
     DateTime dt = new DateTime.now();
     Date date = new Date(dt.year, dt.month, dt.day);
     Time time =
-        new Time(dt.hour, dt.minute, dt.second, dt.millisecond, dt.microsecond);
+    new Time(dt.hour, dt.minute, dt.second, dt.millisecond, dt.microsecond);
     return new DcmDateTime.fromDateAndTime(date, time);
   }
 
@@ -74,45 +87,34 @@ class DcmDateTime {
 
   /// Returns a DICOM [DcmDateTime], if [s] is a valid DT [String];
   static DcmDateTime parse(String s, [int start = 0, int end]) =>
-      _parse(s, start, end, null, false);
+      _parse(s, start, end, false);
 
   /// Returns [true] if [s] is a valid DICOM [DcmDateTime] [String] (DT).
   static bool isValidString(String s, [int start = 0, int end]) =>
-      _parse(s, start, end, null, true);
-
-  static ParseIssues issues(String s, [int start = 0, int end]) {
-    var issues = new ParseIssues("DcmDateTime", s);
-    return _parse(s, start, end, issues, false);
-  }
+      _parse(s, start, end, true);
 
   //Urgent: add timeZone
-  static dynamic _parse(
-      String s, int start, int end, ParseIssues issues, bool isValidOnly) {
-    int epochDay = parseDcmDate(s, start, end, 4, 8, issues, isValidOnly);
+  static dynamic _parse(String s, int start, int end, bool isValidOnly) {
+    int epochDay = parseDcmDate(s, start, end, 4, 8, isValidOnly);
     if (epochDay == null) return (isValidOnly) ? false : null;
 
     if (end == null) end = s.length;
-    int microseconds =
-        (start + 8 <= end) ? 0 : parseDcmTime(s, start + 8, end, 2, 18,
-          issues, isValidOnly);
-    if (microseconds == null) {
-      return (isValidOnly) ? false : null;
-    }
+    int microseconds = (start + 8 <= end)
+        ? parseDcmTime(s, start + 8, end, 2, 18, isValidOnly)
+        : 0;
+    if (microseconds == null) return (isValidOnly) ? false : null;
+
     if (isValidOnly) return true;
     Date date = new Date.fromEpochDay(epochDay);
     Time time = new Time.fromMicroseconds(microseconds);
     return new DcmDateTime.fromDateAndTime(date, time);
   }
-/*
-  static ParseIssues issues(String s, [int start = 0, int end]) {
-    ParseIssues issues = getDcmDateIssues(s, start, end, 4, 26);
-    if (start + 8 <= end) getDcmTimeIssues(s, start + 8, end, false, issues);
 
-    int microseconds = (start + 8 <= end) ? 0 : parseDcmTime(s, start + 8, end);
-    if (microseconds == null) return null;
-    Date date = new Date.fromEpochDay(epochDay);
-    Time time = new Time.fromMicroseconds(microseconds);
-    return new DcmDateTime.fromDateAndTime(date, time);
+  static ParseIssues issues(String s, [int start = 0, int end]) {
+    var issues = new ParseIssues("DcmDateTime", s);
+    getDcmDateIssues(s, start, end, 4, 8, issues);
+    if (end == null) end = s.length;
+    if (start + 8 > end) getDcmTimeIssues(s, start + 8, end, 2, 18, issues);
+    return issues;
   }
-  */
 }

@@ -44,10 +44,9 @@ abstract class VRString extends VR<String> {
 
   /// Default [String] parser.  If the [String] [isValid] just returns it;
   @override
-  dynamic parse(String s) => check(s);
+  dynamic parse(String s);
 
-  /// Fix
-  //TODO: doc
+  //Fix: complent and doc
   @override
   String fix(String s);
 
@@ -80,8 +79,9 @@ abstract class VRString extends VR<String> {
   //      Should it return all errors?
   /// Returns an error [String] if some character in [s] does not pass
   /// the filter; otherwise, returns the empty [String]("").
-  String _getFilteredError(String s, bool filter(int c)) {
-    var issues = _getLengthError(s.length);
+  ParseIssues _getStringParseIssues(String s, bool filter(int c), String name) {
+    var issues = new ParseIssues(name, s);
+    _getLengthIssues(s.length, issues);
     for (int i = 0; i < s.length; i++)
       if (!filter(s.codeUnitAt(i))) issues += '${_invalidChar(s, i)}\n';
     return issues;
@@ -89,12 +89,12 @@ abstract class VRString extends VR<String> {
 
   /// Returns a [String] containing an invalid length error message,
   /// or [null] if there are no errors.
-  String _getLengthError(int length) {
-    if (length == null) return 'Invalid length(Null)';
-    if (length == 0) return 'Invalid length(0)';
-    return (length < minValue || maxValue < length)
-        ? 'Length Error: min($minValue) <= value($length) <= max($maxValue)\n'
-        : "";
+  void _getLengthIssues(int length, ParseIssues issues) {
+    if (length == null) issues += 'Invalid length(Null)';
+    if (length == 0) issues += 'Invalid length(0)';
+    if (length < minValue || maxValue < length)
+      issues +=
+      'Length Error: min($minValue) <= value($length) <= max($maxValue)\n';
   }
 
   /// Returns a [String] containing an invalid character error message.
@@ -116,7 +116,8 @@ class VRDcmString extends VRString {
   bool isValid(String s) => _filteredTest(s, _isDcmChar);
 
   @override
-  String issue(String s) => _getFilteredError(s, _isDcmChar);
+  ParseIssues issues(String s) =>
+      _getStringParseIssues(s, _isDcmChar, "DcmString");
 
   /// Fix
   @override
@@ -151,7 +152,8 @@ class VRDcmText extends VRString {
   bool isValid(String s) => _filteredTest(s, _isTextChar);
 
   @override
-  String issue(String s) => _getFilteredError(s, _isTextChar);
+  ParseIssues issues(String s) =>
+      _getStringParseIssues(s, _isTextChar, "DcmText");
 
   /// Fix
   @override
@@ -187,7 +189,8 @@ class VRCodeString extends VRString {
   bool isValid(String s) => _filteredTest(s, _isCodeStringChar);
 
   @override
-  String issue(String s) => _getFilteredError(s, _isCodeStringChar);
+  ParseIssues issues(String s) =>
+      _getStringParseIssues(s, _isCodeStringChar, "VR.kCS");
 
   /// Fix
   @override
@@ -228,9 +231,10 @@ class VRDcmAge extends VRString {
 
   /// Returns an error [String] if [s] is invalid; otherwise, "".
   @override
-  String issue(String s) {
+  ParseIssues issues(String s) {
     assert(s != null);
-    var issues = _getLengthError(s.length);
+    var issues = new ParseIssues("VR.kAS", s);
+     _getLengthIssues(s.length, issues);
     for (int i = 0; i < 3; i++)
       if (!isDigitChar(s.codeUnitAt(i))) issues += '${_invalidChar(s, i)}\n';
     if (!_isAgeMarker(s.codeUnitAt(3))) issues += '${_invalidChar(s, 3)}\n';
@@ -338,8 +342,7 @@ class VRDcmDateTime extends VRString {
       8, 0x5444, "DT", 2, kMaxShortVF, "DateTimeString", 4, 26);
 }
 
-
-
+//TODO: doc
 class VRDcmTime extends VRString {
 
   const VRDcmTime._(int index, int code, String id, int vfLengthSize,
@@ -348,26 +351,16 @@ class VRDcmTime extends VRString {
       minValueLength, maxValueLength);
 
   @override
-  bool isValidString(String timeString) => Time.isValidString(timeString) !=
-      null;
+  bool isValid(String s) => Time.isValidString(s);
 
   @override
-  ParseIssues issues(String timeString) => Time.issues(timeString);
+  ParseIssues issues(String s) => Time.issues(s);
 
-  /// Parse DICOM Time and if valid return a [Duration]; otherwise, [null].
   @override
-  Time parse(String timeString) => Time.parse(timeString.trimRight());
+  Time parse(String s) => Time.parse(s.trimRight());
 
-
-  /// Fix
   @override
-  String fix(String timeString) {
-    var t = timeString.trimRight();
-    //TODO:
-    // truncate on error, what other fixes? if separator (:) present - remove.
-    // if time zone marker present??
-    return t;
-  }
+  String fix(String s) => Time.fix(s);
 
   static const VRDcmTime kTM =
   const VRDcmTime._(25, 0x4d54, "TM", 2, kMaxShortVF, "TimeString", 2, 14);
@@ -384,7 +377,11 @@ class VRFloatString extends VRString {
   bool isValid(String s) => parse(s) != null;
 
   @override
-  String issue(String s) => (isNotValid(s)) ? 'Invalid Decimal value $s' : "";
+  ParseIssues issues(String s) {
+    var issues = new ParseIssues("VR.kDS", s);
+    if (isNotValid(s)) issues += 'Invalid Decimal value $s';
+    return issues;
+  }
 
   @override
   num parse(String s) {
@@ -415,9 +412,11 @@ class VRIntString extends VRString {
   bool isValid(String s) => parse(s) != null;
 
   @override
-  String issue(String s) {
+  ParseIssues issues(String s) {
     assert(s != null);
-    return (isNotValid(s)) ? 'Invalid Integer String (IS) value: $s' : "";
+    var issues = new ParseIssues("VR.kUR", s);
+    if (isNotValid(s)) issues += 'Invalid Integer String (IS) value: $s';
+    return issues;
   }
 
   @override
@@ -461,9 +460,9 @@ class VRPersonName extends VRString {
   }
 
   @override
-  String issue(String s) {
+  ParseIssues issues(String s) {
     assert(s != null);
-    var issues = '';
+    var issues = new ParseIssues("VR.kPN", s);
     var groups = s.split('=');
     if (groups.length < 1 || groups.length > 3)
       issues += 'Invalid number of ComponentGroups: min(1) '
@@ -538,8 +537,11 @@ class VRUid extends VRString {
 
   //TODO: this need to return beter messages
   @override
-  String issue(String uidString) =>
-      (isValid(uidString)) ? "" : 'Invalid Uid: $uidString';
+  ParseIssues issues(String s) {
+    var issues = new ParseIssues("VR.kUR", s);
+    if (!isValid(s)) issues += 'Invalid Uid: $s';
+    return issues;
+  }
 
   /// Fix
   @override
@@ -564,11 +566,12 @@ class VRUri extends VRString {
   bool isValid(String uriString) => parse(uriString) != null;
 
   @override
-  String issue(String uriString) {
-    assert(uriString != null);
-    var issues = _getLengthError(uriString.length);
+  ParseIssues issues(String s) {
+    assert(s != null);
+    var issues = new ParseIssues("VR.kUR", s);
+    _getLengthIssues(s.length, issues);
     try {
-      Uri.parse(uriString);
+      Uri.parse(s);
     } on FormatException catch (e) {
       issues += e.toString();
     }

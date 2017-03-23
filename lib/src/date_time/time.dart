@@ -4,8 +4,8 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
-import 'package:dictionary/src/string/utils.dart';
 import 'package:dictionary/src/string/parse_issues.dart';
+import 'package:dictionary/src/string/utils.dart';
 
 import 'parse.dart';
 //import 'time_utils.dart';
@@ -17,23 +17,22 @@ class Time {
 
   Time(int hour,
       [int minute = 0,
-      int second = 0,
-      int millisecond = 0,
-      int microsecond = 0])
+        int second = 0,
+        int millisecond = 0,
+        int microsecond = 0])
       : _microseconds =
-            toMicroseconds(hour, minute, second, millisecond, microsecond);
+  toMicroseconds(hour, minute, second, millisecond, microsecond);
 
   //Internal constructor - hidden when exported:
   const Time.fromMicroseconds(this._microseconds);
 
-  Time.fromInt(
-      {int hours = 0,
-      int minutes = 0,
-      int seconds = 0,
-      int milliseconds = 0,
-      int microseconds = 0})
+  Time.fromInt({int hours = 0,
+    int minutes = 0,
+    int seconds = 0,
+    int milliseconds = 0,
+    int microseconds = 0})
       : _microseconds =
-            toMicroseconds(hours, minutes, seconds, milliseconds, microseconds);
+  toMicroseconds(hours, minutes, seconds, milliseconds, microseconds);
 
   /// Returns `true` if this Duration is the same object as [other].
   @override
@@ -115,21 +114,32 @@ class Time {
 
   static int toMicroseconds(int h, int m, int s, int ms, int us) =>
       microsecondsPerHour * checkHour(h, null) +
-      microsecondsPerMinute * checkMinute(m, null) +
-      microsecondsPerSecond * checkSecond(s, null) +
-      microsecondsPerMillisecond * checkMilliSecond(ms, null) +
-      us;
+          microsecondsPerMinute * checkMinute(m, null) +
+          microsecondsPerSecond * checkSecond(s, null) +
+          microsecondsPerMillisecond * checkMilliSecond(ms, null) +
+          us;
 
   static bool isValidString(String s, [int start = 0, int end]) =>
-      parseDcmTime(s, start, end, 2, 14, null, true);
+      parseDcmTime(s, start, end, 2, 14, true);
 
   static Time parse(String s, [int start = 0, int end]) {
-    int us = parseDcmTime(s, start, end, 2, 14, null, false);
+    int us = parseDcmTime(s, start, end, 2, 14, false);
     return (us == null) ? null : new Time.fromMicroseconds(us);
   }
 
-  static ParseIssues issues(String s, [int start = 0, int end]) {
-    ParseIssues issues = new ParseIssues('Time', s);
-    return parseDcmTime(s, start, end, 2, 14, issues, false);
+  static ParseIssues issues(String s, [int start = 0, int end]) =>
+      getDcmTimeIssues(s, start, end, 2, 14, new ParseIssues('Time', s));
+
+  // Fix
+  static fix(String s, [int start = 0, int end]) {
+    var s0 = s.substring(start, end);
+    s0 = s.trimRight();
+    //TODO:
+    // truncate on error, what other fixes? if separator (:) present - remove.
+    // if time zone marker present??
+    return s0;
   }
+
 }
+
+

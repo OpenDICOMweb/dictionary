@@ -46,24 +46,42 @@ ParseIssues getDcmDateIssues(String s,
 /// have the same interface.
 /// Note: All error checking is don in checkArgs
 dynamic parseDcmDate(String s, int start, int end, int min, int max,
-    ParseIssues issues, bool isValidOnly) {
+    bool isValidOnly) {
   int y, m, d;
   if (end == null) end = s.length;
   try {
-    issues = checkArgs(s, start, end, min, max, issues);
+    checkArgs(s, start, end, min, max);
     int index = start;
-    y = parseYear(s, index, issues);
+    y = parseYear(s, index);
     if ((index += 4) < end) {
-      m = parseMonth(s, index, issues);
-      if ((index += 2) < end) d = parseDay(y, m, s, index, issues);
+      m = parseMonth(s, index);
+      if ((index += 2) < end) d = parseDay(y, m, s, index);
     }
     _log.debug('y: $y, m: $m, d: $d');
   } catch (e) {
     _log.debug('Caught: $e');
     return (isValidOnly) ? false : null;
   }
-  if (issues != null) return issues;
   return (isValidOnly) ? true : epochDay(y, m, d);
+}
+
+/// TODO: doc
+/// Note: end isn't strictly necessary, but makes all data/time parsers
+/// have the same interface.
+/// Note: All error checking is don in checkArgs
+dynamic getDcmDateIssues(String s, int start, int end, int min, int max,
+    ParseIssues issues) {
+  int y, m, d;
+  if (end == null) end = s.length;
+  checkArgs(s, start, end, min, max, issues);
+  int index = start;
+  parseYear(s, index, issues);
+  if ((index += 4) < end) {
+    parseMonth(s, index, issues);
+    if ((index += 2) < end) parseDay(y, m, s, index, issues);
+  }
+  _log.debug('y: $y, m: $m, d: $d');
+  return issues;
 }
 /*
 /// if [s] is a valid DICOM time [String] (DA), returns a new
@@ -86,21 +104,21 @@ ParseIssues getDcmTimeIssues(String s,
 
 // valid lengths: 2 4 6 8-13
 dynamic parseDcmTime(String s, int start, int end, int min, int max,
-    ParseIssues issues, bool isValidOnly) {
+    bool isValidOnly) {
   int h, m = 0, ss = 0, f = 0;
   end = (end == null) ? s.length : end;
   try {
     //Note: max is 13 because padding should have been removed.
-    issues = checkArgs(s, start, end, min, max, issues);
+    checkArgs(s, start, end, min, max);
     _log.debug1('after checkArgs');
     int index = start;
-    h = parseHour(s, index, issues);
+    h = parseHour(s, index);
     if ((index += 2) < end) {
-      m = parseMinute(s, index, issues);
+      m = parseMinute(s, index);
       if ((index += 2) < end) {
-        ss = parseSecond(s, index, issues);
+        ss = parseSecond(s, index);
         if ((index += 2) < end) {
-          f = parseFraction(s, index, end, issues);
+          f = parseFraction(s, index, end);
         }
       }
     }
@@ -110,7 +128,6 @@ dynamic parseDcmTime(String s, int start, int end, int min, int max,
     _log.debug1('parseDcmTimeString caught:\n $e');
     return (isValidOnly) ? false : null;
   }
-  if (issues != null) return issues;
   return (isValidOnly)
       ? true
       : Time.toMicroseconds(h, m, ss, f ~/ 1000, f % 1000);
@@ -119,17 +136,14 @@ dynamic parseDcmTime(String s, int start, int end, int min, int max,
 // valid lengths: 2 4 6 8-13
 dynamic getDcmTimeIssues(String s, int start, int end, int min, int max,
     ParseIssues issues) {
-  int h,
-      m = 0,
-      ss = 0,
-      f = 0;
+  int h, m = 0, ss = 0, f = 0;
   end = (end == null) ? s.length : end;
   _log.debug('getDcmTimeIssues: $issues');
   //Note: max is 13 because padding should have been removed.
   issues = checkArgs(s, start, end, min, max, issues);
   _log.debug1('after checkArgs');
   int index = start;
-  h = parseHour(s, index, issues);
+  parseHour(s, index, issues);
   if ((index += 2) < end) {
     parseMinute(s, index, issues);
     if ((index += 2) < end) {
@@ -495,6 +509,7 @@ int _checkTimeZone(int sign, int hour, int minute, ParseIssues issues) {
   return ((hour * 60) + minute) * sign;
 }
 
+/*
 /// Returns a [String] containing an invalid length error message,
 /// or [null] if there are no errors.
 String _getLengthError(int length, int min, int max) {
@@ -504,7 +519,7 @@ String _getLengthError(int length, int min, int max) {
       ? 'Length Error: min($min) <= Value($length) <= max($max)'
       : null;
 }
-
+*/
 /// Parses a base 10 [int] from [offset] to [limit], and returns
 /// its corresponding value. If an error is encountered throws an
 /// [InvalidCharacterError].

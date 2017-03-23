@@ -65,7 +65,7 @@ void main() {
       log.debug('Good Times');
       for (String s in goodDcmTimes) {
         log.debug('  Time: "$s"');
-        int us = parseDcmTime(s, 0, s.length, 2, 13, null, false);
+        int us = parseDcmTime(s, 0, s.length, 2, 13, false);
         log.debug('    Time: $us');
         if (us == null) throw "Bad Value in Good Time in Microseconds";
         expect(us, isNotNull);
@@ -92,7 +92,7 @@ void main() {
       log.debug('Good Times');
       for (String s in goodDcmTimes) {
         log.debug('  Time: $s');
-        int us = parseDcmTime(s, 0, s.length, 2, 13, null, false);
+        int us = parseDcmTime(s, 0, s.length, 2, 13, false);
         log.debug('    Microseconds: $us');
         if (us == null) throw "Bad Value in Good Time in Microseconds";
         expect(us, isNotNull);
@@ -108,7 +108,7 @@ void main() {
         log.debug('    Time: $time');
         if (time == null) {
           var issues = new ParseIssues('Good Time to Time', s);
-          issues = parseDcmTime(s, 0, s.length, 2, 13, issues, false);
+          issues = parseDcmTime(s, 0, s.length, 2, 13, false);
           log.debug('    Issues: $issues');
         }
         expect(time, isNotNull);
@@ -144,7 +144,7 @@ void main() {
       log.debug('Bad Times as Microseconds');
       for (String s in badDcmTimes) {
         log.debug('  Time: $s');
-        int us = parseDcmTime(s, 0, s.length, 2, 13, null, false);
+        int us = parseDcmTime(s, 0, s.length, 2, 13, false);
         expect(us == null, true);
         var issues = new ParseIssues('Good Time to Time', s);
         issues = getDcmTimeIssues(s, 0, s.length, 2, 13, issues);
@@ -195,7 +195,7 @@ void main() {
     test("Good Time Strings", () {
       for (int i = 0; i < goodTimes.length; i++) {
         var s = goodTimes[i];
-        int us = parseDcmTime(s, 0, s.length, 2, 13, null, false);
+        int us = parseDcmTime(s, 0, s.length, 2, 13, false);
         expect(us is int, true);
       }
     });
@@ -214,7 +214,7 @@ void main() {
       for (int i = 0; i < badTimes.length; i++) {
         var s = badTimes[i];
         log.debug('t: "$s"');
-        int us = parseDcmTime(s, 0, s.length, 2, 13, null, false);
+        int us = parseDcmTime(s, 0, s.length, 2, 13, false);
         log.debug('Microseconds: $us');
         expect(us == null, true);
       }

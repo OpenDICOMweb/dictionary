@@ -21,7 +21,7 @@ void main() {
     test('parseDcmDateString: gool full date', () {
       for(String s in goodDcmDateList) {
         DateTime value = DateTime.parse(s);
-        int epochDay = parseDcmDate(s, 0, s.length, 8, 8, null, false);
+        int epochDay = parseDcmDate(s, 0, s.length, 8, 8, false);
         log.debug('string: "$s"');
         log.debug('  value: $value');
         log.debug('   date: $epochDay');
@@ -33,7 +33,7 @@ void main() {
       for(String s in goodDcmDateList) {
         log.debug('string: "$s"');
     //    DateTime value = DateTime.parse(s);
-        bool date = parseDcmDate(s, 0, s.length, 8, 8, null, true);
+        bool date = parseDcmDate(s, 0, s.length, 8, 8, true);
         log.debug('  valid: $date');
         expect(date, true);
       }
@@ -43,7 +43,7 @@ void main() {
       for(String s in goodDcmDateList) {
         log.debug('string: "$s"');
         var issues = new ParseIssues("getDcmDateIssues", s);
-        issues = parseDcmDate(s,  0, s.length, 8, 8, issues, true);
+        issues = getDcmDateIssues(s,  0, s.length, 8, 8, issues);
         log.debug('  issues: "$issues"');
         expect(issues, equals(""));
       }
@@ -70,7 +70,7 @@ void main() {
       for (String s in badDcmDateList) {
         log.debug('string: "$s"');
  //       DateTime value = DateTime.parse(s);
-        int epochDay = parseDcmDate(s, 0, s.length, 8, 8, null, false);
+        int epochDay = parseDcmDate(s, 0, s.length, 8, 8, false);
 
  //       log.debug(' value: $value');
         log.debug('  date: $epochDay');
@@ -84,7 +84,7 @@ void main() {
       for (String s in badDcmDateList) {
         log.debug('string: "$s"');
         //       DateTime value = DateTime.parse(s);
-        int epochDay = parseDcmDate(s, 0, s.length, 8, 8, null, true);
+        int epochDay = parseDcmDate(s, 0, s.length, 8, 8, true);
 
         //       log.debug(' value: $value');
         log.debug('  date: $epochDay');
@@ -96,7 +96,8 @@ void main() {
     test('getDcmDateIssues: Bad full date', () {
       for(String s in badDcmDateList) {
         log.debug('string: "$s"');
-        ParseIssues issues = parseDcmDate(s, 0, s.length, 8, 8, null, false);
+        var issues = new ParseIssues("getDcmDateIssues", s);
+        issues = getDcmDateIssues(s, 0, s.length, 8, 8, issues);
         log.debug('  issues: "$issues"');
         expect(issues, equals(""));
       }

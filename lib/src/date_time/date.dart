@@ -7,9 +7,9 @@ import 'package:dictionary/src/string/parse_error.dart';
 import 'package:dictionary/src/string/parse_issues.dart';
 import 'package:dictionary/src/string/utils.dart';
 
-import 'time.dart';
 import 'dcm_date_time.dart';
 import 'parse.dart';
+import 'time.dart';
 
 class Date {
   final int _epochDay;
@@ -59,18 +59,17 @@ class Date {
   @override
   String toString() => '$y-$m-$d';
 
+  static bool isValidString(String s) =>
+      parseDcmDate(s, 0, s.length, 8, 8, true);
+
   static Date parse(String s, [int start = 0, int end]) {
-    int epochDay = parseDcmDate(s, start, end, 8, 8, null, false);
+    int epochDay = parseDcmDate(s, start, end, 8, 8, false);
     return (epochDay == null) ? null : new Date.fromEpochDay(epochDay);
   }
 
-  static bool isValidString(String s) =>
-      parseDcmDate(s, 0, s.length, 8, 8, null, true);
-
-
   static ParseIssues issues(String s) {
     ParseIssues issues = new ParseIssues('Date', s);
-    return parseDcmDate(s, 0, s.length, 8, 8, issues, false);
+    return getDcmDateIssues(s, 0, s.length, 8, 8, issues);
   }
 }
 
