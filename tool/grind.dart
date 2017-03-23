@@ -58,7 +58,7 @@ Future unittest() async {
   }
 }
 
-/// Do a Dry Run of [dartfmt].
+/// Do a Dry Run of dartfmt.
 @Task('Dry Run of Formating Source...')
 void fmtdryrun() {
   log("Formatting Source...");
@@ -137,7 +137,7 @@ void testJavaScript() {
   new PubApp.local('test').run([]);
 }
 
-/// Clean the dictionary package. Used beform [release].
+/// Clean the dictionary package. Used beforr a release.
 @Task('Cleaning...')
 void clean() {
   log("Cleaning...");

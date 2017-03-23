@@ -5,6 +5,7 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:dictionary/src/constants.dart';
+import 'package:dictionary/date_time.dart';
 
 import 'vr.dart';
 
@@ -31,7 +32,7 @@ class VRFloat extends VR<double> {
   bool isValid(double n) => true;
 
   @override
-  String issue(double n) => null;
+  ParseIssues issues(double n) => null;
 
   /// Fix
   //TODO: doc

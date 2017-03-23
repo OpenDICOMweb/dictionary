@@ -4,9 +4,9 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu>
 // See the AUTHORS file for other contributors.
 
-/// This library contains compile time constant definitions of "Well Known" [UID]s
-/// and there corresponding [String] values.  All names start with 'k'.
-/// This library should be imported as 'import "uid/ascii_constants.dart' as Uid"
+/// This library contains compile time constant definitions of
+/// "Well Known" UIDs and there corresponding [String] values.
+/// All names  start with 'k'.
 ///
 /// Note: These constants names use the ODW convention of starting with
 /// the letter "k" with followed by the DICOM keyword.

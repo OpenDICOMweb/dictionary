@@ -8,6 +8,7 @@ export 'package:dictionary/src/tag/constants.dart';
 export 'package:dictionary/src/tag/elt.dart';
 export 'package:dictionary/src/tag/errors.dart';
 export 'package:dictionary/src/tag/group.dart';
+export 'package:dictionary/src/tag/private/private_creator_definition.dart';
 export 'package:dictionary/src/tag/private/private_creator_tag.dart';
 export 'package:dictionary/src/tag/private/private_data_tag.dart';
 export 'package:dictionary/src/tag/private/private_tag.dart';

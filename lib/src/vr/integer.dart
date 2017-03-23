@@ -8,6 +8,7 @@ import 'dart:typed_data';
 
 import 'package:common/number.dart';
 import 'package:dictionary/src/constants.dart';
+import 'package:dictionary/src/string/parse_issues.dart';
 
 import 'vr.dart';
 
@@ -35,12 +36,13 @@ typedef List<int> BytesToValues(Uint8List bytes,
 typedef List<int> IntViewer(Uint8List bytes);
 
 /// Returns a [String] specifying any issues with [value]. If [value]
-/// [isValidString] returns [null].
+/// isValidString returns [null].
 typedef String IntIssuer(int value);
 
-/// Returns a valid [int]. Iff [value] [isValidString] it is returned unmodified.
-/// If [value] has one or more issues that can be fixed, returns a modified
-/// value. If [value] [isNotValid] and cannot be fixed returns [null].
+/// Returns a valid [int]. Iff [value] is a valid string].  It is returned
+/// unmodified. If [value] has one or more issues that can be fixed, returns
+/// a modified value. If [value] is not valid and cannot be fixed returns
+/// [null].
 typedef int IntFixer(int value);
 
 /// Create an integer VR.
@@ -75,7 +77,7 @@ class VRInt extends VR<int> {
       : super(index, code, id, elementSize, vfLengthFieldSize, maxVFLength,
             keyword);
 
-  /// Returns [true] of [value] is valid for this [VRBase].
+  /// Returns [true] if [n] is valid for this [VRInt].
   @override
   bool isValid(int n) => (minValue <= n) && (n <= maxValue);
 
@@ -87,9 +89,13 @@ class VRInt extends VR<int> {
   /// Returns a [String] indicating the issue with value. If there are no
   /// issues returns the empty string ("").
   @override
-  String issue(int n) => (isNotValid(n))
-      ? 'Invalid value: min($minValue) <= value($n) <= max($maxValue)'
-      : null;
+  ParseIssues issues(int n) {
+    if (isNotValid(n)) {
+      var msg = 'Invalid value: min($minValue) <= value($n) <= max($maxValue)';
+      return new ParseIssues("VRInt", '$n', 0, 0, [msg]);
+    }
+    return null;
+  }
 
   /// Returns a valid, possibly coerced, value.
   @override
@@ -104,9 +110,9 @@ class VRInt extends VR<int> {
 
   List<int> copy(Uint8List list) => fromBytes(list, 0, list.length, false);
 
+  /*
   /// Returns [true] if [bytes] contains a valid Value Field.
   //TODO: implement or flush
-  /*
   @override
   Uint8List isValidBytes(Uint8List bytes) => null;
   */

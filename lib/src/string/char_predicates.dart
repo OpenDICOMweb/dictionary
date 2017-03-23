@@ -4,7 +4,8 @@
 // Original author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
-import 'package:common/common.dart';
+import 'package:common/ascii.dart';
+import 'package:common/string.dart';
 
 //TODO: cleanup and remove unnecessary functions
 
@@ -17,9 +18,9 @@ import 'package:common/common.dart';
 ///
 /// *Backslash as Value Field Separator*
 ///
-/// The _backslash_ '\' [$backslash] ($reverseSolidus)] character is used as a Value Field (VF)
-/// separator for all [String] based VRs, except  LT, ST, UR, and UT.
-
+/// The _backslash_ '\' $backslash ($reverseSolidus)] character is used
+/// as a Value Field (VF) separator for all [String] based VRs, except
+/// LT, ST, UR, and UT.
 ///
 /// Returns [true] is [c] is a visible (printable) ASCII character code.
 bool _isDcrChar(int c) => ((c >= kSpace) && (c < kDelete));
@@ -49,13 +50,7 @@ bool isDcmTextChar(int c) =>
 
 int checkDcmTextChar(int c) => (isDcmTextChar(c)) ? c : null;
 
-/// The four legal DICOM control characters.
-/// Returns [true] if [c] is a DICOM Control character; otherwise [false].
-//Flush if not needed after escape sequences are implemented.
-//bool _isDcmCtrlChar(int c) =>
-//    (c == kLinefeed) || (c == kCr) || (c == kHTab) || (c == kFormfeed);
-
-/// Returns [true] if [c] is legal in an AE Title; otherwise, [false],
+/// Returns [true] if c is legal in an AE Title; otherwise, [false].
 const CharPredicate isAEChar = isDcmStringChar;
 const CharChecker checkAEChar = checkDcmStringChar;
 
@@ -64,62 +59,66 @@ bool isCSChar(int c) =>
     isUppercaseChar(c) || isDigitChar(c) || (c == kSpace) || (c == kUnderscore);
 int checkCSChar(int c) => (isCSChar(c)) ? c : false;
 
-///Returns [true] if [c] is legal in a DICOM Date VR DA.
+///Returns [true] if c is legal in a DICOM Date VR DA.
+/*
 CharPredicate isDAChar = isDigitChar;
 int checkDAChar(int c) => (isDigitChar(c)) ? c : false;
-
+*/
 ///Returns [true] if [c] is legal in a DICOM Date VR DA.
 bool isDSChar(int c) =>
     isDigitChar(c) || isSignChar(c) || isDotChar(c) || isExponentChar(c);
 int checkDSChar(int c) => (isDSChar(c)) ? c : false;
 
-///Returns [true] if [c] is legal in a DICOM DateTime VR DT.
+///Returns [true] if c is legal in a DICOM DateTime VR DT.
+/*
 bool isDTChar(int c) => isTMChar(c) || isSignChar(c);
 int checkDTChar(int c) => (isDTChar(c)) ? c : false;
+*/
 
 ///Returns [true] if [c] is legal in a DICOM Integer VR IS.
 bool isISChar(int c) => isDigitChar(c) || isSignChar(c);
 int checkISChar(int c) => (isISChar(c)) ? c : false;
 
-///Returns [true] if [c] is legal in a DICOM String with VR LO.
+///Returns [true] if c is legal in a DICOM String with VR LO.
 const CharPredicate isLOChar = isDcmStringChar;
 const CharChecker checkLOChar = checkDcmStringChar;
 
-///Returns [true] if [c] is legal in a DICOM String with VR LT.
+///Returns [true] if c is legal in a DICOM String with VR LT.
 const CharPredicate isLTChar = isDcmTextChar;
 const CharChecker checkLTChar = checkDcmTextChar;
 
-///Returns [true] if [c] is legal in a DICOM Person Name VR PN.
+///Returns [true] if c is legal in a DICOM Person Name VR PN.
 const CharPredicate isPNChar = isDcmStringChar;
 const CharChecker checkPNChar = checkDcmStringChar;
 
-///Returns [true] if [c] is legal in a DICOM String with VR SH.
+///Returns [true] if c is legal in a DICOM String with VR SH.
 const CharPredicate isSHChar = isDcmStringChar;
 const CharChecker checkSHChar = checkDcmStringChar;
 
-///Returns [true] if [c] is legal in a DICOM String with VR LT.
+///Returns [true] if c is legal in a DICOM String with VR LT.
 const CharPredicate isSTChar = isDcmTextChar;
 const CharChecker checkSTChar = checkDcmTextChar;
 
 bool _isDigitOrDot(c) => isDigitChar(c) || (c == kDot);
 int _checkDigitOrDot(c) => (_isDigitOrDot(c)) ? c : null;
 
-///Returns [true] if [c] is legal in a DICOM String with Time VR TM.
+/*
+///Returns [true] if c is legal in a DICOM String with Time VR TM.
 const CharPredicate isTMChar = _isDigitOrDot;
 const CharChecker checkTMChar = _checkDigitOrDot;
-
-///Returns [true] if [c] is legal in a DICOM String with VR UC.
+*/
+///Returns [true] if c is legal in a DICOM String with VR UC.
 const CharPredicate isUCChar = isDcmStringChar;
 const CharChecker checkUCChar = checkDcmStringChar;
 
-///Returns [true] if [c] is legal in a DICOM String with VR UI.
+///Returns [true] if c is legal in a DICOM String with VR UI.
 const CharPredicate isUIChar = _isDigitOrDot;
 const CharChecker checkUIChar = _checkDigitOrDot;
 
-///Returns [true] if [c] is legal in a DICOM String with VR UR.
+///Returns [true] if c is legal in a DICOM String with VR UR.
 const CharPredicate isURChar = isDcmTextChar;
 const CharChecker checkURChar = checkDcmTextChar;
 
-///Returns [true] if [c] is legal in a DICOM String with VR UT.
+///Returns [true] if c is legal in a DICOM String with VR UT.
 const CharPredicate isUTChar = isDcmTextChar;
 const CharChecker checkUTChar = checkDcmTextChar;

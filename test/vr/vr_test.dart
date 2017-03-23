@@ -13,7 +13,7 @@ import 'package:dictionary/src/vr/vr.dart';
 import 'package:test/test.dart';
 import 'package:test_tools/random_string.dart' as rsg;
 
-final Logger log = new Logger('uint_test.dart', watermark: Severity.info);
+final Logger log = new Logger('uint_test.dart', watermark: Severity.debug);
 
 void main() {
   //printCode();
@@ -241,25 +241,25 @@ void integerVRsTest() {
     });
 
     test("issue  ee", () {
-      expect(VRInt.kAT.issue(Uint32.minValue), null);
-      expect(VRInt.kAT.issue(Uint32.maxValue), null);
-      log.debug(VRInt.kAT.issue(Uint32.maxValue + 1));
-      log.debug(VRInt.kAT.issue(Uint32.minValue - 1));
+      expect(VRInt.kAT.issues(Uint32.minValue), null);
+      expect(VRInt.kAT.issues(Uint32.maxValue), null);
+      log.debug(VRInt.kAT.issues(Uint32.maxValue + 1));
+      log.debug(VRInt.kAT.issues(Uint32.minValue - 1));
 
-      expect(VRInt.kUS.issue(Uint16.minValue), null);
-      expect(VRInt.kUS.issue(Uint16.maxValue), null);
-      log.debug(VRInt.kUS.issue(Uint16.maxValue + 1));
-      log.debug(VRInt.kUS.issue(Uint16.minValue - 1));
+      expect(VRInt.kUS.issues(Uint16.minValue), null);
+      expect(VRInt.kUS.issues(Uint16.maxValue), null);
+      log.debug(VRInt.kUS.issues(Uint16.maxValue + 1));
+      log.debug(VRInt.kUS.issues(Uint16.minValue - 1));
 
-      expect(VRInt.kSL.issue(Int32.minValue), null);
-      expect(VRInt.kSL.issue(Int32.maxValue), null);
-      log.debug(VRInt.kSL.issue(Int32.maxValue + 1));
-      log.debug(VRInt.kSL.issue(Int32.minValue - 1));
+      expect(VRInt.kSL.issues(Int32.minValue), null);
+      expect(VRInt.kSL.issues(Int32.maxValue), null);
+      log.debug(VRInt.kSL.issues(Int32.maxValue + 1));
+      log.debug(VRInt.kSL.issues(Int32.minValue - 1));
 
-      expect(VRInt.kUN.issue(Uint8.minValue), null);
-      expect(VRInt.kUN.issue(Uint8.maxValue), null);
-      log.debug(VRInt.kUN.issue(Uint8.maxValue + 1));
-      log.debug(VRInt.kUN.issue(Uint8.minValue - 1));
+      expect(VRInt.kUN.issues(Uint8.minValue), null);
+      expect(VRInt.kUN.issues(Uint8.maxValue), null);
+      log.debug(VRInt.kUN.issues(Uint8.maxValue + 1));
+      log.debug(VRInt.kUN.issues(Uint8.minValue - 1));
     });
 
     test("fix", () {
@@ -444,10 +444,10 @@ void stringVRsTest() {
 
   group("VRDcmTime", () {
     test("isValid VRDcmTime", () {
-      expect(VRDcmTime.kTM.isValid("070907.0705"), true);
-      expect(VRDcmTime.kTM.isValid("070907.070590"), true);
-      expect(VRDcmTime.kTM.isValid("070907.07059099"), false);
-      expect(VRDcmTime.kTM.isValid("070907.07059U"), false);
+      expect(VR.kTM.isValid("070907.0705"), true);
+      expect(VR.kTM.isValid("070907.070590"), true);
+      expect(VR.kTM.isValid("070907.07059099"), false);
+      expect(VR.kTM.isValid("070907.07059U"), false);
     });
   });
 

@@ -21,7 +21,7 @@ class VM {
   final int max;
 
   /// The [width] of the array of values. Both [min] and [max] must be
-  /// evenly divisible by [width]. That is [min] [%] [width] == [man] [%]
+  /// evenly divisible by [width]. That is [min] % [width] == [max] %
   /// [width] == 0 must be [true].
   final int width;
 

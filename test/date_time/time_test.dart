@@ -5,11 +5,10 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:common/logger.dart';
-import 'package:dictionary/src/date_time/time.dart';
-import 'package:dictionary/src/string/dcm_parse.dart';
+import 'package:dictionary/date_time.dart';
 import 'package:test/test.dart';
 
-final Logger log = new Logger('time_test.dart', watermark: Severity.info);
+final Logger log = new Logger('time_test.dart', watermark: Severity.debug1);
 
 void main() {
   group('Time Tests', () {
@@ -62,40 +61,64 @@ void main() {
       '235959.111111',
     ];
 
-    test('Good Time as Duration', () {
+    test('Good Time in Microseconds', () {
       log.debug('Good Times');
       for (String s in goodDcmTimes) {
-        log.debug('\n  Time: $s');
-        Duration t = parseDcmTimeString(s, 0, s.length);
-        log.debug('  Time t: $t');
-        if (t == null) {
-          var issues = getDcmTimeStringIssues(s, 0, s.length);
-          log.debug('Issues: $issues');
-        }
-        expect(t, isNotNull);
-        log.debug('  Time $s: $t');
-        log.debug1('  Milliseconds: ${t.inMilliseconds}');
-        log.debug1('  Microseconds: ${t.inMicroseconds}');
+        log.debug('  Time: "$s"');
+        int us = parseDcmTime(s, 0, s.length, 2, 13, false);
+        log.debug('    Time: $us');
+        if (us == null) throw "Bad Value in Good Time in Microseconds";
+        expect(us, isNotNull);
+        log.debug('    Microseconds "$s": $us');
       }
     });
 
-    test('Good Time as Dcm Time', () {
+    //Urgent: fix
+    test('Good Time as Time', () {
       log.debug('Good Times');
       for (String s in goodDcmTimes) {
-        log.debug('\n  Time: $s');
-        Time t = new Time.fromDuration(parseDcmTimeString(s, 0, s.length));
-        log.debug('  Time t: $t');
-        if (t == null) {
-          var issues = getDcmTimeStringIssues(s, 0, s.length);
-          log.debug('Issues: $issues');
+        log.debug('  Time: $s');
+        Time time = Time.parse(s, 0, s.length);
+        log.debug('    Time: $time');
+        if (time == null) throw "Bad Value in Good Time in Microseconds";
+        expect(time, isNotNull);
+        log.debug('    Time "$s": $time.m');
+        log.debug1('    Milliseconds: ${time.inMilliseconds}');
+        log.debug1('    Microseconds: ${time.inMicroseconds}');
+      }
+    });
+
+    test('Good Time to microseconds', () {
+      log.debug('Good Times');
+      for (String s in goodDcmTimes) {
+        log.debug('  Time: $s');
+        int us = parseDcmTime(s, 0, s.length, 2, 13, false);
+        log.debug('    Microseconds: $us');
+        if (us == null) throw "Bad Value in Good Time in Microseconds";
+        expect(us, isNotNull);
+        log.debug('    Microseconds : $us');
+      }
+    });
+
+    test('Good Time to Time', () {
+      log.debug('Good Times');
+      for (String s in goodDcmTimes) {
+        log.debug('  Time: $s');
+        Time time = Time.parse(s);
+        log.debug('    Time: $time');
+        if (time == null) {
+          var issues = new ParseIssues('Good Time to Time', s);
+          issues = parseDcmTime(s, 0, s.length, 2, 13, false);
+          log.debug('    Issues: $issues');
         }
-        expect(t, isNotNull);
-        log.debug('  Time $s: $t');
-        log.debug1('  Milliseconds: ${t.milliseconds}');
-        log.debug1('  Microseconds: ${t.microseconds}');
-        log.debug1('  Fraction: ${t.fraction}');
-        log.debug1('  ms: ${t.f}');
-        log.debug1('  us: ${t.f}');
+        expect(time, isNotNull);
+        log.debug('  Time "$s": $time');
+        log.debug('    Hours: ${time.hour}');
+        log.debug('    Minutes: ${time.minute}');
+        log.debug('    Seconds: ${time.second}');
+        log.debug1('    Milliseconds: ${time.millisecond}');
+        log.debug1('    Microseconds: ${time.microsecond}');
+        log.debug1('    Fraction: ${time.fraction}');
       }
     });
 
@@ -117,13 +140,16 @@ void main() {
       //TODO: test fractions
     ];
 
-    test('Bad Times as Duration', () {
-      log.debug('Bad Times as Duration');
+    test('Bad Times as Microseconds', () {
+      log.debug('Bad Times as Microseconds');
       for (String s in badDcmTimes) {
-        log.debug('Time: $s');
-        Duration t = parseDcmTimeString(s, 0, s.length);
-        expect(t == null, true);
-        log.debug('  Time: $s: $t');
+        log.debug('  Time: $s');
+        int us = parseDcmTime(s, 0, s.length, 2, 13, false);
+        expect(us == null, true);
+        var issues = new ParseIssues('Good Time to Time', s);
+        issues = getDcmTimeIssues(s, 0, s.length, 2, 13, issues);
+        expect(issues.isEmpty, false);
+        log.debug('    Time: "$s": $issues');
       }
     });
 
@@ -131,29 +157,27 @@ void main() {
       log.debug('Bad Times as Time');
       for (String s in badDcmTimes) {
         log.debug('Time: $s');
-        Time t = Time.parse(s);
-        expect(t == null, true);
-        log.debug('  Time: $s: $t');
+        Time time = Time.parse(s);
+        expect(time == null, true);
+        log.debug('  Time: $s: $time');
       }
     });
 
     test('Good and Bad Time for isValidTimeString', () {
       for (String s in goodDcmTimes) {
-        expect(Time.isValidTimeString(s), true);
+        expect(Time.isValidString(s), true);
       }
       for (String s in badDcmTimes) {
-        expect(Time.isValidTimeString(s), false);
+        expect(Time.isValidString(s), false);
       }
     });
 
     test('Good and Bad Time for isValid', () {
-      String s = '235959.1';
-      Time t = new Time.fromDuration(parseDcmTimeString(s, 0, s.length));
       for (String s in goodDcmTimes) {
-        expect(t.isValid(s), true);
+        expect(Time.isValidString(s), true);
       }
       for (String s in badDcmTimes) {
-        expect(t.isValid(s), false);
+        expect(Time.isValidString(s), false);
       }
     });
   });
@@ -170,9 +194,9 @@ void main() {
 
     test("Good Time Strings", () {
       for (int i = 0; i < goodTimes.length; i++) {
-        var t = goodTimes[i];
-        Duration time = parseDcmTimeString(t);
-        expect(time is Duration, true);
+        var s = goodTimes[i];
+        int us = parseDcmTime(s, 0, s.length, 2, 13, false);
+        expect(us is int, true);
       }
     });
 
@@ -188,11 +212,11 @@ void main() {
 
     test("Bad Time Strings", () {
       for (int i = 0; i < badTimes.length; i++) {
-        var t = badTimes[i];
-        log.debug('t: "$t"');
-        Duration time = parseDcmTimeString(t);
-        log.debug('Time: $time');
-        expect(time == null, true);
+        var s = badTimes[i];
+        log.debug('t: "$s"');
+        int us = parseDcmTime(s, 0, s.length, 2, 13, false);
+        log.debug('Microseconds: $us');
+        expect(us == null, true);
       }
     });
   });

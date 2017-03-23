@@ -4,7 +4,7 @@
 // See the AUTHORS file for other contributors.
 
 //TODO: document
-/// A DICOM Data [Element] Type.  See PS3.5, Section 7.4.
+/// A DICOM Data Element Type.  See PS3.5, Section 7.4.
 class EType {
   final int index;
   final bool isConditional;

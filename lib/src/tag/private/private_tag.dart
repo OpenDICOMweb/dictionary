@@ -10,41 +10,35 @@ import 'package:dictionary/src/vr/vr.dart';
 
 class PrivateTag extends Tag {
   static const int kUnknownIndex = -1;
-  final int index;
-  final String token;
-  //TODO: fix the tag code to be the standard group with 0x0010 as elt.
+//  final int index;
+  final String creatorToken;
 
-  const PrivateTag.creator(this.index, this.token, int code, VR vr,
+  const PrivateTag.creator(this.creatorToken, int code, VR vr,
       [VM vm = VM.k1_n])
       : super(code, vr, vm);
 
+  /* flush when working
   const PrivateTag.unknownCreator(int code, VR vr, [VM vm = VM.k1_n])
-      : index = kUnknownIndex,
-        token = "Unknown Creator",
+        creatorToken = "Unknown Creator",
         super(code, vr, vm);
-
-  const PrivateTag.data(
-      this.index, this.token, int code, VR vr, VM vm, String name)
+  */
+  const PrivateTag.data(this.creatorToken, int code, VR vr, VM vm, String name)
       : super.privateData(code, vr, vm, name);
 
   PrivateTag.unknownData(int code, [VR vr = VR.kUN, VM vm = VM.k1_n])
-      : index = kUnknownIndex,
-        token = "Unknown Data",
+      : creatorToken = "Unknown Data",
         super(code, vr, vm);
 
   PrivateTag.groupLength(int code)
-      : index = kUnknownIndex,
-        token = "Private Group Length",
+      : creatorToken = "Private Group Length",
         super(code, VR.kUL, VM.k1);
 
   PrivateTag.illegal(int code, [VR vr = VR.kUN])
-      : index = kUnknownIndex,
-        token = "Illegal Private Tag",
+      : creatorToken = "Illegal Private Tag",
         super(code, vr, VM.k1_n);
 
   PrivateTag.dataNoCreator(int code, VR vr, [VM vm = VM.k1_n])
-      : index = kUnknownIndex,
-        token = "Private Data W/O Creator",
+      : creatorToken = "Private Data W/O Creator",
         super(code, vr, vm);
 
   /// The Private Subgroup for this Tag.
@@ -59,12 +53,13 @@ class PrivateTag extends Tag {
   bool get isCreator => false;
 
   @override
-  bool get isKnown => index != kUnknownIndex;
+  bool get isKnown => false;
 
   String get asString => toString();
 
   @override
-  String get info => '$dcm $groupHex, "$token", $eltHex $vr, $vm, "$name"';
+  String get info =>
+      '$dcm $groupHex, "$creatorToken", $eltHex $vr, $vm, "$name"';
 
   @override
   String toString() => '$runtimeType$dcm subgroup($subgroup)';
