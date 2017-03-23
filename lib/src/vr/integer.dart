@@ -77,7 +77,7 @@ class VRInt extends VR<int> {
       : super(index, code, id, elementSize, vfLengthFieldSize, maxVFLength,
             keyword);
 
-  /// Returns [true] if [value] is valid for this [VRInt].
+  /// Returns [true] if [n] is valid for this [VRInt].
   @override
   bool isValid(int n) => (minValue <= n) && (n <= maxValue);
 
@@ -110,9 +110,10 @@ class VRInt extends VR<int> {
 
   List<int> copy(Uint8List list) => fromBytes(list, 0, list.length, false);
 
+
+  /*
   /// Returns [true] if [bytes] contains a valid Value Field.
   //TODO: implement or flush
-  /*
   @override
   Uint8List isValidBytes(Uint8List bytes) => null;
   */
