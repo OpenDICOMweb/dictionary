@@ -110,7 +110,6 @@ class VRInt extends VR<int> {
 
   List<int> copy(Uint8List list) => fromBytes(list, 0, list.length, false);
 
-
   /*
   /// Returns [true] if [bytes] contains a valid Value Field.
   //TODO: implement or flush

@@ -51,14 +51,13 @@ bool isDcmTextChar(int c) =>
 int checkDcmTextChar(int c) => (isDcmTextChar(c)) ? c : null;
 
 /// Returns [true] if c is legal in an AE Title; otherwise, [false].
-const CharPredicate isAEChar= isDcmStringChar;
+const CharPredicate isAEChar = isDcmStringChar;
 const CharChecker checkAEChar = checkDcmStringChar;
 
 /// Returns [true] if [c] is legal in Code String; otherwise, [false],
 bool isCSChar(int c) =>
     isUppercaseChar(c) || isDigitChar(c) || (c == kSpace) || (c == kUnderscore);
 int checkCSChar(int c) => (isCSChar(c)) ? c : false;
-
 
 ///Returns [true] if c is legal in a DICOM Date VR DA.
 /*
@@ -69,7 +68,6 @@ int checkDAChar(int c) => (isDigitChar(c)) ? c : false;
 bool isDSChar(int c) =>
     isDigitChar(c) || isSignChar(c) || isDotChar(c) || isExponentChar(c);
 int checkDSChar(int c) => (isDSChar(c)) ? c : false;
-
 
 ///Returns [true] if c is legal in a DICOM DateTime VR DT.
 /*
