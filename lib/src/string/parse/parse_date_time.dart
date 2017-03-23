@@ -8,24 +8,26 @@ part of odw.sdk.dictionary.string.parse;
 // *** Note: end isn't strictly necessary, but makes all
 // data/time parsers have the same interface.
 
+//TODO: redo doc
+
 /// if [s] is a valid DICOM date (DA), returns a new Dart [DateTime] at
 /// midnight on the specified date (i.e. with time parts all being 0);
 /// otherwise, null.
-DateTime parseDcmDateString(String s, int start, int end) =>
-    _parseDcmDatePart(s, start, end, 8, 8, true);
+int parseDcmDate(String s, [int start = 0, int end]) =>
+    _parseDcmDate(s, start, end, 8, 8, false);
 
 /// Returns [true] if [s] is a valid DICOM date [String] (DA).
-bool isValidDcmDateString(String s, int start, int end) =>
-    _parseDcmDatePart(s, start, end, 8, 8, true);
+bool isValidDcmDateString(String s, [int start = 0, int end]) =>
+    _parseDcmDate(s, start, end, 8, 8, true);
 
 /// if [s] is a valid DICOM time [String] (DA), returns a new
 /// Dart [Duration]; otherwise, null.
-Duration parseDcmTimeString(String s, [int start = 0, int end]) =>
-    _parseDcmTimePart(s, start, end, false);
+int parseDcmTime(String s, [int start = 0, int end]) =>
+    _parseDcmTime(s, start, end, false);
 
 /// Returns [true] if [s] is a valid DICOM time [String] (DA).
 bool isValidDcmTimeString(String s, [int start = 0, int end]) =>
-    _parseDcmTimePart(s, start, end, true);
+    _parseDcmTime(s, start, end, true);
 
 // **** This section contains private top level parsers for Date, Time,
 // **** and DateTime.
@@ -33,17 +35,18 @@ bool isValidDcmTimeString(String s, [int start = 0, int end]) =>
 /// TODO: doc
 /// Note: end isn't strictly necessary, but makes all data/time parsers
 /// have the same interface.
-dynamic _parseDcmDatePart(
-    String dp, int start, int end, int min, int max, bool isValidOnly) {
+dynamic _parseDcmDate(String s, int start, int end, int min, int max,
+    [bool isValidOnly = false]) {
   int y, m, d;
+  if (end == null) end = s.length;
   try {
-    _checkArgs(dp, start, end, min, max);
+    _checkArgs(s, start, end, min, max);
     int index = start;
 
-    y = parseYear(dp, index, true);
+    y = parseYear(s, index, true);
     if ((index += 4) < end) {
-      m = parseMonth(dp, index, true);
-      if ((index += 2) < end) d = parseDay(y, m, dp, index, true);
+      m = parseMonth(s, index, true);
+      if ((index += 2) < end) d = parseDay(y, m, s, index, true);
     }
     log.debug('y: $y, m: $m, d: $d');
   } catch (e) {
@@ -54,8 +57,9 @@ dynamic _parseDcmDatePart(
 }
 
 // valid lengths: 2 4 6 8-13
-dynamic _parseDcmTimePart(String s, int start, int end, [bool isValidOnly]) {
+dynamic _parseDcmTime(String s, int start, int end, [bool isValidOnly]) {
   int h, m = 0, ss = 0, f = 0;
+  if (end == null) end = s.length;
   try {
     //Note: max is 13 because padding should have been removed.
     _checkArgs(s, start, end, 2, 13);
@@ -88,8 +92,7 @@ dynamic _parseDcmTimePart(String s, int start, int end, [bool isValidOnly]) {
           microseconds: f % 1000);
 }
 
-final dtVector = new List<int>(8);
-
+/* flush when working
 ///
 /// TODO: doc
 /// Note: end isn't strictly necessary, but makes all data/time parsers
@@ -102,9 +105,9 @@ dynamic _parseDcmDateTimePart(String dt, int start, int end,
     int index = start;
 
     ///
-    int date = _parseDcmDatePart(dt, index, end, 4, 8, true);
+    int date = _parseDcmDate(dt, index, end, 4, 8, true);
     if ((index += 8) < end) {
-      time = _parseDcmTimePart(dt, index, end, true);
+      time = _parseDcmTime(dt, index, end, true);
       index = _charAt(dt, index, end, "-+");
       if (index < end) tzOffset = parseTimeZone(dt, index, true);
     }
@@ -118,7 +121,7 @@ dynamic _parseDcmDateTimePart(String dt, int start, int end,
       ? true
       : new DateTime.fromMicrosecondsSinceEpoch(date + time + tzOffset);
 }
-
+*/
 // **** Functions below this line should become private at Version 0.8.0 for
 // **** performance reasons.
 
@@ -127,14 +130,16 @@ int _charAt(String s, int start, int end, String target) {
     int c = s.codeUnitAt(i);
     for (int j = 0; j < s.length; j++) if (target.codeUnitAt(j) == c) return i;
   }
+  return null;
 }
 
+/* flush when working
 String _dtError(String s, int start, int end, String msg, String type) {
   String s0 = 'Invalid $type (${s.substring(start, end)})\n';
   log.debug('$type Error: "$s"');
   return (msg == null) ? s0 : msg += '\n' + s0;
 }
-
+*/
 /* fix or flush
 String _yearError(String s, int start, int end, [String msg]) =>
     _dtError(s, start, end, msg, 'year');
@@ -158,17 +163,42 @@ String _fractionError(String s, int start, int end, [String msg]) =>
     _dtError(s, start, end, msg, 'fraction');
 */
 
+/// TODO: doc
+/// Note: end isn't strictly necessary, but makes all data/time parsers
+/// have the same interface.
+dynamic getDcmDateStringIssues(String s,
+    [int start = 0, int end, bool isValidOnly = false]) {
+  int y, m, d;
+  ParseIssues issues = new ParseIssues("Date", s);
+  if (end == null) end = s.length;
+  try {
+    issues += _checkArgs(s, start, end, min, max);
+    int index = start;
+
+    y = parseYear(s, index, true);
+    if ((index += 4) < end) {
+      m = parseMonth(s, index, true);
+      if ((index += 2) < end) d = parseDay(y, m, s, index, true);
+    }
+    log.debug('y: $y, m: $m, d: $d');
+  } catch (e) {
+    log.debug('Caught: $e');
+    return (isValidOnly) ? false : null;
+  }
+  return (isValidOnly) ? true : new DateTime(y, m, d);
+}
+
 /// Returns an [issues] [String] if [s] is not a valid DICOM [Time];
 /// otherwise, "".
-String getDcmTimeStringIssues(String s,
+ParseIssues getDcmTimeStringIssues(String s,
     [int start = 0, int end, bool isValidOnly = false]) {
   int h, m = 0, ss = 0, f = 0; // time components
-  String issues;
+  ParseIssues issues = new ParseIssues("Time", s);
   if (s == null) return null;
   if (s.length == 0 || (s.length < 8 && s.length.isOdd)) return null;
   if (end == null) end = s.length;
   try {
-    issues = _checkArgs(s, start, end, 2, 14, false);
+    issues += _checkArgs(s, start, end, 2, 14, false);
 
     int index = start;
     if (parseHour(s, index, true) == null) {
@@ -201,13 +231,12 @@ String getDcmTimeStringIssues(String s,
 
 /// if [s] is a valid DICOM date/time [String] (DT), returns a new
 /// corresponding Dart [DateTime]; otherwise, null.
-DateTime parseDcmDateTimeString(String dt, int start, int end) =>
+DateTime parseDcmDateTime(String dt, int start, int end) =>
     parseDcmDateTimePart(dt, start, end, true, false);
 
 /// Returns [true] if [s] is a valid DICOM date/time [String] (DA).
 bool isValidDcmDateTimeString(String dt, int start, int end) =>
- parseDcmDateTimePart(dt, start, end, true, true);
-
+    parseDcmDateTimePart(dt, start, end, true, true);
 
 /// Returns [true] if [s] is a valid DICOM date/time [String] (DA).
 String getDcmDateTimeIssues(String dt, int start, int end) =>

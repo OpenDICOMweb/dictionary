@@ -4,8 +4,12 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> - 
 // See the AUTHORS file for other contributors.
 
-import 'package:dictionary/string.dart';
+import 'package:common/logger.dart';
+import 'package:dictionary/date_time.dart';
 import 'package:test/test.dart';
+
+final Logger log =
+new Logger('date_time/utils_old.dart', watermark: Severity.debug);
 
 void main() {
 
@@ -17,11 +21,11 @@ void main() {
     test('parseDcmDateString: gool full date', () {
       for(String s in goodDcmDateList) {
         DateTime value = DateTime.parse(s);
-        DateTime date = parseDcmDateString(s, 0, s.length);
+        int epochDay = parseDcmDate(s, 0, s.length, 8, 8, null, false);
         log.debug('string: "$s"');
         log.debug('  value: $value');
-        log.debug('   date: $date');
-        expect(date, equals(value));
+        log.debug('   date: $epochDay');
+        expect(epochDay, equals(value));
       }
     });
 
@@ -29,7 +33,7 @@ void main() {
       for(String s in goodDcmDateList) {
         log.debug('string: "$s"');
     //    DateTime value = DateTime.parse(s);
-        bool date = isValidDcmDateString(s, 0, s.length);
+        bool date = parseDcmDate(s, 0, s.length, 8, 8, null, true);
         log.debug('  valid: $date');
         expect(date, true);
       }
@@ -38,8 +42,8 @@ void main() {
     test('getDcmDateIssues: good full date', () {
       for(String s in goodDcmDateList) {
         log.debug('string: "$s"');
-    //    DateTime value = DateTime.parse(s);
-        ParseIssues issues = dateIssues(s, 0, s.length);
+        var issues = new ParseIssues("getDcmDateIssues", s);
+        issues = parseDcmDate(s,  0, s.length, 8, 8, issues, true);
         log.debug('  issues: "$issues"');
         expect(issues, equals(""));
       }
@@ -66,12 +70,12 @@ void main() {
       for (String s in badDcmDateList) {
         log.debug('string: "$s"');
  //       DateTime value = DateTime.parse(s);
-        DateTime date = parseDcmDateString(s, 0, s.length);
+        int epochDay = parseDcmDate(s, 0, s.length, 8, 8, null, false);
 
  //       log.debug(' value: $value');
-        log.debug('  date: $date');
-        expect(date == null, true);
-        log.debug1('  Date: $s: $date');
+        log.debug('  date: $epochDay');
+        expect(epochDay == null, true);
+        log.debug1('  Date: $s: $epochDay');
       }
     });
 
@@ -80,19 +84,19 @@ void main() {
       for (String s in badDcmDateList) {
         log.debug('string: "$s"');
         //       DateTime value = DateTime.parse(s);
-        DateTime date = parseDcmDateString(s, 0, s.length);
+        int epochDay = parseDcmDate(s, 0, s.length, 8, 8, null, true);
 
         //       log.debug(' value: $value');
-        log.debug('  date: $date');
-        expect(date == null, true);
-        log.debug1('  Date: $s: $date');
+        log.debug('  date: $epochDay');
+        expect(epochDay == null, true);
+        log.debug1('  Date: $s: $epochDay');
       }
     });
 
     test('getDcmDateIssues: Bad full date', () {
       for(String s in badDcmDateList) {
         log.debug('string: "$s"');
-        ParseIssues issues = dateIssues(s, 0, s.length);
+        ParseIssues issues = parseDcmDate(s, 0, s.length, 8, 8, null, false);
         log.debug('  issues: "$issues"');
         expect(issues, equals(""));
       }

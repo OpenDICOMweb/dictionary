@@ -5,10 +5,10 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:common/logger.dart';
-import 'package:dictionary/src/string/dcm_parse.dart';
+import 'package:dictionary/src/string/utils.dart';
 import 'package:test/test.dart';
 
-final Logger log = new Logger('check_values_test', watermark: Severity.info);
+final Logger log = new Logger('check_values_test', watermark: Severity.debug);
 
 void main() {
 // TODO: create good and bad data generators for these tests
@@ -25,7 +25,7 @@ void main() {
       for (int i = 0; i < uintStrings.length; i++) {
         var s = uintStrings[i];
         log.debug('s(${s.length}): "$s"');
-        int v = parseUint(s, 0, s.length, 0, s.length);
+        int v = parseUint(s, 0, s.length);
         expect(v, equals(uintValues[i]));
       }
     });
@@ -34,7 +34,7 @@ void main() {
       for (int i = 1; i < uintStrings.length; i++) {
         var s = uintStrings[i];
         log.debug('s(${s.length}): "$s"');
-        int v = parseUint(s, 0, s.length - 1, 0, s.length - 1);
+        int v = parseUint(s, 0, s.length - 1, maxLength: s.length - 1);
         expect(v, equals(uintLength1Values[i]));
       }
     });
@@ -43,7 +43,7 @@ void main() {
       for (int i = 1; i < uintStrings.length; i++) {
         var s = uintStrings[i];
         log.debug('s(${s.length}): "$s"');
-        int v = parseUint(s, 0, s.length, 1, s.length);
+        int v = parseUint(s, 0, s.length, minLength: 1);
         expect(v, equals(uintValues[i]));
       }
     });
@@ -52,7 +52,7 @@ void main() {
       for (int i = 2; i < uintStrings.length; i++) {
         var s = uintStrings[i];
         log.debug('s(${s.length}): "$s"');
-        int v = parseUint(s, 0, s.length, 2, s.length);
+        int v = parseUint(s, 0, s.length, minLength: 2);
         expect(v, equals(uintValues[i]));
       }
     });
@@ -65,7 +65,7 @@ void main() {
       for (int i = 0; i < uintStrings.length; i++) {
         var s = badUintStrings[i];
         log.debug('s(${s.length}): "$s"');
-        int v = parseUint(s, 0, s.length, 0, s.length);
+        int v = parseUint(s, 0, s.length);
         expect(v, equals(badUintValues[i]));
       }
     });
@@ -74,7 +74,7 @@ void main() {
       for (int i = 1; i < badUintStrings.length; i++) {
         var s = badUintStrings[i];
         log.debug('s(${s.length}): "$s"');
-        int v = parseUint(s, 0, s.length, 0, s.length);
+        int v = parseUint(s, 0, s.length);
         expect(v, equals(badUintValues[i]));
       }
     });
@@ -83,7 +83,7 @@ void main() {
       for (int i = 2; i < badUintStrings.length; i++) {
         var s = badUintStrings[i];
         log.debug('s(${s.length}): "$s"');
-        int v = parseUint(s, 0, s.length, 0, s.length);
+        int v = parseUint(s, 0, s.length);
         expect(v, equals(badUintValues[i]));
       }
     });

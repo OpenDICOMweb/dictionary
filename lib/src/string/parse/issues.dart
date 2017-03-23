@@ -142,9 +142,9 @@ ParseIssues _dateTimeIssues(String s, int start, int end, int min, int max,
 ///
 /// Assumption: non of the arguments are null.
 String _checkIssueArgs(String s, int start, int end, int min, int max,
-    [throwOnError = true]) {
-  log.debug1('_checkArgs($throwOnError): (${s.length})"$s"\n'
-      '    start: $start, end: $end, min: $min, max: $max');
+    ParseIssues issues) {
+  log.debug1('_checkArgs: (${s.length})"$s"\n'
+      '    start: $start, end: $end, min: $min, max: $max, issues: $issues');
   String issues = "";
   if (s == null) {
     issues += 'Invalid null String';

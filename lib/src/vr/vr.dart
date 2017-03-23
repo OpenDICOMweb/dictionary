@@ -7,6 +7,7 @@ import 'dart:typed_data';
 
 import 'package:common/common.dart';
 import 'package:dictionary/src/constants.dart';
+import 'package:dictionary/date_time.dart';
 
 import 'float.dart';
 import 'integer.dart';
@@ -69,16 +70,16 @@ class VR<T> {
   dynamic parse(String s) => null;
 
   // **** Must be overridden.
+  /// Returns a [ParseIssues] object indicating any issues with value.
+  /// If there are no issues returns the empty string ("").
+  ParseIssues issues(T value) => null;
+
+  // **** Must be overridden.
   /// Returns a valid value, or if not parsable, [null].
   List<T> convert(Uint8List list) => null;
 
   /// Returns a valid value, or if not parsable, [null].
   List<T> view(Uint8List list) => null;
-
-  // **** Must be overridden.
-  /// Returns a [String] indicating the issue with value. If there are no
-  /// issues returns the empty string ("").
-  String issue(T value) => null;
 
   // **** Must be overridden.
   /// Returns a new value that is legal and a best practice.

@@ -7,6 +7,7 @@ part of odw.sdk.dictionary.string.parse;
 
 // ********* private functions after this line **********
 
+/*
 /// Checks that [start], [end], [min], and [max] are all valid for
 /// the [String] [s].  If any of the values are not valid and [throwOnError]
 /// is [true] it throws an error message; otherwise, is returns
@@ -22,12 +23,17 @@ part of odw.sdk.dictionary.string.parse;
 ///
 /// Assumption: non of the arguments are null.
 String _checkArgs(String s, int start, int end, int min, int max,
-    [throwOnError = true]) {
-  log.debug1('_checkArgs($throwOnError): (${s.length})"$s"\n'
-      '    start: $start, end: $end, min: $min, max: $max');
-  String issues = "";
+    ParseIssues issues) {
+  log.debug1('_checkArgs: (${s.length})"$s"\n'
+      '    start: $start, end: $end, min: $min, max: $max, issues: $issues');
   if (s == null) {
     issues += 'Invalid null String';
+    if (throwOnError) throw new ParseError(issues);
+    log.debug2('issues 2: "$issues"');
+    return issues;
+  }
+  if (s == "") {
+    issues += 'Invalid empty String("")';
     if (throwOnError) throw new ParseError(issues);
     log.debug2('issues 2: "$issues"');
     return issues;
@@ -36,9 +42,10 @@ String _checkArgs(String s, int start, int end, int min, int max,
     end = s.length;
   } else {
     if (s.length < end) {
-      issues += 'end($end)is greater than the length of s(${s.length})"$s".\n';
-      log.debug2('issues 3: "$issues"');
-      if (throwOnError) throw new ParseError(issues);
+      var msg = 'end($end)is greater than the length of s(${s.length})"$s".\n';
+      log.debug2('issues 3: "$msg"');
+      if (issues == null) throw new ParseError(issues);
+      if
     }
   }
   if (end < start + min) {
@@ -56,6 +63,28 @@ String _checkArgs(String s, int start, int end, int min, int max,
   log.debug2('_checkArgs issues: $issues');
   return issues;
 }
+*/
+// Note: _checkRange throws so all the other _check* might also throw.
+bool _inRange(int v, int min, int max, [bool throwOnError = true]) {
+  if (v < min || v > max) {
+    var msg = 'Invalid value: min($min) <= value($v) <= max($max)';
+    if (throwOnError) throw new ParseError(msg);
+    return false;
+  }
+  return true;
+}
+
+int _checkRange(int v, int min, int max, [bool throwOnError = true]) =>
+    (_inRange(v, min, max, throwOnError)) ? v : null;
+
+bool isValidHour(int h) => _inRange(h, 0, 23);
+bool isValidMinute(int m) => _inRange(m, 0, 59);
+bool isValidSecond(int s) => _inRange(s, 0, 59); //leap second???
+bool isValidFraction(int f) => _inRange(f, 0, 999999);
+int tzOffsetMin = -12;
+int tzOffsetMax = 14;
+bool isValidTZOffsetInMinutes(int tzo) =>
+    _inRange(tzo, tzOffsetMin, tzOffsetMax);
 
 int _checkYear(int y, [bool throwOnError = true]) =>
     _checkRange(y, 0, 9999, throwOnError);
@@ -106,16 +135,6 @@ int _checkTimeZone(int sign, int hour, int minute, [bool throwOnError = true]) {
   return ((hour * 60) + minute) * sign;
 }
 
-// Note: _checkRange throws so all the other _check* might also throw.
-int _checkRange(int v, int min, int max, [bool throwOnError = true]) {
-  if (v < min || v > max) {
-    var msg = 'Invalid value: min($min) <= value($v) <= max($max)';
-    if (throwOnError) throw new ParseError(msg);
-    return null;
-  }
-  return v;
-}
-
 /// Returns a [String] containing an invalid length error message,
 /// or [null] if there are no errors.
 String _getLengthError(int length, int min, int max) {
@@ -135,7 +154,6 @@ String _getLengthError(int length, int min, int max) {
 /// Returns a valid [year] or [null].  The [year] must be 4 characters.
 int parseYear(String s, int start, bool throwOnError) =>
     _checkYear(_parseUint(s, start, start + 4, throwOnError), throwOnError);
-
 
 /// Returns a valid [month] or [null].  The [month] must be 2 characters.
 int parseMonth(String s, int start, bool throwOnError) =>

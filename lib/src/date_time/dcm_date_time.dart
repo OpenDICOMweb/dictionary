@@ -3,12 +3,19 @@
 // that can be found in the LICENSE file.
 // See the AUTHORS file for contributors.
 
-import 'package:dictionary/src/string/dcm_parse.dart';
+import 'package:dictionary/src/string/parse_issues.dart';
+import 'package:dictionary/src/string/utils.dart';
+
+import 'parse.dart';
+
+import 'date.dart';
+import 'time.dart';
 
 class DcmDateTime {
   static const int minLength = 4;
   static const int maxLength = 26;
-  final DateTime dt;
+  final Date date;
+  final Time time;
 
   DcmDateTime(int year,
       [int month = 0,
@@ -18,23 +25,28 @@ class DcmDateTime {
       int second = 0,
       int millisecond = 0,
       int microsecond = 0])
-      : dt = new DateTime(
-            year, month, day, hour, minute, second, millisecond, microsecond);
+      : date = new Date(year, month, day),
+        time = new Time(hour, minute, second, millisecond, microsecond);
 
-  DcmDateTime.fromDateTime(this.dt);
-  DcmDateTime.now() : dt = new DateTime.now();
-  DcmDateTime.today() : dt = new DateTime.now();
+  DcmDateTime.fromDateTime(DcmDateTime dt)
+      : date = dt.date,
+        time = dt.time;
 
-  int get year => dt.year;
-  int get month => dt.month;
-  int get day => dt.day;
+  //Internal constructor - hidden when exported:
+  DcmDateTime.fromDateAndTime(Date date, Time time)
+      : date = date,
+        time = time;
 
-  int get hour => dt.hour;
-  int get minute => dt.minute;
-  int get second => dt.second;
-  int get millisecond => dt.millisecond;
-  int get microsecond => dt.microsecond;
-  int get fraction => (dt.millisecond * 1000) + dt.microsecond;
+  int get year => date.year;
+  int get month => date.month;
+  int get day => date.day;
+
+  int get hour => time.hour;
+  int get minute => time.minute;
+  int get second => time.second;
+  int get millisecond => time.millisecond;
+  int get microsecond => time.microsecond;
+  int get fraction => (time.millisecond * 1000) + time.microsecond;
 
   String get y => digits4(year);
   String get m => digits2(month);
@@ -47,20 +59,60 @@ class DcmDateTime {
   String get us => digits3(microsecond);
   String get f => digits6(millisecond * 1000 + microsecond);
 
+  DcmDateTime get now {
+    DateTime dt = new DateTime.now();
+    Date date = new Date(dt.year, dt.month, dt.day);
+    Time time =
+        new Time(dt.hour, dt.minute, dt.second, dt.millisecond, dt.microsecond);
+    return new DcmDateTime.fromDateAndTime(date, time);
+  }
+
   String get dcm => (fraction == 0) ? '$y$m$d$h$mm$s' : '$y$m$d$h$m$s.$f';
-
-  bool isValid(String s) => isValidDcmDateTimeString(s, 0, s.length);
-
-  String issues(String s) => getDcmDateTimeIssues(s, 0, s.length);
 
   @override
   String toString() => (fraction == 0) ? '$h:$m:$s' : '$h:$m:$s.$f';
 
-  //Note: uses the DateTime of 1BCE
-  static final DateTime isValidDateTimeValue = new DateTime(-1);
+  /// Returns a DICOM [DcmDateTime], if [s] is a valid DT [String];
+  static DcmDateTime parse(String s, [int start = 0, int end]) =>
+      _parse(s, start, end, null, false);
 
-  static DcmDateTime parse(String timeString) {
-    var dt = parseDcmDateTimeString(timeString, 0, timeString.length);
-    return (dt == null) ? null : new DcmDateTime.fromDateTime(dt);
+  /// Returns [true] if [s] is a valid DICOM [DcmDateTime] [String] (DT).
+  static bool isValidString(String s, [int start = 0, int end]) =>
+      _parse(s, start, end, null, true);
+
+  static ParseIssues issues(String s, [int start = 0, int end]) {
+    var issues = new ParseIssues("DcmDateTime", s);
+    return _parse(s, start, end, issues, false);
   }
+
+  //Urgent: add timeZone
+  static dynamic _parse(
+      String s, int start, int end, ParseIssues issues, bool isValidOnly) {
+    int epochDay = parseDcmDate(s, start, end, 4, 8, issues, isValidOnly);
+    if (epochDay == null) return (isValidOnly) ? false : null;
+
+    if (end == null) end = s.length;
+    int microseconds =
+        (start + 8 <= end) ? 0 : parseDcmTime(s, start + 8, end, 2, 18,
+          issues, isValidOnly);
+    if (microseconds == null) {
+      return (isValidOnly) ? false : null;
+    }
+    if (isValidOnly) return true;
+    Date date = new Date.fromEpochDay(epochDay);
+    Time time = new Time.fromMicroseconds(microseconds);
+    return new DcmDateTime.fromDateAndTime(date, time);
+  }
+/*
+  static ParseIssues issues(String s, [int start = 0, int end]) {
+    ParseIssues issues = getDcmDateIssues(s, start, end, 4, 26);
+    if (start + 8 <= end) getDcmTimeIssues(s, start + 8, end, false, issues);
+
+    int microseconds = (start + 8 <= end) ? 0 : parseDcmTime(s, start + 8, end);
+    if (microseconds == null) return null;
+    Date date = new Date.fromEpochDay(epochDay);
+    Time time = new Time.fromMicroseconds(microseconds);
+    return new DcmDateTime.fromDateAndTime(date, time);
+  }
+  */
 }

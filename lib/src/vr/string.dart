@@ -5,6 +5,7 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:common/ascii.dart';
+import 'package:dictionary/date_time.dart';
 import 'package:dictionary/src/constants.dart';
 import 'package:dictionary/src/person_name.dart';
 import 'package:dictionary/src/uid/uid.dart';
@@ -40,9 +41,6 @@ abstract class VRString extends VR<String> {
 
   @override
   String check(String s) => (isValid(s)) ? s : null;
-
-  @override
-  String issue(String s);
 
   /// Default [String] parser.  If the [String] [isValid] just returns it;
   @override
@@ -296,43 +294,91 @@ class VRDcmDate extends VRString {
   bool isValid(String s) => parse(s) != null;
 
   @override
-  String issue(String s) => (isNotValid(s)) ? 'Invalid Date $s' : "";
+  ParseIssues issues(String s) => Date.issues(s);
 
   @override
-  DateTime parse(String s) {
-    assert(s != null);
-    if (!_isValidLength(s.length)) return null;
-    DateTime dt;
-    try {
-      //  print('DATE.parse: "$s:');
-      dt = DateTime.parse(s);
-      //  print('dt: $dt');
-    } on FormatException {
-      return null;
-    } on ArgumentError {
-      return null;
-    }
-    return dt;
-  }
+  Date parse(String s) => Date.parse(s.trimRight());
 
   /// Fix
   @override
   String fix(String s) {
-    //TODO:
-    // trucate on error
-    // what other fixes?
-    return s;
+    var t = s.trimRight();
+    //TODO: trucate on error what other fixes?
+    return t;
   }
 
   static const VRDcmDate kDA =
       const VRDcmDate._(6, 0x4144, "DA", 2, kMaxShortVF, "DateString", 8, 8);
 }
 
+class VRDcmDateTime extends VRString {
+  const VRDcmDateTime._(int index, int code, String id, int vfLengthSize,
+      int maxVFLength, String keyword, int minValueLength, int maxValueLength)
+      : super._(index, code, id, vfLengthSize, maxVFLength, keyword,
+            minValueLength, maxValueLength);
+
+  @override
+  bool isValid(String s) => DcmDateTime.isValidString(s.trimRight());
+
+  @override
+  ParseIssues issues(String s) => DcmDateTime.issues(s);
+
+  @override
+  DcmDateTime parse(String s) => DcmDateTime.parse(s.trimRight());
+
+  /// Fix
+  @override
+  String fix(String s) {
+    var t = s.trimRight();
+    //TODO: truncate on error? what other fixes?
+    return t;
+  }
+
+  static const VRDcmDateTime kDT = const VRDcmDateTime._(
+      8, 0x5444, "DT", 2, kMaxShortVF, "DateTimeString", 4, 26);
+}
+
+
+
+class VRDcmTime extends VRString {
+
+  const VRDcmTime._(int index, int code, String id, int vfLengthSize,
+      int maxVFLength, String keyword, int minValueLength, int maxValueLength)
+      : super._(index, code, id, vfLengthSize, maxVFLength, keyword,
+      minValueLength, maxValueLength);
+
+  @override
+  bool isValidString(String timeString) => Time.isValidString(timeString) !=
+      null;
+
+  @override
+  ParseIssues issues(String timeString) => Time.issues(timeString);
+
+  /// Parse DICOM Time and if valid return a [Duration]; otherwise, [null].
+  @override
+  Time parse(String timeString) => Time.parse(timeString.trimRight());
+
+
+  /// Fix
+  @override
+  String fix(String timeString) {
+    var t = timeString.trimRight();
+    //TODO:
+    // truncate on error, what other fixes? if separator (:) present - remove.
+    // if time zone marker present??
+    return t;
+  }
+
+  static const VRDcmTime kTM =
+  const VRDcmTime._(25, 0x4d54, "TM", 2, kMaxShortVF, "TimeString", 2, 14);
+}
+
+
 class VRFloatString extends VRString {
   const VRFloatString._(int index, int code, String id, int vfLengthSize,
       int maxVFLength, String keyword, int minValueLength, int maxValueLength)
       : super._(index, code, id, vfLengthSize, maxVFLength, keyword,
-            minValueLength, maxValueLength);
+      minValueLength, maxValueLength);
 
   @override
   bool isValid(String s) => parse(s) != null;
@@ -359,59 +405,6 @@ class VRFloatString extends VRString {
       7, 0x5344, "DS", 2, kMaxShortVF, "DecimalString", 1, 16);
 }
 
-class VRDcmDateTime extends VRString {
-  const VRDcmDateTime._(int index, int code, String id, int vfLengthSize,
-      int maxVFLength, String keyword, int minValueLength, int maxValueLength)
-      : super._(index, code, id, vfLengthSize, maxVFLength, keyword,
-            minValueLength, maxValueLength);
-
-  @override
-  bool isValid(String dateTimeString) => parse(dateTimeString) != null;
-
-  @override
-  String issue(String dateTimeString) =>
-      (isNotValid(dateTimeString)) ? 'Invalid DateTime: $dateTimeString' : "";
-
-  @override
-  DateTime parse(String dateTimeString) {
-    assert(dateTimeString != null);
-    if (!_isValidLength(dateTimeString.length) ||
-        !_isValidString(dateTimeString)) return null;
-    String s;
-    int length = dateTimeString.length;
-    if (length.isOdd && length < 6) return null;
-    if (length == 4) s = dateTimeString + '0000';
-    if (length == 6) s = dateTimeString + '00';
-    DateTime dt;
-    try {
-      //  print('DATE.parse: "$s:');
-      dt = DateTime.parse(s);
-      //  print('dt: $dt');
-    } on FormatException {
-      return null;
-    } on ArgumentError {
-      return null;
-    }
-    return dt;
-  }
-
-  /// Fix
-  @override
-  String fix(String s) {
-    //TODO:
-    // truncate on error
-    // what other fixes?
-    return s;
-  }
-
-  bool _isValidString(String s) => _filteredTest(s, _isDcmTimeChar);
-
-  bool _isDcmTimeChar(int c) => isDigitChar(c) || isDotChar(c) || isSignChar(c);
-
-  static const VRDcmDateTime kDT = const VRDcmDateTime._(
-      8, 0x5444, "DT", 2, kMaxShortVF, "DateTimeString", 4, 26);
-}
-
 class VRIntString extends VRString {
   const VRIntString._(int index, int code, String id, int vfLengthSize,
       int maxVFLength, String keyword, int minValueLength, int maxValueLength)
@@ -431,7 +424,7 @@ class VRIntString extends VRString {
   int parse(String s) {
     assert(s != null);
     if (!_isValidLength(s.length)) return null;
-    return int.parse(s, onError: (s) => null);
+    return int.parse(s.trim(), onError: (s) => null);
   }
 
   /// Fix
@@ -528,65 +521,6 @@ class VRPersonName extends VRString {
   static bool _isPNComponentGroupChar(int c) =>
       c >= kSpace && c < kDelete && (c != kBackslash && c != kCircumflex);
   */
-}
-
-const String baseYear = '19700101';
-const String prefix = '19700101T';
-
-class VRDcmTime extends VRString {
-  static final DateTime baseDate = new DateTime(1970, 01, 01);
-
-  const VRDcmTime._(int index, int code, String id, int vfLengthSize,
-      int maxVFLength, String keyword, int minValueLength, int maxValueLength)
-      : super._(index, code, id, vfLengthSize, maxVFLength, keyword,
-            minValueLength, maxValueLength);
-
-  @override
-  bool isValid(String timeString) => parse(timeString) != null;
-
-  @override
-  String issue(String timeString) =>
-      (isNotValid(timeString)) ? 'Invalid DateTime: $timeString' : "";
-
-  /// Parse DICOM Time and if valid return a [Duration]; otherwise, [null].
-  @override
-  Duration parse(String timeString) {
-    String t = timeString;
-    var length = t.length;
-    if (length < 6) {
-      if (length == 0 || length.isOdd) return null;
-      if (length == 2) t += '0000';
-      if (length == 4) t += '00';
-    }
-    var dts = prefix + t;
-    DateTime dt;
-    Duration time;
-    try {
-      dt = DateTime.parse(dts);
-    } on FormatException {
-      return null;
-    }
-    time = dt.difference(baseDate);
-    return time;
-  }
-
-  /// Fix
-  @override
-  String fix(String s) {
-    //TODO:
-    // truncate on error
-    // what other fixes?
-    // if separator (:) present - remove.
-    // if time zone marker present??
-    return s;
-  }
-
-  bool _isValidString(String s) => _filteredTest(s, _isDcmTimeChar);
-
-  bool _isDcmTimeChar(int c) => isDigitChar(c) || isDotChar(c);
-
-  static const VRDcmTime kTM =
-      const VRDcmTime._(25, 0x4d54, "TM", 2, kMaxShortVF, "TimeString", 2, 14);
 }
 
 /// _UI_: A DICOM UID (aka OSI OID).

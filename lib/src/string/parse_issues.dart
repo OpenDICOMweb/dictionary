@@ -7,11 +7,13 @@
 /// A class that contains a [List<String>] describing errors encountered
 /// when parsing a value.
 class ParseIssues {
-  String type;
-  String value;
+  final String type;
+  final String value;
+  final int start;
+  final int end;
   List<String> _issues;
 
-  ParseIssues(this.type, this.value);
+  ParseIssues(this.type, this.value, [this.start = 0, this.end, this._issues]);
 
   ParseIssues operator +(String issue) {
     add(issue);
@@ -20,6 +22,7 @@ class ParseIssues {
 
   List<String> get issues => _issues ??= <String>[];
 
+  bool get isEmpty => _issues == null;
   String get term {
     if (issues.length == 0) return "has no issues.";
     if (issues.length == 1) return "has the following issue:\n ";
@@ -43,6 +46,5 @@ class ParseIssues {
   String get info => '$type "$value" $term $this';
 
   @override
-  String toString() =>
-      (issues.length == 0) ? "" : '${issues.join('\n  ')}';
+  String toString() => (issues.length == 0) ? "" : '${issues.join('\n  ')}';
 }

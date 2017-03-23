@@ -5,7 +5,7 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:common/logger.dart';
-import 'package:dictionary/string.dart';
+import 'package:dictionary/date_time.dart';
 
 final Logger log = new Logger('bin/parse_date.dart', watermark: Severity.debug);
 
@@ -32,7 +32,7 @@ void testIssues() {
 void testOneYearIssues() {
   String year = "0bc";
   var issues = new ParseIssues('Date', year);
-  yearIssues(year, 0, year.length, issues);
+  parseYear(year, 0, issues);
   log.debug(issues.info);
 }
 
@@ -41,7 +41,7 @@ void testYearLengthOnlyIssues() {
   for (int i = 0; i < numbers.length; i++) {
     var year = numbers[i];
     var issues = new ParseIssues('Date', year);
-    yearIssues(year, 0, year.length, issues);
+    parseYear(year, 0);
     log.debug(issues.info);
   }
 }
@@ -51,7 +51,7 @@ void testYearLengthAndCharIssues() {
   for (int i = 0; i < numbers.length; i++) {
     var year = numbers[i];
     var issues = new ParseIssues('Date', year);
-    yearIssues(year, 0, year.length, issues);
+    parseYear(year, 0);
     log.debug(issues.info);
   }
 }
@@ -61,7 +61,7 @@ void testGoodMonthLengthAndCharIssues() {
   for (int i = 0; i < numbers.length; i++) {
     var year = numbers[i];
     var issues = new ParseIssues('Date', year);
-    monthIssues(year, 0, year.length, issues);
+    parseMonth(year, 0);
     log.debug(issues.info);
   }
 }
@@ -71,7 +71,7 @@ void testBadMonthLengthAndCharIssues() {
   for (int i = 0; i < numbers.length; i++) {
     var year = numbers[i];
     var issues = new ParseIssues('Date', year);
-    monthIssues(year, 0, year.length, issues);
+    parseMonth(year, 0);
     log.debug(issues.info);
   }
 }
@@ -80,7 +80,8 @@ void testGoodDateIssues() {
   List<String> dates = <String>['10500718', '19000101', '20001212'];
   for (int i = 0; i < dates.length; i++) {
     var date = dates[i];
-    var issues = dateIssues(date, 0, date.length);
+    var issues = new ParseIssues('Date', date);
+    issues = Date.issues(date);
     log.debug(issues.info);
   }
 }
@@ -94,7 +95,8 @@ void testBadDateIssues() {
 
   for (int i = 0; i < dates.length; i++) {
     var date = dates[i];
-    var issues = dateIssues(date, 0, date.length);
+    var issues = new ParseIssues('Date', date);
+    issues = Date.issues(date);
     log.debug(issues.info);
   }
 }

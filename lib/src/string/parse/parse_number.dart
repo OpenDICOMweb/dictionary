@@ -9,15 +9,14 @@ part of odw.sdk.dictionary.string.parse;
 /// [InvalidCharacterError].
 ///
 /// Note: we're using this because Dart doesn't provide a Uint parser.
-int parseUint(String s, int start, int end,
-    [int minLength = 0, int maxLength]) {
+int parseUint(String s, int start, int end, ParseIssues issues,
+{int minLength = 0, int maxLength}) {
   if (maxLength == null) maxLength = s.length;
-  _checkArgs(s, start, end, minLength, maxLength);
-  if (s == null || s == "") return null;
-  log.debug2('_parseUint: s($s), start($start), end($end)');
-  log.debug2('_parseUint s: ${s.substring(start, end)}');
   try {
-    int value = _parseUint(s, start, end);
+    _checkArgs(s, start, end, minLength, maxLength, issues);
+    log.debug2('parseUint: s($s), start($start), end($end)');
+    log.debug2('parseUint s: ${s.substring(start, end)}');
+    int value = _parseUint(s, start, end, issues);
     log.debug2('Uint: $value');
     return value;
   } on ParseError catch (e) {
@@ -26,21 +25,33 @@ int parseUint(String s, int start, int end,
   }
 }
 
+// Note: for internal use only - doesn't catch
+int uintParser(String s, int start, int end, ParseIssues issues,
+    {int minLength = 0, int maxLength}) {
+  if (maxLength == null) maxLength = s.length;
+  _checkArgs(s, start, end, minLength, maxLength, issues);
+  log.debug2('uintParser: s($s), start($start), end($end)');
+  log.debug2('uintParser s: ${s.substring(start, end)}');
+    int value = _parseUint(s, start, end, issues);
+    log.debug2('Uint: $value');
+    return value;
+}
 //TODO: rewrite doc
 /// Parses an [int] from [start] to [end], and returns
 /// its corresponding value. The If an error is encountered throws an
 /// [InvalidCharacterError].
 ///
 /// Note: we're using this because Dart doesn't provide a Uint parser.
-int _parseUint(String s, int start, int end, [bool throwOnError = true]) {
+int _parseUint(String s, int start, int end, ParseIssues issues) {
   int value = 0;
   for (int i = start; i < end; i++) {
     value *= 10;
     log.debug2('    i: $i, _pUint: $value');
     int c = s.codeUnitAt(i);
     if (c < k0 || c > k9) {
-      if (throwOnError) {
-        throw new ParseError('Invalid char $c in String(${s.length}): "$s"');
+      if (issues == null) {
+        throw new ParseError('Invalid char "${s[i]}"($c) at index($i) '
+            'in String(${s.length}): "$s"');
       } else {
         return null;
       }

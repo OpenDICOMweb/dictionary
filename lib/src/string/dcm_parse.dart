@@ -7,17 +7,17 @@ library odw.sdk.dictionary.string.parse;
 
 import 'package:common/ascii.dart';
 import 'package:common/logger.dart';
-import 'package:dictionary/src/string/parse/parse_error.dart';
-import 'package:dictionary/src/string/parse/parse_issues.dart';
+import 'package:dictionary/src/string/parse_error.dart';
+import 'package:dictionary/src/string/parse_issues.dart';
 
-part 'package:dictionary/src/string/parse/issues.dart';
-part 'package:dictionary/src/string/parse/parse_date_time.dart';
-part 'package:dictionary/src/string/parse/parse_number.dart';
+//part 'package:dictionary/src/string/parse/issues.dart';
+//part 'package:dictionary/src/string/parse/parse_date_time.dart';
+//part 'package:dictionary/src/string/parse/parse_number.dart';
 part 'package:dictionary/src/string/parse/parse_utils.dart';
 
 // TODO: remove logging before version 0.9.0
 final Logger log =
-    new Logger('date_time/utils_old.dart', watermark: Severity.debug);
+    new Logger('date_time/utils_old.dart', watermark: Severity.debug1);
 
 //Urgent: needed.
 /// These determine the error value returned

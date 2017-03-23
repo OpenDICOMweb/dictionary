@@ -8,6 +8,7 @@ import 'dart:typed_data';
 
 import 'package:common/number.dart';
 import 'package:dictionary/src/constants.dart';
+import 'package:dictionary/src/string/parse_issues.dart';
 
 import 'vr.dart';
 
@@ -87,10 +88,13 @@ class VRInt extends VR<int> {
   /// Returns a [String] indicating the issue with value. If there are no
   /// issues returns the empty string ("").
   @override
-  String issue(int n) => (isNotValid(n))
-      ? 'Invalid value: min($minValue) <= value($n) <= max($maxValue)'
-      : null;
-
+  ParseIssues issues(int n) {
+    if (isNotValid(n)) {
+      var msg = 'Invalid value: min($minValue) <= value($n) <= max($maxValue)';
+      return new ParseIssues("VRInt", '$n', 0, 0, [msg]);
+    }
+    return null;
+  }
   /// Returns a valid, possibly coerced, value.
   @override
   int fix(int n) {

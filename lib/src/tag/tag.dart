@@ -222,7 +222,7 @@ class Tag {
       sList.add('Invalid Length: min($minLength) <= value(${values.length}) '
           '<= max($maxLength)');
     for (int i = 0; i < values.length; i++) {
-      var s = vr.issue(values[i]);
+      var s = vr.issues(values[i]);
       if (s != null) sList.add('$i: $s');
     }
     return sList;
