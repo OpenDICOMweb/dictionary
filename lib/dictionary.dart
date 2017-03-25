@@ -7,6 +7,7 @@
 // DICOM Dictionary libraries
 // These are all constant classes, etc. defined by the DICOM Standard
 
+export 'package:dictionary/date_time.dart';
 export 'package:dictionary/src/constants.dart';
 export 'package:dictionary/src/defined_terms/defined_terms.dart';
 export 'package:dictionary/src/e_type.dart';
