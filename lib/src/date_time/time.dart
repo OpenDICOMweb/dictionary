@@ -44,14 +44,14 @@ class Time {
   @override
   Time operator +(Object other) => (other is! Time)
       ? null
-      : new Time.fromMicroseconds(_microseconds + other._microseconds);
+      : new Time.fromMicroseconds(_microseconds + other.microseconds);
 
   //TODO: unit test to verify
   /// Returns `true` if this Duration is the same object as [other].
   @override
   Time operator -(Object other) =>(other is! Time)
       ? null
-      : new Time.fromMicroseconds(_microseconds - other._microseconds);
+      : new Time.fromMicroseconds(_microseconds - other.microseconds);
 
   @override
   int get hashCode => _microseconds.hashCode;
