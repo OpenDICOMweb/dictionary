@@ -12,7 +12,6 @@ import 'package:test/test.dart';
 final Logger log = new Logger('DateTimeTests', watermark: Severity.debug);
 
 void main() {
-  var s = "+0000";
 
   for (int i = 0; i < goodTimeZones.length; i++) {
     var s = goodTimeZones[i];

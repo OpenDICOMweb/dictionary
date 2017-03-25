@@ -35,7 +35,6 @@ void main() {
       for (int i = 0; i < badUints.length; i++) {
         var s = badUints[i];
         log.debug('s(${s.length}): "$s"');
-        int end = (s == null) ? 1 : s.length;
         int v = parseUint(s);
         log.debug('v: "$v"');
         expect(v == null, true);

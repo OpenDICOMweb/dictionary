@@ -217,7 +217,6 @@ String _invalidSign(String s, int index) =>
 /// Returns 1 for '+'. -1 for '-', or 0 if the character is a digit (0-9);
 /// otherwise, either throws a [ParseError] appends a message to [issues].
 int parseSign(String s, [int start = 0, ParseIssues issues]) {
-  int sign;
   int c = s.codeUnitAt(start);
   if (c == kMinusSign) return -1;
   if (c == kPlusSign) return 1;

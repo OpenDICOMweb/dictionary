@@ -24,7 +24,7 @@ class DcmDateTime {
       new TimeZone.fromMinutes(localTZOinMinutes);
   final Date date;
   final Time time;
-  TimeZone _timeZone;
+  final TimeZone _timeZone;
 
   DcmDateTime(int year,
       [int month = 0,

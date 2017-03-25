@@ -247,7 +247,7 @@ List<int> _parseDcmDateTime(String s, int start, int end, int min, int max,
   if ((index += 8) < end) {
     int timeEnd = (end < 21) ? end : 21;
     _log.debug('_parseDcmDateTime: index($index), end($end)');
-    us = _parseDcmTime(s, index, end, 2, 13);
+    us = _parseDcmTime(s, index, timeEnd, 2, 13);
     _log.debug('_parseDcmDateTime: index($index), end($end)');
     index = s.indexOf("+-", index);
     _log.debug('_parseDcmDateTime: index($index), end($end)');

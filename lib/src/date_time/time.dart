@@ -12,18 +12,18 @@ import 'parse.dart';
 //TODO: add implements Comparable
 class Time {
   /// Internally [Time] is stored in microseconds.
-  final int _microseconds;
+  final int _uSecs;
 
   Time(int hour,
       [int minute = 0,
       int second = 0,
       int millisecond = 0,
       int microsecond = 0])
-      : _microseconds =
+      : _uSecs =
             toMicroseconds(hour, minute, second, millisecond, microsecond);
 
   //Internal constructor - hidden when exported:
-  const Time.fromMicroseconds(this._microseconds);
+  const Time.fromMicroseconds(this._uSecs);
 
   Time.fromInt(
       {int hours = 0,
@@ -31,60 +31,61 @@ class Time {
       int seconds = 0,
       int milliseconds = 0,
       int microseconds = 0})
-      : _microseconds =
+      : _uSecs =
             toMicroseconds(hours, minutes, seconds, milliseconds, microseconds);
 
   /// Returns `true` if this Duration is the same object as [other].
   @override
   bool operator ==(Object other) =>
-      (other is Time) ? _microseconds == other._microseconds : false;
+      (other is Time) ? _uSecs == other._uSecs : false;
 
   //TODO: unit test to verify
   /// Returns `true` if this Duration is the same object as [other].
   @override
-  Time operator +(Object other) => (other is! Time)
-      ? null
-      : new Time.fromMicroseconds(_microseconds + other.microseconds);
+  Time operator +(Object other) => (other is Time)
+      ? new Time.fromMicroseconds(_uSecs + other._uSecs)
+      : null;
 
   //TODO: unit test to verify
   /// Returns `true` if this Duration is the same object as [other].
   @override
-  Time operator -(Object other) =>(other is! Time)
-      ? null
-      : new Time.fromMicroseconds(_microseconds - other.microseconds);
+  Time operator -(Object other) =>(other is Time)
+      ? new Time.fromMicroseconds(_uSecs - other._uSecs)
+      : null;
+
 
   @override
-  int get hashCode => _microseconds.hashCode;
+  int get hashCode => _uSecs.hashCode;
 
   // These Getters return the total quantity
-  int get inMicroseconds => _microseconds;
+  int get inMicroseconds => _uSecs;
 
-  int get inMilliseconds => _microseconds ~/ microsecondsPerMillisecond;
+  int get inMilliseconds => _uSecs ~/ microsecondsPerMillisecond;
 
-  int get inSeconds => _microseconds ~/ microsecondsPerSecond;
+  int get inSeconds => _uSecs ~/ microsecondsPerSecond;
 
-  int get inMinutes => _microseconds ~/ microsecondsPerMinute;
+  int get inMinutes => _uSecs ~/ microsecondsPerMinute;
 
-  int get inHours => _microseconds ~/ microsecondsPerHour;
+  int get inHours => _uSecs ~/ microsecondsPerHour;
 
   int get hour => inHours;
 
   int get minute =>
-      (_microseconds - (inHours * microsecondsPerHour)) ~/
+      (_uSecs - (inHours * microsecondsPerHour)) ~/
       microsecondsPerMinute;
 
   int get second =>
-      (_microseconds - (inMinutes * microsecondsPerMinute)) ~/
+      (_uSecs - (inMinutes * microsecondsPerMinute)) ~/
       microsecondsPerSecond;
 
   int get millisecond =>
-      (_microseconds - (inSeconds * microsecondsPerSecond)) ~/
+      (_uSecs - (inSeconds * microsecondsPerSecond)) ~/
       microsecondsPerMillisecond;
 
   int get microsecond =>
-      _microseconds - (inMilliseconds * microsecondsPerMillisecond);
+      _uSecs - (inMilliseconds * microsecondsPerMillisecond);
 
-  int get fraction => _microseconds - (inSeconds * microsecondsPerSecond);
+  int get fraction => _uSecs - (inSeconds * microsecondsPerSecond);
 
   String get h => digits2(hour);
 
