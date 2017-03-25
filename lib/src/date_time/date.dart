@@ -3,13 +3,11 @@
 // that can be found in the LICENSE file.
 // See the AUTHORS file for contributors.
 
+import 'package:dictionary/src/errors.dart';
 import 'package:dictionary/src/string/parse.dart';
-import 'package:dictionary/src/string/parse_error.dart';
 import 'package:dictionary/src/string/parse_issues.dart';
 
-import 'dcm_date_time.dart';
 import 'parse.dart';
-import 'time.dart';
 
 class Date {
   final int _epochDay;
@@ -47,29 +45,39 @@ class Date {
 
   String get weekDayName => weekdayNames[day];
 
+  static const int minLength = 8;
+  static const int maxLength = 8;
+
   static const List<String> weekdayNames = const <String>[
     "Sunday", "Monday", "Tuesday", "Wednesday",
     "Thursday", "Friday", "Saturday" // no reformat
   ];
 
-  DcmDateTime add(Time time) => new DcmDateTime.fromDateAndTime(this, time);
+  /* TODO: add later
+  DcmDateTime add(Time time, [TimeZone tz]) =>
+    new DcmDateTime.fromDateTime(this, time, tz);
 
-//  DcmDateTime subtract(Time time) => new DcmDateTime(date, time);
-
+  DcmDateTime subtract(Time time, [TimeZone tz]) {
+    new DcmDateTime.fromDateTime(this, time);
+  }
+  */
   @override
   String toString() => '$y-$m-$d';
 
-  static bool isValidString(String s) =>
-      parseDcmDate(s, 0, s.length, 8, 8, true);
+  static bool isValidString(String s,
+          {int start = 0, int end, int min = 0, int max}) =>
+      isValidDcmDate(s, min: min, max: max);
 
-  static Date parse(String s, [int start = 0, int end]) {
-    int epochDay = parseDcmDate(s, start, end, 8, 8, false);
+  static Date parse(String s, {int start = 0, int end, int min = 0, int max}) {
+    int epochDay = parseDcmDate(s, start: start, end: end, min: min, max: max);
     return (epochDay == null) ? null : new Date.fromEpochDay(epochDay);
   }
 
-  static ParseIssues issues(String s) {
+  static ParseIssues issues(String s,
+      {int start = 0, int end, int min = 0, int max}) {
     ParseIssues issues = new ParseIssues('Date', s);
-    return getDcmDateIssues(s, 0, s.length, 8, 8, issues);
+    getDcmDateIssues(s, min: 8, max: 8, issues: issues);
+    return issues;
   }
 }
 

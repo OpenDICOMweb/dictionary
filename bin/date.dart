@@ -10,22 +10,18 @@ import 'package:dictionary/date_time.dart';
 final Logger log = new Logger('DateTimeTests', watermark: Severity.debug);
 
 void main() {
-  parseGoodYears();
-  /*
-    goodDcmTimes();
-    badDcmTimes();
+  log.debug('Test Dates');
+  var s = "230718.1234";
+  int t = parseDcmTime(s);
+  log.debug('  Time "$s": $t');
 
-  parseFractionTest();
+  parseGoodYears();
 
   goodDcmDates();
   badDcmDates();
-  badDcmTimes();
 
-  log.debug('Test Dates');
-  var s = "230718.1234";
-  Time t = parseDcmTimeString(s, 0, s.length);
-  log.debug('  Time "$s": $t');
-  */
+  goodDcmTimes();
+  badDcmTimes();
 }
 
 void parseGoodYears() {
@@ -61,7 +57,7 @@ void parseBadYears() {
   }
 }
 
-void parseFractionTest() {
+void testFraction() {
   List<String> goodFractions = <String>[
     ".0", ".1", ".90", ".101", ".9091", ".10987", ".123456",
     ".987654", ".000000", ".000001", ".100000", ".999999",
@@ -70,7 +66,7 @@ void parseFractionTest() {
 
   log.debug('Good Fractions');
   for (String s in goodFractions) {
-    int f = parseFraction(s);
+    int f = parseTimeFraction(s);
     log.debug('    $s: $f');
   }
 }
@@ -109,7 +105,7 @@ void badDcmDates() {
 }
 
 void goodDcmTimes() {
-  List<String> goodDcmTimeList = [
+  const List<String> goodDcmTimeList = const <String>[
     '230718',
     '000000',
     '190101',
@@ -126,12 +122,6 @@ void goodDcmTimes() {
     '000000.0000',
     '000000.00000',
     '000000.000000',
-    '999999.9',
-    '999999.99',
-    '999999.999',
-    '999999.9999',
-    '999999.99999',
-    '999999.999999',
     '00',
     '0000',
     '000000',
@@ -164,34 +154,32 @@ void goodDcmTimes() {
     '235959.111111',
   ];
 
-  log.debug('Good Times');
-  for (String s in goodDcmTimeList) {
-    log.debug('Time: $s');
-    Time t = Time.parse(s);
-    log.debug('  Time $s: $t');
-    log.debug('  Milliseconds: ${t.millisecond}');
-    log.debug('  Microseconds: ${t.microsecond}');
-    log.debug('  Fraction: ${t.fraction}');
-    log.debug('  ms: ${t.f}');
-    log.debug('  us: ${t.f}');
-  }
+
 }
 
+const List<String> badDcmTimeList = const <String>[
+  '241318', // bad hour
+  '006132', // bad minute
+  '006161', // bad minute and second
+  '000000', // bad month and day
+  '-00101', // bad character in hour
+  'a00101', // bad character in hour
+  '0a0101', // bad character in hour
+  'ad0101', // bad characters in hour
+  '19a101', // bad character in minute
+  '190b01', // bad character in minute
+  '1901a1', // bad character in second
+  '19011a', // bad character in second
+  '999999.9',
+  '999999.99',
+  '999999.999',
+  '999999.9999',
+  '999999.99999',
+  '999999.999999',
+];
+
 void badDcmTimes() {
-  List<String> badDcmTimeList = [
-    '241318', // bad hour
-    '006132', // bad minute
-    '006161', // bad minute and second
-    '000000', // bad month and day
-    '-00101', // bad character in hour
-    'a00101', // bad character in hour
-    '0a0101', // bad character in hour
-    'ad0101', // bad characters in hour
-    '19a101', // bad character in minute
-    '190b01', // bad character in minute
-    '1901a1', // bad character in second
-    '19011a', // bad character in second
-  ];
+
 
   log.debug('Bad Dates');
   for (String s in badDcmTimeList) {

@@ -4,11 +4,10 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:common/logger.dart';
-import 'package:dictionary/src/date_time/dcm_date_time.dart';
-import 'package:dictionary/src/string/dcm_parse.dart';
+import 'package:dictionary/date_time.dart';
 import 'package:test/test.dart';
 
-final Logger log = new Logger('uint_test.dart', watermark: Severity.info);
+final Logger log = new Logger('uint_test.dart', watermark: Severity.debug);
 
 void main() {
   List<String> goodDcmDateTimeList = [
@@ -49,18 +48,21 @@ void main() {
   group("DcmDateTime", () {
     test("Good DcmDateTime", () {
       //DcmDateTime d=new DcmDateTime(1505,12,4);
+      log.debug("Good DcmDateTime");
       for (String dt in goodDcmDateTimeList) {
-        log.debug("date and time:$dt");
+        log.debug("  date and time:$dt");
         DcmDateTime datetime = DcmDateTime.parse(dt);
         expect(datetime, isNotNull);
       }
     });
     test("Bad DcmDateTime", () {
       //DcmDateTime datetim=DcmDateTime.parse(dt);
+      log.debug("Bad DcmDateTime");
       for (String dt in badDcmDateTimeList) {
-        DcmDateTime datetime = DcmDateTime.parse(dt);
-        expect(datetime == null, true);
-        log.debug1('  Date and time: $dt: $datetime');
+        log.debug('    "$dt"');
+        DcmDateTime dateTime = DcmDateTime.parse(dt);
+        log.debug1('    "$dt": $dateTime');
+        expect(dateTime == null, true);
       }
     });
   });
@@ -68,50 +70,57 @@ void main() {
   group('isValid', () {
     test('isValid Good and Bad DcmDateTime', () {
       for (String dt in goodDcmDateTimeList) {
-        DcmDateTime dateTime = new DcmDateTime.fromDateTime(
-            parseDcmDateTimeString(dt, 0, dt.length));
-        expect(dateTime.isValid(dt), true);
+        DcmDateTime dateTime =DcmDateTime.parse(dt);
+        expect(dateTime is DcmDateTime, true);
+        expect(DcmDateTime.isValidString(dt), true);
       }
 
       for (String dt in badDcmDateTimeList) {
-        DcmDateTime dateTime = new DcmDateTime.fromDateTime(
-            parseDcmDateTimeString(dt, 0, dt.length));
-        expect(dateTime.isValid(dt), false);
+        DcmDateTime dateTime = DcmDateTime.parse(dt);
+        expect(dateTime, isNull);
+        expect(DcmDateTime.isValidString(dt), false);
       }
     });
 
     test('issues', () {
-      var dt = new DcmDateTime(2016, 05, 15, 04, 22, 14);
+ //     var dt = new DcmDateTime(2016, 05, 15, 04, 22, 14);
       for (String s in goodDcmDateTimeList) {
-        print(getDcmDateTimeIssues(s, 0, s.length));
+        ParseIssues issues = DcmDateTime.issues(s);
+        expect(issues.isEmpty, true);
       }
     });
 
     test('parseTimeZone', () {
       String tzValid = '-1200';
-      expect(parseTimeZone(tzValid, 0) == (-1 * ((12 * 60) + 00)), true);
+      expect(parseTimeZone(tzValid) == (-1 * ((12 * 60) + 00)), true);
 
       tzValid = '+1330';
-      expect(parseTimeZone(tzValid, 0) == (((13 * 60) + 30)), true);
+      expect(parseTimeZone(tzValid) == (((13 * 60) + 30)), true);
 
       tzValid = '+1445';
-      expect(parseTimeZone(tzValid, 0) == (((14 * 60) + 45)), true);
+      expect(parseTimeZone(tzValid) == (((14 * 60) + 45)), true);
 
       String tzInValid = '1200';
-      expect(() => parseTimeZone(tzInValid, 0),
-          throwsA(new isInstanceOf<Error>()));
+    //  expect(() => parseTimeZone(tzInValid),
+    //      throwsA(new isInstanceOf<Error>()));
+      expect(parseTimeZone(tzInValid), isNull);
+
 
       tzInValid = '-1240';
-      expect(() => parseTimeZone(tzInValid, 0),
-          throwsA(new isInstanceOf<Error>()));
+    //  expect(() => parseTimeZone(tzInValid),
+    //      throwsA(new isInstanceOf<Error>()));
+      expect(parseTimeZone(tzInValid), isNull);
+
 
       tzInValid = '1500';
-      expect(() => parseTimeZone(tzInValid, 0),
-          throwsA(new isInstanceOf<Error>()));
+   //   expect(() => parseTimeZone(tzInValid),
+   //       throwsA(new isInstanceOf<Error>()));
+      expect(parseTimeZone(tzInValid), isNull);
 
       tzInValid = '-1300+';
-      expect(() => parseTimeZone(tzInValid, 0),
-          throwsA(new isInstanceOf<Error>()));
+   //   expect(() => parseTimeZone(tzInValid),
+   //       throwsA(new isInstanceOf<Error>()));
+      expect(parseTimeZone(tzInValid), isNull);
     });
   });
 }

@@ -22,7 +22,7 @@ void main() {
         for (int i = 0; i < goodUints.length; i++) {
           var s = goodUints[i];
           log.debug('s(${s.length}): "$s"');
-          int v = parseUint(s, 0, 4, minLength: 4, maxLength: 4);
+          int v = parseUint(s, end: 4, min: 4, max: 4);
           log.debug('v: "$v"');
           expect(v, equals(goodUintValues[i]));
         }
@@ -36,7 +36,7 @@ void main() {
         var s = badUints[i];
         log.debug('s(${s.length}): "$s"');
         int end = (s == null) ? 1 : s.length;
-        int v = parseUint(s, 0, end);
+        int v = parseUint(s);
         log.debug('v: "$v"');
         expect(v == null, true);
       }

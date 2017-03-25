@@ -25,7 +25,7 @@ void main() {
       for (int i = 0; i < uintStrings.length; i++) {
         var s = uintStrings[i];
         log.debug('s(${s.length}): "$s"');
-        int v = parseUint(s, 0, s.length);
+        int v = parseUint(s);
         expect(v, equals(uintValues[i]));
       }
     });
@@ -34,7 +34,7 @@ void main() {
       for (int i = 1; i < uintStrings.length; i++) {
         var s = uintStrings[i];
         log.debug('s(${s.length}): "$s"');
-        int v = parseUint(s, 0, s.length - 1, maxLength: s.length - 1);
+        int v = parseUint(s, end: s.length - 1, max: s.length - 1);
         expect(v, equals(uintLength1Values[i]));
       }
     });
@@ -43,7 +43,7 @@ void main() {
       for (int i = 1; i < uintStrings.length; i++) {
         var s = uintStrings[i];
         log.debug('s(${s.length}): "$s"');
-        int v = parseUint(s, 0, s.length, minLength: 1);
+        int v = parseUint(s, min: 1);
         expect(v, equals(uintValues[i]));
       }
     });
@@ -52,7 +52,7 @@ void main() {
       for (int i = 2; i < uintStrings.length; i++) {
         var s = uintStrings[i];
         log.debug('s(${s.length}): "$s"');
-        int v = parseUint(s, 0, s.length, minLength: 2);
+        int v = parseUint(s, min: 2);
         expect(v, equals(uintValues[i]));
       }
     });
@@ -65,7 +65,7 @@ void main() {
       for (int i = 0; i < uintStrings.length; i++) {
         var s = badUintStrings[i];
         log.debug('s(${s.length}): "$s"');
-        int v = parseUint(s, 0, s.length);
+        int v = parseUint(s);
         expect(v, equals(badUintValues[i]));
       }
     });
@@ -74,7 +74,7 @@ void main() {
       for (int i = 1; i < badUintStrings.length; i++) {
         var s = badUintStrings[i];
         log.debug('s(${s.length}): "$s"');
-        int v = parseUint(s, 0, s.length);
+        int v = parseUint(s);
         expect(v, equals(badUintValues[i]));
       }
     });
@@ -83,7 +83,7 @@ void main() {
       for (int i = 2; i < badUintStrings.length; i++) {
         var s = badUintStrings[i];
         log.debug('s(${s.length}): "$s"');
-        int v = parseUint(s, 0, s.length);
+        int v = parseUint(s);
         expect(v, equals(badUintValues[i]));
       }
     });

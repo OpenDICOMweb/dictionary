@@ -39,9 +39,24 @@ class Time {
   bool operator ==(Object other) =>
       (other is Time) ? _microseconds == other._microseconds : false;
 
+  //TODO: unit test to verify
+  /// Returns `true` if this Duration is the same object as [other].
+  @override
+  Time operator +(Object other) => (other is! Time)
+      ? null
+      : new Time.fromMicroseconds(_microseconds + other._microseconds);
+
+  //TODO: unit test to verify
+  /// Returns `true` if this Duration is the same object as [other].
+  @override
+  Time operator -(Object other) =>(other is! Time)
+      ? null
+      : new Time.fromMicroseconds(_microseconds - other._microseconds);
+
   @override
   int get hashCode => _microseconds.hashCode;
 
+  // These Getters return the total quantity
   int get inMicroseconds => _microseconds;
 
   int get inMilliseconds => _microseconds ~/ microsecondsPerMillisecond;
@@ -54,15 +69,22 @@ class Time {
 
   int get hour => inHours;
 
-  int get minute => _microseconds % microsecondsPerHour;
+  int get minute =>
+      (_microseconds - (inHours * microsecondsPerHour)) ~/
+      microsecondsPerMinute;
 
-  int get second => _microseconds % microsecondsPerMinute;
+  int get second =>
+      (_microseconds - (inMinutes * microsecondsPerMinute)) ~/
+      microsecondsPerSecond;
 
-  int get millisecond => _microseconds % microsecondsPerSecond;
+  int get millisecond =>
+      (_microseconds - (inSeconds * microsecondsPerSecond)) ~/
+      microsecondsPerMillisecond;
 
-  int get microsecond => _microseconds % microsecondsPerMillisecond;
+  int get microsecond =>
+      _microseconds - (inMilliseconds * microsecondsPerMillisecond);
 
-  int get fraction => millisecond * microsecondsPerSecond + microsecond;
+  int get fraction => _microseconds - (inSeconds * microsecondsPerSecond);
 
   String get h => digits2(hour);
 
@@ -72,9 +94,9 @@ class Time {
 
   String get ms => digits3(millisecond);
 
-  String get us => digits3(_microseconds);
+  String get us => digits3(microsecond);
 
-  String get f => digits6(millisecond * 1000 + _microseconds);
+  String get f => digits6(millisecond * 1000 + microsecond);
 
   String get dcm => (fraction == 0) ? '$h$m$s' : '$h$m$s.$f';
 
@@ -90,45 +112,36 @@ class Time {
   static const int minutesPerHour = 60;
   static const int hoursPerDay = 24;
 
-  static const int microsecondsPerSecond =
-      millisecondsPerSecond * microsecondsPerMillisecond;
-  static const int microsecondsPerMinute =
-      millisecondsPerMinute * microsecondsPerMillisecond;
-  static const int microsecondsPerHour =
-      millisecondsPerHour * microsecondsPerMillisecond;
-  static const int microsecondsPerDay =
-      millisecondsPerDay * microsecondsPerMillisecond;
-
-  static const int millisecondsPerMinute =
-      secondsPerMinute * millisecondsPerSecond;
-  static const int millisecondsPerHour = secondsPerHour * millisecondsPerSecond;
-  static const int millisecondsPerDay = secondsPerDay * millisecondsPerSecond;
-
-  static const int secondsPerHour = minutesPerHour * secondsPerMinute;
-  static const int secondsPerDay = minutesPerDay * secondsPerMinute;
-
-  static const int minutesPerDay = hoursPerDay * minutesPerHour;
-
+  static const int microsecondsPerSecond = kMicrosecondsPerSecond;
+  static const int microsecondsPerMinute = kMicrosecondsPerMinute;
+  static const int microsecondsPerHour = kMicrosecondsPerHour;
+  static const int microsecondsPerDay = kMicrosecondsPerDay;
+  static const int millisecondsPerMinute = kMillisecondsPerMinute;
+  static const int millisecondsPerHour = kMillisecondsPerHour;
+  static const int millisecondsPerDay = kMillisecondsPerDay;
+  static const int secondsPerHour = kSecondsPerHour;
+  static const int secondsPerDay = kSecondsPerDay;
+  static const int minutesPerDay = kMinutesPerDay;
   static const Time midnight = const Time.fromMicroseconds(0);
   static const Time zero = midnight;
 
-  static int toMicroseconds(int h, int m, int s, int ms, int us) =>
-      microsecondsPerHour * checkHour(h, null) +
-      microsecondsPerMinute * checkMinute(m, null) +
-      microsecondsPerSecond * checkSecond(s, null) +
-      microsecondsPerMillisecond * checkMilliSecond(ms, null) +
-      us;
+  static bool isValidString(String s, {int start = 0, int end}) =>
+      isValidDcmTime(s, start: start, end: end, min: 2, max: 14);
 
-  static bool isValidString(String s, [int start = 0, int end]) =>
-      parseDcmTime(s, start, end, 2, 14, true);
-
-  static Time parse(String s, [int start = 0, int end]) {
-    int us = parseDcmTime(s, start, end, 2, 14, false);
+  static Time parse(String s, {int start = 0, int end}) {
+    int us = parseDcmTime(s, start: start, end: end, min: 2, max: 14);
     return (us == null) ? null : new Time.fromMicroseconds(us);
   }
 
-  static ParseIssues issues(String s, [int start = 0, int end]) =>
-      getDcmTimeIssues(s, start, end, 2, 14, new ParseIssues('Time', s));
+  static ParseIssues issues(
+    String s, {
+    int start = 0,
+    int end,
+  }) {
+    ParseIssues issues = new ParseIssues('Time', s);
+    getDcmTimeIssues(s, min: 2, max: 14, issues: issues);
+    return issues;
+  }
 
   // Fix
   static String fix(String s, [int start = 0, int end]) {

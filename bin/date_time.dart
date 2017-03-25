@@ -10,20 +10,18 @@ import 'package:dictionary/date_time.dart';
 final Logger log = new Logger('DateTimeTests', watermark: Severity.debug);
 
 void main() {
-  goodDcmTimes();
-  badDcmTimes();
-  /*
-  parseFractionTest();
+  log.debug('Test Dates');
+  var s = "230718.1234";
+  int us = parseDcmTime(s);
+  log.debug('  Time "$s": $us');
 
   goodDcmDates();
   badDcmDates();
+
+  goodDcmTimes();
   badDcmTimes();
 
-  log.debug('Test Dates');
-  var s = "230718.1234";
-  Time t = parseDcmTimeString(s, 0, s.length);
-  log.debug('  Time "$s": $t');
-  */
+  parseFractionTest();
 }
 
 void parseFractionTest() {
@@ -35,7 +33,7 @@ void parseFractionTest() {
 
   log.debug('Good Fractions');
   for (String s in goodFractions) {
-    int f = parseFraction(s, 0, s.length, null);
+    int f = parseTimeFraction(s);
     log.debug('    $s: $f');
   }
 }
@@ -91,12 +89,6 @@ void goodDcmTimes() {
     '000000.0000',
     '000000.00000',
     '000000.000000',
-    '999999.9',
-    '999999.99',
-    '999999.999',
-    '999999.9999',
-    '999999.99999',
-    '999999.999999',
     '00',
     '0000',
     '000000',
@@ -137,8 +129,8 @@ void goodDcmTimes() {
     log.debug('  Milliseconds: ${t.millisecond}');
     log.debug('  Microseconds: ${t.microsecond}');
     log.debug('  Fraction: ${t.fraction}');
-    log.debug('  ms: ${t.f}');
-    log.debug('  us: ${t.f}');
+    log.debug('  ms: ${t.ms}');
+    log.debug('  us: ${t.us}');
   }
 }
 
@@ -156,11 +148,17 @@ void badDcmTimes() {
     '190b01', // bad character in minute
     '1901a1', // bad character in second
     '19011a', // bad character in second
+    '999999.9',
+    '999999.99',
+    '999999.999',
+    '999999.9999',
+    '999999.99999',
+    '999999.999999',
   ];
 
-  log.debug('Bad Dates');
+  log.debug('Bad Times');
   for (String s in badDcmTimeList) {
     Time t = Time.parse(s);
-    log.debug('  Date: $s: $t');
+    log.debug('  Time: $s: $t');
   }
 }

@@ -67,11 +67,11 @@ void main() {
   group('isValid', () {
     test('isValid Good and Bad dates', () {
       for (String s in goodDcmDateList) {
-        Date date = Date.parse(s, 0, s.length);
+        Date date = Date.parse(s);
         expect(date, isNotNull);
       }
       for (String s in badDcmDateList) {
-        int date = parseDcmDate(s, 0, s.length, 8, 8, false);
+        int date = parseDcmDate(s, min: 8, max: 8);
         expect(date, isNull);
       }
     });
@@ -88,7 +88,7 @@ void main() {
 
     test('add and subtract', () {
       String s = '19500718';
-      var dt = Date.parse(s, 0, s.length);
+      var dt = Date.parse(s);
       log.debug(dt);
       /*Fix
       DcmDateTime ddt1 = dt.add(new Time(hours: 4, minutes: 20, seconds: 56));

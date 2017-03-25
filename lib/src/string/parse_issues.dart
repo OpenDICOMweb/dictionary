@@ -22,7 +22,8 @@ class ParseIssues {
 
   List<String> get issues => _issues ??= <String>[];
 
-  bool get isEmpty => _issues == null;
+  bool get isEmpty => issues.length == 0;
+
   String get term {
     if (issues.length == 0) return "has no issues.";
     if (issues.length == 1) return "has the following issue:\n ";
@@ -46,5 +47,6 @@ class ParseIssues {
   String get info => '$type "$value" $term $this';
 
   @override
-  String toString() => (issues.length == 0) ? "" : '${issues.join('\n  ')}';
+  String toString() =>
+      (issues.length == 0) ? "" : '$type:\n${issues.join('\n  ')}';
 }

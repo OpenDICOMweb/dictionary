@@ -6,44 +6,101 @@
 
 import 'package:common/ascii.dart';
 import 'package:common/logger.dart';
-
-import 'parse_error.dart';
-import 'parse_issues.dart';
+import 'package:dictionary/src/errors.dart';
+import 'package:dictionary/src/string/parse_issues.dart';
 
 // TODO: remove logging before version 0.9.0
 final Logger _log =
-    new Logger('date_time/utils_old.dart', watermark: Severity.debug2);
+new Logger('date_time/utils_old.dart', watermark: Severity.debug2);
+
+/// General Parse methodology
+///
+/// There are two types of parser signatures:
+/// - Fixed size fields:
+///
+///     parse(String s, [int start = 0, ParseIssues issues, bool isValidOnly])
+///
+/// - Variable size fields:
+///
+///     parse(String s,
+///         [int start = 0, int end, int min = 0, int max,
+///         ParseIssues issues, bool isValidOnly)
+///
+/// For both signatures:
+///
+/// - `s`: is the String to be parsed. `s` must have length greater than or
+/// equal to `end`
+///
+/// - `start` is the index of the first character, `start` defaults to `0`.
+///
+/// - `end`: is the index of the last character. `end` defaults to `s.length`.
+/// It is an error if `end` is greater than `s.length`.
+///
+/// - `issues`: is an object that contains descriptions of any errors or
+/// warnings that have occurred while parsing `s`. If `issues` is `null`,
+/// then the parser will `throw` a `ParseError`. If `issues` is not `null`,
+/// an error message will be appended to it.
+///
+/// - `isValidOnly`: is a boolean value indicating whether the function should
+/// return true or value on success, and false or null on failure.
+///
+/// `start` and `end` must exactly delimit the characters to be parsed.
+///
+/// For the variable signature:
+///
+/// - `min`: is the minimum number of characters that must be parsed to succeed.
+/// `s` must have a minimum length of `start` + `min`. `min` defaults to `0`.
+///
+/// - `max`: is the maximum number of characters that can be parsed. `s` must
+/// have a maximum length of `start` + `max`. `max` defaults to `s.length`.
+///
+/// Variable length parsers will parse as many characters as possible.
+///
+/// Top level parsers must wrap internal parsers in:
+///
+///     try {
+///     ...
+///     } on ParseError {
+///       return (isValidOnly) ? false : null;
+///     }
+///     return (isValidOnly) ? true : value;
+///
+/// When an internal parser encounters an error, it will either `throw` a
+/// `ParseError` if `issues` is non-`null` or append an error message to
+/// `issues` and continue parsing if it can.  Error messages are accumulated
+/// in `issues`.
+///
 
 /// Parses an [int] from [start] to [end], and returns
 /// its corresponding value. The If an error is encountered throws an
 /// [ParseError].
 ///
 /// Note: we're using this because Dart doesn't provide a Uint parser.
-int parseUint(String s, int start, int end,
-    {ParseIssues issues, int minLength = 0, int maxLength}) {
+int parseUint(String s,
+    {int start = 0, int end, int min = 0, int max, ParseIssues issues}) {
+  int value;
   if (end == null) end = s.length;
   try {
-    checkArgs(s, start, end, minLength, maxLength, issues);
+    if (!checkArgs(s, start, end, min, max, issues)) return null;
     _log.debug2('parseUint: s($s), start($start), end($end)');
     _log.debug2('parseUint s: ${s.substring(start, end)}');
-    int value = _parseUint(s, start, end, issues);
+    value = _parseUint(s, start, end, issues);
     _log.debug2('Uint: $value');
-    return value;
-  } on ParseError catch (e) {
-    _log.debug(e);
+  } on ParseError {
     return null;
   }
+  return value;
 }
 
 // Note: for internal use only - doesn't catch
 int uintParser(String s, int start, int end, ParseIssues issues,
-    {int minLength = 0, int maxLength}) {
+    {int min = 0, int max}) {
   if (end == null) end = s.length;
-  checkArgs(s, start, end, minLength, maxLength, issues);
-  _log.debug2('uintParser: s($s), start($start), end($end)');
-  _log.debug2('uintParser s: ${s.substring(start, end)}');
+  if (!checkArgs(s, start, end, min, max, issues)) return null;
+  _log.debug('uintParser: s("${s.substring(start, end)}"), '
+      'start($start), end($end), issues: $issues');
   int value = _parseUint(s, start, end, issues);
-  _log.debug2('Uint: $value');
+  _log.debug('uintParser: value: $value');
   return value;
 }
 
@@ -57,13 +114,16 @@ int _parseUint(String s, int start, int end, ParseIssues issues) {
   int value = 0;
   for (int i = start; i < end; i++) {
     value *= 10;
-    _log.debug2('    i: $i, _pUint: $value');
+    _log.debug('    i: $i, _pUint: $value, issues: $issues');
     int c = s.codeUnitAt(i);
     if (c < k0 || c > k9) {
+      _log.debug('Invalid Char: "${s[i]}"($c)');
+      var msg = invalidChar(s, i, "_parseUint");
       if (issues == null) {
-        throw new ParseError('Invalid char "${s[i]}"($c) at index($i) '
-            'in String(${s.length}): "$s"');
+        throw new ParseError(msg);
       } else {
+        issues += msg;
+        _log.debug('Issues: ${issues.info}');
         return null;
       }
     }
@@ -74,15 +134,20 @@ int _parseUint(String s, int start, int end, ParseIssues issues) {
   return value;
 }
 
-int parseUintRadix(String s, int start, int end,
-    [int minLength = 0, int maxLength, int radix]) {
+int parseUintRadix(String s,
+    {int radix = 16,
+    int start = 0,
+    int end,
+    int min = 0,
+    int max,
+    ParseIssues issues}) {
   if (end == null) end = s.length;
-  checkArgs(s, start, end, minLength, maxLength);
+  if (!checkArgs(s, start, end, min, max, issues)) return null;
   if (s == null || s == "") return null;
   _log.debug2('_parseUint: s($s), start($start), end($end)');
   _log.debug2('_parseUint s: ${s.substring(start, end)}');
   try {
-    int value = _parseUintRadix(s, start, end, minLength, maxLength, radix);
+    int value = _parseUintRadix(s, start, end, min, max, radix);
     _log.debug2('Uint: $value');
     return value;
   } on ParseError catch (e) {
@@ -122,18 +187,73 @@ int _parseUintRadix(String s, int start, int end, int min, int max, int radix,
   return value;
 }
 
+int parseFixedInt(String s,
+        [int start = 0, int end, ParseIssues issues, bool isValidOnly]) =>
+    parseInt(s, start, end, issues, isValidOnly, 0, s.length);
+
 //TODO: doesn't handle radix
-int parseInt(String s, [int start, int end, int minLength, int maxLength]) {
-  checkArgs(s, start, end, minLength, maxLength);
+int parseInt(String s,
+    [int start,
+    int end,
+    ParseIssues issues,
+    bool isValidOnly,
+    int min,
+    int max]) {
+  int sign, value, index = start;
+  if (!checkArgs(s, start, end, min, max, issues)) return null;
+  sign = parseSign(s, start, issues);
+  index += (sign < 0) ? 1 : sign;
+  value = _parseUint(s, index, end, issues);
+  return (sign == null || value == null) ? null : value * sign;
+}
+
+/*
+//TODO: move to string parse
+String _invalidSign(String s, int index) =>
+    'Invalid sign char "${s[index]} at pos($index).';
+*/
+
+/// Parses a '+' or '-' character immediately preceeding an integer.
+/// Returns 1 for '+'. -1 for '-', or 0 if the character is a digit (0-9);
+/// otherwise, either throws a [ParseError] appends a message to [issues].
+int parseSign(String s, [int start = 0, ParseIssues issues]) {
+  int sign;
   int c = s.codeUnitAt(start);
-  if (!isDigitChar(c) || c != kMinusSign || c != kPlusSign)
-    throw 'Invalid Character: :${s[start]}:';
-  int sign = (c == kMinusSign) ? -1 : 1;
-  start = (c == kMinusSign || c == kPlusSign) ? start++ : start;
-  if (c != kDot) throw 'Missing decimal point (".")';
-  if (end == null) end = s.length;
-  int value = _parseUint(s, start + 1, end, null);
-  return value * sign;
+  if (c == kMinusSign) return -1;
+  if (c == kPlusSign) return 1;
+  if (isDigitChar(c)) return 0;
+  var msg = invalidChar(s, start, "sign");
+  if (issues == null) throw new ParseError(msg);
+  issues += msg;
+  return null;
+}
+
+bool parseDecimalPoint(String s, [int start = 0, ParseIssues issues]) {
+  if (s.codeUnitAt(start) != kDot) {
+    var msg = 'Missing decimal point (".")';
+    if (issues == null) throw new ParseError(msg);
+    issues += msg;
+    return false;
+  }
+  return true;
+}
+
+/// Returns a valid fraction of a second or [null].  The fractoin must be
+/// at least 2 characters (a decimal point, followed by a digit, and can be
+/// no more than 7 characters.
+int parseFraction(String s,
+    {int start = 0, int end, min: 0, max, ParseIssues issues}) {
+  int f;
+  try {
+    if (end == null) end = s.length;
+    _log.debug2('s: ${s.substring(start, end)}, start: $start, end: $end');
+    if (!checkArgs(s, start, end, min, max, issues)) return null;
+    if (!parseDecimalPoint(s, start, issues)) return null;
+    f = uintParser(s, start + 1, end, issues);
+  } on ParseError {
+    return null;
+  }
+  return f;
 }
 
 //Note: the following do no error checking.
@@ -178,31 +298,43 @@ String digits6(int n) {
 ///     |....|. ...|.....|....|
 ///
 /// Assumption: non of the arguments are null.
-ParseIssues checkArgs(String s, int start, int end, int min, int max,
+bool checkArgs(String s, int start, int end, int min, int max,
     [ParseIssues issues]) {
-  _log.debug1('checkArgs: (${s.length})"$s"\n'
+  _log.debug1('    checkArgs: (${s.length})"$s"\n'
       '    start: $start, end: $end, min: $min, max: $max, issues: $issues');
+  bool value = true;
   String problem = "";
   if (s == null) {
-    problem += 'Invalid null String';
+    problem += invalidArgument("s", "null");
     if (issues == null) throw new ParseError(problem);
     _log.debug2('issues 2: "$problem"');
     issues += problem;
+    value = false;
   }
   if (s == "") {
-    problem += 'Invalid empty String';
+    problem +=
+        invalidArgument('s', '$s', 'start($start) >= s.length(${s.length})');
     if (issues == null) throw new ParseError(problem);
     _log.debug2('issues 2: "$problem"');
     issues += problem;
+    value = false;
+  }
+  if (start >= s.length) {
+    problem += invalidArgument('s', '""');
+    if (issues == null) throw new ParseError(problem);
+    _log.debug2('issues 2: "$problem"');
+    issues += problem;
+    value = false;
   }
   if (end == null) {
     end = s.length;
   } else {
     if (s.length < end) {
-      problem += 'end($end)is greater than the length of s(${s.length})"$s".\n';
+      problem += 'end($end) => s.length(${s.length})"$s"';
       _log.debug2('issues 3: "$problem"');
       if (issues == null) throw new ParseError(problem);
       issues += problem;
+      value = false;
     }
   }
   if (end < start + min) {
@@ -211,6 +343,7 @@ ParseIssues checkArgs(String s, int start, int end, int min, int max,
     _log.debug2('issues 4: "$problem"');
     if (issues == null) throw new ParseError(problem);
     issues += problem;
+    value = false;
   }
   if (max == null) max = s.length;
   if (end > start + max) {
@@ -219,9 +352,10 @@ ParseIssues checkArgs(String s, int start, int end, int min, int max,
     _log.debug2('issues 5: "$problem"');
     if (issues == null) throw new ParseError(problem);
     issues += problem;
+    value = false;
   }
-  _log.debug2('checkArgs issues: $issues');
-  return (issues == null || issues.isEmpty) ? null : issues;
+  _log.debug2('    checkArgs: value: $value, issues: $issues');
+  return value;
 }
 
 // Note: _checkRange throws so all the other _check* might also throw.
@@ -236,3 +370,19 @@ bool inRange(int v, int min, int max, [bool throwOnError = true]) {
 
 int checkRange(int v, int min, int max, [bool throwOnError = true]) =>
     (inRange(v, min, max, throwOnError)) ? v : null;
+
+/// Returns an invalid value string.
+String invalidArgument(String arg, String value, [String msg = ""]) =>
+    'Invalid argument($arg == $value) $msg';
+
+/// Returns an invalid value string.
+String invalidValue(int v, [int index, String name = ""]) {
+  var pos = (index == null) ? "" : ' at pos(${index})';
+  var msg = (name == null) ? 'Invalid Value($v)' : 'Invalid $name Value($v)';
+  return '$msg$pos';
+}
+
+/// Returns an invalid character string.
+String invalidChar(String s, int index, [String name = ""]) =>
+    'Invalid $name character "${s[index]}"(${s.codeUnitAt(index)}'
+    ' at pos(${index}) in String:"$s" with length: ${s.length})';

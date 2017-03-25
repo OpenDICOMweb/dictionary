@@ -19,7 +19,7 @@ void main() {
     test('parseDcmDateString: gool full date', () {
       for (String s in goodDcmDateList) {
         DateTime value = DateTime.parse(s);
-        int epochDay = parseDcmDate(s, 0, s.length, 8, 8, false);
+        int epochDay = parseDcmDate(s, min: 8, max: 8);
         log.debug('string: "$s"');
         log.debug('  value: $value');
         log.debug('   date: $epochDay');
@@ -31,7 +31,7 @@ void main() {
       for (String s in goodDcmDateList) {
         log.debug('string: "$s"');
         //    DateTime value = DateTime.parse(s);
-        bool date = parseDcmDate(s, 0, s.length, 8, 8, true);
+        bool date = isValidDcmDate(s,  min: 8, max: 8);
         log.debug('  valid: $date');
         expect(date, true);
       }
@@ -40,8 +40,12 @@ void main() {
     test('getDcmDateIssues: good full date', () {
       for (String s in goodDcmDateList) {
         log.debug('string: "$s"');
-        var issues = new ParseIssues("getDcmDateIssues", s);
-        issues = getDcmDateIssues(s, 0, s.length, 8, 8, issues);
+        var issues = new ParseIssues("    getDcmDateIssues", s);
+        getDcmDateIssues(s,  min: 8, max: 8, issues: issues);
+        log.debug('  issues: "$issues"');
+        expect(issues, equals(""));
+        issues = new ParseIssues("    Date.issues", s);
+        Date.issues(s);
         log.debug('  issues: "$issues"');
         expect(issues, equals(""));
       }
@@ -64,11 +68,11 @@ void main() {
     ];
 
     test('parseDcmDateString: Bad Dates', () {
-      log.debug1('Bad Dates');
+      log.debug('parseDcmDateString: Bad Dates');
       for (String s in badDcmDateList) {
         log.debug('string: "$s"');
         //       DateTime value = DateTime.parse(s);
-        int epochDay = parseDcmDate(s, 0, s.length, 8, 8, false);
+        int epochDay = parseDcmDate(s, min: 8, max: 8);
 
         //       log.debug(' value: $value');
         log.debug('  date: $epochDay');
@@ -78,15 +82,15 @@ void main() {
     });
 
     test('isValidDcmDate: Bad full date', () {
-      log.debug1('Bad Dates');
+      log.debug('isValidDcmDate: Bad full date');
       for (String s in badDcmDateList) {
         log.debug('string: "$s"');
-        //       DateTime value = DateTime.parse(s);
-        int epochDay = parseDcmDate(s, 0, s.length, 8, 8, true);
-
-        //       log.debug(' value: $value');
-        log.debug('  date: $epochDay');
-        expect(epochDay == null, true);
+        bool v = isValidDcmDate(s, min: 8, max: 8);
+        log.debug('  isValidDcmDate: $v');
+        expect(v, false);
+        v = Date.isValidString(s);
+        log.debug('  Date.isValidString: $v');
+        expect(v, false);
         log.debug1('  Date: $s: $epochDay');
       }
     });
@@ -95,7 +99,7 @@ void main() {
       for (String s in badDcmDateList) {
         log.debug('string: "$s"');
         var issues = new ParseIssues("getDcmDateIssues", s);
-        issues = getDcmDateIssues(s, 0, s.length, 8, 8, issues);
+        getDcmDateIssues(s, min: 8, max: 8, issues: issues);
         log.debug('  issues: "$issues"');
         expect(issues, equals(""));
       }
