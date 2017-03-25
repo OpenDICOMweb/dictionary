@@ -4,7 +4,7 @@
 // Original author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
-import 'tag.dart';
+import 'package:dictionary/tag.dart';
 
 class InvalidTagError extends Error {
   Object tag;
@@ -41,3 +41,12 @@ class InvalidTagKeywordError extends Error {
 
 dynamic tagKeywordError(String keyword) =>
     throw new InvalidTagKeywordError(keyword);
+
+class ParseError extends Error {
+  String issues;
+
+  ParseError(this.issues);
+
+  @override
+  String toString() => 'ParseError: $issues';
+}

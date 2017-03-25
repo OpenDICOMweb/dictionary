@@ -4,9 +4,9 @@
 // Original author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
+export 'package:dictionary/src/errors.dart';
 export 'package:dictionary/src/tag/constants.dart';
 export 'package:dictionary/src/tag/elt.dart';
-export 'package:dictionary/src/tag/errors.dart';
 export 'package:dictionary/src/tag/group.dart';
 export 'package:dictionary/src/tag/private/private_creator_definition.dart';
 export 'package:dictionary/src/tag/private/private_creator_tag.dart';

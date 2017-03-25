@@ -12,7 +12,7 @@ import 'package:dictionary/src/constants.dart';
 import 'package:dictionary/src/e_type.dart';
 import 'package:dictionary/src/tag/constants.dart';
 import 'package:dictionary/src/tag/elt.dart';
-import 'package:dictionary/src/tag/errors.dart';
+import 'package:dictionary/src/errors.dart';
 import 'package:dictionary/src/tag/group.dart';
 import 'package:dictionary/src/tag/private/private_creator_tag.dart';
 import 'package:dictionary/src/tag/private/private_data_tag.dart';
