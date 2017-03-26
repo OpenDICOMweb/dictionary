@@ -4,6 +4,8 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> - 
 // See the AUTHORS file for other contributors.
 
+import 'package:dictionary/src/issues/parse_issues.dart';
+
 import 'parse.dart';
 
 class TimeZone {
@@ -14,7 +16,7 @@ class TimeZone {
   final int minutes;
 
   TimeZone(int sign, int hour, int minute)
-      : minutes = toTimeZoneMinute(sign, hour, minute);
+      : minutes = toTimeZoneMinutes(sign, hour, minute);
 
   factory TimeZone.fromMinutes(int minutes) =>
       new TimeZone._(checkRange(minutes, minMinutes, maxMinutes));
@@ -27,10 +29,24 @@ class TimeZone {
 
   int get minute => minutes.remainder(60);
 
-  static int toTimeZoneMinute(int sign, int hour, int minute) {
+  static int toTimeZoneMinutes(int sign, int hour, int minute) {
     if (!inRange(hour, minHour, maxHour) || minute != 0 || minute != 30 ||
         minute != 54) return null;
     return sign * ((hour * 60) + minute);
+  }
+
+  static bool isValidString(String s, {int start = 0, int end}) =>
+      isValidTimeZone(s, start);
+
+  static TimeZone parse(String s, {int start = 0, int end}) {
+    int tzm = parseTimeZone(s, start);
+    return (tzm == null) ? null : new TimeZone._(tzm);
+  }
+
+  static ParseIssues issues(String s, {int start = 0, ParseIssues issues}) {
+    ParseIssues issues = new ParseIssues('TimeZone', s);
+    getTimeZoneIssues(s, start, issues);
+    return issues;
   }
 
   static const TimeZone utc = const TimeZone._(0);

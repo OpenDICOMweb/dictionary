@@ -8,5 +8,5 @@ export 'package:dictionary/src/errors.dart';
 export 'package:dictionary/src/string/char_predicates.dart';
 export 'package:dictionary/src/string/dcm_regex.dart';
 export 'package:dictionary/src/string/parse.dart';
-export 'package:dictionary/src/string/parse_issues.dart';
+export 'package:dictionary/src/issues/parse_issues.dart';
 export 'package:dictionary/src/string/string_predicates.dart';

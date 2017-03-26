@@ -13,6 +13,7 @@ import 'package:dictionary/src/e_type.dart';
 import 'package:dictionary/src/tag/constants.dart';
 import 'package:dictionary/src/tag/elt.dart';
 import 'package:dictionary/src/errors.dart';
+import 'package:dictionary/src/issues/parse_issues.dart';
 import 'package:dictionary/src/tag/group.dart';
 import 'package:dictionary/src/tag/private/private_creator_tag.dart';
 import 'package:dictionary/src/tag/private/private_data_tag.dart';
@@ -200,27 +201,31 @@ class Tag {
     return true;
   }
 
-  List<E> parseList<E>(List<String> sList) {
+  /// Returns a [list] of valid values for this [Tag], or [null] if
+  /// and of the [String]s in [sList] are not parsable.
+  List<E> parseValues<E>(List<String> sList) {
     //print('parseList: $sList');
     if (isNotValidLength(sList.length)) return null;
     List<E> values = new List<E>(sList.length);
     for (int i = 0; i < values.length; i++) {
-      //print('sList[$i]: ${sList[i]}');
+      //log.debug('sList[$i]: ${sList[i]}');
       E v = vr.parse(sList[i]);
-      //print('v: $v');
+      //log.debug('v: $v');
       if (v == null) return null;
       values[i] = v;
     }
     return values;
   }
 
-  List<String> issues<E>(List<E> values) {
+  // If a VR has a long Value Field, then it has [VM.k1],
+  // and its length is always valid.
+  String lengthIssue(int length) => (vr.hasShortVF && isNotValidLength(length))
+      ? 'Invalid Length: min($minLength) <= value($length) <= max($maxLength)'
+      : null;
+
+  //TODO: make this work with [ParseIssues]
+  List<String> valuesIssues<E>(List<E> values) {
     List<String> sList = [];
-    // If a VR has a long Value Field, then it has [VM.k1],
-    // and its length is always valid.
-    if (vr.hasShortVF && isNotValidLength(values.length))
-      sList.add('Invalid Length: min($minLength) <= value(${values.length}) '
-          '<= max($maxLength)');
     for (int i = 0; i < values.length; i++) {
       var s = vr.issues(values[i]);
       if (s != null) sList.add('$i: $s');

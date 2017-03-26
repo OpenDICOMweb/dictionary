@@ -8,7 +8,7 @@ import 'dart:typed_data';
 
 import 'package:common/number.dart';
 import 'package:dictionary/src/constants.dart';
-import 'package:dictionary/src/string/parse_issues.dart';
+import 'package:dictionary/src/issues/parse_issues.dart';
 
 import 'vr.dart';
 

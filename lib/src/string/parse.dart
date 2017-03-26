@@ -7,7 +7,7 @@
 import 'package:common/ascii.dart';
 import 'package:common/logger.dart';
 import 'package:dictionary/src/errors.dart';
-import 'package:dictionary/src/string/parse_issues.dart';
+import 'package:dictionary/src/issues/parse_issues.dart';
 
 // TODO: remove logging before version 0.9.0
 final Logger _log =
@@ -241,7 +241,7 @@ bool parseDecimalPoint(String s, [int start = 0, ParseIssues issues]) {
 /// at least 2 characters (a decimal point, followed by a digit, and can be
 /// no more than 7 characters.
 int parseFraction(String s,
-    {int start = 0, int end, min: 0, max, ParseIssues issues}) {
+    {int start = 0, int end, int min: 0, int max, ParseIssues issues}) {
   int f;
   try {
     if (end == null) end = s.length;
@@ -357,6 +357,30 @@ bool checkArgs(String s, int start, int end, int min, int max,
   return value;
 }
 
+/*
+bool inRange(int v, int min, int max, [ParseIssues issues]) =>
+    _inRange(v, min, max, issues);
+
+int checkRange(int v, int min, int max, [ParseIssues issues]) =>
+    _checkRange(v, min, max, issues);
+
+// Note: _checkRange throws so all the other _check* might also throw.
+bool _inRange(int v, int min, int max, ParseIssues issues) {
+  if (v == null && issues != null) return false;
+  if (v < min || v > max) {
+    var msg = 'Invalid value: min($min) <= value($v) <= max($max)';
+    if (issues == null) throw new ParseError(msg);
+    issues += msg;
+    _log.debug2('_inRange: ${issues.info}');
+    return false;
+  }
+  return true;
+}
+
+int _checkRange(int v, int min, int max, ParseIssues issues) =>
+    (_inRange(v, min, max, issues)) ? v : null;
+
+
 // Note: _checkRange throws so all the other _check* might also throw.
 bool inRange(int v, int min, int max, [bool throwOnError = true]) {
   if (v < min || v > max) {
@@ -369,14 +393,14 @@ bool inRange(int v, int min, int max, [bool throwOnError = true]) {
 
 int checkRange(int v, int min, int max, [bool throwOnError = true]) =>
     (inRange(v, min, max, throwOnError)) ? v : null;
-
+*/
 /// Returns an invalid value string.
 String invalidArgument(String arg, String value, [String msg = ""]) =>
     'Invalid argument($arg == $value) $msg';
 
 /// Returns an invalid value string.
 String invalidValue(int v, [int index, String name = ""]) {
-  var pos = (index == null) ? "" : ' at pos(${index})';
+  var pos = (index == null) ? "" : ' at pos($index)';
   var msg = (name == null) ? 'Invalid Value($v)' : 'Invalid $name Value($v)';
   return '$msg$pos';
 }
@@ -384,4 +408,4 @@ String invalidValue(int v, [int index, String name = ""]) {
 /// Returns an invalid character string.
 String invalidChar(String s, int index, [String name = ""]) =>
     'Invalid $name character "${s[index]}"(${s.codeUnitAt(index)}'
-    ' at pos(${index}) in String:"$s" with length: ${s.length})';
+    ' at pos($index) in String:"$s" with length: ${s.length})';

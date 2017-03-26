@@ -5,7 +5,7 @@
 
 import 'package:common/logger.dart';
 import 'package:dictionary/src/string/parse.dart';
-import 'package:dictionary/src/string/parse_issues.dart';
+import 'package:dictionary/src/issues/parse_issues.dart';
 
 import 'date.dart';
 import 'parse.dart';
@@ -112,19 +112,19 @@ class DcmDateTime {
   String toString() => (fraction == 0) ? '$h:$m:$s' : '$h:$m:$s.$f';
 
   /// Returns [true] if [s] is a valid DICOM [DcmDateTime] [String] (DT).
-  static bool isValidString(String s, [int start = 0, int end]) =>
+  static bool isValidString(String s, {int start = 0, int end}) =>
       isValidDcmDateTime(s,
           start: start, end: end, min: minLength, max: maxLength);
 
   /// Returns a DICOM [DcmDateTime], if [s] is a valid DT [String];
-  static DcmDateTime parse(String s, [int start = 0, int end]) {
+  static DcmDateTime parse(String s, {int start = 0, int end}) {
     List<int> dt = parseDcmDateTime(s,
         start: start, end: end, min: minLength, max: maxLength);
     _log.debug('DcmDateTime.parse: $dt');
     return (dt == null) ? null : new DcmDateTime._(dt[0], dt[1], dt[2]);
   }
 
-  static ParseIssues issues(String s, [int start = 0, int end]) {
+  static ParseIssues issues(String s, {int start = 0, int end}) {
     var issues = new ParseIssues("DcmDateTime", s);
     getDcmDateTimeIssues(s,
         start: start, end: end, min: minLength, max: maxLength, issues: issues);

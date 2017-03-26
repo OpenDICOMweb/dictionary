@@ -7,7 +7,7 @@ import 'package:common/logger.dart';
 import 'package:dictionary/date_time.dart';
 import 'package:dictionary/src/errors.dart';
 import 'package:dictionary/src/string/parse.dart';
-import 'package:dictionary/src/string/parse_issues.dart';
+import 'package:dictionary/src/issues/parse_issues.dart';
 
 import 'time.dart';
 
@@ -101,11 +101,20 @@ dynamic _parseDcmDate(String s, int start, int end, int min, int max,
   if (!checkArgs(s, start, end, min, max, issues)) return null;
   int index = start;
   y = parseYear(s, index, issues);
+  _log.debug('_parseDcmDate: y: $y');
   if ((index += 4) < end) {
     m = parseMonth(s, index, issues);
-    if ((index += 2) < end) d = parseDay(y, m, s, index, issues);
+    _log.debug('_parseDcmDate: m: $m');
+    if ((index += 2) < end) {
+      d = parseDay(y, m, s, index, issues);
+      _log.debug('_parseDcmDate: d: $d');
+    }
   }
   _log.debug('y: $y, m: $m, d: $d');
+  if (y == null || m == null || d == null) {
+    _log.debug1('    null');
+    return null;
+  }
   return epochDay(y, m, d);
 }
 
@@ -122,6 +131,7 @@ int parseDcmTime(String s, {int start = 0, int end, int min = 0, int max}) {
 bool isValidDcmTime(String s, {int start = 0, int end, int min = 0, int max}) {
   try {
     int us = _parseDcmTime(s, start, end, min, max);
+    _log.debug('isValidDcmTime: us: $us');
     if (us == null) return false;
   } on ParseError {
     return false;

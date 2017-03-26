@@ -5,7 +5,7 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:dictionary/src/string/parse.dart';
-import 'package:dictionary/src/string/parse_issues.dart';
+import 'package:dictionary/src/issues/parse_issues.dart';
 
 import 'parse.dart';
 
@@ -25,15 +25,6 @@ class Time {
   //Internal constructor - hidden when exported:
   const Time.fromMicroseconds(this._uSecs);
 
-  Time.fromInt(
-      {int hours = 0,
-      int minutes = 0,
-      int seconds = 0,
-      int milliseconds = 0,
-      int microseconds = 0})
-      : _uSecs =
-            toMicroseconds(hours, minutes, seconds, milliseconds, microseconds);
-
   /// Returns `true` if this Duration is the same object as [other].
   @override
   bool operator ==(Object other) =>
@@ -41,14 +32,12 @@ class Time {
 
   //TODO: unit test to verify
   /// Returns `true` if this Duration is the same object as [other].
-  @override
   Time operator +(Object other) => (other is Time)
       ? new Time.fromMicroseconds(_uSecs + other._uSecs)
       : null;
 
   //TODO: unit test to verify
   /// Returns `true` if this Duration is the same object as [other].
-  @override
   Time operator -(Object other) =>(other is Time)
       ? new Time.fromMicroseconds(_uSecs - other._uSecs)
       : null;
@@ -134,18 +123,14 @@ class Time {
     return (us == null) ? null : new Time.fromMicroseconds(us);
   }
 
-  static ParseIssues issues(
-    String s, {
-    int start = 0,
-    int end,
-  }) {
+  static ParseIssues issues(String s, {int start = 0, int end,}) {
     ParseIssues issues = new ParseIssues('Time', s);
     getDcmTimeIssues(s, min: 2, max: 14, issues: issues);
     return issues;
   }
 
   // Fix
-  static String fix(String s, [int start = 0, int end]) {
+  static String fix(String s, {int start = 0, int end}) {
     var s0 = s.substring(start, end);
     s0 = s.trimRight();
     //TODO: truncate on error, what other fixes? if separator (:) present -

@@ -295,13 +295,16 @@ class VRDcmDate extends VRString {
             minValueLength, maxValueLength);
 
   @override
-  bool isValid(String s) => parse(s) != null;
+  bool isValid(String s, {int start = 0, int end}) =>
+      Date.isValidString(s.trimRight(), start: start, end: end);
 
   @override
-  ParseIssues issues(String s) => Date.issues(s);
+  Date parse(String s, {int start = 0, int end}) =>
+      Date.parse(s.trimRight(), start: start, end: end);
 
   @override
-  Date parse(String s) => Date.parse(s.trimRight());
+  ParseIssues issues(String s,  {int start = 0, int end}) =>
+      Date.issues(s.trimRight(), start: start, end: end);
 
   /// Fix
   @override
@@ -322,19 +325,23 @@ class VRDcmDateTime extends VRString {
             minValueLength, maxValueLength);
 
   @override
-  bool isValid(String s) => DcmDateTime.isValidString(s.trimRight());
+  bool isValid(String s, {int start = 0, int end}) =>
+      DcmDateTime.isValidString(s.trimRight(), start: start, end: end);
 
   @override
-  ParseIssues issues(String s) => DcmDateTime.issues(s);
+  DcmDateTime parse(String s, {int start = 0, int end}) =>
+      DcmDateTime.parse(s.trimRight(), start: start, end: end);
 
   @override
-  DcmDateTime parse(String s) => DcmDateTime.parse(s.trimRight());
+  ParseIssues issues(String s,  {int start = 0, int end}) =>
+      DcmDateTime.issues(s.trimRight(), start: start, end: end);
 
   /// Fix
   @override
   String fix(String s) {
     var t = s.trimRight();
-    //TODO: truncate on error? what other fixes?
+    //TODO: trucate on error what other fixes?
+    //TODO: could remove '-', 'T', ' ', and ':'
     return t;
   }
 
@@ -350,13 +357,17 @@ class VRDcmTime extends VRString {
             minValueLength, maxValueLength);
 
   @override
-  bool isValid(String s) => Time.isValidString(s);
+  bool isValid(String s, {int start = 0, int end}) =>
+      Time.isValidString(s.trimRight(), start: start, end: end);
 
   @override
-  ParseIssues issues(String s) => Time.issues(s);
+  Time parse(String s, {int start = 0, int end}) =>
+      Time.parse(s.trimRight(), start: start, end: end);
+
 
   @override
-  Time parse(String s) => Time.parse(s.trimRight());
+  ParseIssues issues(String s, {int start = 0, int end}) =>
+      Time.issues(s.trimRight(), start: start, end: end);
 
   @override
   String fix(String s) => Time.fix(s);

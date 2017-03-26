@@ -10,4 +10,4 @@ export 'package:dictionary/src/date_time/dcm_date_time.dart'
 export 'package:dictionary/src/date_time/parse.dart';
 export 'package:dictionary/src/date_time/time.dart' hide fromMicroseconds;
 export 'package:dictionary/src/errors.dart';
-export 'package:dictionary/src/string/parse_issues.dart';
+export 'package:dictionary/src/issues/parse_issues.dart';

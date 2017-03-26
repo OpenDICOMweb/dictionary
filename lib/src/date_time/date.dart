@@ -5,7 +5,7 @@
 
 import 'package:dictionary/src/errors.dart';
 import 'package:dictionary/src/string/parse.dart';
-import 'package:dictionary/src/string/parse_issues.dart';
+import 'package:dictionary/src/issues/parse_issues.dart';
 
 import 'parse.dart';
 
