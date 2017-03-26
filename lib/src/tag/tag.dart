@@ -13,7 +13,6 @@ import 'package:dictionary/src/e_type.dart';
 import 'package:dictionary/src/tag/constants.dart';
 import 'package:dictionary/src/tag/elt.dart';
 import 'package:dictionary/src/errors.dart';
-import 'package:dictionary/src/issues/parse_issues.dart';
 import 'package:dictionary/src/tag/group.dart';
 import 'package:dictionary/src/tag/private/private_creator_tag.dart';
 import 'package:dictionary/src/tag/private/private_data_tag.dart';
@@ -240,8 +239,8 @@ class Tag {
   List<E> checkValue<E>(dynamic value) => vr.isValid(value) ? value : null;
 
   bool isValidLength(int length) {
-    print('isValidLength: $length');
-    print('min($minLength), max($maxLength), width($width)');
+  //  log.debug('isValidLength: $length');
+  //  log.debug('min($minLength), max($maxLength), width($width)');
     // These are the most common cases.
     if (length == 0 || (length == 1 && width == 0)) return true;
     return (minLength <= length && length <= maxLength) && length % width == 0;

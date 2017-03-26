@@ -13,7 +13,7 @@ import 'time.dart';
 
 // TODO: remove logging before version 0.9.0
 final Logger _log =
-    new Logger('date_time/utils_old.dart', watermark: Severity.debug2);
+    new Logger('date_time/utils_old.dart', watermark: Severity.info);
 
 //TODO: for performance make every function that can be internal
 //TODO: redo doc

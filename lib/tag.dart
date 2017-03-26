@@ -5,6 +5,8 @@
 // See the AUTHORS file for other contributors.
 
 export 'package:dictionary/src/errors.dart';
+export 'package:dictionary/src/issues/parse_issues.dart';
+export 'package:dictionary/src/issues/values_issues.dart';
 export 'package:dictionary/src/tag/constants.dart';
 export 'package:dictionary/src/tag/elt.dart';
 export 'package:dictionary/src/tag/group.dart';
