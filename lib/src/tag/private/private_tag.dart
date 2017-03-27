@@ -64,6 +64,6 @@ class PrivateTag extends Tag {
   @override
   String toString() => '$runtimeType$dcm subgroup($subgroup)';
 
-  static const kCreatorNotPresent =
-      const PrivateTag.creator("CreatorNotPresent", VR.kUN, VM.k1_n);
+  static const PrivateTag kNonExtantCreator =
+      const PrivateTag.creator("NonExtantCreator", 0, VR.kUN);
 }
