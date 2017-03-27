@@ -17,9 +17,9 @@ class PrivateTag extends Tag {
       [VM vm = VM.k1_n])
       : super(code, vr, vm);
 
-  /* flush when working
-  const PrivateTag.unknownCreator(int code, VR vr, [VM vm = VM.k1_n])
-        creatorToken = "Unknown Creator",
+  /* flush
+  const PrivateTag.unknownCreator(int code, [VR vr = VR.kUN, VM vm = VM.k1_n])
+      :  creatorToken = "Unknown Creator",
         super(code, vr, vm);
   */
   const PrivateTag.data(this.creatorToken, int code, VR vr, VM vm, String name)
@@ -63,4 +63,7 @@ class PrivateTag extends Tag {
 
   @override
   String toString() => '$runtimeType$dcm subgroup($subgroup)';
+
+  static const kCreatorNotPresent =
+      const PrivateTag.creator("CreatorNotPresent", VR.kUN, VM.k1_n);
 }
