@@ -145,19 +145,19 @@ class VRInt extends VR<int> {
   static const VRInt kUS = const VRInt._(31, 0x5355, "US", 2, 2, kMaxShortVF,
       "UnsignedShort", 0, Uint16.maxValue, Uint16.fromBytes);
 
-  static const VRInt kOBOW = const VRInt._(29, 0x4e55, "OBOW", 1, 4, kMaxUn,
+  static const VRInt kOBOW = const VRInt._(29, 0x4e55, "OBOW", 1, 4, kMaxUN,
       "OBorOW", 0, Uint8.maxValue, Uint8.fromBytes);
 
-  static const VRInt kUSSS = const VRInt._(29, 0x4e55, "USSS", 1, 4, kMaxUn,
+  static const VRInt kUSSS = const VRInt._(29, 0x4e55, "USSS", 1, 4, kMaxUN,
       "USorSS", 0, Uint8.maxValue, Uint8.fromBytes);
 
-  static const VRInt kUSSSOW = const VRInt._(29, 0x4e55, "USSSOW", 1, 4, kMaxUn,
+  static const VRInt kUSSSOW = const VRInt._(29, 0x4e55, "USSSOW", 1, 4, kMaxUN,
       "USorSSorOW", 0, Uint8.maxValue, Uint8.fromBytes);
 
-  static const VRInt kUSOW = const VRInt._(29, 0x4e55, "USOW", 1, 4, kMaxUn,
+  static const VRInt kUSOW = const VRInt._(29, 0x4e55, "USOW", 1, 4, kMaxUN,
       "USorOW", 0, Uint8.maxValue, Uint8.fromBytes);
 
-  static const VRInt kUSOW1 = const VRInt._(29, 0x4e55, "USOW1", 1, 4, kMaxUn,
+  static const VRInt kUSOW1 = const VRInt._(29, 0x4e55, "USOW1", 1, 4, kMaxUN,
       "USorOW1", 0, Uint8.maxValue, Uint8.fromBytes);
 }
 

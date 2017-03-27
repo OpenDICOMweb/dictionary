@@ -5,7 +5,7 @@
 // See the AUTHORS file for other contributors.
 
 
-import 'package:dictionary/tag.dart';
+import 'package:dictionary/src/tag/tag.dart';
 
 import 'parse_issues.dart';
 

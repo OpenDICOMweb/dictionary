@@ -200,7 +200,7 @@ class Tag {
     return true;
   }
 
-  /// Returns a [list] of valid values for this [Tag], or [null] if
+  /// Returns a [list<E>] of valid values for this [Tag], or [null] if
   /// and of the [String]s in [sList] are not parsable.
   List<E> parseValues<E>(List<String> sList) {
     //print('parseList: $sList');
@@ -223,7 +223,7 @@ class Tag {
       : null;
 
   //TODO: make this work with [ParseIssues]
-  List<String> valuesIssues<E>(List<E> values) {
+  List<String> issues<E>(List<E> values) {
     List<String> sList = [];
     for (int i = 0; i < values.length; i++) {
       var s = vr.issues(values[i]);
