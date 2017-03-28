@@ -12,16 +12,21 @@ class PrivateDataTag extends PrivateTag {
   final int index;
 
   /// Creates a "Known" [PrivateDataTag].
-  const PrivateDataTag._(this.index, token, int code, VR vr, VM vm, String name)
-      : super.data(token, code, vr, vm, name);
+  const PrivateDataTag._(this.index, creatorToken, int code, VR vr, VM vm,
+      String name)
+      : super.data(creatorToken, code, vr, vm, name);
 
   // Creates an "Unknown" [PrivateDataTag], i.e. ODWSDK has no info on it.
-  PrivateDataTag(int code, [VR vr = VR.kUN])
+  PrivateDataTag.unknown(String creatorToken, int code, [VR vr = VR.kUN])
       : index = -1,
-        super.unknownData(code, vr, VM.kUnknown);
+        super.data(creatorToken, code, vr, VM.k1_n,  "Unknown Private Data");
+
+  bool get isPrivateDate => true;
+
+  bool get isknown => index != -1;
 
   @override
-  int get subgroup => code & 0xFF00;
+  int get subgroup => code & 0xFF00 >> 8;
 
   int get offset => code & 0xFF;
 
