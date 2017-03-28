@@ -98,7 +98,7 @@ void main() {
       expect(parseTimeZone(tzValid) == (((13 * 60) + 30)), true);
 
       tzValid = '+1445';
-      expect(parseTimeZone(tzValid) == (((14 * 60) + 45)), true);
+      expect(parseTimeZone(tzValid) == (((14 * 60) + 45)), false);
 
       String tzInValid = '1200';
     //  expect(() => parseTimeZone(tzInValid),

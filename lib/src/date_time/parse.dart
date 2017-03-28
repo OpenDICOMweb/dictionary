@@ -319,6 +319,8 @@ void getTimeZoneIssues(String s, int start, ParseIssues issues) {
 /// format [-+]hhmm', where 'hh' is a valid hour and 'mm' is a valid Time Zone
 /// Offset minute value, i.e. 0, 30, or 45.
 int _parseTimeZone(String s, {start = 0, ParseIssues issues}) {
+  const int minValue = -12 * 60;
+  const int maxValue = 14 * 60;
   int sign = 1, h = 0, m = 0, tzm;
   _log.debug('_parseDcmDate: "$s", $start, $issues');
   if (!checkArgs(s, start, start + 5, 5, 5, issues)) return null;
@@ -327,6 +329,7 @@ int _parseTimeZone(String s, {start = 0, ParseIssues issues}) {
   m = parseMinute(s, start + 3, issues);
   if (sign == null || h == null || m == null) return null;
   tzm = sign * (h * 60 + m);
+  if (tzm < minValue || tzm > maxValue) return null;
   return tzm;
 }
 
@@ -438,7 +441,8 @@ int parseSecond(String s, [int start = 0, ParseIssues issues]) =>
 /// Returns a valid hour or [null].  The hour must be 2 characters.
 int parseTZHour(String s, [int start = 0, int sign = 1, ParseIssues issues]) {
   int v = uintParser(s, start, start + 2, issues);
-  return (v == null) ? null : checkTZHour(sign * v, issues);
+  if (checkTZHour(sign * v, issues) == null) return null;
+  return v;
 }
 
 /// Returns a valid minute or [null].  The minute must be 2 characters.
