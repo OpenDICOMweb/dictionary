@@ -23,8 +23,10 @@ bool isValidUidString(String s) {
     //  print('  $i: ${uidString[i]}, ${i+1}: ${uidString[i+1]}');
     int char0 = s.codeUnitAt(i);
     if (char0 == kDot) {
-      if (s.codeUnitAt(i + 1) == k0 && s.codeUnitAt(i + 2) != kDot)
-        return false;
+      if (s.codeUnitAt(i + 1) == k0){
+        if(i+2 >= s.length) return true;
+        if(s.codeUnitAt(i + 2) != kDot) return false;
+      }
     } else {
       if (!isDigitChar(char0)) return false;
     }
