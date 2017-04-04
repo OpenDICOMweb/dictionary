@@ -9,28 +9,28 @@ import 'package:test/test.dart';
 void main() {
   group("Test for TimeZone", () {
     test("isValidString", () {
-      String validtz = "-1200";
-      var tz = TimeZone.isValidString(validtz, start: 0, end: validtz.length);
+      String validTZ = "-1200";
+      var tz = TimeZone.isValidString(validTZ, start: 0, end: validTZ.length);
       expect(tz, true);
 
-      validtz = "+1400";
-      tz = TimeZone.isValidString(validtz, start: 0, end: validtz.length);
+      validTZ = "+1400";
+      tz = TimeZone.isValidString(validTZ, start: 0, end: validTZ.length);
       expect(tz, true);
 
-      validtz = "-1134";
-      tz = TimeZone.isValidString(validtz, start: 0, end: validtz.length);
+      validTZ = "-1134";
+      tz = TimeZone.isValidString(validTZ, start: 0, end: validTZ.length);
       expect(tz, true);
 
-      validtz = "+1245";
-      tz = TimeZone.isValidString(validtz, start: 0, end: validtz.length);
+      validTZ = "+1245";
+      tz = TimeZone.isValidString(validTZ, start: 0, end: validTZ.length);
       expect(tz, true);
 
-      String invalidtz = "-1345";
-      tz = TimeZone.isValidString(invalidtz, start: 0, end: invalidtz.length);
+      String invalidTZ = "-1345";
+      tz = TimeZone.isValidString(invalidTZ, start: 0, end: invalidTZ.length);
       expect(tz, false);
 
-      invalidtz = "1500";
-      tz = TimeZone.isValidString(invalidtz, start: 0, end: invalidtz.length);
+      invalidTZ = "1500";
+      tz = TimeZone.isValidString(invalidTZ, start: 0, end: invalidTZ.length);
       expect(tz, false);
     });
 
@@ -66,12 +66,12 @@ void main() {
     });
 
     test("issue", () {
-      String goodtimezone = "+1045";
-      var issues = TimeZone.issues(goodtimezone, start: 0);
+      String goodTimeZone = "+1045";
+      var issues = TimeZone.issues(goodTimeZone, start: 0);
       expect(issues.isEmpty, true);
 
-      String badtimezone = "1600";
-      issues = TimeZone.issues(badtimezone, start: 0);
+      String badTimeZone = "1600";
+      issues = TimeZone.issues(badTimeZone, start: 0);
       expect(issues.isEmpty, false);
     });
   });
