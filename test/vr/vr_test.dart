@@ -7,10 +7,11 @@
 import 'dart:typed_data';
 
 import 'package:common/common.dart';
-//import 'package:dictionary/src/vr/string.dart';
 import 'package:dictionary/src/vr/vr.dart';
 import 'package:test/test.dart';
 import 'package:test_tools/random_string.dart' as rsg;
+//import 'package:dictionary/src/vr/string.dart';
+
 
 final Logger log = new Logger('uint_test.dart', watermark: Severity.debug);
 
@@ -77,16 +78,18 @@ void integerVRsTest() {
       expect(VR.kUL.isValid(Uint32.maxValue), true);
       expect(VR.kUL.isValid(Uint32.maxValue + 1), false);
 
-      //TODO: move to separate vr_test
-      expect(VR.kUN.isValid(Uint8.minValue), true);
-      expect(VR.kUN.isValid(Uint8.minValue - 1), false);
-      expect(VR.kUN.isValid(Uint8.maxValue), true);
-      expect(VR.kUN.isValid(Uint8.maxValue + 1), false);
-
       expect(VR.kUS.isValid(0), true);
       expect(VR.kUS.isValid(Uint16.minValue - 1), false);
       expect(VR.kUS.isValid(Uint16.maxValue), true);
       expect(VR.kUS.isValid(Uint16.maxValue + 1), false);
+    });
+
+    test("isValid VR.kUN", () {
+      log.debug(VR.kUN.isValid(Uint8.minValue));
+      expect(VR.kUN.isValid(Uint8.minValue), true);
+      expect(VR.kUN.isValid(Uint8.minValue - 1), false);
+      expect(VR.kUN.isValid(Uint8.maxValue), true);
+      expect(VR.kUN.isValid(Uint8.maxValue + 1), false);
     });
 
     bool isValidList<E>(List<E> list, bool pred(E value)) {
@@ -216,19 +219,19 @@ void integerVRsTest() {
       //kUN
       Uint8List validUNList = rng.uint8List(10, 200);
       log.debug(validUNList);
-      expect(VR.kUN.isValid(validUNList), true);
+      expect(isValidList(validUNList, VR.kUN.isValid), true);
 
       List<int> invalidUNList = <int>[];
       invalidUNList
         ..addAll(validUNList)
         ..add(Uint8.maxValue + 1);
-      expect(VR.kUN.isValid(invalidUNList), false);
+      expect(isValidList(invalidUNList, VR.kUN.isValid), false);
 
       invalidUNList = <int>[];
       invalidUNList
         ..addAll(validUNList)
         ..add(Uint8.minValue - 1);
-      expect(VR.kUN.isValid(invalidUNList), false);
+      expect(isValidList(invalidUNList, VR.kUN.isValid), false);
 
       //kUS
       Uint16List u16ListkUS = rng.uint16List(20, 100);

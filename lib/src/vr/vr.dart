@@ -282,12 +282,12 @@ class VRUnknown extends VR<int> {
   }
 
   @override
-  List<int> view(Uint8List list) => Uint8.view(list);
+  List<int> view(List<int> list) => Uint8.view(list);
 
   List<int> copy(Uint8List list) =>
       Uint8.fromBytes(list, 0, list.length, false);
 
   // UN - is a generic tag
   static const VR kUN =
-      const VR(29, 0x4e55, "UN", 1, 4, kMaxUN, "Unknown", true);
+      const VRUnknown(29, 0x4e55, "UN", 1, 4, kMaxUN, "Unknown", true);
 }

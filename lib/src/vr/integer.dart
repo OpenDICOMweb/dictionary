@@ -98,7 +98,6 @@ class VRInt extends VR<int> {
     return n;
   }
 
-  @override
   List<int> viewOfBytes(TypedData list) {
     int length = list.lengthInBytes ~/ list.elementSizeInBytes;
     return fromBytes(list, 0, length, true);
