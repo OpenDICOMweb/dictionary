@@ -7,16 +7,17 @@
 import 'package:dictionary/dictionary.dart';
 
 void main() {
-  PrivateCreatorTag tag = new PrivateCreatorTag("ACUSON", 0x00090010);
-  print('tag is creator(${tag.isCreator}) and private(${tag.isPrivate})');
+  PrivateCreatorTag tag = new PrivateCreatorTag(0x00090010, VR.kLO, "ACUSON");
+  print('${tag.runtimeType}: tag is creator(${tag.isCreator}) and private(${tag
+      .isPrivate})');
 
   PrivateDataTag data = tag.dataTags[0x00090001];
-  print('Acuson data: ${tag.dataTags}');
-  print('Tag is Private Data(${data is PrivateDataTag}) '
+  print('${data.runtimeType}: Acuson data: ${tag.dataTags}');
+  print('${data.runtimeType}: Tag is Private Data(${data is PrivateDataTag}) '
       'and private(${data.isPrivate})');
 
-  PrivateCreatorTag pcTag = new PrivateCreatorTag("ACUSON", 0x00090010);
-  print('Tag is $pcTag (${pcTag is PrivateCreatorTag}) '
+  PrivateCreatorTag pcTag = new PrivateCreatorTag(0x00090010, VR.kUN, "ACUSON");
+  print('${pcTag.runtimeType}: Tag is $pcTag (${pcTag is PrivateCreatorTag}) '
       'and is private(${pcTag.isPrivate})');
 
   //TODO: Private Data

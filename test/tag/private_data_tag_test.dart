@@ -5,6 +5,7 @@
 
 import 'package:common/logger.dart';
 import 'package:dictionary/src/tag/private/private_data_tag.dart';
+import 'package:dictionary/src/vr/vr.dart';
 import 'package:test/test.dart';
 
 final Logger log = new Logger('DateTimeTests', watermark: Severity.debug);
@@ -16,7 +17,8 @@ void main() {
 void privateDataTag() {
   test("PrivatedataTag Test", () {
     int code = 0x00190010;
-    PrivateDataTag pdt = new PrivateDataTag.unknown("UnknownCreator", code);
+    PrivateDataTag pdt =
+        new PrivateDataTag.unknown(code, VR.kUN, 'Unknown Creator');
     expect((pdt.isPrivate), true);
     expect((pdt.isCreator), false);
     log.debug(pdt.toString());

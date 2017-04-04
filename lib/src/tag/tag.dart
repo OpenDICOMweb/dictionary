@@ -311,22 +311,29 @@ class Tag {
     return '$runtimeType: $dcm $keyword, $vr, $vm, $retired';
   }
 
-/*
-  static Tag lookup(int code, [VR vr = VR.kUN]) {
-    Tag tag = Tag.lookupCode(code);
-    if (tag != null) return tag;
-    if (Tag.isPublicCode(code)) {
-      return new Tag.public(
-          "Unknown", code, "Unknown Public Tag", vr, VM.kUnknown);
-    } else if (Tag.isPrivateCode(code)) {
-      // *** This should not happen!
-      if (Tag.isPrivateCreatorCode(code))
-        return new PrivateCreatorTag.unknown("Unknown Creator", code, vr);
-    }
+  static Tag lookup(int code, [PrivateCreatorTag tag]) {
+    if (Tag.isPublicCode(code)) return Tag.lookupKnownPublicCode(code);
+    if (Tag.isPrivateCode(code)) return Tag.lookupPrivateCode(code);
     // This should never happen
     throw 'Error: Unknown Tag Code${Tag.toDcm}';
   }
-*/
+
+  static Tag lookupPublicCode(int code) {
+    Tag tag = lookupKnownPublicCode(code);
+    if (tag != null) return tag;
+    if (Tag.isPublicGroupLengthCode(code))
+      return new PublicGroupLengthTag(code);
+    return new UnknownPublicTag(code);
+  }
+
+  static Tag lookupPrivateCode(int code,
+      [VR vr = VR.kUN, String token = "Unknown Creator"]) {
+    if (isPrivateCreatorCode(code))
+      return new PrivateCreatorTag(code, vr, token);
+    if (isPrivateDataCode(code))
+      return new PrivateDataTag(code, vr, token);
+    throw new InvalidTagCode(code);
+  }
 
   /// Returns a [String] corresponding to [tag], which might be an
   /// [int], [String], or [Tag].
@@ -480,7 +487,7 @@ class Tag {
   }
 
   //TODO: this should become public when fully converted to Tags.
-  static Tag lookupPublicCode(int code, [bool shouldThrow = true]) {
+  static Tag lookupKnownPublicCode(int code, [bool shouldThrow = true]) {
     assert(Tag.isPublicCode(code));
     Tag tag = publicTagCodeMap[code];
     if (tag != null) return tag;

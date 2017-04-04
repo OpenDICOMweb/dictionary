@@ -5,21 +5,29 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:dictionary/src/tag/private/private_tag.dart';
+import 'package:dictionary/src/tag/private/private_creator_tag.dart';
 import 'package:dictionary/src/vm.dart';
 import 'package:dictionary/src/vr/vr.dart';
 
 class PrivateDataTag extends PrivateTag {
   final int index;
 
+  ///
+  factory PrivateDataTag(int code, VR vr, String creatorToken) {
+    PrivateDataTag dTag = creator.lookupData(code, vr);
+    if (dTag != null) return dTag;
+    return new PrivateDataTag.unknown(code, vr, creatorToken);
+  }
+
+  // Creates an "Unknown" [PrivateDataTag], i.e. ODWSDK has no info on it.
+  PrivateDataTag.unknown(int code, VR vr, String creatorToken)
+      : index = -1,
+        super.data(code, vr, VM.k1_n, creatorToken, "Unknown Private Data Tag");
+
   /// Creates a "Known" [PrivateDataTag].
   const PrivateDataTag._(this.index, creatorToken, int code, VR vr, VM vm,
       String name)
-      : super.data(creatorToken, code, vr, vm, name);
-
-  // Creates an "Unknown" [PrivateDataTag], i.e. ODWSDK has no info on it.
-  PrivateDataTag.unknown(String creatorToken, int code, [VR vr = VR.kUN])
-      : index = -1,
-        super.data(creatorToken, code, vr, VM.k1_n,  "Unknown Private Data");
+      : super.data(code, vr, vm, creatorToken, name);
 
   bool get isPrivateDate => true;
 

@@ -12,7 +12,7 @@ class PrivateTag extends Tag {
   static const int kUnknownIndex = -1;
   final String token;
 
-  const PrivateTag(this.token, int code, VR vr, [VM vm = VM.k1_n])
+  const PrivateTag(int code, VR vr, VM vm, this.token)
       : super(code, vr, vm);
 
   /* flush
@@ -25,7 +25,7 @@ class PrivateTag extends Tag {
       :  creatorToken = "Unknown Creator",
         super(code, vr, vm);
    */
-  const PrivateTag.data(this.token, int code, VR vr, VM vm, String name)
+  const PrivateTag.data(int code, VR vr, VM vm, this.token, String name)
       : super.privateData(code, vr, vm, name);
 
   /* flush

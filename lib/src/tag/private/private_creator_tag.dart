@@ -5,7 +5,6 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:dictionary/src/tag/private/private_creator_definition.dart';
-import 'package:dictionary/src/tag/private/private_creator_map.dart';
 import 'package:dictionary/src/tag/private/private_data_tag.dart';
 import 'package:dictionary/src/tag/private/private_tag.dart';
 import 'package:dictionary/src/vm.dart';
@@ -15,17 +14,22 @@ const Map<int, PrivateDataTag> emptyDataTags = const <int, PrivateDataTag>{};
 
 class PrivateCreatorTag extends PrivateTag {
   static const VR defaultVR = VR.kLO;
-  final PrivateCreatorDefinition definition;
+  final KnownPrivateCreators definition;
 
   //TODO: fix the tag code to be the standard group with 0x0010 as elt.
-  PrivateCreatorTag(String token, int code, [VR vr = VR.kLO])
-      : definition = PrivateCreatorDefinition.lookup(token),
-        super(token, code, VR.kLO, VM.k1);
+  PrivateCreatorTag(int code, VR vr, String token)
+      : definition = KnownPrivateCreators.lookup(token),
+        super(code, VR.kLO, VM.k1, token);
 
-  const PrivateCreatorTag._(String token, int code, [VR vr = VR.kLO])
-      : definition = PrivateCreatorDefinition.kUnknown,
-        super(token, code, VR.kLO, VM.k1);
-
+  const PrivateCreatorTag._(int code, VR vr, String token,
+      KnownPrivateCreators def)
+      : definition = def,
+        super(code, VR.kLO, VM.k1, token);
+/*
+  const PrivateCreatorTag(String token, int code,
+      [VR vr = VR.kLO, this.definition = PrivateCreatorDefinition.kUnknown])
+      : super(token, code, VR.kLO, VM.k1);
+*/
   int get index => definition.index;
 
   Map<int, PrivateDataTag> get dataTags => definition.dataTags;
@@ -34,7 +38,7 @@ class PrivateCreatorTag extends PrivateTag {
   bool get isCreator => true;
 
   @override
-  bool get isKnown => definition != PrivateCreatorDefinition.kUnknown;
+  bool get isKnown => definition != KnownPrivateCreators.kUnknown;
 
   @override
   int get subgroup => elt & 0xFF;
@@ -50,13 +54,13 @@ class PrivateCreatorTag extends PrivateTag {
   /// Returns a[PrivateDataTag]. If this creator has a known [PrivateDataTag]
   /// matching [code] it returns that; otherwise, a new [PrivateDataTag]
   /// is created.
-  PrivateDataTag lookupData(int code) {
+  PrivateDataTag lookupData(int code, VR vr) {
     int pdTagCode = code & 0xFFFF00FF;
     //  print('pdTagCode: ${Tag.toHex(pdTagCode)}');
     PrivateDataTag pdTag = dataTags[pdTagCode];
     //  print('***** PrivateDataTag: $pdTag');
     if (pdTag == null)
-      pdTag = new PrivateDataTag.unknown("Unknown Private Data", code);
+      pdTag = new PrivateDataTag.unknown(code, vr, token);
     return pdTag;
   }
 
@@ -77,9 +81,7 @@ class PrivateCreatorTag extends PrivateTag {
   @override
   String toString() => 'PCTag($token) $vr $vm';
 
-  static PrivateCreatorDefinition lookup(String token) =>
-      privateCreatorMap[token];
-
   static const PrivateCreatorTag kNonExtantCreator =
-      const PrivateCreatorTag._("NonExtantCreator", 0);
+      const PrivateCreatorTag._(0, VR.kUN, "NonExtantCreator",
+          KnownPrivateCreators.kUnknown);
 }
