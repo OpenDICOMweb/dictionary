@@ -25,28 +25,32 @@ class VR<T> {
   final String keyword;
 
   const VR(this.index, this.code, this.id, this.elementSize, this.vfLengthSize,
-      this.maxVFLength, this.keyword);
+      this.maxVFLength, this.keyword,
+      [this.undefinedLengthAllowed = false]);
 
+  /*
   const VR._(this.index, this.code, this.id, this.elementSize,
-      this.vfLengthSize, this.maxVFLength, this.keyword);
-
+      this.vfLengthSize, this.maxVFLength, this.keyword,
+      [this.undefinedLengthAllowed = false]);
+ */
   VR operator [](int i) => vrList[i];
 
   /// The minimum length of a value.
-  int get minValue => elementSize;
+  int get minLength => elementSize;
 
   /// The maximum length of a value.
-  int get maxValue => null;
+  int get maxLength => maxVFLength ~/ elementSize;
 
-  bool get undefinedAllowed => false;
+  /// Is the kUndefinedLength value allowed as a Value Field Length.
+  final bool undefinedLengthAllowed;
 
   bool get hasShortVF => vfLengthSize == 2;
   bool get hasLongVF => !hasShortVF;
 
   String get info => '$runtimeType: $keyword $id(${Int16.hex(code)})[$index]: '
       'elementSize($elementSize) vfLengthSize($vfLengthSize), '
-      'maxVFLength($maxVFLength), minValueLength($minValue), '
-      'maxValueLength($maxValue)';
+      'maxVFLength($maxVFLength), minValueLength($minLength), '
+      'maxValueLength($maxLength)';
 
   String get asString => 'VR.k$id';
 
@@ -79,7 +83,7 @@ class VR<T> {
   List<T> convert(Uint8List list) => null;
 
   /// Returns a valid value, or if not parsable, [null].
-  List<T> view(Uint8List list) => null;
+  List<T> view(List<T> list) => null;
 
   // **** Must be overridden.
   /// Returns a new value that is legal and a best practice.
@@ -96,9 +100,11 @@ class VR<T> {
   // **** Constant members
 
   //index, code, id, elementSize, vfLengthSize, maxVFLength, keyword
-  static const VR kInvalid = const VR._(0, 0, "IV", 0, 0, -1, "Invalid");
-  static const VR kBR = const VR._(4, 0x5242, "BR", 0, 0, -1, "BDRef");
+  static const VR kInvalid = const VR(0, 0, "IV", 0, 0, -1, "Invalid");
+  static const VR kBR = const VR(4, 0x5242, "BR", 0, 0, -1, "BDRef");
 
+  // Unknown
+  static const VR kUN = VRUnknown.kUN;
   // Sequence
   static const VR kSQ = VRSequence.kSQ;
 
@@ -106,7 +112,6 @@ class VR<T> {
   static const VR kSS = VRInt.kSS;
   static const VR kSL = VRInt.kSL;
   static const VR kOB = VRInt.kOB;
-  static const VR kUN = VRInt.kUN;
   static const VR kOW = VRInt.kOW;
   static const VR kUS = VRInt.kUS;
   static const VR kUL = VRInt.kUL;
@@ -239,17 +244,50 @@ const Map<VR, String> dataTypes = const <VR, String>{
 
 //TODO: clean this up. remove VR.kUnknown and VR.kBR. How to handle SQ
 class VRSequence extends VR {
-  final bool undefinedLengthAllowed = true;
   @override
-  final int minValue = 8;
+  final int minLength = 8;
   @override
-  final int maxValue = kMaxLongVF;
+  final int maxLength = kMaxLongVF;
 
   const VRSequence._(int index, int code, String id, int elementSize,
       int vfLengthSize, int maxVFLength, String keyword)
-      : super._(index, code, id, 1, 4, kMaxLongVF, keyword);
+      : super(index, code, id, 1, 4, kMaxLongVF, keyword, true);
 
   //index, code, id, elementSize, vfLengthSize, maxVFLength, keyword
   static const VR kSQ =
       const VRSequence._(22, 0x5153, "SQ", 1, 4, kMaxLongVF, "Sequence");
+}
+
+class VRUnknown extends VR<int> {
+  const VRUnknown(int index, int code, String id, int elementSize,
+      int vfLengthSize, int maxVFLength, String keyword,
+      [bool undefinedLengthAllowed = false])
+      : super(index, code, id, elementSize, vfLengthSize, maxVFLength, keyword,
+            undefinedLengthAllowed);
+
+  /// Returns [true] if [n] is valid for [this].
+  @override
+  bool isValid(int n) => Uint8.inRange(n);
+
+  //TODO: doc
+  @override
+  ParseIssues issues(int n) => null;
+
+  /// Returns a valid, possibly coerced, value.
+  @override
+  int fix(int n) {
+    if (n < Uint8.minValue) return 0;
+    if (n > Uint8.maxValue) return 255;
+    return n;
+  }
+
+  @override
+  List<int> view(List<int> list) => Uint8.view(list);
+
+  List<int> copy(Uint8List list) =>
+      Uint8.fromBytes(list, 0, list.length, false);
+
+  // UN - is a generic tag
+  static const VR kUN =
+      const VRUnknown(29, 0x4e55, "UN", 1, 4, kMaxUN, "Unknown", true);
 }

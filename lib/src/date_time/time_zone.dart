@@ -30,8 +30,8 @@ class TimeZone {
   int get minute => minutes.remainder(60);
 
   static int toTimeZoneMinutes(int sign, int hour, int minute) {
-    if (!inRange(hour, minHour, maxHour) ||( minute != 0 && minute != 30 &&
-        minute != 45)) return null;
+    if (!inRange(hour, minHour, maxHour) ||
+        (minute != 0 && minute != 30 && minute != 45)) return null;
     return sign * ((hour * 60) + minute);
   }
 
@@ -54,5 +54,4 @@ class TimeZone {
   static const TimeZone usCentral = const TimeZone._(kUSCentralTZO);
   static const TimeZone usMountain = const TimeZone._(kUSMountainTZO);
   static const TimeZone usPacific = const TimeZone._(kUSPacificTZO);
-
 }

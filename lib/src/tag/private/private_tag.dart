@@ -10,35 +10,39 @@ import 'package:dictionary/src/vr/vr.dart';
 
 class PrivateTag extends Tag {
   static const int kUnknownIndex = -1;
-//  final int index;
-  final String creatorToken;
+  final String token;
 
+  const PrivateTag(this.token, int code, VR vr, [VM vm = VM.k1_n])
+      : super(code, vr, vm);
+
+  /* flush
   const PrivateTag.creator(this.creatorToken, int code, VR vr,
       [VM vm = VM.k1_n])
       : super(code, vr, vm);
-
+*/
   /* flush
   const PrivateTag.unknownCreator(int code, [VR vr = VR.kUN, VM vm = VM.k1_n])
       :  creatorToken = "Unknown Creator",
         super(code, vr, vm);
-  */
-  const PrivateTag.data(this.creatorToken, int code, VR vr, VM vm, String name)
+   */
+  const PrivateTag.data(this.token, int code, VR vr, VM vm, String name)
       : super.privateData(code, vr, vm, name);
 
+  /* flush
   PrivateTag.unknownData(int code, [VR vr = VR.kUN, VM vm = VM.k1_n])
       : creatorToken = "Unknown Data",
         super(code, vr, vm);
-
+  */
   PrivateTag.groupLength(int code)
-      : creatorToken = "Private Group Length",
+      : token = "Private Group Length",
         super(code, VR.kUL, VM.k1);
 
   PrivateTag.illegal(int code, [VR vr = VR.kUN])
-      : creatorToken = "Illegal Private Tag",
+      : token = "Illegal Private Tag",
         super(code, vr, VM.k1_n);
 
   PrivateTag.dataNoCreator(int code, VR vr, [VM vm = VM.k1_n])
-      : creatorToken = "Private Data W/O Creator",
+      : token = "Private Data W/O Creator",
         super(code, vr, vm);
 
   /// The Private Subgroup for this Tag.
@@ -59,11 +63,8 @@ class PrivateTag extends Tag {
 
   @override
   String get info =>
-      '$dcm $groupHex, "$creatorToken", $eltHex $vr, $vm, "$name"';
+      '$dcm $groupHex, "$token", $eltHex $vr, $vm, "$name"';
 
   @override
   String toString() => '$runtimeType$dcm subgroup($subgroup)';
-
-  static const PrivateTag kNonExtantCreator =
-      const PrivateTag.creator("NonExtantCreator", 0, VR.kUN);
 }

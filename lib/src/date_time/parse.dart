@@ -441,7 +441,7 @@ int parseSecond(String s, [int start = 0, ParseIssues issues]) =>
 /// Returns a valid hour or [null].  The hour must be 2 characters.
 int parseTZHour(String s, [int start = 0, int sign = 1, ParseIssues issues]) {
   int v = uintParser(s, start, start + 2, issues);
-  if (checkTZHour(sign * v, issues) == null) return null;
+  if (v == null || checkTZHour(sign * v, issues) == null) return null;
   return v;
 }
 
@@ -568,7 +568,7 @@ int checkTZMinute(int tzm, ParseIssues issues) {
 
 /// if (year is not divisible by 4) then (it is a common year)
 /// else if (year is not divisible by 100) then (it is a leap year)
-/// else if (year is not ivisible by 400) then (it is a common year)
+/// else if (year is not divisible by 400) then (it is a common year)
 /// else (it is a leap year)
 ///
 /// Note: error checking for year value is done by caller.

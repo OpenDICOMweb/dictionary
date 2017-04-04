@@ -19,7 +19,7 @@ void privateCreatorTagTest() {
   test("PrivateCreatorTag Test", () {
     PrivateCreatorTag pTag = new PrivateCreatorTag("ACUSON", 0x00090010);
     log.debug(pTag.info);
-    log.debug('${pTag.creatorToken}: ${pTag.dataTags}');
+    log.debug('${pTag.token}: ${pTag.dataTags}');
   });
 }
 
@@ -27,6 +27,6 @@ void unknownPrivateCreatorTagTest() {
   test("PrivateCreatorTag.unknown Test", () {
     PrivateCreatorTag pTag = new PrivateCreatorTag("foo", 0x00090010);
     log.debug(pTag.info);
-    log.debug('${pTag.creatorToken}: ${pTag.dataTags}');
+    log.debug('${pTag.token}: ${pTag.dataTags}');
   });
 }

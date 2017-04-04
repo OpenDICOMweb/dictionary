@@ -50,48 +50,41 @@ typedef int IntFixer(int value);
 class VRInt extends VR<int> {
   /// The minimum length of a value.
   @override
-  final int minValue;
+  final int minLength;
 
   /// The minimum length of a value.
   @override
-  final int maxValue;
+  final int maxLength;
 
   /// The method that converts bytes ([Uint8List]) to values.
   final BytesToValues fromBytes;
-
-  /// Is the kUndefinedLength value allowed as a Value Field Length.
-  final bool undefinedLengthAllowed;
 
   const VRInt._(
       int index,
       int code,
       String id,
       int elementSize,
-      int vfLengthFieldSize,
+      int vfLengthSize,
       int maxVFLength,
       String keyword,
-      this.minValue,
-      this.maxValue,
+      this.minLength,
+      this.maxLength,
       this.fromBytes,
-      [this.undefinedLengthAllowed = false])
-      : super(index, code, id, elementSize, vfLengthFieldSize, maxVFLength,
-            keyword);
+      [bool undefinedLengthAllowed = false])
+      : super(index, code, id, elementSize, vfLengthSize, maxVFLength, keyword,
+            undefinedLengthAllowed);
 
   /// Returns [true] if [n] is valid for this [VRInt].
   @override
-  bool isValid(int n) => (minValue <= n) && (n <= maxValue);
-
-  bool isValidList(List<int> list) {
-    for (int i in list) if (isNotValid(i)) return false;
-    return true;
-  }
+  bool isValid(int n) => (minLength <= n) && (n <= maxLength);
 
   /// Returns a [String] indicating the issue with value. If there are no
   /// issues returns the empty string ("").
   @override
   ParseIssues issues(int n) {
     if (isNotValid(n)) {
-      var msg = 'Invalid value: min($minValue) <= value($n) <= max($maxValue)';
+      var msg =
+          'Invalid value: min($minLength) <= value($n) <= max($maxLength)';
       return new ParseIssues("VRInt", '$n', 0, 0, [msg]);
     }
     return null;
@@ -100,22 +93,20 @@ class VRInt extends VR<int> {
   /// Returns a valid, possibly coerced, value.
   @override
   int fix(int n) {
-    if (n < minValue) return minValue;
-    if (n > maxValue) return maxValue;
+    if (n < minLength) return minLength;
+    if (n > maxLength) return maxLength;
     return n;
   }
 
-  @override
-  List<int> view(Uint8List list) => fromBytes(list, 0, list.length, true);
+  List<int> viewOfBytes(TypedData list) {
+    int length = list.lengthInBytes ~/ list.elementSizeInBytes;
+    return fromBytes(list, 0, length, true);
+  }
 
-  List<int> copy(Uint8List list) => fromBytes(list, 0, list.length, false);
-
-  /*
-  /// Returns [true] if [bytes] contains a valid Value Field.
-  //TODO: implement or flush
-  @override
-  Uint8List isValidBytes(Uint8List bytes) => null;
-  */
+  List<int> copyBytes(TypedData list) {
+    int length = list.lengthInBytes ~/ list.elementSizeInBytes;
+    return fromBytes(list, 0,length, false);
+  }
 
   // index, code, id, elementSize, vfLengthFieldSize, maxVFLength, keyword
   static const VRInt kAT = const VRInt._(3, 0x5441, "AT", 4, 2, kMaxShortVF,
@@ -139,9 +130,6 @@ class VRInt extends VR<int> {
   static const VRInt kUL = const VRInt._(28, 0x4c55, "UL", 4, 2, kMaxShortVF,
       "UnsignedLong", 0, Uint32.maxValue, Uint32.fromBytes);
 
-  static const VRInt kUN = const VRInt._(29, 0x4e55, "UN", 1, 4, kMaxUN,
-      "Unknown", 0, Uint8.maxValue, Uint8.fromBytes);
-
   static const VRInt kUS = const VRInt._(31, 0x5355, "US", 2, 2, kMaxShortVF,
       "UnsignedShort", 0, Uint16.maxValue, Uint16.fromBytes);
 
@@ -164,9 +152,9 @@ class VRInt extends VR<int> {
 /// This class is used by the Tag class.  It is NOT used for parsing, etc.
 class VRIntSpecial extends VR {
   @override
-  final int minValue = 0;
+  final int minLength = 0;
   @override
-  final int maxValue = 0;
+  final int maxLength = 0;
 
   const VRIntSpecial._(int index, int code, String id, String keyword)
       : super(index, code, id, 0, 0, 0, keyword);

@@ -20,7 +20,11 @@ class PrivateCreatorTag extends PrivateTag {
   //TODO: fix the tag code to be the standard group with 0x0010 as elt.
   PrivateCreatorTag(String token, int code, [VR vr = VR.kLO])
       : definition = PrivateCreatorDefinition.lookup(token),
-        super.creator(token, code, VR.kLO, VM.k1);
+        super(token, code, VR.kLO, VM.k1);
+
+  const PrivateCreatorTag._(String token, int code, [VR vr = VR.kLO])
+      : definition = PrivateCreatorDefinition.kUnknown,
+        super(token, code, VR.kLO, VM.k1);
 
   int get index => definition.index;
 
@@ -40,7 +44,7 @@ class PrivateCreatorTag extends PrivateTag {
   int get limit => base + 0xFF;
 
   @override
-  String get info => '$runtimeType($creatorToken) index:$index, '
+  String get info => '$runtimeType($token) index:$index, '
       'data ${fmtDataTagMap()}';
 
   /// Returns a[PrivateDataTag]. If this creator has a known [PrivateDataTag]
@@ -51,7 +55,8 @@ class PrivateCreatorTag extends PrivateTag {
     //  print('pdTagCode: ${Tag.toHex(pdTagCode)}');
     PrivateDataTag pdTag = dataTags[pdTagCode];
     //  print('***** PrivateDataTag: $pdTag');
-    if (pdTag == null) pdTag = new PrivateDataTag(code);
+    if (pdTag == null)
+      pdTag = new PrivateDataTag.unknown("Unknown Private Data", code);
     return pdTag;
   }
 
@@ -70,12 +75,11 @@ class PrivateCreatorTag extends PrivateTag {
       (base <= code & 0xFFFF && code & 0xFFFF <= limit);
 
   @override
-  String toString() => 'PCTag($creatorToken) $vr $vm';
+  String toString() => 'PCTag($token) $vr $vm';
 
   static PrivateCreatorDefinition lookup(String token) =>
       privateCreatorMap[token];
 
-  // Flush ???
-  // static const PrivateCreatorTag kUnknown =
-  //     const PrivateCreatorTag(-1, "Unknown", VR.kLO, VM.k1);
+  static const PrivateCreatorTag kNonExtantCreator =
+      const PrivateCreatorTag._("NonExtantCreator", 0);
 }

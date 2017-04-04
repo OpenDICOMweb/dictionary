@@ -20,9 +20,9 @@ typedef E Fixer<E>(String s, int min, int max);
 
 abstract class VRString extends VR<String> {
   @override
-  final int minValue;
+  final int minLength;
   @override
-  final int maxValue;
+  final int maxLength;
 //  final Tester tester;
 //  final ErrorMsg errorMsg;
 //  final Parser parser;
@@ -31,7 +31,7 @@ abstract class VRString extends VR<String> {
 
   /// Create an integer VR.
   const VRString._(int index, int code, String id, int vfLengthSize,
-      int maxVFLength, String keyword, this.minValue, this.maxValue)
+      int maxVFLength, String keyword, this.minLength, this.maxLength)
       : super(index, code, id, 1, vfLengthSize, maxVFLength, keyword);
 
   bool get isAscii => true;
@@ -50,7 +50,7 @@ abstract class VRString extends VR<String> {
   @override
   String fix(String s);
 
-  /// Returns [true] if [minValue] <= length <= [maxValue].
+  /// Returns [true] if [minLength] <= length <= [maxLength].
   @override
   bool isValidLength(String s) {
     assert(s != null);
@@ -60,7 +60,7 @@ abstract class VRString extends VR<String> {
   /// Returns [true] if length is NOT valid.
   bool isNotValidLength(String s) => !isValidLength(s);
 
-  bool _isValidLength(int length) => minValue <= length && length <= maxValue;
+  bool _isValidLength(int length) => minLength <= length && length <= maxLength;
 
   /// Returns [true] if all characters pass the filter.
   bool _filteredTest(String s, bool filter(int c)) {
@@ -92,9 +92,9 @@ abstract class VRString extends VR<String> {
   void _getLengthIssues(int length, ParseIssues issues) {
     if (length == null) issues += 'Invalid length(Null)';
     if (length == 0) issues += 'Invalid length(0)';
-    if (length < minValue || maxValue < length)
+    if (length < minLength || maxLength < length)
       issues +=
-          'Length Error: min($minValue) <= value($length) <= max($maxValue)\n';
+          'Length Error: min($minLength) <= value($length) <= max($maxLength)\n';
   }
 
   /// Returns a [String] containing an invalid character error message.

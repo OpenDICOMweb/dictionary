@@ -16,7 +16,7 @@ void main() {
 void privateDataTag() {
   test("PrivatedataTag Test", () {
     int code = 0x00190010;
-    PrivateDataTag pdt = new PrivateDataTag(code);
+    PrivateDataTag pdt = new PrivateDataTag.unknown("UnknownCreator", code);
     expect((pdt.isPrivate), true);
     expect((pdt.isCreator), false);
     log.debug(pdt.toString());
