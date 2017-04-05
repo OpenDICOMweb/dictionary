@@ -6,6 +6,7 @@
 
 import 'package:common/logger.dart';
 import 'package:dictionary/src/tag/constants.dart';
+import 'package:dictionary/src/tag/p_tag.dart';
 import 'package:dictionary/src/tag/tag.dart';
 
 final Logger log = new Logger('DateTimeTests', watermark: Severity.debug);
@@ -33,7 +34,7 @@ void main() {
 /// Simple Tag Test
 void tagTest() {
   for (int i = 0; i < tags.length; i++) {
-    Tag tag = Tag.lookupKnownPublicCode(tags[i]);
+    Tag tag = PTag.lookupCode(tags[i]);
     log.debug('${tag.info}');
     log.debug('isShort: ${tag.hasShortVF}, sizeInBytes: ${tag.vr.elementSize}');
     log.debug(

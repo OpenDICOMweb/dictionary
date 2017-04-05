@@ -6,7 +6,7 @@
 
 import 'dart:io';
 
-import 'package:dictionary/src/tag/tag.dart';
+import 'package:dictionary/src/tag/p_tag.dart';
 import 'package:dictionary/src/tag/tag_map.dart';
 
 const String outputDir = "C:/odw/sdk/core/lib/src/base/tag/gen/output";
@@ -19,7 +19,7 @@ void main(List<String> args) {
   outFile.writeAsStringSync(s);
 }
 
-String generateConstants(Map<int, Tag> map) {
+String generateConstants(Map<int, PTag> map) {
   var s = '''
 // Copyright (c) 2016, Open DICOMweb Project. All rights reserved.
 // Use of this source code is governed by the open source license
@@ -34,7 +34,7 @@ String generateConstants(Map<int, Tag> map) {
 // Ordered List DICOM Data Element [keyword]s and their [tag] values;
 
 ''';
-  map.values.forEach((Tag tag) {
+  map.values.forEach((PTag tag) {
     s += 'const int k${tag.keyword} = ${tag.hex}; \n';
   });
   return s;

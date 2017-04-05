@@ -21,10 +21,9 @@ void main(List<String> args) {
   outFile.writeAsStringSync(s);
 }
 
-String generateMembers(Map<int, Tag> map) {
+String generateMembers(Map<int, PTag> map) {
   var s = "";
-
-  map.values.forEach((Tag tag) {
+  map.values.forEach((PTag tag) {
     s += '  static const Tag k${tag.keyword} = const Tag(${tag.hex});\n';
   });
   return s += '}\n';

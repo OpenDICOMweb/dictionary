@@ -4,7 +4,8 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:common/logger.dart';
-import 'package:dictionary/src/tag/private/private_data_tag.dart';
+import 'package:dictionary/src/tag/private/pc_tag.dart';
+import 'package:dictionary/src/tag/private/pd_tag.dart';
 import 'package:dictionary/src/vr/vr.dart';
 import 'package:test/test.dart';
 
@@ -17,8 +18,8 @@ void main() {
 void privateDataTag() {
   test("PrivatedataTag Test", () {
     int code = 0x00190010;
-    PrivateDataTag pdt =
-        new PrivateDataTag.unknown(code, VR.kUN, 'Unknown Creator');
+    var pcTag = new PCTag(code, VR.kLO, "Unknown");
+    PDTag pdt = new PDTag(code, VR.kUN, pcTag);
     expect((pdt.isPrivate), true);
     expect((pdt.isCreator), false);
     log.debug(pdt.toString());

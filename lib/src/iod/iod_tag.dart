@@ -5,13 +5,13 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:dictionary/src/e_type.dart';
-import 'package:dictionary/src/tag/tag.dart';
+import 'package:dictionary/src/tag/p_tag.dart';
 import 'package:dictionary/src/vm.dart';
 import 'package:dictionary/src/vr/vr.dart';
 
 /// A [class] for defining the elements of an IOD.
 class IodTag {
-  final Tag tag;
+  final PTag tag;
   final EType _type;
 
   //TODO: make const

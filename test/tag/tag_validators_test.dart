@@ -7,6 +7,7 @@ import 'dart:math';
 
 import 'package:common/logger.dart';
 import 'package:common/number.dart';
+import 'package:dictionary/src/tag/p_tag.dart';
 import 'package:dictionary/src/tag/tag.dart';
 import 'package:dictionary/src/vr/vr.dart';
 import 'package:test/test.dart';
@@ -19,13 +20,13 @@ void main() {
 }
 
 void validateTest() {
-  Tag tagCSCode = Tag.kLanguageCodeSequence;
-  Tag tagCS = Tag.kImageType;
+  Tag tagCSCode = PTag.kLanguageCodeSequence;
+  Tag tagCS = PTag.kImageType;
   //   new Tag.public("Image​Type", 0x00080008, "Image Type", VR.kCS, VM.k2_n);
-  Tag tagSQ = Tag.kLanguageCodeSequence;
+  Tag tagSQ = PTag.kLanguageCodeSequence;
   //new Tag.public("LanguageCodeSequence", 0x00080005,
   //    "Language Code Sequence", VR.kSQ, VM.k1, false);
-  Tag tagUS = Tag.kNumberOfZeroFills;
+  Tag tagUS = PTag.kNumberOfZeroFills;
   //new Tag.public("NumberOfZeroFills", 0x00189066,
   //   "Number of Zero Fills", VR.kUS, VM.k1_2, false);
 
