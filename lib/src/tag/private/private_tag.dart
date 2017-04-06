@@ -85,6 +85,6 @@ class PrivateGroupLengthTag extends PrivateTag {
   @override
   String get name => "Private Group Length Tag";
 
-  static PrivateGroupLengthTag maker(int code, VR vr) =>
+  static PrivateGroupLengthTag maker(int code, VR vr, [_]) =>
       new PrivateGroupLengthTag(code, vr);
 }

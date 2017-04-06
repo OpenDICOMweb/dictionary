@@ -316,12 +316,13 @@ class Tag {
   }
 */
 
-  static Tag lookupPublicCode(int code) {
+  //TODO: needed or used?
+  static Tag lookupPublicCode(int code, VR vr) {
     Tag tag = PTag.lookupCode(code);
     if (tag != null) return tag;
     if (Tag.isPublicGroupLengthCode(code))
       return new PublicGroupLengthTag(code);
-    return new UnknownPublicTag(code);
+    return new UnknownPublicTag(code, vr);
   }
 
   static Tag lookupPrivateCreatorCode(int code, VR vr, String token) {

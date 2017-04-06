@@ -43,15 +43,22 @@ class PTag extends Tag {
   const PTag._(this.keyword, int code, this.name, VR vr, this.vm,
       [this.isRetired = false, this.type = EType.kUnknown])
       : super(code, vr);
-/*
-    const PTag.private(this.keyword, int code, this.name, VR vr, this.vm,
-        [this.isRetired = false, this.type = EType.kUnknown])
-    : super(code, vr);
-*/
+
+  PTag.unknown(int code, VR vr,
+      [this.vm = VM.k1_n,
+      this.keyword = "UnknownPublicTag",
+      this.name = "Unknown Public Tag",
+      this.isRetired = false,
+      this.type = EType.k3])
+      : super(code, vr);
 
   bool get isWKFmi => fmiTags.contains(code);
 
-
+  static PTag maker(int code, VR vr, [name]) {
+    Tag tag = lookupCode(code);
+    if (tag != null) return tag;
+    return new PTag.unknown(code, vr);
+  }
 
   //TODO: this should become public when fully converted to Tags.
   static PTag lookupCode(int code, [bool shouldThrow = true]) {
@@ -16246,18 +16253,22 @@ class PublicGroupLengthTag extends PTag {
             VM.k1,
             true,
             EType.k3);
+
+  static Tag maker(int code, VR _, [__]) =>
+      new PublicGroupLengthTag(code);
 }
 
+//Flush not used
 class UnknownPublicTag extends PTag {
   // Note: While Group Length tags are retired (See PS3.5 Section 7), they are
   // still present in some DICOM objects.  This tag is used to handle all
   // Group Length Tags
-  UnknownPublicTag(int code)
+  UnknownPublicTag(int code, VR vr)
       : super._(
             "kUnknownPublic${Int.hex(Group.fromTag(code), 4, "")}",
             code,
             "Unknown DICOM Tag ${Tag.toDcm(code)}",
-            VR.kUN,
+            vr,
             VM.k1_n,
             false,
             EType.k3);

@@ -49,35 +49,31 @@ class PCTag extends PrivateTag {
 
   String get limitHex => Uint8.hex(limit);
 
+  bool get isValid => Tag.isPrivateCreatorCode(code) && vr == VR.kLO;
+
   @override
   String get info =>
       '$runtimeType["$name"]$dcm $groupHex, subgroup($subgroupHex), '
       'base($baseHex), limit($limitHex), $vr, $vm, '
-      'dataTags: ${fmtDataTagMap()}';
+      'dataTags: ${_fmtDataTagMap(dataTags)}';
+
+  bool isValidDataCode(int code) =>
+      (group == (code >> 16) &&
+          (base <= (code & 0xFFFF) && (code & 0xFFFF) <= limit));
 
   /// Returns a[PDTagDefinition]. If this creator has a known
   /// [PDTagDefinition] matching [code] it returns that; otherwise,
   /// a new [PDTagDefinition] is created.
   PDTagDefinition lookupData(int code) {
+    print('lookupData: code${Tag.toDcm(code)}');
     int pdDefCode = code & 0xFFFF00FF;
-    print('pdTagCode: ${Tag.toHex(pdDefCode)}');
+    print('pdDefCode: ${Tag.toDcm(pdDefCode)}');
+    //print('DataTags: $dataTags');
     PDTagDefinition pdDef = dataTags[pdDefCode];
-    print('***** PrivateDataTag: $pdDef');
-    return (pdDef == null) ? PDTagDefinition.kUnknown : pdDef;
+    pdDef = (pdDef == null) ? PDTagDefinition.kUnknown : pdDef;
+    print('***** PrivateDataTag: ${pdDef.info}');
+    return pdDef;
   }
-
-  //TODO: improve formatting
-  String fmtDataTagMap() {
-    String out = "  {\n";
-    dataTags.forEach((int code, PDTagDefinition pdDef) {
-      out += '    ${pdDef.info}\n';
-    });
-    return out += '  }';
-  }
-
-  bool isValidDataCode(int code) =>
-      (group == code >> 16) &&
-      (base <= code & 0xFFFF && code & 0xFFFF <= limit);
 
   @override
   String toString() => 'PCTag($name) $vr $vm';
@@ -87,6 +83,17 @@ class PCTag extends PrivateTag {
 
 }
 
+
+//TODO: improve formatting
+String _fmtDataTagMap(Map<int, PDTagDefinition> dataTags) {
+  if (dataTags.length == 0) return '{}';
+  String out = "  {\n";
+  dataTags.forEach((int code, PDTagDefinition pdDef) {
+    out += '    ${pdDef.info}\n';
+  });
+  return out += '  }';
+}
+
 class PCTagDefinition {
   final int index;
   final String name;
@@ -94,8 +101,14 @@ class PCTagDefinition {
 
   const PCTagDefinition._(this.index, this.name, this.dataTags);
 
+  String get info => '$this, ${_fmtDataTagMap(dataTags)}';
+
+  @override
+  String toString() => '$runtimeType[$index]: $name';
+
   static PCTagDefinition lookup(String name) {
     var definition = privateCreatorMap[name];
+    print('$name definition: $definition');
     return (definition == null) ? kUnknown : definition;
   }
 
