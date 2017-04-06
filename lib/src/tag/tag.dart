@@ -318,7 +318,7 @@ class Tag {
 
   //TODO: needed or used?
   static Tag lookupPublicCode(int code, VR vr) {
-    Tag tag = PTag.lookupCode(code);
+    Tag tag = PTag.lookupCode(code, vr);
     if (tag != null) return tag;
     if (Tag.isPublicGroupLengthCode(code))
       return new PublicGroupLengthTag(code);
@@ -386,6 +386,15 @@ class Tag {
   static bool isPrivateCreatorCode(int tagCode) =>
       isPrivateCode(tagCode) && Elt.isPrivateCreator(Elt.fromTag(tagCode));
 
+  static bool isCreatorCodeInGroup(int code, int group) {
+    int g = group << 16;
+    return (code >= (g + 0x10)) && (code <= (g + 0xFF));
+  }
+
+  static bool isPDataCodeInSubgroup(int code, int group, int subgroup) {
+    int sg = (group << 16) + (subgroup << 8);
+    return (code >= sg && (code <= (sg + 0xFF)));
+  }
   static bool isPrivateDataCode(int tag) =>
       Group.isPrivate(Group.fromTag(tag)) &&
           Elt.isPrivateData(Elt.fromTag(tag));
@@ -470,7 +479,7 @@ class Tag {
   /// Returns [code] in DICOM format '(gggg,eeee)'.
   static String toDcm(int code) {
     if (code == null) return '"null"';
-    return '(${Group.hex(Group.fromTag(code), "")}, '
+    return '(${Group.hex(Group.fromTag(code), "")},'
         '${Elt.hex(Elt.fromTag(code), "")})';
   }
 

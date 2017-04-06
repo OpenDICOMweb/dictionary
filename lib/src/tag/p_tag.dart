@@ -55,13 +55,13 @@ class PTag extends Tag {
   bool get isWKFmi => fmiTags.contains(code);
 
   static PTag maker(int code, VR vr, [name]) {
-    Tag tag = lookupCode(code);
+    Tag tag = lookupCode(code, vr);
     if (tag != null) return tag;
     return new PTag.unknown(code, vr);
   }
 
   //TODO: this should become public when fully converted to Tags.
-  static PTag lookupCode(int code, [bool shouldThrow = true]) {
+  static PTag lookupCode(int code, VR vr, [bool shouldThrow = true]) {
     assert(Tag.isPublicCode(code));
     PTag tag = pTagCodes[code];
     if (tag != null) return tag;
@@ -117,7 +117,8 @@ class PTag extends Tag {
     //Urgent: 0x7Fxx,yyyy Elements
 
     // No match return [null]
-    return tagCodeError(code);
+    if (shouldThrow) throw new InvalidTagCodeError(code);
+    return new PTag.unknown(code, vr);
   }
 
   static int keywordToCode(String keyword) {
