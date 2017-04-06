@@ -38,7 +38,7 @@ class PDTag extends PrivateTag {
   bool get isKnown => pdTagDefinition != PDTagDefinition.kUnknown;
 
   int get offset => code & 0xFF;
-  String get offsetHex => Uint8.hex(subgroup);
+  String get offsetHex => Uint8.hex(offset);
 
   VR get expectedVR => pdTagDefinition.vr;
   int get expectedGroup => pdTagDefinition.group;

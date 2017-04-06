@@ -20,6 +20,9 @@ class PCTag extends PrivateTag {
       : definition = PCTagDefinition.lookup(name),
         super(code, vr);
 
+  const PCTag._(int code, VR vr, this.definition)
+  : super(code, vr);
+
   @override
   int get index => definition.index;
 
@@ -51,27 +54,36 @@ class PCTag extends PrivateTag {
 
   bool get isValid => Tag.isPrivateCreatorCode(code) && vr == VR.kLO;
 
+  //Urgent: remove all print before commit to develop
   @override
   String get info =>
       '$runtimeType["$name"]$dcm $groupHex, subgroup($subgroupHex), '
       'base($baseHex), limit($limitHex), $vr, $vm, '
       'dataTags: ${_fmtDataTagMap(dataTags)}';
 
-  bool isValidDataCode(int code) =>
-      (group == (code >> 16) &&
-          (base <= (code & 0xFFFF) && (code & 0xFFFF) <= limit));
+  bool isValidDataCode(int code) {
+    int ng = (code >> 16);
+    print('ng: $ng group $group');
+    if (group != ng) return false;
+    int elt = (subgroup << 8) + (code & 0xFF);
+    print('$baseHex <= ${Tag.toHex(elt)} <= $limitHex');
+    if (elt < base  || elt > limit) return false;
+    return true;
+  }
+
+
 
   /// Returns a[PDTagDefinition]. If this creator has a known
   /// [PDTagDefinition] matching [code] it returns that; otherwise,
   /// a new [PDTagDefinition] is created.
   PDTagDefinition lookupData(int code) {
-    print('lookupData: code${Tag.toDcm(code)}');
+    //print('lookupData: code${Tag.toDcm(code)}');
     int pdDefCode = code & 0xFFFF00FF;
-    print('pdDefCode: ${Tag.toDcm(pdDefCode)}');
+    //print('pdDefCode: ${Tag.toDcm(pdDefCode)}');
     //print('DataTags: $dataTags');
     PDTagDefinition pdDef = dataTags[pdDefCode];
     pdDef = (pdDef == null) ? PDTagDefinition.kUnknown : pdDef;
-    print('***** PrivateDataTag: ${pdDef.info}');
+    //print('***** PrivateDataTag: ${pdDef.info}');
     return pdDef;
   }
 
@@ -81,6 +93,8 @@ class PCTag extends PrivateTag {
   static PCTag maker(int code, VR vr, String name) =>
       new PCTag(code, vr, name);
 
+  static const kNonExtantCreatorTag =
+      const PCTag._(0, VR.kLO, PCTagDefinition.kUnknown);
 }
 
 
