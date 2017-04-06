@@ -330,7 +330,8 @@ class Tag {
     throw new InvalidTagCodeError(code);
   }
 
-  static Tag lookupPrivateDataCode(int code, VR vr, PCTag creator) {
+  static PDTag Definition lookupPrivateDataCode(int code, VR vr, PCTag
+  creator) {
     if (isPrivateDataCode(code))
       return creator.lookupData(code);
     throw new InvalidTagCodeError(code);

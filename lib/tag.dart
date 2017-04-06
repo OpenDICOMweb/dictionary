@@ -14,6 +14,6 @@ export 'package:dictionary/src/tag/p_tag.dart';
 export 'package:dictionary/src/tag/private/pc_tag.dart';
 //export 'package:dictionary/src/tag/private/pc_tags.dart';
 export 'package:dictionary/src/tag/private/pd_tag.dart';
-//export 'package:dictionary/src/tag/private/private_tag.dart';
+export 'package:dictionary/src/tag/private/private_tag.dart';
 export 'package:dictionary/src/tag/tag.dart';
 export 'package:dictionary/src/tag/tag_map.dart';

@@ -5,8 +5,8 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:common/number.dart';
-import 'package:dictionary/src/tag/private/private_tag.dart';
 import 'package:dictionary/src/tag/private/pc_tag.dart';
+import 'package:dictionary/src/tag/private/private_tag.dart';
 import 'package:dictionary/src/tag/tag.dart';
 import 'package:dictionary/src/vm.dart';
 import 'package:dictionary/src/vr/vr.dart';
@@ -44,9 +44,9 @@ class PDTag extends PrivateTag {
   int get expectedGroup => pdTagDefinition.group;
   int get expectedOffset  => pdTagDefinition.offset;
 
-
   String get token => pdTagDefinition.token;
 
+  @override
   int get index => pdTagDefinition.index;
 
   @override
@@ -55,14 +55,8 @@ class PDTag extends PrivateTag {
           '($offsetHex), '
           '$vr, $vm, "$name"';
 
- /*
-  static PrivateDataTag lookup(int code, VR vr, String token) {
-    PrivateCreatorTag creator = new PrivateCreatorTag(code, vr, token);
-    PrivateDataDefinition def = creator.lookupData(code);
-    def =  (def != null) ? def : PrivateDataDefinition.kUnknown;
-    return new PrivateDataTag(code, vr, token, def);
-  }
-  */
+  static PDTag maker(int code, VR vr, PCTag creator) =>
+      new PDTag(code, vr, creator);
 }
 
 class PDTagDefinition {

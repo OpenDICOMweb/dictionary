@@ -5,7 +5,6 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:common/number.dart';
-
 import 'package:dictionary/src/tag/private/pc_tag_map.dart';
 import 'package:dictionary/src/tag/private/pd_tag.dart';
 import 'package:dictionary/src/tag/private/private_tag.dart';
@@ -82,6 +81,9 @@ class PCTag extends PrivateTag {
 
   @override
   String toString() => 'PCTag($name) $vr $vm';
+
+  static PCTag maker(int code, VR vr, String name) =>
+      new PCTag(code, vr, name);
 
 }
 

@@ -51,6 +51,8 @@ class PTag extends Tag {
 
   bool get isWKFmi => fmiTags.contains(code);
 
+
+
   //TODO: this should become public when fully converted to Tags.
   static PTag lookupCode(int code, [bool shouldThrow = true]) {
     assert(Tag.isPublicCode(code));

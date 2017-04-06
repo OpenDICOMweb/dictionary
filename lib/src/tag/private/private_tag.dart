@@ -10,6 +10,8 @@ import 'package:dictionary/src/tag/tag.dart';
 import 'package:dictionary/src/vm.dart';
 import 'package:dictionary/src/vr/vr.dart';
 
+typedef Tag TagMaker<E>(int code, VR<E> vr, [name]);
+
 class PrivateTag extends Tag {
 
   const PrivateTag(int code, VR vr)
@@ -45,12 +47,10 @@ class PrivateTag extends Tag {
   @override
   String get name => "Illegal Private Tag";
 
-  @override
   int get index => -1;
 
   /// The Private Subgroup for this Tag.
   // Note: MUST be overridden in all subclasses.
-  @override
   int get subgroup => (isCreator) ? code & 0xFF : (code & 0xFF00) >> 8;
 
   @override
@@ -66,6 +66,9 @@ class PrivateTag extends Tag {
 
   @override
   String toString() => '$runtimeType$dcm subgroup($subgroup)';
+
+  static PrivateTag maker(int code, VR vr, String name) =>
+      new PrivateTag.illegal(code, vr, name);
 }
 
 class PrivateGroupLengthTag extends PrivateTag {
@@ -75,6 +78,13 @@ class PrivateGroupLengthTag extends PrivateTag {
       : super(code, vr);
 
   VR get expectedVR => VR.kUL;
+
+  @override
   VM get vm => VM.k1;
-  String get name => "Private Group Length";
+
+  @override
+  String get name => "Private Group Length Tag";
+
+  static PrivateGroupLengthTag maker(int code, VR vr) =>
+      new PrivateGroupLengthTag(code, vr);
 }
