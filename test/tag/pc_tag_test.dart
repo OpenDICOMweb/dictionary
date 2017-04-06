@@ -69,7 +69,7 @@ void main() {
     }
   });
 
-  test("Bad isPDataCodeInSubgroup Test", () {
+  test("Bad isPDatagit CodeInSubgroup Test", () {
     List<int> codes = <int>[0x00111000, 0x0011000e, 0x003508eFF];
     List<int> groups = <int>[0x0009, 0x0011, 0x0035];
     List<int> subgroups = <int>[0x10, 0xFF, 0x8F];
