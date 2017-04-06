@@ -68,7 +68,7 @@ class PrivateTag extends Tag {
   String toString() => '$runtimeType$dcm subgroup($subgroup)';
 
   static PrivateTag maker(int code, VR vr, String name) =>
-      new PrivateTag.illegal(code, vr, name);
+      new PrivateTag.illegal(code, vr);
 }
 
 class PrivateGroupLengthTag extends PrivateTag {
