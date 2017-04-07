@@ -38,7 +38,7 @@ class PDTag extends PrivateTag {
   bool get isKnown => pdTagDefinition != PDTagDefinition.kUnknown;
 
   int get offset => code & 0xFF;
-  String get offsetHex => Uint8.hex(subgroup);
+  String get offsetHex => Uint8.hex(offset);
 
   VR get expectedVR => pdTagDefinition.vr;
   int get expectedGroup => pdTagDefinition.group;
@@ -49,13 +49,15 @@ class PDTag extends PrivateTag {
   @override
   int get index => pdTagDefinition.index;
 
+  bool get isValid => creator.isValidDataCode(code);
+
   @override
   String get info =>
       '$runtimeType$dcm $groupHex, "$token", subgroup($subgroupHex), offset'
           '($offsetHex), '
           '$vr, $vm, "$name"';
 
-  static PDTag maker(int code, VR vr, PCTag creator) =>
+  static PDTag maker(int code, VR vr, [PCTag creator]) =>
       new PDTag(code, vr, creator);
 }
 
@@ -80,7 +82,10 @@ class PDTagDefinition {
   String get hex => Tag.toHex(_code);
   String get dcm => Tag.toDcm(_code);
 
-  String get info => '$name[$index]$dcm $vr, $vm, creator: $token';
+  String get info => '${toString()}$vr, $vm, creator: $token';
+
+  @override
+  String toString() => '$runtimeType[$index]$dcm: $name ';
 
   static const PDTagDefinition kUnknown = const PDTagDefinition._(
       0, "", 0, VR.kUN, VM.k1_n, "Unknown Private Data");
