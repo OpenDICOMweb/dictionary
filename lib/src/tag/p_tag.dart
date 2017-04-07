@@ -44,14 +44,16 @@ class PTag extends Tag {
       [this.isRetired = false, this.type = EType.kUnknown])
       : super(code, vr);
 
+  static const String _unknownKeyword = "UnknownPublicTag";
   PTag.unknown(int code, VR vr,
       [this.vm = VM.k1_n,
-      this.keyword = "UnknownPublicTag",
+      this.keyword = _unknownKeyword,
       this.name = "Unknown Public Tag",
       this.isRetired = false,
       this.type = EType.k3])
       : super(code, vr);
 
+  bool get isValid => keyword != _unknownKeyword;
   bool get isWKFmi => fmiTags.contains(code);
 
   static PTag maker(int code, VR vr, [name]) {

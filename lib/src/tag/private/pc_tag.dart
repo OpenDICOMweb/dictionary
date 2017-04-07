@@ -52,6 +52,7 @@ class PCTag extends PrivateTag {
 
   String get limitHex => Uint8.hex(limit);
 
+  @override
   bool get isValid => Tag.isPrivateCreatorCode(code) && vr == VR.kLO;
 
   //Urgent: remove all print before commit to develop
@@ -90,7 +91,7 @@ class PCTag extends PrivateTag {
   @override
   String toString() => 'PCTag($name) $vr $vm';
 
-  static PCTag maker(int code, VR vr, String name) =>
+  static PCTag maker(int code, VR vr, [name]) =>
       new PCTag(code, vr, name);
 
   static const kNonExtantCreatorTag =

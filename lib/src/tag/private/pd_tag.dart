@@ -49,6 +49,7 @@ class PDTag extends PrivateTag {
   @override
   int get index => pdTagDefinition.index;
 
+  @override
   bool get isValid => creator.isValidDataCode(code);
 
   @override

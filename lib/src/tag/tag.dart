@@ -160,19 +160,7 @@ class Tag {
     return '$runtimeType$dcm $vr $vm $keyword $retired';
   }
 
-  //TODO: Use the 'package:collection/collection.dart' ListEquality
-  //TODO:  decide if this ahould be here
-  /// Compares the elements of two [List]s and returns [true] if all
-  /// elements are equal; otherwise, returns [false].
-  /// Note: this is not recursive!
-  static bool listEquals<E>(List<E> e1, List<E> e2) {
-    if (identical(e1, e2)) return true;
-    if (e1 == null || e2 == null) return false;
-    if (e1.length != e2.length) return false;
-    for (int i = 0; i < e1.length; i++)
-      if (e1[i] != e2[i]) return false;
-    return true;
-  }
+  bool get isValid => false;
 
   /// Returns True if the [length], i.e. the number of values, is
   /// valid for this [Tag].
@@ -315,6 +303,20 @@ class Tag {
     throw 'Error: Unknown Tag Code${Tag.toDcm}';
   }
 */
+
+  //TODO: Use the 'package:collection/collection.dart' ListEquality
+  //TODO:  decide if this ahould be here
+  /// Compares the elements of two [List]s and returns [true] if all
+  /// elements are equal; otherwise, returns [false].
+  /// Note: this is not recursive!
+  static bool listEquals<E>(List<E> e1, List<E> e2) {
+    if (identical(e1, e2)) return true;
+    if (e1 == null || e2 == null) return false;
+    if (e1.length != e2.length) return false;
+    for (int i = 0; i < e1.length; i++)
+      if (e1[i] != e2[i]) return false;
+    return true;
+  }
 
   //TODO: needed or used?
   static Tag lookupPublicCode(int code, VR vr) {
