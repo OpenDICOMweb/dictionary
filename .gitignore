@@ -27,9 +27,10 @@ doc/api/
 *.part.js
 *.info.json
 
-# Don’t commit files and directories dropped by other development environments. For example:
-.idea      # IntelliJ
-.DS_Store     # Mac
+# Don’t commit files and directories dropped by other development environments.
+# For example:
+.idea/         # IntelliJ
+.DS_Store/     # Mac
 
 # JIRA plugin
 atlassian-ide-plugin.xml
