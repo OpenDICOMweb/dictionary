@@ -91,10 +91,10 @@ class PCTag extends PrivateTag {
   @override
   String toString() => 'PCTag($name) $vr $vm';
 
-  static PCTag maker(int code, VR vr, [name]) =>
+  static PCTag maker(int code, VR vr, [dynamic name]) =>
       new PCTag(code, vr, name);
 
-  static const kNonExtantCreatorTag =
+  static const PCTag kNonExtantCreatorTag =
       const PCTag._(0, VR.kLO, PCTagDefinition.kUnknown);
 }
 

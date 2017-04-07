@@ -10,31 +10,12 @@ import 'package:dictionary/src/tag/tag.dart';
 import 'package:dictionary/src/vm.dart';
 import 'package:dictionary/src/vr/vr.dart';
 
-typedef Tag TagMaker<E>(int code, VR<E> vr, [name]);
+typedef Tag TagMaker<E>(int code, VR<E> vr, [dynamic name]);
 
 class PrivateTag extends Tag {
 
   const PrivateTag(int code, VR vr)
       : super(code, vr);
-
-  /* flush
-  const PrivateTag.creator(this.creatorToken, int code, VR vr,
-      [VM vm = VM.k1_n])
-      : super(code, vr, vm);
-*/
-  /* flush
-  const PrivateTag.unknownCreator(int code, [VR vr = VR.kUN, VM vm = VM.k1_n])
-      :  creatorToken = "Unknown Creator",
-        super(code, vr, vm);
-
-  const PrivateTag.data(int code, VR vr, VM vm, this.name, String name)
-      : super.privateData(code, vr, vm, name);
-
-   flush
-  PrivateTag.unknownData(int code, [VR vr = VR.kUN, VM vm = VM.k1_n])
-      : creatorToken = "Unknown Data",
-        super(code, vr, vm);
-  */
 
   PrivateTag.illegal(int code, [VR vr = VR.kUN]) : super(code, vr);
 

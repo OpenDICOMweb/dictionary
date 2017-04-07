@@ -45,6 +45,7 @@ class PTag extends Tag {
       : super(code, vr);
 
   static const String _unknownKeyword = "UnknownPublicTag";
+
   PTag.unknown(int code, VR vr,
       [this.vm = VM.k1_n,
       this.keyword = _unknownKeyword,
@@ -53,10 +54,12 @@ class PTag extends Tag {
       this.type = EType.k3])
       : super(code, vr);
 
+  @override
   bool get isValid => keyword != _unknownKeyword;
+
   bool get isWKFmi => fmiTags.contains(code);
 
-  static PTag maker(int code, VR vr, [name]) {
+  static PTag maker(int code, VR vr, [dynamic name]) {
     Tag tag = lookupCode(code, vr);
     if (tag != null) return tag;
     return new PTag.unknown(code, vr);
@@ -16216,6 +16219,504 @@ class PTag extends Tag {
       "Coefficient Coding Pointers",
       VR.kAT,
       VM.k1_n,
+      true);
+
+  //**** DcmDir Group Length Tags - Note: these are not included in PS3.6 ****
+  static const PTag kGroup4Length = const PTag._(
+      "Group4Length",
+      0x00040000,
+      "Group 0004 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  //**** Public Group Length Tags - Note: these are not included in PS3.6 ****
+  static const PTag kGroup8Length = const PTag._(
+      "Group8Length",
+      0x00080000,
+      "Group 0008 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup10Length = const PTag._(
+      "Group10Length",
+      0x00080000,
+      "Group 0010 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup12Length = const PTag._(
+      "Group12Length",
+      0x00120000,
+      "Group 0012 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup14Length = const PTag._(
+      "Group14Length",
+      0x000140000,
+      "Group 00014 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup18Length = const PTag._(
+      "Group18Length",
+      0x00180000,
+      "Group 0018 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup20Length = const PTag._(
+      "Group20Length",
+      0x00200000,
+      "Group 0020 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup22Length = const PTag._(
+      "Group22Length",
+      0x00220000,
+      "Group 0022 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup24Length = const PTag._(
+      "Group24Length",
+      0x00240000,
+      "Group 0024 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup28Length = const PTag._(
+      "Group28Length",
+      0x00280000,
+      "Group 0028 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup32Length = const PTag._(
+      "Group32Length",
+      0x00320000,
+      "Group 0032 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup38Length = const PTag._(
+      "Group38Length",
+      0x00380000,
+      "Group 0038 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup3aLength = const PTag._(
+      "Group3aLength",
+      0x003a0000,
+      "Group 003a Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup40Length = const PTag._(
+      "Group40Length",
+      0x00400000,
+      "Group 0040 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup42Length = const PTag._(
+      "Group42Length",
+      0x00420000,
+      "Group 0042 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup44Length = const PTag._(
+      "Group44Length",
+      0x00440000,
+      "Group 0044 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup46Length = const PTag._(
+      "Group46Length",
+      0x00460000,
+      "Group 0046 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup48Length = const PTag._(
+      "Group48Length",
+      0x00480000,
+      "Group 0048 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup50Length = const PTag._(
+      "Group50Length",
+      0x00500000,
+      "Group 0050 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup52Length = const PTag._(
+      "Group52Length",
+      0x00520000,
+      "Group 0052 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup54Length = const PTag._(
+      "Group54Length",
+      0x00540000,
+      "Group 0054 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup60Length = const PTag._(
+      "Group60Length",
+      0x00600000,
+      "Group 0060 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup62Length = const PTag._(
+      "Group62Length",
+      0x00620000,
+      "Group 0062 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup64Length = const PTag._(
+      "Group64Length",
+      0x00640000,
+      "Group 0064 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup66Length = const PTag._(
+      "Group66Length",
+      0x00660000,
+      "Group 0066 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup68Length = const PTag._(
+      "Group68Length",
+      0x00680000,
+      "Group 0068 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup70Length = const PTag._(
+      "Group70Length",
+      0x00700000,
+      "Group 0070 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup72Length = const PTag._(
+      "Group72Length",
+      0x00720000,
+      "Group 0072 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup74Length = const PTag._(
+      "Group74Length",
+      0x00740000,
+      "Group 0074 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup76Length = const PTag._(
+      "Group76Length",
+      0x00760000,
+      "Group 0076 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup78Length = const PTag._(
+      "Group78Length",
+      0x00780000,
+      "Group 0078 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup80Length = const PTag._(
+      "Group80Length",
+      0x00800000,
+      "Group 0080 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup88Length = const PTag._(
+      "Group88Length",
+      0x00880000,
+      "Group 0088 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup100Length = const PTag._(
+      "Group100Length",
+      0x01000000,
+      "Group 0100 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup400Length = const PTag._(
+      "Group400Length",
+      0x04000000,
+      "Group 0400 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup2000Length = const PTag._(
+      "Group2000Length",
+      0x20000000,
+      "Group 2000 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup2010Length = const PTag._(
+      "Group2010Length",
+      0x20010000,
+      "Group 2010 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup2020Length = const PTag._(
+      "Group2020Length",
+      0x20200000,
+      "Group 2020 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup2030Length = const PTag._(
+      "Group2030Length",
+      0x20300000,
+      "Group 2030 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup2040Length = const PTag._(
+      "Group2040Length",
+      0x20400000,
+      "Group 2040 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup2050Length = const PTag._(
+      "Group2050Length",
+      0x20500000,
+      "Group 2050 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup2100Length = const PTag._(
+      "Group2100Length",
+      0x21000000,
+      "Group 2100 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup2110Length = const PTag._(
+      "Group2110Length",
+      0x21100000,
+      "Group 2110 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup2120Length = const PTag._(
+      "Group2120Length",
+      0x21200000,
+      "Group 2120 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup2130Length = const PTag._(
+      "Group2130Length",
+      0x21300000,
+      "Group 2130 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup2200Length = const PTag._(
+      "Group2200Length",
+      0x22000000,
+      "Group 2200 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup3002Length = const PTag._(
+      "Group3002Length",
+      0x30020000,
+      "Group 3002 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup3004Length = const PTag._(
+      "Group3004Length",
+      0x30040000,
+      "Group 3004 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup3006Length = const PTag._(
+      "Group3006Length",
+      0x30060000,
+      "Group 3006 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup3008Length = const PTag._(
+      "Group3008Length",
+      0x30080000,
+      "Group 3008 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup300aLength = const PTag._(
+      "Group300aLength",
+      0x300a0000,
+      "Group 300a Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup300cLength = const PTag._(
+      "Group300cLength",
+      0x300c0000,
+      "Group 300c Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup300eLength = const PTag._(
+      "Group300eLength",
+      0x300e0000,
+      "Group 300e Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup4000Length = const PTag._(
+      "Group4000Length",
+      0x40000000,
+      "Group 4000 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup4008Length = const PTag._(
+      "Group4008Length",
+      0x40080000,
+      "Group 4008 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup4010Length = const PTag._(
+      "Group4010Length",
+      0x40100000,
+      "Group 4010 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup4ffeLength = const PTag._(
+      "Group4ffeLength",
+      0x4ffe0000,
+      "Group 4ffe Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup5000Length = const PTag._(
+      "Group5000Length",
+      0x50000000,
+      "Group 5000 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup5200Length = const PTag._(
+      "Group5200Length",
+      0x52000000,
+      "Group 5200 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup5400Length = const PTag._(
+      "Group5400Length",
+      0x54000000,
+      "Group 5400 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup5600Length = const PTag._(
+      "Group5600Length",
+      0x56000000,
+      "Group 5600 Length",
+      VR.kUL,
+      VM.k1,
+      true);
+
+  static const PTag kGroup6000Length = const PTag._(
+      "Group6000Length",
+      0x60000000,
+      "Group 6000 Length",
+      VR.kUL,
+      VM.k1,
       true);
 
   static const List<PTag> fmiTags = const <PTag>[
