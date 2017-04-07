@@ -36,11 +36,14 @@ void main() {
 
 /// Simple Tag Test
 void tagTest() {
-  for (int i = 0; i < tags.length; i++) {
-    Tag tag = PTag.lookupCode(tags[i], VR.kUN);
-    log.debug('${tag.info}');
-    log.debug('isShort: ${tag.hasShortVF}, sizeInBytes: ${tag.vr.elementSize}');
-    log.debug(
-        'min: ${tag.minLength}, max: ${tag.maxLength}, width: ${tag.width}');
-  }
+  test('Simple Tag Test', () {
+    for (int i = 0; i < tags.length; i++) {
+      Tag tag = PTag.lookupCode(tags[i], VR.kUN);
+      log.debug('${tag.info}');
+      log.debug(
+          'isShort: ${tag.hasShortVF}, sizeInBytes: ${tag.vr.elementSize}');
+      log.debug(
+          'min: ${tag.minLength}, max: ${tag.maxLength}, width: ${tag.width}');
+    }
+  });
 }
