@@ -61,7 +61,7 @@ class PTag extends Tag {
   }
 
   //TODO: this should become public when fully converted to Tags.
-  static PTag lookupCode(int code, VR vr, [bool shouldThrow = true]) {
+  static PTag lookupCode(int code, [VR vr = VR.kUN, bool shouldThrow = true]) {
     assert(Tag.isPublicCode(code));
     PTag tag = pTagCodes[code];
     if (tag != null) return tag;
