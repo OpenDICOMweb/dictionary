@@ -111,7 +111,7 @@ class VRDcmString extends VRString {
   bool get isAscii => (this == kAE) ? true : false;
 
   @override
-  bool isValid(String s) => _filteredTest(s, _isDcmChar);
+  bool isValid(Object s) => (s is String) && _filteredTest(s, _isDcmChar);
 
   @override
   ParseIssues issues(String s) =>
@@ -147,7 +147,7 @@ class VRDcmText extends VRString {
   bool get isAscii => false;
 
   @override
-  bool isValid(String s) => _filteredTest(s, _isTextChar);
+  bool isValid(Object s) => (s is String) && _filteredTest(s, _isTextChar);
 
   @override
   ParseIssues issues(String s) =>
@@ -221,11 +221,15 @@ class VRDcmAge extends VRString {
   @override
 
   /// Returns [true] if [s] is a valid DICOM Age String (AS).
-  bool isValid(String s) {
-    assert(s != null);
-    if (s.length != 4) return false;
-    for (int i = 0; i < 3; i++) if (!isDigitChar(s.codeUnitAt(i))) return false;
-    return _isAgeMarker(s.codeUnitAt(3)) ? true : false;
+  bool isValid(Object s) {
+    if (s is String) {
+      assert(s != null);
+      if (s.length != 4) return false;
+      for (int i = 0; i < 3; i++)
+        if (!isDigitChar(s.codeUnitAt(i))) return false;
+      return _isAgeMarker(s.codeUnitAt(3)) ? true : false;
+    }
+    return false;
   }
 
   /// Returns an error [String] if [s] is invalid; otherwise, "".
@@ -294,7 +298,8 @@ class VRDcmDate extends VRString {
             minValueLength, maxValueLength);
 
   @override
-  bool isValid(String s, {int start = 0, int end}) =>
+  bool isValid(Object s, {int start = 0, int end}) =>
+      (s is String) &&
       Date.isValidString(s.trimRight(), start: start, end: end);
 
   @override
@@ -324,7 +329,8 @@ class VRDcmDateTime extends VRString {
             minValueLength, maxValueLength);
 
   @override
-  bool isValid(String s, {int start = 0, int end}) =>
+  bool isValid(Object s, {int start = 0, int end}) =>
+      (s is String) &&
       DcmDateTime.isValidString(s.trimRight(), start: start, end: end);
 
   @override
@@ -356,7 +362,8 @@ class VRDcmTime extends VRString {
             minValueLength, maxValueLength);
 
   @override
-  bool isValid(String s, {int start = 0, int end}) =>
+  bool isValid(Object s, {int start = 0, int end}) =>
+      (s is String) &&
       Time.isValidString(s.trimRight(), start: start, end: end);
 
   @override
@@ -381,7 +388,7 @@ class VRFloatString extends VRString {
             minValueLength, maxValueLength);
 
   @override
-  bool isValid(String s) => parse(s) != null;
+  bool isValid(Object s) => (s is String) && parse(s) != null;
 
   @override
   ParseIssues issues(String s) {
@@ -416,7 +423,7 @@ class VRIntString extends VRString {
             minValueLength, maxValueLength);
 
   @override
-  bool isValid(String s) => parse(s) != null;
+  bool isValid(Object s) => (s is String) && parse(s) != null;
 
   @override
   ParseIssues issues(String s) {
@@ -459,11 +466,15 @@ class VRPersonName extends VRString {
   bool get isAscii => false;
 
   @override
-  bool isValid(String s) {
-    var groups = s.split('=');
-    for (String group in groups)
-      if (group.length > 64 || !_filteredTest(group, _isDcmChar)) return false;
-    return true;
+  bool isValid(Object s) {
+    if (s is String) {
+      var groups = s.split('=');
+      for (String group in groups)
+        if (group.length > 64 || !_filteredTest(group, _isDcmChar))
+          return false;
+      return true;
+    }
+    return false;
   }
 
   @override
@@ -537,7 +548,7 @@ class VRUid extends VRString {
             minValueLength, maxValueLength);
 
   @override
-  bool isValid(String uidString) => uid.isValidUidString(uidString);
+  bool isValid(Object s) => (s is String) && uid.isValidUidString(s);
 
   /// Returns [true] if [uidString] starts with the DICOM UID root.
   bool hasDicomRoot(String uidString) => uidString.startsWith(Uid.dicomRoot);
@@ -570,7 +581,7 @@ class VRUri extends VRString {
             minValueLength, maxValueLength);
 
   @override
-  bool isValid(String uriString) => parse(uriString) != null;
+  bool isValid(Object uriString) => (s is String) && parse(uriString) != null;
 
   @override
   ParseIssues issues(String s) {
