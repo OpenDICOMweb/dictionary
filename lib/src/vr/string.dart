@@ -37,9 +37,6 @@ abstract class VRString extends VR<String> {
   bool get isAscii => true;
 
   @override
-  bool isValid(String s) => false;
-
-  @override
   String check(String s) => (isValid(s)) ? s : null;
 
   /// Default [String] parser.  If the [String] [isValid] just returns it;

@@ -60,7 +60,7 @@ class VR<T> {
   bool isValid(Object value) => (value is int) && Uint8.inRange(value);
 
   /// Returns [true] of [value] is not valid for this VR.kUN.
-  bool isNotValid(T value) => !isValid(value);
+  bool isNotValid(Object value) => !isValid(value);
 
   T check(T value) => (isValid(value)) ? value : null;
 
