@@ -20,8 +20,8 @@ void main() {
 }
 
 void validateTest() {
-  Tag tagCSCode = PTag.kLanguageCodeSequence;
-  Tag tagCS = PTag.kImageType;
+  Tag tagCS0 = PTag.kSpecificCharacterSet;
+  Tag tagCS1 = PTag.kImageType;
   //   new Tag.public("Image​Type", 0x00080008, "Image Type", VR.kCS, VM.k2_n);
   Tag tagSQ = PTag.kLanguageCodeSequence;
   //new Tag.public("LanguageCodeSequence", 0x00080005,
@@ -43,19 +43,21 @@ void validateTest() {
         listsStr.add(rsg.randomString(12, noLowerCase: true) +
             new String.fromCharCode([32, 95][new Random().nextInt(2)]));
       }
-      expect(tagCSCode.isValidValues(listsInt), false);
+      log.debug('CS: "$listsInt"');
+      log.debug('tagCS0: vr: ${tagCS0.vr}, index: ${tagCS0.vr.index}');
+      expect(tagCS0.isValidValues(listsInt), false);
       //Urgent: add test for invalid Strings
-      expect(tagCS.isValidValues(listsStr), true);
+      expect(tagCS1.isValidValues(listsStr), true);
     });
 
     test("test for isValidLength", () {
-      expect(tagCS.isValidLength(tagCS.maxLength + 1), false);
-      expect(tagCS.isValidLength(tagCS.maxLength), true);
+      expect(tagCS1.isValidLength(tagCS1.maxLength + 1), false);
+      expect(tagCS1.isValidLength(tagCS1.maxLength), true);
       log.debug(
-          'tagCS: maxLength(${tagCS.maxLength}, ${Int16.hex(tagCS.maxLength)}');
-      expect(tagCS.isValidLength(tagCS.maxLength - 1), true);
-      expect(tagCS.isValidLength(tagCS.minLength - 1), false);
-      expect(tagCS.isValidLength(tagCS.minLength), true);
+          'tagCS: maxLength(${tagCS1.maxLength}, ${Int16.hex(tagCS1.maxLength)}');
+      expect(tagCS1.isValidLength(tagCS1.maxLength - 1), true);
+      expect(tagCS1.isValidLength(tagCS1.minLength - 1), false);
+      expect(tagCS1.isValidLength(tagCS1.minLength), true);
 
       expect(tagSQ.isValidLength(tagSQ.minLength), true);
       expect(tagSQ.isValidLength(tagSQ.minLength - 1), true);
@@ -72,10 +74,10 @@ void validateTest() {
 
     test("test for isValidWidth", () {
       //Urgent: change
-      expect(tagCS.isValidWidth(tagCS.maxLength + 1), true);
-      expect(tagCS.isValidWidth(tagCS.maxLength), true);
-      expect(tagCS.isValidWidth(tagCS.minLength - 1), true);
-      expect(tagCS.isValidWidth(tagCS.minLength), true);
+      expect(tagCS1.isValidWidth(tagCS1.maxLength + 1), true);
+      expect(tagCS1.isValidWidth(tagCS1.maxLength), true);
+      expect(tagCS1.isValidWidth(tagCS1.minLength - 1), true);
+      expect(tagCS1.isValidWidth(tagCS1.minLength), true);
 
       expect(tagSQ.isValidWidth(tagSQ.minLength), true);
       expect(tagSQ.isValidWidth(tagSQ.minLength - 1), true);
@@ -89,31 +91,31 @@ void validateTest() {
     });
 
     test("test for isValidVFLength", () {
-      int len = tagCS.minLength * tagCS.vr.minLength;
-      log.debug('isValidVF: minValueLength(${tagCS.vr.minLength}) $len');
-      expect(tagCS.isValidVFLength(tagCS.minLength * tagCS.vr.minLength), true);
-      expect(tagCS.isValidVFLength((tagCS.minLength * tagCS.vr.minLength) - 1),
+      int len = tagCS1.minLength * tagCS1.vr.minValue;
+      log.debug('isValidVF: minValueLength(${tagCS1.vr.minValue}) $len');
+      expect(tagCS1.isValidVFLength(tagCS1.minLength * tagCS1.vr.minValue), true);
+      expect(tagCS1.isValidVFLength((tagCS1.minLength * tagCS1.vr.minValue) - 1),
           false);
-      expect(tagCS.isValidVFLength(tagCS.maxLength * tagCS.vr.maxLength), true);
-      expect(tagCS.isValidVFLength((tagCS.maxLength * tagCS.vr.maxLength) + 1),
+      expect(tagCS1.isValidVFLength(tagCS1.maxLength * tagCS1.vr.maxValue), true);
+      expect(tagCS1.isValidVFLength((tagCS1.maxLength * tagCS1.vr.maxValue) + 1),
           false);
 
       log.debug('tagSQ maxLength: ${tagSQ.maxLength}');
       log.debug('vr: ${tagSQ.vr}');
       log.debug('${VR.kSQ.info}');
-      log.debug('tagSQ vr.maxValueLength: ${tagSQ.vr.maxLength}');
-      expect(tagSQ.isValidVFLength(tagSQ.maxLength * tagSQ.vr.maxLength), true);
-      expect(tagSQ.isValidVFLength(tagSQ.maxLength * tagSQ.vr.maxLength + 1),
+      log.debug('tagSQ vr.maxValueLength: ${tagSQ.vr.maxValue}');
+      expect(tagSQ.isValidVFLength(tagSQ.maxLength * tagSQ.vr.maxValue), true);
+      expect(tagSQ.isValidVFLength(tagSQ.maxLength * tagSQ.vr.maxValue + 1),
           false);
-      expect(tagSQ.isValidVFLength(tagSQ.minLength * tagSQ.vr.minLength), true);
-      expect(tagSQ.isValidVFLength(tagSQ.minLength * tagSQ.vr.minLength - 1),
+      expect(tagSQ.isValidVFLength(tagSQ.minLength * tagSQ.vr.minValue), true);
+      expect(tagSQ.isValidVFLength(tagSQ.minLength * tagSQ.vr.minValue - 1),
           false);
 
-      expect(tagUS.isValidVFLength(tagUS.minLength * tagUS.vr.minLength), true);
-      expect(tagUS.isValidVFLength(tagUS.minLength * tagUS.vr.minLength - 1),
+      expect(tagUS.isValidVFLength(tagUS.minLength * tagUS.vr.minValue), true);
+      expect(tagUS.isValidVFLength(tagUS.minLength * tagUS.vr.minValue - 1),
           false);
-      expect(tagUS.isValidVFLength(tagUS.maxLength * tagUS.vr.maxLength), true);
-      expect(tagUS.isValidVFLength(tagUS.maxLength * tagUS.vr.maxLength + 1),
+      expect(tagUS.isValidVFLength(tagUS.maxLength * tagUS.vr.maxValue), true);
+      expect(tagUS.isValidVFLength(tagUS.maxLength * tagUS.vr.maxValue + 1),
           false);
     });
   });

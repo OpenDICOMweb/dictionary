@@ -177,6 +177,7 @@ class Tag {
   bool isValidValues<E>(List<E> values) {
     // If a VR has a long Value Field, then it has [VM.k1],
     // and its length is always valid.
+    log.info('isValidValues vr: $vr');
     if (vr.hasShortVF && isNotValidLength(values.length)) return false;
     for (int i = 0; i < values.length; i++)
       if (vr.isNotValid(values[i])) return false;
@@ -246,8 +247,8 @@ class Tag {
 
   bool isValidVFLength(int lengthInBytes) {
     // print('lib: $lengthInBytes');
-    int min = minLength * vr.minLength;
-    int max = maxLength * vr.maxLength;
+    int min = minLength * vr.minValue;
+    int max = maxLength * vr.maxValue;
     if (min <= lengthInBytes && lengthInBytes <= max) return true;
     return false;
   }
@@ -495,7 +496,7 @@ class Tag {
   }
 
   static bool rangeError(int tag, int min, int max) {
-    String msg = 'invalid tag: $tag not in $min <= x <= $max';
+    String msg = 'Invalid tag: $tag not in $min <= x <= $max';
     throw new RangeError(msg);
   }
 }

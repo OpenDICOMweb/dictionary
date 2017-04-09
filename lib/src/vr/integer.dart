@@ -50,11 +50,11 @@ typedef int IntFixer(int value);
 class VRInt extends VR<int> {
   /// The minimum length of a value.
   @override
-  final int minLength;
+  final int minValue;
 
   /// The minimum length of a value.
   @override
-  final int maxLength;
+  final int maxValue;
 
   /// The method that converts bytes ([Uint8List]) to values.
   final BytesToValues fromBytes;
@@ -67,8 +67,8 @@ class VRInt extends VR<int> {
       int vfLengthSize,
       int maxVFLength,
       String keyword,
-      this.minLength,
-      this.maxLength,
+      this.minValue,
+      this.maxValue,
       this.fromBytes,
       [bool undefinedLengthAllowed = false])
       : super(index, code, id, elementSize, vfLengthSize, maxVFLength, keyword,
@@ -76,7 +76,7 @@ class VRInt extends VR<int> {
 
   /// Returns [true] if [n] is valid for this [VRInt].
   @override
-  bool isValid(int n) => (minLength <= n) && (n <= maxLength);
+  bool isValid(Object n) => (n is int) && (minValue <= n) && (n <= maxValue);
 
   /// Returns a [String] indicating the issue with value. If there are no
   /// issues returns the empty string ("").
@@ -84,7 +84,7 @@ class VRInt extends VR<int> {
   ParseIssues issues(int n) {
     if (isNotValid(n)) {
       var msg =
-          'Invalid value: min($minLength) <= value($n) <= max($maxLength)';
+          'Invalid value: min($minValue) <= value($n) <= max($minValue)';
       return new ParseIssues("VRInt", '$n', 0, 0, [msg]);
     }
     return null;
@@ -93,8 +93,8 @@ class VRInt extends VR<int> {
   /// Returns a valid, possibly coerced, value.
   @override
   int fix(int n) {
-    if (n < minLength) return minLength;
-    if (n > maxLength) return maxLength;
+    if (n < minValue) return minValue;
+    if (n > maxValue) return maxValue;
     return n;
   }
 
@@ -108,9 +108,15 @@ class VRInt extends VR<int> {
     return fromBytes(list, 0,length, false);
   }
 
+
+  // The constants defined below are in the order of the next line:
   // index, code, id, elementSize, vfLengthFieldSize, maxVFLength, keyword
+
+  //TODO: improve documentation
+  // Note: VR.kAT values are a list of Uint16, but with 2x the number of
+  // element, since each element is x[0] << 16 + x[1].
   static const VRInt kAT = const VRInt._(3, 0x5441, "AT", 4, 2, kMaxShortVF,
-      "Attribute Tag Code", 0, Uint32.maxValue, Uint32.fromBytes);
+      "Attribute Tag Code", 0, Uint32.maxValue, Uint16.fromBytes);
 
   static const VRInt kOB = const VRInt._(14, 0x424f, "OB", 1, 4, kMaxOB,
       "OtherByte", 0, Uint8.maxValue, Uint8.fromBytes, true);
@@ -133,6 +139,7 @@ class VRInt extends VR<int> {
   static const VRInt kUS = const VRInt._(31, 0x5355, "US", 2, 2, kMaxShortVF,
       "UnsignedShort", 0, Uint16.maxValue, Uint16.fromBytes);
 
+  // **** All VRs below this line are treated as VR.kUN. ****
   static const VRInt kOBOW = const VRInt._(29, 0x4e55, "OBOW", 1, 4, kMaxUN,
       "OBorOW", 0, Uint8.maxValue, Uint8.fromBytes);
 
@@ -147,31 +154,4 @@ class VRInt extends VR<int> {
 
   static const VRInt kUSOW1 = const VRInt._(29, 0x4e55, "USOW1", 1, 4, kMaxUN,
       "USorOW1", 0, Uint8.maxValue, Uint8.fromBytes);
-}
-
-/// This class is used by the Tag class.  It is NOT used for parsing, etc.
-class VRIntSpecial extends VR {
-  @override
-  final int minLength = 0;
-  @override
-  final int maxLength = 0;
-
-  const VRIntSpecial._(int index, int code, String id, String keyword)
-      : super(index, code, id, 0, 0, 0, keyword);
-
-  // Special constants only used in Tag class
-  static const VRIntSpecial kOBOW =
-      const VRIntSpecial._(29, 0x4e55, "OBOW", "OBorOW");
-
-  static const VRIntSpecial kUSSS =
-      const VRIntSpecial._(35, 0x0002, "USSS", "USorSS");
-
-  static const VRIntSpecial kUSSSOW =
-      const VRIntSpecial._(36, 0x0003, "USSSOW", "USorSSorOW");
-
-  static const VRIntSpecial kUSOW =
-      const VRIntSpecial._(37, 0x0004, "USOW", "USorOW");
-
-  static const VRIntSpecial kUSOW1 =
-      const VRIntSpecial._(38, 0x0005, "USOW1", "USorOW1");
 }

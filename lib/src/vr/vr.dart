@@ -28,18 +28,13 @@ class VR<T> {
       this.maxVFLength, this.keyword,
       [this.undefinedLengthAllowed = false]);
 
-  /*
-  const VR._(this.index, this.code, this.id, this.elementSize,
-      this.vfLengthSize, this.maxVFLength, this.keyword,
-      [this.undefinedLengthAllowed = false]);
- */
   VR operator [](int i) => vrList[i];
 
   /// The minimum length of a value.
-  int get minLength => elementSize;
+  int get minValue => elementSize;
 
   /// The maximum length of a value.
-  int get maxLength => maxVFLength ~/ elementSize;
+  int get maxValue => maxVFLength ~/ elementSize;
 
   /// Is the kUndefinedLength value allowed as a Value Field Length.
   final bool undefinedLengthAllowed;
@@ -49,8 +44,8 @@ class VR<T> {
 
   String get info => '$runtimeType: $keyword $id(${Int16.hex(code)})[$index]: '
       'elementSize($elementSize) vfLengthSize($vfLengthSize), '
-      'maxVFLength($maxVFLength), minValueLength($minLength), '
-      'maxValueLength($maxLength)';
+      'maxVFLength($maxVFLength), minValueLength($minValue), '
+      'maxValueLength($maxValue)';
 
   String get asString => 'VR.k$id';
 
@@ -61,10 +56,10 @@ class VR<T> {
   bool isValidLength(T value) => false;
 
   // **** Must be overridden.
-  /// Returns [true] of [value] is valid for this VRBase.
-  bool isValid(T value) => false;
+  /// Returns [true] of [value] is UN.
+  bool isValid(Object value) => (value is int) && Uint8.inRange(value);
 
-  /// Returns [true] of [value] is not valid for this VRBasegirt.
+  /// Returns [true] of [value] is not valid for this VR.kUN.
   bool isNotValid(T value) => !isValid(value);
 
   T check(T value) => (isValid(value)) ? value : null;
@@ -76,35 +71,31 @@ class VR<T> {
   // **** Must be overridden.
   /// Returns a [ParseIssues] object indicating any issues with value.
   /// If there are no issues returns the empty string ("").
+  //Urgent: finish
   ParseIssues issues(T value) => null;
 
-  // **** Must be overridden.
-  /// Returns a valid value, or if not parsable, [null].
-  List<T> convert(Uint8List list) => null;
-
-  /// Returns a valid value, or if not parsable, [null].
-  List<T> view(List<T> list) => null;
-
+  // List<int> view(List<int> list) => Uint8.view(list);
   // **** Must be overridden.
   /// Returns a new value that is legal and a best practice.
   T fix(T value) => null;
 
   // **** Must be overridden.
-  /// Returns [true] if [bytes] contains a valid Value Field.
-  //TODO: implement or flush
-  Uint8List isValidBytes(Uint8List bytes) => null;
+  /// Returns [true] if [bytes] has a valid Value Field length.
+  bool isValidBytes(Uint8List bytes) =>
+      bytes.length > -1 && bytes.length < maxVFLength;
 
   @override
   String toString() => asString;
 
   // **** Constant members
-
-  //index, code, id, elementSize, vfLengthSize, maxVFLength, keyword
-  static const VR kInvalid = const VR(0, 0, "IV", 0, 0, -1, "Invalid");
+  // index, code, id, elementSize, vfLengthSize, maxVFLength, keyword
+  /// UN - Unknown. The supertype of all VRs
+  static const VR kUN =
+      const VR(29, 0x4e55, "UN", 1, 4, kMaxUN, "Unknown", true);
+  static const VR kInvalid = const VR(0, 0, "Invalid", 0, 0, 0, "Invalid VR");
+  //TODO: this should have its own class
   static const VR kBR = const VR(4, 0x5242, "BR", 0, 0, -1, "BDRef");
 
-  // Unknown
-  static const VR kUN = VRUnknown.kUN;
   // Sequence
   static const VR kSQ = VRSequence.kSQ;
 
@@ -159,11 +150,11 @@ class VR<T> {
   // static const VR kBR = VROther.kBR;
 
   // Special values used by Tag
-  static const VR kOBOW = VRIntSpecial.kOBOW;
-  static const VR kUSSS = VRIntSpecial.kUSSS;
-  static const VR kUSSSOW = VRIntSpecial.kUSSSOW;
-  static const VR kUSOW = VRIntSpecial.kUSOW;
-  static const VR kUSOW1 = VRIntSpecial.kUSOW1;
+  static const VR kOBOW = VR.kUN;
+  static const VR kUSSS = VR.kUN;
+  static const VR kUSSSOW = VR.kUN;
+  static const VR kUSOW = VR.kUN;
+  static const VR kUSOW1 = VR.kUN;
 
   static const List<VR> vrList = const <VR>[
     kInvalid,
@@ -245,9 +236,9 @@ const Map<VR, String> dataTypes = const <VR, String>{
 //TODO: clean this up. remove VR.kUnknown and VR.kBR. How to handle SQ
 class VRSequence extends VR {
   @override
-  final int minLength = 8;
+  final int minValue = 8;
   @override
-  final int maxLength = kMaxLongVF;
+  final int maxValue = kMaxLongVF;
 
   const VRSequence._(int index, int code, String id, int elementSize,
       int vfLengthSize, int maxVFLength, String keyword)
@@ -258,6 +249,7 @@ class VRSequence extends VR {
       const VRSequence._(22, 0x5153, "SQ", 1, 4, kMaxLongVF, "Sequence");
 }
 
+/*
 class VRUnknown extends VR<int> {
   const VRUnknown(int index, int code, String id, int elementSize,
       int vfLengthSize, int maxVFLength, String keyword,
@@ -284,10 +276,11 @@ class VRUnknown extends VR<int> {
   @override
   List<int> view(List<int> list) => Uint8.view(list);
 
-  List<int> copy(Uint8List list) =>
+  List<int> copy(List<int> list) =>
       Uint8.fromBytes(list, 0, list.length, false);
 
   // UN - is a generic tag
   static const VR kUN =
       const VRUnknown(29, 0x4e55, "UN", 1, 4, kMaxUN, "Unknown", true);
 }
+*/

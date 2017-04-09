@@ -39,7 +39,7 @@ class ParseIssues {
   void checkLength(int length, int min, int max, [String subtype]) {
     var name = (subtype == null) ? "" : '$subtype: ';
     if (length < min)
-      issues.add('${name}Invalid length($length) too short - minimun($min)');
+      issues.add('${name} Invalid length($length) too short - minimun($min)');
     if (length > max)
       issues.add('${name}Invalid length($length) too long - maximum($max)');
   }

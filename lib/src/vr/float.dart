@@ -4,8 +4,8 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
-import 'package:dictionary/src/constants.dart';
 import 'package:dictionary/date_time.dart';
+import 'package:dictionary/src/constants.dart';
 
 import 'vr.dart';
 
@@ -24,17 +24,16 @@ class VRFloat extends VR<double> {
             keyword);
 
   @override
-  int get minLength => elementSize;
+  int get minValue => elementSize;
   @override
-  int get maxLength => elementSize;
+  int get maxValue => elementSize;
 
   @override
-  bool isValid(double n) => true;
+  bool isValid(Object n) => n is double;
 
   @override
   ParseIssues issues(double n) => null;
 
-  /// Fix
   //TODO: doc
   @override
   double fix(double n) => n;

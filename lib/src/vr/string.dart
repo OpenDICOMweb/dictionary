@@ -22,7 +22,7 @@ abstract class VRString extends VR<String> {
   @override
   final int minLength;
   @override
-  final int maxLength;
+  final int maxValue;
 //  final Tester tester;
 //  final ErrorMsg errorMsg;
 //  final Parser parser;
@@ -31,13 +31,13 @@ abstract class VRString extends VR<String> {
 
   /// Create an integer VR.
   const VRString._(int index, int code, String id, int vfLengthSize,
-      int maxVFLength, String keyword, this.minLength, this.maxLength)
+      int maxVFLength, String keyword, this.minLength, this.maxValue)
       : super(index, code, id, 1, vfLengthSize, maxVFLength, keyword);
 
   bool get isAscii => true;
 
   @override
-  bool isValid(String s);
+  bool isValid(String s) => false;
 
   @override
   String check(String s) => (isValid(s)) ? s : null;
@@ -50,7 +50,7 @@ abstract class VRString extends VR<String> {
   @override
   String fix(String s);
 
-  /// Returns [true] if [minLength] <= length <= [maxLength].
+  /// Returns [true] if [minLength] <= length <= [maxValue].
   @override
   bool isValidLength(String s) {
     assert(s != null);
@@ -60,7 +60,7 @@ abstract class VRString extends VR<String> {
   /// Returns [true] if length is NOT valid.
   bool isNotValidLength(String s) => !isValidLength(s);
 
-  bool _isValidLength(int length) => minLength <= length && length <= maxLength;
+  bool _isValidLength(int length) => minLength <= length && length <= maxValue;
 
   /// Returns [true] if all characters pass the filter.
   bool _filteredTest(String s, bool filter(int c)) {
@@ -92,14 +92,15 @@ abstract class VRString extends VR<String> {
   void _getLengthIssues(int length, ParseIssues issues) {
     if (length == null) issues += 'Invalid length(Null)';
     if (length == 0) issues += 'Invalid length(0)';
-    if (length < minLength || maxLength < length)
+    if (length < minLength || maxValue < length)
       issues +=
-          'Length Error: min($minLength) <= value($length) <= max($maxLength)\n';
+          'Length error: min($minLength) <= value($length) <= max($maxValue)';
   }
 
   /// Returns a [String] containing an invalid character error message.
   String _invalidChar(String s, int pos) =>
-      'Invalid character(${s.codeUnitAt(pos)}) at position($pos) in: $s';
+      'Invalid character "${s[pos]}"(${s.codeUnitAt(pos)}) '
+      'at position($pos) in: "$s" ${s.codeUnits}';
 }
 
 /// DICOM DCR Strings -  AE, LO, SH, UC.
@@ -186,7 +187,8 @@ class VRCodeString extends VRString {
             minValueLength, maxValueLength);
 
   @override
-  bool isValid(String s) => _filteredTest(s, _isCodeStringChar);
+  bool isValid(Object s) =>
+      (s is String) && _filteredTest(s, _isCodeStringChar);
 
   @override
   ParseIssues issues(String s) =>
@@ -303,7 +305,7 @@ class VRDcmDate extends VRString {
       Date.parse(s.trimRight(), start: start, end: end);
 
   @override
-  ParseIssues issues(String s,  {int start = 0, int end}) =>
+  ParseIssues issues(String s, {int start = 0, int end}) =>
       Date.issues(s.trimRight(), start: start, end: end);
 
   /// Fix
@@ -333,7 +335,7 @@ class VRDcmDateTime extends VRString {
       DcmDateTime.parse(s.trimRight(), start: start, end: end);
 
   @override
-  ParseIssues issues(String s,  {int start = 0, int end}) =>
+  ParseIssues issues(String s, {int start = 0, int end}) =>
       DcmDateTime.issues(s.trimRight(), start: start, end: end);
 
   /// Fix
@@ -363,7 +365,6 @@ class VRDcmTime extends VRString {
   @override
   Time parse(String s, {int start = 0, int end}) =>
       Time.parse(s.trimRight(), start: start, end: end);
-
 
   @override
   ParseIssues issues(String s, {int start = 0, int end}) =>

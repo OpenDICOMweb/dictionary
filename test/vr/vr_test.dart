@@ -286,17 +286,18 @@ void integerVRsTest() {
       expect(VR.kSL.fix(Int32.minValue - 1), Int32.minValue);
       expect(VR.kSL.fix(Int32.maxValue + 1), Int32.maxValue);
 
-      log.debug('fix(-1): ${VRUnknown.kUN.fix(-1)}');
-      log.debug('fix(256): ${VRUnknown.kUN.fix(-1)}');
-      log.debug('fix(128): ${VRUnknown.kUN.fix(128)}');
-      expect(VR.kUN.fix(Uint8.minValue - 1), Uint8.minValue);
-      expect(VR.kUN.fix(Uint8.maxValue + 1), Uint8.maxValue);
+      log.debug('fix(-1): ${VR.kUN.fix(-1)}');
+      log.debug('fix(256): ${VR.kUN.fix(-1)}');
+      log.debug('fix(128): ${VR.kUN.fix(128)}');
+      expect(VR.kUN.fix(Uint8.minValue - 1), null);
+      expect(VR.kUN.fix(Uint8.maxValue + 1), null);
     });
 
     test("view", () {
       Uint32List u32List = rng.uint32List(10, 20);
       log.debug('u32List: $u32List');
-      log.debug(VR.kAT.view(u32List));
+      //Urgent: decide if .view should be in tag or element
+  //    log.debug(VR.kAT.view(u32List));
     });
   });
 }
@@ -306,32 +307,32 @@ void stringVRsTest() {
     test("isValid", () {
       //kAE
       for (int i = 0; i < 10; i++) {
-        String strValidkAE = rsg.generateDcmChar(VR.kAE.maxLength);
+        String strValidkAE = rsg.generateDcmChar(VR.kAE.maxValue);
         expect(VR.kAE.isValid(strValidkAE), true);
       }
 
-      String strInValidkAE = rsg.generateDcmChar(VR.kAE.maxLength + 1);
+      String strInValidkAE = rsg.generateDcmChar(VR.kAE.maxValue + 1);
       expect(VR.kAE.isValid(strInValidkAE), false);
       expect(VR.kAE.isValid(""), false);
       expect(VR.kAE.isValid(null), false);
 
       //kLO
       for (int i = 0; i < 10; i++) {
-        String strValidkLO = rsg.generateDcmChar(VR.kLO.maxLength);
+        String strValidkLO = rsg.generateDcmChar(VR.kLO.maxValue);
         expect(VR.kLO.isValid(strValidkLO), true);
       }
 
-      String strInValidkLO = rsg.generateDcmChar(VR.kLO.maxLength + 1);
+      String strInValidkLO = rsg.generateDcmChar(VR.kLO.maxValue + 1);
       expect(VR.kLO.isValid(strInValidkLO), false);
       expect(VR.kLO.isValid(""), false);
 
       //kSH
       for (int i = 0; i < 10; i++) {
-        String strValidkSH = rsg.generateDcmChar(VR.kSH.maxLength);
+        String strValidkSH = rsg.generateDcmChar(VR.kSH.maxValue);
         expect(VR.kSH.isValid(strValidkSH), true);
       }
 
-      String strInValidkSH = rsg.generateDcmChar(VR.kSH.maxLength + 1);
+      String strInValidkSH = rsg.generateDcmChar(VR.kSH.maxValue + 1);
       expect(VR.kSH.isValid(strInValidkSH), false);
       expect(VR.kSH.isValid(""), false);
 
@@ -349,21 +350,21 @@ void stringVRsTest() {
     test("isValid", () {
       //kLT
       for (int i = 0; i < 10; i++) {
-        String strValidkLT = rsg.generateTextChar(VR.kLT.maxLength);
+        String strValidkLT = rsg.generateTextChar(VR.kLT.maxValue);
         expect(VR.kLT.isValid(strValidkLT), true);
       }
 
-      String strInValidkLT = rsg.generateTextChar(VR.kLT.maxLength + 1);
+      String strInValidkLT = rsg.generateTextChar(VR.kLT.maxValue + 1);
       expect(VR.kLT.isValid(strInValidkLT), false);
       expect(VR.kLT.isValid(""), false);
 
       //kST
       for (int i = 0; i < 10; i++) {
-        String strValidkST = rsg.generateTextChar(VR.kST.maxLength);
+        String strValidkST = rsg.generateTextChar(VR.kST.maxValue);
         expect(VR.kST.isValid(strValidkST), true);
       }
 
-      String strInValidkST = rsg.generateTextChar(VR.kST.maxLength + 1);
+      String strInValidkST = rsg.generateTextChar(VR.kST.maxValue + 1);
       expect(VR.kST.isValid(strInValidkST), false);
       expect(VR.kST.isValid(""), false);
 
@@ -380,11 +381,11 @@ void stringVRsTest() {
     test("isValid", () {
       //kCS
       for (int i = 0; i < 10; i++) {
-        String strValid = rsg.generateCodeStringChar(VR.kCS.maxLength);
+        String strValid = rsg.generateCodeStringChar(VR.kCS.maxValue);
         expect(VR.kCS.isValid(strValid), true);
       }
 
-      String strInValid = rsg.generateDcmChar(VR.kCS.maxLength + 1);
+      String strInValid = rsg.generateDcmChar(VR.kCS.maxValue + 1);
       expect(VR.kCS.isValid(strInValid), false);
       expect(VR.kCS.isValid(""), false);
     });
