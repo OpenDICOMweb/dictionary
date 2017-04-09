@@ -174,7 +174,7 @@ class Tag {
   /// then singleton; otherwise must be greater than 0;
 
   //TODO: should be modified when EType info is available.
-  bool isValidValues<E>(List<E> values) {
+  bool hasValidValues<E>(List<E> values) {
     // If a VR has a long Value Field, then it has [VM.k1],
     // and its length is always valid.
     log.debug('isValidValues vr: $vr');
@@ -219,7 +219,7 @@ class Tag {
   }
 
   List<E>
-  checkValues<E>(List<E> values) => (isValidValues(values)) ? values : null;
+  checkValues<E>(List<E> values) => (hasValidValues(values)) ? values : null;
 
   // Placeholder until VR is integrated into TagBase
   List<E> checkValue<E>(dynamic value) => vr.isValid(value) ? value : null;

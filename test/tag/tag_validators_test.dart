@@ -45,9 +45,9 @@ void validateTest() {
       }
       log.debug('CS: "$listsInt"');
       log.debug('tagCS0: vr: ${tagCS0.vr}, index: ${tagCS0.vr.index}');
-      expect(tagCS0.isValidValues(listsInt), false);
+      expect(tagCS0.hasValidValues(listsInt), false);
       //Urgent: add test for invalid Strings
-      expect(tagCS1.isValidValues(listsStr), true);
+      expect(tagCS1.hasValidValues(listsStr), true);
     });
 
     test("test for isValidLength", () {
