@@ -19,19 +19,12 @@ typedef E Parser<E>(String s, int min, int max);
 typedef E Fixer<E>(String s, int min, int max);
 
 abstract class VRString extends VR<String> {
-  @override
-  final int minLength;
-  @override
-  final int maxValue;
-//  final Tester tester;
-//  final ErrorMsg errorMsg;
-//  final Parser parser;
-//  final Fixer fixer;
-//  final BytesToValues fromBytes;
+  final int minValueLength;
+  final int maxValueLength;
 
   /// Create an integer VR.
   const VRString._(int index, int code, String id, int vfLengthSize,
-      int maxVFLength, String keyword, this.minLength, this.maxValue)
+      int maxVFLength, String keyword, this.minValueLength, this.maxValueLength)
       : super(index, code, id, 1, vfLengthSize, maxVFLength, keyword);
 
   bool get isAscii => true;
@@ -47,7 +40,7 @@ abstract class VRString extends VR<String> {
   @override
   String fix(String s);
 
-  /// Returns [true] if [minLength] <= length <= [maxValue].
+  /// Returns [true] if [minValueLength] <= length <= [maxValueLength].
   @override
   bool isValidLength(String s) {
     assert(s != null);
@@ -57,7 +50,8 @@ abstract class VRString extends VR<String> {
   /// Returns [true] if length is NOT valid.
   bool isNotValidLength(String s) => !isValidLength(s);
 
-  bool _isValidLength(int length) => minLength <= length && length <= maxValue;
+  bool _isValidLength(int length) =>
+      minValueLength <= length && length <= maxValueLength;
 
   /// Returns [true] if all characters pass the filter.
   bool _filteredTest(String s, bool filter(int c)) {
@@ -89,9 +83,9 @@ abstract class VRString extends VR<String> {
   void _getLengthIssues(int length, ParseIssues issues) {
     if (length == null) issues += 'Invalid length(Null)';
     if (length == 0) issues += 'Invalid length(0)';
-    if (length < minLength || maxValue < length)
+    if (length < minValueLength || maxValueLength < length)
       issues +=
-          'Length error: min($minLength) <= value($length) <= max($maxValue)';
+          'Length error: min($minValueLength) <= value($length) <= max($maxValueLength)';
   }
 
   /// Returns a [String] containing an invalid character error message.
@@ -581,7 +575,7 @@ class VRUri extends VRString {
             minValueLength, maxValueLength);
 
   @override
-  bool isValid(Object uriString) => (s is String) && parse(uriString) != null;
+  bool isValid(Object s) => (s is String) && parse(s) != null;
 
   @override
   ParseIssues issues(String s) {

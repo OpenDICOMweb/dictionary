@@ -42,7 +42,7 @@ class PDTag extends PrivateTag {
 
   VR get expectedVR => pdTagDefinition.vr;
   int get expectedGroup => pdTagDefinition.group;
-  int get expectedOffset  => pdTagDefinition.offset;
+  int get expectedOffset => pdTagDefinition.offset;
 
   String get token => pdTagDefinition.token;
 
@@ -55,8 +55,8 @@ class PDTag extends PrivateTag {
   @override
   String get info =>
       '$runtimeType$dcm $groupHex, "$token", subgroup($subgroupHex), offset'
-          '($offsetHex), '
-          '$vr, $vm, "$name"';
+      '($offsetHex), '
+      '$vr, $vm, "$name"';
 
   static PDTag maker(int code, VR vr, [PCTag creator]) =>
       new PDTag(code, vr, creator);
@@ -71,8 +71,8 @@ class PDTagDefinition {
   final String name;
 
   /// Creates a "Known" [PDTagDefinition].
-  const PDTagDefinition._(this.index, this.token, this._code, this.vr,
-  this.vm, this.name);
+  const PDTagDefinition._(
+      this.index, this.token, this._code, this.vr, this.vm, this.name);
 
   bool get isPrivate => true;
 
@@ -111,10 +111,10 @@ class PDTagDefinition {
       VR.kIS,
       VM.k1,
       "EstimatedRetrieveTime");
-  static const PDTagDefinition k8 =
-      const PDTagDefinition._(8, "ACUSON", 0x00090000, VR.kIS, VM.k1, "Unknown");
-  static const PDTagDefinition k9 =
-      const PDTagDefinition._(9, "ACUSON", 0x00090001, VR.kIS, VM.k1, "Unknown");
+  static const PDTagDefinition k8 = const PDTagDefinition._(
+      8, "ACUSON", 0x00090000, VR.kIS, VM.k1, "Unknown");
+  static const PDTagDefinition k9 = const PDTagDefinition._(
+      9, "ACUSON", 0x00090001, VR.kIS, VM.k1, "Unknown");
   static const PDTagDefinition k10 = const PDTagDefinition._(
       10, "ACUSON", 0x00090002, VR.kUN, VM.k1, "Unknown");
   static const PDTagDefinition k11 = const PDTagDefinition._(
@@ -374,12 +374,12 @@ class PDTagDefinition {
       115, "DIGISCAN IMAGE", 0x00290033, VR.kLT, VM.k1, "Unknown");
   static const PDTagDefinition k116 = const PDTagDefinition._(
       116, "DIGISCAN IMAGE", 0x00290034, VR.kLT, VM.k1, "Unknown");
-  static const PDTagDefinition k117 = const PDTagDefinition._(117, "DLX_EXAMS_01",
-      0x00150001, VR.kDS, VM.k1, "StenosisCalibrationRatio");
+  static const PDTagDefinition k117 = const PDTagDefinition._(117,
+      "DLX_EXAMS_01", 0x00150001, VR.kDS, VM.k1, "StenosisCalibrationRatio");
   static const PDTagDefinition k118 = const PDTagDefinition._(
       118, "DLX_EXAMS_01", 0x00150002, VR.kDS, VM.k1, "StenosisMagnification");
-  static const PDTagDefinition k119 = const PDTagDefinition._(119, "DLX_EXAMS_01",
-      0x00150003, VR.kDS, VM.k1, "CardiacCalibrationRatio");
+  static const PDTagDefinition k119 = const PDTagDefinition._(119,
+      "DLX_EXAMS_01", 0x00150003, VR.kDS, VM.k1, "CardiacCalibrationRatio");
   static const PDTagDefinition k120 = const PDTagDefinition._(
       120, "DLX_PATNT_01", 0x00110001, VR.kLT, VM.k1, "PatientDOB");
   static const PDTagDefinition k121 = const PDTagDefinition._(
@@ -742,8 +742,8 @@ class PDTagDefinition {
       284, "GEMS_ACQU_01", 0x00190003, VR.kDS, VM.k1, "CellNumberAtTheta");
   static const PDTagDefinition k285 = const PDTagDefinition._(
       285, "GEMS_ACQU_01", 0x00190004, VR.kDS, VM.k1, "CellSpacing");
-  static const PDTagDefinition k286 = const PDTagDefinition._(286, "GEMS_ACQU_01",
-      0x0019000f, VR.kDS, VM.k1, "HorizontalFrameOfReference");
+  static const PDTagDefinition k286 = const PDTagDefinition._(286,
+      "GEMS_ACQU_01", 0x0019000f, VR.kDS, VM.k1, "HorizontalFrameOfReference");
   static const PDTagDefinition k287 = const PDTagDefinition._(
       287, "GEMS_ACQU_01", 0x00190011, VR.kSS, VM.k1, "SeriesContrast");
   static const PDTagDefinition k288 = const PDTagDefinition._(
@@ -752,10 +752,10 @@ class PDTagDefinition {
       289, "GEMS_ACQU_01", 0x00190013, VR.kSS, VM.k1, "StartNumberForBaseline");
   static const PDTagDefinition k290 = const PDTagDefinition._(
       290, "GEMS_ACQU_01", 0x00190014, VR.kSS, VM.k1, "End NumberForBaseline");
-  static const PDTagDefinition k291 = const PDTagDefinition._(291, "GEMS_ACQU_01",
-      0x00190015, VR.kSS, VM.k1, "StartNumberForEnhancedScans");
-  static const PDTagDefinition k292 = const PDTagDefinition._(292, "GEMS_ACQU_01",
-      0x00190016, VR.kSS, VM.k1, "EndNumberForEnhancedScans");
+  static const PDTagDefinition k291 = const PDTagDefinition._(291,
+      "GEMS_ACQU_01", 0x00190015, VR.kSS, VM.k1, "StartNumberForEnhancedScans");
+  static const PDTagDefinition k292 = const PDTagDefinition._(292,
+      "GEMS_ACQU_01", 0x00190016, VR.kSS, VM.k1, "EndNumberForEnhancedScans");
   static const PDTagDefinition k293 = const PDTagDefinition._(
       293, "GEMS_ACQU_01", 0x00190017, VR.kSS, VM.k1, "SeriesPlane");
   static const PDTagDefinition k294 = const PDTagDefinition._(
@@ -818,12 +818,12 @@ class PDTagDefinition {
       322, "GEMS_ACQU_01", 0x00190044, VR.kDS, VM.k1, "InterscanDelay");
   static const PDTagDefinition k323 = const PDTagDefinition._(
       323, "GEMS_ACQU_01", 0x00190047, VR.kSS, VM.k1, "ViewCompressionFactor");
-  static const PDTagDefinition k324 = const PDTagDefinition._(324, "GEMS_ACQU_01",
-      0x0019004a, VR.kSS, VM.k1, "TotalNumberOfRefChannels");
+  static const PDTagDefinition k324 = const PDTagDefinition._(324,
+      "GEMS_ACQU_01", 0x0019004a, VR.kSS, VM.k1, "TotalNumberOfRefChannels");
   static const PDTagDefinition k325 = const PDTagDefinition._(
       325, "GEMS_ACQU_01", 0x0019004b, VR.kSL, VM.k1, "DataSizeForScanData");
-  static const PDTagDefinition k326 = const PDTagDefinition._(326, "GEMS_ACQU_01",
-      0x00190052, VR.kSS, VM.k1, "ReconPostProcessingFlag");
+  static const PDTagDefinition k326 = const PDTagDefinition._(326,
+      "GEMS_ACQU_01", 0x00190052, VR.kSS, VM.k1, "ReconPostProcessingFlag");
   static const PDTagDefinition k327 = const PDTagDefinition._(
       327, "GEMS_ACQU_01", 0x00190057, VR.kSS, VM.k1, "CTWaterNumber");
   static const PDTagDefinition k328 = const PDTagDefinition._(
@@ -832,30 +832,40 @@ class PDTagDefinition {
       329, "GEMS_ACQU_01", 0x0019005a, VR.kFL, VM.k1, "AcquisitionDuration");
   static const PDTagDefinition k330 = const PDTagDefinition._(
       330, "GEMS_ACQU_01", 0x0019005e, VR.kSL, VM.k1, "NumberOfChannels1To512");
-  static const PDTagDefinition k331 = const PDTagDefinition._(331, "GEMS_ACQU_01",
-      0x0019005f, VR.kSL, VM.k1, "IncrementBetweenChannels");
+  static const PDTagDefinition k331 = const PDTagDefinition._(331,
+      "GEMS_ACQU_01", 0x0019005f, VR.kSL, VM.k1, "IncrementBetweenChannels");
   static const PDTagDefinition k332 = const PDTagDefinition._(
       332, "GEMS_ACQU_01", 0x00190060, VR.kSL, VM.k1, "StartingView");
   static const PDTagDefinition k333 = const PDTagDefinition._(
       333, "GEMS_ACQU_01", 0x00190061, VR.kSL, VM.k1, "NumberOfViews");
   static const PDTagDefinition k334 = const PDTagDefinition._(
       334, "GEMS_ACQU_01", 0x00190062, VR.kSL, VM.k1, "IncrementBetweenViews");
-  static const PDTagDefinition k335 = const PDTagDefinition._(335, "GEMS_ACQU_01",
-      0x0019006b, VR.kSS, VM.k1, "FieldOfViewInDetectorCells");
-  static const PDTagDefinition k336 = const PDTagDefinition._(336, "GEMS_ACQU_01",
-      0x00190070, VR.kSS, VM.k1, "ValueOfBackProjectionButton");
-  static const PDTagDefinition k337 = const PDTagDefinition._(337, "GEMS_ACQU_01",
-      0x00190071, VR.kSS, VM.k1, "SetIfFatqEstimatesWereUsed");
+  static const PDTagDefinition k335 = const PDTagDefinition._(335,
+      "GEMS_ACQU_01", 0x0019006b, VR.kSS, VM.k1, "FieldOfViewInDetectorCells");
+  static const PDTagDefinition k336 = const PDTagDefinition._(336,
+      "GEMS_ACQU_01", 0x00190070, VR.kSS, VM.k1, "ValueOfBackProjectionButton");
+  static const PDTagDefinition k337 = const PDTagDefinition._(337,
+      "GEMS_ACQU_01", 0x00190071, VR.kSS, VM.k1, "SetIfFatqEstimatesWereUsed");
   static const PDTagDefinition k338 = const PDTagDefinition._(
       338, "GEMS_ACQU_01", 0x00190072, VR.kDS, VM.k1, "ZChannelAvgOverViews");
-  static const PDTagDefinition k339 = const PDTagDefinition._(339, "GEMS_ACQU_01",
-      0x00190073, VR.kDS, VM.k1, "AvgOfLeftRefChannelsOverViews");
-  static const PDTagDefinition k340 = const PDTagDefinition._(340, "GEMS_ACQU_01",
-      0x00190074, VR.kDS, VM.k1, "MaxLeftChannelOverViews");
-  static const PDTagDefinition k341 = const PDTagDefinition._(341, "GEMS_ACQU_01",
-      0x00190075, VR.kDS, VM.k1, "AvgOfRightRefChannelsOverViews");
-  static const PDTagDefinition k342 = const PDTagDefinition._(342, "GEMS_ACQU_01",
-      0x00190076, VR.kDS, VM.k1, "MaxRightChannelOverViews");
+  static const PDTagDefinition k339 = const PDTagDefinition._(
+      339,
+      "GEMS_ACQU_01",
+      0x00190073,
+      VR.kDS,
+      VM.k1,
+      "AvgOfLeftRefChannelsOverViews");
+  static const PDTagDefinition k340 = const PDTagDefinition._(340,
+      "GEMS_ACQU_01", 0x00190074, VR.kDS, VM.k1, "MaxLeftChannelOverViews");
+  static const PDTagDefinition k341 = const PDTagDefinition._(
+      341,
+      "GEMS_ACQU_01",
+      0x00190075,
+      VR.kDS,
+      VM.k1,
+      "AvgOfRightRefChannelsOverViews");
+  static const PDTagDefinition k342 = const PDTagDefinition._(342,
+      "GEMS_ACQU_01", 0x00190076, VR.kDS, VM.k1, "MaxRightChannelOverViews");
   static const PDTagDefinition k343 = const PDTagDefinition._(
       343, "GEMS_ACQU_01", 0x0019007d, VR.kDS, VM.k1, "SecondEcho");
   static const PDTagDefinition k344 = const PDTagDefinition._(
@@ -872,10 +882,10 @@ class PDTagDefinition {
       349, "GEMS_ACQU_01", 0x00190087, VR.kDS, VM.k1, "CardiacRepetition Time");
   static const PDTagDefinition k350 = const PDTagDefinition._(
       350, "GEMS_ACQU_01", 0x00190088, VR.kSS, VM.k1, "ImagesPerCardiacCycle");
-  static const PDTagDefinition k351 = const PDTagDefinition._(351, "GEMS_ACQU_01",
-      0x0019008a, VR.kSS, VM.k1, "ActualReceiveGainAnalog");
-  static const PDTagDefinition k352 = const PDTagDefinition._(352, "GEMS_ACQU_01",
-      0x0019008b, VR.kSS, VM.k1, "ActualReceiveGainDigital");
+  static const PDTagDefinition k351 = const PDTagDefinition._(351,
+      "GEMS_ACQU_01", 0x0019008a, VR.kSS, VM.k1, "ActualReceiveGainAnalog");
+  static const PDTagDefinition k352 = const PDTagDefinition._(352,
+      "GEMS_ACQU_01", 0x0019008b, VR.kSS, VM.k1, "ActualReceiveGainDigital");
   static const PDTagDefinition k353 = const PDTagDefinition._(
       353, "GEMS_ACQU_01", 0x0019008d, VR.kDS, VM.k1, "DelayAfterTrigger");
   static const PDTagDefinition k354 = const PDTagDefinition._(
@@ -912,8 +922,8 @@ class PDTagDefinition {
       369, "GEMS_ACQU_01", 0x001900a1, VR.kSS, VM.k1, "ExtremityCoilFlag");
   static const PDTagDefinition k370 = const PDTagDefinition._(
       370, "GEMS_ACQU_01", 0x001900a2, VR.kSL, VM.k1, "RawDataRunNumber");
-  static const PDTagDefinition k371 = const PDTagDefinition._(371, "GEMS_ACQU_01",
-      0x001900a3, VR.kUL, VM.k1, "CalibratedFieldStrength");
+  static const PDTagDefinition k371 = const PDTagDefinition._(371,
+      "GEMS_ACQU_01", 0x001900a3, VR.kUL, VM.k1, "CalibratedFieldStrength");
   static const PDTagDefinition k372 = const PDTagDefinition._(
       372, "GEMS_ACQU_01", 0x001900a4, VR.kSS, VM.k1, "SATFatWaterBone");
   static const PDTagDefinition k373 = const PDTagDefinition._(
@@ -966,8 +976,13 @@ class PDTagDefinition {
       396, "GEMS_ACQU_01", 0x001900be, VR.kDS, VM.k1, "ProjectionAngle");
   static const PDTagDefinition k397 = const PDTagDefinition._(
       397, "GEMS_ACQU_01", 0x001900c0, VR.kSS, VM.k1, "SaturationPlanes");
-  static const PDTagDefinition k398 = const PDTagDefinition._(398, "GEMS_ACQU_01",
-      0x001900c1, VR.kSS, VM.k1, "SurfaceCoilIntensityCorrectionFlag");
+  static const PDTagDefinition k398 = const PDTagDefinition._(
+      398,
+      "GEMS_ACQU_01",
+      0x001900c1,
+      VR.kSS,
+      VM.k1,
+      "SurfaceCoilIntensityCorrectionFlag");
   static const PDTagDefinition k399 = const PDTagDefinition._(
       399, "GEMS_ACQU_01", 0x001900c2, VR.kSS, VM.k1, "SATLocationR");
   static const PDTagDefinition k400 = const PDTagDefinition._(
@@ -1012,10 +1027,10 @@ class PDTagDefinition {
       419, "GEMS_ACQU_01", 0x001900d9, VR.kDS, VM.k1, "ConcatenatedSAT");
   static const PDTagDefinition k420 = const PDTagDefinition._(
       420, "GEMS_ACQU_01", 0x001900da, VR.kSS, VM.k1, "ReferenceChannelUsed");
-  static const PDTagDefinition k421 = const PDTagDefinition._(421, "GEMS_ACQU_01",
-      0x001900db, VR.kDS, VM.k1, "BackProjectorCoefficient");
-  static const PDTagDefinition k422 = const PDTagDefinition._(422, "GEMS_ACQU_01",
-      0x001900dc, VR.kSS, VM.k1, "PrimarySpeedCorrectionUsed");
+  static const PDTagDefinition k421 = const PDTagDefinition._(421,
+      "GEMS_ACQU_01", 0x001900db, VR.kDS, VM.k1, "BackProjectorCoefficient");
+  static const PDTagDefinition k422 = const PDTagDefinition._(422,
+      "GEMS_ACQU_01", 0x001900dc, VR.kSS, VM.k1, "PrimarySpeedCorrectionUsed");
   static const PDTagDefinition k423 = const PDTagDefinition._(
       423, "MRSC", 0x01191131, VR.kDS, VM.k1_n, "LowerFitLimit");
   static const PDTagDefinition k424 = const PDTagDefinition._(
@@ -1474,8 +1489,8 @@ class PDTagDefinition {
       595, "GEMS_GENIE_1", 0x00090043, VR.kTM, VM.k1, "PatientCreationTime");
   static const PDTagDefinition k596 = const PDTagDefinition._(
       596, "GEMS_GENIE_1", 0x0011000a, VR.kSL, VM.k1, "SeriesType");
-  static const PDTagDefinition k597 = const PDTagDefinition._(597, "GEMS_GENIE_1",
-      0x0011000b, VR.kSL, VM.k1, "EffectiveSeriesDuration");
+  static const PDTagDefinition k597 = const PDTagDefinition._(597,
+      "GEMS_GENIE_1", 0x0011000b, VR.kSL, VM.k1, "EffectiveSeriesDuration");
   static const PDTagDefinition k598 = const PDTagDefinition._(
       598, "GEMS_GENIE_1", 0x0011000c, VR.kSL, VM.k1, "NumBeats");
   static const PDTagDefinition k599 = const PDTagDefinition._(
@@ -1528,8 +1543,13 @@ class PDTagDefinition {
       622, "GEMS_GENIE_1", 0x00110035, VR.kLO, VM.k1, "TuningCalibName");
   static const PDTagDefinition k623 = const PDTagDefinition._(
       623, "GEMS_GENIE_1", 0x00110036, VR.kLO, VM.k1, "UniformityCorrectName");
-  static const PDTagDefinition k624 = const PDTagDefinition._(624, "GEMS_GENIE_1",
-      0x00110037, VR.kLO, VM.k1, "AcquisitionSpecificCorrectName");
+  static const PDTagDefinition k624 = const PDTagDefinition._(
+      624,
+      "GEMS_GENIE_1",
+      0x00110037,
+      VR.kLO,
+      VM.k1,
+      "AcquisitionSpecificCorrectName");
   static const PDTagDefinition k625 = const PDTagDefinition._(
       625, "GEMS_GENIE_1", 0x00110038, VR.kSL, VM.k1, "ByteOrder");
   static const PDTagDefinition k626 = const PDTagDefinition._(
@@ -1566,8 +1586,8 @@ class PDTagDefinition {
       641, "GEMS_GENIE_1", 0x00130018, VR.kFD, VM.k1, "TransmissionScanTime");
   static const PDTagDefinition k642 = const PDTagDefinition._(
       642, "GEMS_GENIE_1", 0x00130019, VR.kFD, VM.k1, "TransmissionMaskWidth");
-  static const PDTagDefinition k643 = const PDTagDefinition._(643, "GEMS_GENIE_1",
-      0x0013001a, VR.kFD, VM.k1, "CopperAttenuatorThickness");
+  static const PDTagDefinition k643 = const PDTagDefinition._(643,
+      "GEMS_GENIE_1", 0x0013001a, VR.kFD, VM.k1, "CopperAttenuatorThickness");
   static const PDTagDefinition k644 = const PDTagDefinition._(
       644, "GEMS_GENIE_1", 0x0013001c, VR.kFD, VM.k1, "Unknown");
   static const PDTagDefinition k645 = const PDTagDefinition._(
@@ -1610,8 +1630,8 @@ class PDTagDefinition {
       663, "GEMS_IDEN_01", 0x000900e6, VR.kSH, VM.k1, "GenesisVersionNow");
   static const PDTagDefinition k664 = const PDTagDefinition._(
       664, "GEMS_IDEN_01", 0x000900e7, VR.kUL, VM.k1, "ExamRecordChecksum");
-  static const PDTagDefinition k665 = const PDTagDefinition._(665, "GEMS_IDEN_01",
-      0x000900e9, VR.kSL, VM.k1, "ActualSeriesDataTimeStamp");
+  static const PDTagDefinition k665 = const PDTagDefinition._(665,
+      "GEMS_IDEN_01", 0x000900e9, VR.kSL, VM.k1, "ActualSeriesDataTimeStamp");
   static const PDTagDefinition k666 = const PDTagDefinition._(
       666, "GEMS_IMAG_01", 0x00270006, VR.kSL, VM.k1, "ImageArchiveFlag");
   static const PDTagDefinition k667 = const PDTagDefinition._(
@@ -1636,14 +1656,14 @@ class PDTagDefinition {
       676, "GEMS_IMAG_01", 0x00270035, VR.kSS, VM.k1, "PlaneType");
   static const PDTagDefinition k677 = const PDTagDefinition._(
       677, "GEMS_IMAG_01", 0x00270036, VR.kSL, VM.k1, "ObliquePlane");
-  static const PDTagDefinition k678 = const PDTagDefinition._(678, "GEMS_IMAG_01",
-      0x00270040, VR.kSH, VM.k1, "RASLetterOfImageLocation");
+  static const PDTagDefinition k678 = const PDTagDefinition._(678,
+      "GEMS_IMAG_01", 0x00270040, VR.kSH, VM.k1, "RASLetterOfImageLocation");
   static const PDTagDefinition k679 = const PDTagDefinition._(
       679, "GEMS_IMAG_01", 0x00270041, VR.kFL, VM.k1, "ImageLocation");
-  static const PDTagDefinition k680 = const PDTagDefinition._(680, "GEMS_IMAG_01",
-      0x00270042, VR.kFL, VM.k1, "CenterRCoordOfPlaneImage");
-  static const PDTagDefinition k681 = const PDTagDefinition._(681, "GEMS_IMAG_01",
-      0x00270043, VR.kFL, VM.k1, "CenterACoordOfPlaneImage");
+  static const PDTagDefinition k680 = const PDTagDefinition._(680,
+      "GEMS_IMAG_01", 0x00270042, VR.kFL, VM.k1, "CenterRCoordOfPlaneImage");
+  static const PDTagDefinition k681 = const PDTagDefinition._(681,
+      "GEMS_IMAG_01", 0x00270043, VR.kFL, VM.k1, "CenterACoordOfPlaneImage");
   static const PDTagDefinition k682 = const PDTagDefinition._(
       682, "GEMS_IMAG_01", 0x00270045, VR.kFL, VM.k1, "NormalRCoord");
   static const PDTagDefinition k683 = const PDTagDefinition._(
@@ -1656,24 +1676,29 @@ class PDTagDefinition {
       686, "GEMS_IMAG_01", 0x00270049, VR.kFL, VM.k1, "ACoordOfTopRightCorner");
   static const PDTagDefinition k687 = const PDTagDefinition._(
       687, "GEMS_IMAG_01", 0x0027004a, VR.kFL, VM.k1, "SCoordOfTopRightCorner");
-  static const PDTagDefinition k688 = const PDTagDefinition._(688, "GEMS_IMAG_01",
-      0x0027004b, VR.kFL, VM.k1, "RCoordOfBottomRightCorner");
-  static const PDTagDefinition k689 = const PDTagDefinition._(689, "GEMS_IMAG_01",
-      0x0027004c, VR.kFL, VM.k1, "ACoordOfBottomRightCorner");
-  static const PDTagDefinition k690 = const PDTagDefinition._(690, "GEMS_IMAG_01",
-      0x0027004d, VR.kFL, VM.k1, "SCoordOfBottomRightCorner");
+  static const PDTagDefinition k688 = const PDTagDefinition._(688,
+      "GEMS_IMAG_01", 0x0027004b, VR.kFL, VM.k1, "RCoordOfBottomRightCorner");
+  static const PDTagDefinition k689 = const PDTagDefinition._(689,
+      "GEMS_IMAG_01", 0x0027004c, VR.kFL, VM.k1, "ACoordOfBottomRightCorner");
+  static const PDTagDefinition k690 = const PDTagDefinition._(690,
+      "GEMS_IMAG_01", 0x0027004d, VR.kFL, VM.k1, "SCoordOfBottomRightCorner");
   static const PDTagDefinition k691 = const PDTagDefinition._(
       691, "GEMS_IMAG_01", 0x00270050, VR.kFL, VM.k1, "TableStartLocation");
   static const PDTagDefinition k692 = const PDTagDefinition._(
       692, "GEMS_IMAG_01", 0x00270051, VR.kFL, VM.k1, "TableEndLocation");
-  static const PDTagDefinition k693 = const PDTagDefinition._(693, "GEMS_IMAG_01",
-      0x00270052, VR.kSH, VM.k1, "RASLetterForSideOfImage");
-  static const PDTagDefinition k694 = const PDTagDefinition._(694, "GEMS_IMAG_01",
-      0x00270053, VR.kSH, VM.k1, "RASLetterForAnteriorPosterior");
-  static const PDTagDefinition k695 = const PDTagDefinition._(695, "GEMS_IMAG_01",
-      0x00270054, VR.kSH, VM.k1, "RASLetterForScoutStartLoc");
-  static const PDTagDefinition k696 = const PDTagDefinition._(696, "GEMS_IMAG_01",
-      0x00270055, VR.kSH, VM.k1, "RASLetterForScoutEndLoc");
+  static const PDTagDefinition k693 = const PDTagDefinition._(693,
+      "GEMS_IMAG_01", 0x00270052, VR.kSH, VM.k1, "RASLetterForSideOfImage");
+  static const PDTagDefinition k694 = const PDTagDefinition._(
+      694,
+      "GEMS_IMAG_01",
+      0x00270053,
+      VR.kSH,
+      VM.k1,
+      "RASLetterForAnteriorPosterior");
+  static const PDTagDefinition k695 = const PDTagDefinition._(695,
+      "GEMS_IMAG_01", 0x00270054, VR.kSH, VM.k1, "RASLetterForScoutStartLoc");
+  static const PDTagDefinition k696 = const PDTagDefinition._(696,
+      "GEMS_IMAG_01", 0x00270055, VR.kSH, VM.k1, "RASLetterForScoutEndLoc");
   static const PDTagDefinition k697 = const PDTagDefinition._(
       697, "GEMS_IMAG_01", 0x00270060, VR.kFL, VM.k1, "ImageDimensionX");
   static const PDTagDefinition k698 = const PDTagDefinition._(
@@ -1700,10 +1725,10 @@ class PDTagDefinition {
       708, "GEMS_IMPS_01", 0x00290017, VR.kSL, VM.k1, "LowerRangeOfPixels");
   static const PDTagDefinition k709 = const PDTagDefinition._(
       709, "GEMS_IMPS_01", 0x00290018, VR.kSL, VM.k1, "UpperRangeOfPixels");
-  static const PDTagDefinition k710 = const PDTagDefinition._(710, "GEMS_IMPS_01",
-      0x0029001a, VR.kSL, VM.k1, "LengthOfTotalHeaderInBytes");
-  static const PDTagDefinition k711 = const PDTagDefinition._(711, "GEMS_IMPS_01",
-      0x00290026, VR.kSS, VM.k1, "VersionOfHeaderStructure");
+  static const PDTagDefinition k710 = const PDTagDefinition._(710,
+      "GEMS_IMPS_01", 0x0029001a, VR.kSL, VM.k1, "LengthOfTotalHeaderInBytes");
+  static const PDTagDefinition k711 = const PDTagDefinition._(711,
+      "GEMS_IMPS_01", 0x00290026, VR.kSS, VM.k1, "VersionOfHeaderStructure");
   static const PDTagDefinition k712 = const PDTagDefinition._(
       712, "GEMS_IMPS_01", 0x00290034, VR.kSL, VM.k1, "AdvantageCompOverflow");
   static const PDTagDefinition k713 = const PDTagDefinition._(
@@ -1714,26 +1739,36 @@ class PDTagDefinition {
       715, "GEMS_PARM_01", 0x00430002, VR.kSS, VM.k1, "GradientOffsetInX");
   static const PDTagDefinition k716 = const PDTagDefinition._(
       716, "GEMS_PARM_01", 0x00430004, VR.kSS, VM.k1, "GradientOffsetInZ");
-  static const PDTagDefinition k717 = const PDTagDefinition._(717, "GEMS_PARM_01",
-      0x00430005, VR.kSS, VM.k1, "ImageIsOriginalOrUnoriginal");
+  static const PDTagDefinition k717 = const PDTagDefinition._(717,
+      "GEMS_PARM_01", 0x00430005, VR.kSS, VM.k1, "ImageIsOriginalOrUnoriginal");
   static const PDTagDefinition k718 = const PDTagDefinition._(
       718, "GEMS_PARM_01", 0x00430006, VR.kSS, VM.k1, "NumberOfEPIShots");
   static const PDTagDefinition k719 = const PDTagDefinition._(
       719, "GEMS_PARM_01", 0x00430007, VR.kSS, VM.k1, "ViewsPerSegment");
   static const PDTagDefinition k720 = const PDTagDefinition._(
       720, "GEMS_PARM_01", 0x00430008, VR.kSS, VM.k1, "RespiratoryRateInBPM");
-  static const PDTagDefinition k721 = const PDTagDefinition._(721, "GEMS_PARM_01",
-      0x00430009, VR.kSS, VM.k1, "RespiratoryTriggerPoint");
+  static const PDTagDefinition k721 = const PDTagDefinition._(721,
+      "GEMS_PARM_01", 0x00430009, VR.kSS, VM.k1, "RespiratoryTriggerPoint");
   static const PDTagDefinition k722 = const PDTagDefinition._(
       722, "GEMS_PARM_01", 0x0043000a, VR.kSS, VM.k1, "TypeOfReceiverUsed");
-  static const PDTagDefinition k723 = const PDTagDefinition._(723, "GEMS_PARM_01",
-      0x0043000b, VR.kDS, VM.k1, "PeakRateOfChangeOfGradientField");
+  static const PDTagDefinition k723 = const PDTagDefinition._(
+      723,
+      "GEMS_PARM_01",
+      0x0043000b,
+      VR.kDS,
+      VM.k1,
+      "PeakRateOfChangeOfGradientField");
   static const PDTagDefinition k724 = const PDTagDefinition._(
       724, "GEMS_PARM_01", 0x0043000c, VR.kDS, VM.k1, "LimitsInUnitsOfPercent");
   static const PDTagDefinition k725 = const PDTagDefinition._(
       725, "GEMS_PARM_01", 0x0043000d, VR.kDS, VM.k1, "PSDEstimatedLimit");
-  static const PDTagDefinition k726 = const PDTagDefinition._(726, "GEMS_PARM_01",
-      0x0043000e, VR.kDS, VM.k1, "PSDEstimatedLimitInTeslaPerSecond");
+  static const PDTagDefinition k726 = const PDTagDefinition._(
+      726,
+      "GEMS_PARM_01",
+      0x0043000e,
+      VR.kDS,
+      VM.k1,
+      "PSDEstimatedLimitInTeslaPerSecond");
   static const PDTagDefinition k727 = const PDTagDefinition._(
       727, "GEMS_PARM_01", 0x0043000f, VR.kDS, VM.k1, "SARAvgHead");
   static const PDTagDefinition k728 = const PDTagDefinition._(
@@ -1752,8 +1787,8 @@ class PDTagDefinition {
       734, "GEMS_PARM_01", 0x00430016, VR.kSS, VM.k5, "NumberOfOverranges");
   static const PDTagDefinition k735 = const PDTagDefinition._(
       735, "GEMS_PARM_01", 0x00430018, VR.kDS, VM.k3, "BBH Coefficients");
-  static const PDTagDefinition k736 = const PDTagDefinition._(736, "GEMS_PARM_01",
-      0x00430019, VR.kSS, VM.k1, "NumberOfBBHChainsToBlend");
+  static const PDTagDefinition k736 = const PDTagDefinition._(736,
+      "GEMS_PARM_01", 0x00430019, VR.kSS, VM.k1, "NumberOfBBHChainsToBlend");
   static const PDTagDefinition k737 = const PDTagDefinition._(
       737, "GEMS_PARM_01", 0x0043001a, VR.kSL, VM.k1, "StartingChannelNumber");
   static const PDTagDefinition k738 = const PDTagDefinition._(
@@ -1768,12 +1803,12 @@ class PDTagDefinition {
       742, "GEMS_PARM_01", 0x0043001f, VR.kSL, VM.k1, "MaxOverrangesInAView");
   static const PDTagDefinition k743 = const PDTagDefinition._(
       743, "GEMS_PARM_01", 0x00430020, VR.kDS, VM.k1, "AvgOverrangesAllViews");
-  static const PDTagDefinition k744 = const PDTagDefinition._(744, "GEMS_PARM_01",
-      0x00430021, VR.kSS, VM.k1, "CorrectedAfterglowTerms");
+  static const PDTagDefinition k744 = const PDTagDefinition._(744,
+      "GEMS_PARM_01", 0x00430021, VR.kSS, VM.k1, "CorrectedAfterglowTerms");
   static const PDTagDefinition k745 = const PDTagDefinition._(
       745, "GEMS_PARM_01", 0x00430025, VR.kSS, VM.k6, "ReferenceChannels");
-  static const PDTagDefinition k746 = const PDTagDefinition._(746, "GEMS_PARM_01",
-      0x00430026, VR.kUS, VM.k6, "NoViewsRefChannelsBlocked");
+  static const PDTagDefinition k746 = const PDTagDefinition._(746,
+      "GEMS_PARM_01", 0x00430026, VR.kUS, VM.k6, "NoViewsRefChannelsBlocked");
   static const PDTagDefinition k747 = const PDTagDefinition._(
       747, "GEMS_PARM_01", 0x00430027, VR.kSH, VM.k1, "ScanPitchRatio");
   static const PDTagDefinition k748 = const PDTagDefinition._(
@@ -1792,8 +1827,8 @@ class PDTagDefinition {
       754, "GEMS_PARM_01", 0x0043002f, VR.kSS, VM.k1, "RawDataType");
   static const PDTagDefinition k755 = const PDTagDefinition._(
       755, "GEMS_PARM_01", 0x00430030, VR.kSS, VM.k1, "RawDataType");
-  static const PDTagDefinition k756 = const PDTagDefinition._(756, "GEMS_PARM_01",
-      0x00430031, VR.kDS, VM.k2, "RACoordOfTargetReconCentre");
+  static const PDTagDefinition k756 = const PDTagDefinition._(756,
+      "GEMS_PARM_01", 0x00430031, VR.kDS, VM.k2, "RACoordOfTargetReconCentre");
   static const PDTagDefinition k757 = const PDTagDefinition._(
       757, "GEMS_PARM_01", 0x00430032, VR.kSS, VM.k1, "RawDataType");
   static const PDTagDefinition k758 = const PDTagDefinition._(
@@ -1826,14 +1861,14 @@ class PDTagDefinition {
       771, "GEMS_RELA_01", 0x00210019, VR.kUL, VM.k1, "AcqReconRecordChecksum");
   static const PDTagDefinition k772 = const PDTagDefinition._(
       772, "GEMS_RELA_01", 0x00210020, VR.kDS, VM.k1, "TableStartLocation");
-  static const PDTagDefinition k773 = const PDTagDefinition._(773, "GEMS_RELA_01",
-      0x00210035, VR.kSS, VM.k1, "SeriesFromWhichPrescribed");
-  static const PDTagDefinition k774 = const PDTagDefinition._(774, "GEMS_RELA_01",
-      0x00210036, VR.kSS, VM.k1, "ImageFromWhichPrescribed");
+  static const PDTagDefinition k773 = const PDTagDefinition._(773,
+      "GEMS_RELA_01", 0x00210035, VR.kSS, VM.k1, "SeriesFromWhichPrescribed");
+  static const PDTagDefinition k774 = const PDTagDefinition._(774,
+      "GEMS_RELA_01", 0x00210036, VR.kSS, VM.k1, "ImageFromWhichPrescribed");
   static const PDTagDefinition k775 = const PDTagDefinition._(
       775, "GEMS_RELA_01", 0x00210037, VR.kSS, VM.k1, "ScreenFormat");
-  static const PDTagDefinition k776 = const PDTagDefinition._(776, "GEMS_RELA_01",
-      0x0021004a, VR.kLO, VM.k1, "AnatomicalReferenceForScout");
+  static const PDTagDefinition k776 = const PDTagDefinition._(776,
+      "GEMS_RELA_01", 0x0021004a, VR.kLO, VM.k1, "AnatomicalReferenceForScout");
   static const PDTagDefinition k777 = const PDTagDefinition._(
       777, "GEMS_RELA_01", 0x0021004f, VR.kSS, VM.k1, "LocationsInAcquisition");
   static const PDTagDefinition k778 = const PDTagDefinition._(
@@ -1880,8 +1915,8 @@ class PDTagDefinition {
       798, "GEMS_PARM_01", 0x00430037, VR.kUL, VM.k1, "UserFillMapLSW");
   static const PDTagDefinition k799 = const PDTagDefinition._(
       799, "GEMS_PARM_01", 0x00430038, VR.kFL, VM.k24, "User25ToUser48");
-  static const PDTagDefinition k800 = const PDTagDefinition._(800, "GEMS_PARM_01",
-      0x00430039, VR.kIS, VM.k4, "SlopInteger6ToSlopInteger9");
+  static const PDTagDefinition k800 = const PDTagDefinition._(800,
+      "GEMS_PARM_01", 0x00430039, VR.kIS, VM.k4, "SlopInteger6ToSlopInteger9");
   static const PDTagDefinition k801 = const PDTagDefinition._(
       801, "GEMS_PARM_01", 0x00430040, VR.kFL, VM.k4, "TriggerOnPosition");
   static const PDTagDefinition k802 = const PDTagDefinition._(
@@ -1922,8 +1957,8 @@ class PDTagDefinition {
       819, "GEMS_SENO_02", 0x00450004, VR.kCS, VM.k1, "AES");
   static const PDTagDefinition k820 = const PDTagDefinition._(
       820, "GEMS_SENO_02", 0x00450006, VR.kDS, VM.k1, "Angulation");
-  static const PDTagDefinition k821 = const PDTagDefinition._(821, "GEMS_SENO_02",
-      0x00450009, VR.kDS, VM.k1, "RealMagnificationFactor");
+  static const PDTagDefinition k821 = const PDTagDefinition._(821,
+      "GEMS_SENO_02", 0x00450009, VR.kDS, VM.k1, "RealMagnificationFactor");
   static const PDTagDefinition k822 = const PDTagDefinition._(
       822, "GEMS_SENO_02", 0x0045000b, VR.kCS, VM.k1, "SenographType");
   static const PDTagDefinition k823 = const PDTagDefinition._(
@@ -1948,20 +1983,40 @@ class PDTagDefinition {
       832, "GEMS_SENO_02", 0x0045001d, VR.kDS, VM.k1, "MeanOfRawGrayLevels");
   static const PDTagDefinition k833 = const PDTagDefinition._(
       833, "GEMS_SENO_02", 0x0045001e, VR.kDS, VM.k1, "MeanOfOffsetGrayLevels");
-  static const PDTagDefinition k834 = const PDTagDefinition._(834, "GEMS_SENO_02",
-      0x0045001f, VR.kDS, VM.k1, "MeanOfCorrectedGrayLevels");
+  static const PDTagDefinition k834 = const PDTagDefinition._(834,
+      "GEMS_SENO_02", 0x0045001f, VR.kDS, VM.k1, "MeanOfCorrectedGrayLevels");
   static const PDTagDefinition k835 = const PDTagDefinition._(
       835, "GEMS_SENO_02", 0x00450020, VR.kDS, VM.k1, "MeanOfRegionGrayLevels");
-  static const PDTagDefinition k836 = const PDTagDefinition._(836, "GEMS_SENO_02",
-      0x00450021, VR.kDS, VM.k1, "MeanOfLogRegionGrayLevels");
-  static const PDTagDefinition k837 = const PDTagDefinition._(837, "GEMS_SENO_02",
-      0x00450022, VR.kDS, VM.k1, "StandardDeviationOfRawGrayLevels");
-  static const PDTagDefinition k838 = const PDTagDefinition._(838, "GEMS_SENO_02",
-      0x00450023, VR.kDS, VM.k1, "StandardDeviationOfCorrectedGrayLevels");
-  static const PDTagDefinition k839 = const PDTagDefinition._(839, "GEMS_SENO_02",
-      0x00450024, VR.kDS, VM.k1, "StandardDeviationOfRegionGrayLevels");
-  static const PDTagDefinition k840 = const PDTagDefinition._(840, "GEMS_SENO_02",
-      0x00450025, VR.kDS, VM.k1, "StandardDeviationOfLogRegionGrayLevels");
+  static const PDTagDefinition k836 = const PDTagDefinition._(836,
+      "GEMS_SENO_02", 0x00450021, VR.kDS, VM.k1, "MeanOfLogRegionGrayLevels");
+  static const PDTagDefinition k837 = const PDTagDefinition._(
+      837,
+      "GEMS_SENO_02",
+      0x00450022,
+      VR.kDS,
+      VM.k1,
+      "StandardDeviationOfRawGrayLevels");
+  static const PDTagDefinition k838 = const PDTagDefinition._(
+      838,
+      "GEMS_SENO_02",
+      0x00450023,
+      VR.kDS,
+      VM.k1,
+      "StandardDeviationOfCorrectedGrayLevels");
+  static const PDTagDefinition k839 = const PDTagDefinition._(
+      839,
+      "GEMS_SENO_02",
+      0x00450024,
+      VR.kDS,
+      VM.k1,
+      "StandardDeviationOfRegionGrayLevels");
+  static const PDTagDefinition k840 = const PDTagDefinition._(
+      840,
+      "GEMS_SENO_02",
+      0x00450025,
+      VR.kDS,
+      VM.k1,
+      "StandardDeviationOfLogRegionGrayLevels");
   static const PDTagDefinition k841 = const PDTagDefinition._(
       841, "GEMS_SENO_02", 0x00450026, VR.kOB, VM.k1, "MAOBuffer");
   static const PDTagDefinition k842 = const PDTagDefinition._(
@@ -1970,10 +2025,10 @@ class PDTagDefinition {
       843, "GEMS_SENO_02", 0x00450028, VR.kCS, VM.k1, "WindowingType");
   static const PDTagDefinition k844 = const PDTagDefinition._(
       844, "GEMS_SENO_02", 0x00450029, VR.kDS, VM.k1_n, "WindowingParameters");
-  static const PDTagDefinition k845 = const PDTagDefinition._(845, "GEMS_SENO_02",
-      0x0045002a, VR.kIS, VM.k1, "CrosshairCursorXCoordinates");
-  static const PDTagDefinition k846 = const PDTagDefinition._(846, "GEMS_SENO_02",
-      0x0045002b, VR.kIS, VM.k1, "CrosshairCursorYCoordinates");
+  static const PDTagDefinition k845 = const PDTagDefinition._(845,
+      "GEMS_SENO_02", 0x0045002a, VR.kIS, VM.k1, "CrosshairCursorXCoordinates");
+  static const PDTagDefinition k846 = const PDTagDefinition._(846,
+      "GEMS_SENO_02", 0x0045002b, VR.kIS, VM.k1, "CrosshairCursorYCoordinates");
   static const PDTagDefinition k847 = const PDTagDefinition._(
       847, "GEMS_SENO_02", 0x00450039, VR.kUS, VM.k1, "VignetteRows");
   static const PDTagDefinition k848 = const PDTagDefinition._(
@@ -1984,8 +2039,8 @@ class PDTagDefinition {
       850, "GEMS_SENO_02", 0x0045003c, VR.kUS, VM.k1, "VignetteBitsStored");
   static const PDTagDefinition k851 = const PDTagDefinition._(
       851, "GEMS_SENO_02", 0x0045003d, VR.kUS, VM.k1, "VignetteHighBit");
-  static const PDTagDefinition k852 = const PDTagDefinition._(852, "GEMS_SENO_02",
-      0x0045003e, VR.kUS, VM.k1, "VignettePixelRepresentation");
+  static const PDTagDefinition k852 = const PDTagDefinition._(852,
+      "GEMS_SENO_02", 0x0045003e, VR.kUS, VM.k1, "VignettePixelRepresentation");
   static const PDTagDefinition k853 = const PDTagDefinition._(
       853, "GEMS_SENO_02", 0x0045003f, VR.kOB, VM.k1, "VignettePixelData");
   static const PDTagDefinition k854 = const PDTagDefinition._(
@@ -2002,18 +2057,23 @@ class PDTagDefinition {
       859, "GEMS_RELA_01", 0x00210093, VR.kFL, VM.k1, "BiopsyRefLocation");
   static const PDTagDefinition k860 = const PDTagDefinition._(
       860, "GEMS_STDY_01", 0x00230001, VR.kSL, VM.k1, "NumberOfSeriesInStudy");
-  static const PDTagDefinition k861 = const PDTagDefinition._(861, "GEMS_STDY_01",
-      0x00230002, VR.kSL, VM.k1, "NumberOfUnarchivedSeries");
+  static const PDTagDefinition k861 = const PDTagDefinition._(861,
+      "GEMS_STDY_01", 0x00230002, VR.kSL, VM.k1, "NumberOfUnarchivedSeries");
   static const PDTagDefinition k862 = const PDTagDefinition._(
       862, "GEMS_STDY_01", 0x00230010, VR.kSS, VM.k1, "ReferenceImageField");
   static const PDTagDefinition k863 = const PDTagDefinition._(
       863, "GEMS_STDY_01", 0x00230050, VR.kSS, VM.k1, "SummaryImage");
-  static const PDTagDefinition k864 = const PDTagDefinition._(864, "GEMS_STDY_01",
-      0x00230070, VR.kFD, VM.k1, "StartTimeSecsInFirstAxial");
-  static const PDTagDefinition k865 = const PDTagDefinition._(865, "GEMS_STDY_01",
-      0x00230074, VR.kSL, VM.k1, "NumberOfUpdatesToHeader");
-  static const PDTagDefinition k866 = const PDTagDefinition._(866, "GEMS_STDY_01",
-      0x0023007d, VR.kSS, VM.k1, "IndicatesIfStudyHasCompleteInfo");
+  static const PDTagDefinition k864 = const PDTagDefinition._(864,
+      "GEMS_STDY_01", 0x00230070, VR.kFD, VM.k1, "StartTimeSecsInFirstAxial");
+  static const PDTagDefinition k865 = const PDTagDefinition._(865,
+      "GEMS_STDY_01", 0x00230074, VR.kSL, VM.k1, "NumberOfUpdatesToHeader");
+  static const PDTagDefinition k866 = const PDTagDefinition._(
+      866,
+      "GEMS_STDY_01",
+      0x0023007d,
+      VR.kSS,
+      VM.k1,
+      "IndicatesIfStudyHasCompleteInfo");
   static const PDTagDefinition k867 = const PDTagDefinition._(
       867, "GEMS_SERS_01", 0x00250006, VR.kSS, VM.k1, "LastPulseSequenceUsed");
   static const PDTagDefinition k868 = const PDTagDefinition._(
@@ -2022,16 +2082,21 @@ class PDTagDefinition {
       869, "GEMS_SERS_01", 0x00250010, VR.kSL, VM.k1, "LandmarkCounter");
   static const PDTagDefinition k870 = const PDTagDefinition._(
       870, "GEMS_SERS_01", 0x00250011, VR.kSS, VM.k1, "NumberOfAcquisitions");
-  static const PDTagDefinition k871 = const PDTagDefinition._(871, "GEMS_SERS_01",
-      0x00250014, VR.kSL, VM.k1, "IndicatesNumberOfUpdatesToHeader");
+  static const PDTagDefinition k871 = const PDTagDefinition._(
+      871,
+      "GEMS_SERS_01",
+      0x00250014,
+      VR.kSL,
+      VM.k1,
+      "IndicatesNumberOfUpdatesToHeader");
   static const PDTagDefinition k872 = const PDTagDefinition._(
       872, "GEMS_SERS_01", 0x00250017, VR.kSL, VM.k1, "SeriesCompleteFlag");
   static const PDTagDefinition k873 = const PDTagDefinition._(
       873, "GEMS_SERS_01", 0x00250018, VR.kSL, VM.k1, "NumberOfImagesArchived");
   static const PDTagDefinition k874 = const PDTagDefinition._(
       874, "GEMS_SERS_01", 0x00250019, VR.kSL, VM.k1, "LastImageNumberUsed");
-  static const PDTagDefinition k875 = const PDTagDefinition._(875, "GEMS_SERS_01",
-      0x0025001a, VR.kSH, VM.k1, "PrimaryReceiverSuiteAndHost");
+  static const PDTagDefinition k875 = const PDTagDefinition._(875,
+      "GEMS_SERS_01", 0x0025001a, VR.kSH, VM.k1, "PrimaryReceiverSuiteAndHost");
   static const PDTagDefinition k876 = const PDTagDefinition._(876,
       "GE_GENESIS_REV3.0", 0x0019008f, VR.kSS, VM.k1, "SwapPhaseFrequency");
   static const PDTagDefinition k877 = const PDTagDefinition._(
@@ -2195,16 +2260,16 @@ class PDTagDefinition {
       VR.kSH,
       VM.k1,
       "PendingMoveRequest");
-  static const PDTagDefinition k910 = const PDTagDefinition._(910, "INTEGRIS 1.0",
-      0x00410020, VR.kFL, VM.k1, "AccumulatedFluoroscopyDose");
-  static const PDTagDefinition k911 = const PDTagDefinition._(911, "INTEGRIS 1.0",
-      0x00410030, VR.kFL, VM.k1, "AccumulatedExposureDose");
+  static const PDTagDefinition k910 = const PDTagDefinition._(910,
+      "INTEGRIS 1.0", 0x00410020, VR.kFL, VM.k1, "AccumulatedFluoroscopyDose");
+  static const PDTagDefinition k911 = const PDTagDefinition._(911,
+      "INTEGRIS 1.0", 0x00410030, VR.kFL, VM.k1, "AccumulatedExposureDose");
   static const PDTagDefinition k912 = const PDTagDefinition._(
       912, "INTEGRIS 1.0", 0x00410040, VR.kFL, VM.k1, "TotalDose");
   static const PDTagDefinition k913 = const PDTagDefinition._(
       913, "INTEGRIS 1.0", 0x00410041, VR.kFL, VM.k1, "TotalNumberOfFrames");
-  static const PDTagDefinition k914 = const PDTagDefinition._(914, "INTEGRIS 1.0",
-      0x00410050, VR.kSQ, VM.k1, "ExposureInformationSequence");
+  static const PDTagDefinition k914 = const PDTagDefinition._(914,
+      "INTEGRIS 1.0", 0x00410050, VR.kSQ, VM.k1, "ExposureInformationSequence");
   static const PDTagDefinition k915 = const PDTagDefinition._(
       915, "INTEGRIS 1.0", 0x00090008, VR.kCS, VM.k1_n, "ExposureChannel");
   static const PDTagDefinition k916 = const PDTagDefinition._(
@@ -2215,8 +2280,8 @@ class PDTagDefinition {
       918, "INTEGRIS 1.0", 0x00190040, VR.kDS, VM.k1, "FrameRate");
   static const PDTagDefinition k919 = const PDTagDefinition._(
       919, "INTEGRIS 1.0", 0x00210012, VR.kIS, VM.k1, "ExposureNumber");
-  static const PDTagDefinition k920 = const PDTagDefinition._(920, "INTEGRIS 1.0",
-      0x00290008, VR.kIS, VM.k1, "NumberOfExposureResults");
+  static const PDTagDefinition k920 = const PDTagDefinition._(920,
+      "INTEGRIS 1.0", 0x00290008, VR.kIS, VM.k1, "NumberOfExposureResults");
   static const PDTagDefinition k921 = const PDTagDefinition._(
       921, "ISG shadow", 0x00290070, VR.kIS, VM.k1, "Unknown");
   static const PDTagDefinition k922 = const PDTagDefinition._(
@@ -2267,22 +2332,32 @@ class PDTagDefinition {
       934, "PAPYRUS 3.0", 0x00410012, VR.kUL, VM.k1, "PixelOffset");
   static const PDTagDefinition k935 = const PDTagDefinition._(
       935, "PAPYRUS 3.0", 0x00410013, VR.kSQ, VM.k1, "ImageIdentifierSequence");
-  static const PDTagDefinition k936 = const PDTagDefinition._(936, "PAPYRUS 3.0",
-      0x00410014, VR.kSQ, VM.k1, "ExternalFileReferenceSequence");
+  static const PDTagDefinition k936 = const PDTagDefinition._(
+      936,
+      "PAPYRUS 3.0",
+      0x00410014,
+      VR.kSQ,
+      VM.k1,
+      "ExternalFileReferenceSequence");
   static const PDTagDefinition k937 = const PDTagDefinition._(
       937, "PAPYRUS 3.0", 0x00410015, VR.kUS, VM.k1, "NumberOfImages");
   static const PDTagDefinition k938 = const PDTagDefinition._(
       938, "PAPYRUS 3.0", 0x00410021, VR.kUI, VM.k1, "ReferencedSOPClassUID");
-  static const PDTagDefinition k939 = const PDTagDefinition._(939, "PAPYRUS 3.0",
-      0x00410022, VR.kUI, VM.k1, "ReferencedSOPInstanceUID");
+  static const PDTagDefinition k939 = const PDTagDefinition._(939,
+      "PAPYRUS 3.0", 0x00410022, VR.kUI, VM.k1, "ReferencedSOPInstanceUID");
   static const PDTagDefinition k940 = const PDTagDefinition._(
       940, "PAPYRUS 3.0", 0x00410031, VR.kLT, VM.k1, "ReferencedFileName");
   static const PDTagDefinition k941 = const PDTagDefinition._(
       941, "PAPYRUS 3.0", 0x00410032, VR.kLT, VM.k1_n, "ReferencedFilePath");
-  static const PDTagDefinition k942 = const PDTagDefinition._(942, "PAPYRUS 3.0",
-      0x00410041, VR.kUI, VM.k1, "ReferencedImageSOPClassUID");
-  static const PDTagDefinition k943 = const PDTagDefinition._(943, "PAPYRUS 3.0",
-      0x00410042, VR.kUI, VM.k1, "ReferencedImageSOPInstanceUID");
+  static const PDTagDefinition k942 = const PDTagDefinition._(942,
+      "PAPYRUS 3.0", 0x00410041, VR.kUI, VM.k1, "ReferencedImageSOPClassUID");
+  static const PDTagDefinition k943 = const PDTagDefinition._(
+      943,
+      "PAPYRUS 3.0",
+      0x00410042,
+      VR.kUI,
+      VM.k1,
+      "ReferencedImageSOPInstanceUID");
   static const PDTagDefinition k944 = const PDTagDefinition._(
       944, "PAPYRUS 3.0", 0x00410050, VR.kSQ, VM.k1, "ImageSequence");
   static const PDTagDefinition k945 = const PDTagDefinition._(
@@ -7627,8 +7702,8 @@ class PDTagDefinition {
       2769, "AGFA", 0x00190081, VR.kST, VM.k1, "Roam Origin");
   static const PDTagDefinition k2770 = const PDTagDefinition._(
       2770, "AGFA", 0x00190082, VR.kUS, VM.k1, "Zoom Factor");
-  static const PDTagDefinition k2771 =
-      const PDTagDefinition._(2771, "AGFA", 0x00190093, VR.kCS, VM.k1, "Status");
+  static const PDTagDefinition k2771 = const PDTagDefinition._(
+      2771, "AGFA", 0x00190093, VR.kCS, VM.k1, "Status");
   static const PDTagDefinition k2772 = const PDTagDefinition._(
       2772,
       "AGFA_ADC_Compact",
@@ -14056,32 +14131,47 @@ class PDTagDefinition {
       5036, "1.2.840.113663.1", 0x00290001, VR.kUS, VM.k1, "Unknown");
   static const PDTagDefinition k5037 = const PDTagDefinition._(
       5037, "MMCPrivate", 0x00090050, VR.kCS, VM.k1, "CMS Patient Position");
-  static const PDTagDefinition k5038 = const PDTagDefinition._(5038, "MMCPrivate",
-      0x00090051, VR.kLO, VM.k1, "CMI Contrast Bolus Agent");
+  static const PDTagDefinition k5038 = const PDTagDefinition._(5038,
+      "MMCPrivate", 0x00090051, VR.kLO, VM.k1, "CMI Contrast Bolus Agent");
   static const PDTagDefinition k5039 = const PDTagDefinition._(
       5039, "MMCPrivate", 0x00090052, VR.kLO, VM.k1, "CMS institution Name");
-  static const PDTagDefinition k5040 = const PDTagDefinition._(5040, "MMCPrivate",
-      0x00090053, VR.kLO, VM.k1, "CMS Institutional Department Name");
+  static const PDTagDefinition k5040 = const PDTagDefinition._(
+      5040,
+      "MMCPrivate",
+      0x00090053,
+      VR.kLO,
+      VM.k1,
+      "CMS Institutional Department Name");
   static const PDTagDefinition k5041 = const PDTagDefinition._(
       5041, "MMCPrivate", 0x00090054, VR.kLO, VM.k1, "CMS Series Description");
   static const PDTagDefinition k5042 = const PDTagDefinition._(
       5042, "MMCPrivate", 0x00090055, VR.kLO, VM.k1, "CMS Operators Name");
-  static const PDTagDefinition k5043 = const PDTagDefinition._(5043, "MMCPrivate",
-      0x00090056, VR.kLO, VM.k1, "CMS Performing Physicians Name");
+  static const PDTagDefinition k5043 = const PDTagDefinition._(
+      5043,
+      "MMCPrivate",
+      0x00090056,
+      VR.kLO,
+      VM.k1,
+      "CMS Performing Physicians Name");
   static const PDTagDefinition k5044 = const PDTagDefinition._(
       5044, "MMCPrivate", 0x00090057, VR.kST, VM.k1, "CMS Institution Address");
   static const PDTagDefinition k5045 = const PDTagDefinition._(
       5045, "MMCPrivate", 0x00090058, VR.kLO, VM.k1, "CMI Image Comments");
-  static const PDTagDefinition k5046 = const PDTagDefinition._(5046, "MMCPrivate",
-      0x00090059, VR.kLO, VM.k1, "CMI Instance Creation DateTime");
+  static const PDTagDefinition k5046 = const PDTagDefinition._(
+      5046,
+      "MMCPrivate",
+      0x00090059,
+      VR.kLO,
+      VM.k1,
+      "CMI Instance Creation DateTime");
   static const PDTagDefinition k5047 = const PDTagDefinition._(
       5047, "MMCPrivate", 0x0009005a, VR.kLO, VM.k1, "MPPS Step Status");
   static const PDTagDefinition k5048 = const PDTagDefinition._(
       5048, "MMCPrivate", 0x0009005b, VR.kIS, VM.k1, "Filmed Count");
   static const PDTagDefinition k5049 = const PDTagDefinition._(
       5049, "MMCPrivate", 0x0009005c, VR.kLO, VM.k1, "Is Allow Cascade Save");
-  static const PDTagDefinition k5050 = const PDTagDefinition._(5050, "MMCPrivate",
-      0x0009005d, VR.kLO, VM.k1, "Is Allow Cascade Protect");
+  static const PDTagDefinition k5050 = const PDTagDefinition._(5050,
+      "MMCPrivate", 0x0009005d, VR.kLO, VM.k1, "Is Allow Cascade Protect");
   static const PDTagDefinition k5051 = const PDTagDefinition._(
       5051, "MMCPrivate", 0x0009005e, VR.kLO, VM.k1, "Is Deleted");
   static const PDTagDefinition k5052 = const PDTagDefinition._(
@@ -14090,12 +14180,12 @@ class PDTagDefinition {
       5053, "MMCPrivate", 0x00110004, VR.kOB, VM.k1, "Application Data");
   static const PDTagDefinition k5054 = const PDTagDefinition._(
       5054, "MMCPrivate", 0x00110005, VR.kLO, VM.k1, "Is Allow Cascade Save");
-  static const PDTagDefinition k5055 = const PDTagDefinition._(5055, "MMCPrivate",
-      0x00110006, VR.kLO, VM.k1, "Is Allow Cascade Protect");
+  static const PDTagDefinition k5055 = const PDTagDefinition._(5055,
+      "MMCPrivate", 0x00110006, VR.kLO, VM.k1, "Is Allow Cascade Protect");
   static const PDTagDefinition k5056 = const PDTagDefinition._(
       5056, "MMCPrivate", 0x00110007, VR.kLO, VM.k1, "Is Deleted");
-  static const PDTagDefinition k5057 = const PDTagDefinition._(5057, "MMCPrivate",
-      0x00090002, VR.kLO, VM.k1, "Scheduled Study DateTime");
+  static const PDTagDefinition k5057 = const PDTagDefinition._(5057,
+      "MMCPrivate", 0x00090002, VR.kLO, VM.k1, "Scheduled Study DateTime");
   static const PDTagDefinition k5058 = const PDTagDefinition._(
       5058, "MMCPrivate", 0x00090003, VR.kOB, VM.k1, "Study App Data");
   static const PDTagDefinition k5059 = const PDTagDefinition._(
@@ -14126,22 +14216,27 @@ class PDTagDefinition {
       5071, "MMCPrivate", 0x00190016, VR.kIS, VM.k1, "Transferred Count");
   static const PDTagDefinition k5072 = const PDTagDefinition._(
       5072, "MMCPrivate", 0x00190017, VR.kLO, VM.k1, "Is Allow Cascade Save");
-  static const PDTagDefinition k5073 = const PDTagDefinition._(5073, "MMCPrivate",
-      0x00190018, VR.kLO, VM.k1, "Is Allow Cascade Protect");
+  static const PDTagDefinition k5073 = const PDTagDefinition._(5073,
+      "MMCPrivate", 0x00190018, VR.kLO, VM.k1, "Is Allow Cascade Protect");
   static const PDTagDefinition k5074 = const PDTagDefinition._(
       5074, "MMCPrivate", 0x00190019, VR.kLO, VM.k1, "Is Deleted");
-  static const PDTagDefinition k5075 = const PDTagDefinition._(5075, "MMCPrivate",
-      0x0019001a, VR.kUI, VM.k1, "Characterized Image Instance UID");
-  static const PDTagDefinition k5076 = const PDTagDefinition._(5076, "MMCPrivate",
-      0x0019001b, VR.kIS, VM.k1, "Characterized Image Count");
+  static const PDTagDefinition k5075 = const PDTagDefinition._(
+      5075,
+      "MMCPrivate",
+      0x0019001a,
+      VR.kUI,
+      VM.k1,
+      "Characterized Image Instance UID");
+  static const PDTagDefinition k5076 = const PDTagDefinition._(5076,
+      "MMCPrivate", 0x0019001b, VR.kIS, VM.k1, "Characterized Image Count");
   static const PDTagDefinition k5077 = const PDTagDefinition._(
       5077, "MMCPrivate", 0x0019001c, VR.kLO, VM.k1, "Internal Window Width");
   static const PDTagDefinition k5078 = const PDTagDefinition._(
       5078, "MMCPrivate", 0x0019001d, VR.kLO, VM.k1, "Internal Window Level");
   static const PDTagDefinition k5079 = const PDTagDefinition._(
       5079, "MMCPrivate", 0x0019001e, VR.kLO, VM.k1, "Unknown");
-  static const PDTagDefinition k5080 = const PDTagDefinition._(5080, "MMCPrivate",
-      0x00190007, VR.kLO, VM.k1, "Image Contrast Bolus Agent");
+  static const PDTagDefinition k5080 = const PDTagDefinition._(5080,
+      "MMCPrivate", 0x00190007, VR.kLO, VM.k1, "Image Contrast Bolus Agent");
   static const PDTagDefinition k5081 = const PDTagDefinition._(
       5081, "MMCPrivate", 0x00190008, VR.kDS, VM.k1, "Image Slice Thickness");
   static const PDTagDefinition k5082 = const PDTagDefinition._(
@@ -14204,10 +14299,10 @@ class PDTagDefinition {
       5110, "MMCPrivate", 0x00290017, VR.kLO, VM.k1, "VENC Axis");
   static const PDTagDefinition k5111 = const PDTagDefinition._(
       5111, "MMCPrivate", 0x00290018, VR.kLO, VM.k1, "Num VENC Direction");
-  static const PDTagDefinition k5112 = const PDTagDefinition._(5112, "MMCPrivate",
-      0x0029001c, VR.kLO, VM.k1, "Is Scalable Window Level");
-  static const PDTagDefinition k5113 = const PDTagDefinition._(5113, "MMCPrivate",
-      0x0029001d, VR.kLO, VM.k1, "Three D Setting Line Angle");
+  static const PDTagDefinition k5112 = const PDTagDefinition._(5112,
+      "MMCPrivate", 0x0029001c, VR.kLO, VM.k1, "Is Scalable Window Level");
+  static const PDTagDefinition k5113 = const PDTagDefinition._(5113,
+      "MMCPrivate", 0x0029001d, VR.kLO, VM.k1, "Three D Setting Line Angle");
   static const PDTagDefinition k5114 = const PDTagDefinition._(
       5114, "MMCPrivate", 0x0029001e, VR.kLO, VM.k1, "MPG Total Axis");
   static const PDTagDefinition k5115 = const PDTagDefinition._(
@@ -14234,34 +14329,49 @@ class PDTagDefinition {
       5125, "MMCPrivate", 0x0029002a, VR.kDS, VM.k1, "Navi Initial Gate Width");
   static const PDTagDefinition k5126 = const PDTagDefinition._(
       5126, "MRSC", 0x0119120a, VR.kIS, VM.k1, "NumberTransforms");
-  static const PDTagDefinition k5127 = const PDTagDefinition._(5127, "MMCPrivate",
-      0x0029002c, VR.kDS, VM.k1, "Navi Initial Gate Position");
-  static const PDTagDefinition k5128 = const PDTagDefinition._(5128, "MMCPrivate",
-      0x0029002e, VR.kDS, VM.k1, "Navi Average Gate Position");
+  static const PDTagDefinition k5127 = const PDTagDefinition._(5127,
+      "MMCPrivate", 0x0029002c, VR.kDS, VM.k1, "Navi Initial Gate Position");
+  static const PDTagDefinition k5128 = const PDTagDefinition._(5128,
+      "MMCPrivate", 0x0029002e, VR.kDS, VM.k1, "Navi Average Gate Position");
   static const PDTagDefinition k5129 = const PDTagDefinition._(
       5129, "MMCPrivate", 0x0029002f, VR.kOB, VM.k1, "Image App Data");
   static const PDTagDefinition k5130 = const PDTagDefinition._(
       5130, "MMCPrivate", 0x00290030, VR.kFD, VM.k1, "Diffusion BValue");
-  static const PDTagDefinition k5131 = const PDTagDefinition._(5131, "MMCPrivate",
-      0x00290031, VR.kSQ, VM.k1, "Shared Functional Groups Sequence");
-  static const PDTagDefinition k5132 = const PDTagDefinition._(5132, "MMCPrivate",
-      0x00290032, VR.kSQ, VM.k1, "Per Frame Functional Groups Sequence");
-  static const PDTagDefinition k5133 = const PDTagDefinition._(5133, "MMCPrivate",
-      0x00290033, VR.kDS, VM.k1, "Lossy Image Compression Ratio");
+  static const PDTagDefinition k5131 = const PDTagDefinition._(
+      5131,
+      "MMCPrivate",
+      0x00290031,
+      VR.kSQ,
+      VM.k1,
+      "Shared Functional Groups Sequence");
+  static const PDTagDefinition k5132 = const PDTagDefinition._(
+      5132,
+      "MMCPrivate",
+      0x00290032,
+      VR.kSQ,
+      VM.k1,
+      "Per Frame Functional Groups Sequence");
+  static const PDTagDefinition k5133 = const PDTagDefinition._(5133,
+      "MMCPrivate", 0x00290033, VR.kDS, VM.k1, "Lossy Image Compression Ratio");
   static const PDTagDefinition k5134 = const PDTagDefinition._(
       5134, "MMCPrivate", 0x00290034, VR.kUI, VM.k1, "Instance Creator UID");
-  static const PDTagDefinition k5135 = const PDTagDefinition._(5135, "MMCPrivate",
-      0x00290035, VR.kUI, VM.k1, "Related General SOPClass UID");
-  static const PDTagDefinition k5136 = const PDTagDefinition._(5136, "MMCPrivate",
-      0x00290036, VR.kUI, VM.k1, "Original Specialized SOPClass UID");
-  static const PDTagDefinition k5137 = const PDTagDefinition._(5137, "MMCPrivate",
-      0x00290037, VR.kSH, VM.k1, "Timezone Offset From UTC");
+  static const PDTagDefinition k5135 = const PDTagDefinition._(5135,
+      "MMCPrivate", 0x00290035, VR.kUI, VM.k1, "Related General SOPClass UID");
+  static const PDTagDefinition k5136 = const PDTagDefinition._(
+      5136,
+      "MMCPrivate",
+      0x00290036,
+      VR.kUI,
+      VM.k1,
+      "Original Specialized SOPClass UID");
+  static const PDTagDefinition k5137 = const PDTagDefinition._(5137,
+      "MMCPrivate", 0x00290037, VR.kSH, VM.k1, "Timezone Offset From UTC");
   static const PDTagDefinition k5138 = const PDTagDefinition._(
       5138, "MMCPrivate", 0x00290038, VR.kCS, VM.k1, "SOPInstance Status");
-  static const PDTagDefinition k5139 = const PDTagDefinition._(5139, "MMCPrivate",
-      0x00290039, VR.kDT, VM.k1, "SOPAuthorization Dateand Time");
-  static const PDTagDefinition k5140 = const PDTagDefinition._(5140, "MMCPrivate",
-      0x0029003a, VR.kLT, VM.k1, "SOPAuthorization Comment");
+  static const PDTagDefinition k5139 = const PDTagDefinition._(5139,
+      "MMCPrivate", 0x00290039, VR.kDT, VM.k1, "SOPAuthorization Dateand Time");
+  static const PDTagDefinition k5140 = const PDTagDefinition._(5140,
+      "MMCPrivate", 0x0029003a, VR.kLT, VM.k1, "SOPAuthorization Comment");
   static const PDTagDefinition k5141 = const PDTagDefinition._(
       5141,
       "MMCPrivate",
@@ -14269,22 +14379,37 @@ class PDTagDefinition {
       VR.kLO,
       VM.k1,
       "Authorization Equipment Certification Number");
-  static const PDTagDefinition k5142 = const PDTagDefinition._(5142, "MMCPrivate",
-      0x0029003c, VR.kUL, VM.k1, "Concatenation Frame Offset Number");
-  static const PDTagDefinition k5143 = const PDTagDefinition._(5143, "MMCPrivate",
-      0x0029003d, VR.kUS, VM.k1, "Representative Frame Number");
+  static const PDTagDefinition k5142 = const PDTagDefinition._(
+      5142,
+      "MMCPrivate",
+      0x0029003c,
+      VR.kUL,
+      VM.k1,
+      "Concatenation Frame Offset Number");
+  static const PDTagDefinition k5143 = const PDTagDefinition._(5143,
+      "MMCPrivate", 0x0029003d, VR.kUS, VM.k1, "Representative Frame Number");
   static const PDTagDefinition k5144 = const PDTagDefinition._(
       5144, "MMCPrivate", 0x0029003e, VR.kUI, VM.k1, "Concatenation UID");
   static const PDTagDefinition k5145 = const PDTagDefinition._(
       5145, "MMCPrivate", 0x0029003f, VR.kUS, VM.k1, "In Concatenation Number");
-  static const PDTagDefinition k5146 = const PDTagDefinition._(5146, "MMCPrivate",
-      0x00290040, VR.kCS, VM.k1, "Cardiac Synchronization Technique");
+  static const PDTagDefinition k5146 = const PDTagDefinition._(
+      5146,
+      "MMCPrivate",
+      0x00290040,
+      VR.kCS,
+      VM.k1,
+      "Cardiac Synchronization Technique");
   static const PDTagDefinition k5147 = const PDTagDefinition._(
       5147, "MMCPrivate", 0x00290041, VR.kCS, VM.k1, "Cardiac Signal Source");
-  static const PDTagDefinition k5148 = const PDTagDefinition._(5148, "MMCPrivate",
-      0x00290042, VR.kFD, VM.k1, "Cardiac RRInterval Specified");
-  static const PDTagDefinition k5149 = const PDTagDefinition._(5149, "MMCPrivate",
-      0x00290043, VR.kCS, VM.k1, "Cardiac Beat Rejection Technique");
+  static const PDTagDefinition k5148 = const PDTagDefinition._(5148,
+      "MMCPrivate", 0x00290042, VR.kFD, VM.k1, "Cardiac RRInterval Specified");
+  static const PDTagDefinition k5149 = const PDTagDefinition._(
+      5149,
+      "MMCPrivate",
+      0x00290043,
+      VR.kCS,
+      VM.k1,
+      "Cardiac Beat Rejection Technique");
   static const PDTagDefinition k5150 = const PDTagDefinition._(
       5150, "MMCPrivate", 0x00290044, VR.kIS, VM.k1, "Low RR Value");
   static const PDTagDefinition k5151 = const PDTagDefinition._(
@@ -14293,20 +14418,35 @@ class PDTagDefinition {
       5152, "MMCPrivate", 0x00290046, VR.kIS, VM.k1, "Intervals Acquired");
   static const PDTagDefinition k5153 = const PDTagDefinition._(
       5153, "MMCPrivate", 0x00290047, VR.kIS, VM.k1, "Intervals Rejected");
-  static const PDTagDefinition k5154 = const PDTagDefinition._(5154, "MMCPrivate",
-      0x00290049, VR.kCS, VM.k1, "Respiratory Signal Source");
-  static const PDTagDefinition k5155 = const PDTagDefinition._(5155, "MMCPrivate",
-      0x0029004a, VR.kCS, VM.k1, "Bulk Motion Compensation Technique");
-  static const PDTagDefinition k5156 = const PDTagDefinition._(5156, "MMCPrivate",
-      0x0029004b, VR.kCS, VM.k1, "Bulk Motion Signal Source");
+  static const PDTagDefinition k5154 = const PDTagDefinition._(5154,
+      "MMCPrivate", 0x00290049, VR.kCS, VM.k1, "Respiratory Signal Source");
+  static const PDTagDefinition k5155 = const PDTagDefinition._(
+      5155,
+      "MMCPrivate",
+      0x0029004a,
+      VR.kCS,
+      VM.k1,
+      "Bulk Motion Compensation Technique");
+  static const PDTagDefinition k5156 = const PDTagDefinition._(5156,
+      "MMCPrivate", 0x0029004b, VR.kCS, VM.k1, "Bulk Motion Signal Source");
   static const PDTagDefinition k5157 = const PDTagDefinition._(
       5157, "MMCPrivate", 0x0029004c, VR.kCS, VM.k1, "Pixel Presentation");
   static const PDTagDefinition k5158 = const PDTagDefinition._(
       5158, "MMCPrivate", 0x0029004d, VR.kCS, VM.k1, "Volumetric Properties");
-  static const PDTagDefinition k5159 = const PDTagDefinition._(5159, "MMCPrivate",
-      0x0029004e, VR.kCS, VM.k1, "Volume Based Calculation Technique");
-  static const PDTagDefinition k5160 = const PDTagDefinition._(5160, "MMCPrivate",
-      0x0029004f, VR.kST, VM.k1, "Acquisition Context Description");
+  static const PDTagDefinition k5159 = const PDTagDefinition._(
+      5159,
+      "MMCPrivate",
+      0x0029004e,
+      VR.kCS,
+      VM.k1,
+      "Volume Based Calculation Technique");
+  static const PDTagDefinition k5160 = const PDTagDefinition._(
+      5160,
+      "MMCPrivate",
+      0x0029004f,
+      VR.kST,
+      VM.k1,
+      "Acquisition Context Description");
   static const PDTagDefinition k5161 = const PDTagDefinition._(
       5161, "MMCPrivate", 0x00290050, VR.kSQ, VM.k1, "Unknown");
   static const PDTagDefinition k5162 = const PDTagDefinition._(
@@ -14321,22 +14461,42 @@ class PDTagDefinition {
       5166, "MMCPrivate", 0x00290055, VR.kSQ, VM.k1, "Frame Anatomy Sequence");
   static const PDTagDefinition k5167 = const PDTagDefinition._(
       5167, "MMCPrivate", 0x00290056, VR.kCS, VM.k1, "Frame Laterality");
-  static const PDTagDefinition k5168 = const PDTagDefinition._(5168, "MMCPrivate",
-      0x00290057, VR.kSQ, VM.k1, "Anatomic Region Sequence");
-  static const PDTagDefinition k5169 = const PDTagDefinition._(5169, "MMCPrivate",
-      0x00290058, VR.kSH, VM.k1, "Anatomic Region Code Value");
-  static const PDTagDefinition k5170 = const PDTagDefinition._(5170, "MMCPrivate",
-      0x00290059, VR.kSH, VM.k1, "Anatomic Region Coding Scheme Designator");
-  static const PDTagDefinition k5171 = const PDTagDefinition._(5171, "MMCPrivate",
-      0x0029005a, VR.kSH, VM.k1, "Anatomic Region Coding Scheme Version");
-  static const PDTagDefinition k5172 = const PDTagDefinition._(5172, "MMCPrivate",
-      0x0029005b, VR.kLO, VM.k1, "Anatomic Region Code Meaning");
-  static const PDTagDefinition k5173 = const PDTagDefinition._(5173, "MMCPrivate",
-      0x0029005c, VR.kSQ, VM.k1, "Pixel Value Transformation Sequence");
+  static const PDTagDefinition k5168 = const PDTagDefinition._(5168,
+      "MMCPrivate", 0x00290057, VR.kSQ, VM.k1, "Anatomic Region Sequence");
+  static const PDTagDefinition k5169 = const PDTagDefinition._(5169,
+      "MMCPrivate", 0x00290058, VR.kSH, VM.k1, "Anatomic Region Code Value");
+  static const PDTagDefinition k5170 = const PDTagDefinition._(
+      5170,
+      "MMCPrivate",
+      0x00290059,
+      VR.kSH,
+      VM.k1,
+      "Anatomic Region Coding Scheme Designator");
+  static const PDTagDefinition k5171 = const PDTagDefinition._(
+      5171,
+      "MMCPrivate",
+      0x0029005a,
+      VR.kSH,
+      VM.k1,
+      "Anatomic Region Coding Scheme Version");
+  static const PDTagDefinition k5172 = const PDTagDefinition._(5172,
+      "MMCPrivate", 0x0029005b, VR.kLO, VM.k1, "Anatomic Region Code Meaning");
+  static const PDTagDefinition k5173 = const PDTagDefinition._(
+      5173,
+      "MMCPrivate",
+      0x0029005c,
+      VR.kSQ,
+      VM.k1,
+      "Pixel Value Transformation Sequence");
   static const PDTagDefinition k5174 = const PDTagDefinition._(
       5174, "MMCPrivate", 0x0029005d, VR.kLO, VM.k1, "Rescale Type");
-  static const PDTagDefinition k5175 = const PDTagDefinition._(5175, "MMCPrivate",
-      0x0029005e, VR.kSQ, VM.k1, "Cardiac Synchronization Sequence");
+  static const PDTagDefinition k5175 = const PDTagDefinition._(
+      5175,
+      "MMCPrivate",
+      0x0029005e,
+      VR.kSQ,
+      VM.k1,
+      "Cardiac Synchronization Sequence");
   static const PDTagDefinition k5176 = const PDTagDefinition._(
       5176, "MMCPrivate", 0x0029005f, VR.kFD, VM.k1, "Trigger Delay Time");
   static const PDTagDefinition k5177 = const PDTagDefinition._(
@@ -14345,30 +14505,45 @@ class PDTagDefinition {
       5178, "MMCPrivate", 0x00290062, VR.kCS, VM.k1, "Unknown");
   static const PDTagDefinition k5179 = const PDTagDefinition._(
       5179, "MMCPrivate", 0x00290063, VR.kSQ, VM.k1, "MRModifier Sequence");
-  static const PDTagDefinition k5180 = const PDTagDefinition._(5180, "MMCPrivate",
-      0x00290064, VR.kCS, VM.k1, "Parallel Acquisition Technique");
-  static const PDTagDefinition k5181 = const PDTagDefinition._(5181, "MMCPrivate",
-      0x00290065, VR.kFD, VM.k1, "Parallel Reduction Factor Sec In");
+  static const PDTagDefinition k5180 = const PDTagDefinition._(
+      5180,
+      "MMCPrivate",
+      0x00290064,
+      VR.kCS,
+      VM.k1,
+      "Parallel Acquisition Technique");
+  static const PDTagDefinition k5181 = const PDTagDefinition._(
+      5181,
+      "MMCPrivate",
+      0x00290065,
+      VR.kFD,
+      VM.k1,
+      "Parallel Reduction Factor Sec In");
   static const PDTagDefinition k5182 = const PDTagDefinition._(
       5182, "MRSC", 0x0119120b, VR.kIS, VM.k1_n, "NumberProcesses");
   static const PDTagDefinition k5183 = const PDTagDefinition._(
       5183, "MMCPrivate", 0x00290067, VR.kCS, VM.k1, "Flow Compensation");
-  static const PDTagDefinition k5184 = const PDTagDefinition._(5184, "MMCPrivate",
-      0x00290068, VR.kCS, VM.k1, "Flow Compensation Direction");
+  static const PDTagDefinition k5184 = const PDTagDefinition._(5184,
+      "MMCPrivate", 0x00290068, VR.kCS, VM.k1, "Flow Compensation Direction");
   static const PDTagDefinition k5185 = const PDTagDefinition._(
       5185, "MMCPrivate", 0x00290069, VR.kCS, VM.k1, "Spatial PreSaturation");
-  static const PDTagDefinition k5186 = const PDTagDefinition._(5186, "MMCPrivate",
-      0x0029006b, VR.kCS, VM.k1, "Partial Fourier Direction");
-  static const PDTagDefinition k5187 = const PDTagDefinition._(5187, "MMCPrivate",
-      0x00290070, VR.kSQ, VM.k1, "MR Receive Coil Sequence");
-  static const PDTagDefinition k5188 = const PDTagDefinition._(5188, "MMCPrivate",
-      0x00290071, VR.kLO, VM.k1, "Receive Coil Manufacturer Name");
+  static const PDTagDefinition k5186 = const PDTagDefinition._(5186,
+      "MMCPrivate", 0x0029006b, VR.kCS, VM.k1, "Partial Fourier Direction");
+  static const PDTagDefinition k5187 = const PDTagDefinition._(5187,
+      "MMCPrivate", 0x00290070, VR.kSQ, VM.k1, "MR Receive Coil Sequence");
+  static const PDTagDefinition k5188 = const PDTagDefinition._(
+      5188,
+      "MMCPrivate",
+      0x00290071,
+      VR.kLO,
+      VM.k1,
+      "Receive Coil Manufacturer Name");
   static const PDTagDefinition k5189 = const PDTagDefinition._(
       5189, "MMCPrivate", 0x00290072, VR.kCS, VM.k1, "Receive Coil Type");
   static const PDTagDefinition k5190 = const PDTagDefinition._(
       5190, "MMCPrivate", 0x00290073, VR.kCS, VM.k1, "Quadrature Receive Coil");
-  static const PDTagDefinition k5191 = const PDTagDefinition._(5191, "MMCPrivate",
-      0x00290074, VR.kLO, VM.k1, "Multi Coil Configuration");
+  static const PDTagDefinition k5191 = const PDTagDefinition._(5191,
+      "MMCPrivate", 0x00290074, VR.kLO, VM.k1, "Multi Coil Configuration");
   static const PDTagDefinition k5192 = const PDTagDefinition._(
       5192, "MMCPrivate", 0x00290075, VR.kCS, VM.k1, "Complex Image Component");
   static const PDTagDefinition k5193 = const PDTagDefinition._(
@@ -14383,32 +14558,47 @@ class PDTagDefinition {
       5197, "MMCPrivate", 0x0029007a, VR.kCS, VM.k1, "Phase Contrast");
   static const PDTagDefinition k5198 = const PDTagDefinition._(
       5198, "MMCPrivate", 0x0029007b, VR.kCS, VM.k1, "Time of Flight Contrast");
-  static const PDTagDefinition k5199 = const PDTagDefinition._(5199, "MMCPrivate",
-      0x0029007c, VR.kCS, VM.k1, "Steady State Pulse Sequence");
-  static const PDTagDefinition k5200 = const PDTagDefinition._(5200, "MMCPrivate",
-      0x0029007d, VR.kCS, VM.k1, "Echo Planar Pulse Sequence");
-  static const PDTagDefinition k5201 = const PDTagDefinition._(5201, "MMCPrivate",
-      0x0029007e, VR.kCS, VM.k1, "Spectrally Selected Suppression");
+  static const PDTagDefinition k5199 = const PDTagDefinition._(5199,
+      "MMCPrivate", 0x0029007c, VR.kCS, VM.k1, "Steady State Pulse Sequence");
+  static const PDTagDefinition k5200 = const PDTagDefinition._(5200,
+      "MMCPrivate", 0x0029007d, VR.kCS, VM.k1, "Echo Planar Pulse Sequence");
+  static const PDTagDefinition k5201 = const PDTagDefinition._(
+      5201,
+      "MMCPrivate",
+      0x0029007e,
+      VR.kCS,
+      VM.k1,
+      "Spectrally Selected Suppression");
   static const PDTagDefinition k5202 = const PDTagDefinition._(
       5202, "MMCPrivate", 0x0029007f, VR.kCS, VM.k1, "Oversampling Phase");
-  static const PDTagDefinition k5203 = const PDTagDefinition._(5203, "MMCPrivate",
-      0x00290080, VR.kCS, VM.k1, "Segmented KSpace Traversal");
+  static const PDTagDefinition k5203 = const PDTagDefinition._(5203,
+      "MMCPrivate", 0x00290080, VR.kCS, VM.k1, "Segmented KSpace Traversal");
   static const PDTagDefinition k5204 = const PDTagDefinition._(
       5204, "MMCPrivate", 0x00290081, VR.kCS, VM.k1, "Coverage of KSpace");
-  static const PDTagDefinition k5205 = const PDTagDefinition._(5205, "MMCPrivate",
-      0x00290082, VR.kSQ, VM.k1, "MR Timing and Related Parameters Sequence");
+  static const PDTagDefinition k5205 = const PDTagDefinition._(
+      5205,
+      "MMCPrivate",
+      0x00290082,
+      VR.kSQ,
+      VM.k1,
+      "MR Timing and Related Parameters Sequence");
   static const PDTagDefinition k5206 = const PDTagDefinition._(
       5206, "MMCPrivate", 0x00290083, VR.kUS, VM.k1, "RF Echo Train Length");
-  static const PDTagDefinition k5207 = const PDTagDefinition._(5207, "MMCPrivate",
-      0x00290084, VR.kUS, VM.k1, "Gradient Echo Train Length");
+  static const PDTagDefinition k5207 = const PDTagDefinition._(5207,
+      "MMCPrivate", 0x00290084, VR.kUS, VM.k1, "Gradient Echo Train Length");
   static const PDTagDefinition k5208 = const PDTagDefinition._(
       5208, "MMCPrivate", 0x00290085, VR.kCS, VM.k1, "Gradient Output Type");
   static const PDTagDefinition k5209 = const PDTagDefinition._(
       5209, "MMCPrivate", 0x00290086, VR.kFD, VM.k1, "Gradient Output");
   static const PDTagDefinition k5210 = const PDTagDefinition._(
       5210, "MMCPrivate", 0x00290087, VR.kSQ, VM.k1, "MRFOVGeometry Sequence");
-  static const PDTagDefinition k5211 = const PDTagDefinition._(5211, "MMCPrivate",
-      0x00290089, VR.kUS, VM.k1, "MRAcquisition Phase Encoding Steps In Plane");
+  static const PDTagDefinition k5211 = const PDTagDefinition._(
+      5211,
+      "MMCPrivate",
+      0x00290089,
+      VR.kUS,
+      VM.k1,
+      "MRAcquisition Phase Encoding Steps In Plane");
   static const PDTagDefinition k5212 = const PDTagDefinition._(
       5212,
       "MMCPrivate",
@@ -14416,44 +14606,59 @@ class PDTagDefinition {
       VR.kUS,
       VM.k1,
       "MRAcquisitionPhase Encoding Steps Out of Plane");
-  static const PDTagDefinition k5213 = const PDTagDefinition._(5213, "MMCPrivate",
-      0x0029008b, VR.kSQ, VM.k1, "MR Transmit Coil Sequence");
+  static const PDTagDefinition k5213 = const PDTagDefinition._(5213,
+      "MMCPrivate", 0x0029008b, VR.kSQ, VM.k1, "MR Transmit Coil Sequence");
   static const PDTagDefinition k5214 = const PDTagDefinition._(
       5214, "MMCPrivate", 0x0029008c, VR.kSH, VM.k1, "Transmit Coil Name");
-  static const PDTagDefinition k5215 = const PDTagDefinition._(5215, "MMCPrivate",
-      0x0029008d, VR.kLO, VM.k1, "Transmit Coil Manufacturer Name");
+  static const PDTagDefinition k5215 = const PDTagDefinition._(
+      5215,
+      "MMCPrivate",
+      0x0029008d,
+      VR.kLO,
+      VM.k1,
+      "Transmit Coil Manufacturer Name");
   static const PDTagDefinition k5216 = const PDTagDefinition._(
       5216, "MMCPrivate", 0x0029008e, VR.kCS, VM.k1, "Transmit Coil Type");
   static const PDTagDefinition k5217 = const PDTagDefinition._(
       5217, "MMCPrivate", 0x0029008f, VR.kSQ, VM.k1, "MR Echo Sequence");
   static const PDTagDefinition k5218 = const PDTagDefinition._(
       5218, "MMCPrivate", 0x00290090, VR.kFD, VM.k1, "Effective Echo Time");
-  static const PDTagDefinition k5219 = const PDTagDefinition._(5219, "MMCPrivate",
-      0x00290091, VR.kSQ, VM.k1, "MR Metabolite Map Sequence");
-  static const PDTagDefinition k5220 = const PDTagDefinition._(5220, "MMCPrivate",
-      0x00290092, VR.kST, VM.k1, "Metabolite Map Description");
-  static const PDTagDefinition k5221 = const PDTagDefinition._(5221, "MMCPrivate",
-      0x00290093, VR.kSQ, VM.k1, "Metabolite Map Code Sequence");
-  static const PDTagDefinition k5222 = const PDTagDefinition._(5222, "MMCPrivate",
-      0x00290094, VR.kSH, VM.k1, "Metabolite Map Code Value");
-  static const PDTagDefinition k5223 = const PDTagDefinition._(5223, "MMCPrivate",
-      0x00290095, VR.kSH, VM.k1, "Metabolite Map Coding Scheme Designator");
-  static const PDTagDefinition k5224 = const PDTagDefinition._(5224, "MMCPrivate",
-      0x00290096, VR.kSH, VM.k1, "Metabolite Map Coding Scheme Version");
-  static const PDTagDefinition k5225 = const PDTagDefinition._(5225, "MMCPrivate",
-      0x00290097, VR.kLO, VM.k1, "Metabolite Map Code Meaning");
-  static const PDTagDefinition k5226 = const PDTagDefinition._(5226, "MMCPrivate",
-      0x00290098, VR.kSQ, VM.k1, "MR Imaging Modifier Sequence");
+  static const PDTagDefinition k5219 = const PDTagDefinition._(5219,
+      "MMCPrivate", 0x00290091, VR.kSQ, VM.k1, "MR Metabolite Map Sequence");
+  static const PDTagDefinition k5220 = const PDTagDefinition._(5220,
+      "MMCPrivate", 0x00290092, VR.kST, VM.k1, "Metabolite Map Description");
+  static const PDTagDefinition k5221 = const PDTagDefinition._(5221,
+      "MMCPrivate", 0x00290093, VR.kSQ, VM.k1, "Metabolite Map Code Sequence");
+  static const PDTagDefinition k5222 = const PDTagDefinition._(5222,
+      "MMCPrivate", 0x00290094, VR.kSH, VM.k1, "Metabolite Map Code Value");
+  static const PDTagDefinition k5223 = const PDTagDefinition._(
+      5223,
+      "MMCPrivate",
+      0x00290095,
+      VR.kSH,
+      VM.k1,
+      "Metabolite Map Coding Scheme Designator");
+  static const PDTagDefinition k5224 = const PDTagDefinition._(
+      5224,
+      "MMCPrivate",
+      0x00290096,
+      VR.kSH,
+      VM.k1,
+      "Metabolite Map Coding Scheme Version");
+  static const PDTagDefinition k5225 = const PDTagDefinition._(5225,
+      "MMCPrivate", 0x00290097, VR.kLO, VM.k1, "Metabolite Map Code Meaning");
+  static const PDTagDefinition k5226 = const PDTagDefinition._(5226,
+      "MMCPrivate", 0x00290098, VR.kSQ, VM.k1, "MR Imaging Modifier Sequence");
   static const PDTagDefinition k5227 = const PDTagDefinition._(
       5227, "MMCPrivate", 0x00290099, VR.kCS, VM.k1, "Magnetization Transfer");
   static const PDTagDefinition k5228 = const PDTagDefinition._(
       5228, "MMCPrivate", 0x0029009a, VR.kCS, VM.k1, "Blood Signal Nulling");
   static const PDTagDefinition k5229 = const PDTagDefinition._(
       5229, "MMCPrivate", 0x0029009b, VR.kCS, VM.k1, "Tagging");
-  static const PDTagDefinition k5230 = const PDTagDefinition._(5230, "MMCPrivate",
-      0x0029009c, VR.kFD, VM.k1, "Tag Spacing First Dimension");
-  static const PDTagDefinition k5231 = const PDTagDefinition._(5231, "MMCPrivate",
-      0x0029009d, VR.kFD, VM.k1, "Tag Spacing Second Dimension");
+  static const PDTagDefinition k5230 = const PDTagDefinition._(5230,
+      "MMCPrivate", 0x0029009c, VR.kFD, VM.k1, "Tag Spacing First Dimension");
+  static const PDTagDefinition k5231 = const PDTagDefinition._(5231,
+      "MMCPrivate", 0x0029009d, VR.kFD, VM.k1, "Tag Spacing Second Dimension");
   static const PDTagDefinition k5232 = const PDTagDefinition._(
       5232, "MMCPrivate", 0x0029009e, VR.kFD, VM.k1, "Tag Angle First Axis");
   static const PDTagDefinition k5233 = const PDTagDefinition._(
@@ -14464,8 +14669,8 @@ class PDTagDefinition {
       5235, "MMCPrivate", 0x002900a1, VR.kFD, VM.k1, "Tagging Delay");
   static const PDTagDefinition k5236 = const PDTagDefinition._(
       5236, "MMCPrivate", 0x002900a3, VR.kDS, VM.k1, "Pixel Bandwidth");
-  static const PDTagDefinition k5237 = const PDTagDefinition._(5237, "MMCPrivate",
-      0x002900a4, VR.kSQ, VM.k1, "MRVelocity Encoding Sequence");
+  static const PDTagDefinition k5237 = const PDTagDefinition._(5237,
+      "MMCPrivate", 0x002900a4, VR.kSQ, VM.k1, "MRVelocity Encoding Sequence");
   static const PDTagDefinition k5238 = const PDTagDefinition._(
       5238, "MRSC", 0x01191211, VR.kIS, VM.k1_n, "InvertImage");
   static const PDTagDefinition k5239 = const PDTagDefinition._(
@@ -14484,16 +14689,16 @@ class PDTagDefinition {
       5245, "MMCPrivate", 0x002900b3, VR.kLO, VM.k1, "Is Dicom");
   static const PDTagDefinition k5246 = const PDTagDefinition._(
       5246, "MMCPrivate", 0x002900b4, VR.kLO, VM.k1, "Is Allow Cascade Save");
-  static const PDTagDefinition k5247 = const PDTagDefinition._(5247, "MMCPrivate",
-      0x002900b5, VR.kLO, VM.k1, "Is Allow Cascade Protect");
+  static const PDTagDefinition k5247 = const PDTagDefinition._(5247,
+      "MMCPrivate", 0x002900b5, VR.kLO, VM.k1, "Is Allow Cascade Protect");
   static const PDTagDefinition k5248 = const PDTagDefinition._(
       5248, "MMCPrivate", 0x002900b6, VR.kLO, VM.k1, "Is Deleted");
   static const PDTagDefinition k5249 = const PDTagDefinition._(
       5249, "MMCPrivate", 0x002900b7, VR.kOB, VM.k1, "Application Data");
   static const PDTagDefinition k5250 = const PDTagDefinition._(
       5250, "MMCPrivate", 0x002900b8, VR.kLO, VM.k1, "Is Allow Cascade Save");
-  static const PDTagDefinition k5251 = const PDTagDefinition._(5251, "MMCPrivate",
-      0x002900b9, VR.kLO, VM.k1, "Is Allow Cascade Protect");
+  static const PDTagDefinition k5251 = const PDTagDefinition._(5251,
+      "MMCPrivate", 0x002900b9, VR.kLO, VM.k1, "Is Allow Cascade Protect");
   static const PDTagDefinition k5252 = const PDTagDefinition._(
       5252, "MMCPrivate", 0x002900ba, VR.kLO, VM.k1, "Is Deleted");
   static const PDTagDefinition k5253 = const PDTagDefinition._(
@@ -14555,26 +14760,41 @@ class PDTagDefinition {
       5278, "MEDIFACE", 0x00290010, VR.kDS, VM.k1, "Unknown");
   static const PDTagDefinition k5279 = const PDTagDefinition._(
       5279, "MEDIFACE", 0x00290011, VR.kDS, VM.k1, "Unknown");
-  static const PDTagDefinition k5280 = const PDTagDefinition._(5280, "MMCPrivate",
-      0x002900a6, VR.kFD, VM.k1, "Velocity Encoding Minimum Value");
-  static const PDTagDefinition k5281 = const PDTagDefinition._(5281, "MMCPrivate",
-      0x002900a7, VR.kFD, VM.k1, "Velocity Encoding Maximum Value");
-  static const PDTagDefinition k5282 = const PDTagDefinition._(5282, "MMCPrivate",
-      0x002900a8, VR.kSQ, VM.k1, "MR Image Frame Type Sequence");
+  static const PDTagDefinition k5280 = const PDTagDefinition._(
+      5280,
+      "MMCPrivate",
+      0x002900a6,
+      VR.kFD,
+      VM.k1,
+      "Velocity Encoding Minimum Value");
+  static const PDTagDefinition k5281 = const PDTagDefinition._(
+      5281,
+      "MMCPrivate",
+      0x002900a7,
+      VR.kFD,
+      VM.k1,
+      "Velocity Encoding Maximum Value");
+  static const PDTagDefinition k5282 = const PDTagDefinition._(5282,
+      "MMCPrivate", 0x002900a8, VR.kSQ, VM.k1, "MR Image Frame Type Sequence");
   static const PDTagDefinition k5283 = const PDTagDefinition._(
       5283, "MMCPrivate", 0x002900a9, VR.kCS, VM.k1, "Frame Type");
   static const PDTagDefinition k5284 = const PDTagDefinition._(
       5284, "MMCPrivate", 0x002900aa, VR.kCS, VM.k1, "Pixel Presentation");
-  static const PDTagDefinition k5285 = const PDTagDefinition._(5285, "MMCPrivate",
-      0x002900ac, VR.kCS, VM.k1, "Volume Based Calculation Technique");
+  static const PDTagDefinition k5285 = const PDTagDefinition._(
+      5285,
+      "MMCPrivate",
+      0x002900ac,
+      VR.kCS,
+      VM.k1,
+      "Volume Based Calculation Technique");
   static const PDTagDefinition k5286 = const PDTagDefinition._(
       5286, "MMCPrivate", 0x002900bd, VR.kDS, VM.k1, "Mixing Time");
   static const PDTagDefinition k5287 = const PDTagDefinition._(
       5287, "MMCPrivate", 0x002900be, VR.kFD, VM.k1, "Selective IR Position");
   static const PDTagDefinition k5288 = const PDTagDefinition._(
       5288, "MMCPrivate", 0x002900bf, VR.kFD, VM.k1, "Selective IR Row");
-  static const PDTagDefinition k5289 = const PDTagDefinition._(5289, "MMCPrivate",
-      0x002900c1, VR.kFD, VM.k1, "Selective IR Orientation");
+  static const PDTagDefinition k5289 = const PDTagDefinition._(5289,
+      "MMCPrivate", 0x002900c1, VR.kFD, VM.k1, "Selective IR Orientation");
   static const PDTagDefinition k5290 = const PDTagDefinition._(
       5290, "MMCPrivate", 0x002900c2, VR.kDS, VM.k1, "Selective IR Thickness");
   static const PDTagDefinition k5291 = const PDTagDefinition._(
@@ -15192,8 +15412,8 @@ class PDTagDefinition {
       5459, "IDEXX", 0x00110000, VR.kLO, VM.k1, "Breed Name");
   static const PDTagDefinition k5460 = const PDTagDefinition._(
       5460, "IDEXX", 0x00110001, VR.kLO, VM.k1, "Species Name");
-  static const PDTagDefinition k5461 =
-      const PDTagDefinition._(5461, "IDEXX", 0x00110002, VR.kPN, VM.k1, "Owner");
+  static const PDTagDefinition k5461 = const PDTagDefinition._(
+      5461, "IDEXX", 0x00110002, VR.kPN, VM.k1, "Owner");
   static const PDTagDefinition k5462 = const PDTagDefinition._(5462,
       "WG12 Supplement 43", 0x00090001, VR.kSQ, VM.k1, "Event Timer Sequence");
   static const PDTagDefinition k5463 = const PDTagDefinition._(5463,
@@ -15458,8 +15678,13 @@ class PDTagDefinition {
       "Image ID Information Patient Comment");
   static const PDTagDefinition k5508 = const PDTagDefinition._(
       5508, "SET WINDOW", 0x00190000, VR.kSH, VM.k1, "Set Window Image Filter");
-  static const PDTagDefinition k5509 = const PDTagDefinition._(5509, "SET WINDOW",
-      0x00190001, VR.kUS, VM.k1, "Set Window Magnification Power");
+  static const PDTagDefinition k5509 = const PDTagDefinition._(
+      5509,
+      "SET WINDOW",
+      0x00190001,
+      VR.kUS,
+      VM.k1,
+      "Set Window Magnification Power");
   static const PDTagDefinition k5510 = const PDTagDefinition._(5510, "SVISION",
       0x00170020, VR.kSQ, VM.k1, "Scheduled Procedure Step List");
   static const PDTagDefinition k5511 = const PDTagDefinition._(
@@ -15936,8 +16161,8 @@ class PDTagDefinition {
       5636, "NQHeader", 0x00990004, VR.kSS, VM.k1, "Return Code");
   static const PDTagDefinition k5637 = const PDTagDefinition._(
       5637, "NQHeader", 0x00990005, VR.kLT, VM.k1, "Return Message");
-  static const PDTagDefinition k5638 =
-      const PDTagDefinition._(5638, "NQHeader", 0x00990010, VR.kFL, VM.k1, "MI");
+  static const PDTagDefinition k5638 = const PDTagDefinition._(
+      5638, "NQHeader", 0x00990010, VR.kFL, VM.k1, "MI");
   static const PDTagDefinition k5639 = const PDTagDefinition._(
       5639, "NQHeader", 0x00990020, VR.kSH, VM.k1, "Units");
   static const PDTagDefinition k5640 = const PDTagDefinition._(
@@ -16264,8 +16489,8 @@ class PDTagDefinition {
       5775, "CTP", 0x00130011, VR.kLO, VM.k1, "Trial Name");
   static const PDTagDefinition k5776 = const PDTagDefinition._(
       5776, "CTP", 0x00130012, VR.kLO, VM.k1, "Site Name");
-  static const PDTagDefinition k5777 =
-      const PDTagDefinition._(5777, "CTP", 0x00130013, VR.kLO, VM.k1, "Site ID");
+  static const PDTagDefinition k5777 = const PDTagDefinition._(
+      5777, "CTP", 0x00130013, VR.kLO, VM.k1, "Site ID");
   static const PDTagDefinition k5778 = const PDTagDefinition._(
       5778,
       "VEPRO DICOM RECEIVE DATA 1.0",
@@ -18159,66 +18384,66 @@ class PDTagDefinition {
       VR.kOB,
       VM.k1,
       "Image Xml Data");
-  static const PDTagDefinition k6292 =
-      const PDTagDefinition._(6292, "NNT", 0x00190002, VR.kUS, VM.k1, "Unknown");
-  static const PDTagDefinition k6293 =
-      const PDTagDefinition._(6293, "NNT", 0x00190003, VR.kDS, VM.k1, "Unknown");
-  static const PDTagDefinition k6294 =
-      const PDTagDefinition._(6294, "NNT", 0x00190004, VR.kDS, VM.k1, "Unknown");
-  static const PDTagDefinition k6295 =
-      const PDTagDefinition._(6295, "NNT", 0x00190005, VR.kDS, VM.k1, "Unknown");
-  static const PDTagDefinition k6296 =
-      const PDTagDefinition._(6296, "NNT", 0x00190006, VR.kDS, VM.k1, "Unknown");
-  static const PDTagDefinition k6297 =
-      const PDTagDefinition._(6297, "NNT", 0x00190007, VR.kDS, VM.k1, "Unknown");
-  static const PDTagDefinition k6298 =
-      const PDTagDefinition._(6298, "NNT", 0x00190009, VR.kDS, VM.k1, "Unknown");
-  static const PDTagDefinition k6299 =
-      const PDTagDefinition._(6299, "NNT", 0x0019000a, VR.kDS, VM.k1, "Unknown");
-  static const PDTagDefinition k6300 =
-      const PDTagDefinition._(6300, "NNT", 0x0019000b, VR.kDS, VM.k1, "Unknown");
-  static const PDTagDefinition k6301 =
-      const PDTagDefinition._(6301, "NNT", 0x0019000c, VR.kDS, VM.k1, "Unknown");
-  static const PDTagDefinition k6302 =
-      const PDTagDefinition._(6302, "NNT", 0x0019000d, VR.kDS, VM.k1, "Unknown");
-  static const PDTagDefinition k6303 =
-      const PDTagDefinition._(6303, "NNT", 0x0019000e, VR.kDS, VM.k1, "Unknown");
-  static const PDTagDefinition k6304 =
-      const PDTagDefinition._(6304, "NNT", 0x0019000f, VR.kDS, VM.k1, "Unknown");
-  static const PDTagDefinition k6305 =
-      const PDTagDefinition._(6305, "NNT", 0x00190012, VR.kDS, VM.k1, "Unknown");
-  static const PDTagDefinition k6306 =
-      const PDTagDefinition._(6306, "NNT", 0x00190013, VR.kDS, VM.k1, "Unknown");
-  static const PDTagDefinition k6307 =
-      const PDTagDefinition._(6307, "NNT", 0x0019001e, VR.kDS, VM.k3, "Unknown");
-  static const PDTagDefinition k6308 =
-      const PDTagDefinition._(6308, "NNT", 0x0019001f, VR.kDS, VM.k1, "Unknown");
-  static const PDTagDefinition k6309 =
-      const PDTagDefinition._(6309, "NNT", 0x00190020, VR.kDS, VM.k1, "Unknown");
-  static const PDTagDefinition k6310 =
-      const PDTagDefinition._(6310, "NNT", 0x00190021, VR.kDS, VM.k1, "Unknown");
-  static const PDTagDefinition k6311 =
-      const PDTagDefinition._(6311, "NNT", 0x00190022, VR.kIS, VM.k1, "Unknown");
-  static const PDTagDefinition k6312 =
-      const PDTagDefinition._(6312, "NNT", 0x00190023, VR.kIS, VM.k1, "Unknown");
-  static const PDTagDefinition k6313 =
-      const PDTagDefinition._(6313, "NNT", 0x00190024, VR.kLO, VM.k1, "Unknown");
-  static const PDTagDefinition k6314 =
-      const PDTagDefinition._(6314, "NNT", 0x00190025, VR.kIS, VM.k1, "Unknown");
-  static const PDTagDefinition k6315 =
-      const PDTagDefinition._(6315, "NNT", 0x00190026, VR.kLO, VM.k1, "Unknown");
-  static const PDTagDefinition k6316 =
-      const PDTagDefinition._(6316, "NNT", 0x00190027, VR.kLO, VM.k1, "Unknown");
-  static const PDTagDefinition k6317 =
-      const PDTagDefinition._(6317, "NNT", 0x00190028, VR.kLO, VM.k1, "Unknown");
-  static const PDTagDefinition k6318 =
-      const PDTagDefinition._(6318, "NNT", 0x00190030, VR.kLO, VM.k1, "Unknown");
-  static const PDTagDefinition k6319 =
-      const PDTagDefinition._(6319, "NNT", 0x00190031, VR.kIS, VM.k1, "Unknown");
-  static const PDTagDefinition k6320 =
-      const PDTagDefinition._(6320, "NNT", 0x00190032, VR.kIS, VM.k1, "Unknown");
-  static const PDTagDefinition k6321 =
-      const PDTagDefinition._(6321, "NNT", 0x00190033, VR.kDS, VM.k8, "Unknown");
+  static const PDTagDefinition k6292 = const PDTagDefinition._(
+      6292, "NNT", 0x00190002, VR.kUS, VM.k1, "Unknown");
+  static const PDTagDefinition k6293 = const PDTagDefinition._(
+      6293, "NNT", 0x00190003, VR.kDS, VM.k1, "Unknown");
+  static const PDTagDefinition k6294 = const PDTagDefinition._(
+      6294, "NNT", 0x00190004, VR.kDS, VM.k1, "Unknown");
+  static const PDTagDefinition k6295 = const PDTagDefinition._(
+      6295, "NNT", 0x00190005, VR.kDS, VM.k1, "Unknown");
+  static const PDTagDefinition k6296 = const PDTagDefinition._(
+      6296, "NNT", 0x00190006, VR.kDS, VM.k1, "Unknown");
+  static const PDTagDefinition k6297 = const PDTagDefinition._(
+      6297, "NNT", 0x00190007, VR.kDS, VM.k1, "Unknown");
+  static const PDTagDefinition k6298 = const PDTagDefinition._(
+      6298, "NNT", 0x00190009, VR.kDS, VM.k1, "Unknown");
+  static const PDTagDefinition k6299 = const PDTagDefinition._(
+      6299, "NNT", 0x0019000a, VR.kDS, VM.k1, "Unknown");
+  static const PDTagDefinition k6300 = const PDTagDefinition._(
+      6300, "NNT", 0x0019000b, VR.kDS, VM.k1, "Unknown");
+  static const PDTagDefinition k6301 = const PDTagDefinition._(
+      6301, "NNT", 0x0019000c, VR.kDS, VM.k1, "Unknown");
+  static const PDTagDefinition k6302 = const PDTagDefinition._(
+      6302, "NNT", 0x0019000d, VR.kDS, VM.k1, "Unknown");
+  static const PDTagDefinition k6303 = const PDTagDefinition._(
+      6303, "NNT", 0x0019000e, VR.kDS, VM.k1, "Unknown");
+  static const PDTagDefinition k6304 = const PDTagDefinition._(
+      6304, "NNT", 0x0019000f, VR.kDS, VM.k1, "Unknown");
+  static const PDTagDefinition k6305 = const PDTagDefinition._(
+      6305, "NNT", 0x00190012, VR.kDS, VM.k1, "Unknown");
+  static const PDTagDefinition k6306 = const PDTagDefinition._(
+      6306, "NNT", 0x00190013, VR.kDS, VM.k1, "Unknown");
+  static const PDTagDefinition k6307 = const PDTagDefinition._(
+      6307, "NNT", 0x0019001e, VR.kDS, VM.k3, "Unknown");
+  static const PDTagDefinition k6308 = const PDTagDefinition._(
+      6308, "NNT", 0x0019001f, VR.kDS, VM.k1, "Unknown");
+  static const PDTagDefinition k6309 = const PDTagDefinition._(
+      6309, "NNT", 0x00190020, VR.kDS, VM.k1, "Unknown");
+  static const PDTagDefinition k6310 = const PDTagDefinition._(
+      6310, "NNT", 0x00190021, VR.kDS, VM.k1, "Unknown");
+  static const PDTagDefinition k6311 = const PDTagDefinition._(
+      6311, "NNT", 0x00190022, VR.kIS, VM.k1, "Unknown");
+  static const PDTagDefinition k6312 = const PDTagDefinition._(
+      6312, "NNT", 0x00190023, VR.kIS, VM.k1, "Unknown");
+  static const PDTagDefinition k6313 = const PDTagDefinition._(
+      6313, "NNT", 0x00190024, VR.kLO, VM.k1, "Unknown");
+  static const PDTagDefinition k6314 = const PDTagDefinition._(
+      6314, "NNT", 0x00190025, VR.kIS, VM.k1, "Unknown");
+  static const PDTagDefinition k6315 = const PDTagDefinition._(
+      6315, "NNT", 0x00190026, VR.kLO, VM.k1, "Unknown");
+  static const PDTagDefinition k6316 = const PDTagDefinition._(
+      6316, "NNT", 0x00190027, VR.kLO, VM.k1, "Unknown");
+  static const PDTagDefinition k6317 = const PDTagDefinition._(
+      6317, "NNT", 0x00190028, VR.kLO, VM.k1, "Unknown");
+  static const PDTagDefinition k6318 = const PDTagDefinition._(
+      6318, "NNT", 0x00190030, VR.kLO, VM.k1, "Unknown");
+  static const PDTagDefinition k6319 = const PDTagDefinition._(
+      6319, "NNT", 0x00190031, VR.kIS, VM.k1, "Unknown");
+  static const PDTagDefinition k6320 = const PDTagDefinition._(
+      6320, "NNT", 0x00190032, VR.kIS, VM.k1, "Unknown");
+  static const PDTagDefinition k6321 = const PDTagDefinition._(
+      6321, "NNT", 0x00190033, VR.kDS, VM.k8, "Unknown");
   static const PDTagDefinition k6322 = const PDTagDefinition._(
       6322, "CAD Sciences", 0x33350000, VR.kUN, VM.k1, "Unknown");
   static const PDTagDefinition k6323 = const PDTagDefinition._(
@@ -36327,8 +36552,8 @@ class PDTagDefinition {
       10784, "MRSC", 0x011700b2, VR.kDS, VM.k1, "FTVSERMaximum");
   static const PDTagDefinition k10785 = const PDTagDefinition._(
       10785, "MRSC", 0x011700b3, VR.kIS, VM.k1, "FTVPixelCount");
-  static const PDTagDefinition k10786 =
-      const PDTagDefinition._(10786, "MRSC", 0x011700b4, VR.kDS, VM.k1, "FTVcc");
+  static const PDTagDefinition k10786 = const PDTagDefinition._(
+      10786, "MRSC", 0x011700b4, VR.kDS, VM.k1, "FTVcc");
   static const PDTagDefinition k10787 = const PDTagDefinition._(
       10787, "MRSC", 0x011700b5, VR.kLO, VM.k1, "FTVLabel");
   static const PDTagDefinition k10788 = const PDTagDefinition._(
@@ -36577,8 +36802,8 @@ class PDTagDefinition {
       10909, "MRSC", 0x01191512, VR.kLO, VM.k1, "SERMaskFileName");
   static const PDTagDefinition k10910 = const PDTagDefinition._(
       10910, "MRSC", 0x01191513, VR.kDS, VM.k1, "SERMaskChecksum");
-  static const PDTagDefinition k10911 =
-      const PDTagDefinition._(10911, "MRSC", 0x01190018, VR.kIS, VM.k3, "GAINS");
+  static const PDTagDefinition k10911 = const PDTagDefinition._(
+      10911, "MRSC", 0x01190018, VR.kIS, VM.k3, "GAINS");
   static const PDTagDefinition k10912 = const PDTagDefinition._(
       10912, "MRSC", 0x01190027, VR.kIS, VM.k1_n, "ByteScaleMinMaxTop");
   static const PDTagDefinition k10913 = const PDTagDefinition._(
@@ -36669,8 +36894,8 @@ class PDTagDefinition {
       0x01190077, VR.kLO, VM.k1, "SACoilCorrectionParams_Coeff_src");
   static const PDTagDefinition k10956 =
       const PDTagDefinition._(10956, "MRSC", 0x01190082, VR.kDS, VM.k1_n, "TI");
-  static const PDTagDefinition k10957 =
-      const PDTagDefinition._(10957, "MRSC", 0x01190083, VR.kDS, VM.k1_n, "TSL");
+  static const PDTagDefinition k10957 = const PDTagDefinition._(
+      10957, "MRSC", 0x01190083, VR.kDS, VM.k1_n, "TSL");
   static const PDTagDefinition k10958 = const PDTagDefinition._(
       10958, "MRSC", 0x01190088, VR.kDS, VM.k1_n, "FlipAngle");
   static const PDTagDefinition k10959 = const PDTagDefinition._(
@@ -37069,16 +37294,21 @@ class PDTagDefinition {
       VR.kFL,
       VM.k1,
       "Diffusion Direction FH");
-  static const PDTagDefinition k11057 = const PDTagDefinition._(11057, "FDMS 1.0",
-      0x50f10006, VR.kCS, VM.k1, "Energy Subtraction Parameter");
-  static const PDTagDefinition k11058 = const PDTagDefinition._(11058, "FDMS 1.0",
-      0x50f10007, VR.kCS, VM.k1, "Subtraction Registration Result");
-  static const PDTagDefinition k11059 = const PDTagDefinition._(11059, "FDMS 1.0",
-      0x50f10008, VR.kCS, VM.k1, "Energy Subtraction Parameter 2");
-  static const PDTagDefinition k11060 = const PDTagDefinition._(11060, "FDMS 1.0",
-      0x50f10009, VR.kSL, VM.k1, "Afin Conversion Coefficient");
-  static const PDTagDefinition k11061 = const PDTagDefinition._(11061, "FDMS 1.0",
-      0x50f10020, VR.kCS, VM.k1, "Image Processing Modification Flag");
+  static const PDTagDefinition k11057 = const PDTagDefinition._(11057,
+      "FDMS 1.0", 0x50f10006, VR.kCS, VM.k1, "Energy Subtraction Parameter");
+  static const PDTagDefinition k11058 = const PDTagDefinition._(11058,
+      "FDMS 1.0", 0x50f10007, VR.kCS, VM.k1, "Subtraction Registration Result");
+  static const PDTagDefinition k11059 = const PDTagDefinition._(11059,
+      "FDMS 1.0", 0x50f10008, VR.kCS, VM.k1, "Energy Subtraction Parameter 2");
+  static const PDTagDefinition k11060 = const PDTagDefinition._(11060,
+      "FDMS 1.0", 0x50f10009, VR.kSL, VM.k1, "Afin Conversion Coefficient");
+  static const PDTagDefinition k11061 = const PDTagDefinition._(
+      11061,
+      "FDMS 1.0",
+      0x50f10020,
+      VR.kCS,
+      VM.k1,
+      "Image Processing Modification Flag");
   static const PDTagDefinition k11062 = const PDTagDefinition._(
       11062, "GEMS_MR_RAW_01", 0x70010001, VR.kOB, VM.k1, "rdb_hdr_rec");
   static const PDTagDefinition k11063 = const PDTagDefinition._(11063,

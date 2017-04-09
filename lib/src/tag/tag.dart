@@ -178,6 +178,7 @@ class Tag {
     // If a VR has a long Value Field, then it has [VM.k1],
     // and its length is always valid.
     log.debug('isValidValues vr: $vr');
+    if (vr == VR.kUN) return true;
     if (vr.hasShortVF && isNotValidLength(values.length)) return false;
     for (int i = 0; i < values.length; i++)
       if (vr.isNotValid(values[i])) return false;
@@ -247,9 +248,11 @@ class Tag {
 
   bool isValidVFLength(int lengthInBytes) {
     // print('lib: $lengthInBytes');
-    int min = minLength * vr.minValue;
-    int max = maxLength * vr.maxValue;
-    if (min <= lengthInBytes && lengthInBytes <= max) return true;
+    int min = minLength * vr.minValueLength;
+    print('minLength: $minLength, minValueLength: ${vr.minValueLength}');
+    print('maxVFLength: ${vr.maxVFLength}');
+    print('min: $min, lengthInBytes: $lengthInBytes');
+    if (min <= lengthInBytes && lengthInBytes <= vr.maxVFLength) return true;
     return false;
   }
 

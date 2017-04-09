@@ -53,7 +53,6 @@ class VRInt extends VR<int> {
   final int minValue;
 
   /// The minimum length of a value.
-  @override
   final int maxValue;
 
   /// The method that converts bytes ([Uint8List]) to values.
