@@ -23,9 +23,7 @@ class VRFloat extends VR<double> {
       : super(index, code, id, elementSize, vfLengthFieldSize, maxVFLength,
             keyword);
 
-  @override
   int get minValue => elementSize;
-  @override
   int get maxLength => elementSize;
 
   @override
