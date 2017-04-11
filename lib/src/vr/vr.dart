@@ -234,9 +234,7 @@ const Map<VR, String> dataTypes = const <VR, String>{
 
 //TODO: clean this up. remove VR.kUnknown and VR.kBR. How to handle SQ
 class VRSequence extends VR {
-  @override
   final int minValue = 8;
-  @override
   final int maxLength = kMaxLongVF;
 
   const VRSequence._(int index, int code, String id, int elementSize,

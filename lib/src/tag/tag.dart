@@ -53,11 +53,11 @@ class Tag {
   bool get isUnKnown => !isKnown;
 
   // **** Code Getters
-  String get dcm => '(${Int.hex(group, 4, "")},${Int.hex(elt, 4, "")})';
+  String get dcm => '(${Group.hex(group)},${Elt.hex(elt)})';
 
   String get hex => Int.hex(code, 8);
 
-  int get group => Group.check(code >> 16);
+  int get group => code >> 16;
 
   String get groupHex => Group.hex(group);
 

@@ -49,7 +49,6 @@ typedef int IntFixer(int value);
 //TODO: doc
 class VRInt extends VR<int> {
   /// The minimum length of a value.
-  @override
   final int minValue;
 
   /// The minimum length of a value.

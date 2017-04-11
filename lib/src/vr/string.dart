@@ -19,7 +19,9 @@ typedef E Parser<E>(String s, int min, int max);
 typedef E Fixer<E>(String s, int min, int max);
 
 abstract class VRString extends VR<String> {
+  @override
   final int minValueLength;
+  @override
   final int maxValueLength;
 
   /// Create an integer VR.

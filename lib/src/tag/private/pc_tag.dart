@@ -20,6 +20,10 @@ class PCTag extends PrivateTag {
       : definition = PCTagDefinition.lookup(name),
         super(code, vr);
 
+  PCTag.phantom(int code)
+      : definition = PCTagDefinition.kPhantom,
+        super(code, VR.kLO);
+
   const PCTag._(int code, VR vr, this.definition) : super(code, vr);
 
   @override
@@ -29,7 +33,9 @@ class PCTag extends PrivateTag {
   String get name => definition.name;
   Map<int, PDTagDefinition> get dataTags => definition.dataTags;
 
-  VM get expectedVM => VM.k1;
+  @override
+  VM get vm => VM.k1;
+
   VR get expectedVR => VR.kLO;
   // fix: when creators have expected codes
   // int get expectedGroup => definition.group;
@@ -94,9 +100,6 @@ class PCTag extends PrivateTag {
     log.debug('PCTag.maker: ${tag.info}');
     return tag;
   }
-
-  static const PCTag kNonExtantCreatorTag =
-      const PCTag._(0, VR.kLO, PCTagDefinition.kUnknown);
 }
 
 //TODO: improve formatting
@@ -131,7 +134,10 @@ class PCTagDefinition {
 
   //Fix: renumber index
   static const PCTagDefinition kUnknown =
-      const PCTagDefinition._(-1, "Unknown Private Creator", _empty);
+      const PCTagDefinition._(-1, "Unknown Private Creator Tag", _empty);
+
+  static const PCTagDefinition kPhantom =
+  const PCTagDefinition._(-1, "Phantom Private Creator Tag", _empty);
 
   static const PCTagDefinition k0 =
       const PCTagDefinition._(0, "1.2.840.113681", const <int, PDTagDefinition>{
