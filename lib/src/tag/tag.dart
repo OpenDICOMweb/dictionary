@@ -502,4 +502,6 @@ class Tag {
     String msg = 'Invalid tag: $tag not in $min <= x <= $max';
     throw new RangeError(msg);
   }
+
+  static const kUnknown = const Tag(0, VR.kUN);
 }

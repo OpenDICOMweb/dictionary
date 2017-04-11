@@ -65,6 +65,10 @@ class PTag extends Tag {
     return new PTag.unknown(code, vr);
   }
 
+  static PTag unknownMaker(int code, VR vr, [dynamic name]) {
+    return new PTag.unknown(code, vr);
+  }
+
   //TODO: this should become public when fully converted to Tags.
   static PTag lookupCode(int code, [VR vr = VR.kUN, bool shouldThrow = true]) {
     assert(Tag.isPublicCode(code));
@@ -1325,6 +1329,54 @@ class PTag extends Tag {
       //(0010,0201)
       = const PTag._("QualityControlSubjectTypeCodeSequence", 0x00100201,
           "Quality Control Subject Type Code Sequence", VR.kSQ, VM.k1, false);
+  static const PTag kStrainDescription
+      //(0010,0212)
+      = const PTag._("StrainDescription", 0x00100212, "Strain Description",
+          VR.kUC, VM.k1, false);
+  static const PTag kStrainNomenclature
+      //(0010,0213)
+      = const PTag._("StrainNomenclature", 0x00100213, "Strain​Nomenclature",
+          VR.kLO, VM.k1, false);
+  static const PTag kStrainStockNumber
+      //(0010,0214)
+      = const PTag._("StrainStockNumber", 0x00100214, "Strain​Stock​Number",
+          VR.kLO, VM.k1, false);
+  static const PTag kStrainSourceRegistryCodeSequence
+      //(0010,0215)
+      = const PTag._("StrainSourceRegistryCodeSequence", 0x00100215,
+          " Strain Source Registry Code Sequence", VR.kSQ, VM.k1, false);
+  static const PTag kStrainStockSequence
+      //(0010,0216)
+      = const PTag._("StrainStockSequence", 0x00100216, "Strain Stock Sequence",
+          VR.kSQ, VM.k1, false);
+  static const PTag kStrainSource
+      //(0010,0217)
+      = const PTag._(
+          "StrainSource", 0x00100217, "Strain Source", VR.kLO, VM.k1, false);
+  static const PTag kStrainAdditionalInformation
+      //(0010,0218)
+      = const PTag._("StrainAdditionalInformation", 0x00100218,
+          "Strain Additional Information", VR.kUT, VM.k1, false);
+  static const PTag kStrainCodeSequence
+      //(0010,0219)
+      = const PTag._("StrainCodeSequence", 0x00100219, "Strain Code Sequence",
+          VR.kSQ, VM.k1, false);
+  static const PTag kGeneticModificationsSequence
+      //(0010,0221)
+      = const PTag._("GeneticModificationsSequence", 0x00100221,
+          "Genetic Modifications Sequence", VR.kSQ, VM.k1, false);
+  static const PTag kGeneticModificationsDescription
+      //(0010,0222)
+      = const PTag._("GeneticModificationsDescription", 0x00100222,
+          "Genetic Modifications Description", VR.kUC, VM.k1, false);
+  static const PTag kGeneticModificationsNomenclature
+      //(0010,0223)
+      = const PTag._("GeneticModificationsNomenclature", 0x00100223,
+          "Genetic Modifications Nomenclature", VR.kLO, VM.k1, false);
+  static const PTag kGeneticModificationsCodeSequence
+      //(0010,0219)
+      = const PTag._("GeneticModificationsCodeSequence", 0x00100229,
+          "Genetic Modifications Code Sequence", VR.kSQ, VM.k1, false);
   static const PTag kOtherPatientIDs
       //(0010,1000)
       = const PTag._("OtherPatientIDs", 0x00101000, "Other Patient IDs", VR.kLO,

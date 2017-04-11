@@ -5,6 +5,7 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:dictionary/tag.dart';
+import 'package:dictionary/uid.dart';
 
 class InvalidTagError extends Error {
   Object tag;
@@ -49,4 +50,18 @@ class ParseError extends Error {
 
   @override
   String toString() => 'ParseError: $issues';
+}
+
+class InvalidUidError extends Error {
+String error = 'Error: Invalid Uid:';
+  Uid uid;
+  Tag tag;
+  String msg;
+
+  InvalidUidError(this.uid, {this.tag, this.msg = ""});
+
+  @override
+  String toString() => (tag == null) ? '$error $uid $msg' : '$error $uid from '
+      'Tag: '
+      '$tag $msg';
 }
