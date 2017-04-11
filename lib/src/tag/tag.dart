@@ -503,5 +503,5 @@ class Tag {
     throw new RangeError(msg);
   }
 
-  static const kUnknown = const Tag(0, VR.kUN);
+  static const Tag kUnknown = const Tag(0, VR.kUN);
 }
