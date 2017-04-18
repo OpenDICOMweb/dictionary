@@ -4,6 +4,9 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:common/ascii.dart';
 import 'package:dictionary/date_time.dart';
 import 'package:dictionary/src/constants.dart';
@@ -18,6 +21,8 @@ typedef String ErrorMsg<String>(String value, int min, int max);
 typedef E Parser<E>(String s, int min, int max);
 typedef E Fixer<E>(String s, int min, int max);
 
+const List<String> emptyList = const <String>[];
+
 abstract class VRString extends VR<String> {
   @override
   final int minValueLength;
@@ -29,14 +34,37 @@ abstract class VRString extends VR<String> {
       int maxVFLength, String keyword, this.minValueLength, this.maxValueLength)
       : super(index, code, id, 1, vfLengthSize, maxVFLength, keyword);
 
-  bool get isAscii => true;
+  String get padChar => ' '; // defaults to ASCII Space
+
+  @override
+  bool get isBinary => false;
+  @override
+  bool get isString => true;
+
+  /// Returns a [List<String>] converted from [bytes].
+  List<String> bytesToValues(Uint8List bytes) {
+    if (bytes == null || bytes.length == 0) emptyList;
+    if (bytes.length.isEven) {
+      if (bytes[bytes.length - 1] == kSpace || bytes[bytes.length - 1] == kNull)
+        bytes = bytes.buffer.asUint8List(0, bytes.length - 1);
+    }
+    var s = (isAscii) ? ASCII.decode(bytes) : UTF8.decode(bytes);
+    return s.split('\\');
+  }
+
+  Uint8List valuesToBytes(List<String> values) {
+    StringBuffer sb = new StringBuffer('${values.join(r"\")}');
+    if (sb.length.isOdd) sb.write(padChar);
+    var s = sb.toString();
+    return (isAscii) ? ASCII.encode(s) : UTF8.encode(s);
+  }
 
   @override
   String check(String s) => (isValid(s)) ? s : null;
 
   /// Default [String] parser.  If the [String] [isValid] just returns it;
   @override
-  dynamic parse(String s);
+  dynamic parse(String s) => isValid(s);
 
   //Fix: complent and doc
   @override
@@ -107,6 +135,9 @@ class VRDcmString extends VRString {
   bool get isAscii => (this == kAE) ? true : false;
 
   @override
+  bool get isUtf8 => !isAscii;
+
+  @override
   bool isValid(Object s) => (s is String) && _filteredTest(s, _isDcmChar);
 
   @override
@@ -141,6 +172,9 @@ class VRDcmText extends VRString {
 
   @override
   bool get isAscii => false;
+
+  @override
+  bool get isUtf8 => true;
 
   @override
   bool isValid(Object s) => (s is String) && _filteredTest(s, _isTextChar);
@@ -542,6 +576,9 @@ class VRUid extends VRString {
       int maxVFLength, String keyword, int minValueLength, int maxValueLength)
       : super._(index, code, id, vfLengthSize, maxVFLength, keyword,
             minValueLength, maxValueLength);
+
+  @override
+  String get padChar => '\u0000';
 
   @override
   bool isValid(Object s) => (s is String) && uid.isValidUidString(s);

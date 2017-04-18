@@ -131,6 +131,6 @@ void validateTest() {
       expect(
           tagUS.isValidVFLength(tagUS.maxLength * tagUS.vr.maxValueLength + 1),
           false);
-    }, skip: "Fix: calculations are wrong");
+    }, skip: "***** Fix: calculations are wrong for String VRs");
   });
 }

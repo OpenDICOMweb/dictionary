@@ -3,6 +3,7 @@
 // that can be found in the LICENSE file.
 // See the AUTHORS file for other contributors.
 
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:common/common.dart';
@@ -15,7 +16,7 @@ import 'string.dart';
 
 //TODO: Explain VR class structure
 
-class VR<T> {
+abstract class VR<T> {
   final int index;
   final int code;
   final String id;
@@ -42,11 +43,19 @@ class VR<T> {
   bool get hasShortVF => vfLengthSize == 2;
   bool get hasLongVF => !hasShortVF;
 
+  bool get isAscii => false;
+  bool get isUtf8 => false;
+
   String get info => '$runtimeType: $keyword $id(${Int16.hex(code)})[$index]: '
       'elementSize($elementSize) vfLengthSize($vfLengthSize), '
       'maxVFLength($maxVFLength)';
 
   String get asString => 'VR.k$id';
+
+  //TODO: decide whether these should be here or in Element
+  //List<T> bytesToValues(Uint8List bytes);
+  //TODO: decide whether these should be here or in Element
+  //Uint8List valuesToBytes(List<T> values);
 
   /// Returns the length in number of elements.
   int toLength(int lengthInBytes) => lengthInBytes ~/ elementSize;
@@ -66,6 +75,13 @@ class VR<T> {
   // **** Must be overridden.
   /// Returns a valid value, or if not parsable, [null].
   dynamic parse(String s) => null;
+
+  //TODO: decide whether these should be here or in Element
+  /// Returns a [String] containing a Base 64 encoding of [bytes].
+  String base64Encode(Uint8List bytes) => BASE64.encode(bytes);
+
+  /// Returns a [Uint8List] containing the Base 64 decoding of [s].
+  Uint8List base64decode(String s) => BASE64.decode(s);
 
   // **** Must be overridden.
   /// Returns a [ParseIssues] object indicating any issues with value.
@@ -87,14 +103,11 @@ class VR<T> {
   String toString() => asString;
 
   // **** Constant members
-  // index, code, id, elementSize, vfLengthSize, maxVFLength, keyword
-  /// UN - Unknown. The supertype of all VRs
-  static const VR kUN =
-      const VR(29, 0x4e55, "UN", 1, 4, kMaxUN, "Unknown", true);
-  static const VR kInvalid = const VR(0, 0, "Invalid", 0, 0, 0, "Invalid VR");
-  //TODO: this should have its own class
-  static const VR kBR = const VR(4, 0x5242, "BR", 0, 0, -1, "BDRef");
 
+  // Invalid
+  static const VR kInvalid = VRInvalid.kInvalid;
+  // Unknown
+  static const VR kUN = VRUnknown.kUN;
   // Sequence
   static const VR kSQ = VRSequence.kSQ;
 
@@ -146,7 +159,7 @@ class VR<T> {
   static const VR kUT = VRDcmText.kUT;
 
   // Placeholder for Bulkdata Reference
-  // static const VR kBR = VROther.kBR;
+   static const VR kBR = VRUnknown.kBR;
 
   // Special values used by Tag
   static const VR kOBOW = VR.kUN;
@@ -176,6 +189,9 @@ class VR<T> {
     0x5355: kUS, 0x5455: kUT // stop reformat
   };
 
+  bool get isBinary => false;
+  bool get isString => false;
+
   static VR lookup(int vrCode) => vrMap[vrCode];
 
   static const Map<String, VR> _idMap = const <String, VR>{
@@ -192,92 +208,54 @@ class VR<T> {
   static VR lookupId(String id) => _idMap[id];
 }
 
-//TODO: Add this field to VR Definition, then remove.
-/* or just remove.
-const Map<VR, String> dataTypes = const <VR, String>{
-  // String VRBs
-  VR.kAE: "AE Title",
-  VR.kAS: "String",
-  //  VRB.kBR:
-  VR.kCS: "Code String",
-  VR.kDA: "Date",
-  VR.kDS: "Decimal String",
-  VR.kDT: "DateTime",
-  VR.kIS: "Integer String",
-  VR.kLO: "String",
-  VR.kLT: "Text",
-  VR.kPN: "String",
-  VR.kSH: "String",
-  VR.kST: "Text",
-  VR.kTM: "Time",
-  VR.kUC: "String",
-  VR.kUI: "UID",
-  VR.kUR: "URI",
-  VR.kUT: "Text",
+//TODO: clean this up. remove VR.kUnknown and VR.kBR. How to handle SQ
+class VRUnknown extends VR<int> {
+  const VRUnknown._(int index, int code, String id, int elementSize,
+      int vfLengthSize, int maxVFLength, String keyword)
+      : super(index, code, id, 1, 4, kMaxLongVF, keyword, true);
 
-  // Integers
-  VR.kAT: "AE Title",
-  VR.kOB: "Other Byte",
-  VR.kOW: "uint16",
-  VR.kSL: "int32",
-  VR.kSS: "int16",
-  VR.kUL: "uint32",
-  VR.kUS: "uint16",
+  @override
+  bool get isBinary => true;
+  @override
+  bool get isString => false;
 
-  //Floats
-  VR.kFD: "float64",
-  VR.kFL: "float32",
-  VR.kOD: "float64",
-  VR.kOF: "float32"
-};
-*/
+  //index, code, id, elementSize, vfLengthSize, maxVFLength, keyword
+  /// UN - Unknown. The supertype of all VRs
+  static const VRUnknown kUN =
+      const VRUnknown._(29, 0x4e55, "UN", 1, 4, kMaxUN, "Unknown");
+
+  //TODO: this should have its own class
+  static const VRUnknown kBR = const VRUnknown._(4, 0x5242, "BR", 0, 0, -1, "B"
+  "DRef");
+
+}
 
 //TODO: clean this up. remove VR.kUnknown and VR.kBR. How to handle SQ
-class VRSequence extends VR {
-  final int minValue = 8;
-  final int maxLength = kMaxLongVF;
+class VRSequence extends VR<int> {
+  // 8 is the size of an empty element
+  @override
+  final int minValueLength = 8;
+  @override
+  final int maxValueLength = kMaxLongVF;
 
   const VRSequence._(int index, int code, String id, int elementSize,
       int vfLengthSize, int maxVFLength, String keyword)
       : super(index, code, id, 1, 4, kMaxLongVF, keyword, true);
+
+  bool get isSequence => true;
 
   //index, code, id, elementSize, vfLengthSize, maxVFLength, keyword
   static const VR kSQ =
       const VRSequence._(22, 0x5153, "SQ", 1, 4, kMaxLongVF, "Sequence");
 }
 
-/*
-class VRUnknown extends VR<int> {
-  const VRUnknown(int index, int code, String id, int elementSize,
-      int vfLengthSize, int maxVFLength, String keyword,
-      [bool undefinedLengthAllowed = false])
-      : super(index, code, id, elementSize, vfLengthSize, maxVFLength, keyword,
-            undefinedLengthAllowed);
 
-  /// Returns [true] if [n] is valid for [this].
-  @override
-  bool isValid(int n) => Uint8.inRange(n);
+class VRInvalid extends VR<int> {
+  const VRInvalid._(int index, int code, String id, int elementSize,
+      int vfLengthSize, int maxVFLength, String keyword)
+      : super(index, code, id, 1, 4, kMaxLongVF, keyword);
 
-  //TODO: doc
-  @override
-  ParseIssues issues(int n) => null;
-
-  /// Returns a valid, possibly coerced, value.
-  @override
-  int fix(int n) {
-    if (n < Uint8.minValue) return 0;
-    if (n > Uint8.maxValue) return 255;
-    return n;
-  }
-
-  @override
-  List<int> view(List<int> list) => Uint8.view(list);
-
-  List<int> copy(List<int> list) =>
-      Uint8.fromBytes(list, 0, list.length, false);
-
-  // UN - is a generic tag
-  static const VR kUN =
-      const VRUnknown(29, 0x4e55, "UN", 1, 4, kMaxUN, "Unknown", true);
+  static const VRUnknown kInvalid = const VRUnknown._(0, 0, "Invalid", 0, 0,
+      0, "Invalid VR");
 }
-*/
+

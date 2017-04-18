@@ -72,6 +72,8 @@ class VRInt extends VR<int> {
       : super(index, code, id, elementSize, vfLengthSize, maxVFLength, keyword,
             undefinedLengthAllowed);
 
+  bool get isBinary => true;
+  bool get isString => false;
   /// Returns [true] if [n] is valid for this [VRInt].
   @override
   bool isValid(Object n) => (n is int) && (minValue <= n) && (n <= maxValue);
