@@ -30,6 +30,8 @@ class VR<T> {
 
   VR operator [](int i) => vrList[i];
 
+  bool get isString => false;
+  bool get isBinary => false;
   /// The minimum length of a value.
   int get minValueLength => elementSize;
 

@@ -160,6 +160,7 @@ class Tag {
     return '$runtimeType$dcm $vr $vm $keyword $retired';
   }
 
+  /// Returns [true] if the [Tag] is a valid Public or Private Tag.
   bool get isValid => false;
 
   /// Returns True if the [length], i.e. the number of values, is
