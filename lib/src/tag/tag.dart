@@ -97,12 +97,35 @@ class Tag {
 
   // **** VM Getters
 
-  int get minLength => vm.min;
+  /// The minimum number that MUST be present, if any values are present.
+  int get minValues => vm.min;
+
+  int get _vfLimit => (vr.hasShortVF) ? kMaxShortVF : kMaxLongVF;
+
+  /// The maximum number that MAY be present, if any values are present.
+  int get maxValues => (vm.max != -1) ? vm.max : _vfLimit ~/ vr.minValueLength;
+
+  /// The minimum length of the Value Field.
+  int get minVFLength => vm.min * vr.minValueLength;
+
+  /// The maximum length of the Value Field.
+  int get maxVFLength {
+    // Optimization - for most Tags vm.max == 1
+    if (vm.max == 1) return vr.maxValueLength * vr.elementSize;
+    if (vm.max == -1) {
+      return vr.maxVFLength;
+    } else {
+      var maxVF = maxValues * vr.maxValueLength;
+      return (maxVF > vr.maxVFLength) ? vr.maxVFLength : maxVF;
+    }
+  }
 
   //TODO: Validate that the number of values is legal
   //TODO write unit tests to ensure this is correct
   //TODO: make this work for PrivateTags
+
   /// Returns the maximum number of values allowed for this [Tag].
+  /*
   int get maxLength {
     if (vm.max == -1) {
       int max = (vr.hasShortVF) ? kMaxShortVF : kMaxLongVF;
@@ -110,6 +133,7 @@ class Tag {
     }
     return vm.max;
   }
+  */
 
   int get width => vm.width;
 
@@ -217,7 +241,7 @@ class Tag {
   // If a VR has a long Value Field, then it has [VM.k1],
   // and its length is always valid.
   String lengthIssue(int length) => (vr.hasShortVF && isNotValidLength(length))
-      ? 'Invalid Length: min($minLength) <= value($length) <= max($maxLength)'
+      ? 'Invalid Length: min($minValues) <= value($length) <= max($maxValues)'
       : null;
 
   //TODO: make this work with [ParseIssues]
@@ -238,11 +262,9 @@ class Tag {
   List<E> checkValue<E>(dynamic value) => vr.isValid(value) ? value : null;
 
   bool isValidLength(int length) {
-    //  log.debug('isValidLength: $length');
-    //  log.debug('min($minLength), max($maxLength), width($width)');
     // These are the most common cases.
     if (length == 0 || (length == 1 && width == 0)) return true;
-    return (minLength <= length && length <= maxLength) && length % width == 0;
+    return length >= minValues && length <= maxValues && length % width == 0;
   }
 
   bool isValidWidth(int length) => width == 0 || (length % width) == 0;
@@ -257,17 +279,10 @@ class Tag {
 
   //Flush?
   String lengthError(int length) =>
-      'Invalid Length: min($minLength) <= length($length) <= max($maxLength)';
+      'Invalid Length: min($minValues) <= length($length) <= max($maxValues)';
 
-  bool isValidVFLength(int lengthInBytes) {
-    // print('lib: $lengthInBytes');
-    int min = minLength * vr.minValueLength;
-    print('minLength: $minLength, minValueLength: ${vr.minValueLength}');
-    print('maxVFLength: ${vr.maxVFLength}');
-    print('min: $min, lengthInBytes: $lengthInBytes');
-    if (min <= lengthInBytes && lengthInBytes <= vr.maxVFLength) return true;
-    return false;
-  }
+  bool isValidVFLength(int lengthInBytes) =>
+      (lengthInBytes >= minVFLength && lengthInBytes <= maxVFLength);
 
   Uint8List checkVFLength(Uint8List bytes) =>
       (isValidVFLength(bytes.length)) ? bytes : null;

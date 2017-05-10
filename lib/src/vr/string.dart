@@ -38,6 +38,7 @@ abstract class VRString extends VR<String> {
 
   @override
   bool get isBinary => false;
+
   @override
   bool get isString => true;
 

@@ -42,10 +42,10 @@ class ValuesIssues<E> {
   /// Check the length of a value.
   String get lengthMsg {
     int length = values.length;
-    int min = tag.minLength;
+    int min = tag.minValues;
     if (length < min)
       return 'Invalid length($length) too short - minimun($min)\n';
-    int max = tag.maxLength;
+    int max = tag.maxValues;
     if (length > max)
       return '${name}Invalid length($length) too long - maximum($max)\n';
     return "";

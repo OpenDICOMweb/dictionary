@@ -232,7 +232,7 @@ class VRUnknown extends VR<int> {
 
 //TODO: clean this up. remove VR.kUnknown and VR.kBR. How to handle SQ
 class VRSequence extends VR<int> {
-  // 8 is the size of an empty element
+  // 8 is the size of an empty [Item].
   @override
   final int minValueLength = 8;
   @override
