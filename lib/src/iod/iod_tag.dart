@@ -30,8 +30,8 @@ class IodTag {
   String get name => tag.name;
 
   VR get vr => tag.vr;
-  int get minLength => tag.minLength;
-  int get maxLength => tag.maxLength;
+  int get minVFLength => tag.minVFLength;
+  int get maxVFLength => tag.maxVFLength;
   int get width => tag.width;
 
   VM get vm => tag.vm;

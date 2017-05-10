@@ -43,7 +43,7 @@ void tagTest() {
       log.debug(
           'isShort: ${tag.hasShortVF}, sizeInBytes: ${tag.vr.elementSize}');
       log.debug(
-          'min: ${tag.minLength}, max: ${tag.maxLength}, width: ${tag.width}');
+          'min: ${tag.minValues}, max: ${tag.maxValues}, width: ${tag.width}');
     }
   });
 }

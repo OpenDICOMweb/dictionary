@@ -103,7 +103,6 @@ class VM {
   static const VM k40915 = const VM("40915", 40915, 40915, 1);
   static const VM k40923 = const VM("40923", 40923, 40923, 1);
 
-  //TODO: add all VM const definitions to this List.
   // Lookup Map
   static const List<VM> vms = const [
     VM.k1,
@@ -121,9 +120,34 @@ class VM {
     VM.k4,
     VM.k6,
     VM.k6_n,
-    VM.k9
+    VM.k9,
+
+    // Private Element VMs
+    VM.k7,
+    VM.k256,
+    VM.k4_n,
+    VM.k4_4n,
+    VM.k6_6n,
+
+    VM.k0_n,
+    VM.k12,
+    VM.k12_n,
+    VM.k18,
+    VM.k28,
+    VM.k30_30n,
+    VM.k32,
+    VM.k35,
+    VM.k47_47n,
+
+    //???
+    VM.k40923,
+    VM.k40909,
+    VM.k40910,
+    VM.k40915,
+    VM.k40923,
   ];
 
+  //TODO: add all private definitions to this map
   // Lookup Map
   static const Map<String, VM> keywordMap = const {
     "k1": VM.k1,
@@ -144,6 +168,7 @@ class VM {
     "k9": VM.k9
   };
 
+  //TODO: add all private definitions to this map
   // Lookup Map
   static const Map<String, VM> map = const {
     "1": VM.k1,
@@ -164,20 +189,8 @@ class VM {
     "9": VM.k9
   };
 
+  //TODO: add all private maps
+
   /// lookup VM using name
   static VM lookup(String name) => map[name];
-/*
-  static const int nColumns = 4;
-  //TODO: why can't this be constant
-  static const int nRows = vms.length;
-  //Used to write in gen_table_format
-  //TODO: add index to constant values.
-  final int index = 0;
-
-  String tableEntry() => 'className=VM, nRows=$nRows, nCols=$nColumns';
-  String fieldNames() => 'index, id, name, min, max, width, fixed';
-  String fieldTypes() => 'int, String, String, int, int, int, bool';
-  String toLogEntry() => 'VM: $index: $id, name=$name, min=$min, '
-      'max=$max, width=$width, fixed=$isFixed';
- */
 }

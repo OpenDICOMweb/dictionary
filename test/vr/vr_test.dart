@@ -295,7 +295,7 @@ void integerVRsTest() {
 
     test("view", () {
       Uint32List u32List = rng.uint32List(10, 20);
-      log.debug('u32List: $u32List');
+  //    log.debug('u32List: $u32List');
       //Urgent: decide if .view should be in tag or element
   //    log.debug(VR.kAT.view(u32List));
     });
@@ -427,8 +427,10 @@ void stringVRsTest() {
 
   group("VRDcmDateTime", () {
     test("isValid", () {
-      log.debug(VR.kDT.isValid("20170314 124603.424306"));//verify: space btwn data and time?
-      log.debug(VR.kDT.isValid("20170314124603.424306"));//verify
+      //verify: space between data and time?
+      log.debug(VR.kDT.isValid("20170314 124603.424306"));
+      //verify: no space
+      log.debug(VR.kDT.isValid("20170314124603.424306"));
     });
   });
 

@@ -121,15 +121,20 @@ abstract class Uid {
     WKUid uid = wellKnownUids[s];
     return (uid != null) ? uid : new UidString(s);
   }
+
+  static List<Uid> parseList(List<String> values) {
+    List<Uid> uids = new List<Uid>(values.length);
+    for (int i = 0; i < values.length; i++) uids[i] = Uid.parse(values[i]);
+    return uids;
+  }
 }
 
 class UidString extends Uid {
-  @override
-  final String asString;
+  final String s;
 
-  factory UidString(String asString) {
-    WKUid wk = (wellKnownUids[asString]);
-    return (wk == null) ? new UidString._(asString) : wk;
+  factory UidString(String s) {
+    WKUid wk = (wellKnownUids[s]);
+    return (wk == null) ? new UidString._(s) : wk;
   }
 
   factory UidString.withRoot(String root, String leaf) {
@@ -137,9 +142,12 @@ class UidString extends Uid {
     return new UidString(s);
   }
 
-  UidString._(this.asString) : super._();
+  UidString._(this.s) : super._();
 
-  const UidString.wellKnown(this.asString) : super._();
+  const UidString.wellKnown(this.s) : super._();
+
+  @override
+  String get asString => s;
 }
 
 class UidRandom extends Uid {
