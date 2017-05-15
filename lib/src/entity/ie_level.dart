@@ -16,16 +16,10 @@ class IELevel {
   String get info => '$this: parent($parent), child($child)';
 
   /// The Patient level.
-  static const IELevel patient = const IELevel(0, "Patient", null, study);
-
-  /// The Patient level.
   static const IELevel subject = const IELevel(0, "Subject", null, study);
 
-  /// The Studies level.
-//  static const IELevel studies = const IELevel(1, "Studies", Subject, study);
-
   /// The Study level.
-  static const IELevel study = const IELevel(2, "Study", study, series);
+  static const IELevel study = const IELevel(2, "Study", subject, series);
 
   /// The Series level.
   static const IELevel series = const IELevel(3, "Series", study, instance);
@@ -40,20 +34,12 @@ class IELevel {
   static const IELevel item = const IELevel(6, "Item", dataset, null);
 
   /// The PS3.10 File Meta Information of a topLevel or studies Dataset.
-  static const IELevel fileMetaInfo = const IELevel(7, "File Meta Information");
+  static const IELevel fileMetaInfo = const IELevel(
+      7,
+      "File Meta "
+      "Information",
+      study,
+      null);
 
   String toString() => '$runtimeType($level) $name';
-
-/*  Flush
-  bool get isPatient => this == patient;
-
-  bool get isSubject => this == subject;
-
-  bool get isStudy => name == "Study;
-
-  bool get isSeries => name == "Series";
-
-  bool get isInstance => name == "Instance";
-
-  bool get isDataset => name == "Dataset";*/
 }
