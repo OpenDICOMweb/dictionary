@@ -15,7 +15,7 @@ import 'package:test_tools/random_string.dart' as rsg;
 
 final Logger log = new Logger('uint_test.dart', watermark: Severity.debug);
 
-void main() {
+void mapuin() {
   //printCode();
   vrMapAndListTest();
   integerVRsTest();

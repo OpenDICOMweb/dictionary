@@ -60,7 +60,7 @@ class PTag extends Tag {
   bool get isWKFmi => fmiTags.contains(code);
 
   static PTag maker(int code, VR vr, [dynamic name]) {
-    Tag tag = lookupCode(code, vr);
+    var tag = lookupCode(code, vr);
     if (tag != null) return tag;
     return new PTag.unknown(code, vr);
   }
