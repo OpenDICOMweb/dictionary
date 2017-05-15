@@ -15,7 +15,7 @@ import 'package:test_tools/random_string.dart' as rsg;
 
 final Logger log = new Logger('uint_test.dart', watermark: Severity.debug);
 
-void mapuin() {
+void main() {
   //printCode();
   vrMapAndListTest();
   integerVRsTest();
@@ -294,11 +294,11 @@ void integerVRsTest() {
     });
 
     test("view", () {
-  //    Uint32List u32List = rng.uint32List(10, 20);
-  //    log.debug('u32List: $u32List');
+     Uint32List u32List = rng.uint32List(10, 20);
+      log.debug('u32List: $u32List');
       //Urgent: decide if .view should be in tag or element
-  //    log.debug(VR.kAT.view(u32List));
-    });
+      //log.debug(VR.kAT.view(u32List));
+    }, skip: 'Needs to add expects...');
   });
 }
 
