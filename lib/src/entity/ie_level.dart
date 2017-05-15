@@ -41,5 +41,6 @@ class IELevel {
       study,
       null);
 
+  @override
   String toString() => '$runtimeType($level) $name';
 }
