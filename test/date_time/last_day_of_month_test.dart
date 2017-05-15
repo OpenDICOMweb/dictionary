@@ -17,11 +17,11 @@ void main() {
       int startDay = -1;
       int endDay = 1;
 
-      int y = 1970;
+ //     int y = 1970;
       for (int i = 1; i <= 24; i++) {
-        int mp = (i + 9) % 12;
+  //      int mp = (i + 9) % 12;
   //      log.debug('m: $i, mp: $mp');
-        int yp = y - (mp ~/ 10);
+  //      int yp = y - (mp ~/ 10);
   //      log.debug('yp: $yp');
       }
       for (int i = startDay; i <= endDay; i++) {
@@ -48,7 +48,7 @@ void main() {
     test("Test for lastDayOfMonth", () {
       for (int y = 1970; y < 1973; y++) {
         for (int m = 1; m < 13; m++) {
-          int last = lastDayOfMonth(y, m);
+   //       int last = lastDayOfMonth(y, m);
   //        log.debug('$y: $m: last: $last');
         }
       }

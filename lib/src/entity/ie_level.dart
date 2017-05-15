@@ -16,10 +16,10 @@ class IELevel {
   String get info => '$this: parent($parent), child($child)';
 
   /// The Patient level.
-  static const IELevel patient = const IELevel(0, "Patient", null, studies);
+  static const IELevel patient = const IELevel(0, "Patient", null, study);
 
   /// The Patient level.
-  static const IELevel subject = const IELevel(0, "Subject", null, studies);
+  static const IELevel subject = const IELevel(0, "Subject", null, study);
 
   /// The Studies level.
 //  static const IELevel studies = const IELevel(1, "Studies", Subject, study);
