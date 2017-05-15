@@ -8,39 +8,37 @@
 class IELevel {
   final int level;
   final String name;
-  final IELevel parent;
-  final IELevel child;
 
-  const IELevel(this.level, this.name, this.parent, this.child);
+  const IELevel(this.level, this.name);
+
+  IELevel get parent => (level == 0) ? null : levels[level - 1];
+
+  IELevel get child => (level == 5) ? null : levels[level + 1];
 
   String get info => '$this: parent($parent), child($child)';
 
-  /// The Patient level.
-  static const IELevel subject = const IELevel(0, "Subject", null, study);
-
-  /// The Study level.
-  static const IELevel study = const IELevel(2, "Study", subject, series);
-
-  /// The Series level.
-  static const IELevel series = const IELevel(3, "Series", study, instance);
-
-  /// The Instance level.
-  static const IELevel instance = const IELevel(4, "Instance", series, dataset);
-
-  /// The Dataset Level.  Note: this is currently not used
-  static const IELevel dataset = const IELevel(5, "Dataset", instance, item);
-
-  /// The Item level.
-  static const IELevel item = const IELevel(6, "Item", dataset, null);
-
-  /// The PS3.10 File Meta Information of a topLevel or studies Dataset.
-  static const IELevel fileMetaInfo = const IELevel(
-      7,
-      "File Meta "
-      "Information",
-      study,
-      null);
-
   @override
   String toString() => '$runtimeType($level) $name';
+
+  /// The Patient level.
+  static const IELevel subject = const IELevel(0, "Subject");
+
+  /// The Study level.
+  static const IELevel study = const IELevel(1, "Study");
+
+  /// The Series level.
+  static const IELevel series = const IELevel(2, "Series");
+
+  /// The Instance level.
+  static const IELevel instance = const IELevel(3, "Instance");
+
+  /// The Dataset Level.  Note: this is currently not used
+  static const IELevel dataset = const IELevel(4, "Dataset");
+
+  /// The Item level.
+  static const IELevel item = const IELevel(5, "Item");
+
+  static const List<IELevel> levels = const <IELevel>[
+    subject, study, series, instance, dataset, item // No reindent
+  ];
 }
