@@ -19,7 +19,7 @@ class PrivateTag extends Tag {
 
   factory PrivateTag.from(int code, VR vr, [PCTag pcTag]) {
     if (Tag.isPrivateDataCode(code, pcTag.na)) {
-      return new PDTag()
+      return new PDTag();
     } else if (Tag.isCreatorTag(code)) {
 
     } else if (Tag.isPrivateGroupLengthTag(code)) {
