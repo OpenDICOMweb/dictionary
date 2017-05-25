@@ -140,7 +140,7 @@ class Tag {
   /* TODO: remove when sure they are not used.
   int codeGroup(int code) => code >> 16;
 
-  int codeElt(int code) => code & 0xFFFF;
+  int crodeElt(int code) => code & 0xFFFF;
 
   bool codeGroupIsPrivate(int code) {
     int g = codeGroup(code);
@@ -363,7 +363,7 @@ class Tag {
     throw new InvalidTagCodeError(code);
   }
 
-  static PDTagDefinition lookupPrivateDataCode(int code, VR vr, PCTag creator) {
+  static PDTagKnown lookupPrivateDataCode(int code, VR vr, PCTag creator) {
     if (isPrivateDataCode(code)) return creator.lookupData(code);
     throw new InvalidTagCodeError(code);
   }
@@ -460,7 +460,7 @@ class Tag {
     return null;
   }
 
-  /// Returns a valid [PDTagDefinition], or [null].
+  /// Returns a valid [PDTagKnown], or [null].
   static int toPrivateData(int group, int pcIndex, int pdIndex) {
     if (Group.isPrivate(group) &&
         _isPCIndex(pcIndex) &&
@@ -473,7 +473,7 @@ class Tag {
   static int _toPrivateCreator(int group, int pcIndex) =>
       (group << 16) + pcIndex;
 
-  /// Returns a [PDTagDefinition], without checking arguments.
+  /// Returns a [PDTagKnown], without checking arguments.
   static int _toPrivateData(int group, int pcIndex, int pdIndex) =>
       (group << 16) + (pcIndex << 8) + pdIndex;
 
@@ -493,7 +493,7 @@ class Tag {
   /// Private Creator [pcIndex].
   static int _pdBase(int pcIndex) => pcIndex << 8;
 
-  /// Returns the limit for a [PDTagDefinition] with a base of [pdBase].
+  /// Returns the limit for a [PDTagKnown] with a base of [pdBase].
   static int _pdLimit(int pdBase) => pdBase + 0x00FF;
 
   /// Returns [true] if [tag] is in the range of DICOM Dataset Tags.

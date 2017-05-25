@@ -17,6 +17,18 @@ class PrivateTag extends Tag {
   const PrivateTag(int code, VR vr)
       : super(code, vr);
 
+  factory PrivateTag.from(int code, VR vr, [PCTag pcTag]) {
+    if (Tag.isPrivateDataCode(code, pcTag.na)) {
+      return new PDTag()
+    } else if (Tag.isCreatorTag(code)) {
+
+    } else if (Tag.isPrivateGroupLengthTag(code)) {
+    } else {
+
+    }
+
+  }
+
   PrivateTag.illegal(int code, [VR vr = VR.kUN]) : super(code, vr);
 
   @override
@@ -65,6 +77,20 @@ class PrivateGroupLengthTag extends PrivateTag {
 
   @override
   String get name => "Private Group Length Tag";
+
+  //TODO: flush if not used.
+  static PrivateGroupLengthTag maker(int code, VR vr, [_]) =>
+      new PrivateGroupLengthTag(code, vr);
+}
+
+class PrivateIllegalTag extends PrivateTag {
+  static const int kUnknownIndex = -1;
+
+  PrivateIllegalTag(int code, VR vr)
+      : super(code, vr);
+
+  @override
+  String get name => "Private Illegal Tag";
 
   static PrivateGroupLengthTag maker(int code, VR vr, [_]) =>
       new PrivateGroupLengthTag(code, vr);

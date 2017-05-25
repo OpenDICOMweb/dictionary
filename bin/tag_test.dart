@@ -11,10 +11,10 @@ void main() {
   print('${pcTag.runtimeType}: tag is creator(${pcTag.isCreator}) '
       'and private(${pcTag.isPrivate})');
 
-  PDTagDefinition data = pcTag.dataTags[0x00090001];
+  PDTagKnown data = pcTag.dataTags[0x00090001];
   print('${data.runtimeType}: Acuson data: ${pcTag.dataTags}');
   print(
-      '${data.runtimeType}: Tag is Private Data(${data is PDTagDefinition}) '
+      '${data.runtimeType}: Tag is Private Data(${data is PDTagKnown}) '
       'and private(${data.isPrivate})');
 
   PCTag pcTag1 =
