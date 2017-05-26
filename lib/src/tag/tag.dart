@@ -214,7 +214,7 @@ class Tag {
   bool hasValidValues<E>(List<E> values) {
     // If a VR has a long Value Field, then it has [VM.k1],
     // and its length is always valid.
-    log.debug('isValidValues vr: $vr');
+  //  log.debug('isValidValues vr: $vr');
     if (vr == VR.kUN) return true;
     if (vr.hasShortVF && isNotValidLength(values.length)) return false;
     for (int i = 0; i < values.length; i++)
