@@ -15,6 +15,7 @@ import 'package:dictionary/src/vr/vr.dart';
 //TODO: this should be done the same way as KnownPublicTags
 class PCTag extends PrivateTag {
   final VR actualVR;
+  @override
   final String name;
 
   factory PCTag(int code, VR actualVR, String name) {
@@ -66,7 +67,7 @@ class PCTag extends PrivateTag {
     return true;
   }
 
-  PDTag lookupData(int code) => null;
+  PDTagKnown lookupData(int code) => null;
 
   //Urgent: remove all print before commit to develop
   @override
@@ -84,6 +85,7 @@ class PCTag extends PrivateTag {
 class PCTagPhantom extends PCTag {
   PCTagPhantom(int code, VR vr, String name) : super._(code, vr, name);
 
+  @override
   String toString() => 'Phantom Creator: $this';
 }
 
@@ -93,11 +95,14 @@ class PCTagKnown extends PCTag {
   PCTagKnown(int code, VR vr, String name, this.definition)
       : super._(code, vr, name);
 
+  Map<int, PDTagKnown> get dataTags => definition.dataTags;
+  @override
   String toString() => 'Phantom Creator: $this';
 
   /// Returns a[PDTagKnown]. If this creator has a known
   /// [PDTagKnown] matching [code] it returns that; otherwise,
   /// a new [PDTagKnown] is created.
+  @override
   PDTagKnown lookupData(int code) {
     int pdDefCode = code & 0xFFFF00FF;
     PDTagKnown pdDef = definition.dataTags[pdDefCode];
