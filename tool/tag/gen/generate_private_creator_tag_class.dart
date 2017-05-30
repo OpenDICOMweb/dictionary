@@ -27,14 +27,14 @@ void main(List<String> args) {
   mapFile.writeAsStringSync(out);
 }
 
-String generateClass(Map<String, Map<int, PDTagDefinition>> map) {
+String generateClass(Map<String, Map<int, PDTagKnown>> map) {
   var out = header;
   List<String> tokens = map.keys.toList(growable: false);
-  List<Map<int, PDTagDefinition>> dMaps = map.values.toList(growable: false);
+  List<Map<int, PDTagKnown>> dMaps = map.values.toList(growable: false);
 
   for (int i = 0; i < pcTagDefinitions.length; i++) {
     String token = tokens[i];
-    Map<int, PDTagDefinition> dMap = dMaps[i];
+    Map<int, PDTagKnown> dMap = dMaps[i];
     String args = '$i, "$token", ${generateDataMap(dMap)}';
     out += 'static const PrivateCreatorTag k$i =\n'
         '    const PrivateCreatorTag._($args);\n';
@@ -94,15 +94,15 @@ class PrivateCreatorTag extends Tag {
 
 }
 */
-String generateDataMap(Map<int, PDTagDefinition> map) {
+String generateDataMap(Map<int, PDTagKnown> map) {
   String out = "\nconst <int, PrivateDataTag>{\n";
-  map.forEach((int code, PDTagDefinition tag) {
+  map.forEach((int code, PDTagKnown tag) {
     out += '        ${Uint32.hex(code)}: PrivateDataTag.k${tag.index},\n';
   });
   return out += '}\n';
 }
 
-String generatePrivateCreatorTagMap(Map<String, Map<int, PDTagDefinition>> map) {
+String generatePrivateCreatorTagMap(Map<String, Map<int, PDTagKnown>> map) {
   var out = '''
 // Copyright (c) 2016, Open DICOMweb Project. All rights reserved.
 // Use of this source code is governed by the open source license

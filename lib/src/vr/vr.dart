@@ -178,6 +178,7 @@ abstract class VR<T> {
     kUC, kUI, kUL, kUN, kUR,
     kUS, kUT // stop reformat
   ];
+
   static const Map<int, VR> vrMap = const <int, VR>{
     0x0000: kInvalid,
     0x4541: kAE, 0x5341: kAS, 0x5441: kAT, 0x5242: kBR, 0x5343: kCS,

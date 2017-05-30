@@ -32,9 +32,20 @@ class Tag {
   ///      are generated make them consistent.
   const Tag(this.code, this.vr);
 
+  /// Returns an appropriate [Tag] based on the arguments.
+  factory Tag.fromCode(int code, vr, [dynamic creator]) {
+    if (Tag.isPublicCode(code)) return Tag.lookupPublicCode(code, vr);
+    if (Tag.isPrivateCreatorCode(code)) return new PCTag(code, vr, creator);
+    if (Tag.isPrivateDataCode(code)) return new PDTag(code, vr, creator);
+    // This should never happen
+    throw 'Error: Unknown Tag Code${Tag.toDcm}';
+  }
+
   //TODO: When regenerating Tag rework constructors as follows:
   // Tag(int code, [vr = VR.kUN, vm = VM.k1_n);
   // Tag._(this.code, this.vr, this.vm, this.keyword, this.name,
+  //     [this.isRetired = false, this.type = EType.kUnknown]
+  // Tag.const(this.code, this.vr, this.vm, this.keyword, this.name,
   //     [this.isRetired = false, this.type = EType.kUnknown]
   // Tag.private(this.code, this.vr, this.vm, this.keyword, this.name,
   //     [this.isRetired = false, this.type = EType.kUnknown]);
@@ -140,7 +151,7 @@ class Tag {
   /* TODO: remove when sure they are not used.
   int codeGroup(int code) => code >> 16;
 
-  int codeElt(int code) => code & 0xFFFF;
+  int crodeElt(int code) => code & 0xFFFF;
 
   bool codeGroupIsPrivate(int code) {
     int g = codeGroup(code);
@@ -214,7 +225,7 @@ class Tag {
   bool hasValidValues<E>(List<E> values) {
     // If a VR has a long Value Field, then it has [VM.k1],
     // and its length is always valid.
-    log.debug('isValidValues vr: $vr');
+    //  log.debug('isValidValues vr: $vr');
     if (vr == VR.kUN) return true;
     if (vr.hasShortVF && isNotValidLength(values.length)) return false;
     for (int i = 0; i < values.length; i++)
@@ -327,14 +338,15 @@ class Tag {
     return '$runtimeType: $dcm $keyword, $vr, $vm, $retired';
   }
 
-  /* flush
-  static Tag lookup(int code, [PrivateCreatorTag tag]) {
-    if (Tag.isPublicCode(code)) return Tag.lookupKnownPublicCode(code);
-    if (Tag.isPrivateCode(code)) return Tag.lookupPrivateCode(code);
+  //TODO: improve doc.
+  /// Returns an appropriate [Tag] based on the arguments.
+  static Tag lookup(int code, [VR vr = VR.kUN, dynamic creator]) {
+    if (Tag.isPublicCode(code)) return Tag.lookupPublicCode(code, vr);
+    if (Tag.isPrivateCreatorCode(code)) return new PCTag(code, vr, creator);
+    if (Tag.isPrivateDataCode(code)) return new PDTag(code, vr, creator);
     // This should never happen
     throw 'Error: Unknown Tag Code${Tag.toDcm}';
   }
-*/
 
   //TODO: Use the 'package:collection/collection.dart' ListEquality
   //TODO:  decide if this ahould be here
@@ -363,10 +375,9 @@ class Tag {
     throw new InvalidTagCodeError(code);
   }
 
-  static PDTagDefinition lookupPrivateDataCode(int code, VR vr, PCTag creator) {
-    if (isPrivateDataCode(code)) return creator.lookupData(code);
-    throw new InvalidTagCodeError(code);
-  }
+  static PDTagKnown lookupPrivateDataCode(
+          int code, VR vr, PCTagKnown creator) =>
+      creator.lookupData(code);
 
   /// Returns a [String] corresponding to [tag], which might be an
   /// [int], [String], or [Tag].
@@ -404,18 +415,16 @@ class Tag {
   }
 
   // *** Private Tag Code methods
-  static bool isPrivateCode(int tagCode) =>
-      Group.isPrivate(Group.fromTag(tagCode));
+  static bool isPrivateCode(int code) => Group.isPrivate(Group.fromTag(code));
 
-  static bool isPublicCode(int tagCode) =>
-      Group.isPublic(Group.fromTag(tagCode));
+  static bool isPublicCode(int code) => Group.isPublic(Group.fromTag(code));
 
-  static bool isPublicGroupLengthCode(int tagCode) =>
-      Group.isPublic(Group.fromTag(tagCode)) && Elt.fromTag(tagCode) == 0;
+  static bool isPublicGroupLengthCode(int code) =>
+      Group.isPublic(Group.fromTag(code)) && Elt.fromTag(code) == 0;
 
   /// Returns true if [code] is a valid Private Creator Code.
-  static bool isPrivateCreatorCode(int tagCode) =>
-      isPrivateCode(tagCode) && Elt.isPrivateCreator(Elt.fromTag(tagCode));
+  static bool isPrivateCreatorCode(int code) =>
+      isPrivateCode(code) && Elt.isPrivateCreator(Elt.fromTag(code));
 
   static bool isCreatorCodeInGroup(int code, int group) {
     int g = group << 16;
@@ -427,16 +436,16 @@ class Tag {
     return (code >= sg && (code <= (sg + 0xFF)));
   }
 
-  static bool isPrivateDataCode(int tag) =>
-      Group.isPrivate(Group.fromTag(tag)) &&
-      Elt.isPrivateData(Elt.fromTag(tag));
+  static bool isPrivateDataCode(int code) =>
+      Group.isPrivate(Group.fromTag(code)) &&
+      Elt.isPrivateData(Elt.fromTag(code));
 
   static int privateCreatorBase(int code) => Elt.pcBase(Elt.fromTag(code));
 
   static int privateCreatorLimit(int code) => Elt.pcLimit(Elt.fromTag(code));
 
-  static bool isPrivateGroupLengthCode(int tagCode) =>
-      Group.isPrivate(Group.fromTag(tagCode)) && Elt.fromTag(tagCode) == 0;
+  static bool isPrivateGroupLengthCode(int code) =>
+      Group.isPrivate(Group.fromTag(code)) && Elt.fromTag(code) == 0;
 
   /// Returns true if [pd] is a valid Private Data Code for the
   /// [pc] the Private Creator Code.
@@ -460,7 +469,7 @@ class Tag {
     return null;
   }
 
-  /// Returns a valid [PDTagDefinition], or [null].
+  /// Returns a valid [PDTagKnown], or [null].
   static int toPrivateData(int group, int pcIndex, int pdIndex) {
     if (Group.isPrivate(group) &&
         _isPCIndex(pcIndex) &&
@@ -473,7 +482,7 @@ class Tag {
   static int _toPrivateCreator(int group, int pcIndex) =>
       (group << 16) + pcIndex;
 
-  /// Returns a [PDTagDefinition], without checking arguments.
+  /// Returns a [PDTagKnown], without checking arguments.
   static int _toPrivateData(int group, int pcIndex, int pdIndex) =>
       (group << 16) + (pcIndex << 8) + pdIndex;
 
@@ -493,7 +502,7 @@ class Tag {
   /// Private Creator [pcIndex].
   static int _pdBase(int pcIndex) => pcIndex << 8;
 
-  /// Returns the limit for a [PDTagDefinition] with a base of [pdBase].
+  /// Returns the limit for a [PDTagKnown] with a base of [pdBase].
   static int _pdLimit(int pdBase) => pdBase + 0x00FF;
 
   /// Returns [true] if [tag] is in the range of DICOM Dataset Tags.
