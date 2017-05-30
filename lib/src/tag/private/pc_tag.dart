@@ -31,7 +31,7 @@ class PCTag extends PrivateTag {
       : definition = PCTagKnown.kPhantom,
         super(code, VR.kLO);
   */
-  Map<int, PDTag> dataTags = const <int, PDTag>{};
+  Map<int, PDTagKnown> get dataTags => const <int, PDTagKnown>{};
 
   @override
   VM get vm => VM.k1;
@@ -76,7 +76,7 @@ class PCTag extends PrivateTag {
       'base($baseHex), limit($limitHex), actualVR($vr)';
 
   @override
-  String toString() => 'PCTag($name) $vr $vm';
+  String toString() => '$runtimeType($name) $vr $vm';
 
   static PCTag maker(int code, VR vr, [dynamic name]) =>
       new PCTag(code, vr, name);
@@ -85,8 +85,8 @@ class PCTag extends PrivateTag {
 class PCTagPhantom extends PCTag {
   PCTagPhantom(int code, VR vr, String name) : super._(code, vr, name);
 
-  @override
-  String toString() => 'Phantom Creator: $this';
+ // @override
+ // String toString() => 'Phantom Creator: $this';
 }
 
 class PCTagKnown extends PCTag {
@@ -95,9 +95,10 @@ class PCTagKnown extends PCTag {
   PCTagKnown(int code, VR vr, String name, this.definition)
       : super._(code, vr, name);
 
-  Map<int, PDTagKnown> get dataTags => definition.dataTags;
   @override
-  String toString() => 'Phantom Creator: $this';
+  Map<int, PDTagKnown> get dataTags => definition.dataTags;
+ // @override
+ // String toString() => '$runtime: $super';
 
   /// Returns a[PDTagKnown]. If this creator has a known
   /// [PDTagKnown] matching [code] it returns that; otherwise,
