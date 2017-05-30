@@ -56,6 +56,10 @@ class PDTag extends PrivateTag {
       '($offsetHex), '
       '$vr, $vm, "$name"';
 
+  @override
+  String toString() => '$runtimeType$dcm subgroup($subgroupHex), creator'
+      '(${creator.name}';
+
   static PDTag maker(int code, VR vr, [PCTag creator]) =>
       new PDTag(code, vr, creator);
 }
@@ -81,10 +85,10 @@ class PDTagKnown {
   String get hex => Tag.toHex(code);
   String get dcm => Tag.toDcm(code);
 
-  String get info => '${toString()}$vr, $vm, creator: $token';
+  String get info => '${toString()}$vr, $vm';
 
   @override
-  String toString() => '$runtimeType[$index]$dcm: $name ';
+  String toString() => '$runtimeType[$index]$dcm: "$name" creator("$token")';
 
   static const PDTagKnown kUnknown = const PDTagKnown._(
       0, "", 0, VR.kUN, VM.k1_n, "Unknown Private Data");

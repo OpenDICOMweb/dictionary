@@ -17,17 +17,17 @@ class PrivateTag extends Tag {
   const PrivateTag(int code, VR vr)
       : super(code, vr);
 
+/*
   factory PrivateTag.from(int code, VR vr, [PCTag pcTag]) {
-    if (Tag.isPrivateDataCode(code, pcTag.na)) {
+    if (Tag.isPrivateDataCode(code)){
       return new PDTag();
     } else if (Tag.isCreatorTag(code)) {
 
     } else if (Tag.isPrivateGroupLengthTag(code)) {
     } else {
-
     }
-
   }
+*/
 
   PrivateTag.illegal(int code, [VR vr = VR.kUN]) : super(code, vr);
 

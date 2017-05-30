@@ -13,10 +13,14 @@ import 'package:test/test.dart';
 final Logger log = new Logger('uint_test.dart', watermark: Severity.debug);
 
 void main() {
-  test("PrivateCreatorTag Test", () {
+  test("PrivateCreatorTag ACUSON Test", () {
     PCTag pTag = new PCTag(0x00090010, VR.kUN, "ACUSON");
+    expect(pTag is PCTagKnown, true);
     log.debug(pTag.info);
-    log.debug('${pTag.name}: ${pTag.dataTags}');
+    if (pTag is PCTagDefinition) {
+      log.debug('${pTag.name}: ${pTag.dataTags}');
+    }
+
   });
 
   test("PrivateCreatorTag.unknown Test", () {

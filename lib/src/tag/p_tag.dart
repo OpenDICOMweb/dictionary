@@ -30,9 +30,16 @@ class PTag extends Tag {
 
   ///TODO: Tag and Tag.public are inconsistent when new Tag, PrivateTag... files
   ///      are generated make them consistent.
+  /*
   const PTag(int code, VR vr, this.vm, this.keyword, this.name,
       [this.isRetired = false, this.type = EType.kUnknown])
       : super(code, vr);
+  */
+
+  factory PTag(int code, [VR vr = VR.kUN, dynamic name = ""]) {
+      var tag = lookupCode(code, vr);
+      return (tag != null) ? tag : new PTag.unknown(code, vr, name);
+  }
 
   //TODO: When regenerating Tag rework constructors as follows:
   // Tag(int code, [vr = VR.kUN, vm = VM.k1_n);
@@ -46,6 +53,14 @@ class PTag extends Tag {
 
   static const String _unknownKeyword = "UnknownPublicTag";
 
+  PTag.unknown(int code, VR vr, [this.name = "Unknown Public Tag",])
+      : vm = VM.k1_n,
+        keyword = _unknownKeyword,
+        isRetired = false,
+        type = EType.k3,
+       super(code, vr);
+/*
+
   PTag.unknown(int code, VR vr,
       [this.vm = VM.k1_n,
       this.keyword = _unknownKeyword,
@@ -53,6 +68,7 @@ class PTag extends Tag {
       this.isRetired = false,
       this.type = EType.k3])
       : super(code, vr);
+*/
 
   @override
   bool get isValid => keyword != _unknownKeyword;
