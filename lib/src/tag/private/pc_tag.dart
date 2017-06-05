@@ -26,11 +26,7 @@ class PCTag extends PrivateTag {
   }
 
   PCTag._(int code, this.actualVR, this.name) : super(code, VR.kLO);
-/*
-  PCTag.phantom(int cod, this.actualVR, this.name)
-      : definition = PCTagKnown.kPhantom,
-        super(code, VR.kLO);
-  */
+
   Map<int, PDTagKnown> get dataTags => const <int, PDTagKnown>{};
 
   @override
@@ -69,7 +65,6 @@ class PCTag extends PrivateTag {
 
   PDTagKnown lookupData(int code) => null;
 
-  //Urgent: remove all print before commit to develop
   @override
   String get info =>
       '$runtimeType["$name"]$dcm $groupHex, subgroup($subgroupHex), '
@@ -82,15 +77,6 @@ class PCTag extends PrivateTag {
       new PCTag(code, vr, name);
 }
 
-/*
-class PCTagPhantom extends PCTag {
-  PCTagPhantom(int code, VR vr, String name) : super._(code, vr, name);
-
- // @override
- // String toString() => 'Phantom Creator: $this';
-}
-*/
-
 class PCTagKnown extends PCTag {
   PCTagDefinition definition;
 
@@ -99,8 +85,6 @@ class PCTagKnown extends PCTag {
 
   @override
   Map<int, PDTagKnown> get dataTags => definition.dataTags;
- // @override
- // String toString() => '$runtime: $super';
 
   /// Returns a[PDTagKnown]. If this creator has a known
   /// [PDTagKnown] matching [code] it returns that; otherwise,
@@ -113,7 +97,6 @@ class PCTagKnown extends PCTag {
     return pdDef;
   }
 
-  //Urgent: remove all print before commit to develop
   @override
   String get info =>
       '$runtimeType["$name"]$dcm $groupHex, subgroup($subgroupHex), '
@@ -121,7 +104,7 @@ class PCTagKnown extends PCTag {
       'dataTags: ${_fmtDataTagMap(definition.dataTags)}';
 }
 
-//TODO: improve formatting
+//Enhancement: improve formatting
 String _fmtDataTagMap(Map<int, PDTagKnown> dataTags) {
   if (dataTags.length == 0) return '{}';
   String out = "  {\n";

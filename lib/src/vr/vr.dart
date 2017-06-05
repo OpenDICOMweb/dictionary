@@ -3,7 +3,6 @@
 // that can be found in the LICENSE file.
 // See the AUTHORS file for other contributors.
 
-import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:common/common.dart';
@@ -53,10 +52,7 @@ abstract class VR<T> {
       'elementSize($elementSize) vfLengthSize($vfLengthSize), '
       'maxVFLength($maxVFLength)';
 
-  //TODO: decide whether these should be here or in Element
-  //List<T> bytesToValues(Uint8List bytes);
-  //TODO: decide whether these should be here or in Element
-  //Uint8List valuesToBytes(List<T> values);
+  int headerLength(bool isEVR) => (isEVR) ? ((hasShortVF) ? 8 : 12) : 8;
 
   /// Returns the length in number of elements.
   int toLength(int lengthInBytes) => lengthInBytes ~/ elementSize;
@@ -78,20 +74,12 @@ abstract class VR<T> {
   /// Returns a valid value, or if not parsable, [null].
   dynamic parse(String s) => null;
 
-  //TODO: decide whether these should be here or in Element
-  /// Returns a [String] containing a Base 64 encoding of [bytes].
-  String base64Encode(Uint8List bytes) => BASE64.encode(bytes);
-
-  /// Returns a [Uint8List] containing the Base 64 decoding of [s].
-  Uint8List base64decode(String s) => BASE64.decode(s);
-
   // **** Must be overridden.
   /// Returns a [ParseIssues] object indicating any issues with value.
   /// If there are no issues returns the empty string ("").
   //Urgent: finish
   ParseIssues issues(T value) => null;
 
-  // List<int> view(List<int> list) => Uint8.view(list);
   // **** Must be overridden.
   /// Returns a new value that is legal and a best practice.
   T fix(T value) => null;
