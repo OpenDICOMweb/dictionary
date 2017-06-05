@@ -133,6 +133,10 @@ class VRDcmString extends VRString {
   @override
   bool get isUtf8 => !isAscii;
 
+  /// VR.kUC can have any number of values.
+  @override
+  bool get isLengthAlwaysValid => this == VR.kUC;
+
   @override
   bool isValid(Object s) => (s is String) && _filteredTest(s, _isDcmChar);
 
