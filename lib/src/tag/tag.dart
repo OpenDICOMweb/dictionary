@@ -151,7 +151,7 @@ class Tag {
   /* TODO: remove when sure they are not used.
   int codeGroup(int code) => code >> 16;
 
-  int crodeElt(int code) => code & 0xFFFF;
+  int codeElt(int code) => code & 0xFFFF;
 
   bool codeGroupIsPrivate(int code) {
     int g = codeGroup(code);
@@ -220,14 +220,13 @@ class Tag {
   ///     Value Field; otherwise, must be greater than or equal to [min].
   /// [width]: The [width] of the matrix of values. If [width == 0,
   /// then singleton; otherwise must be greater than 0;
-
   //TODO: should be modified when EType info is available.
   bool hasValidValues<E>(List<E> values) {
-    // If a VR has a long Value Field, then it has [VM.k1],
-    // and its length is always valid.
-    //  log.debug('isValidValues vr: $vr');
+    // If a VR has a long Value Field, then it has [VM.k1], and its length
+    // is always valid.
     if (vr == VR.kUN) return true;
-    if (vr.hasShortVF && isNotValidLength(values.length)) return false;
+    if (isNotValidLength(values.length)) return false;
+  //  if (vr.hasShortVF && isNotValidLength(values.length)) return false;
     for (int i = 0; i < values.length; i++)
       if (vr.isNotValid(values[i])) return false;
     return true;
@@ -272,10 +271,12 @@ class Tag {
   // Placeholder until VR is integrated into TagBase
   List<E> checkValue<E>(dynamic value) => vr.isValid(value) ? value : null;
 
+  /// Returns [true] if [length] is a valid number of values for [this].
   bool isValidLength(int length) {
     // These are the most common cases.
     if (length == 0 || (length == 1 && width == 0)) return true;
-    return length >= minValues && length <= maxValues && length % width == 0;
+    if (vr.isLengthAlwaysValid == true) return true;
+    return length >= minValues && length <= maxValues && (length % width) == 0;
   }
 
   bool isValidWidth(int length) => width == 0 || (length % width) == 0;

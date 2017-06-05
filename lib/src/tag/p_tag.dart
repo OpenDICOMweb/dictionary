@@ -970,7 +970,7 @@ class PTag extends Tag {
   static const PTag kRetrieveURL
       //(0008,1190)
       = const PTag._(
-          "RetrieveURL", 0x00081190, "Retrieve URL", VR.kUT, VM.k1, false);
+          "RetrieveURL", 0x00081190, "Retrieve URL", VR.kUR, VM.k1, false);
   static const PTag kTransactionUID
       //(0008,1195)
       = const PTag._("TransactionUID", 0x00081195, "Transaction UID", VR.kUI,
@@ -7526,7 +7526,7 @@ class PTag extends Tag {
   static const PTag kPixelDataProviderURL
       //(0028,7FE0)
       = const PTag._("PixelDataProviderURL", 0x00287FE0,
-          "Pixel Data Provider URL", VR.kUT, VM.k1, false);
+          "Pixel Data Provider URL", VR.kUR, VM.k1, false);
   static const PTag kDataPointRows
       //(0028,9001)
       = const PTag._(
@@ -9359,7 +9359,7 @@ class PTag extends Tag {
   static const PTag kRetrieveURI
       //(0040,E010)
       = const PTag._(
-          "RetrieveURI", 0x0040E010, "Retrieve URI", VR.kUT, VM.k1, false);
+          "RetrieveURI", 0x0040E010, "Retrieve URI", VR.kUR, VM.k1, false);
   static const PTag kRetrieveLocationUID
       //(0040,E011)
       = const PTag._("RetrieveLocationUID", 0x0040E011, "Retrieve Location UID",
@@ -11933,7 +11933,7 @@ class PTag extends Tag {
   static const PTag kContactURI
       //(0074,100a)
       = const PTag._(
-          "ContactURI", 0x0074100a, "Contact URI", VR.kST, VM.k1, false);
+          "ContactURI", 0x0074100a, "Contact URI", VR.kUR, VM.k1, false);
   static const PTag kContactDisplayName
       //(0074,100c)
       = const PTag._("ContactDisplayName", 0x0074100c, "Contact Display Name",

@@ -46,11 +46,12 @@ abstract class VR<T> {
   bool get isAscii => false;
   bool get isUtf8 => false;
 
+  /// Returns the [VR] as a [String].
+  String get asString => 'VR.k$id';
+
   String get info => '$runtimeType: $keyword $id(${Int16.hex(code)})[$index]: '
       'elementSize($elementSize) vfLengthSize($vfLengthSize), '
       'maxVFLength($maxVFLength)';
-
-  String get asString => 'VR.k$id';
 
   //TODO: decide whether these should be here or in Element
   //List<T> bytesToValues(Uint8List bytes);
@@ -60,9 +61,10 @@ abstract class VR<T> {
   /// Returns the length in number of elements.
   int toLength(int lengthInBytes) => lengthInBytes ~/ elementSize;
 
-  /// Returns [true] if the [value] has a valid length.
-  bool isValidLength(T value) => false;
+  /// Returns [true] if any number of values is always valid.
+  bool get isLengthAlwaysValid => false;
 
+  bool isValidLength(int length) => false;
   // **** Must be overridden.
   /// Returns [true] of [value] is UN.
   bool isValid(Object value) => (value is int) && Uint8.inRange(value);
@@ -129,7 +131,7 @@ abstract class VR<T> {
 
   // String.numbers
   static const VR kIS = VRIntString.kIS;
-  static const VR kDS = VRFloatString.kDS;
+  static const VR kDS = VRDecimalString.kDS;
 
   // String.dcm
   static const VR kAE = VRDcmString.kAE;

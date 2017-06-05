@@ -78,6 +78,10 @@ class VRInt extends VR<int> {
   @override
   bool get isString => false;
 
+  // [true] if [this] is one of OB, OL, OW, or UN;
+  @override
+  bool get isLengthAlwaysValid => vfLengthSize == 4;
+
   /// Returns [true] if [n] is valid for this [VRInt].
   @override
   bool isValid(Object n) => (n is int) && (minValue <= n) && (n <= maxValue);

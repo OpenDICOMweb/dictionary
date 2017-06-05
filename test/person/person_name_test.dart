@@ -16,9 +16,9 @@ void personNameTest() {
   Logger log = new Logger('test', watermark: Severity.info);
 
   //noOfgroups=3, noOfomponents=5, componentLength=8
-  String strValid = rsg.generatePersonName(3, 5, 6);
+  String strValid = rsg.generateDcmPersonName(3, 5, 6);
   //noOfgroups=3, noOfomponents=5, componentLength=8
-  String strValid1 = rsg.generatePersonName(3, 5, 15);
+  String strValid1 = rsg.generateDcmPersonName(3, 5, 15);
 
   group("person_name", () {
     test("test for isValidString and isValidList", () {
@@ -40,7 +40,7 @@ void personNameTest() {
 
     test("test for parse", () {
       //noOfgroups=3, noOfomponents=5, componentLength=8
-      String strInValid = rsg.generatePersonName(4, 5, 8);
+      String strInValid = rsg.generateDcmPersonName(4, 5, 8);
 
       PersonName pn = PersonName.parse(strValid);
       log.debug("alphabetic: ${pn.alphabetic}");

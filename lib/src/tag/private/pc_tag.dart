@@ -82,12 +82,14 @@ class PCTag extends PrivateTag {
       new PCTag(code, vr, name);
 }
 
+/*
 class PCTagPhantom extends PCTag {
   PCTagPhantom(int code, VR vr, String name) : super._(code, vr, name);
 
  // @override
  // String toString() => 'Phantom Creator: $this';
 }
+*/
 
 class PCTagKnown extends PCTag {
   PCTagDefinition definition;
