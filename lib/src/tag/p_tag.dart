@@ -37,8 +37,8 @@ class PTag extends Tag {
   */
 
   factory PTag(int code, [VR vr = VR.kUN, dynamic name = ""]) {
-      var tag = lookupCode(code, vr);
-      return (tag != null) ? tag : new PTag.unknown(code, vr, name);
+    var tag = lookupCode(code, vr);
+    return (tag != null) ? tag : new PTag.unknown(code, vr, name);
   }
 
   //TODO: When regenerating Tag rework constructors as follows:
@@ -53,12 +53,16 @@ class PTag extends Tag {
 
   static const String _unknownKeyword = "UnknownPublicTag";
 
-  PTag.unknown(int code, VR vr, [this.name = "Unknown Public Tag",])
+  PTag.unknown(
+    int code,
+    VR vr, [
+    this.name = "Unknown Public Tag",
+  ])
       : vm = VM.k1_n,
         keyword = _unknownKeyword,
         isRetired = false,
         type = EType.k3,
-       super(code, vr);
+        super(code, vr);
 /*
 
   PTag.unknown(int code, VR vr,
@@ -1360,7 +1364,7 @@ class PTag extends Tag {
   static const PTag kStrainSourceRegistryCodeSequence
       //(0010,0215)
       = const PTag._("StrainSourceRegistryCodeSequence", 0x00100215,
-          " Strain Source Registry Code Sequence", VR.kSQ, VM.k1, false);
+          "Strain Source Registry Code Sequence", VR.kSQ, VM.k1, false);
   static const PTag kStrainStockSequence
       //(0010,0216)
       = const PTag._("StrainStockSequence", 0x00100216, "Strain Stock Sequence",
@@ -10726,6 +10730,96 @@ class PTag extends Tag {
       //(0066,0038)
       = const PTag._("RecommendedLineThickness", 0x00660038,
           "Recommended Line Thickness", VR.kFL, VM.k1, false);
+
+  static const PTag kLongPrimitivePointIndexList = const PTag._(
+      "LongPrimitivePointIndexList",
+      0x00660040,
+      "Long Primitive Point Index List",
+      VR.kOL,
+      VM.k1);
+  static const PTag kLongTrianglePointIndexList = const PTag._(
+      "LongTrianglePointIndexList",
+      0x00660041,
+      "Long Triangle Point Index List",
+      VR.kOL,
+      VM.k1);
+  static const PTag kLongEdgePointIndexList = const PTag._(
+      "LongEdgePointIndexList",
+      0x00660042,
+      "Long Edge Point Index List",
+      VR.kOL,
+      VM.k1);
+  static const PTag kLongVertexPointIndexList = const PTag._(
+      "LongVertexPointIndexList",
+      0x00660043,
+      "Long Vertex Point Index List",
+      VR.kOL,
+      VM.k1);
+  static const PTag kTrackSetSequence = const PTag._(
+      "TrackSetSequence", 0x00660101, "Track Set Sequence", VR.kSQ, VM.k1);
+  static const PTag kTrackSequence = const PTag._(
+      "TrackSequence", 0x00660102, "Track Sequence", VR.kSQ, VM.k1);
+  static const PTag kRecommendedDisplayCIELabValueList = const PTag._(
+      "RecommendedDisplayCIELabValueList",
+      0x00660103,
+      "Recommended Display CIELab Value List",
+      VR.kOW,
+      VM.k1);
+  static const PTag kTrackingAlgorithmIdentificationSequence = const PTag._(
+      "TrackingAlgorithmIdentificationSequence",
+      0x00660104,
+      "Tracking Algorithm Identification Sequence",
+      VR.kSQ,
+      VM.k1);
+  static const PTag kTrackSetNumber = const PTag._(
+      "TrackSetNumber", 0x00660105, "Track Set Number", VR.kUL, VM.k1);
+  static const PTag kTrackSetLabel = const PTag._(
+      "TrackSetLabel", 0x00660106, "Track Set Label", VR.kLO, VM.k1);
+  static const PTag kTrackSetDescription = const PTag._("TrackSetDescription",
+      0x00660107, "Track Set Description", VR.kUT, VM.k1);
+  static const PTag kTrackSetAnatomicalTypeCodeSequence = const PTag._(
+      "TrackSetAnatomicalTypeCodeSequence",
+      0x00660108,
+      "Track Set Anatomical Type Code Sequence",
+      VR.kSQ,
+      VM.k1);
+  static const PTag kMeasurementsSequence = const PTag._("MeasurementsSequence",
+      0x00660121, "Measurements Sequence", VR.kSQ, VM.k1);
+  static const PTag kTrackSetStatisticsSequence = const PTag._(
+      "TrackSetStatisticsSequence",
+      0x00660124,
+      "Track Set Statistics Sequence",
+      VR.kSQ,
+      VM.k1);
+  static const PTag kFloatingPointValues = const PTag._("FloatingPointValues",
+      0x00660125, "Floating Point Values", VR.kOF, VM.k1);
+  static const PTag kTrackPointIndexList = const PTag._("TrackPointIndexList",
+      0x00660129, "Track Point Index List", VR.kOL, VM.k1);
+  static const PTag kTrackStatisticsSequence = const PTag._(
+      "TrackStatisticsSequence",
+      0x00660130,
+      "Track Statistics Sequence",
+      VR.kSQ,
+      VM.k1);
+  static const PTag kMeasurementValuesSequence = const PTag._(
+      "MeasurementValuesSequence",
+      0x00660132,
+      "Measurement Values Sequence",
+      VR.kSQ,
+      VM.k1);
+  static const PTag kDiffusionAcquisitionCodeSequence = const PTag._(
+      "DiffusionAcquisitionCodeSequence",
+      0x00660133,
+      "Diffusion Acquisition Code Sequence",
+      VR.kSQ,
+      VM.k1);
+  static const PTag kDiffusionModelCodeSequence = const PTag._(
+      "DiffusionModelCodeSequence",
+      0x00660134,
+      "Diffusion Model Code Sequence",
+      VR.kSQ,
+      VM.k1);
+
   static const PTag kImplantSize
       //(0068,6210)
       = const PTag._(
