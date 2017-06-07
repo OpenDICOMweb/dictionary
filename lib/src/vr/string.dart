@@ -499,6 +499,7 @@ class VRPersonName extends VRString {
   bool isValid(Object s) {
     if (s is String) {
       var groups = s.split('=');
+      if (groups == null) groups = [s];
       for (String group in groups)
         if (group.length > 64 || !_filteredTest(group, _isDcmChar))
           return false;

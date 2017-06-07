@@ -452,21 +452,21 @@ void stringVRsTest() {
   test("isValid Person Name (PN)", () {
     //Urgent: make this work
     //noOfgroups=3, noOfomponents=5, componentLength=8
-    List<String> vList0 = rsg.getPNList(3, 5, 8);
-    expect(VR.kPN.isValid(vList0), true);
+    List<String> vList0 = rsg.getPNList(3, 5, 4, 10);
+    for(String s in vList0) expect(VR.kPN.isValid(s), true);
 
     //noOfgroups=3, noOfomponents=5, componentLength=11
-    vList0 = rsg.getPNList(3, 5, 11);
-    expect(VR.kPN.isValid(vList0), true);
+    vList0 = rsg.getPNList(3, 5, 6, 12);
+    for(String s in vList0) expect(VR.kPN.isValid(s), true);
 
     //noOfgroups=3, noOfomponents=5, componentLength=13
-    vList0 = rsg.getPNList(3, 5, 13);
-    expect(VR.kPN.isValid(vList0), false);
+    vList0 = rsg.getPNList(3, 8, 14);
+    for(String s in vList0) expect(VR.kPN.isValid(s), true);
 
     //noOfgroups=2, noOfomponents=5, componentLength=13
-    vList0 = rsg.getPNList(2, 5, 13);
-    expect(VR.kPN.isValid(vList0), false);
-  }, skip: 'need getPNList to be implemented');
+    vList0 = rsg.getPNList(2, 5, 10, 16);
+    for(String s in vList0) expect(VR.kPN.isValid(s), true);
+  }); //, skip: 'need getPNList to be implemented');
 
   test("isValid Time (TM)", () {
     expect(VR.kTM.isValid("070907.0705"), true);
