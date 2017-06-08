@@ -330,6 +330,7 @@ class VRDcmDate extends VRString {
   @override
   bool isValid(Object s, {int start = 0, int end}) =>
       (s is String) &&
+      (s.length == 8) &&
       Date.isValidString(s.trimRight(), start: start, end: end);
 
   @override
