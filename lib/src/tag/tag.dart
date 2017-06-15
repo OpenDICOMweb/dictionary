@@ -66,7 +66,7 @@ class Tag {
   // **** Code Getters
 
   /// Returns a [String] for the [code] in DICOM format, i.e. (gggg,eeee).
-  String get dcm => '(${Group.hex(group)},${Elt.hex(elt)})';
+  String get dcm => '${Tag.toDcm(code)}';
 
   /// Returns a [String] for the [code] in hexadecimal format, i.e. '0xggggeeee.
   String get hex => Int.hex(code, 8);

@@ -17,7 +17,8 @@ class PDTag extends PrivateTag {
   final PDTagKnown pdTagDefinition;
 
   PDTag(int code, VR vr, [PCTag creator])
-      : creator = (creator == null) ? new PCTag(code, vr, "") : creator,
+      : creator = (creator == null) ? new PCTag(code, vr, "Unknown Creator") :
+  creator,
         pdTagDefinition = (creator == null)
             ? PDTagKnown.kNoCreator
             : creator.lookupData(code),
@@ -27,7 +28,8 @@ class PDTag extends PrivateTag {
   VM get vm => pdTagDefinition.vm;
 
   @override
-  String get name => pdTagDefinition.name;
+  String get name =>
+      (pdTagDefinition == null) ? 'Unknown' :pdTagDefinition.name;
 
   @override
   bool get isPrivateData => true;
@@ -52,13 +54,12 @@ class PDTag extends PrivateTag {
 
   @override
   String get info =>
-      '$runtimeType$dcm $groupHex, "$token", subgroup($subgroupHex), offset'
-      '($offsetHex), '
-      '$vr, $vm, "$name"';
+      '$runtimeType$dcm $groupHex, "$token", subgroup($subgroupHex), '
+          'offset($offsetHex), $vr, $vm, "$name"';
 
   @override
-  String toString() => '$runtimeType$dcm subgroup($subgroupHex), creator'
-      '(${creator.name}';
+  String toString() => '$runtimeType$dcm $name $subgroup($subgroupHex), creator'
+      '(${creator.name})';
 
   static PDTag maker(int code, VR vr, [PCTag creator]) =>
       new PDTag(code, vr, creator);

@@ -42,8 +42,15 @@ abstract class VR<T> {
   bool get hasShortVF => vfLengthSize == 2;
   bool get hasLongVF => !hasShortVF;
 
+  bool get isBinary => false;
+  bool get isInteger => false;
+  bool get isFloat => false;
+
+  bool get isString => false;
   bool get isAscii => false;
   bool get isUtf8 => false;
+
+  bool get isSequence => false;
 
   /// Returns the [VR] as a [String].
   String get asString => 'VR.k$id';
@@ -179,9 +186,6 @@ abstract class VR<T> {
     0x4355: kUC, 0x4955: kUI, 0x4c55: kUL, 0x4e55: kUN, 0x5255: kUR,
     0x5355: kUS, 0x5455: kUT // stop reformat
   };
-
-  bool get isBinary => false;
-  bool get isString => false;
 
   static VR lookup(int vrCode) => vrMap[vrCode];
 

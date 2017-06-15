@@ -76,6 +76,9 @@ class VRInt extends VR<int> {
   bool get isBinary => true;
 
   @override
+  bool get isInteger => true;
+
+  @override
   bool get isString => false;
 
   // [true] if [this] is one of OB, OL, OW, or UN;

@@ -28,6 +28,10 @@ class VRFloat extends VR<double> {
 
   @override
   bool get isBinary => true;
+
+  @override
+  bool get isFloat => true;
+
   @override
   bool get isString => false;
 
