@@ -237,6 +237,7 @@ class VRSequence extends VR<int> {
       int vfLengthSize, int maxVFLength, String keyword)
       : super(index, code, id, 1, 4, kMaxLongVF, keyword, true);
 
+  @override
   bool get isSequence => true;
 
   //index, code, id, elementSize, vfLengthSize, maxVFLength, keyword
