@@ -4,6 +4,9 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:common/ascii.dart';
 import 'package:dictionary/date_time.dart';
 import 'package:dictionary/src/constants.dart';
@@ -18,6 +21,8 @@ typedef String ErrorMsg<String>(String value, int min, int max);
 typedef E Parser<E>(String s, int min, int max);
 typedef E Fixer<E>(String s, int min, int max);
 
+const List<String> emptyList = const <String>[];
+
 abstract class VRString extends VR<String> {
   @override
   final int minValueLength;
@@ -29,7 +34,31 @@ abstract class VRString extends VR<String> {
       int maxVFLength, String keyword, this.minValueLength, this.maxValueLength)
       : super(index, code, id, 1, vfLengthSize, maxVFLength, keyword);
 
-  bool get isAscii => true;
+  String get padChar => ' '; // defaults to ASCII Space
+
+  @override
+  bool get isBinary => false;
+
+  @override
+  bool get isString => true;
+
+  /// Returns a [List<String>] converted from [bytes].
+  List<String> bytesToValues(Uint8List bytes) {
+    if (bytes == null || bytes.length == 0) emptyList;
+    if (bytes.length.isEven) {
+      if (bytes[bytes.length - 1] == kSpace || bytes[bytes.length - 1] == kNull)
+        bytes = bytes.buffer.asUint8List(0, bytes.length - 1);
+    }
+    var s = (isAscii) ? ASCII.decode(bytes) : UTF8.decode(bytes);
+    return s.split('\\');
+  }
+
+  Uint8List valuesToBytes(List<String> values) {
+    StringBuffer sb = new StringBuffer('${values.join(r"\")}');
+    if (sb.length.isOdd) sb.write(padChar);
+    var s = sb.toString();
+    return (isAscii) ? ASCII.encode(s) : UTF8.encode(s);
+  }
 
   @override
   bool get isString => true;
@@ -39,7 +68,7 @@ abstract class VRString extends VR<String> {
 
   /// Default [String] parser.  If the [String] [isValid] just returns it;
   @override
-  dynamic parse(String s);
+  dynamic parse(String s) => isValid(s);
 
   //Fix: complent and doc
   @override
@@ -47,20 +76,15 @@ abstract class VRString extends VR<String> {
 
   /// Returns [true] if [minValueLength] <= length <= [maxValueLength].
   @override
-  bool isValidLength(String s) {
-    assert(s != null);
-    return _isValidLength(s.length);
-  }
+  bool isValidLength(int length) =>
+      minValueLength <= length && length <= maxValueLength;
 
   /// Returns [true] if length is NOT valid.
-  bool isNotValidLength(String s) => !isValidLength(s);
-
-  bool _isValidLength(int length) =>
-      minValueLength <= length && length <= maxValueLength;
+  bool isNotValidLength(String s) => !isValidLength(s.length);
 
   /// Returns [true] if all characters pass the filter.
   bool _filteredTest(String s, bool filter(int c)) {
-    if (s == null || !_isValidLength(s.length)) return false;
+    if (s == null || !isValidLength(s.length)) return false;
     for (int i = 0; i < s.length; i++) {
       if (!filter(s.codeUnitAt(i))) return false;
     }
@@ -110,6 +134,13 @@ class VRDcmString extends VRString {
   bool get isAscii => (this == kAE) ? true : false;
 
   @override
+  bool get isUtf8 => !isAscii;
+
+  /// VR.kUC can have any number of values.
+  @override
+  bool get isLengthAlwaysValid => this == VR.kUC;
+
+  @override
   bool isValid(Object s) => (s is String) && _filteredTest(s, _isDcmChar);
 
   @override
@@ -144,6 +175,9 @@ class VRDcmText extends VRString {
 
   @override
   bool get isAscii => false;
+
+  @override
+  bool get isUtf8 => true;
 
   @override
   bool isValid(Object s) => (s is String) && _filteredTest(s, _isTextChar);
@@ -197,7 +231,7 @@ class VRCodeString extends VRString {
     // If too long truncate
     // if illegal chars replace with " "
     // if lowercase convert to with uppercase
-    if (!_isValidLength(s.length)) return null;
+    if (!isValidLength(s.length)) return null;
     return s.toUpperCase();
   }
 
@@ -299,6 +333,7 @@ class VRDcmDate extends VRString {
   @override
   bool isValid(Object s, {int start = 0, int end}) =>
       (s is String) &&
+      (s.length == 8) &&
       Date.isValidString(s.trimRight(), start: start, end: end);
 
   @override
@@ -380,8 +415,8 @@ class VRDcmTime extends VRString {
       const VRDcmTime._(25, 0x4d54, "TM", 2, kMaxShortVF, "TimeString", 2, 14);
 }
 
-class VRFloatString extends VRString {
-  const VRFloatString._(int index, int code, String id, int vfLengthSize,
+class VRDecimalString extends VRString {
+  const VRDecimalString._(int index, int code, String id, int vfLengthSize,
       int maxVFLength, String keyword, int minValueLength, int maxValueLength)
       : super._(index, code, id, vfLengthSize, maxVFLength, keyword,
             minValueLength, maxValueLength);
@@ -399,7 +434,7 @@ class VRFloatString extends VRString {
   @override
   num parse(String s) {
     assert(s != null);
-    if (!_isValidLength(s.length)) return null;
+    if (!isValidLength(s.length)) return null;
     return num.parse(s, (s) => null);
   }
 
@@ -411,7 +446,7 @@ class VRFloatString extends VRString {
     return s;
   }
 
-  static const VRFloatString kDS = const VRFloatString._(
+  static const VRDecimalString kDS = const VRDecimalString._(
       7, 0x5344, "DS", 2, kMaxShortVF, "DecimalString", 1, 16);
 }
 
@@ -435,7 +470,7 @@ class VRIntString extends VRString {
   @override
   int parse(String s) {
     assert(s != null);
-    if (!_isValidLength(s.length)) return null;
+    if (!isValidLength(s.length)) return null;
     return int.parse(s.trim(), onError: (s) => null);
   }
 
@@ -468,6 +503,7 @@ class VRPersonName extends VRString {
   bool isValid(Object s) {
     if (s is String) {
       var groups = s.split('=');
+      if (groups == null) groups = [s];
       for (String group in groups)
         if (group.length > 64 || !_filteredTest(group, _isDcmChar))
           return false;
@@ -547,6 +583,9 @@ class VRUid extends VRString {
             minValueLength, maxValueLength);
 
   @override
+  String get padChar => '\u0000';
+
+  @override
   bool isValid(Object s) => (s is String) && uid.isValidUidString(s);
 
   /// Returns [true] if [uidString] starts with the DICOM UID root.
@@ -582,6 +621,11 @@ class VRUri extends VRString {
   @override
   bool isValid(Object s) => (s is String) && parse(s) != null;
 
+  // Always [true] because UR can only have one value with a length up
+  // to [kMaxVFLength];
+  @override
+  bool get isLengthAlwaysValid => true;
+
   @override
   ParseIssues issues(String s) {
     assert(s != null);
@@ -599,7 +643,7 @@ class VRUri extends VRString {
   @override
   Uri parse(String uriString) {
     assert(uriString != null && uriString != "");
-    if (!_isValidLength(uriString.length)) return null;
+    if (!isValidLength(uriString.length)) return null;
     Uri uri;
     try {
       uri = Uri.parse(uriString);
@@ -621,5 +665,5 @@ class VRUri extends VRString {
   }
 
   static const VRUri kUR =
-      const VRUri._(30, 0x5255, "UR", 2, kMaxLongVF, "URI", 1, kMaxLongVF);
+      const VRUri._(30, 0x5255, "UR", 4, kMaxLongVF, "URI", 1, kMaxLongVF);
 }

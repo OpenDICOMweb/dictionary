@@ -113,11 +113,11 @@ class Uuid {
   String get asString => toString();
 
   /// Returns a list of hexadecimal [String]s corresponding to [this].
-  List<String> get asHex {
-    List<String> value = new List(16);
+  String get asHex {
+    var sb = new StringBuffer();
     for (int i = 0; i < _bytes.length; i++)
-      value[i] = _bytes[i].toRadixString(16).padLeft(2, "0").toUpperCase();
-    return value;
+      sb.write(_bytes[i].toRadixString(16).padLeft(2, "0").toLowerCase());
+    return sb.toString();
   }
 
   /// Returns the [Uuid] [String] that corresponds to [this].  By default,

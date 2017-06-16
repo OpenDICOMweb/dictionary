@@ -30,7 +30,20 @@ class VRFloat extends VR<double> {
   int get maxLength => elementSize;
 
   @override
+  bool get isBinary => true;
+
+  @override
+  bool get isFloat => true;
+
+  @override
+  bool get isString => false;
+
+  @override
   bool isValid(Object n) => n is double;
+
+  // [true] if [this] is one of OF, OD;
+  @override
+  bool get isLengthAlwaysValid => vfLengthSize == 4;
 
   @override
   ParseIssues issues(double n) => null;

@@ -1,7 +1,6 @@
 // Copyright (c) 2016, Open DICOMweb Project. All rights reserved.
 // Use of this source code is governed by the open source license
 // that can be found in the LICENSE file.
-// Author: Jim Philbin <jfphilbin@gmail.edu> and Binyak Behera <binayak.b@mwebware.com>
 // See the AUTHORS file for other contributors.
 
 import 'dart:typed_data';
@@ -9,14 +8,13 @@ import 'dart:typed_data';
 import 'package:common/common.dart';
 import 'package:dictionary/src/vr/vr.dart';
 import 'package:test/test.dart';
-import 'package:test_tools/random_string.dart' as rsg;
-//import 'package:dictionary/src/vr/string.dart';
+import 'package:test_tools/tools.dart';
 
+final Logger log = new Logger('uint_test.dart', watermark: Severity.info);
 
-final Logger log = new Logger('uint_test.dart', watermark: Severity.debug);
-
+//Urgent: why is every test a group by itself
+//Urgent: I rewrote this to remove the groups.
 void main() {
-  //printCode();
   vrMapAndListTest();
   integerVRsTest();
   stringVRsTest();
@@ -93,7 +91,7 @@ void integerVRsTest() {
     });
 
     bool isValidList<E>(List<E> list, bool pred(E value)) {
-      for(E value in list) {
+      for (E value in list) {
         if (pred(value) != true) {
           log.debug('Invalid: $value');
           return false;
@@ -102,9 +100,10 @@ void integerVRsTest() {
       return true;
     }
 
-    test("isValidList", () {
-
-      //kAT
+    //Urgent:
+    test("isValid Attribute Tag (AT)", () {
+      //Urgent: AT is Attribute Tag and is 2 x 16-bit values that should
+      //Urgent: match a tag, e.g. (0008,0005)
       Uint32List validATList = rng.uint32List(20, 20 + rng.nextUint8);
       expect(isValidList(validATList, VR.kAT.isValid), true);
 
@@ -120,6 +119,7 @@ void integerVRsTest() {
         ..add(Uint32.minValue - 1);
       expect(isValidList(invalidATList, VR.kAT.isValid), false);
 
+      //Urgent: make a new test for each VR
       //KOB
       Uint8List u8ListkOB = rng.uint8List(10, 200);
       expect(isValidList(u8ListkOB, VR.kOB.isValid), true);
@@ -292,191 +292,194 @@ void integerVRsTest() {
       expect(VR.kUN.fix(Uint8.minValue - 1), null);
       expect(VR.kUN.fix(Uint8.maxValue + 1), null);
     });
-
-    test("view", () {
-      Uint32List u32List = rng.uint32List(10, 20);
-      log.debug('u32List: $u32List');
-      //Urgent: decide if .view should be in tag or element
-  //    log.debug(VR.kAT.view(u32List));
-    });
   });
 }
 
+//Urgent: add  - expect(VR.kXX.isValid(null), false) to all tests
 void stringVRsTest() {
-  group("VRDcmString", () {
-    test("isValid", () {
-      //kAE
-      for (int i = 0; i < 10; i++) {
-        String strValidkAE = rsg.generateDcmChar(VR.kAE.maxValueLength);
-        expect(VR.kAE.isValid(strValidkAE), true);
-      }
+  group("VR DcmString", () {
+    RSG rsg = new RSG(0);
 
-      String strInValidkAE = rsg.generateDcmChar(VR.kAE.maxValueLength + 1);
-      expect(VR.kAE.isValid(strInValidkAE), false);
+    test("isValid AE Title (AE)", () {
+      List<String> vList = rsg.getAEList(1, 10, 1, 16);
+      for (String s in vList) expect(VR.kAE.isValid(s), true);
+
+      List<String> vList1 = rsg.getDcmStringList(
+          1, 10, VR.kAE.maxValueLength + 1, VR.kAE.maxValueLength + 1);
+      for (String s in vList1) expect(VR.kAE.isValid(s), false);
+
       expect(VR.kAE.isValid(""), false);
       expect(VR.kAE.isValid(null), false);
+    });
 
-      //kLO
+    test("isValid Long String (LO)", () {
       for (int i = 0; i < 10; i++) {
-        String strValidkLO = rsg.generateDcmChar(VR.kLO.maxValueLength);
-        expect(VR.kLO.isValid(strValidkLO), true);
+        List<String> vList2 = rsg.getLOList(1, 10, 1, VR.kLO.maxValueLength);
+        for (String s in vList2) expect(VR.kLO.isValid(s), true);
       }
 
-      String strInValidkLO = rsg.generateDcmChar(VR.kLO.maxValueLength + 1);
-      expect(VR.kLO.isValid(strInValidkLO), false);
+      List<String> vList3 = rsg.getLOList(
+          1, 10, VR.kLO.maxValueLength + 1, VR.kLO.maxValueLength + 1);
+      for (String s in vList3) expect(VR.kLO.isValid(s), false);
       expect(VR.kLO.isValid(""), false);
+    });
 
+    test("isValid Short String (SH)", () {
       //kSH
       for (int i = 0; i < 10; i++) {
-        String strValidkSH = rsg.generateDcmChar(VR.kSH.maxValueLength);
-        expect(VR.kSH.isValid(strValidkSH), true);
+        List<String> vList4 = rsg.getSHList(1, 10, 1, VR.kSH.maxValueLength);
+        for (String s in vList4) expect(VR.kSH.isValid(s), true);
       }
 
-      String strInValidkSH = rsg.generateDcmChar(VR.kSH.maxValueLength + 1);
-      expect(VR.kSH.isValid(strInValidkSH), false);
+      List<String> vList5 = rsg.getDcmStringList(
+          1, 10, VR.kSH.maxValueLength + 1, VR.kSH.maxValueLength + 1);
+      for (String s in vList5) expect(VR.kSH.isValid(s), false);
       expect(VR.kSH.isValid(""), false);
+    });
 
+    test("isValid Unlimited Characters (UC)", () {
       //kUC
       for (int i = 0; i < 10; i++) {
-        String strValidkUC = rsg.generateDcmChar(1024);
-        expect(VR.kUC.isValid(strValidkUC), true);
+        List<String> vList6 = rsg.getUCList(1, 1024, 1, 256);
+        for (String s in vList6) expect(VR.kUC.isValid(s), true);
       }
-
       expect(VR.kUC.isValid(""), false);
+      expect(VR.kUC.isValid(null), false);
     });
   });
 
-  group("VR", () {
-    test("isValid", () {
+  group("VR DcmText", () {
+    RSG rsg = new RSG(0);
+    test("isValid Long Text (LT)", () {
       //kLT
       for (int i = 0; i < 10; i++) {
-        String strValidkLT = rsg.generateTextChar(VR.kLT.maxValueLength);
-        expect(VR.kLT.isValid(strValidkLT), true);
+        List<String> vList0 = rsg.getLTList(1, 10, 1, VR.kLT.maxValueLength);
+        for (String s in vList0) expect(VR.kLT.isValid(s), true);
       }
 
-      String strInValidkLT = rsg.generateTextChar(VR.kLT.maxValueLength + 1);
-      expect(VR.kLT.isValid(strInValidkLT), false);
+      var vList1 = rsg.getLTList(
+          1, 10, VR.kLT.maxValueLength + 1, VR.kLT.maxValueLength + 1);
+      for (String s in vList1) expect(VR.kLT.isValid(s), false);
       expect(VR.kLT.isValid(""), false);
+    });
 
+    test("isValid Short Text (ST)", () {
       //kST
       for (int i = 0; i < 10; i++) {
-        String strValidkST = rsg.generateTextChar(VR.kST.maxValueLength);
-        expect(VR.kST.isValid(strValidkST), true);
+        List<String> vList2 = rsg.getSTList(1, 10, 1, VR.kST.maxValueLength);
+        for (String s in vList2) expect(VR.kST.isValid(s), true);
       }
 
-      String strInValidkST = rsg.generateTextChar(VR.kST.maxValueLength + 1);
-      expect(VR.kST.isValid(strInValidkST), false);
+      var vList3 = rsg.getSTList(
+          1, 10, VR.kST.maxValueLength + 1, VR.kST.maxValueLength + 1);
+      for (String s in vList3) expect(VR.kST.isValid(s), false);
       expect(VR.kST.isValid(""), false);
+    });
 
+    test("isValid Unlimited Text (UT)", () {
       //kUT
       for (int i = 0; i < 10; i++) {
-        String strValidkUT = rsg.generateTextChar(1024);
-        expect(VR.kUT.isValid(strValidkUT), true);
+        // Note: larger values that 20480 can take a long time
+        List<String> vList4 = rsg.getUTList(1, 20480);
+        for (String s in vList4) expect(VR.kUT.isValid(s), true);
       }
-
       expect(VR.kUT.isValid(""), false);
     });
   });
-  group("VRCodeString", () {
-    test("isValid", () {
-      //kCS
-      for (int i = 0; i < 10; i++) {
-        String strValid = rsg.generateCodeStringChar(VR.kCS.maxValueLength);
-        expect(VR.kCS.isValid(strValid), true);
-      }
 
-      String strInValid = rsg.generateDcmChar(VR.kCS.maxValueLength + 1);
-      expect(VR.kCS.isValid(strInValid), false);
-      expect(VR.kCS.isValid(""), false);
-    });
+  RSG rsg = new RSG(0);
+  test("isValid Code String (CS)", () {
+    //kCS
+    for (int i = 0; i < 10; i++) {
+      List<String> vList0 = rsg.getCSList(1, 10, 1, VR.kCS.maxValueLength);
+      for (String s in vList0) expect(VR.kCS.isValid(s), true);
+    }
+
+    List<String> vList1 = rsg.getDcmStringList(
+        1, 10, VR.kCS.maxValueLength + 1, VR.kCS.maxValueLength + 1);
+    for (String s in vList1) expect(VR.kCS.isValid(s), false);
+    expect(VR.kCS.isValid(""), false);
   });
 
-  group("VRDcmAge", () {
-    test("isValid", () {
-      //kAS
-      String strValid = "125M";
-      expect(VR.kAS.isValid(strValid), true);
+  test("isValid Age (AS)", () {
+    expect(VR.kAS.isValid("000D"), true);
+    expect(VR.kAS.isValid("123W"), true);
+    expect(VR.kAS.isValid("987M"), true);
+    expect(VR.kAS.isValid("999Y"), true);
 
-      String strValidInvalid = "1025M";
-      expect(VR.kAS.isValid(strValidInvalid), false);
-
-      strValidInvalid = "102K";
-      expect(VR.kAS.isValid(strValidInvalid), false);
-
-      strValidInvalid = "102m";
-      expect(VR.kAS.isValid(strValidInvalid), false);
-    });
-  });
-  group("VRDcmDate", () {
-    test("isValid", () {
-      expect(VR.kDA.isValid("19680518"), true);
-      expect(VR.kDA.isValid("20161231"), true);
-      expect(VR.kDA.isValid("18051988"), false);//verify:PLEASE CHECK
-      expect(VR.kDA.isValid("18-05-1988"), false);
-      expect(VR.kDA.isValid("18/05/1968"), false);
-    });
-  });
-  group("VRFloatString", () {
-    test("isValid", () {
-      expect(VR.kDS.isValid("18443232.42"), true);
-      expect(VR.kDS.isValid("18443232.4243423"), true);
-      expect(VR.kDS.isValid("1844323233.4243423"), false);
-      expect(VR.kDS.isValid("18443232.42M"), false);
-    });
+    expect(VR.kAS.isValid("1025M"), false);
+    expect(VR.kAS.isValid("102K"), false);
+    expect(VR.kAS.isValid("102m"), false);
+    expect(VR.kAS.isValid("1x2D"), false);
   });
 
-  group("VRDcmDateTime", () {
-    test("isValid", () {
-      log.debug(VR.kDT.isValid("20170314 124603.424306"));//verify: space btwn data and time?
-      log.debug(VR.kDT.isValid("20170314124603.424306"));//verify
-    });
+  // RSG rsg = new RSG(0);
+  test("isValid Date (DA)", () {
+    expect(VR.kDA.isValid("19680518"), true);
+    expect(VR.kDA.isValid("20161231"), true);
+    //verify:PLEASE CHECK
+    //Urgent: yes "1805-19-88" is invalid
+    expect(VR.kDA.isValid("18051988"), false);
+    expect(VR.kDA.isValid("18-05-1988"), false);
+    expect(VR.kDA.isValid("18/05/1968"), false);
   });
 
-  group("VRIntString", () {
-    test("isValid VRString", () {
-      expect(VR.kIS.isValid("567891234567"), true);
-      expect(VR.kIS.isValid("5678912345671"), false);
-      expect(VR.kIS.isValid("567891234.67"), false);
-      expect(VR.kIS.isValid(""), false);
-    });
+  test("isValid Decimal (DS)", () {
+    expect(VR.kDS.isValid("18443232.42"), true);
+    expect(VR.kDS.isValid("18443232.4243423"), true);
+    expect(VR.kDS.isValid("1844323233.4243423"), false);
+    expect(VR.kDS.isValid("18443232.42M"), false);
   });
 
-  group("VRPersonName", () {
-    test("isValid VRPersonName", () {
-      //noOfgroups=3, noOfomponents=5, componentLength=8
-      String strValid = rsg.generatePersonName(3, 5, 8);
-      expect(VR.kPN.isValid(strValid), true);
-
-      //noOfgroups=3, noOfomponents=5, componentLength=11
-      String strInValid = rsg.generatePersonName(3, 5, 11);
-      expect(VR.kPN.isValid(strInValid), true);
-
-      //noOfgroups=3, noOfomponents=5, componentLength=13
-      strInValid = rsg.generatePersonName(3, 5, 13);
-      expect(VR.kPN.isValid(strInValid), false);
-
-      //noOfgroups=2, noOfomponents=5, componentLength=13
-      strInValid = rsg.generatePersonName(2, 5, 13);
-      expect(VR.kPN.isValid(strInValid), false);
-    });
+  test("isValid DateTime (DT)", () {
+    //verify: space between data and time?
+    //Urgent: space is not valid
+    // log.debug(VR.kDT.isValid("20170314 124603.424306"));
+    expect(VR.kDT.isValid("20170314 124603.424306"), false);
+    //verify: no space
+    //Urgent: no space is valid
+    // log.debug(VR.kDT.isValid("20170314124603.424306"));
+    expect(VR.kDT.isValid("20170314124603.424306"), true);
   });
 
-  group("VRDcmTime", () {
-    test("isValid VRDcmTime", () {
-      expect(VR.kTM.isValid("070907.0705"), true);
-      expect(VR.kTM.isValid("070907.070590"), true);
-      expect(VR.kTM.isValid("070907.07059099"), false);
-      expect(VR.kTM.isValid("070907.07059U"), false);
-    });
+  test("isValid Integer String (IS)", () {
+    expect(VR.kIS.isValid("567891234567"), true);
+    expect(VR.kIS.isValid("5678912345671"), false);
+    expect(VR.kIS.isValid("567891234.67"), false);
+    expect(VR.kIS.isValid(""), false);
   });
 
-  group("VRUid", () {
-    test("isValid VRUid", () {
-      expect(VR.kUI.isValid("1.2.840.444.3.152.235.2.12.187636473"), true);
-      expect(
-          VR.kUI.isValid(
-              "1.2.840.444.3.152.235.2.12.187636473.435345.345435435.435435435435.3"),
-          false);
-    });
+  test("isValid Person Name (PN)", () {
+    //Urgent: make this work
+    //noOfgroups=3, noOfomponents=5, componentLength=8
+    List<String> vList0 = rsg.getPNList(3, 5, 4, 10);
+    for(String s in vList0) expect(VR.kPN.isValid(s), true);
+
+    //noOfgroups=3, noOfomponents=5, componentLength=11
+    vList0 = rsg.getPNList(3, 5, 6, 12);
+    for(String s in vList0) expect(VR.kPN.isValid(s), true);
+
+    //noOfgroups=3, noOfomponents=5, componentLength=13
+    vList0 = rsg.getPNList(3, 8, 14);
+    for(String s in vList0) expect(VR.kPN.isValid(s), true);
+
+    //noOfgroups=2, noOfomponents=5, componentLength=13
+    vList0 = rsg.getPNList(2, 5, 10, 16);
+    for(String s in vList0) expect(VR.kPN.isValid(s), true);
+  }); //, skip: 'need getPNList to be implemented');
+
+  test("isValid Time (TM)", () {
+    expect(VR.kTM.isValid("070907.0705"), true);
+    expect(VR.kTM.isValid("070907.070590"), true);
+    expect(VR.kTM.isValid("070907.07059099"), false);
+    expect(VR.kTM.isValid("070907.07059U"), false);
+  });
+
+  test("isValid Uid (UI)", () {
+    expect(VR.kUI.isValid("1.2.840.444.3.152.235.2.12.187636473"), true);
+    expect(
+        VR.kUI.isValid("1.2.840.444.3.152.235.2.12.187636473.435345.345435435"
+            ".435435435435.3"),
+        false);
   });
 }

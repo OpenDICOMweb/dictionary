@@ -28,15 +28,24 @@ class Tag {
   final int code;
   final VR vr;
 
-
   ///TODO: Tag and Tag.public are inconsistent when new Tag, PrivateTag... files
   ///      are generated make them consistent.
   const Tag(this.code, this.vr);
 
+  /// Returns an appropriate [Tag] based on the arguments.
+  factory Tag.fromCode(int code, vr, [dynamic creator]) {
+    if (Tag.isPublicCode(code)) return Tag.lookupPublicCode(code, vr);
+    if (Tag.isPrivateCreatorCode(code)) return new PCTag(code, vr, creator);
+    if (Tag.isPrivateDataCode(code)) return new PDTag(code, vr, creator);
+    // This should never happen
+    throw 'Error: Unknown Tag Code${Tag.toDcm}';
+  }
 
   //TODO: When regenerating Tag rework constructors as follows:
   // Tag(int code, [vr = VR.kUN, vm = VM.k1_n);
   // Tag._(this.code, this.vr, this.vm, this.keyword, this.name,
+  //     [this.isRetired = false, this.type = EType.kUnknown]
+  // Tag.const(this.code, this.vr, this.vm, this.keyword, this.name,
   //     [this.isRetired = false, this.type = EType.kUnknown]
   // Tag.private(this.code, this.vr, this.vm, this.keyword, this.name,
   //     [this.isRetired = false, this.type = EType.kUnknown]);
@@ -47,22 +56,31 @@ class Tag {
   bool get isRetired => true;
   EType get type => EType.k3;
 
-
+  /// Returns [true] if [this] is a [Tag] defined by the DICOM Standard
+  /// or one of the known private [Tag]s ([PCTag] or [PDTag]) defined
+  /// in the ODW SDK.
   bool get isKnown => keyword != "UnknownTag";
 
   bool get isUnKnown => !isKnown;
 
   // **** Code Getters
-  String get dcm => '(${Group.hex(group)},${Elt.hex(elt)})';
 
+  /// Returns a [String] for the [code] in DICOM format, i.e. (gggg,eeee).
+  String get dcm => '${Tag.toDcm(code)}';
+
+  /// Returns a [String] for the [code] in hexadecimal format, i.e. '0xggggeeee.
   String get hex => Int.hex(code, 8);
 
+  /// Returns the [group] number for [this] [Tag].
   int get group => code >> 16;
 
+  /// Returns the [group] number for [this] in hexadecimal format.
   String get groupHex => Group.hex(group);
 
+  /// Returns the DICOM element [Elt] number for [this] [Tag].
   int get elt => code & kElementMask;
 
+  /// Returns the DICOM element [Elt] number for [this] in hexadecimal format.
   String get eltHex => Elt.hex(elt);
 
   // **** VR Getters
@@ -85,14 +103,40 @@ class Tag {
   /// Used for encoding DICOM media types
   int get dcmHeaderLength => (hasShortVF) ? 8 : 12;
 
+  bool get isAscii => vr.isAscii;
+  bool get isUtf8 => vr.isUtf8;
+
   // **** VM Getters
 
-  int get minLength => vm.min;
+  /// The minimum number that MUST be present, if any values are present.
+  int get minValues => vm.min;
+
+  int get _vfLimit => (vr.hasShortVF) ? kMaxShortVF : kMaxLongVF;
+
+  /// The maximum number that MAY be present, if any values are present.
+  int get maxValues => (vm.max != -1) ? vm.max : _vfLimit ~/ vr.minValueLength;
+
+  /// The minimum length of the Value Field.
+  int get minVFLength => vm.min * vr.minValueLength;
+
+  /// The maximum length of the Value Field.
+  int get maxVFLength {
+    // Optimization - for most Tags vm.max == 1
+    if (vm.max == 1) return vr.maxValueLength * vr.elementSize;
+    if (vm.max == -1) {
+      return vr.maxVFLength;
+    } else {
+      var maxVF = maxValues * vr.maxValueLength;
+      return (maxVF > vr.maxVFLength) ? vr.maxVFLength : maxVF;
+    }
+  }
 
   //TODO: Validate that the number of values is legal
   //TODO write unit tests to ensure this is correct
   //TODO: make this work for PrivateTags
+
   /// Returns the maximum number of values allowed for this [Tag].
+  /*
   int get maxLength {
     if (vm.max == -1) {
       int max = (vr.hasShortVF) ? kMaxShortVF : kMaxLongVF;
@@ -100,6 +144,7 @@ class Tag {
     }
     return vm.max;
   }
+  */
 
   int get width => vm.width;
 
@@ -160,7 +205,9 @@ class Tag {
     return '$runtimeType$dcm $vr $vm $keyword $retired';
   }
 
-  /// Returns [true] if the [Tag] is a valid Public or Private Tag.
+  /// Returns [true] is [this] is a valid [Tag].
+  /// Valid [Tag]s are those defined in PS3.6 and Private [Tag]s that
+  /// conform to the DICOM Standard.
   bool get isValid => false;
 
   /// Returns True if the [length], i.e. the number of values, is
@@ -173,14 +220,13 @@ class Tag {
   ///     Value Field; otherwise, must be greater than or equal to [min].
   /// [width]: The [width] of the matrix of values. If [width == 0,
   /// then singleton; otherwise must be greater than 0;
-
   //TODO: should be modified when EType info is available.
   bool hasValidValues<E>(List<E> values) {
-    // If a VR has a long Value Field, then it has [VM.k1],
-    // and its length is always valid.
-    log.debug('isValidValues vr: $vr');
+    // If a VR has a long Value Field, then it has [VM.k1], and its length
+    // is always valid.
     if (vr == VR.kUN) return true;
-    if (vr.hasShortVF && isNotValidLength(values.length)) return false;
+    if (isNotValidLength(values.length)) return false;
+  //  if (vr.hasShortVF && isNotValidLength(values.length)) return false;
     for (int i = 0; i < values.length; i++)
       if (vr.isNotValid(values[i])) return false;
     return true;
@@ -204,10 +250,9 @@ class Tag {
 
   // If a VR has a long Value Field, then it has [VM.k1],
   // and its length is always valid.
-  String lengthIssue(int length) =>
-      (vr.hasShortVF && isNotValidLength(length))
-          ? 'Invalid Length: min($minLength) <= value($length) <= max($maxLength)'
-          : null;
+  String lengthIssue(int length) => (vr.hasShortVF && isNotValidLength(length))
+      ? 'Invalid Length: min($minValues) <= value($length) <= max($maxValues)'
+      : null;
 
   //TODO: make this work with [ParseIssues]
   List<String> issues<E>(List<E> values) {
@@ -219,18 +264,19 @@ class Tag {
     return sList;
   }
 
-  List<E>
-  checkValues<E>(List<E> values) => (hasValidValues(values)) ? values : null;
+  List<E> checkValues<E>(List<E> values) => (hasValidValues(values))
+      ? values
+      : null;
 
   // Placeholder until VR is integrated into TagBase
   List<E> checkValue<E>(dynamic value) => vr.isValid(value) ? value : null;
 
+  /// Returns [true] if [length] is a valid number of values for [this].
   bool isValidLength(int length) {
-    //  log.debug('isValidLength: $length');
-    //  log.debug('min($minLength), max($maxLength), width($width)');
     // These are the most common cases.
     if (length == 0 || (length == 1 && width == 0)) return true;
-    return (minLength <= length && length <= maxLength) && length % width == 0;
+    if (vr.isLengthAlwaysValid == true) return true;
+    return length >= minValues && length <= maxValues && (length % width) == 0;
   }
 
   bool isValidWidth(int length) => width == 0 || (length % width) == 0;
@@ -245,17 +291,10 @@ class Tag {
 
   //Flush?
   String lengthError(int length) =>
-      'Invalid Length: min($minLength) <= length($length) <= max($maxLength)';
+      'Invalid Length: min($minValues) <= length($length) <= max($maxValues)';
 
-  bool isValidVFLength(int lengthInBytes) {
-    // print('lib: $lengthInBytes');
-    int min = minLength * vr.minValueLength;
-    print('minLength: $minLength, minValueLength: ${vr.minValueLength}');
-    print('maxVFLength: ${vr.maxVFLength}');
-    print('min: $min, lengthInBytes: $lengthInBytes');
-    if (min <= lengthInBytes && lengthInBytes <= vr.maxVFLength) return true;
-    return false;
-  }
+  bool isValidVFLength(int lengthInBytes) =>
+      (lengthInBytes >= minVFLength && lengthInBytes <= maxVFLength);
 
   Uint8List checkVFLength(Uint8List bytes) =>
       (isValidVFLength(bytes.length)) ? bytes : null;
@@ -300,14 +339,15 @@ class Tag {
     return '$runtimeType: $dcm $keyword, $vr, $vm, $retired';
   }
 
-  /* flush
-  static Tag lookup(int code, [PrivateCreatorTag tag]) {
-    if (Tag.isPublicCode(code)) return Tag.lookupKnownPublicCode(code);
-    if (Tag.isPrivateCode(code)) return Tag.lookupPrivateCode(code);
+  //TODO: improve doc.
+  /// Returns an appropriate [Tag] based on the arguments.
+  static Tag lookup(int code, [VR vr = VR.kUN, dynamic creator]) {
+    if (Tag.isPublicCode(code)) return Tag.lookupPublicCode(code, vr);
+    if (Tag.isPrivateCreatorCode(code)) return new PCTag(code, vr, creator);
+    if (Tag.isPrivateDataCode(code)) return new PDTag(code, vr, creator);
     // This should never happen
     throw 'Error: Unknown Tag Code${Tag.toDcm}';
   }
-*/
 
   //TODO: Use the 'package:collection/collection.dart' ListEquality
   //TODO:  decide if this ahould be here
@@ -318,8 +358,7 @@ class Tag {
     if (identical(e1, e2)) return true;
     if (e1 == null || e2 == null) return false;
     if (e1.length != e2.length) return false;
-    for (int i = 0; i < e1.length; i++)
-      if (e1[i] != e2[i]) return false;
+    for (int i = 0; i < e1.length; i++) if (e1[i] != e2[i]) return false;
     return true;
   }
 
@@ -333,16 +372,13 @@ class Tag {
   }
 
   static Tag lookupPrivateCreatorCode(int code, VR vr, String token) {
-    if (isPrivateCreatorCode(code))
-      return new PCTag(code, vr, token);
+    if (isPrivateCreatorCode(code)) return new PCTag(code, vr, token);
     throw new InvalidTagCodeError(code);
   }
 
-  static PDTagDefinition lookupPrivateDataCode(int code, VR vr, PCTag creator) {
-    if (isPrivateDataCode(code))
-      return creator.lookupData(code);
-    throw new InvalidTagCodeError(code);
-  }
+  static PDTagKnown lookupPrivateDataCode(
+          int code, VR vr, PCTagKnown creator) =>
+      creator.lookupData(code);
 
   /// Returns a [String] corresponding to [tag], which might be an
   /// [int], [String], or [Tag].
@@ -358,8 +394,8 @@ class Tag {
     return '$msg';
   }
 
-  static List<String> lengthChecker(List values, int minLength, int maxLength,
-      int width) {
+  static List<String> lengthChecker(
+      List values, int minLength, int maxLength, int width) {
     int length = values.length;
     // These are the most common cases.
     if (length == 0 || (length == 1 && width == 0)) return null;
@@ -380,18 +416,16 @@ class Tag {
   }
 
   // *** Private Tag Code methods
-  static bool isPrivateCode(int tagCode) =>
-      Group.isPrivate(Group.fromTag(tagCode));
+  static bool isPrivateCode(int code) => Group.isPrivate(Group.fromTag(code));
 
-  static bool isPublicCode(int tagCode) =>
-      Group.isPublic(Group.fromTag(tagCode));
+  static bool isPublicCode(int code) => Group.isPublic(Group.fromTag(code));
 
-  static bool isPublicGroupLengthCode(int tagCode) =>
-      Group.isPublic(Group.fromTag(tagCode)) && Elt.fromTag(tagCode) == 0;
+  static bool isPublicGroupLengthCode(int code) =>
+      Group.isPublic(Group.fromTag(code)) && Elt.fromTag(code) == 0;
 
   /// Returns true if [code] is a valid Private Creator Code.
-  static bool isPrivateCreatorCode(int tagCode) =>
-      isPrivateCode(tagCode) && Elt.isPrivateCreator(Elt.fromTag(tagCode));
+  static bool isPrivateCreatorCode(int code) =>
+      isPrivateCode(code) && Elt.isPrivateCreator(Elt.fromTag(code));
 
   static bool isCreatorCodeInGroup(int code, int group) {
     int g = group << 16;
@@ -402,16 +436,17 @@ class Tag {
     int sg = (group << 16) + (subgroup << 8);
     return (code >= sg && (code <= (sg + 0xFF)));
   }
-  static bool isPrivateDataCode(int tag) =>
-      Group.isPrivate(Group.fromTag(tag)) &&
-          Elt.isPrivateData(Elt.fromTag(tag));
+
+  static bool isPrivateDataCode(int code) =>
+      Group.isPrivate(Group.fromTag(code)) &&
+      Elt.isPrivateData(Elt.fromTag(code));
 
   static int privateCreatorBase(int code) => Elt.pcBase(Elt.fromTag(code));
 
   static int privateCreatorLimit(int code) => Elt.pcLimit(Elt.fromTag(code));
 
-  static bool isPrivateGroupLengthCode(int tagCode) =>
-      Group.isPrivate(Group.fromTag(tagCode)) && Elt.fromTag(tagCode) == 0;
+  static bool isPrivateGroupLengthCode(int code) =>
+      Group.isPrivate(Group.fromTag(code)) && Elt.fromTag(code) == 0;
 
   /// Returns true if [pd] is a valid Private Data Code for the
   /// [pc] the Private Creator Code.
@@ -435,7 +470,7 @@ class Tag {
     return null;
   }
 
-  /// Returns a valid [PDTagDefinition], or [null].
+  /// Returns a valid [PDTagKnown], or [null].
   static int toPrivateData(int group, int pcIndex, int pdIndex) {
     if (Group.isPrivate(group) &&
         _isPCIndex(pcIndex) &&
@@ -448,7 +483,7 @@ class Tag {
   static int _toPrivateCreator(int group, int pcIndex) =>
       (group << 16) + pcIndex;
 
-  /// Returns a [PDTagDefinition], without checking arguments.
+  /// Returns a [PDTagKnown], without checking arguments.
   static int _toPrivateData(int group, int pcIndex, int pdIndex) =>
       (group << 16) + (pcIndex << 8) + pdIndex;
 
@@ -468,7 +503,7 @@ class Tag {
   /// Private Creator [pcIndex].
   static int _pdBase(int pcIndex) => pcIndex << 8;
 
-  /// Returns the limit for a [PDTagDefinition] with a base of [pdBase].
+  /// Returns the limit for a [PDTagKnown] with a base of [pdBase].
   static int _pdLimit(int pdBase) => pdBase + 0x00FF;
 
   /// Returns [true] if [tag] is in the range of DICOM Dataset Tags.

@@ -39,7 +39,7 @@ void main() {
   // log.debug('s: $s');
   // for(String ss in s) log.debug('"$ss"');
 
-  log.debug(nameX0.split('^').fold("", (t, e) => t + '|"$e"'));
+  log.debug(nameX0.split('^').fold("", (t, e) => '$t|"$e"'));
 
   for (String s in nameX0.split('^')) log.debug('"$s"');
 

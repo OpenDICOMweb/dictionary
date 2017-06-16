@@ -28,7 +28,7 @@ bool isValidUidString(String s) {
         if(s.codeUnitAt(i + 2) != kDot) return false;
       }
     } else {
-      if (!isDigitChar(char0)) return false;
+      if (!isHexChar(char0)) return false;
     }
   }
   if (!isHexChar(s.codeUnitAt(s.length - 1))) return false;

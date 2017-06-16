@@ -23,12 +23,12 @@ void validateTest() {
     });
 
     test("Check isValidLength", () {
-      expect(VR.kUC.isValidLength(''), false);
-      expect(VR.kUC.isValidLength('sdfsdfsadf'), true);
+      expect(VR.kUC.isValidLength(''.length), false);
+      expect(VR.kUC.isValidLength('sdfsdfsadf'.length), true);
       expect(
           VR.kUC.isValidLength(
               'sdfsdfsadfsdfsdfsadfsdfsdfsadfsdfsdfsadfsdfsdfsadfsdfsdfsadfsd'
-              'fsdfsadfsdfsdfsadf'),
+              'fsdfsadfsdfsdfsadf'.length),
           true);
     });
 

@@ -68,7 +68,7 @@ class TransferSyntax extends WKUid {
   }
 
   @override
-  String toString() => 'TransferSyntax($asString): $asString';
+  String toString() => 'TransferSyntax($asString): $name';
 
   //TODO we need add the keyword to the to the class.
   //*****   Constant Values   *****
@@ -78,6 +78,7 @@ class TransferSyntax extends WKUid {
     "Implicit VR Little Endian: Default Transfer Syntax for DICOM",
     "image/???",
     false,
+    false,
   );
 
   static const TransferSyntax kDefaultForDIMSE = kImplicitVRLittleEndian;
@@ -86,20 +87,25 @@ class TransferSyntax extends WKUid {
       "1.2.840.10008.1.2.1",
       "Explicit VR Little Endian",
       "image/uncompressed??",
-      false);
+      false,
+  false);
 
   static const TransferSyntax kDefaultForDicomWeb = kExplicitVRLittleEndian;
 
   static const TransferSyntax kDeflatedExplicitVRLittleEndian =
       const TransferSyntax("1.2.840.10008.1.2.1.99",
-          "Deflated Explicit VR Little Endian", "image/deflate??", false);
+          "Deflated Explicit VR Little Endian", "image/deflate??",
+          false,
+          false,
+      false);
 
   static const TransferSyntax kExplicitVRBigEndian = const TransferSyntax(
       "1.2.840.10008.1.2.2",
       "Explicit VR Big Endian (Retired)",
       "image/bigEndian",
+      true,
       false,
-      true);
+  false);
 
   static const TransferSyntax kJPEGBaseline_1 = const TransferSyntax(
       "1.2.840.10008.1.2.4.50",

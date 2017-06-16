@@ -11,18 +11,16 @@ void main() {
   print('${pcTag.runtimeType}: tag is creator(${pcTag.isCreator}) '
       'and private(${pcTag.isPrivate})');
 
-  PDTagDefinition data = pcTag.dataTags[0x00090001];
-  print('${data.runtimeType}: Acuson data: ${pcTag.dataTags}');
-  print(
-      '${data.runtimeType}: Tag is Private Data(${data is PDTagDefinition}) '
-      'and private(${data.isPrivate})');
-
-  PCTag pcTag1 =
-      new PCTag(0x00090010, VR.kUN, "ACUSON");
+  if (pcTag is PCTagKnown) {
+    var data = pcTag.dataTags[0x00090001];
+    print('${data.runtimeType}: Acuson data: ${pcTag.definition.dataTags}');
+    print('${data.runtimeType}: Tag is Private Data(${data is PDTagKnown}) '
+        'and private(${pcTag.isPrivate})');
+  }
+  PCTag pcTag1 = new PCTag(0x00090010, VR.kUN, "ACUSON");
   print('${pcTag1.runtimeType}: Tag is $pcTag1 (${pcTag1 is
   PCTag}) '
       'and is private(${pcTag1.isPrivate})');
 
-  //TODO: Private Data
-  // PrivateData privateData = new PrivateData(0x00090000, ['123456'], )
+
 }
