@@ -24,19 +24,14 @@ class VRFloat extends VR<double> {
             keyword);
 
   @override
-  bool get isBinary => true;
-
-  int get minValue => elementSize;
-  int get maxLength => elementSize;
-
   @override
   bool get isBinary => true;
 
   @override
   bool get isFloat => true;
 
-  @override
-  bool get isString => false;
+  int get minValue => elementSize;
+  int get maxLength => elementSize;
 
   @override
   bool isValid(Object n) => n is double;

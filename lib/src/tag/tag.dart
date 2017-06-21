@@ -222,8 +222,7 @@ class Tag {
   /// then singleton; otherwise must be greater than 0;
   //TODO: should be modified when EType info is available.
   bool hasValidValues<E>(List<E> values) {
-    // If a VR has a long Value Field, then it has [VM.k1], and its length
-    // is always valid.
+    if (values == null) return false;
     if (vr == VR.kUN) return true;
     if (isNotValidLength(values.length)) return false;
   //  if (vr.hasShortVF && isNotValidLength(values.length)) return false;
@@ -273,9 +272,10 @@ class Tag {
 
   /// Returns [true] if [length] is a valid number of values for [this].
   bool isValidLength(int length) {
+    // If a VR has a long Value Field, then it has [VM.k1], and its length is always valid.
+    if (vr.isLengthAlwaysValid == true) return true;
     // These are the most common cases.
     if (length == 0 || (length == 1 && width == 0)) return true;
-    if (vr.isLengthAlwaysValid == true) return true;
     return length >= minValues && length <= maxValues && (length % width) == 0;
   }
 

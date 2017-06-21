@@ -61,9 +61,6 @@ abstract class VRString extends VR<String> {
   }
 
   @override
-  bool get isString => true;
-
-  @override
   String check(String s) => (isValid(s)) ? s : null;
 
   /// Default [String] parser.  If the [String] [isValid] just returns it;

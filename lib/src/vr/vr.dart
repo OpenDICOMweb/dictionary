@@ -30,8 +30,16 @@ abstract class VR<T> {
 
   VR operator [](int i) => vrList[i];
 
-  bool get isString => false;
   bool get isBinary => false;
+  bool get isInteger => false;
+  bool get isFloat => false;
+
+  bool get isString => false;
+  bool get isAscii => false;
+  bool get isUtf8 => false;
+
+  bool get isSequence => false;
+
   /// The minimum length of a value.
   int get minValueLength => elementSize;
 
@@ -43,16 +51,6 @@ abstract class VR<T> {
 
   bool get hasShortVF => vfLengthSize == 2;
   bool get hasLongVF => !hasShortVF;
-
-  bool get isBinary => false;
-  bool get isInteger => false;
-  bool get isFloat => false;
-
-  bool get isString => false;
-  bool get isAscii => false;
-  bool get isUtf8 => false;
-
-  bool get isSequence => false;
 
   /// Returns the [VR] as a [String].
   String get asString => 'VR.k$id';
