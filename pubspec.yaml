@@ -9,7 +9,7 @@ authors:
 homepage: https://github.com/OpenDICOMweb/dictionary.git
 
 environment:
-  sdk: ^1.21.0
+  sdk: ^1.24.2
 
 dependencies:
   common:
