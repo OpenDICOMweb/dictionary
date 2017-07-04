@@ -9,7 +9,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:collection/collection.dart';
-import 'package:dictionary/src/common/integer/hash.dart';
+import 'package:common/integer.dart';
 
 /// A generator of Version 4 (random) UUIDs.
 ///
@@ -29,18 +29,16 @@ class UuidV4Generator {
       : rngBasic = new Random(seed),
         rngSecure = new Random.secure();
 
+  Random get rng => (isSecure) ? rngSecure : rngBasic;
+
+  Uint8List get bytes => _getBytes(rng);
+
+  String get string => _toUidString(_getBytes(rng));
+
   /// Returns a Version 4 (random) UUID.
   /// If [isSecure] is [true] it uses the [Random.secure] RNG.
-  Uuid call({bool isSecure: false}) {
-    Random rng = (isSecure) ? rngSecure : rngBasic;
-    Uint8List bytes = new Uint8List(16);
-    Uint32List int32 = bytes.buffer.asUint32List();
-    for (int i = 0; i < 4; i++)
-      int32[i] = rng.nextInt(0xFFFFFFFF);
-    bytes[6] = bytes[6] >> 4 | 0x40;
-    bytes[8] = bytes[8] >> 2 | 0x80;
-    return new Uuid._(bytes);
-  }
+  Uint8List call({bool isSecure: false}) =>
+      _getBytes((isSecure) ? rngSecure : rngBasic);
 }
 
 /// A Version 4 (random) Uuid.
@@ -58,7 +56,7 @@ class Uuid {
   static const int version = 4;
   static const int lengthInBytes = 16;
   static const int lengthAsString = 36;
-  static const int langthAsStringNoDashes = 32;
+  static const int lengthAsUidString = 32;
 
   /// The default [generator] uses the default [Random] number generator.
   static final UuidV4Generator generator = new UuidV4Generator();
@@ -71,17 +69,18 @@ class Uuid {
 
   /// Constructs a Version 4 [Uuid]. If [isSecure] is [false], (the default) it uses
   /// the [Random] RNG.  If [isSecure] is [true], it uses the [Random.secure] RNG.
-  factory Uuid({bool isSecure: false}) => generator(isSecure: isSecure);
+  Uuid({bool isSecure: false}) : _bytes = generator(isSecure: isSecure);
 
-  /// Constructs a Version 4 [Uuid] from a [List<int>].  If the [List] has [length] greater than 16,
+  /// Constructs a Version 4 [Uuid] from a [List<int>].  If the [List] has length greater than 16,
   /// it constructs the [Uuid] from [list.sublist(0, 16)].
-  factory Uuid.fromList(List<int> bytes) => new Uuid._(_bytesToUuidBytes(bytes));
+  Uuid.fromList(List<int> bytes) : _bytes = _listToBytes(bytes);
 
-  /// Constructs a Version 4 [Uuid] from a [Uint8List].  If the [List] has [length] greater than 16,
+  /// Constructs a Version 4 [Uuid] from a [Uint8List].  If the [List] has length greater than 16,
   /// it constructs the [Uuid] from [list.sublist(0, 16)].
-  Uuid.fromUint8List(Uint8List _bytes) : _bytes = (_isValidV4Uint8List(_bytes))
-      ? _bytes
-      : throw "Invalid Uuid Uint8List: $_bytes";
+  Uuid.fromUint8List(Uint8List _bytes)
+      : _bytes = (_isValidV4Uint8List(_bytes))
+            ? _bytes
+            : throw new ArgumentError('Invalid Uuid Uint8List: $_bytes');
 
   Uuid._(this._bytes);
 
@@ -89,8 +88,7 @@ class Uuid {
   @override
   bool operator ==(Object other) {
     if (other is Uuid) {
-      if (_bytes.length != other._bytes.length)
-        return false;
+      if (_bytes.length != other._bytes.length) return false;
       for (int i = 0; i < lengthInBytes; i++)
         if (_bytes[i] != other._bytes[i]) return false;
       return true;
@@ -100,7 +98,7 @@ class Uuid {
   }
 
   @override
-  int get hashCode => hash(_bytes);
+  int get hashCode => Hash.hash(_bytes);
 
   // Returns an [UnmodifiableListView] of [_bytes].
   UnmodifiableListView<int> get value => new UnmodifiableListView(_bytes);
@@ -127,20 +125,22 @@ class Uuid {
   /// [true] the returned [String] is in uppercase.
   @override
   String toString() {
-    var s = _unparse(_bytes);
+    var s = _toUuidFormat(_bytes);
     return (useUppercase) ? s.toUpperCase() : s;
   }
 
   /// Returns a new random Uuid using the default generator.
   static Uuid get random => new Uuid();
 
+  //Flush
   /// The UID Root for UIDs created from random (V4) UUIDs.
-  static const String randomUidRoot = "2.25.";
+  // static const String randomUidRoot = "2.25.";
 
+  // flush
   /// Returns a [String] containing a random UID as per the
   /// OID Standard.  See TODO: add reference.
-  static String get randomUid =>
-      randomUidRoot + _unparse(random._bytes).replaceAll('-', "");
+  //static String get randomUid =>
+  //    randomUidRoot + _unparse(random._bytes).replaceAll('-', "");
 
   //TODO: Should this return [null] or [throw] an error?
   /// Parses a [String] in UUID format.  Returns the corresponding
@@ -152,6 +152,7 @@ class Uuid {
   }
 }
 
+// **** Internal Procedures ****
 /* Flush at 0.9.0 if not used
 Uint8List _validateV4Uint8List(Uint8List bytes) {
   if ((bytes.length != Uuid.lengthInBytes) ||
@@ -161,17 +162,28 @@ Uint8List _validateV4Uint8List(Uint8List bytes) {
 }
 */
 
+Uint8List _getBytes(Random rng) {
+  Uint8List bytes = new Uint8List(16);
+  Uint32List int32 = bytes.buffer.asUint32List();
+  for (int i = 0; i < 4; i++) int32[i] = rng.nextInt(0xFFFFFFFF);
+  bytes[6] = bytes[6] >> 4 | 0x40;
+  bytes[8] = bytes[8] >> 2 | 0x80;
+  return bytes;
+}
+
 bool _isValidV4Uint8List(Uint8List bytes) =>
     (bytes.length == Uuid.lengthInBytes) &&
-        (0x40 == bytes[6] & 0x40) && (2 == (bytes[8] >> 6) & 0x02);
+    (0x40 == bytes[6] & 0x40) &&
+    (2 == (bytes[8] >> 6) & 0x02);
 
-Uint8List _bytesToUuidBytes(List<int> bytes) {
-  if ((bytes is! Uint8List) || (bytes.length != 16))
-    bytes = new Uint8List.fromList(bytes.sublist(0, 16));
-  if ((bytes[6] >> 4) != 0x4)
-    bytes[6] = (bytes[6] & 0x0f) | 0x40;
-  if ((bytes[8] >> 6) != 0x2)
-    bytes[8] = (bytes[8] & 0x3f) | 0x80;
+Uint8List _listToBytes(List<int> list) {
+  if (list.length < 16)
+    throw new ArgumentError('Invalid List Length: ${list.length}');
+
+  Uint8List bytes =
+      (list is Uint8List) ? list : new Uint8List.fromList(list.sublist(0, 16));
+  if ((bytes[6] >> 4) != 0x4) bytes[6] = (bytes[6] & 0x0f) | 0x40;
+  if ((bytes[8] >> 6) != 0x2) bytes[8] = (bytes[8] & 0x3f) | 0x80;
   return bytes;
 }
 
@@ -180,14 +192,17 @@ Uint8List _bytesToUuidBytes(List<int> bytes) {
 //   pub uuid: Template(RunTime): 170,166.66666666666 us.
 //
 /// Parses the provided [uuid] [String] into a list of byte values.
-/// Can optionally be provided a [buffer] to write into and
+/// Can optionally be provided a [Uint8List] to write into and
 /// a positional [offset] for where to start inputting into the buffer.
-Uint8List _parseToBytes(String s, [Uint8List bytes, int offset = 0]) {
-  bytes = (bytes != null) ? bytes.buffer.asUint8List(offset, 16) : new Uint8List(16);
+Uint8List _parseToBytes(String s, [Uint8List list, int offset = 0]) {
+  Uint8List bytes =
+      (list != null) ? list.buffer.asUint8List(offset, 16) : new Uint8List(16);
   void toBytes(int byteIndex, int start, int end) {
     for (int i = start; i < end; i += 2)
+      //TODO: change this to use s.codeUnitAt(i)
       bytes[byteIndex++] = hexToByte[s.substring(i, i + 2)];
   }
+
   toBytes(0, 0, 8);
   toBytes(4, 9, 13);
   toBytes(6, 14, 18);
@@ -204,7 +219,7 @@ Uint8List _parseToBytes(String s, [Uint8List bytes, int offset = 0]) {
 /// Unparses (converts [Uuid] to a [String]) a [bytes] of bytes and outputs a proper UUID string.
 /// An optional [offset] is allowed if you want to start at a different point
 /// in the buffer.
-String _unparse(Uint8List bytes, [int offset = 0]) {
+String _toUuidFormat(Uint8List bytes, [int offset = 0]) {
   var i = offset;
   return '${byteToHex[bytes[i++]]}${byteToHex[bytes[i++]]}'
       '${byteToHex[bytes[i++]]}${byteToHex[bytes[i++]]}-'
@@ -216,22 +231,22 @@ String _unparse(Uint8List bytes, [int offset = 0]) {
       '${byteToHex[bytes[i++]]}${byteToHex[bytes[i++]]}';
 }
 
-String toUid(Uint8List bytes, [int offset = 0]) => _unparse(bytes).replaceAll('-', "");
+String _toUidString(Uint8List bytes, [int offset = 0]) {
+  StringBuffer sb = new StringBuffer();
+  for (int i = offset; i < offset + 16; i++) sb.write(byteToHex[bytes[i]]);
+  return sb.toString();
+}
 
+String toUid(Uint8List bytes, [int offset = 0]) =>
+    _toUuidFormat(bytes).replaceAll('-', "");
 
 // *** Generated by 'tools/generate_conversions.dart' ***
 
+//TODO: reformat in 8 x 32 rows use // to avoid reformatting
 /// Returns the Hex [String] equivalent to an 8-bit [int].
 const List<String> byteToHex = const [
-  "00",
-  "01",
-  "02",
-  "03",
-  "04",
-  "05",
-  "06",
-  "07",
-  "08",
+  // This comment prevents reformatting.
+  "00", "01", "02", "03", "04", "05", "06", "07", "08",
   "09",
   "0a",
   "0b",
@@ -740,4 +755,3 @@ const Map<String, int> hexToByte = const {
   "fe": 254,
   "ff": 255
 };
-
