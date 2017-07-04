@@ -19,7 +19,7 @@ bool isValidUidString(String s) {
   if (s == null ||
       !_isValidLength(s.length) ||
       !uidRoots.contains(s.codeUnitAt(0))) return false;
-  for (int i = 1; i < s.length - 1; i++) {
+  for (int i = 0; i < s.length - 1; i++) {
     //  print('  $i: ${uidString[i]}, ${i+1}: ${uidString[i+1]}');
     int char0 = s.codeUnitAt(i);
     if (char0 == kDot) {

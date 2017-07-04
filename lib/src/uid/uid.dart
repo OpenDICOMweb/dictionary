@@ -109,17 +109,24 @@ abstract class Uid {
 
   static final RegExp uidPattern = new RegExp(r"[012]((\.0)|(\.[1-9]\d*))+");
 
+  /// Returns true if [sList] is empty, i.e. [sList.length] == 0, or if each
+  /// [String] in the [List] is a valid [Uid].
   static bool validateStrings(List<String> sList) {
+    if (sList == null) return false;
+    if (sList.length == 0) return true;
     for (String s in sList) if (!isValidString(s)) return false;
     return true;
   }
 
-  static Uid parse(String uidString) {
-    // Remove leading & trailing spaces - defensive programming
-    String s = uidString.trim();
-    if (!isValidString(s)) return null;
-    WKUid uid = wellKnownUids[s];
-    return (uid != null) ? uid : new UidString(s);
+  /// Returns a [Uid] if [s] is a valid [Uid][String]; otherwise, returns null.
+  /// Leading and trailing spaces are first removed, then [s] is parsed. If [s]
+  /// is valid and a [WellKnownUid], the canonical [WellKnownUid] is returned;
+  /// otherwise, a new Uid is created and returned.
+  static Uid parse(String s) {
+    var s0 = s.trim();
+    if (!isValidString(s0)) return null;
+    var uid = wellKnownUids[s0];
+    return (uid != null) ? uid : new UidString(s0);
   }
 
   static List<Uid> parseList(List<String> values) {
