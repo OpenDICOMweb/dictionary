@@ -93,3 +93,4 @@ pubspec.lock
 /lib/src/tag/other/
 /lib/src/tag/tag_new/
 /lib/src/vr/other/
+.idea/
