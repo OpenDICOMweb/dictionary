@@ -13,7 +13,6 @@
     <option name="XML_LEGACY_SETTINGS_IMPORTED" value="true" />
   </XML>
   <codeStyleSettings language="Dart">
-    <option name="RIGHT_MARGIN" value="100" />
     <option name="KEEP_BLANK_LINES_IN_CODE" value="1" />
     <option name="CALL_PARAMETERS_WRAP" value="5" />
     <option name="BINARY_OPERATION_WRAP" value="5" />
