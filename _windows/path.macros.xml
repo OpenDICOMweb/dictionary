@@ -1,0 +1,10 @@
+<application>
+  <component name="PathMacrosImpl">
+    <macro name="dartdevsdk" value="C:/tools/dart/dev/sdk/dart-sdk-1.18.0-dev.0.0.0" />
+    <macro name="dartiumdev" value="C:/tools/dart/dev/dartium/dartium-1.18.0-dev.0.0.0" />
+    <macro name="dartiumstable" value="C:/tools/dart/stable/dartium/dartium-1.17.1.0" />
+    <macro name="dartstablesdk" value="C:/tools/dart/stable/sdk/dart-sdk-1.17.1" />
+    <macro name="odwdicom" value="C:/odw/dicom" />
+    <macro name="odwutilities" value="C:/odw/utilities" />
+  </component>
+</application>
