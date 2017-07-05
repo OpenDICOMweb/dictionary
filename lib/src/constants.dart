@@ -60,3 +60,15 @@ const int kStringPaddingChar = kSpace;
 /// The value appended to odd length Uint8 Value Fields (OB, UN) to make
 /// them even length.
 const int kUint8PaddingValue = 0;
+
+/// Fix: move to constants in Dictionary
+const int kSQCode = 0x5153;
+const int kOBCode = 0x424f;
+const int kOWCode = 0x574f;
+const int kUNCode = 0x4e55;
+
+const List<int> kUndefinedLengthElements = const <int>[
+  kOBCode,
+  kOWCode,
+  kUNCode
+];
