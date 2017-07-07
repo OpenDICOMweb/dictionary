@@ -420,6 +420,8 @@ class Tag {
 
   static bool isPublicCode(int code) => Group.isPublic(Group.fromTag(code));
 
+  static bool isGroupLengthCode(int code) => Elt.fromTag(code) == 0;
+
   static bool isPublicGroupLengthCode(int code) =>
       Group.isPublic(Group.fromTag(code)) && Elt.fromTag(code) == 0;
 
