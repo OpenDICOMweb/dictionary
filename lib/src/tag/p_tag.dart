@@ -15,6 +15,7 @@ import 'package:dictionary/src/tag/tag.dart';
 import 'package:dictionary/src/vm.dart';
 import 'package:dictionary/src/vr/vr.dart';
 
+
 //TODO: is hashCode needed?
 class PTag extends Tag {
   @override
@@ -7424,6 +7425,10 @@ class PTag extends Tag {
       //(0028,2000)
       = const PTag._(
           "ICCProfile", 0x00282000, "ICC Profile", VR.kOB, VM.k1, false);
+  static const PTag kColorSpace
+  //(0028,2000)
+  = const PTag._(
+      "ColorSpace", 0x00282002, "Color Space", VR.kCS, VM.k1, false);
   static const PTag kLossyImageCompression
       //(0028,2110)
       = const PTag._("LossyImageCompression", 0x00282110,

@@ -1643,6 +1643,7 @@ const int kDataPathID = 0x0028140e;
 const int kRGBLUTTransferFunction = 0x0028140f;
 const int kAlphaLUTTransferFunction = 0x00281410;
 const int kICCProfile = 0x00282000;
+const int kColorSpace = 0x00282002;
 const int kLossyImageCompression = 0x00282110;
 const int kLossyImageCompressionRatio = 0x00282112;
 const int kLossyImageCompressionMethod = 0x00282114;

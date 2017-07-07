@@ -5,7 +5,7 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:dictionary/dictionary.dart';
-import 'package:dictionary/src/uid/well_known/wk_uid.dart';
+import 'package:dictionary/uid.dart';
 
 import 'uid_type.dart';
 import 'uid_utils.dart' as util;
@@ -109,7 +109,7 @@ abstract class Uid {
 
   static final RegExp uidPattern = new RegExp(r"[012]((\.0)|(\.[1-9]\d*))+");
 
-  /// Returns true if [sList] is empty, i.e. [sList.length] == 0, or if each
+  /// Returns true if [sList] is empty, i.e. [sList].length == 0, or if each
   /// [String] in the [List] is a valid [Uid].
   static bool validateStrings(List<String> sList) {
     if (sList == null) return false;
@@ -120,8 +120,8 @@ abstract class Uid {
 
   /// Returns a [Uid] if [s] is a valid [Uid][String]; otherwise, returns null.
   /// Leading and trailing spaces are first removed, then [s] is parsed. If [s]
-  /// is valid and a [WellKnownUid], the canonical [WellKnownUid] is returned;
-  /// otherwise, a new Uid is created and returned.
+  /// is valid and a WellKnownUid([WKUid]), the canonical WellKnownUid([WKUid])
+  /// is returned; otherwise, a new Uid is created and returned.
   static Uid parse(String s) {
     var s0 = s.trim();
     if (!isValidString(s0)) return null;

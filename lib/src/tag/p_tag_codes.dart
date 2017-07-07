@@ -1665,6 +1665,7 @@ const Map<int, PTag> pTagCodes = const <int, PTag>{
   0x0028140f: PTag.kRGBLUTTransferFunction,
   0x00281410: PTag.kAlphaLUTTransferFunction,
   0x00282000: PTag.kICCProfile,
+  0x00282002: PTag.kColorSpace,
   0x00282110: PTag.kLossyImageCompression,
   0x00282112: PTag.kLossyImageCompressionRatio,
   0x00282114: PTag.kLossyImageCompressionMethod,
