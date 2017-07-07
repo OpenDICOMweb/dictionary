@@ -74,7 +74,7 @@ class SopClassUid extends WKUid {
           "Modality Performed Procedure Step SOP Class");
   static const SopClassUid kModalityPerformedProcedureStepRetrieveSOPClass =
       const SopClassUid(
-    "1.­2.840.10008.3.1.2.3.4",
+    "1.2.840.10008.3.1.2.3.4",
     UidType.kSOPClass,
     false,
     "Modality Performed Procedure Step Retrieve SOP Class",

@@ -346,7 +346,7 @@ class Tag {
     if (Tag.isPrivateCreatorCode(code)) return new PCTag(code, vr, creator);
     if (Tag.isPrivateDataCode(code)) return new PDTag(code, vr, creator);
     // This should never happen
-    throw 'Error: Unknown Tag Code${Tag.toDcm}';
+    throw 'Error: Unknown Tag Code${Tag.toDcm(code)}';
   }
 
   //TODO: Use the 'package:collection/collection.dart' ListEquality

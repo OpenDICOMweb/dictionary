@@ -124,11 +124,11 @@ const String kDetachedStudyManagementSOPClass_Retired =
 const String kStudyComponentManagementSOPClass_Retired =
     "1.2.840.10008.3.1.2.3.2";
 const String kModalityPerformedProcedureStepSOPClass =
-    "1.­2.840.10008.3.1.2.3.3";
+    "1.2.840.10008.3.1.2.3.3";
 const String kModalityPerformedProcedureStepRetrieveSOPClass =
-    "1.­2.840.10008.3.1.2.3.4";
+    "1.2.840.10008.3.1.2.3.4";
 const String kModalityPerformedProcedureStepNotificationSOPClass =
-    "1.­2.840.10008.3.1.2.3.5";
+    "1.2.840.10008.3.1.2.3.5";
 const String kDetachedResultsManagementSOPClass_Retired =
     "1.2.840.10008.3.1.2.5.1";
 const String kDetachedResultsManagementMetaSOPClass_Retired =
