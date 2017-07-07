@@ -42,6 +42,11 @@ abstract class VRString extends VR<String> {
   @override
   bool get isString => true;
 
+  bool get isAscii => true;
+
+  @override
+  bool get isUtf8 => !isAscii;
+
   /// Returns a [List<String>] converted from [bytes].
   List<String> bytesToValues(Uint8List bytes) {
     if (bytes == null || bytes.length == 0) emptyList;
@@ -129,9 +134,6 @@ class VRDcmString extends VRString {
 
   @override
   bool get isAscii => (this == kAE) ? true : false;
-
-  @override
-  bool get isUtf8 => !isAscii;
 
   /// VR.kUC can have any number of values.
   @override
