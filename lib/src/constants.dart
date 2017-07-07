@@ -72,3 +72,10 @@ const List<int> kUndefinedLengthElements = const <int>[
   kOWCode,
   kUNCode
 ];
+
+// Next 3 values are 2x16bit little Endian values as one 32bit value.
+// This allows fast access and comparison
+const int kItem32Bit = 0xfeff00e0;
+const int kSequenceDelimitationItem32Bit = 0xfeffdde0;
+const int kItemDelimitationItem32Bit = 0xfeff0de0;
+
