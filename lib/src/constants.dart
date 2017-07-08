@@ -50,6 +50,19 @@ const int kItemLast16bits = 0xE000;
 /// This corresponds to the last 16-bits of kItemDelimitationItem.
 const int kItemDelimiterLast16bits = 0xE00D;
 
+// Next 3 values are 2x16bit little Endian values as one 32bitLE value.
+// This allows fast access and comparison
+
+// kItem as 2x16Bit LE == 0xfffee000
+const int kItem32BitLE = 0xe000fffe;
+
+// [kItemDelimitationItem] as 2x16-bit LE == 0xfffee00d;
+const int kItemDelimitationItem32BitLE = 0xe00dfffe;
+
+// [kSequenceDelimitationItem] as 2x16bit LE == 0xfffee0dd;
+const int kSequenceDelimitationItem32BitLE = 0xe0ddfffe;
+
+
 /// The value appended to odd length UID Value Fields to make them even length.
 const int kUidPaddingChar = kNull;
 
@@ -73,9 +86,5 @@ const List<int> kUndefinedLengthElements = const <int>[
   kUNCode
 ];
 
-// Next 3 values are 2x16bit little Endian values as one 32bit value.
-// This allows fast access and comparison
-const int kItem32Bit = 0xfeff00e0;
-const int kSequenceDelimitationItem32Bit = 0xfeffdde0;
-const int kItemDelimitationItem32Bit = 0xfeff0de0;
+
 
