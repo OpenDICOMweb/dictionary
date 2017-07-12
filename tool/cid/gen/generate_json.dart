@@ -100,7 +100,6 @@ void main() {
     if (fieldCount != row.length) throw new Error();
     row[2] = cleanString(row[2]);
     for (int j = i + 1; j < lines.length; j++) {
-      if (fieldCount != row.length) throw new Error();
       List next = lines[j].trim().split('|');
       if (next[0] == "") {
         print('  $j: $next');

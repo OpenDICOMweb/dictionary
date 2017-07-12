@@ -4,6 +4,7 @@
 // Original author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
+import 'package:common/number.dart';
 import 'package:dictionary/tag.dart';
 import 'package:dictionary/uid.dart';
 
@@ -51,6 +52,18 @@ class ParseError extends Error {
   @override
   String toString() => 'ParseError: $issues';
 }
+
+class InvalidGroupError extends Error {
+  Object group;
+
+  InvalidGroupError(this.group);
+
+  @override
+  String toString() =>
+      'Invalid DICOM Group: ${Uint16.hex(group)}';
+}
+
+dynamic groupError(Object obj) => throw new InvalidTagError(obj);
 
 class InvalidUidError extends Error {
 String error = 'Error: Invalid Uid:';

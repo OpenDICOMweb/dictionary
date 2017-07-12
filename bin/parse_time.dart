@@ -68,8 +68,6 @@ void main() {
   }
 
   log.debug('Parse Good Time Fractions:');
-  if (goodTimeStringsWOFractions.length != goodTimeValuesWOFractions.length)
-    throw 'Unequal lengths';
   log.debug('Good Time Fractions:');
   for (int i = 0; i < goodTimeStringsWOFractions.length; i++) {
     var s = goodTimeStringsWOFractions[i];

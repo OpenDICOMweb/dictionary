@@ -42,6 +42,7 @@ abstract class VRString extends VR<String> {
   @override
   bool get isString => true;
 
+  @override
   bool get isAscii => true;
 
   @override
