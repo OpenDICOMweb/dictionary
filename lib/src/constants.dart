@@ -57,7 +57,7 @@ const int kItemDelimiterLast16bits = 0xE00D;
 const int kItem32BitLE = 0xe000fffe;
 
 // [kItemDelimitationItem] as 2x16-bit LE == 0xfffee00d;
-const int kItemDelimitationItem32BitLE = 0xe00dfffe;
+const int kItemDelimitationItem32BitLE = 0xe00dfffe; //feff0de0;
 
 // [kSequenceDelimitationItem] as 2x16bit LE == 0xfffee0dd;
 const int kSequenceDelimitationItem32BitLE = 0xe0ddfffe;
