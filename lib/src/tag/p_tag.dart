@@ -147,7 +147,6 @@ class PTag extends Tag {
     //Urgent: 0x7Fxx,yyyy Elements
 
     // No match return [null]
-    log.warn('Invalid Tag Code: ${Tag.toDcm(code)}');
     if (shouldThrow) throw new InvalidTagCodeError(code);
     return new PTag.unknown(code, vr);
   }
