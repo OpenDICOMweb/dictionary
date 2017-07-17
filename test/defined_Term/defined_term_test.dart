@@ -6,6 +6,7 @@
 
 import 'package:common/ascii.dart';
 import 'package:dictionary/dictionary.dart';
+import 'package:dictionary/src/defined_terms/photometric_interpretation.dart';
 import 'package:dictionary/src/terminology/term.dart';
 import 'package:dictionary/src/uid/well_known/color_palette.dart';
 import 'package:test/test.dart';
@@ -16,15 +17,16 @@ void main() {
   show1();
 }
 
+//Fix: update this to reflect the new definitions
 void create() {
   test('photoem', () {
     PhotometricInterpretation photometricInterpretation1 =
         const PhotometricInterpretation(
-            1, "binayak", "42", const Term("abc", "hjgh"));
+             "binayak",  const Term("abc", "hjgh"));
     expect(
         photometricInterpretation1,
         equals(const PhotometricInterpretation(
-            1, "binayak", "42", const Term("abc", "hjgh"))));
+             "binayak", const Term("abc", "hjgh"))));
     expect(photometricInterpretation1.lookup("gghhg"), equals(null));
     expect(photometricInterpretation1.lookup("RGB"),
         equals(PhotometricInterpretation.kRGB));
@@ -53,6 +55,7 @@ void create() {
     expect(photometricInterpretation1.lookup("YBR_RCT"),
         equals(PhotometricInterpretation.kYBR_RCT));
   });
+
   test("universal", () {
     var universalEntityType1 = const UniversalEntityIDType(
         2, "binayak", "45", const Term("xya", "abc"));
