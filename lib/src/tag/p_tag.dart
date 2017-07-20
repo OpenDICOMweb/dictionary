@@ -7052,11 +7052,11 @@ class PTag extends Tag {
   static const PTag kPixelPaddingValue
       //(0028,0120)
       = const PTag._("PixelPaddingValue", 0x00280120, "Pixel Padding Value",
-          VR.kUN, VM.k1, false);
+          VR.kUSSS, VM.k1, false);
   static const PTag kPixelPaddingRangeLimit
       //(0028,0121)
       = const PTag._("PixelPaddingRangeLimit", 0x00280121,
-          "Pixel Padding Range Limit", VR.kUN, VM.k1, false);
+          "Pixel Padding Range Limit", VR.kUSSS, VM.k1, false);
   static const PTag kImageLocation
       //(0028,0200)
       = const PTag._(

@@ -17,6 +17,7 @@ import 'package:dictionary/src/tag/group.dart';
 import 'package:dictionary/src/tag/p_tag.dart';
 import 'package:dictionary/src/tag/private/pc_tag.dart';
 import 'package:dictionary/src/tag/private/pd_tag.dart';
+import 'package:dictionary/src/tag/private/private_tag.dart';
 import 'package:dictionary/src/vm.dart';
 import 'package:dictionary/src/vr/vr.dart';
 
@@ -255,6 +256,7 @@ class Tag {
 
   //TODO: make this work with [ParseIssues]
   List<String> issues<E>(List<E> values) {
+    print('issues: $values');
     List<String> sList = [];
     for (int i = 0; i < values.length; i++) {
       var s = vr.issues(values[i]);
@@ -372,12 +374,15 @@ class Tag {
   }
 
   static Tag lookupPrivateCreatorCode(int code, VR vr, String token) {
+    if (Tag.isPrivateGroupLengthCode(code))
+      return new PrivateGroupLengthTag(code, vr);
     if (isPrivateCreatorCode(code)) return new PCTag(code, vr, token);
     throw new InvalidTagCodeError(code);
   }
 
   static PDTagKnown lookupPrivateDataCode(
           int code, VR vr, PCTagKnown creator) =>
+
       creator.lookupData(code);
 
   /// Returns a [String] corresponding to [tag], which might be an

@@ -4,13 +4,12 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
-import 'enum_values_base.dart';
 
-class EnumStringMap extends EnumValuesMap<String, String>{
+class EnumMap {
 
-  const EnumStringMap(Map<String, String> map) : super(map);
+  const EnumMap(Map<String, dynamic> map);
 
-  static const kUniversalEntityIDType = const <String, String>  {
+  static const kUniversalEntityIDType = const <String, dynamic>  {
   "DNS": "Domain Name System",
   "EUI64":  "IEEE Extended Unique Idnetifier",
   "ISO": "An International Standards Organization Object Identifier",

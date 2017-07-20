@@ -72,7 +72,7 @@ class PhotometricInterpretation {
   static const PhotometricInterpretation kYBR_RCT =
       const PhotometricInterpretation("YBR_RCT", Term.kYBR_RCT);
 
-  static const Map<String, XPhotometricInterpretation> map = const {
+  static const Map<String, PhotometricInterpretation> map = const {
     "MONOCHROME1": kMonochrome1,
     "MONOCHROME2": kMonochrome2,
     "MONOCHROME3": kMonochrome3,
@@ -93,9 +93,11 @@ class PhotometricInterpretation {
   Term meaning(String id) => map[id].term;
 }
 
-class XPhotometricInterpretation extends PhotometricInterpretation {
-  final PhotometricInterpretation base;
-  final List<String> others;
-  const XPhotometricInterpretation(this.base, this.others);
+/* Finish
+  class XPhotometricInterpretation {
+     final Map<String, XPhotometricInterpretation> XPhotometricInterpretation;
+     final List<String> others;
 
-}
+    const XPhotometricInterpretation(this.base, this.others);
+  }
+}*/

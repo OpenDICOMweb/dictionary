@@ -10,10 +10,11 @@
 export 'package:dictionary/date_time.dart';
 export 'package:dictionary/image_pixel.dart';
 export 'package:dictionary/src/constants.dart';
-export 'package:dictionary/src/defined_terms/defined_terms.dart';
 export 'package:dictionary/src/e_type.dart';
 export 'package:dictionary/src/entity/ie_level.dart';
-export 'package:dictionary/src/enum_values/enum_values.dart';
+export 'package:dictionary/src/enum/defined_term.dart';
+export 'package:dictionary/src/enum/enum_value.dart';
+export 'package:dictionary/src/enum/universal_entity_id_type.dart';
 export 'package:dictionary/src/errors.dart';
 export 'package:dictionary/src/modality.dart';
 export 'package:dictionary/src/person_name.dart';

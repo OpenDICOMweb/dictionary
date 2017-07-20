@@ -6,7 +6,8 @@
 
 import 'package:common/ascii.dart';
 import 'package:dictionary/dictionary.dart';
-import 'package:dictionary/src/defined_terms/photometric_interpretation.dart';
+import 'package:dictionary/src/enum/photometric_interpretation.dart';
+import 'package:dictionary/src/enum/universal_entity_id_type.dart';
 import 'package:dictionary/src/terminology/term.dart';
 import 'package:dictionary/src/uid/well_known/color_palette.dart';
 import 'package:test/test.dart';
@@ -21,52 +22,51 @@ void main() {
 void create() {
   test('photoem', () {
     PhotometricInterpretation photometricInterpretation1 =
-        const PhotometricInterpretation(
-             "binayak",  const Term("abc", "hjgh"));
+        const PhotometricInterpretation("binayak", const Term("abc", "hjgh"));
     expect(
         photometricInterpretation1,
         equals(const PhotometricInterpretation(
-             "binayak", const Term("abc", "hjgh"))));
-    expect(photometricInterpretation1.lookup("gghhg"), equals(null));
-    expect(photometricInterpretation1.lookup("RGB"),
+            "binayak", const Term("abc", "hjgh"))));
+    expect(PhotometricInterpretation.lookup("gghhg"), equals(null));
+    expect(PhotometricInterpretation.lookup("RGB"),
         equals(PhotometricInterpretation.kRGB));
-    expect(photometricInterpretation1.lookup("MONOCHROME1"),
+    expect(PhotometricInterpretation.lookup("MONOCHROME1"),
         equals(PhotometricInterpretation.kMonochrome1));
-    expect(photometricInterpretation1.lookup("MONOCHROME2"),
+    expect(PhotometricInterpretation.lookup("MONOCHROME2"),
         equals(PhotometricInterpretation.kMonochrome2));
-    expect(photometricInterpretation1.lookup("MONOCHROME3"),
+    expect(PhotometricInterpretation.lookup("MONOCHROME3"),
         equals(PhotometricInterpretation.kMonochrome3));
-    expect(photometricInterpretation1.lookup("HSV"),
+    expect(PhotometricInterpretation.lookup("HSV"),
         equals(PhotometricInterpretation.kHSV));
-    expect(photometricInterpretation1.lookup("ARGB"),
+    expect(PhotometricInterpretation.lookup("ARGB"),
         equals(PhotometricInterpretation.kARGB));
-    expect(photometricInterpretation1.lookup("CMYK"),
+    expect(PhotometricInterpretation.lookup("CMYK"),
         equals(PhotometricInterpretation.kCMYK));
-    expect(photometricInterpretation1.lookup("YBR_FULL"),
+    expect(PhotometricInterpretation.lookup("YBR_FULL"),
         equals(PhotometricInterpretation.kYBR_FULL));
-    expect(photometricInterpretation1.lookup("YBR_FULL_422"),
+    expect(PhotometricInterpretation.lookup("YBR_FULL_422"),
         equals(PhotometricInterpretation.kYBR_FULL_422));
-    expect(photometricInterpretation1.lookup("YBR_PARTIAL_422"),
+    expect(PhotometricInterpretation.lookup("YBR_PARTIAL_422"),
         equals(PhotometricInterpretation.kYBR_PARTIAL_420));
-    expect(photometricInterpretation1.lookup("YBR_PARTIAL_420"),
+    expect(PhotometricInterpretation.lookup("YBR_PARTIAL_420"),
         equals(PhotometricInterpretation.kYBR_PARTIAL_420));
-    expect(photometricInterpretation1.lookup("YBR_ICT"),
+    expect(PhotometricInterpretation.lookup("YBR_ICT"),
         equals(PhotometricInterpretation.kYBR_ICT));
-    expect(photometricInterpretation1.lookup("YBR_RCT"),
+    expect(PhotometricInterpretation.lookup("YBR_RCT"),
         equals(PhotometricInterpretation.kYBR_RCT));
   });
 
   test("universal", () {
-    var universalEntityType1 = const UniversalEntityIDType(
-        2, "binayak", "45", const Term("xya", "abc"));
+    var universalEntityType1 =
+        const UniversalEntityIDType("binayak", "45", const Term("xya", "abc"));
     expect(
         universalEntityType1,
         equals(const UniversalEntityIDType(
-            2, "binayak", "45", const Term("xya", "abc"))));
+            "binayak", "45", const Term("xya", "abc"))));
     expect(
         UniversalEntityIDType.kDNS,
         equals(const UniversalEntityIDType(
-            0, "DNS", "Domain Name System", Term.kDNS)));
+            "DNS", "Domain Name System", Term.kDNS)));
     expect(
         universalEntityType1.lookup("DNS"), equals(UniversalEntityIDType.kDNS));
     expect(universalEntityType1.lookup("EUI64"),
@@ -115,6 +115,7 @@ void show() {
     expect(modelclass, isNot(ModalityType.kPOST_PROCESSING));
     expect(modelclass, isNot(ModalityType.kOTHER));
   });
+
   test("ascii", () {
     var asciis = const Ascii(
         0, "NUL", "null character", const CharType(0, "null character"));
@@ -123,16 +124,10 @@ void show() {
         equals(const Ascii(
             0, "NUL", "null character", const CharType(0, "null character"))));
   });
+
   test("colors", () {
     var color = const ColorPalette("uid1", "label1", "dart language");
     expect(
         color, equals(const ColorPalette("uid1", "label1", "dart language")));
-  });
-  test("yesorno", () {
-    var yesnos = const YesNo(1, "yes", "Yes", const Term("abc", "abc"));
-    expect(
-        yesnos, equals(const YesNo(1, "yes", "Yes", const Term("abc", "abc"))));
-    expect(yesnos.lookup("NO"), equals(YesNo.kNO));
-    expect(yesnos.lookup("YES"), equals(YesNo.kYES));
   });
 }
