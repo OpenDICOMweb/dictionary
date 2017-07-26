@@ -345,10 +345,15 @@ class Tag {
   /// Returns an appropriate [Tag] based on the arguments.
   static Tag lookup(int code, [VR vr = VR.kUN, dynamic creator]) {
     if (Tag.isPublicCode(code)) return Tag.lookupPublicCode(code, vr);
-    if (Tag.isPrivateCreatorCode(code)) return new PCTag(code, vr, creator);
-    if (Tag.isPrivateDataCode(code)) return new PDTag(code, vr, creator);
+    if (Tag.isPrivateCode(code)) {
+      if (Tag.isPrivateGroupLengthCode(code)) return new PrivateGroupLengthTag(code, vr);
+      if (Tag.isPrivateCreatorCode(code)) return new PCTag(code, vr, creator);
+      if (Tag.isPrivateDataCode(code)) return new PDTag(code, vr, creator);
+      throw 'Error: Unknown Private Tag Code${Tag.toDcm(code)}';
+    } else {
     // This should never happen
     throw 'Error: Unknown Tag Code${Tag.toDcm(code)}';
+    }
   }
 
   //TODO: Use the 'package:collection/collection.dart' ListEquality
