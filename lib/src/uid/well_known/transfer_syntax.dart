@@ -13,21 +13,9 @@ class TransferSyntax extends WKUid {
   static const UidType uidType = UidType.kTransferSyntax;
   final String mediaType;
 
-  /*
-  //fix or flash:
-  ///  Specifies the size of the Pixel Cell. kBitsAllocated (0028,0100)
-  // final int bitAllocated;
-  /// [bitsStored] shall never be larger than [bitsAllocated]. kBitsStored (0028,0101)
-//  final int bitsStored;
-  /// Specifies where the high order bit of the [bitsStored] (kBitStored (0028,0101))
-  /// is to be placed with respect to the [bitsAllocated] (kBitsAllocated (0028,0100))
-  /// specification.  High kHighBit (0028,0102)
-//  final int highBit;
-*/
   @override
   final bool isEncapsulated;
 
-  //  final bool hasEmptyBasicOffsetTable;
   final bool mayHaveFragments;
 
   const TransferSyntax(String uid, String name, this.mediaType,
@@ -35,9 +23,6 @@ class TransferSyntax extends WKUid {
       this.isEncapsulated = true,
       this.mayHaveFragments = true])
       : super(uid, UidType.kTransferSyntax, isRetired, name);
-
-  // fix or flush
-  // bool hasEmptyOffsetTable => false;
 
   /// Returns [true] if the [TransferSyntax] exists and has not been retired.
   @override
@@ -88,16 +73,18 @@ class TransferSyntax extends WKUid {
       "Explicit VR Little Endian",
       "image/uncompressed??",
       false,
-  false);
+      false);
 
   static const TransferSyntax kDefaultForDicomWeb = kExplicitVRLittleEndian;
 
   static const TransferSyntax kDeflatedExplicitVRLittleEndian =
-      const TransferSyntax("1.2.840.10008.1.2.1.99",
-          "Deflated Explicit VR Little Endian", "image/deflate??",
+      const TransferSyntax(
+          "1.2.840.10008.1.2.1.99",
+          "Deflated Explicit VR Little Endian",
+          "image/deflate??",
           false,
           false,
-      false);
+          false);
 
   static const TransferSyntax kExplicitVRBigEndian = const TransferSyntax(
       "1.2.840.10008.1.2.2",
@@ -105,7 +92,7 @@ class TransferSyntax extends WKUid {
       "image/bigEndian",
       true,
       false,
-  false);
+      false);
 
   static const TransferSyntax kJPEGBaseline_1 = const TransferSyntax(
       "1.2.840.10008.1.2.4.50",

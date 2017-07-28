@@ -222,7 +222,6 @@ class VRUnknown extends VR<int> {
   //TODO: this should have its own class
   static const VRUnknown kBR = const VRUnknown._(4, 0x5242, "BR", 0, 0, -1, "B"
   "DRef");
-
 }
 
 //TODO: clean this up. remove VR.kUnknown and VR.kBR. How to handle SQ

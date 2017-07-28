@@ -352,7 +352,8 @@ class Tag {
       throw 'Error: Unknown Private Tag Code${Tag.toDcm(code)}';
     } else {
     // This should never happen
-    throw 'Error: Unknown Tag Code${Tag.toDcm(code)}';
+    //throw 'Error: Unknown Tag Code${Tag.toDcm(code)}';
+      return null;
     }
   }
 

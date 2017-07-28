@@ -8,8 +8,8 @@ const a = const ['YES', 'NO'];
 const b = const [#YES, #NO];
 
 void main() {
-  const c = const ["YES", "NO"];
-  final d = const [#YES, #NO];
+ // const c = const ["YES", "NO"];
+ // final d = const [#YES, #NO];
 
   print('a.constains: ${a.contains('YES')}');
   print('a.indexOf: ${a.indexOf('YES')}');

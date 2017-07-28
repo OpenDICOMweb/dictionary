@@ -16311,7 +16311,8 @@ class PTag extends Tag {
   static const PTag kDoubleFloatPixelData = const PTag._("DoubleFloatPixelData",
       0x7FE00009, "Double Float Pixel Data", VR.kOD, VM.k1, false);
   static const PTag kPixelData =
-      const PTag._("PixelData", 0x7FE00010, "Pixel Data", VR.kUN, VM.k1, false);
+      const PTag._("PixelData", 0x7FE00010, "Pixel Data", VR.kOBOW, VM.k1,
+          false);
   static const PTag kCoefficientsSDVN
       //(7FE0,0020)
       = const PTag._("CoefficientsSDVN", 0x7FE00020, "Coefficients SDVN",

@@ -12,6 +12,7 @@ import 'package:dictionary/src/tag/tag.dart';
 import 'package:dictionary/src/vm.dart';
 import 'package:dictionary/src/vr/vr.dart';
 
+//TODO: add constannt tag for PCTag.kUnknown
 //TODO: this should be done the same way as KnownPublicTags
 class PCTag extends PrivateTag {
   final VR actualVR;

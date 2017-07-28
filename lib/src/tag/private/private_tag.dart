@@ -70,7 +70,11 @@ class PrivateGroupLengthTag extends PrivateTag {
   PrivateGroupLengthTag(int code, VR vr)
       : super(code, vr);
 
-  VR get expectedVR => VR.kUL;
+  @override
+  VR get vr => VR.kUL;
+
+  //Flush if not used
+//  VR get expectedVR => VR.kUL;
 
   @override
   VM get vm => VM.k1;
