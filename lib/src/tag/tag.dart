@@ -226,7 +226,7 @@ class Tag {
     if (values == null) return false;
     if (vr == VR.kUN) return true;
     if (isNotValidLength(values.length)) return false;
-  //  if (vr.hasShortVF && isNotValidLength(values.length)) return false;
+    //  if (vr.hasShortVF && isNotValidLength(values.length)) return false;
     for (int i = 0; i < values.length; i++)
       if (vr.isNotValid(values[i])) return false;
     return true;

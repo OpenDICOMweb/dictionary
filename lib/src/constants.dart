@@ -80,7 +80,7 @@ const int kOBCode = 0x424f;
 const int kOWCode = 0x574f;
 const int kUNCode = 0x4e55;
 
-const List<int> kUndefinedLengthElements = const <int>[
+const List<int> kUndefinedLengthVRCodes = const <int>[
   kSQCode,
   kOBCode,
   kOWCode,
