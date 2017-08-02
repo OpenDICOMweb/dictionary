@@ -10,7 +10,7 @@ import 'package:dictionary/src/uid/well_known/transfer_syntax.dart';
 import 'package:dictionary/src/uid/well_known/wk_uid.dart';
 import 'package:test/test.dart';
 
-final Logger log = new Logger('Uid2_Test', watermark: Severity.info);
+final Logger log = new Logger('Uid2_Test', Level.info);
 
 void main() {
   uidTest();

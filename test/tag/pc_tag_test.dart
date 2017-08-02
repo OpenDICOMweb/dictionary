@@ -10,7 +10,7 @@ import 'package:dictionary/src/tag/tag.dart';
 import 'package:dictionary/src/vr/vr.dart';
 import 'package:test/test.dart';
 
-final Logger log = new Logger('uint_test.dart', watermark: Severity.debug);
+final Logger log = new Logger('uint_test.dart', Level.debug);
 
 void main() {
   test("PrivateCreatorTag ACUSON Test", () {

@@ -8,7 +8,7 @@ import 'package:common/logger.dart';
 import 'package:dictionary/date_time.dart';
 import 'package:test/test.dart';
 
-final Logger log = new Logger('time_test.dart', watermark: Severity.debug1);
+final Logger log = new Logger('time_test.dart', Level.debug1);
 
 void main() {
   const List<String> goodDcmTimes = const <String>[

@@ -7,7 +7,7 @@ import 'package:common/logger.dart';
 import 'package:dictionary/date_time.dart';
 import 'package:test/test.dart';
 
-final Logger log = new Logger('uint_test.dart', watermark: Severity.debug);
+final Logger log = new Logger('uint_test.dart', Level.debug);
 
 void main() {
   List<String> goodDcmDateTimeList = [

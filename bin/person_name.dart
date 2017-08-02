@@ -8,7 +8,7 @@ import 'package:collection/collection.dart';
 import 'package:common/logger.dart';
 import 'package:dictionary/src/person_name.dart';
 
-final Logger log = new Logger('DateTimeTests', watermark: Severity.info);
+final Logger log = new Logger('DateTimeTests', Level.info);
 
 void main() {
   const ListEquality equality = const ListEquality();

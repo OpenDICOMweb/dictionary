@@ -9,7 +9,7 @@ import 'package:dictionary/date_time.dart';
 import 'package:test/test.dart';
 
 final Logger log =
-    new Logger('date_time/utils_old.dart', watermark: Severity.debug);
+    new Logger('date_time/utils_old.dart', Level.debug);
 
 void main() {
   //Good dates

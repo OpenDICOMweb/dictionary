@@ -9,7 +9,7 @@ import 'package:dictionary/src/tag/private/pd_tag.dart';
 import 'package:dictionary/src/vr/vr.dart';
 import 'package:test/test.dart';
 
-final Logger log = new Logger('DateTimeTests', watermark: Severity.debug);
+final Logger log = new Logger('DateTimeTests', Level.debug);
 
 void main() {
   privateDataTag();

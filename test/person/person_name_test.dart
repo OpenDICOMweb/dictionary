@@ -13,7 +13,7 @@ void main() {
 }
 
 void personNameTest() {
-  Logger log = new Logger('test', watermark: Severity.info);
+  Logger log = new Logger('test', Level.info);
 
   //noOfgroups=3, noOfomponents=5, componentLength=8
   String strValid = rsg.generateDcmPersonName(3, 5, 6);

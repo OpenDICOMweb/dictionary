@@ -11,7 +11,7 @@ import 'package:dictionary/dictionary.dart';
 import 'package:test/test.dart';
 import 'package:test_tools/random_string.dart' as rsg;
 
-final Logger log = new Logger('uint_test.dart', watermark: Severity.debug);
+final Logger log = new Logger('uint_test.dart', Level.debug);
 
 void main() {
   validateTest();

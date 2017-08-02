@@ -4,15 +4,14 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
-import 'package:test/test.dart';
-
 import 'package:common/logger.dart';
 import 'package:dictionary/src/tag/constants.dart';
 import 'package:dictionary/src/tag/p_tag.dart';
 import 'package:dictionary/src/tag/tag.dart';
 import 'package:dictionary/src/vr/vr.dart';
+import 'package:test/test.dart';
 
-final Logger log = new Logger('DateTimeTests', watermark: Severity.debug);
+final Logger log = new Logger('DateTimeTests', Level.debug);
 
 List<int> tags = const [
   kSpecificCharacterSet,

@@ -6,14 +6,14 @@
 import 'package:common/logger.dart';
 import 'package:dictionary/date_time.dart';
 import 'package:dictionary/src/errors.dart';
-import 'package:dictionary/src/string/parse.dart';
 import 'package:dictionary/src/issues/parse_issues.dart';
+import 'package:dictionary/src/string/parse.dart';
 
 import 'time.dart';
 
 // TODO: remove logging before version 0.9.0
 final Logger _log =
-    new Logger('date_time/utils_old.dart', watermark: Severity.info);
+    new Logger('date_time/utils_old.dart', Level.info);
 
 //TODO: for performance make every function that can be internal
 //TODO: redo doc

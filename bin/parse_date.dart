@@ -7,7 +7,7 @@
 import 'package:common/logger.dart';
 import 'package:dictionary/date_time.dart';
 
-final Logger log = new Logger('bin/parse_date.dart', watermark: Severity.debug);
+final Logger log = new Logger('bin/parse_date.dart', Level.debug);
 
 void main(List<String> args) {
   testIssues();

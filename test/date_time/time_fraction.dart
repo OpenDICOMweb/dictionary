@@ -9,7 +9,7 @@ import 'package:dictionary/date_time.dart';
 import 'package:dictionary/src/string/parse.dart';
 import 'package:test/test.dart';
 
-final Logger log = new Logger('time_test.dart', watermark: Severity.debug);
+final Logger log = new Logger('time_test.dart', Level.debug);
 
 const List<int> goodTimeFractionValues = const <int>[
   100000, 110000, 111000, 111100, 111110, 111111,

@@ -7,7 +7,7 @@
 import 'package:common/logger.dart';
 import 'package:dictionary/dictionary.dart';
 
-final Logger log = new Logger('Uid2_Test', watermark: Severity.info);
+final Logger log = new Logger('Uid2_Test', Level.info);
 
 void main() {
   //UuidV4Generator generator = new UuidV4Generator();

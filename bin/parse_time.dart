@@ -14,7 +14,7 @@ import 'package:common/logger.dart';
 import 'package:dictionary/date_time.dart';
 import 'package:dictionary/src/date_time/parse.dart';
 
-final Logger log = new Logger('time_test.dart', watermark: Severity.debug);
+final Logger log = new Logger('time_test.dart', Level.debug);
 
 
 List<List<int>> goodTimeValuesWOFractions = <List<int>>[

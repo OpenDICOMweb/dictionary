@@ -10,7 +10,7 @@ import 'package:dictionary/src/vr/vr.dart';
 import 'package:test/test.dart';
 import 'package:test_tools/tools.dart';
 
-final Logger log = new Logger('uint_test.dart', watermark: Severity.info);
+final Logger log = new Logger('uint_test.dart', Level.info);
 
 //Urgent: why is every test a group by itself
 //Urgent: I rewrote this to remove the groups.

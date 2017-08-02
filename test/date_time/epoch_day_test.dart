@@ -8,7 +8,7 @@ import 'package:common/logger.dart';
 import 'package:dictionary/date_time.dart';
 
 final Logger log =
-    new Logger('date_time/utils_old.dart', watermark: Severity.info);
+    new Logger('date_time/utils_old.dart', Level.info);
 
 void main() {
   int zeroDay = epochDay(1970, 1, 1);

@@ -11,7 +11,7 @@ import 'package:dictionary/src/issues/parse_issues.dart';
 
 // TODO: remove logging before version 0.9.0
 final Logger _log =
-new Logger('date_time/utils_old.dart', watermark: Severity.info);
+new Logger('date_time/utils_old.dart', Level.info);
 
 /// General Parse methodology
 ///

@@ -8,7 +8,7 @@ import 'package:common/logger.dart';
 import 'package:dictionary/src/string/parse.dart';
 import 'package:test/test.dart';
 
-final Logger log = new Logger('check_values_test', watermark: Severity.debug);
+final Logger log = new Logger('check_values_test', Level.debug);
 
 //TODO: needs more tests
 

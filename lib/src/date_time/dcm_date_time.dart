@@ -4,15 +4,15 @@
 // See the AUTHORS file for contributors.
 
 import 'package:common/logger.dart';
-import 'package:dictionary/src/string/parse.dart';
 import 'package:dictionary/src/issues/parse_issues.dart';
+import 'package:dictionary/src/string/parse.dart';
 
 import 'date.dart';
 import 'parse.dart';
 import 'time.dart';
 import 'time_zone.dart';
 
-final Logger _log = new Logger('uint_test.dart', watermark: Severity.debug);
+final Logger _log = new Logger('uint_test.dart', Level.debug);
 
 class DcmDateTime {
   static const int minLength = 4;

@@ -8,7 +8,7 @@ import 'package:common/logger.dart';
 import 'package:dictionary/dictionary.dart';
 import "package:test/test.dart";
 
-final Logger log = new Logger('Uid2_Test', watermark: Severity.info);
+final Logger log = new Logger('Uid2_Test', Level.info);
 
 void main() {
   group('[Version 4 Tests]', () {
