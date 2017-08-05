@@ -11,15 +11,18 @@ import 'package:dictionary/src/uid/well_known/wk_uid.dart';
 
 class WellKnownFrameOfReference extends WKUid {
   const WellKnownFrameOfReference(
-      String uid, UidType type, bool isRetired, String name, String link)
-      : super(uid, type, isRetired, name);
+      String uid, String keyword, UidType type, bool isRetired, String name,
+      String link)
+      : super(uid, keyword, type, isRetired, name);
 
   @override
   String toString() => '$runtimeType($asString)';
 
   // Add all constant WK Frame of Reference definitions from wk_uid.dart
-  static const WellKnownFrameOfReference kTal = const WellKnownFrameOfReference(
+  static const WellKnownFrameOfReference kTal =
+  const WellKnownFrameOfReference(
       "1.2.840.",
+      "Tal",
       UidType.kWellKnownFrameOfReference,
       false,
       "Verification SOP Class",

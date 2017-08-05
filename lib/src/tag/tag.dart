@@ -222,15 +222,18 @@ class Tag {
   /// [width]: The [width] of the matrix of values. If [width == 0,
   /// then singleton; otherwise must be greater than 0;
   //TODO: should be modified when EType info is available.
-  bool hasValidValues<E>(List<E> values) {
-    if (values == null) return false;
+  bool hasValidValues<V>(List<V> values) {
+    assert(values != null);
+ //   if (values == null) return false;
     if (vr == VR.kUN) return true;
     if (isNotValidLength(values.length)) return false;
-    //  if (vr.hasShortVF && isNotValidLength(values.length)) return false;
     for (int i = 0; i < values.length; i++)
-      if (vr.isNotValid(values[i])) return false;
+      if (isNotValidValue(values[i])) return false;
     return true;
   }
+
+  bool isValidValue<V>(V value) => vr.isValid(value);
+  bool isNotValidValue<V>(V value) => vr.isNotValid(value);
 
   /// Returns a [list<E>] of valid values for this [Tag], or [null] if
   /// and of the [String]s in [sList] are not parsable.

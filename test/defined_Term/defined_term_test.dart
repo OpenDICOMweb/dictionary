@@ -105,15 +105,15 @@ void show1() {
 void show() {
   test("d", () {
 //   var modalitytypes=const ModalityType(23,"binayak",const MClass(34),true,));
-    var modelclass = const ModalityType(0);
-    expect(modelclass, equals(const ModalityType(0)));
-    expect(modelclass, isNot(const ModalityType(1)));
-    expect(modelclass, isNot(ModalityType.kDERIVED));
-    expect(modelclass, isNot(ModalityType.kDOCUMENT));
-    expect(modelclass, isNot(ModalityType.kMEASUREMENT));
-    expect(modelclass, isNot(ModalityType.kPLANNING));
-    expect(modelclass, isNot(ModalityType.kPOST_PROCESSING));
-    expect(modelclass, isNot(ModalityType.kOTHER));
+    var modelClass = const ModalityType(0);
+    expect(modelClass, equals(const ModalityType(0)));
+    expect(modelClass, isNot(const ModalityType(1)));
+    expect(modelClass, isNot(ModalityType.kDERIVED));
+    expect(modelClass, isNot(ModalityType.kDOCUMENT));
+    expect(modelClass, isNot(ModalityType.kMEASUREMENT));
+    expect(modelClass, isNot(ModalityType.kPLANNING));
+    expect(modelClass, isNot(ModalityType.kPOST_PROCESSING));
+    expect(modelClass, isNot(ModalityType.kOTHER));
   });
 
   test("ascii", () {
@@ -126,8 +126,14 @@ void show() {
   });
 
   test("colors", () {
-    var color = const ColorPalette("uid1", "label1", "dart language");
+    var color = const ColorPalette("uid1", "colors", "label1", "dart language");
     expect(
-        color, equals(const ColorPalette("uid1", "label1", "dart language")));
+        color,
+        equals(const ColorPalette(
+            "uid1",
+            "colors",
+            "label1",
+            "dart "
+            "language")));
   });
 }
