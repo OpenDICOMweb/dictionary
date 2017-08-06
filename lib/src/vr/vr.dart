@@ -40,6 +40,8 @@ abstract class VR<T> {
 
   bool get isSequence => false;
 
+  bool get isItem => false;
+
   /// The minimum length of a value.
   int get minValueLength => elementSize;
 
@@ -67,10 +69,16 @@ abstract class VR<T> {
   /// Returns [true] if any number of values is always valid.
   bool get isLengthAlwaysValid => false;
 
+  /// Returns [true] if [value] is valid for [this].
+  bool isValid(Object value) => false;
+
+  /// Returns [true] if the [Type] of [value] is valid for [this].
+  bool isValidType(dynamic value) => false;
+
+  /// Returns true if the [List] [Type] of values is valid for [this].
+  bool isValidValuesType<Item>(List values) => false;
+
   bool isValidLength(int length) => false;
-  // **** Must be overridden.
-  /// Returns [true] of [value] is UN.
-  bool isValid(Object value) => (value is int) && Uint8.inRange(value);
 
   /// Returns [true] of [value] is not valid for this VR.kUN.
   bool isNotValid(Object value) => !isValid(value);
@@ -214,6 +222,18 @@ class VRUnknown extends VR<int> {
   @override
   bool get isString => false;
 
+  /// Returns [true] of [value] is UN.
+  @override
+  bool isValid(Object value) => isValidType(value) && Uint8.inRange(value);
+
+  /// Returns true if the [Type] of values is [int].
+  @override
+  bool isValidType(Object value) => value is int;
+
+  /// Returns true if the [Type] of values is [List<int>].
+  @override
+  bool isValidValuesType<int>(List values) => values is List<int>;
+
   //index, code, id, elementSize, vfLengthSize, maxVFLength, keyword
   /// UN - Unknown. The supertype of all VRs
   static const VRUnknown kUN =
@@ -246,6 +266,22 @@ class VRSequence extends VR<int> {
   @override
   bool get isSequence => true;
 
+  @override
+  bool isValid(Object value) => isValidType(value);
+
+  /// Returns true if the [Type] of values is Item.
+  @override
+  bool isValidType(dynamic value) => value.isItem;
+
+  /// Returns true if the [Type] of values is [List<int>].
+  @override
+  bool isValidValuesType<Item>(List values) => values is List<Item>;
+
+  //index, code, id, elementSize, vfLengthSize, maxVFLength, keyword
+  /// UN - Unknown. The supertype of all VRs
+  static const VRUnknown kUN =
+      const VRUnknown._(29, 0x4e55, "UN", 1, 4, kMaxUN, "Unknown");
+
   //index, code, id, elementSize, vfLengthSize, maxVFLength, keyword
   static const VR kSQ =
       const VRSequence._(22, 0x5153, "SQ", 1, 4, kMaxLongVF, "Sequence");
@@ -255,6 +291,9 @@ class VRInvalid extends VR<int> {
   const VRInvalid._(int index, int code, String id, int elementSize,
       int vfLengthSize, int maxVFLength, String keyword)
       : super(index, code, id, 1, 4, kMaxLongVF, keyword);
+
+  @override
+  bool get isSequence => true;
 
   static const VRUnknown kInvalid =
       const VRUnknown._(0, 0, "Invalid", 0, 0, 0, "Invalid VR");

@@ -13,6 +13,7 @@ import 'package:dictionary/src/constants.dart';
 import 'package:dictionary/src/e_type.dart';
 import 'package:dictionary/src/errors.dart';
 import 'package:dictionary/src/tag/constants.dart';
+import 'package:dictionary/src/tag/element.dart';
 import 'package:dictionary/src/tag/elt.dart';
 import 'package:dictionary/src/tag/group.dart';
 import 'package:dictionary/src/tag/p_tag.dart';
@@ -225,6 +226,26 @@ class Tag {
   //TODO: should be modified when EType info is available.
   bool hasValidValues<V>(List<V> values) {
     assert(values != null);
+    if (vr == VR.kUN) return true;
+    if (!isValidValuesType(values)) return false;
+    if (isNotValidLength(values.length)) return false;
+    for (int i = 0; i < values.length; i++)
+      if (isNotValidValue(values[i])) return false;
+    return true;
+  }
+
+  bool isValidValuesType<V>(List values) => vr.isValidValuesType(values);
+
+  bool isValidElement(Element e) {
+    if (e == null) return false;
+    return hasValidValues(e.values);
+  }
+
+
+
+/* Flush when working
+  bool hasValidValues<V>(List<V> values) {
+    assert(values != null);
     //   if (values == null) return false;
     if (vr == VR.kUN) return true;
     if (isNotValidLength(values.length)) return false;
@@ -232,6 +253,7 @@ class Tag {
       if (isNotValidValue(values[i])) return false;
     return true;
   }
+*/
 
   bool isValidValue<V>(V value) => vr.isValid(value);
   bool isNotValidValue<V>(V value) => vr.isNotValid(value);
@@ -269,7 +291,7 @@ class Tag {
     return sList;
   }
 
-  List<E> checkValues<E>(List<E> values) =>
+  List<V> checkValues<V>(List<V> values) =>
       (hasValidValues(values)) ? values : null;
 
   // Placeholder until VR is integrated into TagBase

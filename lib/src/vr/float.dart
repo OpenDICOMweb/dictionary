@@ -33,8 +33,17 @@ class VRFloat extends VR<double> {
   int get minValue => elementSize;
   int get maxLength => elementSize;
 
+  /// Returns [true] of [value] is [double].
   @override
-  bool isValid(Object n) => n is double;
+  bool isValid(Object value) =>  isValidType(value);
+
+  /// Returns [true] of [value] is [double].
+  @override
+  bool isValidType(Object value) => value is double;
+
+  /// Returns true if the [Type] of values is [double].
+  @override
+  bool isValidValuesType<double>(List values) => values is List<double>;
 
   // [true] if [this] is one of OF, OD;
   @override

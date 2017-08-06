@@ -78,13 +78,22 @@ class VRInt extends VR<int> {
   @override
   bool get isInteger => true;
 
+  /// Returns [true] if [n] is valid for this [VRInt].
+  @override
+  bool isValid(Object n) => (n is int) && (minValue <= n) && (n <= maxValue);
+
+  /// Returns [true] of [value] is [double].
+  @override
+  bool isValidType(Object value) => value is int;
+
+  /// Returns true if the [Type] of values is [int].
+  @override
+  bool isValidValuesType<int>(List values) => values is List<int>;
+
   // [true] if [this] is one of OB, OL, OW, or UN;
   @override
   bool get isLengthAlwaysValid => vfLengthSize == 4;
 
-  /// Returns [true] if [n] is valid for this [VRInt].
-  @override
-  bool isValid(Object n) => (n is int) && (minValue <= n) && (n <= maxValue);
 
   /// Returns a [String] indicating the issue with value. If there are no
   /// issues returns the empty string ("").
