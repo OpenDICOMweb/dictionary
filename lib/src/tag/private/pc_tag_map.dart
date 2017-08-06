@@ -212,10 +212,8 @@ const Map<String, PCTagDefinition> privateCreatorMap = const {
   "Applicare/Workflow/Version 1.0": PCTagDefinition.k197,
   "GEHC_CT_ADVAPP_001": PCTagDefinition.k198,
   "GE LUT Asymmetry Parameter": PCTagDefinition.k199,
-  "Applicare/Centricity Radiology Web/Version 1.0":
-      PCTagDefinition.k200,
-  "Applicare/Centricity Radiology Web/Version 2.0":
-      PCTagDefinition.k201,
+  "Applicare/Centricity Radiology Web/Version 1.0": PCTagDefinition.k200,
+  "Applicare/Centricity Radiology Web/Version 2.0": PCTagDefinition.k201,
   "GEMS-IT/Centricity RA600/7.0": PCTagDefinition.k202,
   "AMI StudyExtensions_01": PCTagDefinition.k203,
   "RadWorksTBR": PCTagDefinition.k204,
@@ -236,8 +234,7 @@ const Map<String, PCTagDefinition> privateCreatorMap = const {
   "SCHICK TECHNOLOGIES - Change List Creator ID": PCTagDefinition.k217,
   "SCHICK TECHNOLOGIES - Note List Creator ID": PCTagDefinition.k218,
   "SCHICK TECHNOLOGIES - Change Item Creator ID": PCTagDefinition.k219,
-  "SCHICK TECHNOLOGIES - Image Security Creator ID":
-      PCTagDefinition.k220,
+  "SCHICK TECHNOLOGIES - Image Security Creator ID": PCTagDefinition.k220,
   "2.16.840.1.114059.1.1.6.1.50.1": PCTagDefinition.k221,
   "STENTOR": PCTagDefinition.k222,
   "MMCPrivate": PCTagDefinition.k223,
@@ -262,8 +259,7 @@ const Map<String, PCTagDefinition> privateCreatorMap = const {
   "MedIns HP Extensions": PCTagDefinition.k242,
   "MEDIFACE": PCTagDefinition.k243,
   "Image (ID, Version, Size, Dump, GUID)": PCTagDefinition.k244,
-  "ObjectModel (ID, Version, Place, PlaceDescription)":
-      PCTagDefinition.k245,
+  "ObjectModel (ID, Version, Place, PlaceDescription)": PCTagDefinition.k245,
   "INFINITT_FMX": PCTagDefinition.k246,
   "BrainLAB_Conversion": PCTagDefinition.k247,
   "BrainLAB_PatientSetup": PCTagDefinition.k248,
@@ -480,8 +476,7 @@ const Map<String, PCTagDefinition> privateCreatorMap = const {
   "PMI Private Calibration Module Version 2.0": PCTagDefinition.k459,
   "POLYTRON-SMS 2.5": PCTagDefinition.k460,
   "SIEMENS MED SYNGO RT": PCTagDefinition.k461,
-  "SIEMENS SYNGO ULTRA-SOUND TOYON DATA STREAMING":
-      PCTagDefinition.k462,
+  "SIEMENS SYNGO ULTRA-SOUND TOYON DATA STREAMING": PCTagDefinition.k462,
   "SIEMENS Ultrasound S2000": PCTagDefinition.k463,
   "SMIL_PB79": PCTagDefinition.k464,
   "SMIO_PB7B": PCTagDefinition.k465,

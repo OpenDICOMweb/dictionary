@@ -1,9 +1,8 @@
 // Copyright (c) 2016, Open DICOMweb Project. All rights reserved.
 // Use of this source code is governed by the open source license
 // that can be found in the LICENSE file.
-// Author: Jim Philbin <jfphilbin@gmail.edu> - 
+// Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
-
 
 import 'package:common/logger.dart';
 import 'package:dictionary/date_time.dart';
@@ -12,7 +11,6 @@ import 'package:test/test.dart';
 final Logger log = new Logger('DateTimeTests', Level.debug);
 
 void main() {
-
   for (int i = 0; i < goodTimeZones.length; i++) {
     var s = goodTimeZones[i];
     int tzm = parseTimeZone(s);
@@ -44,7 +42,7 @@ const List<String> goodTimeZones = const <String>[
 ];
 
 const List<int> goodTimeZonesValues = const <int>[
-  0, 60, -60, 90, -105, -12 * 60, 14 * 60// no fmt
+  0, 60, -60, 90, -105, -12 * 60, 14 * 60 // no fmt
 ];
 
 const List<String> badTimeZones = const <String>[
@@ -61,12 +59,9 @@ const List<String> badTimeZones = const <String>[
 ];
 
 void timeZoneTest() {
-  
   group('DCM Time Zone tests', () {
-
-
     test('Good parseTimeZone', () {
-      for(String s in goodTimeZones) {
+      for (String s in goodTimeZones) {
         int tzm = parseTimeZone(s);
         log.debug('Good parseTimeZone: "$s", tzm: $tzm');
         expect(tzm, isNotNull);
@@ -76,11 +71,6 @@ void timeZoneTest() {
         log.debug('Issues: $issues');
         expect(issues, equals(""));
       }
-      
     });
-
-
-    
   });
-
 }

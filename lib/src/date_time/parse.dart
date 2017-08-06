@@ -3,7 +3,7 @@
 // that can be found in the LICENSE file.
 // See the AUTHORS file for contributors.
 
-import 'package:common/logger.dart';
+import 'package:core/system.dart';
 import 'package:dictionary/date_time.dart';
 import 'package:dictionary/src/errors.dart';
 import 'package:dictionary/src/issues/parse_issues.dart';
@@ -12,8 +12,7 @@ import 'package:dictionary/src/string/parse.dart';
 import 'time.dart';
 
 // TODO: remove logging before version 0.9.0
-final Logger _log =
-    new Logger('date_time/utils_old.dart', Level.info);
+//Flush final Logger log = new Logger('date_time/utils_old.dart', Level.info);
 
 //TODO: for performance make every function that can be internal
 //TODO: redo doc
@@ -34,9 +33,9 @@ dynamic parseDcmDate(
       m = parseMonth(s, index);
       if ((index += 2) < end) d = parseDay(y, m, s, index);
     }
-    _log.debug('y: $y, m: $m, d: $d');
+    log.debug('y: $y, m: $m, d: $d');
   } catch (e) {
-    _log.debug('Caught: $e');
+    log.debug('Caught: $e');
     return (isValidOnly) ? false : null;
   }
   return (isValidOnly) ? true : epochDay(y, m, d);
@@ -83,7 +82,7 @@ dynamic parseDcmDate_(
     m = parseMonth(s, index);
     if ((index += 2) < end) d = parseDay(y, m, s, index);
   }
-  _log.debug('y: $y, m: $m, d: $d');
+  log.debug('y: $y, m: $m, d: $d');
   return epochDay(y, m, d);
 }
 */
@@ -97,22 +96,22 @@ dynamic _parseDcmDate(String s, int start, int end, int min, int max,
     [ParseIssues issues]) {
   int y, m, d;
   if (end == null) end = s.length;
-  _log.debug('_parseDcmDate: "$s", $start, $end, $min, $max');
+  log.debug('_parseDcmDate: "$s", $start, $end, $min, $max');
   if (!checkArgs(s, start, end, min, max, issues)) return null;
   int index = start;
   y = parseYear(s, index, issues);
-  _log.debug('_parseDcmDate: y: $y');
+  log.debug('_parseDcmDate: y: $y');
   if ((index += 4) < end) {
     m = parseMonth(s, index, issues);
-    _log.debug('_parseDcmDate: m: $m');
+    log.debug('_parseDcmDate: m: $m');
     if ((index += 2) < end) {
       d = parseDay(y, m, s, index, issues);
-      _log.debug('_parseDcmDate: d: $d');
+      log.debug('_parseDcmDate: d: $d');
     }
   }
-  _log.debug('y: $y, m: $m, d: $d');
+  log.debug('y: $y, m: $m, d: $d');
   if (y == null || m == null || d == null) {
-    _log.debug1('    null');
+    log.debug1('    null');
     return null;
   }
   return epochDay(y, m, d);
@@ -131,7 +130,7 @@ int parseDcmTime(String s, {int start = 0, int end, int min = 0, int max}) {
 bool isValidDcmTime(String s, {int start = 0, int end, int min = 0, int max}) {
   try {
     int us = _parseDcmTime(s, start, end, min, max);
-    _log.debug('isValidDcmTime: us: $us');
+    log.debug('isValidDcmTime: us: $us');
     if (us == null) return false;
   } on ParseError {
     return false;
@@ -155,72 +154,71 @@ dynamic _parseDcmTime(String s, int start, int end, int min, int max,
   int h = -1, m = -1, ss = -1, f = -1;
   if (end == null) end = s.length;
   //Note: max is 13 because padding should have been removed.
-  _log.debug('_parseDcmTime: "${s.substring(start, end)}", '
+  log.debug('_parseDcmTime: "${s.substring(start, end)}", '
       '$start, $end, $min, $max');
-  _log.debug('_parseDcmTime: "$s", $start, $end, $min, $max');
+  log.debug('_parseDcmTime: "$s", $start, $end, $min, $max');
   if (!checkArgs(s, start, end, min, max, issues)) return null;
   int index = start;
   h = parseHour(s, index, issues);
-  _log.debug('_parseDcmTime: h: $h');
+  log.debug('_parseDcmTime: h: $h');
   if ((index += 2) < end) {
     m = parseMinute(s, index, issues);
-    _log.debug('_parseDcmTime: m: $m');
+    log.debug('_parseDcmTime: m: $m');
     if ((index += 2) < end) {
       ss = parseSecond(s, index, issues);
-      _log.debug('_parseDcmTime: ss: $ss');
+      log.debug('_parseDcmTime: ss: $ss');
       if ((index += 2) < end) {
         f = parseTimeFraction(s, start: index, end: end, issues: issues);
-        _log.debug('_parseDcmTime: f: $f');
+        log.debug('_parseDcmTime: f: $f');
       }
     }
   }
-  _log.debug2('h: $h, m: $m, ss: $ss, f: $f');
-  if (h == null || m == null ||ss == null || f == null) {
-    _log.debug1('    null');
+  log.debug2('h: $h, m: $m, ss: $ss, f: $f');
+  if (h == null || m == null || ss == null || f == null) {
+    log.debug1('    null');
     return null;
   } else {
     if (h == -1) h = 0;
     if (m == -1) m = 0;
     if (ss == -1) ss = 0;
     if (f == -1) f = 0;
-    _log.debug1('    h: $h, m: $m, ss: $ss, f: $f\n'
+    log.debug1('    h: $h, m: $m, ss: $ss, f: $f\n'
         '    f: $f, ms: ${f ~/ 1000}, us: ${f % 1000}');
     return toMicroseconds(h, m, ss, f ~/ 1000, f % 1000);
   }
 }
 
 int parseTimeFraction(String s, {int start = 0, int end, ParseIssues issues}) {
-  _log.debug1('  $s: range: $start - $end');
-  int f = parseFraction(s,
-      start: start, end: end, min: 2, max: 7, issues: issues);
-  _log.debug1('  f: $f');
+  log.debug1('  $s: range: $start - $end');
+  int f =
+      parseFraction(s, start: start, end: end, min: 2, max: 7, issues: issues);
+  log.debug1('  f: $f');
   if (f == null) return null;
   int us = _fractionToUSeconds(f);
-  _log.debug1(' us: $us');
+  log.debug1(' us: $us');
   return _checkFraction(us, issues);
 }
 
-
-List<int> parseDcmDateTime(String s, {int start = 0, int end, int min = 0, int
-max}) {
+List<int> parseDcmDateTime(String s,
+    {int start = 0, int end, int min = 0, int max}) {
   List<int> dt;
   try {
-    _log.debug('parseDcmDateTime: "$s", $start, $end, $min, $max');
+    log.debug('parseDcmDateTime: "$s", $start, $end, $min, $max');
     dt = _parseDcmDateTime(s, start, end, min, max);
     if (dt == null) return null;
-    _log.debug('parseDcmDateTime: $dt');
+    log.debug('parseDcmDateTime: $dt');
   } on ParseError {
     return null;
   }
   return dt;
 }
 
-bool isValidDcmDateTime(String s, {int start = 0, int end, int min = 0, int
-max}) {
+bool isValidDcmDateTime(String s,
+    {int start = 0, int end, int min = 0, int max}) {
   try {
-    _log.debug('isValidDcmTime: "$s", $start, $end, $min, $max');
+    log.debug('isValidDcmTime: "$s", $start, $end, $min, $max');
     List<int> dt = _parseDcmDateTime(s, start, end, min, max);
-    _log.debug('isValidDcmTime: $dt');
+    log.debug('isValidDcmTime: $dt');
     if (dt == null) return false;
   } on ParseError {
     return false;
@@ -228,13 +226,12 @@ max}) {
   return true;
 }
 
-void getDcmDateTimeIssues(
-    String s, {int start = 0, int end, int min = 0, int max, ParseIssues
-    issues}) {
+void getDcmDateTimeIssues(String s,
+    {int start = 0, int end, int min = 0, int max, ParseIssues issues}) {
   try {
-    _log.debug('getDcmDateTimeIssues: "$s", $start, $end, $min, $max');
+    log.debug('getDcmDateTimeIssues: "$s", $start, $end, $min, $max');
     List<int> dt = _parseDcmDateTime(s, start, end, min, max);
-    _log.debug('getDcmDateTimeIssues: $dt');
+    log.debug('getDcmDateTimeIssues: $dt');
   } on ParseError {
     return;
   }
@@ -243,38 +240,35 @@ void getDcmDateTimeIssues(
 //TODO: move min, max back to DcmDateTIme?
 List<int> _parseDcmDateTime(String s, int start, int end, int min, int max,
     [ParseIssues issues]) {
-  int epochDay = -1,
-      us = -1,
-      tzm = -1,
-      index = start;
+  int epochDay = -1, us = -1, tzm = -1, index = start;
   if (end == null) end = s.length;
   if (!checkArgs(s, start, end, 4, 26, issues)) return null;
-  _log.debug('_parseDcmDateTime: "$s", $start, $end, $min, $max');
+  log.debug('_parseDcmDateTime: "$s", $start, $end, $min, $max');
   int dateEnd = (end < 8) ? end : 8;
-  _log.debug('_parseDcmDateTime: index($index), end($end)');
+  log.debug('_parseDcmDateTime: index($index), end($end)');
   epochDay = _parseDcmDate(s, index, dateEnd, 4, 8);
-  _log.debug('_parseDcmDateTime: epochDay: $epochDay');
+  log.debug('_parseDcmDateTime: epochDay: $epochDay');
   if ((index += 8) < end) {
     int timeEnd = (end < 21) ? end : 21;
-    _log.debug('_parseDcmDateTime: index($index), end($end)');
+    log.debug('_parseDcmDateTime: index($index), end($end)');
     us = _parseDcmTime(s, index, timeEnd, 2, 13);
-    _log.debug('_parseDcmDateTime: index($index), end($end)');
+    log.debug('_parseDcmDateTime: index($index), end($end)');
     index = s.indexOf("+-", index);
-    _log.debug('_parseDcmDateTime: index($index), end($end)');
+    log.debug('_parseDcmDateTime: index($index), end($end)');
     if ((index += 6) < end) {
-      _log.debug('_parseDcmDateTime: index($index), end($end)');
+      log.debug('_parseDcmDateTime: index($index), end($end)');
       tzm = parseTimeZone(s, index);
     }
   }
-  _log.debug2('eDay: $epochDay, us: $us, tzm: $tzm');
+  log.debug2('eDay: $epochDay, us: $us, tzm: $tzm');
   if (epochDay == null || us == null || tzm == null) {
-    _log.debug1('    null');
+    log.debug1('    null');
     return null;
   } else {
     if (epochDay == -1) throw new ParseError('epochDay == 0');
     if (us == -1) us = 0;
     if (tzm == -1) tzm = 0;
-    _log.debug1('    epochDay: $epochDay, us: $us, tzm: $tzm');
+    log.debug1('    epochDay: $epochDay, us: $us, tzm: $tzm');
     return <int>[epochDay, us, tzm];
   }
 }
@@ -282,9 +276,9 @@ List<int> _parseDcmDateTime(String s, int start, int end, int min, int max,
 int parseTimeZone(String s, [int start = 0]) {
   int tzm;
   try {
-    _log.debug('_parseTimeZone: "$s", $start');
+    log.debug('_parseTimeZone: "$s", $start');
     tzm = _parseTimeZone(s, start: start);
-    _log.debug('_parseTimeZone: $tzm');
+    log.debug('_parseTimeZone: $tzm');
     if (tzm == null) return null;
   } on ParseError {
     return null;
@@ -294,9 +288,9 @@ int parseTimeZone(String s, [int start = 0]) {
 
 bool isValidTimeZone(String s, [int start = 0]) {
   try {
-    _log.debug('_parseTimeZone: "$s", $start');
+    log.debug('_parseTimeZone: "$s", $start');
     int tzm = _parseTimeZone(s, start: start);
-    _log.debug('_parseTimeZone: $tzm');
+    log.debug('_parseTimeZone: $tzm');
     if (tzm == null) return false;
   } on ParseError {
     return false;
@@ -307,9 +301,9 @@ bool isValidTimeZone(String s, [int start = 0]) {
 void getTimeZoneIssues(String s, int start, ParseIssues issues) {
   try {
     issues = (issues == null) ? new ParseIssues('Time Zone Issues', s) : issues;
-    _log.debug('_parseTimeZone: "$s", $start, $issues');
+    log.debug('_parseTimeZone: "$s", $start, $issues');
     int tzm = _parseTimeZone(s, start: start, issues: issues);
-    _log.debug('_parseTimeZone: $tzm');
+    log.debug('_parseTimeZone: $tzm');
   } on ParseError {
     return;
   }
@@ -322,7 +316,7 @@ int _parseTimeZone(String s, {start = 0, ParseIssues issues}) {
   const int minValue = -12 * 60;
   const int maxValue = 14 * 60;
   int sign = 1, h = 0, m = 0, tzm;
-  _log.debug('_parseDcmDate: "$s", $start, $issues');
+  log.debug('_parseDcmDate: "$s", $start, $issues');
   if (!checkArgs(s, start, start + 5, 5, 5, issues)) return null;
   sign = parseSign(s, start);
   h = parseTZHour(s, start + 1, sign, issues);
@@ -385,10 +379,10 @@ dynamic getDcmTimeIssues(
     String s, int start, int end, int min, int max, ParseIssues issues) {
   int h, m = 0, ss = 0, f = 0;
   end = (end == null) ? s.length : end;
-  _log.debug('getDcmTimeIssues: $issues');
+  log.debug('getDcmTimeIssues: $issues');
   //Note: max is 13 because padding should have been removed.
   issues = checkArgs(s, start, end, min, max, issues);
-  _log.debug1('after checkArgs');
+  log.debug1('after checkArgs');
   int index = start;
   parseHour(s, index, issues);
   if ((index += 2) < end) {
@@ -400,7 +394,7 @@ dynamic getDcmTimeIssues(
       }
     }
   }
-  _log.debug1('    h: $h, m: $m, s: $ss, f: $f\n'
+  log.debug1('    h: $h, m: $m, s: $ss, f: $f\n'
       '    f: $f, ms: ${f ~/ 1000}, us: ${f % 1000}');
 
   return issues;
@@ -472,7 +466,7 @@ dynamic getTimeZoneIssues(String s, [int start = 0, ParseIssues issues]) {
   parseMinute(s, start + 3, issues);
   tzm = sign * (h * 60 + m);
   sign = 1;
-  _log.debug2('  s: ${s.substring(start, start + 5)}\n'
+  log.debug2('  s: ${s.substring(start, start + 5)}\n'
       '    start: $start, end: $start + 5');
   int c = s.codeUnitAt(start);
   if (c == kMinusSign) sign = -1;
@@ -480,11 +474,11 @@ dynamic getTimeZoneIssues(String s, [int start = 0, ParseIssues issues]) {
     throw new ParseError('Invalid sign char "${s[start]} at pos($start).');
   h = parseHour(s, start + 1, null);
   _inRange(sign * h, -12, 14, null);
-  _log.debug2('    tz hour: $h');
+  log.debug2('    tz hour: $h');
   m = parseMinute(s, start + 3, null);
   if (m != 00 || m != 30 || m != 45)
     throw new ParseError('Invalid Time Zone minutes($m) at pos(${start + 3})');
-  _log.debug2('    tz minute: $m');
+  log.debug2('    tz minute: $m');
   tzm = sign * (h * 60 + m);
 
   return issues;
@@ -506,7 +500,7 @@ bool _inRange(int v, int min, int max, ParseIssues issues) {
     var msg = 'Invalid value: min($min) <= value($v) <= max($max)';
     if (issues == null) throw new ParseError(msg);
     issues += msg;
-    _log.debug2('_inRange: ${issues.info}');
+    log.debug2('_inRange: ${issues.info}');
     return false;
   }
   return true;
@@ -537,9 +531,9 @@ int _checkDay(int y, int m, int d, ParseIssues issues) {
     0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 //keep
   ];
   //TODO: Test leap year handling
-  _log.debug('_checkDay: $y-$m-$d');
+  log.debug('_checkDay: $y-$m-$d');
   int maxDay = (m != 9) ? _daysPerMonth[m] : (_isLeapYear(y)) ? 29 : 28;
-  _log.debug('_checkDay: day: $d');
+  log.debug('_checkDay: day: $d');
   return _checkRange(d, 1, maxDay, issues);
 }
 

@@ -20,7 +20,6 @@ void main() {
     if (pTag is PCTagDefinition) {
       log.debug('${pTag.name}: ${pTag.dataTags}');
     }
-
   });
 
   test("PrivateCreatorTag.unknown Test", () {
@@ -87,7 +86,5 @@ void main() {
           'group:  ${Tag.toDcm(group)}, subgroup:  ${Tag.toDcm(subgroup)}');
       expect(v, false);
     }
-
   });
 }
-

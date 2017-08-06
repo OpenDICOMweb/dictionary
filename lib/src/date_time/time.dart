@@ -4,8 +4,8 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
-import 'package:dictionary/src/string/parse.dart';
 import 'package:dictionary/src/issues/parse_issues.dart';
+import 'package:dictionary/src/string/parse.dart';
 
 import 'parse.dart';
 
@@ -19,8 +19,7 @@ class Time {
       int second = 0,
       int millisecond = 0,
       int microsecond = 0])
-      : _uSecs =
-            toMicroseconds(hour, minute, second, millisecond, microsecond);
+      : _uSecs = toMicroseconds(hour, minute, second, millisecond, microsecond);
 
   //Internal constructor - hidden when exported:
   const Time.fromMicroseconds(this._uSecs);
@@ -32,16 +31,13 @@ class Time {
 
   //TODO: unit test to verify
   /// Returns `true` if this Duration is the same object as [other].
-  Time operator +(Object other) => (other is Time)
-      ? new Time.fromMicroseconds(_uSecs + other._uSecs)
-      : null;
+  Time operator +(Object other) =>
+      (other is Time) ? new Time.fromMicroseconds(_uSecs + other._uSecs) : null;
 
   //TODO: unit test to verify
   /// Returns `true` if this Duration is the same object as [other].
-  Time operator -(Object other) =>(other is Time)
-      ? new Time.fromMicroseconds(_uSecs - other._uSecs)
-      : null;
-
+  Time operator -(Object other) =>
+      (other is Time) ? new Time.fromMicroseconds(_uSecs - other._uSecs) : null;
 
   @override
   int get hashCode => _uSecs.hashCode;
@@ -60,19 +56,16 @@ class Time {
   int get hour => inHours;
 
   int get minute =>
-      (_uSecs - (inHours * microsecondsPerHour)) ~/
-      microsecondsPerMinute;
+      (_uSecs - (inHours * microsecondsPerHour)) ~/ microsecondsPerMinute;
 
   int get second =>
-      (_uSecs - (inMinutes * microsecondsPerMinute)) ~/
-      microsecondsPerSecond;
+      (_uSecs - (inMinutes * microsecondsPerMinute)) ~/ microsecondsPerSecond;
 
   int get millisecond =>
       (_uSecs - (inSeconds * microsecondsPerSecond)) ~/
       microsecondsPerMillisecond;
 
-  int get microsecond =>
-      _uSecs - (inMilliseconds * microsecondsPerMillisecond);
+  int get microsecond => _uSecs - (inMilliseconds * microsecondsPerMillisecond);
 
   int get fraction => _uSecs - (inSeconds * microsecondsPerSecond);
 
@@ -123,7 +116,11 @@ class Time {
     return (us == null) ? null : new Time.fromMicroseconds(us);
   }
 
-  static ParseIssues issues(String s, {int start = 0, int end,}) {
+  static ParseIssues issues(
+    String s, {
+    int start = 0,
+    int end,
+  }) {
     ParseIssues issues = new ParseIssues('Time', s);
     getDcmTimeIssues(s, min: 2, max: 14, issues: issues);
     return issues;

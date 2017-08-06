@@ -12,8 +12,7 @@ class PrivateCreatorTag extends Tag {
   final String token;
   final Map<int, PDTagKnown> dataTagMap;
 
-  PrivateCreatorTag(code, this.token, this.dataTagMap)
-      : super(code, VR.kLO) {
+  PrivateCreatorTag(code, this.token, this.dataTagMap) : super(code, VR.kLO) {
     if (!Tag.isPrivateCreatorCode(code))
       throw new ArgumentError('Invalid Private Creator Tag Code($code)');
   }
@@ -27,8 +26,8 @@ class PrivateCreatorTag extends Tag {
     0x00191200: PDTagKnown.k3,
     0x00191300: PDTagKnown.k4,
   };
-  static const PrivateCreatorTag k0 = const PrivateCreatorTag._(
-      0, "1.2.840.113681", const <int, PDTagKnown>{
+  static const PrivateCreatorTag k0 =
+      const PrivateCreatorTag._(0, "1.2.840.113681", const <int, PDTagKnown>{
     0x00191000: PDTagKnown.k1,
     0x00191100: PDTagKnown.k2,
     0x00191200: PDTagKnown.k3,

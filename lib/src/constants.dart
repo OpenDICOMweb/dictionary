@@ -62,7 +62,6 @@ const int kItemDelimitationItem32BitLE = 0xe00dfffe; //feff0de0;
 // [kSequenceDelimitationItem] as 2x16bit LE == 0xfffee0dd;
 const int kSequenceDelimitationItem32BitLE = 0xe0ddfffe;
 
-
 /// The value appended to odd length UID Value Fields to make them even length.
 const int kUidPaddingChar = kNull;
 
@@ -86,6 +85,3 @@ const List<int> kUndefinedLengthVRCodes = const <int>[
   kOWCode,
   kUNCode
 ];
-
-
-

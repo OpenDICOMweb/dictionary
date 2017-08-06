@@ -25,4 +25,3 @@ export 'package:dictionary/string.dart';
 export 'package:dictionary/tag.dart';
 export 'package:dictionary/uid.dart';
 export 'package:dictionary/uuid.dart';
-

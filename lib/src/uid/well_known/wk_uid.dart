@@ -94,7 +94,7 @@ class WKUid extends UidString {
       kJPEGExtended_2_4DefaultTransferSyntaxforLossyJPEG12BitImageCompression_4 =
       const WKUid(
     "1.2.840.10008.1.2.4.51",
-          "JPEGExtended_2_4DefaultTransferSyntaxforLossyJPEG12BitImageCompression_4",
+    "JPEGExtended_2_4DefaultTransferSyntaxforLossyJPEG12BitImageCompression_4",
     UidType.kTransferSyntax,
     false,
     "JPEG Extended (Process 2 & 4) : Default Transfer Syntax for Lossy JPEG 12 Bit Image Compression (Process 4 only)",

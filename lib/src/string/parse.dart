@@ -5,13 +5,12 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:common/ascii.dart';
-import 'package:common/logger.dart';
+import 'package:core/system.dart';
 import 'package:dictionary/src/errors.dart';
 import 'package:dictionary/src/issues/parse_issues.dart';
 
 // TODO: remove logging before version 0.9.0
-final Logger _log =
-new Logger('date_time/utils_old.dart', Level.info);
+//Flush final Logger _log = new Logger('date_time/utils_old.dart', Level.info);
 
 /// General Parse methodology
 ///
@@ -82,10 +81,10 @@ int parseUint(String s,
   if (end == null) end = s.length;
   try {
     if (!checkArgs(s, start, end, min, max, issues)) return null;
-    _log.debug2('parseUint: s($s), start($start), end($end)');
-    _log.debug2('parseUint s: ${s.substring(start, end)}');
+    log.debug2('parseUint: s($s), start($start), end($end)');
+    log.debug2('parseUint s: ${s.substring(start, end)}');
     value = _parseUint(s, start, end, issues);
-    _log.debug2('Uint: $value');
+    log.debug2('Uint: $value');
   } on ParseError {
     return null;
   }
@@ -97,10 +96,10 @@ int uintParser(String s, int start, int end, ParseIssues issues,
     {int min = 0, int max}) {
   if (end == null) end = s.length;
   if (!checkArgs(s, start, end, min, max, issues)) return null;
-  _log.debug('uintParser: s("${s.substring(start, end)}"), '
+  log.debug('uintParser: s("${s.substring(start, end)}"), '
       'start($start), end($end), issues: $issues');
   int value = _parseUint(s, start, end, issues);
-  _log.debug('uintParser: value: $value');
+  log.debug('uintParser: value: $value');
   return value;
 }
 
@@ -114,22 +113,22 @@ int _parseUint(String s, int start, int end, ParseIssues issues) {
   int value = 0;
   for (int i = start; i < end; i++) {
     value *= 10;
-    _log.debug('    i: $i, _pUint: $value, issues: $issues');
+    log.debug('    i: $i, _pUint: $value, issues: $issues');
     int c = s.codeUnitAt(i);
     if (c < k0 || c > k9) {
-      _log.debug('Invalid Char: "${s[i]}"($c)');
+      log.debug('Invalid Char: "${s[i]}"($c)');
       var msg = invalidChar(s, i, "_parseUint");
       if (issues == null) {
         throw new ParseError(msg);
       } else {
         issues += msg;
-        _log.debug('Issues: ${issues.info}');
+        log.debug('Issues: ${issues.info}');
         return null;
       }
     }
     int v = c - k0;
     value += v;
-    _log.debug2('    v: $v, value: $value');
+    log.debug2('    v: $v, value: $value');
   }
   return value;
 }
@@ -144,14 +143,14 @@ int parseUintRadix(String s,
   if (end == null) end = s.length;
   if (!checkArgs(s, start, end, min, max, issues)) return null;
   if (s == null || s == "") return null;
-  _log.debug2('_parseUint: s($s), start($start), end($end)');
-  _log.debug2('_parseUint s: ${s.substring(start, end)}');
+  log.debug2('_parseUint: s($s), start($start), end($end)');
+  log.debug2('_parseUint s: ${s.substring(start, end)}');
   try {
     int value = _parseUintRadix(s, start, end, min, max, radix);
-    _log.debug2('Uint: $value');
+    log.debug2('Uint: $value');
     return value;
   } on ParseError catch (e) {
-    _log.debug(e);
+    log.debug(e);
     return null;
   }
 }
@@ -159,7 +158,7 @@ int parseUintRadix(String s,
 //TODO: This must be tested before using.
 int _parseUintRadix(String s, int start, int end, int min, int max, int radix,
     [bool throwOnError = true]) {
-  _log.debug1(
+  log.debug1(
       '_parseUintRadix s(${end - start}): "${s.substring(start, end)}"');
   int value = 0;
 
@@ -167,7 +166,7 @@ int _parseUintRadix(String s, int start, int end, int min, int max, int radix,
   for (int i = start; i < end; i++) {
     value *= radix;
     int c = s.codeUnitAt(i);
-    _log.debug2(
+    log.debug2(
         '  $i:  _parseUintRadix: value($value), next-char($c):"${s[i]}"');
     // Make all alphabetic chars uppercase.
     c = (c >= ka) ? kA : c;
@@ -181,9 +180,9 @@ int _parseUintRadix(String s, int start, int end, int min, int max, int radix,
       }
       return null;
     }
-    _log.debug2('  _parseUintRadix: value($value)');
+    log.debug2('  _parseUintRadix: value($value)');
   }
-  _log.debug1('_parseUintRadix: $value');
+  log.debug1('_parseUintRadix: $value');
   return value;
 }
 
@@ -245,7 +244,7 @@ int parseFraction(String s,
   int f;
   try {
     if (end == null) end = s.length;
-    _log.debug2('s: ${s.substring(start, end)}, start: $start, end: $end');
+    log.debug2('s: ${s.substring(start, end)}, start: $start, end: $end');
     if (!checkArgs(s, start, end, min, max, issues)) return null;
     if (!parseDecimalPoint(s, start, issues)) return null;
     f = uintParser(s, start + 1, end, issues);
@@ -299,14 +298,14 @@ String digits6(int n) {
 /// Assumption: non of the arguments are null.
 bool checkArgs(String s, int start, int end, int min, int max,
     [ParseIssues issues]) {
-  _log.debug1('    checkArgs: (${s.length})"$s"\n'
+  log.debug1('    checkArgs: (${s.length})"$s"\n'
       '    start: $start, end: $end, min: $min, max: $max, issues: $issues');
   bool value = true;
   String problem = "";
   if (s == null) {
     problem += invalidArgument("s", "null");
     if (issues == null) throw new ParseError(problem);
-    _log.debug2('issues 2: "$problem"');
+    log.debug2('issues 2: "$problem"');
     issues += problem;
     value = false;
   }
@@ -314,14 +313,14 @@ bool checkArgs(String s, int start, int end, int min, int max,
     problem +=
         invalidArgument('s', '$s', 'start($start) >= s.length(${s.length})');
     if (issues == null) throw new ParseError(problem);
-    _log.debug2('issues 2: "$problem"');
+    log.debug2('issues 2: "$problem"');
     issues += problem;
     value = false;
   }
   if (start >= s.length) {
     problem += invalidArgument('s', '""');
     if (issues == null) throw new ParseError(problem);
-    _log.debug2('issues 2: "$problem"');
+    log.debug2('issues 2: "$problem"');
     issues += problem;
     value = false;
   }
@@ -330,7 +329,7 @@ bool checkArgs(String s, int start, int end, int min, int max,
   } else {
     if (s.length < end) {
       problem += 'end($end) => s.length(${s.length})"$s"';
-      _log.debug2('issues 3: "$problem"');
+      log.debug2('issues 3: "$problem"');
       if (issues == null) throw new ParseError(problem);
       issues += problem;
       value = false;
@@ -339,7 +338,7 @@ bool checkArgs(String s, int start, int end, int min, int max,
   if (end < start + min) {
     problem += 'The argument "end($end)" is less than start($start) plus '
         'the minimum length($min) of s(${s.length})"$s"';
-    _log.debug2('issues 4: "$problem"');
+    log.debug2('issues 4: "$problem"');
     if (issues == null) throw new ParseError(problem);
     issues += problem;
     value = false;
@@ -348,12 +347,12 @@ bool checkArgs(String s, int start, int end, int min, int max,
   if (end > start + max) {
     problem += 'The argument "end($end)" is less than start($start) plus '
         'the maximum length($max) of s(${s.length})"$s"';
-    _log.debug2('issues 5: "$problem"');
+    log.debug2('issues 5: "$problem"');
     if (issues == null) throw new ParseError(problem);
     issues += problem;
     value = false;
   }
-  _log.debug2('    checkArgs: value: $value, issues: $issues');
+  log.debug2('    checkArgs: value: $value, issues: $issues');
   return value;
 }
 
@@ -371,7 +370,7 @@ bool _inRange(int v, int min, int max, ParseIssues issues) {
     var msg = 'Invalid value: min($min) <= value($v) <= max($max)';
     if (issues == null) throw new ParseError(msg);
     issues += msg;
-    _log.debug2('_inRange: ${issues.info}');
+    log.debug2('_inRange: ${issues.info}');
     return false;
   }
   return true;

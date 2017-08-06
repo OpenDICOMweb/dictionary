@@ -43,7 +43,7 @@ dynamic _parseDcmDateString(String s, int start, int end, bool isValidOnly) {
 String getDcmDateIssues(String s, int start, int end) {
   String msg = "";
   msg = _getLengthError(s.length, 8, 8);
-  if(msg != null) return msg;
+  if (msg != null) return msg;
 
   int y = _parseYear(s, start);
   if (y == null) msg += 'Invalid year(${s.substring(start, start + 4)})\n';
@@ -223,7 +223,7 @@ String getDcmDateTimeIssues(String s, int start, int end) {
   String msg = _getLengthError(s.length, min, max);
   int start = 0;
 
-  if(msg != null) return msg;
+  if (msg != null) return msg;
 
   int y = _parseYear(s, start);
   if (y == null) msg += 'Invalid year(${s.substring(start, start + 4)})\n';
@@ -235,9 +235,11 @@ String getDcmDateTimeIssues(String s, int start, int end) {
   int h = _parseHour(s, start + 8);
   if (h == null) msg += 'Invalid Hour(${s.substring(start + 8, start + 10)})\n';
   int mm = _parseMinute(s, start + 10);
-  if (mm == null) msg += 'Invalid Minute(${s.substring(start + 10, start + 12)})';
+  if (mm == null)
+    msg += 'Invalid Minute(${s.substring(start + 10, start + 12)})';
   int ss = _parseSecond(s, start + 12);
-  if (ss == null) msg += 'Invalid Second(${s.substring(start + 12, start + 14)})';
+  if (ss == null)
+    msg += 'Invalid Second(${s.substring(start + 12, start + 14)})';
   int f = parseFraction(s, start + 14, end);
   if (f == null)
     msg += 'Invalid Second Fraction(${s.substring(start + 14, end)})';

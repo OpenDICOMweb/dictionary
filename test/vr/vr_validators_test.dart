@@ -4,8 +4,8 @@
 // Author: Binayak Behera <binayak.b@mwebware.com> -
 // See the AUTHORS file for other contributors.
 
-import 'package:test/test.dart';
 import 'package:dictionary/src/vr/vr.dart';
+import 'package:test/test.dart';
 
 void main() {
   validateTest();
@@ -28,7 +28,8 @@ void validateTest() {
       expect(
           VR.kUC.isValidLength(
               'sdfsdfsadfsdfsdfsadfsdfsdfsadfsdfsdfsadfsdfsdfsadfsdfsdfsadfsd'
-              'fsdfsadfsdfsdfsadf'.length),
+                  'fsdfsadfsdfsdfsadf'
+                  .length),
           true);
     });
 

@@ -13,9 +13,7 @@ import 'package:dictionary/src/vr/vr.dart';
 typedef Tag TagMaker<E>(int code, VR<E> vr, [dynamic name]);
 
 class PrivateTag extends Tag {
-
-  const PrivateTag(int code, VR vr)
-      : super(code, vr);
+  const PrivateTag(int code, VR vr) : super(code, vr);
 
 /*
   factory PrivateTag.from(int code, VR vr, [PCTag pcTag]) {
@@ -54,8 +52,7 @@ class PrivateTag extends Tag {
   String get asString => toString();
 
   @override
-  String get info =>
-    '$runtimeType$dcm $groupHex, "$name", $eltHex $vr, $vm';
+  String get info => '$runtimeType$dcm $groupHex, "$name", $eltHex $vr, $vm';
 
   @override
   String toString() => '$runtimeType$dcm subgroup($subgroup)';
@@ -67,8 +64,7 @@ class PrivateTag extends Tag {
 class PrivateGroupLengthTag extends PrivateTag {
   static const int kUnknownIndex = -1;
 
-  PrivateGroupLengthTag(int code, VR vr)
-      : super(code, vr);
+  PrivateGroupLengthTag(int code, VR vr) : super(code, vr);
 
   @override
   VR get vr => VR.kUL;
@@ -90,8 +86,7 @@ class PrivateGroupLengthTag extends PrivateTag {
 class PrivateIllegalTag extends PrivateTag {
   static const int kUnknownIndex = -1;
 
-  PrivateIllegalTag(int code, VR vr)
-      : super(code, vr);
+  PrivateIllegalTag(int code, VR vr) : super(code, vr);
 
   @override
   String get name => "Private Illegal Tag";

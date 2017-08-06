@@ -94,7 +94,8 @@ const Map<String, PTag> pTagKeywords = const <String, PTag>{
   "InstitutionCodeSequence": PTag.kInstitutionCodeSequence,
   "ReferringPhysicianName": PTag.kReferringPhysicianName,
   "ReferringPhysicianAddress": PTag.kReferringPhysicianAddress,
-  "ReferringPhysicianTelephoneNumbers": PTag.kReferringPhysicianTelephoneNumbers,
+  "ReferringPhysicianTelephoneNumbers":
+      PTag.kReferringPhysicianTelephoneNumbers,
   "ReferringPhysicianIdentificationSequence":
       PTag.kReferringPhysicianIdentificationSequence,
   "CodeValue": PTag.kCodeValue,
@@ -110,7 +111,8 @@ const Map<String, PTag> pTagKeywords = const <String, PTag>{
   "CodingSchemeUID": PTag.kCodingSchemeUID,
   "ContextGroupExtensionCreatorUID": PTag.kContextGroupExtensionCreatorUID,
   "ContextIdentifier": PTag.kContextIdentifier,
-  "CodingSchemeIdentificationSequence": PTag.kCodingSchemeIdentificationSequence,
+  "CodingSchemeIdentificationSequence":
+      PTag.kCodingSchemeIdentificationSequence,
   "CodingSchemeRegistry": PTag.kCodingSchemeRegistry,
   "CodingSchemeExternalID": PTag.kCodingSchemeExternalID,
   "CodingSchemeName": PTag.kCodingSchemeName,
@@ -202,7 +204,8 @@ const Map<String, PTag> pTagKeywords = const <String, PTag>{
   "PrimaryAnatomicStructureModifierSequence":
       PTag.kPrimaryAnatomicStructureModifierSequence,
   "TransducerPositionSequence": PTag.kTransducerPositionSequence,
-  "TransducerPositionModifierSequence": PTag.kTransducerPositionModifierSequence,
+  "TransducerPositionModifierSequence":
+      PTag.kTransducerPositionModifierSequence,
   "TransducerOrientationSequence": PTag.kTransducerOrientationSequence,
   "TransducerOrientationModifierSequence":
       PTag.kTransducerOrientationModifierSequence,
@@ -243,7 +246,8 @@ const Map<String, PTag> pTagKeywords = const <String, PTag>{
       PTag.kReferencedPresentationStateSequence,
   "ReferencedOtherPlaneSequence": PTag.kReferencedOtherPlaneSequence,
   "FrameDisplaySequence": PTag.kFrameDisplaySequence,
-  "RecommendedDisplayFrameRateInFloat": PTag.kRecommendedDisplayFrameRateInFloat,
+  "RecommendedDisplayFrameRateInFloat":
+      PTag.kRecommendedDisplayFrameRateInFloat,
   "SkipFrameRangeFlag": PTag.kSkipFrameRangeFlag,
   "PatientName": PTag.kPatientName,
   "PatientID": PTag.kPatientID,
@@ -255,7 +259,8 @@ const Map<String, PTag> pTagKeywords = const <String, PTag>{
   "PatientBirthTime": PTag.kPatientBirthTime,
   "PatientSex": PTag.kPatientSex,
   "PatientInsurancePlanCodeSequence": PTag.kPatientInsurancePlanCodeSequence,
-  "PatientPrimaryLanguageCodeSequence": PTag.kPatientPrimaryLanguageCodeSequence,
+  "PatientPrimaryLanguageCodeSequence":
+      PTag.kPatientPrimaryLanguageCodeSequence,
   "PatientPrimaryLanguageModifierCodeSequence":
       PTag.kPatientPrimaryLanguageModifierCodeSequence,
   "QualityControlSubject": PTag.kQualityControlSubject,
@@ -315,14 +320,16 @@ const Map<String, PTag> pTagKeywords = const <String, PTag>{
       PTag.kClinicalTrialCoordinatingCenterName,
   "PatientIdentityRemoved": PTag.kPatientIdentityRemoved,
   "DeidentificationMethod": PTag.kDeidentificationMethod,
-  "DeidentificationMethodCodeSequence": PTag.kDeidentificationMethodCodeSequence,
+  "DeidentificationMethodCodeSequence":
+      PTag.kDeidentificationMethodCodeSequence,
   "ClinicalTrialSeriesID": PTag.kClinicalTrialSeriesID,
   "ClinicalTrialSeriesDescription": PTag.kClinicalTrialSeriesDescription,
   "ClinicalTrialProtocolEthicsCommitteeName":
       PTag.kClinicalTrialProtocolEthicsCommitteeName,
   "ClinicalTrialProtocolEthicsCommitteeApprovalNumber":
       PTag.kClinicalTrialProtocolEthicsCommitteeApprovalNumber,
-  "ConsentForClinicalTrialUseSequence": PTag.kConsentForClinicalTrialUseSequence,
+  "ConsentForClinicalTrialUseSequence":
+      PTag.kConsentForClinicalTrialUseSequence,
   "DistributionType": PTag.kDistributionType,
   "ConsentForDistributionFlag": PTag.kConsentForDistributionFlag,
   "CADFileFormat": PTag.kCADFileFormat,
@@ -355,7 +362,8 @@ const Map<String, PTag> pTagKeywords = const <String, PTag>{
   "IndicationType": PTag.kIndicationType,
   "IndicationDisposition": PTag.kIndicationDisposition,
   "IndicationROISequence": PTag.kIndicationROISequence,
-  "IndicationPhysicalPropertySequence": PTag.kIndicationPhysicalPropertySequence,
+  "IndicationPhysicalPropertySequence":
+      PTag.kIndicationPhysicalPropertySequence,
   "PropertyLabel": PTag.kPropertyLabel,
   "CoordinateSystemNumberOfAxes": PTag.kCoordinateSystemNumberOfAxes,
   "CoordinateSystemAxesSequence": PTag.kCoordinateSystemAxesSequence,
@@ -434,7 +442,8 @@ const Map<String, PTag> pTagKeywords = const <String, PTag>{
   "DACTimePoints": PTag.kDACTimePoints,
   "DACAmplitude": PTag.kDACAmplitude,
   "PreAmplifierSettingsSequence": PTag.kPreAmplifierSettingsSequence,
-  "TransmitTransducerSettingsSequence": PTag.kTransmitTransducerSettingsSequence,
+  "TransmitTransducerSettingsSequence":
+      PTag.kTransmitTransducerSettingsSequence,
   "ReceiveTransducerSettingsSequence": PTag.kReceiveTransducerSettingsSequence,
   "IncidentAngle": PTag.kIncidentAngle,
   "CouplingTechnique": PTag.kCouplingTechnique,
@@ -547,7 +556,8 @@ const Map<String, PTag> pTagKeywords = const <String, PTag>{
   "HardcopyCreationDeviceID": PTag.kHardcopyCreationDeviceID,
   "DateOfSecondaryCapture": PTag.kDateOfSecondaryCapture,
   "TimeOfSecondaryCapture": PTag.kTimeOfSecondaryCapture,
-  "SecondaryCaptureDeviceManufacturer": PTag.kSecondaryCaptureDeviceManufacturer,
+  "SecondaryCaptureDeviceManufacturer":
+      PTag.kSecondaryCaptureDeviceManufacturer,
   "HardcopyDeviceManufacturer": PTag.kHardcopyDeviceManufacturer,
   "SecondaryCaptureDeviceManufacturerModelName":
       PTag.kSecondaryCaptureDeviceManufacturerModelName,
@@ -638,7 +648,8 @@ const Map<String, PTag> pTagKeywords = const <String, PTag>{
   "RadiationSetting": PTag.kRadiationSetting,
   "RectificationType": PTag.kRectificationType,
   "RadiationMode": PTag.kRadiationMode,
-  "ImageAndFluoroscopyAreaDoseProduct": PTag.kImageAndFluoroscopyAreaDoseProduct,
+  "ImageAndFluoroscopyAreaDoseProduct":
+      PTag.kImageAndFluoroscopyAreaDoseProduct,
   "FilterType": PTag.kFilterType,
   "TypeOfFilters": PTag.kTypeOfFilters,
   "IntensifierSize": PTag.kIntensifierSize,
@@ -731,7 +742,8 @@ const Map<String, PTag> pTagKeywords = const <String, PTag>{
   "SliceLocationVector": PTag.kSliceLocationVector,
   "DisplayWindowLabelVector": PTag.kDisplayWindowLabelVector,
   "NominalScannedPixelSpacing": PTag.kNominalScannedPixelSpacing,
-  "DigitizingDeviceTransportDirection": PTag.kDigitizingDeviceTransportDirection,
+  "DigitizingDeviceTransportDirection":
+      PTag.kDigitizingDeviceTransportDirection,
   "RotationOfScannedFilm": PTag.kRotationOfScannedFilm,
   "BiopsyTargetSequence": PTag.kBiopsyTargetSequence,
   "TargetUID": PTag.kTargetUID,
@@ -924,7 +936,8 @@ const Map<String, PTag> pTagKeywords = const <String, PTag>{
   "AcquisitionDuration": PTag.kAcquisitionDuration,
   "FrameAcquisitionDateTime": PTag.kFrameAcquisitionDateTime,
   "DiffusionDirectionality": PTag.kDiffusionDirectionality,
-  "DiffusionGradientDirectionSequence": PTag.kDiffusionGradientDirectionSequence,
+  "DiffusionGradientDirectionSequence":
+      PTag.kDiffusionGradientDirectionSequence,
   "ParallelAcquisition": PTag.kParallelAcquisition,
   "ParallelAcquisitionTechnique": PTag.kParallelAcquisitionTechnique,
   "InversionTimes": PTag.kInversionTimes,
@@ -962,7 +975,8 @@ const Map<String, PTag> pTagKeywords = const <String, PTag>{
   "MRAveragesSequence": PTag.kMRAveragesSequence,
   "MRFOVGeometrySequence": PTag.kMRFOVGeometrySequence,
   "VolumeLocalizationSequence": PTag.kVolumeLocalizationSequence,
-  "SpectroscopyAcquisitionDataColumns": PTag.kSpectroscopyAcquisitionDataColumns,
+  "SpectroscopyAcquisitionDataColumns":
+      PTag.kSpectroscopyAcquisitionDataColumns,
   "DiffusionAnisotropyType": PTag.kDiffusionAnisotropyType,
   "FrameReferenceDateTime": PTag.kFrameReferenceDateTime,
   "MRMetaboliteMapSequence": PTag.kMRMetaboliteMapSequence,
@@ -1089,7 +1103,8 @@ const Map<String, PTag> pTagKeywords = const <String, PTag>{
   "CalciumScoringMassFactorDevice": PTag.kCalciumScoringMassFactorDevice,
   "EnergyWeightingFactor": PTag.kEnergyWeightingFactor,
   "CTAdditionalXRaySourceSequence": PTag.kCTAdditionalXRaySourceSequence,
-  "ProjectionPixelCalibrationSequence": PTag.kProjectionPixelCalibrationSequence,
+  "ProjectionPixelCalibrationSequence":
+      PTag.kProjectionPixelCalibrationSequence,
   "DistanceSourceToIsocenter": PTag.kDistanceSourceToIsocenter,
   "DistanceObjectToTableTop": PTag.kDistanceObjectToTableTop,
   "ObjectPixelSpacingInCenterOfBeam": PTag.kObjectPixelSpacingInCenterOfBeam,
@@ -1150,7 +1165,8 @@ const Map<String, PTag> pTagKeywords = const <String, PTag>{
   "TableCradleTiltAngle": PTag.kTableCradleTiltAngle,
   "FrameDisplayShutterSequence": PTag.kFrameDisplayShutterSequence,
   "AcquiredImageAreaDoseProduct": PTag.kAcquiredImageAreaDoseProduct,
-  "CArmPositionerTabletopRelationship": PTag.kCArmPositionerTabletopRelationship,
+  "CArmPositionerTabletopRelationship":
+      PTag.kCArmPositionerTabletopRelationship,
   "XRayGeometrySequence": PTag.kXRayGeometrySequence,
   "IrradiationEventIdentificationSequence":
       PTag.kIrradiationEventIdentificationSequence,
@@ -1241,7 +1257,8 @@ const Map<String, PTag> pTagKeywords = const <String, PTag>{
   "AliasedDataType": PTag.kAliasedDataType,
   "PositionMeasuringDeviceUsed": PTag.kPositionMeasuringDeviceUsed,
   "TransducerGeometryCodeSequence": PTag.kTransducerGeometryCodeSequence,
-  "TransducerBeamSteeringCodeSequence": PTag.kTransducerBeamSteeringCodeSequence,
+  "TransducerBeamSteeringCodeSequence":
+      PTag.kTransducerBeamSteeringCodeSequence,
   "TransducerApplicationCodeSequence": PTag.kTransducerApplicationCodeSequence,
   "ZeroVelocityPixelValue": PTag.kZeroVelocityPixelValue,
   "ContributingEquipmentSequence": PTag.kContributingEquipmentSequence,
@@ -1277,7 +1294,8 @@ const Map<String, PTag> pTagKeywords = const <String, PTag>{
   "TemporalPositionIdentifier": PTag.kTemporalPositionIdentifier,
   "NumberOfTemporalPositions": PTag.kNumberOfTemporalPositions,
   "TemporalResolution": PTag.kTemporalResolution,
-  "SynchronizationFrameOfReferenceUID": PTag.kSynchronizationFrameOfReferenceUID,
+  "SynchronizationFrameOfReferenceUID":
+      PTag.kSynchronizationFrameOfReferenceUID,
   "SOPInstanceUIDOfConcatenationSource":
       PTag.kSOPInstanceUIDOfConcatenationSource,
   "SeriesInStudy": PTag.kSeriesInStudy,
@@ -1333,7 +1351,8 @@ const Map<String, PTag> pTagKeywords = const <String, PTag>{
       PTag.kUnassignedSharedConvertedAttributesSequence,
   "UnassignedPerFrameConvertedAttributesSequence":
       PTag.kUnassignedPerFrameConvertedAttributesSequence,
-  "ConversionSourceAttributesSequence": PTag.kConversionSourceAttributesSequence,
+  "ConversionSourceAttributesSequence":
+      PTag.kConversionSourceAttributesSequence,
   "DimensionIndexPrivateCreator": PTag.kDimensionIndexPrivateCreator,
   "DimensionOrganizationSequence": PTag.kDimensionOrganizationSequence,
   "DimensionIndexSequence": PTag.kDimensionIndexSequence,
@@ -1349,9 +1368,11 @@ const Map<String, PTag> pTagKeywords = const <String, PTag>{
   "RespiratoryTriggerType": PTag.kRespiratoryTriggerType,
   "RRIntervalTimeNominal": PTag.kRRIntervalTimeNominal,
   "ActualCardiacTriggerDelayTime": PTag.kActualCardiacTriggerDelayTime,
-  "RespiratorySynchronizationSequence": PTag.kRespiratorySynchronizationSequence,
+  "RespiratorySynchronizationSequence":
+      PTag.kRespiratorySynchronizationSequence,
   "RespiratoryIntervalTime": PTag.kRespiratoryIntervalTime,
-  "NominalRespiratoryTriggerDelayTime": PTag.kNominalRespiratoryTriggerDelayTime,
+  "NominalRespiratoryTriggerDelayTime":
+      PTag.kNominalRespiratoryTriggerDelayTime,
   "RespiratoryTriggerDelayThreshold": PTag.kRespiratoryTriggerDelayThreshold,
   "ActualRespiratoryTriggerDelayTime": PTag.kActualRespiratoryTriggerDelayTime,
   "ImagePositionVolume": PTag.kImagePositionVolume,
@@ -1532,7 +1553,8 @@ const Map<String, PTag> pTagKeywords = const <String, PTag>{
       PTag.kReferencedOphthalmicAxialLengthMeasurementQCImageSequence,
   "OphthalmicMappingDeviceType": PTag.kOphthalmicMappingDeviceType,
   "AcquisitionMethodCodeSequence": PTag.kAcquisitionMethodCodeSequence,
-  "AcquisitionMethodAlgorithmSequence": PTag.kAcquisitionMethodAlgorithmSequence,
+  "AcquisitionMethodAlgorithmSequence":
+      PTag.kAcquisitionMethodAlgorithmSequence,
   "OphthalmicThicknessMapTypeCodeSequence":
       PTag.kOphthalmicThicknessMapTypeCodeSequence,
   "OphthalmicThicknessMappingNormalsSequence":
@@ -1624,7 +1646,8 @@ const Map<String, PTag> pTagKeywords = const <String, PTag>{
       PTag.kCorrectedLocalizedDeviationFromNormalProbabilityCalculated,
   "CorrectedLocalizedDeviationFromNormalProbability":
       PTag.kCorrectedLocalizedDeviationFromNormalProbability,
-  "GlobalDeviationProbabilitySequence": PTag.kGlobalDeviationProbabilitySequence,
+  "GlobalDeviationProbabilitySequence":
+      PTag.kGlobalDeviationProbabilitySequence,
   "LocalizedDeviationProbabilitySequence":
       PTag.kLocalizedDeviationProbabilitySequence,
   "FovealSensitivityMeasured": PTag.kFovealSensitivityMeasured,
@@ -1761,7 +1784,8 @@ const Map<String, PTag> pTagKeywords = const <String, PTag>{
   "BitsForCodeWord": PTag.kBitsForCodeWord,
   "ImageDataLocation": PTag.kImageDataLocation,
   "PixelSpacingCalibrationType": PTag.kPixelSpacingCalibrationType,
-  "PixelSpacingCalibrationDescription": PTag.kPixelSpacingCalibrationDescription,
+  "PixelSpacingCalibrationDescription":
+      PTag.kPixelSpacingCalibrationDescription,
   "PixelIntensityRelationship": PTag.kPixelIntensityRelationship,
   "PixelIntensityRelationshipSign": PTag.kPixelIntensityRelationshipSign,
   "WindowCenter": PTag.kWindowCenter,
@@ -1958,7 +1982,8 @@ const Map<String, PTag> pTagKeywords = const <String, PTag>{
   "ChannelDerivationDescription": PTag.kChannelDerivationDescription,
   "ChannelSensitivity": PTag.kChannelSensitivity,
   "ChannelSensitivityUnitsSequence": PTag.kChannelSensitivityUnitsSequence,
-  "ChannelSensitivityCorrectionFactor": PTag.kChannelSensitivityCorrectionFactor,
+  "ChannelSensitivityCorrectionFactor":
+      PTag.kChannelSensitivityCorrectionFactor,
   "ChannelBaseline": PTag.kChannelBaseline,
   "ChannelTimeSkew": PTag.kChannelTimeSkew,
   "ChannelSampleSkew": PTag.kChannelSampleSkew,
@@ -2106,12 +2131,14 @@ const Map<String, PTag> pTagKeywords = const <String, PTag>{
   "ReportingPriority": PTag.kReportingPriority,
   "ReasonForRequestedProcedureCodeSequence":
       PTag.kReasonForRequestedProcedureCodeSequence,
-  "NamesOfIntendedRecipientsOfResults": PTag.kNamesOfIntendedRecipientsOfResults,
+  "NamesOfIntendedRecipientsOfResults":
+      PTag.kNamesOfIntendedRecipientsOfResults,
   "IntendedRecipientsOfResultsIdentificationSequence":
       PTag.kIntendedRecipientsOfResultsIdentificationSequence,
   "ReasonForPerformedProcedureCodeSequence":
       PTag.kReasonForPerformedProcedureCodeSequence,
-  "RequestedProcedureDescriptionTrial": PTag.kRequestedProcedureDescriptionTrial,
+  "RequestedProcedureDescriptionTrial":
+      PTag.kRequestedProcedureDescriptionTrial,
   "PersonIdentificationCodeSequence": PTag.kPersonIdentificationCodeSequence,
   "PersonAddress": PTag.kPersonAddress,
   "PersonTelephoneNumbers": PTag.kPersonTelephoneNumbers,
@@ -2311,7 +2338,8 @@ const Map<String, PTag> pTagKeywords = const <String, PTag>{
   "PreliminaryFlag": PTag.kPreliminaryFlag,
   "ContentTemplateSequence": PTag.kContentTemplateSequence,
   "IdenticalDocumentsSequence": PTag.kIdenticalDocumentsSequence,
-  "ObservationSubjectContextFlagTrial": PTag.kObservationSubjectContextFlagTrial,
+  "ObservationSubjectContextFlagTrial":
+      PTag.kObservationSubjectContextFlagTrial,
   "ObserverContextFlagTrial": PTag.kObserverContextFlagTrial,
   "ProcedureContextFlagTrial": PTag.kProcedureContextFlagTrial,
   "ContentSequence": PTag.kContentSequence,
@@ -2478,11 +2506,13 @@ const Map<String, PTag> pTagKeywords = const <String, PTag>{
   "PlanePositionSlideSequence": PTag.kPlanePositionSlideSequence,
   "ColumnPositionInTotalImagePixelMatrix":
       PTag.kColumnPositionInTotalImagePixelMatrix,
-  "RowPositionInTotalImagePixelMatrix": PTag.kRowPositionInTotalImagePixelMatrix,
+  "RowPositionInTotalImagePixelMatrix":
+      PTag.kRowPositionInTotalImagePixelMatrix,
   "PixelOriginInterpretation": PTag.kPixelOriginInterpretation,
   "CalibrationImage": PTag.kCalibrationImage,
   "DeviceSequence": PTag.kDeviceSequence,
-  "ContainerComponentTypeCodeSequence": PTag.kContainerComponentTypeCodeSequence,
+  "ContainerComponentTypeCodeSequence":
+      PTag.kContainerComponentTypeCodeSequence,
   "ContainerComponentThickness": PTag.kContainerComponentThickness,
   "DeviceLength": PTag.kDeviceLength,
   "ContainerComponentWidth": PTag.kContainerComponentWidth,
@@ -2635,7 +2665,8 @@ const Map<String, PTag> pTagKeywords = const <String, PTag>{
   "UsedSegmentsSequence": PTag.kUsedSegmentsSequence,
   "DeformableRegistrationSequence": PTag.kDeformableRegistrationSequence,
   "SourceFrameOfReferenceUID": PTag.kSourceFrameOfReferenceUID,
-  "DeformableRegistrationGridSequence": PTag.kDeformableRegistrationGridSequence,
+  "DeformableRegistrationGridSequence":
+      PTag.kDeformableRegistrationGridSequence,
   "GridDimensions": PTag.kGridDimensions,
   "GridResolution": PTag.kGridResolution,
   "VectorGridData": PTag.kVectorGridData,
@@ -2797,7 +2828,8 @@ const Map<String, PTag> pTagKeywords = const <String, PTag>{
   "DisplayedAreaBottomRightHandCornerTrial":
       PTag.kDisplayedAreaBottomRightHandCornerTrial,
   "DisplayedAreaTopLeftHandCorner": PTag.kDisplayedAreaTopLeftHandCorner,
-  "DisplayedAreaBottomRightHandCorner": PTag.kDisplayedAreaBottomRightHandCorner,
+  "DisplayedAreaBottomRightHandCorner":
+      PTag.kDisplayedAreaBottomRightHandCorner,
   "DisplayedAreaSelectionSequence": PTag.kDisplayedAreaSelectionSequence,
   "GraphicLayerSequence": PTag.kGraphicLayerSequence,
   "GraphicLayerOrder": PTag.kGraphicLayerOrder,
@@ -3033,7 +3065,8 @@ const Map<String, PTag> pTagKeywords = const <String, PTag>{
   "DoubleExposureMetersetTrial": PTag.kDoubleExposureMetersetTrial,
   "DoubleExposureFieldDeltaTrial": PTag.kDoubleExposureFieldDeltaTrial,
   "RelatedReferenceRTImageSequence": PTag.kRelatedReferenceRTImageSequence,
-  "GeneralMachineVerificationSequence": PTag.kGeneralMachineVerificationSequence,
+  "GeneralMachineVerificationSequence":
+      PTag.kGeneralMachineVerificationSequence,
   "ConventionalMachineVerificationSequence":
       PTag.kConventionalMachineVerificationSequence,
   "IonMachineVerificationSequence": PTag.kIonMachineVerificationSequence,
@@ -3171,7 +3204,8 @@ const Map<String, PTag> pTagKeywords = const <String, PTag>{
   "CertifiedTimestamp": PTag.kCertifiedTimestamp,
   "DigitalSignaturePurposeCodeSequence":
       PTag.kDigitalSignaturePurposeCodeSequence,
-  "ReferencedDigitalSignatureSequence": PTag.kReferencedDigitalSignatureSequence,
+  "ReferencedDigitalSignatureSequence":
+      PTag.kReferencedDigitalSignatureSequence,
   "ReferencedSOPInstanceMACSequence": PTag.kReferencedSOPInstanceMACSequence,
   "MAC": PTag.kMAC,
   "EncryptedAttributesSequence": PTag.kEncryptedAttributesSequence,
@@ -3368,7 +3402,8 @@ const Map<String, PTag> pTagKeywords = const <String, PTag>{
   "StructureSetDescription": PTag.kStructureSetDescription,
   "StructureSetDate": PTag.kStructureSetDate,
   "StructureSetTime": PTag.kStructureSetTime,
-  "ReferencedFrameOfReferenceSequence": PTag.kReferencedFrameOfReferenceSequence,
+  "ReferencedFrameOfReferenceSequence":
+      PTag.kReferencedFrameOfReferenceSequence,
   "RTReferencedStudySequence": PTag.kRTReferencedStudySequence,
   "RTReferencedSeriesSequence": PTag.kRTReferencedSeriesSequence,
   "ContourImageSequence": PTag.kContourImageSequence,
@@ -3413,7 +3448,8 @@ const Map<String, PTag> pTagKeywords = const <String, PTag>{
   "FrameOfReferenceRelationshipSequence":
       PTag.kFrameOfReferenceRelationshipSequence,
   "RelatedFrameOfReferenceUID": PTag.kRelatedFrameOfReferenceUID,
-  "FrameOfReferenceTransformationType": PTag.kFrameOfReferenceTransformationType,
+  "FrameOfReferenceTransformationType":
+      PTag.kFrameOfReferenceTransformationType,
   "FrameOfReferenceTransformationMatrix":
       PTag.kFrameOfReferenceTransformationMatrix,
   "FrameOfReferenceTransformationComment":
@@ -3462,7 +3498,8 @@ const Map<String, PTag> pTagKeywords = const <String, PTag>{
   "CorrectionValue": PTag.kCorrectionValue,
   "CalculatedDoseReferenceSequence": PTag.kCalculatedDoseReferenceSequence,
   "CalculatedDoseReferenceNumber": PTag.kCalculatedDoseReferenceNumber,
-  "CalculatedDoseReferenceDescription": PTag.kCalculatedDoseReferenceDescription,
+  "CalculatedDoseReferenceDescription":
+      PTag.kCalculatedDoseReferenceDescription,
   "CalculatedDoseReferenceDoseValue": PTag.kCalculatedDoseReferenceDoseValue,
   "StartMeterset": PTag.kStartMeterset,
   "EndMeterset": PTag.kEndMeterset,
@@ -3602,7 +3639,8 @@ const Map<String, PTag> pTagKeywords = const <String, PTag>{
   "SourceAxisDistance": PTag.kSourceAxisDistance,
   "BeamLimitingDeviceSequence": PTag.kBeamLimitingDeviceSequence,
   "RTBeamLimitingDeviceType": PTag.kRTBeamLimitingDeviceType,
-  "SourceToBeamLimitingDeviceDistance": PTag.kSourceToBeamLimitingDeviceDistance,
+  "SourceToBeamLimitingDeviceDistance":
+      PTag.kSourceToBeamLimitingDeviceDistance,
   "IsocenterToBeamLimitingDeviceDistance":
       PTag.kIsocenterToBeamLimitingDeviceDistance,
   "NumberOfLeafJawPairs": PTag.kNumberOfLeafJawPairs,
@@ -3671,7 +3709,8 @@ const Map<String, PTag> pTagKeywords = const <String, PTag>{
   "ApplicatorID": PTag.kApplicatorID,
   "ApplicatorType": PTag.kApplicatorType,
   "ApplicatorDescription": PTag.kApplicatorDescription,
-  "CumulativeDoseReferenceCoefficient": PTag.kCumulativeDoseReferenceCoefficient,
+  "CumulativeDoseReferenceCoefficient":
+      PTag.kCumulativeDoseReferenceCoefficient,
   "FinalCumulativeMetersetWeight": PTag.kFinalCumulativeMetersetWeight,
   "NumberOfControlPoints": PTag.kNumberOfControlPoints,
   "ControlPointSequence": PTag.kControlPointSequence,
@@ -3680,7 +3719,8 @@ const Map<String, PTag> pTagKeywords = const <String, PTag>{
   "DoseRateSet": PTag.kDoseRateSet,
   "WedgePositionSequence": PTag.kWedgePositionSequence,
   "WedgePosition": PTag.kWedgePosition,
-  "BeamLimitingDevicePositionSequence": PTag.kBeamLimitingDevicePositionSequence,
+  "BeamLimitingDevicePositionSequence":
+      PTag.kBeamLimitingDevicePositionSequence,
   "LeafJawPositions": PTag.kLeafJawPositions,
   "GantryAngle": PTag.kGantryAngle,
   "GantryRotationDirection": PTag.kGantryRotationDirection,
@@ -3691,7 +3731,8 @@ const Map<String, PTag> pTagKeywords = const <String, PTag>{
   "PatientSupportRotationDirection": PTag.kPatientSupportRotationDirection,
   "TableTopEccentricAxisDistance": PTag.kTableTopEccentricAxisDistance,
   "TableTopEccentricAngle": PTag.kTableTopEccentricAngle,
-  "TableTopEccentricRotationDirection": PTag.kTableTopEccentricRotationDirection,
+  "TableTopEccentricRotationDirection":
+      PTag.kTableTopEccentricRotationDirection,
   "TableTopVerticalPosition": PTag.kTableTopVerticalPosition,
   "TableTopLongitudinalPosition": PTag.kTableTopLongitudinalPosition,
   "TableTopLateralPosition": PTag.kTableTopLateralPosition,
@@ -3811,7 +3852,8 @@ const Map<String, PTag> pTagKeywords = const <String, PTag>{
   "SourceToCompensatorDistance": PTag.kSourceToCompensatorDistance,
   "TotalCompensatorTrayWaterEquivalentThickness":
       PTag.kTotalCompensatorTrayWaterEquivalentThickness,
-  "IsocenterToCompensatorTrayDistance": PTag.kIsocenterToCompensatorTrayDistance,
+  "IsocenterToCompensatorTrayDistance":
+      PTag.kIsocenterToCompensatorTrayDistance,
   "CompensatorColumnOffset": PTag.kCompensatorColumnOffset,
   "IsocenterToCompensatorDistances": PTag.kIsocenterToCompensatorDistances,
   "CompensatorRelativeStoppingPowerRatio":
@@ -3961,7 +4003,8 @@ const Map<String, PTag> pTagKeywords = const <String, PTag>{
   "InterpretationApprovalDate": PTag.kInterpretationApprovalDate,
   "InterpretationApprovalTime": PTag.kInterpretationApprovalTime,
   "PhysicianApprovingInterpretation": PTag.kPhysicianApprovingInterpretation,
-  "InterpretationDiagnosisDescription": PTag.kInterpretationDiagnosisDescription,
+  "InterpretationDiagnosisDescription":
+      PTag.kInterpretationDiagnosisDescription,
   "InterpretationDiagnosisCodeSequence":
       PTag.kInterpretationDiagnosisCodeSequence,
   "ResultsDistributionListSequence": PTag.kResultsDistributionListSequence,
@@ -4008,7 +4051,8 @@ const Map<String, PTag> pTagKeywords = const <String, PTag>{
   "RouteSegmentEndTime": PTag.kRouteSegmentEndTime,
   "TDRType": PTag.kTDRType,
   "InternationalRouteSegment": PTag.kInternationalRouteSegment,
-  "ThreatDetectionAlgorithmandVersion": PTag.kThreatDetectionAlgorithmandVersion,
+  "ThreatDetectionAlgorithmandVersion":
+      PTag.kThreatDetectionAlgorithmandVersion,
   "AssignedLocation": PTag.kAssignedLocation,
   "AlarmDecisionTime": PTag.kAlarmDecisionTime,
   "AlarmDecision": PTag.kAlarmDecision,
@@ -4045,7 +4089,8 @@ const Map<String, PTag> pTagKeywords = const <String, PTag>{
   "AdditionalScreeningPerformed": PTag.kAdditionalScreeningPerformed,
   "AdditionalInspectionSelectionCriteria":
       PTag.kAdditionalInspectionSelectionCriteria,
-  "AdditionalInspectionMethodSequence": PTag.kAdditionalInspectionMethodSequence,
+  "AdditionalInspectionMethodSequence":
+      PTag.kAdditionalInspectionMethodSequence,
   "AITDeviceType": PTag.kAITDeviceType,
   "QRMeasurementsSequence": PTag.kQRMeasurementsSequence,
   "TargetMaterialSequence": PTag.kTargetMaterialSequence,

@@ -3,7 +3,7 @@
 // that can be found in the LICENSE file.
 // See the AUTHORS file for contributors.
 
-import 'package:common/logger.dart';
+import 'package:core/system.dart';
 import 'package:dictionary/src/issues/parse_issues.dart';
 import 'package:dictionary/src/string/parse.dart';
 
@@ -11,8 +11,6 @@ import 'date.dart';
 import 'parse.dart';
 import 'time.dart';
 import 'time_zone.dart';
-
-final Logger _log = new Logger('uint_test.dart', Level.debug);
 
 class DcmDateTime {
   static const int minLength = 4;
@@ -120,7 +118,7 @@ class DcmDateTime {
   static DcmDateTime parse(String s, {int start = 0, int end}) {
     List<int> dt = parseDcmDateTime(s,
         start: start, end: end, min: minLength, max: maxLength);
-    _log.debug('DcmDateTime.parse: $dt');
+    log.debug('DcmDateTime.parse: $dt');
     return (dt == null) ? null : new DcmDateTime._(dt[0], dt[1], dt[2]);
   }
 

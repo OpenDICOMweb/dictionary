@@ -5,8 +5,7 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:common/number.dart';
-import 'package:dictionary/tag.dart';
-import 'package:dictionary/uid.dart';
+import 'package:dictionary/dictionary.dart';
 
 class InvalidTagError extends Error {
   Object tag;
@@ -19,6 +18,24 @@ class InvalidTagError extends Error {
 
 dynamic tagError(Object obj) => throw new InvalidTagError(obj);
 
+//TODO: convert this to handle both int and String and remove next two Errors
+class InvalidTagKeyError extends Error {
+  dynamic key;
+
+  InvalidTagKeyError(this.key, [VR vr, String creator]);
+
+  String get _value {
+    if (key == null) return 'null';
+    if (key is String) return key;
+    if (key is int) return Tag.toDcm(key);
+    return key;
+  }
+
+  @override
+  String toString() => 'Error: Invalid Tag Key "$_value"';
+}
+
+//Flush when replaced with InvalidTagKeyError
 class InvalidTagCodeError extends Error {
   int code;
 
@@ -32,6 +49,7 @@ class InvalidTagCodeError extends Error {
 
 dynamic tagCodeError(int code) => throw new InvalidTagCodeError(code);
 
+//Flush when replaced with InvalidTagKeyError
 class InvalidTagKeywordError extends Error {
   String keyword;
 
@@ -59,14 +77,13 @@ class InvalidGroupError extends Error {
   InvalidGroupError(this.group);
 
   @override
-  String toString() =>
-      'Invalid DICOM Group: ${Uint16.hex(group)}';
+  String toString() => 'Invalid DICOM Group: ${Uint16.hex(group)}';
 }
 
 dynamic groupError(Object obj) => throw new InvalidTagError(obj);
 
 class InvalidUidError extends Error {
-String error = 'Error: Invalid Uid:';
+  String error = 'Error: Invalid Uid:';
   Uid uid;
   Tag tag;
   String msg;
@@ -74,7 +91,9 @@ String error = 'Error: Invalid Uid:';
   InvalidUidError(this.uid, {this.tag, this.msg = ""});
 
   @override
-  String toString() => (tag == null) ? '$error $uid $msg' : '$error $uid from '
+  String toString() => (tag == null)
+      ? '$error $uid $msg'
+      : '$error $uid from '
       'Tag: '
       '$tag $msg';
 }

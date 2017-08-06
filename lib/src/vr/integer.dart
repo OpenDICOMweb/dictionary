@@ -91,8 +91,7 @@ class VRInt extends VR<int> {
   @override
   ParseIssues issues(int n) {
     if (isNotValid(n)) {
-      var msg =
-          'Invalid value: min($minValue) <= value($n) <= max($minValue)';
+      var msg = 'Invalid value: min($minValue) <= value($n) <= max($minValue)';
       return new ParseIssues("VRInt", '$n', 0, 0, [msg]);
     }
     return null;
@@ -113,9 +112,8 @@ class VRInt extends VR<int> {
 
   List<int> copyBytes(TypedData list) {
     int length = list.lengthInBytes ~/ list.elementSizeInBytes;
-    return fromBytes(list, 0,length, false);
+    return fromBytes(list, 0, length, false);
   }
-
 
   // The constants defined below are in the order of the next line:
   // index, code, id, elementSize, vfLengthFieldSize, maxVFLength, keyword

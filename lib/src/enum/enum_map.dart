@@ -4,18 +4,16 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
-
 class EnumMap {
-
   const EnumMap(Map<String, dynamic> map);
 
-  static const kUniversalEntityIDType = const <String, dynamic>  {
-  "DNS": "Domain Name System",
-  "EUI64":  "IEEE Extended Unique Idnetifier",
-  "ISO": "An International Standards Organization Object Identifier",
-  "URI": "Universal Resource Identifier",
-  "UUID": "Universal Unique Identifier",
-  "X400": "X400 MHS Identifier",
-  "X500": "X500 Directory Name"
+  static const kUniversalEntityIDType = const <String, dynamic>{
+    "DNS": "Domain Name System",
+    "EUI64": "IEEE Extended Unique Idnetifier",
+    "ISO": "An International Standards Organization Object Identifier",
+    "URI": "Universal Resource Identifier",
+    "UUID": "Universal Unique Identifier",
+    "X400": "X400 MHS Identifier",
+    "X500": "X500 Directory Name"
   };
 }

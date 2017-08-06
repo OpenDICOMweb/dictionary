@@ -6866,8 +6866,7 @@ const Map<String, Map<int, PDTagKnown>> pcTagDefinitions =
     0x00210400: PDTagKnown.k4807,
     0x00210500: PDTagKnown.k4808
   },
-  "SCHICK TECHNOLOGIES - Image Security Creator ID":
-      const <int, PDTagKnown>{
+  "SCHICK TECHNOLOGIES - Image Security Creator ID": const <int, PDTagKnown>{
     //"@type": "PrivateDataTag",
     0x00290100: PDTagKnown.k4827
   },
@@ -7547,8 +7546,7 @@ const Map<String, Map<int, PDTagKnown>> pcTagDefinitions =
     0x80033000: PDTagKnown.k5306,
     0x80034000: PDTagKnown.k5307
   },
-  "ObjectModel (ID, Version, Place, PlaceDescription)":
-      const <int, PDTagKnown>{
+  "ObjectModel (ID, Version, Place, PlaceDescription)": const <int, PDTagKnown>{
     //"@type": "PrivateDataTag",
     0x81010000: PDTagKnown.k5308,
     0x81011000: PDTagKnown.k5309

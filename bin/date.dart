@@ -154,11 +154,11 @@ void goodDcmTimes() {
     '235959.111111',
   ];
 
-    log.debug('Bad Dates');
-    for (String s in goodDcmTimeList) {
-      Time time = Time.parse(s);
-      log.debug('  Time: "$s": $time');
-    }
+  log.debug('Bad Dates');
+  for (String s in goodDcmTimeList) {
+    Time time = Time.parse(s);
+    log.debug('  Time: "$s": $time');
+  }
 }
 
 const List<String> badDcmTimeList = const <String>[
@@ -183,8 +183,6 @@ const List<String> badDcmTimeList = const <String>[
 ];
 
 void badDcmTimes() {
-
-
   log.debug('Bad Dates');
   for (String s in badDcmTimeList) {
     Time t = Time.parse(s);

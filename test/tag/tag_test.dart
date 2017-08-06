@@ -37,7 +37,7 @@ void main() {
 void tagTest() {
   test('Simple Tag Test', () {
     for (int i = 0; i < tags.length; i++) {
-      Tag tag = PTag.lookupCode(tags[i], VR.kUN);
+      Tag tag = PTag.lookupByCode(tags[i], VR.kUN);
       log.debug('${tag.info}');
       log.debug(
           'isShort: ${tag.hasShortVF}, sizeInBytes: ${tag.vr.elementSize}');

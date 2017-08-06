@@ -4,11 +4,11 @@
 // Author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
-import 'package:common/logger.dart';
+import 'package:core/system.dart';
 import 'package:dictionary/src/string/parse.dart';
 import 'package:test/test.dart';
 
-final Logger log = new Logger('check_values_test', Level.debug);
+//Flush final Logger log = new Logger('check_values_test', Level.debug);
 
 void main() {
 // TODO: create good and bad data generators for these tests

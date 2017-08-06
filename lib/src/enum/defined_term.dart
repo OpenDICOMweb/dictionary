@@ -6,7 +6,6 @@
 
 /// The base [List] of a DICOM Defined Term that contains [String]s.
 class _DTBase {
-
   static const kPhotometricInterpretationBase = const [
     "MONOCHROME1", "MONOCHROME2", "PALETTE COLOR", "RGB", "HSV", // No reformat.
     "ARGB", "CMYK", "YBR_FULL", "YBR_FULL_422", "YBR_PARTIAL_422",
@@ -57,5 +56,5 @@ class DefinedTerm {
       !(base.contains(term) || _others.contains(term));
 
   static final kPhotometricInterpretation =
-    new DefinedTerm(_DTBase.kPhotometricInterpretationBase);
+      new DefinedTerm(_DTBase.kPhotometricInterpretationBase);
 }

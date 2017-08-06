@@ -97,9 +97,9 @@ bool _isCommonYear(int year) =>
     (year % 4 != 0) || (year % 400 == 0) && !(year % 100 == 0);*/
 
 bool _isLeapYear(int year) =>
-    (year % 4 == 0)&& (year % 100 != 0 || year % 400 == 0);
+    (year % 4 == 0) && (year % 100 != 0 || year % 400 == 0);
 
-bool _isCommonYear(int year) =>!_isLeapYear(year);
+bool _isCommonYear(int year) => !_isLeapYear(year);
 
 int _checkTimeZone(int sign, int hour, int minute) {
   int h = sign * hour;

@@ -8,8 +8,7 @@ import 'package:common/logger.dart';
 import 'package:dictionary/date_time.dart';
 import 'package:test/test.dart';
 
-final Logger log =
-    new Logger('date_time/utils_old.dart', Level.debug);
+final Logger log = new Logger('date_time/utils_old.dart', Level.debug);
 
 void main() {
   //Good dates
@@ -31,7 +30,7 @@ void main() {
       for (String s in goodDcmDateList) {
         log.debug('string: "$s"');
         //    DateTime value = DateTime.parse(s);
-        bool date = isValidDcmDate(s,  min: 8, max: 8);
+        bool date = isValidDcmDate(s, min: 8, max: 8);
         log.debug('  valid: $date');
         expect(date, true);
       }
@@ -41,7 +40,7 @@ void main() {
       for (String s in goodDcmDateList) {
         log.debug('string: "$s"');
         var issues = new ParseIssues("    getDcmDateIssues", s);
-        getDcmDateIssues(s,  min: 8, max: 8, issues: issues);
+        getDcmDateIssues(s, min: 8, max: 8, issues: issues);
         log.debug('  issues: "$issues"');
         expect(issues, equals(""));
         issues = new ParseIssues("    Date.issues", s);

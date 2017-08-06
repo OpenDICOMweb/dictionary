@@ -8,8 +8,7 @@ import 'package:common/logger.dart';
 import 'package:dictionary/src/date_time/date.dart';
 import 'package:test/test.dart';
 
-final Logger log =
-    new Logger('date_time/utils_old.dart', Level.debug);
+final Logger log = new Logger('date_time/utils_old.dart', Level.debug);
 
 void main() {
   group("epochTest", () {
@@ -17,12 +16,12 @@ void main() {
       int startDay = -1;
       int endDay = 1;
 
- //     int y = 1970;
+      //     int y = 1970;
       for (int i = 1; i <= 24; i++) {
-  //      int mp = (i + 9) % 12;
-  //      log.debug('m: $i, mp: $mp');
-  //      int yp = y - (mp ~/ 10);
-  //      log.debug('yp: $yp');
+        //      int mp = (i + 9) % 12;
+        //      log.debug('m: $i, mp: $mp');
+        //      int yp = y - (mp ~/ 10);
+        //      log.debug('yp: $yp');
       }
       for (int i = startDay; i <= endDay; i++) {
         int dayZero = epochDay(1970, 1, 1);
@@ -32,15 +31,15 @@ void main() {
         int dayPlusOne = epochDay(1970, 1, 1);
         if (dayPlusOne != 0) throw 'Day PlusOne error: $dayZero';
       }
-  //    log.debug('Success');
+      //    log.debug('Success');
     });
 
     test("Test for weekDayFromDay", () {
-  //    log.debug('v: ${(-10 + 5) % 7}');
-  //    log.debug('v: ${(-10 + 5) % 7}');
+      //    log.debug('v: ${(-10 + 5) % 7}');
+      //    log.debug('v: ${(-10 + 5) % 7}');
       for (int eDay = -100000; eDay < 100000; eDay++) {
         int wd = weekdayFromEpochDay(eDay);
-   //     log.debug('$eDay: weekDay: $wd');
+        //     log.debug('$eDay: weekDay: $wd');
         if (wd < 0 || wd > 6) throw 'bad weekday: $wd';
       }
     });
@@ -48,8 +47,8 @@ void main() {
     test("Test for lastDayOfMonth", () {
       for (int y = 1970; y < 1973; y++) {
         for (int m = 1; m < 13; m++) {
-   //       int last = lastDayOfMonth(y, m);
-  //        log.debug('$y: $m: last: $last');
+          //       int last = lastDayOfMonth(y, m);
+          //        log.debug('$y: $m: last: $last');
         }
       }
     });

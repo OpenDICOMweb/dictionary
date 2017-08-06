@@ -14,50 +14,44 @@ class PhotometricInterpretation {
   final String id;
   final Term term;
 
-  const PhotometricInterpretation(this.id, this.term,
-      [bool isRetired = false]);
+  const PhotometricInterpretation(this.id, this.term, [bool isRetired = false]);
 
   static PhotometricInterpretation lookup(String id) => map[id];
 
   Iterable<String> get keys => map.keys;
 
   static const PhotometricInterpretation kMonochrome1 =
-      const PhotometricInterpretation(
-          "MONOCHROME1", Term.kMonochrome1);
+      const PhotometricInterpretation("MONOCHROME1", Term.kMonochrome1);
 
   static const PhotometricInterpretation kMonochrome2 =
-      const PhotometricInterpretation(
-           "MONOCHROME2", Term.kMonochrome2);
+      const PhotometricInterpretation("MONOCHROME2", Term.kMonochrome2);
 
   static const PhotometricInterpretation kMonochrome3 =
-      const PhotometricInterpretation(
-           "MONOCHROME3", Term.kMonochrome3);
+      const PhotometricInterpretation("MONOCHROME3", Term.kMonochrome3);
 
   static const PhotometricInterpretation kRGB =
-      const PhotometricInterpretation( "RGB", Term.kRGB);
+      const PhotometricInterpretation("RGB", Term.kRGB);
 
   static const PhotometricInterpretation kHSV =
-      const PhotometricInterpretation( "HSV", Term.kHSV, true);
+      const PhotometricInterpretation("HSV", Term.kHSV, true);
 
   static const PhotometricInterpretation kARGB =
-      const PhotometricInterpretation( "ARGB", Term.kARGB, true);
+      const PhotometricInterpretation("ARGB", Term.kARGB, true);
 
   static const PhotometricInterpretation kCMYK =
-      const PhotometricInterpretation( "CMYK", Term.kCMYK, true);
+      const PhotometricInterpretation("CMYK", Term.kCMYK, true);
 
   // ignore: constant_identifier_names
   static const PhotometricInterpretation kYBR_FULL =
-      const PhotometricInterpretation( "YBR_FULL", Term.kYBR_FULL);
+      const PhotometricInterpretation("YBR_FULL", Term.kYBR_FULL);
 
   // ignore: constant_identifier_names
   static const PhotometricInterpretation kYBR_FULL_422 =
-      const PhotometricInterpretation(
-         "YBR_FULL_422", Term.kYBR_FULL_422);
+      const PhotometricInterpretation("YBR_FULL_422", Term.kYBR_FULL_422);
 
   // ignore: constant_identifier_names
   static const PhotometricInterpretation kYBR_PARTIAL_422 =
-      const PhotometricInterpretation(
-           "YBR_PARTIAL_422", Term.kYBR_PARTIAL_422);
+      const PhotometricInterpretation("YBR_PARTIAL_422", Term.kYBR_PARTIAL_422);
 
   // ignore: constant_identifier_names
   static const PhotometricInterpretation kYBR_PARTIAL_420 =

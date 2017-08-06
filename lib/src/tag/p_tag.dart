@@ -15,7 +15,6 @@ import 'package:dictionary/src/tag/tag.dart';
 import 'package:dictionary/src/vm.dart';
 import 'package:dictionary/src/vr/vr.dart';
 
-
 //TODO: is hashCode needed?
 class PTag extends Tag {
   @override
@@ -38,7 +37,7 @@ class PTag extends Tag {
   */
 
   factory PTag(int code, [VR vr = VR.kUN, dynamic name = ""]) {
-    var tag = lookupCode(code, vr);
+    var tag = lookupByCode(code, vr);
     return (tag != null) ? tag : new PTag.unknown(code, vr, name);
   }
 
@@ -81,7 +80,7 @@ class PTag extends Tag {
   bool get isWKFmi => fmiTags.contains(code);
 
   static PTag maker(int code, VR vr, [dynamic name]) {
-    var tag = lookupCode(code, vr);
+    var tag = lookupByCode(code, vr);
     if (tag != null) return tag;
     return new PTag.unknown(code, vr);
   }
@@ -90,8 +89,7 @@ class PTag extends Tag {
     return new PTag.unknown(code, vr);
   }
 
-  //TODO: this should become public when fully converted to Tags.
-  static PTag lookupCode(int code, [VR vr = VR.kUN, bool shouldThrow = true]) {
+  static PTag lookupByCode(int code, [VR vr = VR.kUN, bool shouldThrow = true]) {
     assert(Tag.isPublicCode(code));
     PTag tag = pTagCodes[code];
     if (tag != null) return tag;
@@ -152,14 +150,15 @@ class PTag extends Tag {
   }
 
   static int keywordToCode(String keyword) {
-    var tag = lookupKeyword(keyword);
+    var tag = lookupByKeyword(keyword);
     return (tag == null) ? null : tag.code;
   }
 
   //TODO: make keyword lookup work
   /// Currently can only be used to lookup Public [PTag]s as Private [PTag]s
   /// don't have [keyword]s.
-  static PTag lookupKeyword(String keyword, [bool shouldThrow = true]) {
+  static PTag lookupByKeyword(String keyword, [VR vr, bool shouldThrow =
+  true]) {
     PTag tag = pTagKeywords[keyword];
     if (tag != null) return tag;
 
@@ -7425,9 +7424,9 @@ class PTag extends Tag {
       = const PTag._(
           "ICCProfile", 0x00282000, "ICC Profile", VR.kOB, VM.k1, false);
   static const PTag kColorSpace
-  //(0028,2000)
-  = const PTag._(
-      "ColorSpace", 0x00282002, "Color Space", VR.kCS, VM.k1, false);
+      //(0028,2000)
+      = const PTag._(
+          "ColorSpace", 0x00282002, "Color Space", VR.kCS, VM.k1, false);
   static const PTag kLossyImageCompression
       //(0028,2110)
       = const PTag._("LossyImageCompression", 0x00282110,
@@ -16310,9 +16309,8 @@ class PTag extends Tag {
       "FloatPixelData", 0x7FE00008, "Float Pixel Data", VR.kOF, VM.k1, false);
   static const PTag kDoubleFloatPixelData = const PTag._("DoubleFloatPixelData",
       0x7FE00009, "Double Float Pixel Data", VR.kOD, VM.k1, false);
-  static const PTag kPixelData =
-      const PTag._("PixelData", 0x7FE00010, "Pixel Data", VR.kOBOW, VM.k1,
-          false);
+  static const PTag kPixelData = const PTag._(
+      "PixelData", 0x7FE00010, "Pixel Data", VR.kOBOW, VM.k1, false);
   static const PTag kCoefficientsSDVN
       //(7FE0,0020)
       = const PTag._("CoefficientsSDVN", 0x7FE00020, "Coefficients SDVN",
@@ -16617,13 +16615,23 @@ class PublicGroupLengthTag extends PTag {
   // Group Length Tags
   PublicGroupLengthTag(int code)
       : super._(
-            "kPublic${Int.hex(code, 8, "")}GroupLength",
+            "kPublicGroupLength${Int.hex(code, 8, "")}",
             code,
             "Public Group Length for ${Tag.toDcm(code)}",
             VR.kUL,
             VM.k1,
             true,
             EType.k3);
+
+  PublicGroupLengthTag.keyword(String keyword)
+      : super._(
+      "kPublicGroupLength$keyword",
+      int.parse(keyword),
+      "Public Group Length for $keyword",
+      VR.kUL,
+      VM.k1,
+      true,
+      EType.k3);
 
   static Tag maker(int code, VR _, [__]) => new PublicGroupLengthTag(code);
 }
@@ -16635,13 +16643,23 @@ class UnknownPublicTag extends PTag {
   // Group Length Tags
   UnknownPublicTag(int code, VR vr)
       : super._(
-            "kUnknownPublic${Int.hex(Group.fromTag(code), 4, "")}",
+            "kUnknownPublicTag_${Int.hex(Group.fromTag(code), 4, "")}",
             code,
             "Unknown DICOM Tag ${Tag.toDcm(code)}",
             vr,
             VM.k1_n,
             false,
             EType.k3);
+
+  UnknownPublicTag.keyword(String keyword, VR vr)
+      : super._(
+      "kUnknownPublicKeyword_$keyword",
+      int.parse(keyword),
+      "Unknown DICOM Tag $keyword",
+      vr,
+      VM.k1_n,
+      false,
+      EType.k3);
 
   @override
   bool get isKnown => false;

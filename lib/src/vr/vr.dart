@@ -156,7 +156,7 @@ abstract class VR<T> {
   static const VR kUT = VRDcmText.kUT;
 
   // Placeholder for Bulkdata Reference
-   static const VR kBR = VRUnknown.kBR;
+  static const VR kBR = VRUnknown.kBR;
 
   // Special values used by Tag
   static const VR kOBOW = VR.kUN;
@@ -220,8 +220,15 @@ class VRUnknown extends VR<int> {
       const VRUnknown._(29, 0x4e55, "UN", 1, 4, kMaxUN, "Unknown");
 
   //TODO: this should have its own class
-  static const VRUnknown kBR = const VRUnknown._(4, 0x5242, "BR", 0, 0, -1, "B"
-  "DRef");
+  static const VRUnknown kBR = const VRUnknown._(
+      4,
+      0x5242,
+      "BR",
+      0,
+      0,
+      -1,
+      "B"
+      "DRef");
 }
 
 //TODO: clean this up. remove VR.kUnknown and VR.kBR. How to handle SQ
@@ -244,13 +251,11 @@ class VRSequence extends VR<int> {
       const VRSequence._(22, 0x5153, "SQ", 1, 4, kMaxLongVF, "Sequence");
 }
 
-
 class VRInvalid extends VR<int> {
   const VRInvalid._(int index, int code, String id, int elementSize,
       int vfLengthSize, int maxVFLength, String keyword)
       : super(index, code, id, 1, 4, kMaxLongVF, keyword);
 
-  static const VRUnknown kInvalid = const VRUnknown._(0, 0, "Invalid", 0, 0,
-      0, "Invalid VR");
+  static const VRUnknown kInvalid =
+      const VRUnknown._(0, 0, "Invalid", 0, 0, 0, "Invalid VR");
 }
-

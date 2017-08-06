@@ -17,11 +17,11 @@ void main() {
     '20161229000000',
     '19991025235959',
     '20170223122334.111111',
-    '20120228105630',// leap year
-    '20080229105630',// leap year
-    '20160229105630',// leap year
-    '20200125105630',// leap year
-    '20240229105630',// leap year
+    '20120228105630', // leap year
+    '20080229105630', // leap year
+    '20160229105630', // leap year
+    '20200125105630', // leap year
+    '20240229105630', // leap year
   ];
 
   List<String> badDcmDateTimeList = [
@@ -70,7 +70,7 @@ void main() {
   group('isValid', () {
     test('isValid Good and Bad DcmDateTime', () {
       for (String dt in goodDcmDateTimeList) {
-        DcmDateTime dateTime =DcmDateTime.parse(dt);
+        DcmDateTime dateTime = DcmDateTime.parse(dt);
         expect(dateTime is DcmDateTime, true);
         expect(DcmDateTime.isValidString(dt), true);
       }
@@ -83,7 +83,7 @@ void main() {
     });
 
     test('issues', () {
- //     var dt = new DcmDateTime(2016, 05, 15, 04, 22, 14);
+      //     var dt = new DcmDateTime(2016, 05, 15, 04, 22, 14);
       for (String s in goodDcmDateTimeList) {
         ParseIssues issues = DcmDateTime.issues(s);
         expect(issues.isEmpty, true);
@@ -101,25 +101,23 @@ void main() {
       expect(parseTimeZone(tzValid) == (((14 * 60) + 45)), false);
 
       String tzInValid = '1200';
-    //  expect(() => parseTimeZone(tzInValid),
-    //      throwsA(new isInstanceOf<Error>()));
+      //  expect(() => parseTimeZone(tzInValid),
+      //      throwsA(new isInstanceOf<Error>()));
       expect(parseTimeZone(tzInValid), isNull);
-
 
       tzInValid = '-1240';
-    //  expect(() => parseTimeZone(tzInValid),
-    //      throwsA(new isInstanceOf<Error>()));
+      //  expect(() => parseTimeZone(tzInValid),
+      //      throwsA(new isInstanceOf<Error>()));
       expect(parseTimeZone(tzInValid), isNull);
 
-
       tzInValid = '1500';
-   //   expect(() => parseTimeZone(tzInValid),
-   //       throwsA(new isInstanceOf<Error>()));
+      //   expect(() => parseTimeZone(tzInValid),
+      //       throwsA(new isInstanceOf<Error>()));
       expect(parseTimeZone(tzInValid), isNull);
 
       tzInValid = '-1300+';
-   //   expect(() => parseTimeZone(tzInValid),
-   //       throwsA(new isInstanceOf<Error>()));
+      //   expect(() => parseTimeZone(tzInValid),
+      //       throwsA(new isInstanceOf<Error>()));
       expect(parseTimeZone(tzInValid), isNull);
     });
   });

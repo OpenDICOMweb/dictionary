@@ -8,6 +8,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:common/common.dart';
+import 'package:core/system.dart';
 import 'package:dictionary/src/constants.dart';
 import 'package:dictionary/src/e_type.dart';
 import 'package:dictionary/src/errors.dart';
@@ -224,7 +225,7 @@ class Tag {
   //TODO: should be modified when EType info is available.
   bool hasValidValues<V>(List<V> values) {
     assert(values != null);
- //   if (values == null) return false;
+    //   if (values == null) return false;
     if (vr == VR.kUN) return true;
     if (isNotValidLength(values.length)) return false;
     for (int i = 0; i < values.length; i++)
@@ -268,9 +269,8 @@ class Tag {
     return sList;
   }
 
-  List<E> checkValues<E>(List<E> values) => (hasValidValues(values))
-      ? values
-      : null;
+  List<E> checkValues<E>(List<E> values) =>
+      (hasValidValues(values)) ? values : null;
 
   // Placeholder until VR is integrated into TagBase
   List<E> checkValue<E>(dynamic value) => vr.isValid(value) ? value : null;
@@ -344,21 +344,50 @@ class Tag {
     return '$runtimeType: $dcm $keyword, $vr, $vm, $retired';
   }
 
-  //TODO: improve doc.
+  static Tag lookup(dynamic key, [VR vr = VR.kUN, dynamic creator]) {
+    if (key is int) lookupByCode(key, vr, creator);
+    if (key is String) lookupByKeyword(key, vr, creator);
+    if (throwOnError) throw new InvalidTagKeyError(key, vr, creator);
+    return null;
+  }
+  //TODO: redoc
   /// Returns an appropriate [Tag] based on the arguments.
-  static Tag lookup(int code, [VR vr = VR.kUN, dynamic creator]) {
+  static Tag lookupByCode(int code, [VR vr = VR.kUN, dynamic creator]) {
     if (Tag.isPublicCode(code)) return Tag.lookupPublicCode(code, vr);
     if (Tag.isPrivateCode(code)) {
-      if (Tag.isPrivateGroupLengthCode(code)) return new PrivateGroupLengthTag(code, vr);
+      if (Tag.isPrivateGroupLengthCode(code))
+        return new PrivateGroupLengthTag(code, vr);
       if (Tag.isPrivateCreatorCode(code)) return new PCTag(code, vr, creator);
       if (Tag.isPrivateDataCode(code)) return new PDTag(code, vr, creator);
       throw 'Error: Unknown Private Tag Code${Tag.toDcm(code)}';
     } else {
-    // This should never happen
-    //throw 'Error: Unknown Tag Code${Tag.toDcm(code)}';
+      // This should never happen
+      //throw 'Error: Unknown Tag Code${Tag.toDcm(code)}';
       return null;
     }
   }
+
+  static Tag lookupByKeyword(String keyword, [VR vr = VR.kUN, dynamic
+  creator]) {
+/*    Tag tag = Tag.lookupKeyword(keyword, vr);
+    if (tag != null) return tag;
+    tag = Tag.lookupPrivateCreatorKeyword(keyword, vr) {
+      if (Tag.isPrivateGroupLengthKeyword(keyword))
+        return new PrivateGroupLengthTagFromKeyword(keyword, vr);
+      if (Tag.isPrivateCreatorKeyword(keyword))
+        return new PCTag.keyword(keyword, vr, creator);
+      if (Tag.isPrivateDataKeyword(keyword))
+        return new PDTag.keyword(keyword, vr, creator);
+      throw 'Error: Unknown Private Tag Code$keyword';
+    } else {
+      // This should never happen
+      //throw 'Error: Unknown Tag Code${Tag.toDcm(code)}';
+      return null;
+    }*/
+  throw new UnimplementedError();
+  }
+
+
 
   //TODO: Use the 'package:collection/collection.dart' ListEquality
   //TODO:  decide if this ahould be here
@@ -375,11 +404,19 @@ class Tag {
 
   //TODO: needed or used?
   static Tag lookupPublicCode(int code, VR vr) {
-    Tag tag = PTag.lookupCode(code, vr);
+    Tag tag = PTag.lookupByCode(code, vr);
     if (tag != null) return tag;
     if (Tag.isPublicGroupLengthCode(code))
       return new PublicGroupLengthTag(code);
     return new UnknownPublicTag(code, vr);
+  }
+
+  static Tag lookupPublicKeyword(String keyword, VR vr) {
+    Tag tag = PTag.lookupByKeyword(keyword, vr);
+    if (tag != null) return tag;
+    if (Tag.isPublicGroupLengthKeyword(keyword))
+      return new PublicGroupLengthTag.keyword(keyword);
+    return new UnknownPublicTag.keyword(keyword, vr);
   }
 
   static Tag lookupPrivateCreatorCode(int code, VR vr, String token) {
@@ -391,7 +428,6 @@ class Tag {
 
   static PDTagKnown lookupPrivateDataCode(
           int code, VR vr, PCTagKnown creator) =>
-
       creator.lookupData(code);
 
   /// Returns a [String] corresponding to [tag], which might be an
@@ -438,6 +474,16 @@ class Tag {
 
   static bool isPublicGroupLengthCode(int code) =>
       Group.isPublic(Group.fromTag(code)) && Elt.fromTag(code) == 0;
+
+  static bool isPublicGroupLengthKeyword(String keyword) =>
+      keyword == 'PublicGroupLengthKeyword' ||
+      isPublicGroupLengthKeywordCode(keyword);
+
+  //TODO: test - needs to handle 'oxGGGGEEEE' and 'GGGGEEEE'
+  static bool isPublicGroupLengthKeywordCode(String keywordCode) {
+    int code = int.parse(keywordCode, radix: 16, onError: (String s) => null);
+    return (Elt.fromTag(code) == 0) ? true : false;
+  }
 
   /// Returns true if [code] is a valid Private Creator Code.
   static bool isPrivateCreatorCode(int code) =>

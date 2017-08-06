@@ -10,7 +10,7 @@ import 'package:dictionary/src/vr/vr.dart';
 import 'package:test/test.dart';
 import 'package:test_tools/tools.dart';
 
-final Logger log = new Logger('uint_test.dart', Level.info);
+//Flush final Logger log = new Logger('uint_test.dart', Level.info);
 
 //Urgent: why is every test a group by itself
 //Urgent: I rewrote this to remove the groups.
@@ -453,19 +453,19 @@ void stringVRsTest() {
     //Urgent: make this work
     //noOfgroups=3, noOfomponents=5, componentLength=8
     List<String> vList0 = rsg.getPNList(3, 5, 4, 10);
-    for(String s in vList0) expect(VR.kPN.isValid(s), true);
+    for (String s in vList0) expect(VR.kPN.isValid(s), true);
 
     //noOfgroups=3, noOfomponents=5, componentLength=11
     vList0 = rsg.getPNList(3, 5, 6, 12);
-    for(String s in vList0) expect(VR.kPN.isValid(s), true);
+    for (String s in vList0) expect(VR.kPN.isValid(s), true);
 
     //noOfgroups=3, noOfomponents=5, componentLength=13
     vList0 = rsg.getPNList(3, 8, 14);
-    for(String s in vList0) expect(VR.kPN.isValid(s), true);
+    for (String s in vList0) expect(VR.kPN.isValid(s), true);
 
     //noOfgroups=2, noOfomponents=5, componentLength=13
     vList0 = rsg.getPNList(2, 5, 10, 16);
-    for(String s in vList0) expect(VR.kPN.isValid(s), true);
+    for (String s in vList0) expect(VR.kPN.isValid(s), true);
   }); //, skip: 'need getPNList to be implemented');
 
   test("isValid Time (TM)", () {
