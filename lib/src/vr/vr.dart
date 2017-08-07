@@ -39,7 +39,7 @@ abstract class VR<T> {
   bool get isUtf8 => false;
 
   bool get isSequence => false;
-
+  bool get isUnknown => false;
   bool get isItem => false;
 
   /// The minimum length of a value.
@@ -76,7 +76,8 @@ abstract class VR<T> {
   bool isValidType(dynamic value) => false;
 
   /// Returns true if the [List] [Type] of values is valid for [this].
-  bool isValidValuesType<Item>(List values) => false;
+  bool isValidValuesType(List<T> values) =>
+    throw new UnsupportedError('This should never be called');
 
   bool isValidLength(int length) => false;
 
@@ -220,6 +221,10 @@ class VRUnknown extends VR<int> {
   @override
   bool get isBinary => true;
   @override
+  bool get isInteger => true;
+  @override
+  bool get isUnknown => true;
+  @override
   bool get isString => false;
 
   /// Returns [true] of [value] is UN.
@@ -232,10 +237,10 @@ class VRUnknown extends VR<int> {
 
   /// Returns true if the [Type] of values is [List<int>].
   @override
-  bool isValidValuesType<int>(List values) => values is List<int>;
+  bool isValidValuesType(List values) => values is List<int>;
 
   //index, code, id, elementSize, vfLengthSize, maxVFLength, keyword
-  /// UN - Unknown. The supertype of all VRs
+  /// UN - Unknown. The supertype of all VRs.
   static const VRUnknown kUN =
       const VRUnknown._(29, 0x4e55, "UN", 1, 4, kMaxUN, "Unknown");
 
@@ -275,12 +280,18 @@ class VRSequence extends VR<int> {
 
   /// Returns true if the [Type] of values is [List<int>].
   @override
-  bool isValidValuesType<Item>(List values) => values is List<Item>;
+  bool isValidValuesType(List vList) {
+    for (var v in vList) if (!v.isItem) return false;
+    return true;
+  }
 
+
+/* Flush if not needed
   //index, code, id, elementSize, vfLengthSize, maxVFLength, keyword
   /// UN - Unknown. The supertype of all VRs
   static const VRUnknown kUN =
-      const VRUnknown._(29, 0x4e55, "UN", 1, 4, kMaxUN, "Unknown");
+  const VRUnknown._(29, 0x4e55, "UN", 1, 4, kMaxUN, "Unknown");
+*/
 
   //index, code, id, elementSize, vfLengthSize, maxVFLength, keyword
   static const VR kSQ =

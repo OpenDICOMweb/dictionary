@@ -43,7 +43,7 @@ class VRFloat extends VR<double> {
 
   /// Returns true if the [Type] of values is [double].
   @override
-  bool isValidValuesType<double>(List values) => values is List<double>;
+  bool isValidValuesType(List values) => values is List<double>;
 
   // [true] if [this] is one of OF, OD;
   @override

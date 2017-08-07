@@ -566,7 +566,7 @@ class WKUid extends UidString {
       true,
       "Study Component Management SOP Class (Retired)");
   static const WKUid kModalityPerformedProcedureStepSOPClass = const WKUid(
-      "1.­2.840.10008.3.1.2.3.3",
+      "1.2.840.10008.3.1.2.3.3",
       "ModalityPerformedProcedureStepSOPClass",
       UidType.kSOPClass,
       false,
@@ -582,7 +582,7 @@ class WKUid extends UidString {
   );
   static const WKUid kModalityPerformedProcedureStepNotificationSOPClass =
       const WKUid(
-    "1.­2.840.10008.3.1.2.3.5",
+    "1.2.840.10008.3.1.2.3.5",
     "ModalityPerformedProcedureStepNotificationSOPClass",
     UidType.kSOPClass,
     false,

@@ -5,8 +5,8 @@
 
 import 'dart:math';
 
-import 'package:common/logger.dart';
-import 'package:common/number.dart';
+import 'package:common/common.dart';
+import 'package:core/core.dart';
 import 'package:dictionary/dictionary.dart';
 import 'package:test/test.dart';
 import 'package:test_tools/random_string.dart' as rsg;
@@ -29,6 +29,8 @@ void validateTest() {
   //   "Number of Zero Fills", VR.kUS, VM.k1_2, false);
 
   group("Tag validators in tag", () {
+    throwOnError = false;
+
     test("test for isvalidvalues", () {
       var listsInt = new List<int>();
       //Urgent: Create legal and illegal String list generators for each VR
@@ -43,6 +45,7 @@ void validateTest() {
       }
       log.debug('CS: "$listsInt"');
       log.debug('tagCS0: vr: ${tagCS0.vr}, index: ${tagCS0.vr.index}');
+
       expect(tagCS0.hasValidValues(listsInt), false);
       //Urgent: add test for invalid Strings
       expect(tagCS1.hasValidValues(listsStr), true);

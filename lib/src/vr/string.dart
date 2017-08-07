@@ -59,7 +59,11 @@ abstract class VRString extends VR<String> {
 
   /// Returns true if the [Type] of values is [List<String>].
   @override
-  bool isValidValuesType<String>(List values) => values is List<String>;
+  bool isValidValuesType(List<dynamic> vList) {
+    for (var v in vList)
+      if (!isValid(v)) return false;
+      return true;
+  }
 
   /// Returns a [List<String>] converted from [bytes].
   List<String> bytesToValues(Uint8List bytes) {

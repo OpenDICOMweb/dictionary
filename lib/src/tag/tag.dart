@@ -224,13 +224,22 @@ class Tag {
   /// [width]: The [width] of the matrix of values. If [width == 0,
   /// then singleton; otherwise must be greater than 0;
   //TODO: should be modified when EType info is available.
-  bool hasValidValues<V>(List<V> values) {
-    assert(values != null);
+  bool hasValidValues<V>(List<V> values, [bool throwOnError = false]) {
     if (vr == VR.kUN) return true;
-    if (!isValidValuesType(values)) return false;
-    if (isNotValidLength(values.length)) return false;
+    if (values == null) return false;
+    if (!isValidValuesType(values)) {
+      if (throwOnError) throw new InvalidValuesTypeError(this, values);
+      return false;
+    }
+    if (isNotValidLength(values.length)) {
+      if (throwOnError) throw new InvalidValuesLengthError(this, values);
+      return false;
+    }
     for (int i = 0; i < values.length; i++)
-      if (isNotValidValue(values[i])) return false;
+      if (isNotValidValue(values[i])) {
+        if (throwOnError) throw new InvalidValuesError(this, values);
+        return false;
+      }
     return true;
   }
 
@@ -240,8 +249,6 @@ class Tag {
     if (e == null) return false;
     return hasValidValues(e.values);
   }
-
-
 
 /* Flush when working
   bool hasValidValues<V>(List<V> values) {
@@ -363,7 +370,7 @@ class Tag {
   @override
   String toString() {
     String retired = (isRetired == false) ? "" : ", (Retired)";
-    return '$runtimeType: $dcm $keyword, $vr, $vm, $retired';
+    return '$runtimeType: $dcm $keyword, $vr, $vm$retired';
   }
 
   static Tag lookup(dynamic key, [VR vr = VR.kUN, dynamic creator]) {
@@ -372,6 +379,7 @@ class Tag {
     if (throwOnError) throw new InvalidTagKeyError(key, vr, creator);
     return null;
   }
+
   //TODO: redoc
   /// Returns an appropriate [Tag] based on the arguments.
   static Tag lookupByCode(int code, [VR vr = VR.kUN, dynamic creator]) {
@@ -389,8 +397,8 @@ class Tag {
     }
   }
 
-  static Tag lookupByKeyword(String keyword, [VR vr = VR.kUN, dynamic
-  creator]) {
+  static Tag lookupByKeyword(String keyword,
+      [VR vr = VR.kUN, dynamic creator]) {
 /*    Tag tag = Tag.lookupKeyword(keyword, vr);
     if (tag != null) return tag;
     tag = Tag.lookupPrivateCreatorKeyword(keyword, vr) {
@@ -406,10 +414,8 @@ class Tag {
       //throw 'Error: Unknown Tag Code${Tag.toDcm(code)}';
       return null;
     }*/
-  throw new UnimplementedError();
+    throw new UnimplementedError();
   }
-
-
 
   //TODO: Use the 'package:collection/collection.dart' ListEquality
   //TODO:  decide if this ahould be here

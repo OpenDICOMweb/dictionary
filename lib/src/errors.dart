@@ -5,6 +5,7 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:common/number.dart';
+import 'package:core/system.dart';
 import 'package:dictionary/dictionary.dart';
 
 class InvalidTagError extends Error {
@@ -78,6 +79,45 @@ class InvalidGroupError extends Error {
 
   @override
   String toString() => 'Invalid DICOM Group: ${Uint16.hex(group)}';
+}
+
+class InvalidValuesError extends Error {
+  final Tag tag;
+  final List values;
+
+  InvalidValuesError(this.tag, this.values) {
+    if (log != null) log.error(toString());
+  }
+
+  @override
+  String toString() => '$runtimeType:\n  Tag(${tag.info})'
+      '\n  values: ${values}';
+}
+
+class InvalidValuesTypeError extends Error {
+  final Tag tag;
+  final List values;
+
+  InvalidValuesTypeError(this.tag, this.values) {
+    if (log != null) log.error(toString());
+  }
+
+  @override
+  String toString() => '$runtimeType:\n  Tag(${tag.info})'
+      '\n  values: $values';
+}
+
+class InvalidValuesLengthError extends Error {
+  final Tag tag;
+  final List values;
+
+  InvalidValuesLengthError(this.tag, this.values) {
+    if (log != null) log.error(toString());
+  }
+
+  @override
+  String toString() => '$runtimeType:\n  Tag(${tag.info})'
+      '\n  values: $values';
 }
 
 dynamic groupError(Object obj) => throw new InvalidTagError(obj);

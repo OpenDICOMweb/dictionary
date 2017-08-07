@@ -88,7 +88,7 @@ class VRInt extends VR<int> {
 
   /// Returns true if the [Type] of values is [int].
   @override
-  bool isValidValuesType<int>(List values) => values is List<int>;
+  bool isValidValuesType(List values) => values is List<int>;
 
   // [true] if [this] is one of OB, OL, OW, or UN;
   @override

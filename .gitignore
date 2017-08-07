@@ -95,3 +95,4 @@ pubspec.lock
 /lib/src/vr/other/
 .idea/
 /logger.log
+!/lib/src/vr/vr.dart
