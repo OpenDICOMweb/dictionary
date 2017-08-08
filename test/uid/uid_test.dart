@@ -70,10 +70,10 @@ void uidTest() {
     });
 
     test('String to TransferSyntax', () {
-      Uid uid = TransferSyntax.lookup("1.2.840.10008.1.2");
-      expect(uid == TransferSyntax.kImplicitVRLittleEndian, true);
-      uid = TransferSyntax.lookup("1.2.840.10008.1.2.1");
-      expect(uid == TransferSyntax.kExplicitVRLittleEndian, true);
+      Uid uid = TransferSyntaxUid.lookup("1.2.840.10008.1.2");
+      expect(uid == TransferSyntaxUid.kImplicitVRLittleEndian, true);
+      uid = TransferSyntaxUid.lookup("1.2.840.10008.1.2.1");
+      expect(uid == TransferSyntaxUid.kExplicitVRLittleEndian, true);
     });
   });
 }

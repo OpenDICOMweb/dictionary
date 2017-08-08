@@ -11,7 +11,6 @@ import 'package:common/common.dart';
 import 'package:core/system.dart';
 import 'package:dictionary/src/constants.dart';
 import 'package:dictionary/src/e_type.dart';
-import 'package:dictionary/src/errors.dart';
 import 'package:dictionary/src/tag/constants.dart';
 import 'package:dictionary/src/tag/element.dart';
 import 'package:dictionary/src/tag/elt.dart';

@@ -4,7 +4,6 @@
 // Original author: Jim Philbin <jfphilbin@gmail.edu> -
 // See the AUTHORS file for other contributors.
 
-export 'package:dictionary/src/errors.dart';
 export 'package:dictionary/src/issues/parse_issues.dart';
 export 'package:dictionary/src/issues/values_issues.dart';
 export 'package:dictionary/src/tag/constants.dart';
@@ -12,8 +11,9 @@ export 'package:dictionary/src/tag/elt.dart';
 export 'package:dictionary/src/tag/group.dart';
 export 'package:dictionary/src/tag/p_tag.dart';
 export 'package:dictionary/src/tag/private/pc_tag.dart';
-//export 'package:dictionary/src/tag/private/pc_tags.dart';
 export 'package:dictionary/src/tag/private/pd_tag.dart';
 export 'package:dictionary/src/tag/private/private_tag.dart';
 export 'package:dictionary/src/tag/tag.dart';
 export 'package:dictionary/src/tag/tag_map.dart';
+//export 'package:dictionary/src/tag/private/pc_tags.dart';
+

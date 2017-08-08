@@ -5,7 +5,6 @@
 
 import 'package:core/system.dart';
 import 'package:dictionary/date_time.dart';
-import 'package:dictionary/src/errors.dart';
 import 'package:dictionary/src/issues/parse_issues.dart';
 import 'package:dictionary/src/string/parse.dart';
 

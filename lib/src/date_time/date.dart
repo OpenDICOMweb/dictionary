@@ -3,7 +3,7 @@
 // that can be found in the LICENSE file.
 // See the AUTHORS file for contributors.
 
-import 'package:dictionary/src/errors.dart';
+import 'package:core/system.dart';
 import 'package:dictionary/src/string/parse.dart';
 import 'package:dictionary/src/issues/parse_issues.dart';
 

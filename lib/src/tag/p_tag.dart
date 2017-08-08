@@ -5,8 +5,8 @@
 // See the AUTHORS file for other contributors.
 
 import 'package:common/common.dart';
+import 'package:core/system.dart';
 import 'package:dictionary/src/e_type.dart';
-import 'package:dictionary/src/errors.dart';
 import 'package:dictionary/src/tag/elt.dart';
 import 'package:dictionary/src/tag/group.dart';
 import 'package:dictionary/src/tag/p_tag_codes.dart';

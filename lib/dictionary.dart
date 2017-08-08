@@ -15,7 +15,6 @@ export 'package:dictionary/src/entity/ie_level.dart';
 export 'package:dictionary/src/enum/defined_term.dart';
 export 'package:dictionary/src/enum/enum_value.dart';
 export 'package:dictionary/src/enum/universal_entity_id_type.dart';
-export 'package:dictionary/src/errors.dart';
 export 'package:dictionary/src/modality.dart';
 export 'package:dictionary/src/person_name.dart';
 export 'package:dictionary/src/sex.dart';

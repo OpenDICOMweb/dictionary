@@ -6,7 +6,6 @@
 
 import 'package:common/ascii.dart';
 import 'package:core/system.dart';
-import 'package:dictionary/src/errors.dart';
 import 'package:dictionary/src/issues/parse_issues.dart';
 
 // TODO: remove logging before version 0.9.0
