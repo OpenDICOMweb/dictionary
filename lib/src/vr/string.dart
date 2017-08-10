@@ -57,12 +57,12 @@ abstract class VRString extends VR<String> {
 
   /// Returns [true] if [values] is [List<String>].
   @override
-  bool isValidType(Object values) => values is List<String>;
+  bool isValidType(Object values) => values is String;
 
   /// Returns true if the [Type] of values is [List<String>].
   @override
   bool isValidValuesType(List<dynamic> vList) {
-    for (var v in vList) if (!isValid(v)) return false;
+    for (var v in vList) if (!isValidType(v)) return false;
     return true;
   }
 
