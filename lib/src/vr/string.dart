@@ -48,21 +48,22 @@ abstract class VRString extends VR<String> {
   @override
   bool get isUtf8 => !isAscii;
 
-  /// Returns [true] if [n] is valid for [this].
+  /// Returns [true] if [v] is valid for [this].
   @override
-  bool isValid(Object n) =>
-      (n is int) && (minValueLength <= n) && (n <= maxValueLength);
+  bool isValid(Object v) =>
+      (v is String) &&
+      (minValueLength <= v.length) &&
+      (v.length <= maxValueLength);
 
-  /// Returns [true] of [value] is [double].
+  /// Returns [true] if [values] is [List<String>].
   @override
-  bool isValidType(Object value) => value is String;
+  bool isValidType(Object values) => values is List<String>;
 
   /// Returns true if the [Type] of values is [List<String>].
   @override
   bool isValidValuesType(List<dynamic> vList) {
-    for (var v in vList)
-      if (!isValid(v)) return false;
-      return true;
+    for (var v in vList) if (!isValid(v)) return false;
+    return true;
   }
 
   /// Returns a [List<String>] converted from [bytes].

@@ -70,19 +70,19 @@ abstract class VR<T> {
   bool get isLengthAlwaysValid => false;
 
   /// Returns [true] if [value] is valid for [this].
-  bool isValid(Object value) => false;
-
-  /// Returns [true] if the [Type] of [value] is valid for [this].
-  bool isValidType(dynamic value) => false;
-
-  /// Returns true if the [List] [Type] of values is valid for [this].
-  bool isValidValuesType(List<T> values) =>
-    throw new UnsupportedError('This should never be called');
-
-  bool isValidLength(int length) => false;
+  bool isValid(Object value);
 
   /// Returns [true] of [value] is not valid for this VR.kUN.
   bool isNotValid(Object value) => !isValid(value);
+
+  /// Returns [true] if the [Type] of [value] is valid for [this].
+  bool isValidType(dynamic value);
+
+  /// Returns true if the [List] [Type] of values is valid for [this].
+  bool isValidValuesType(List<T> values);
+
+  bool isValidLength(int length) => false;
+
 
   T check(T value) => (isValid(value)) ? value : null;
 
@@ -298,13 +298,19 @@ class VRSequence extends VR<int> {
       const VRSequence._(22, 0x5153, "SQ", 1, 4, kMaxLongVF, "Sequence");
 }
 
+//TODO: decide if this class is really needed
 class VRInvalid extends VR<int> {
   const VRInvalid._(int index, int code, String id, int elementSize,
       int vfLengthSize, int maxVFLength, String keyword)
       : super(index, code, id, 1, 4, kMaxLongVF, keyword);
 
   @override
-  bool get isSequence => true;
+  bool isValid(v) => false;
+
+  @override
+  bool isValidType(v) => false;
+  @override
+  bool isValidValuesType(v) => false;
 
   static const VRUnknown kInvalid =
       const VRUnknown._(0, 0, "Invalid", 0, 0, 0, "Invalid VR");

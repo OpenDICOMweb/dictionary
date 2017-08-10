@@ -373,8 +373,8 @@ class Tag {
   }
 
   static Tag lookup(dynamic key, [VR vr = VR.kUN, dynamic creator]) {
-    if (key is int) lookupByCode(key, vr, creator);
-    if (key is String) lookupByKeyword(key, vr, creator);
+    if (key is int) return lookupByCode(key, vr, creator);
+    if (key is String) return lookupByKeyword(key, vr, creator);
     if (throwOnError) throw new InvalidTagKeyError(key, vr, creator);
     return null;
   }
@@ -391,7 +391,7 @@ class Tag {
       throw 'Error: Unknown Private Tag Code${Tag.toDcm(code)}';
     } else {
       // This should never happen
-      //throw 'Error: Unknown Tag Code${Tag.toDcm(code)}';
+      if (throwOnError) throw 'Error: Unknown Tag Code${Tag.toDcm(code)}';
       return null;
     }
   }
