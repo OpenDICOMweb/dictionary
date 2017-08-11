@@ -89,7 +89,8 @@ class PTag extends Tag {
     return new PTag.unknown(code, vr);
   }
 
-  static PTag lookupByCode(int code, [VR vr = VR.kUN, bool shouldThrow = true]) {
+  static PTag lookupByCode(int code,
+      [VR vr = VR.kUN, bool shouldThrow = false]) {
     assert(Tag.isPublicCode(code));
     PTag tag = pTagCodes[code];
     if (tag != null) return tag;

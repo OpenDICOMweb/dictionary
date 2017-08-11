@@ -23,10 +23,10 @@ class PCTag extends PrivateTag {
     var def = PCTagDefinition.lookup(name);
     return (def != null)
         ? new PCTagKnown(code, VR.kLO, name, def)
-        : new PCTag._(code, VR.kLO, name);
+        : new PCTag.unknown(code, VR.kLO, name);
   }
 
-  PCTag._(int code, this.actualVR, this.name) : super(code, VR.kLO);
+  PCTag.unknown(int code, this.actualVR, this.name) : super(code, VR.kLO);
 
   Map<int, PDTagKnown> get dataTags => const <int, PDTagKnown>{};
 

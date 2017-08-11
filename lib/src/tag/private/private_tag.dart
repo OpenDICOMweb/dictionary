@@ -83,6 +83,7 @@ class PrivateGroupLengthTag extends PrivateTag {
       new PrivateGroupLengthTag(code, vr);
 }
 
+/* Flush at v0.9.0 if not used by then
 class PrivateIllegalTag extends PrivateTag {
   static const int kUnknownIndex = -1;
 
@@ -94,3 +95,4 @@ class PrivateIllegalTag extends PrivateTag {
   static PrivateGroupLengthTag maker(int code, VR vr, [_]) =>
       new PrivateGroupLengthTag(code, vr);
 }
+*/
