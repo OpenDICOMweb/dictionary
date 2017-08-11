@@ -26,6 +26,7 @@ const int kGroupMask = 0xFFFF0000;
 const int kElementMask = 0x0000FFFF;
 
 //TODO: is hashCode needed?
+// Fix: make this class abstract
 class Tag {
   final int code;
   final VR vr;

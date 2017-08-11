@@ -15,19 +15,7 @@ typedef Tag TagMaker<E>(int code, VR<E> vr, [dynamic name]);
 class PrivateTag extends Tag {
   const PrivateTag(int code, VR vr) : super(code, vr);
 
-/*
-  factory PrivateTag.from(int code, VR vr, [PCTag pcTag]) {
-    if (Tag.isPrivateDataCode(code)){
-      return new PDTag();
-    } else if (Tag.isCreatorTag(code)) {
-
-    } else if (Tag.isPrivateGroupLengthTag(code)) {
-    } else {
-    }
-  }
-*/
-
-  PrivateTag.illegal(int code, [VR vr = VR.kUN]) : super(code, vr);
+  PrivateTag._(int code, [VR vr = VR.kUN]) : super(code, vr);
 
   @override
   bool get isPrivate => true;
@@ -57,10 +45,12 @@ class PrivateTag extends Tag {
   @override
   String toString() => '$runtimeType$dcm subgroup($subgroup)';
 
-  static PrivateTag maker(int code, VR vr, String name) =>
-      new PrivateTag.illegal(code, vr);
+/*  static PrivateTag maker(int code, VR vr, String name) =>
+      new PrivateTag._(code, vr);*/
 }
 
+/// Private Group Length Tags have codes that are (gggg,eeee),
+/// where gggg is odd, and eeee is zero.  For example (0009,0000).
 class PrivateGroupLengthTag extends PrivateTag {
   static const int kUnknownIndex = -1;
 
@@ -69,21 +59,21 @@ class PrivateGroupLengthTag extends PrivateTag {
   @override
   VR get vr => VR.kUL;
 
-  //Flush if not used
-//  VR get expectedVR => VR.kUL;
-
   @override
   VM get vm => VM.k1;
 
   @override
   String get name => "Private Group Length Tag";
 
-  //TODO: flush if not used.
+  //Flush at V0.9.0 if not used.
   static PrivateGroupLengthTag maker(int code, VR vr, [_]) =>
       new PrivateGroupLengthTag(code, vr);
 }
 
-/* Flush at v0.9.0 if not used by then
+/// Private Illegal Tags have have codes that are (gggg,eeee),
+/// where gggg is odd, and eeee is between 01 and 09 hexadecimal.
+/// For example (0009,0005).
+// Flush at v0.9.0 if not used by then
 class PrivateIllegalTag extends PrivateTag {
   static const int kUnknownIndex = -1;
 
@@ -92,7 +82,6 @@ class PrivateIllegalTag extends PrivateTag {
   @override
   String get name => "Private Illegal Tag";
 
-  static PrivateGroupLengthTag maker(int code, VR vr, [_]) =>
-      new PrivateGroupLengthTag(code, vr);
+  static PrivateIllegalTag maker(int code, VR vr, String name) =>
+      new PrivateIllegalTag(code, vr);
 }
-*/
